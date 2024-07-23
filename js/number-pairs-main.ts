@@ -9,23 +9,29 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import NumberPairsScreen from './number-pairs/NumberPairsScreen.js';
+import IntroScreen from './intro/IntroScreen.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 import './common/NumberPairsQueryParameters.js';
+import TenScreen from './ten/TenScreen.js';
+import TwentyScreen from './twenty/TwentyScreen.js';
+import SumScreen from './sum/SumScreen.js';
+import GameScreen from './game/GameScreen.js';
 
-// Launch the sim. Beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds
-// until the images are fully loaded. See https://github.com/phetsims/coulombs-law/issues/70#issuecomment-429037461
 simLauncher.launch( () => {
 
   const titleStringProperty = NumberPairsStrings[ 'number-pairs' ].titleStringProperty;
 
   const screens = [
-    new NumberPairsScreen( { tandem: Tandem.ROOT.createTandem( 'numberPairsScreen' ) } )
+    new IntroScreen( { tandem: Tandem.ROOT.createTandem( 'introScreen' ) } ),
+    new TenScreen( { tandem: Tandem.ROOT.createTandem( 'tenScreen' ) } ),
+    new TwentyScreen( { tandem: Tandem.ROOT.createTandem( 'twentyScreen' ) } ),
+    new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } ),
+    new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } )
   ];
 
   const options: SimOptions = {
 
-    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
+    //TODO https://github.com/phetsims/number-pairs/issues/3 fill in credits
     credits: {
       leadDesign: '',
       softwareDevelopment: '',

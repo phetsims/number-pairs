@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * GameModel is the top-level model for the 'Game' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -12,14 +12,14 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TModel from '../../../../joist/js/TModel.js';
 
 type SelfOptions = {
-  //TODO add options that are specific to NumberPairsModel here
+  //TODO add options that are specific to GameModel here
 };
 
-type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class NumberPairsModel implements TModel {
+export default class GameModel implements TModel {
 
-  public constructor( providedOptions: NumberPairsModelOptions ) {
+  public constructor( providedOptions: GameModelOptions ) {
     //TODO
   }
 
@@ -39,4 +39,4 @@ export default class NumberPairsModel implements TModel {
   }
 }
 
-numberPairs.register( 'NumberPairsModel', NumberPairsModel );
+numberPairs.register( 'GameModel', GameModel );

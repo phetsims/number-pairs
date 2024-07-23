@@ -13,7 +13,11 @@ type StringsType = {
     'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
-    'nameStringProperty': LocalizedStringProperty;
+    'introStringProperty': LocalizedStringProperty;
+    'tenStringProperty': LocalizedStringProperty;
+    'twentyStringProperty': LocalizedStringProperty;
+    'sumStringProperty': LocalizedStringProperty;
+    'gameStringProperty': LocalizedStringProperty;
   }
 };
 

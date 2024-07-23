@@ -2,7 +2,19 @@
   "number-pairs.title": {
     "value": "Number Pairs"
   },
-  "screen.name": {
-    "value": "Number Pairs"
+  "screen.intro": {
+    "value": "Intro"
+  },
+  "screen.ten": {
+    "value": "Ten"
+  },
+  "screen.twenty": {
+    "value": "Twenty"
+  },
+  "screen.sum": {
+    "value": "Sum"
+  },
+  "screen.game": {
+    "value": "Game"
   }
 }

@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * IntroScreenView is the top-level view for the 'Intro' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -10,20 +10,20 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import IntroModel from '../model/IntroModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
- //TODO add options that are specific to NumberPairsScreenView here
+ //TODO add options that are specific to IntroScreenView here
 };
 
-type NumberPairsScreenViewOptions = SelfOptions & ScreenViewOptions;
+type IntroScreenViewOptions = SelfOptions & ScreenViewOptions;
 
-export default class NumberPairsScreenView extends ScreenView {
+export default class IntroScreenView extends ScreenView {
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
+  public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
 
-    const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+    const options = optionize<IntroScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
       //TODO add default values for optional SelfOptions here
 
@@ -61,4 +61,4 @@ export default class NumberPairsScreenView extends ScreenView {
   }
 }
 
-numberPairs.register( 'NumberPairsScreenView', NumberPairsScreenView );
+numberPairs.register( 'IntroScreenView', IntroScreenView );

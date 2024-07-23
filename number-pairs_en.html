@@ -46,10 +46,20 @@
           "supportsDynamicLocale": true,
           "supportsSound": true,
           "supportsInteractiveDescription": true
-        }
+        },
+        "screenNameKeys": [
+          "NUMBER_PAIRS/screen.intro",
+          "NUMBER_PAIRS/screen.ten",
+          "NUMBER_PAIRS/screen.twenty",
+          "NUMBER_PAIRS/screen.sum",
+          "NUMBER_PAIRS/screen.game"
+        ]
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js",
+        "rules": {
+          "todo-should-have-issue": "off"
+        },
         "overrides": [
           {
             "files": [
