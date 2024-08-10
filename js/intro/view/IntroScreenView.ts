@@ -12,9 +12,12 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import IntroModel from '../model/IntroModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import { AlignBox } from '../../../../scenery/js/imports.js';
+import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 
 type SelfOptions = {
- //TODO add options that are specific to IntroScreenView here
+  //TODO add options that are specific to IntroScreenView here
 };
 
 type IntroScreenViewOptions = SelfOptions & ScreenViewOptions;
@@ -24,13 +27,26 @@ export default class IntroScreenView extends ScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
 
     const options = optionize<IntroScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-
-      //TODO add default values for optional SelfOptions here
-
       //TODO add default values for optional ScreenViewOptions here
     }, providedOptions );
 
     super( options );
+
+    const numberSentenceAlignBox = new AlignBox( new NumberSentenceAccordionBox( model ), {
+      alignBounds: this.layoutBounds.dilatedX( -NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
+      yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      yAlign: 'top',
+      xAlign: 'left'
+    } );
+    const numberBondAlignBox = new AlignBox( new NumberBondAccordionBox( model ), {
+      alignBounds: this.layoutBounds.dilatedX( NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
+      yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      yAlign: 'top',
+      xAlign: 'center'
+    } );
+
+    this.addChild( numberSentenceAlignBox );
+    this.addChild( numberBondAlignBox );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {

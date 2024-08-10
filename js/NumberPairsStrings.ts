@@ -18,7 +18,11 @@ type StringsType = {
     'twentyStringProperty': LocalizedStringProperty;
     'sumStringProperty': LocalizedStringProperty;
     'gameStringProperty': LocalizedStringProperty;
-  }
+  };
+  'numberSentenceStringProperty': LocalizedStringProperty;
+  'numberBondStringProperty': LocalizedStringProperty;
+  'equationStringProperty': LocalizedStringProperty;
+  'numberSentencePatternStringProperty': LocalizedStringProperty;
 };
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;

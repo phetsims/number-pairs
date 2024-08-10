@@ -4,29 +4,39 @@
  * IntroModel is the top-level model for the 'Intro' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import numberPairs from '../../numberPairs.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import TModel from '../../../../joist/js/TModel.js';
+import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to IntroModel here
-};
+type SelfOptions = EmptySelfOptions;
 
-type IntroModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type IntroModelOptions =
+  SelfOptions
+  & PickRequired<NumberPairsModelOptions, 'tandem'>
+  & StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue'>;
 
-export default class IntroModel implements TModel {
+export default class IntroModel extends NumberPairsModel {
 
   public constructor( providedOptions: IntroModelOptions ) {
-    //TODO
+
+    const options = optionize<IntroModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
+      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE
+    }, providedOptions );
+
+    super( options );
   }
 
   /**
    * Resets the model.
    */
-  public reset(): void {
+  public override reset(): void {
     //TODO
   }
 
