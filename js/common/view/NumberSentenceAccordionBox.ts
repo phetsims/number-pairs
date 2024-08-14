@@ -12,7 +12,9 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { RichText, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import SumRepresentationAccordionBox from './SumRepresentationAccordionBox.js';
+import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const LOWERCASE_NUMBER_TO_WORD_MAP = new Map();
 LOWERCASE_NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.oneStringProperty );
@@ -58,9 +60,11 @@ UPPERCASE_NUMBER_TO_WORD_MAP.set( 18, NumberPairsStrings.uppercaseEighteenString
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.uppercaseNineteenStringProperty );
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.uppercaseTwentyStringProperty );
 
+type SelfOptions = EmptySelfOptions;
+type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
 export default class NumberSentenceAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: NumberPairsModel ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
     const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
       sum: model.sumProperty,
@@ -71,6 +75,8 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
 
         // TODO: Pretty sure this will not work with translations. Didn't have time to address yet. Will tackle next.
         //  https://github.com/phetsims/number-pairs/issues/4
+        //  I would like to chat with CM about this. I think it needs to be a DerivedProperty that passes through all the possible
+        //  string Properties, but that sounds annoying...
         sum: value => UPPERCASE_NUMBER_TO_WORD_MAP.get( value ).value,
         leftAddend: value => LOWERCASE_NUMBER_TO_WORD_MAP.get( value ).value,
         rightAddend: value => LOWERCASE_NUMBER_TO_WORD_MAP.get( value ).value
@@ -83,9 +89,11 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
     const titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );
-    super( richText, {
+
+    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode
-    } );
+    }, providedOptions );
+    super( richText, options );
   }
 }
 

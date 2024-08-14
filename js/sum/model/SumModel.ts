@@ -7,26 +7,35 @@
  */
 
 import numberPairs from '../../numberPairs.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import TModel from '../../../../joist/js/TModel.js';
+import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
 };
 
-type SumModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type SumModelOptions = SelfOptions &
+  PickRequired<NumberPairsModelOptions, 'tandem'>
+  & StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue'>;
 
-export default class SumModel implements TModel {
+export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
-    //TODO
+    const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
+      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE
+    }, providedOptions );
+
+    super( options );
   }
 
   /**
    * Resets the model.
    */
-  public reset(): void {
+  public override reset(): void {
     //TODO
   }
 

@@ -6,50 +6,39 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import SumModel from '../model/SumModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
- //TODO add options that are specific to SumScreenView here
+  //TODO add options that are specific to SumScreenView here
 };
 
-type SumScreenViewOptions = SelfOptions & ScreenViewOptions;
-
-export default class SumScreenView extends ScreenView {
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+  & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
+export default class SumScreenView extends NumberPairsScreenView {
 
   public constructor( model: SumModel, providedOptions: SumScreenViewOptions ) {
 
-    const options = optionize<SumScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenViewOptions here
+    const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
+      numberSentenceContent: new NumberSentenceAccordionBox( model, {
+        tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
+      } ),
+      numberBondContent: new NumberBondAccordionBox( model, {
+        tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
+      } ),
+      equationContent: new EquationAccordionBox( {
+        tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
+      } )
     }, providedOptions );
 
-    super( options );
-
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
-        this.reset();
-      },
-      right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
-    } );
-    this.addChild( resetAllButton );
-  }
-
-  /**
-   * Resets the view.
-   */
-  public reset(): void {
-    //TODO
+    super( model, options );
   }
 
   /**

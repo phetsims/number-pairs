@@ -6,66 +6,36 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import IntroModel from '../model/IntroModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
-import { AlignBox } from '../../../../scenery/js/imports.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
 };
 
-type IntroScreenViewOptions = SelfOptions & ScreenViewOptions;
+type IntroScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+  & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
-export default class IntroScreenView extends ScreenView {
+export default class IntroScreenView extends NumberPairsScreenView {
 
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
 
-    const options = optionize<IntroScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      //TODO add default values for optional ScreenViewOptions here
+    const options = optionize<IntroScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
+      numberSentenceContent: new NumberSentenceAccordionBox( model, {
+        tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
+      } ),
+      numberBondContent: new NumberBondAccordionBox( model, {
+        tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
+      } )
     }, providedOptions );
 
-    super( options );
-
-    const numberSentenceAlignBox = new AlignBox( new NumberSentenceAccordionBox( model ), {
-      alignBounds: this.layoutBounds.dilatedX( -NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
-      yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-      yAlign: 'top',
-      xAlign: 'left'
-    } );
-    const numberBondAlignBox = new AlignBox( new NumberBondAccordionBox( model ), {
-      alignBounds: this.layoutBounds.dilatedX( NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
-      yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-      yAlign: 'top',
-      xAlign: 'center'
-    } );
-
-    this.addChild( numberSentenceAlignBox );
-    this.addChild( numberBondAlignBox );
-
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
-        this.reset();
-      },
-      right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
-    } );
-    this.addChild( resetAllButton );
-  }
-
-  /**
-   * Resets the view.
-   */
-  public reset(): void {
-    //TODO
+    super( model, options );
   }
 
   /**

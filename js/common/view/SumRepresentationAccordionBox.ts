@@ -13,7 +13,7 @@ import numberPairs from '../../numberPairs.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-export type SumRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode'>;
+export type SumRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
 export default class SumRepresentationAccordionBox extends AccordionBox {
 
   public constructor( contentNode: Node, providedOptions: SumRepresentationAccordionBoxOptions ) {
