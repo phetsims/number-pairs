@@ -14,6 +14,7 @@ import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js'
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
@@ -31,6 +32,11 @@ export default class IntroScreenView extends NumberPairsScreenView {
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
+        numberBondNodeOptions: {
+          sumColorProperty: NumberPairsColors.locationSumColorProperty,
+          leftAddendColorProperty: NumberPairsColors.locationLeftAddendColorProperty,
+          rightAddendColorProperty: NumberPairsColors.locationRightAddendColorProperty
+        },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } )
     }, providedOptions );

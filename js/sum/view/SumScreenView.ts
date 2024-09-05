@@ -15,6 +15,7 @@ import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordio
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -31,6 +32,11 @@ export default class SumScreenView extends NumberPairsScreenView {
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
+        numberBondNodeOptions: {
+          sumColorProperty: NumberPairsColors.numberLineSumColorProperty,
+          leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
+          rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty
+        },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       equationContent: new EquationAccordionBox( {

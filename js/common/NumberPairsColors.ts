@@ -22,6 +22,33 @@ const NumberPairsColors = {
   // Background color for screens in this sim
   screenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'background', {
     default: 'white'
+  } ),
+  locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
+    default: '#7bffa0'
+  } ),
+  locationLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationLeftAddend', {
+    default: '#76e1ff'
+  } ),
+  locationRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationRightAddend', {
+    default: '#ffffc0'
+  } ),
+  numberLineSumColorProperty: new ProfileColorProperty( numberPairs, 'numberLineSum', {
+    default: '#D0BDFB'
+  } ),
+  numberLineLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLeftAddend', {
+    default: '#F8BDDD'
+  } ),
+  numberLineRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineRightAddend', {
+    default: '#A7CFFE'
+  } ),
+  attributeSumColorProperty: new ProfileColorProperty( numberPairs, 'attributeSum', {
+    default: '#AFDDC6'
+  } ),
+  attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
+    default: '#EDD9B7'
+  } ),
+  attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
+    default: '#A3ADDD'
   } )
 };
 

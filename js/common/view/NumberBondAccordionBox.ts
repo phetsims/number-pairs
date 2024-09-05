@@ -8,31 +8,33 @@
  */
 
 import numberPairs from '../../numberPairs.js';
-import { Circle, Text } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  numberBondNodeOptions: NumberBondNodeOptions;
+};
 type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
+
+
 export default class NumberBondAccordionBox extends SumRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
-
-    const contentNode = new Circle( 40, {
-      fill: 'yellow',
-      stroke: 'black'
-    } );
     const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode
     }, providedOptions );
-    super( contentNode, options );
+
+    const numberBondNode = new NumberBondNode( model, options.numberBondNodeOptions );
+    super( numberBondNode, options );
   }
 }
 
