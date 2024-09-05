@@ -19,6 +19,7 @@ type SelfOptions = {
   sumColorProperty: TReadOnlyProperty<Color>;
   leftAddendColorProperty: TReadOnlyProperty<Color>;
   rightAddendColorProperty: TReadOnlyProperty<Color>;
+  sumOnTop?: boolean;
 };
 export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 
@@ -31,22 +32,24 @@ export default class NumberBondNode extends Node {
   public constructor( model: Pick<NumberPairsModel, 'sumProperty' | 'leftAddendProperty' | 'rightAddendProperty'>, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-
+      sumOnTop: true
     }, providedOptions );
 
-    // Create number bond representation.
+    // If the sum is on the bottom we want to flip the vertical offset
+    const verticalOffset = options.sumOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
+
     const sum = new NumberCircle( CIRCLE_RADIUS, model.sumProperty, {
       fill: options.sumColorProperty
     } );
     const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendProperty, {
       fill: options.leftAddendColorProperty,
       centerX: sum.centerX - HORIZONTAL_OFFSET,
-      centerY: sum.centerY + VERTICAL_OFFSET
+      centerY: sum.centerY + verticalOffset
     } );
     const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendProperty, {
       fill: options.rightAddendColorProperty,
       centerX: sum.centerX + HORIZONTAL_OFFSET,
-      centerY: sum.centerY + VERTICAL_OFFSET
+      centerY: sum.centerY + verticalOffset
     } );
     const leftLine = new Line( sum.centerX, sum.centerY, leftAddend.centerX, leftAddend.centerY, {
       stroke: 'black'

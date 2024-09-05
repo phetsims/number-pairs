@@ -35,7 +35,8 @@ export default class SumScreenView extends NumberPairsScreenView {
         numberBondNodeOptions: {
           sumColorProperty: NumberPairsColors.numberLineSumColorProperty,
           leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
-          rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty
+          rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty,
+          sumOnTop: false
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
