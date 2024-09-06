@@ -8,7 +8,7 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -88,6 +88,19 @@ export default class NumberPairsScreenView extends ScreenView {
 
       this.addChild( sumSelectorAlignBox );
     }
+
+    const countingAreaWidth = this.layoutBounds.width - 2 * NumberPairsConstants.COUNTING_AREA_X_MARGIN;
+    const countingAreaHeight = 340; // empirically determined
+    const countingAreaYMargin = 15; // empirically determined
+    const countingAreaBackground = new Rectangle(
+      this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN,
+      this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN + options.numberBondContent.bounds.height + countingAreaYMargin,
+      countingAreaWidth, countingAreaHeight, {
+        fill: 'gray',
+        cornerRadius: 10,
+        stroke: 'black'
+      } );
+    this.addChild( countingAreaBackground );
   }
 
   /**
