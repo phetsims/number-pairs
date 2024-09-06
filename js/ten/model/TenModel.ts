@@ -25,8 +25,8 @@ export default class TenModel extends NumberPairsModel {
 
   public constructor( providedOptions: TenModelOptions ) {
     const options = optionize<TenModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE
+      initialSumValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
+      initialLeftAddendValue: NumberPairsConstants.TEN_INITIAL_LEFT_ADDEND_VALUE
     }, providedOptions );
     super( options );
   }

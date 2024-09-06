@@ -25,8 +25,8 @@ export default class TwentyModel extends NumberPairsModel {
 
   public constructor( providedOptions: TwentyModelOptions ) {
     const options = optionize<TwentyModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE
+      initialSumValue: NumberPairsConstants.TWENTY_INITIAL_SUM_VALUE,
+      initialLeftAddendValue: NumberPairsConstants.TWENTY_INITIAL_LEFT_ADDEND_VALUE
     }, providedOptions );
     super( options );
   }

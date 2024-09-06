@@ -16,6 +16,7 @@ import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js'
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
@@ -45,7 +46,8 @@ export default class TwentyScreenView extends NumberPairsScreenView {
         leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
         rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
-      } )
+      } ),
+      sceneRange: NumberPairsConstants.TWENTY_SCENE_RANGE
     }, providedOptions );
 
     super( model, options );

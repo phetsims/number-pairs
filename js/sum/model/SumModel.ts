@@ -25,8 +25,8 @@ export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE
+      initialSumValue: NumberPairsConstants.SUM_INITIAL_SUM_VALUE,
+      initialLeftAddendValue: NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE
     }, providedOptions );
 
     super( options );

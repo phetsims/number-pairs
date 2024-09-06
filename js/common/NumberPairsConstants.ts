@@ -8,6 +8,7 @@
 
 import numberPairs from '../numberPairs.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import Range from '../../../dot/js/Range.js';
 
 const NumberPairsConstants = {
 
@@ -18,7 +19,16 @@ const NumberPairsConstants = {
 
   INTRO_INITIAL_SUM_VALUE: 3,
   INTRO_INITIAL_LEFT_ADDEND_VALUE: 2,
-  COUNTING_AREA_X_MARGIN: 100
+  TEN_INITIAL_SUM_VALUE: 3,
+  TEN_INITIAL_LEFT_ADDEND_VALUE: 2,
+  TWENTY_INITIAL_SUM_VALUE: 11,
+  TWENTY_INITIAL_LEFT_ADDEND_VALUE: 10,
+  SUM_INITIAL_SUM_VALUE: 3,
+  SUM_INITIAL_LEFT_ADDEND_VALUE: 2,
+  COUNTING_AREA_X_MARGIN: 100,
+
+  TEN_SCENE_RANGE: new Range( 0, 10 ),
+  TWENTY_SCENE_RANGE: new Range( 11, 20 )
 };
 
 numberPairs.register( 'NumberPairsConstants', NumberPairsConstants );

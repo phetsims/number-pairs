@@ -13,19 +13,23 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import Range from '../../../../dot/js/Range.js';
+import SumRadioButtonGroup from './SumRadioButtonGroup.js';
 
 
 type SelfOptions = {
   numberSentenceContent: Node;
   numberBondContent: Node;
   equationContent?: Node | null;
+  sceneRange?: Range | null;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & ScreenViewOptions;
 export default class NumberPairsScreenView extends ScreenView {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      equationContent: null
+      equationContent: null,
+      sceneRange: null
     }, providedOptions );
     super( options );
 
@@ -65,6 +69,25 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // Add the sum radio button group if the scene range is provided. Each radio button represents a sum value
+    // that is associated with a scene state.
+    if ( options.sceneRange ) {
+      const sumRadioButtonGroup = new SumRadioButtonGroup( model.sumProperty, {
+        sceneRange: options.sceneRange
+      } );
+
+      // Sum radio buttons should be center aligned vertically above the reset all button.
+      const sumSelectorAlignBox = new AlignBox( sumRadioButtonGroup, {
+        alignBounds: this.layoutBounds.withOffsets( 0, 0, 0, -resetAllButton.height - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN ),
+        yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+        xMargin: NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+        yAlign: 'center',
+        xAlign: 'right'
+      } );
+
+      this.addChild( sumSelectorAlignBox );
+    }
   }
 
   /**
