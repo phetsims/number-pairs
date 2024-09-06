@@ -1,33 +1,36 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * A circle that displays a number in its center with a specified fill color.
+ * A square that displays a number in its center with a specified fill color.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
 
-import { Circle, CircleOptions, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
+import { Rectangle, RectangleOptions, Text } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
-type NumberCircleOptions = StrictOmit<CircleOptions, 'children'>;
 
-export default class NumberCircle extends Circle {
-  public constructor( radius: number, numberProperty: TReadOnlyProperty<number>, providedOptions: NumberCircleOptions ) {
+type NumberSquareOptions = StrictOmit<RectangleOptions, 'children'>;
+export default class NumberSquare extends Rectangle {
 
-    const options = combineOptions<CircleOptions>( {
+  public constructor( squareDimension: number, numberProperty: TReadOnlyProperty<number>, providedOptions: NumberSquareOptions ) {
+
+    const options = combineOptions<RectangleOptions>( {
+      rectSize: new Dimension2( squareDimension, squareDimension ),
       stroke: 'black'
     }, providedOptions );
-    super( radius, options );
+   super( options );
 
     const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
     const numberText = new Text( numberStringProperty, {
-      font: new PhetFont( 28 ),
+      font: new PhetFont( 24 ),
       center: this.center
     } );
     this.addChild( numberText );
@@ -38,4 +41,4 @@ export default class NumberCircle extends Circle {
   }
 }
 
-numberPairs.register( 'NumberCircle', NumberCircle );
+numberPairs.register( 'NumberSquare', NumberSquare );

@@ -40,7 +40,10 @@ export default class TwentyScreenView extends NumberPairsScreenView {
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      equationContent: new EquationAccordionBox( {
+      equationContent: new EquationAccordionBox( model, {
+        sumColorProperty: NumberPairsColors.numberLineSumColorProperty,
+        leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
+        rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } )
     }, providedOptions );

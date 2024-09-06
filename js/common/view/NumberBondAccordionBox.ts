@@ -30,7 +30,10 @@ export default class NumberBondAccordionBox extends SumRepresentationAccordionBo
       font: NumberPairsConstants.TITLE_FONT
     } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
-      titleNode: titleNode
+      titleNode: titleNode,
+      titleXSpacing: 10,
+      contentXMargin: 30,
+      contentXSpacing: 0
     }, providedOptions );
 
     const numberBondNode = new NumberBondNode( model, options.numberBondNodeOptions );

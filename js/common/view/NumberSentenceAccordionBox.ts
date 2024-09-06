@@ -91,7 +91,11 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
     } );
 
     const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
-      titleNode: titleNode
+      titleNode: titleNode,
+      titleXSpacing: 10,
+      contentXMargin: 30,
+      contentXSpacing: 0,
+      contentYMargin: 20
     }, providedOptions );
     super( richText, options );
   }

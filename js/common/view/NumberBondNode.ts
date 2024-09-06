@@ -23,7 +23,7 @@ type SelfOptions = {
 };
 export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 
-const CIRCLE_RADIUS = 20;
+const CIRCLE_RADIUS = 30;
 const HORIZONTAL_OFFSET = 1.5 * CIRCLE_RADIUS;
 const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
 
