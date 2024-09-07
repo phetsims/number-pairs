@@ -7,7 +7,7 @@
  *
  */
 
-import { Color, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -16,9 +16,9 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  sumColorProperty: TReadOnlyProperty<Color>;
-  leftAddendColorProperty: TReadOnlyProperty<Color>;
-  rightAddendColorProperty: TReadOnlyProperty<Color>;
+  sumColorProperty: TReadOnlyProperty<TColor>;
+  leftAddendColorProperty: TReadOnlyProperty<TColor>;
+  rightAddendColorProperty: TReadOnlyProperty<TColor>;
   sumOnTop?: boolean;
 };
 export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
@@ -39,18 +39,30 @@ export default class NumberBondNode extends Node {
     const verticalOffset = options.sumOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
     const sum = new NumberCircle( CIRCLE_RADIUS, model.sumProperty, {
-      fill: options.sumColorProperty
+      fill: options.sumColorProperty.value
     } );
+    options.sumColorProperty.link( sumColor => {
+      sum.fill = sumColor;
+    } );
+
     const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendProperty, {
-      fill: options.leftAddendColorProperty,
+      fill: options.leftAddendColorProperty.value,
       centerX: sum.centerX - HORIZONTAL_OFFSET,
       centerY: sum.centerY + verticalOffset
     } );
+    options.leftAddendColorProperty.link( leftAddendColor => {
+      leftAddend.fill = leftAddendColor;
+    } );
+
     const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendProperty, {
-      fill: options.rightAddendColorProperty,
+      fill: options.rightAddendColorProperty.value,
       centerX: sum.centerX + HORIZONTAL_OFFSET,
       centerY: sum.centerY + verticalOffset
     } );
+    options.rightAddendColorProperty.link( rightAddendColor => {
+      rightAddend.fill = rightAddendColor;
+    } );
+
     const leftLine = new Line( sum.centerX, sum.centerY, leftAddend.centerX, leftAddend.centerY, {
       stroke: 'black'
     } );
@@ -61,7 +73,7 @@ export default class NumberBondNode extends Node {
     const superOptions = combineOptions<NodeOptions>( {
       children: [ leftLine, rightLine, sum, leftAddend, rightAddend ]
     }, options );
-   super( superOptions );
+    super( superOptions );
   }
 }
 

@@ -18,6 +18,8 @@ import { TColor } from '../../../../scenery/js/imports.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -95,6 +97,9 @@ export default class NumberPairsModel implements TModel {
   public readonly rightAddendProperty: Property<number>;
 
   public readonly countingRepresentationTypeProperty: Property<CountingRepresentationType>;
+  public readonly sumColorProperty: TReadOnlyProperty<TColor>;
+  public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
+  public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
   public constructor( providedOptions: NumberPairsModelOptions ) {
 
@@ -112,6 +117,16 @@ export default class NumberPairsModel implements TModel {
 
     this.countingRepresentationTypeProperty = new EnumerationProperty( options.initialCountingRepresentationType, {
       tandem: options.tandem.createTandem( 'countingRepresentationTypeProperty' )
+    } );
+
+    this.sumColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
+      return countingRepresentationType.sumColor;
+    } );
+    this.leftAddendColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
+      return countingRepresentationType.leftAddendColor;
+    } );
+    this.rightAddendColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
+      return countingRepresentationType.rightAddendColor;
     } );
   }
 

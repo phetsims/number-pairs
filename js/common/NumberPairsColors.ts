@@ -49,6 +49,9 @@ const NumberPairsColors = {
   } ),
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A3ADDD'
+  } ),
+  numberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineBackground', {
+    default: 'white'
   } )
 };
 

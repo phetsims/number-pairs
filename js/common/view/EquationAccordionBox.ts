@@ -8,7 +8,7 @@
 
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
-import { Color, HBox, Text } from '../../../../scenery/js/imports.js';
+import { HBox, TColor, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -20,9 +20,9 @@ import NumberSquare from './NumberSquare.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
-  sumColorProperty: TReadOnlyProperty<Color>;
-  leftAddendColorProperty: TReadOnlyProperty<Color>;
-  rightAddendColorProperty: TReadOnlyProperty<Color>;
+  sumColorProperty: TReadOnlyProperty<TColor>;
+  leftAddendColorProperty: TReadOnlyProperty<TColor>;
+  rightAddendColorProperty: TReadOnlyProperty<TColor>;
 };
 type EquationAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
 
@@ -44,22 +44,34 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
     }, providedOptions );
 
     const sumSquare = new NumberSquare( SQUARE_DIMENSION, model.sumProperty, {
-      fill: options.sumColorProperty,
+      fill: options.sumColorProperty.value,
       cornerRadius: 5
     } );
+    options.sumColorProperty.link( sumColor => {
+      sumSquare.fill = sumColor;
+    } );
+
     const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendProperty, {
-      fill: options.leftAddendColorProperty,
+      fill: options.leftAddendColorProperty.value,
       cornerRadius: 5
     } );
+    options.leftAddendColorProperty.link( leftAddendColor => {
+      leftAddendSquare.fill = leftAddendColor;
+    } );
+
     const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendProperty, {
-      fill: options.rightAddendColorProperty,
+      fill: options.rightAddendColorProperty.value,
       cornerRadius: 5
     } );
+    options.rightAddendColorProperty.link( rightAddendColor => {
+      rightAddendSquare.fill = rightAddendColor;
+    } );
+
     const equalSign = new Text( '=', { font: new PhetFont( 20 ) } );
     const plusSign = new Text( '+', { font: new PhetFont( 20 ) } );
 
     const contentChildren = options.addendsOnRight ? [ sumSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
-                            : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, sumSquare ];
+                                                   : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, sumSquare ];
     const contentNode = new HBox( {
       children: contentChildren,
       spacing: 5

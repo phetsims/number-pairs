@@ -17,6 +17,9 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
@@ -35,22 +38,35 @@ export default class TwentyScreenView extends NumberPairsScreenView {
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
-          sumColorProperty: NumberPairsColors.numberLineSumColorProperty,
-          leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
-          rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty
+          sumColorProperty: model.sumColorProperty,
+          leftAddendColorProperty: model.leftAddendColorProperty,
+          rightAddendColorProperty: model.rightAddendColorProperty
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       equationContent: new EquationAccordionBox( model, {
-        sumColorProperty: NumberPairsColors.numberLineSumColorProperty,
-        leftAddendColorProperty: NumberPairsColors.numberLineLeftAddendColorProperty,
-        rightAddendColorProperty: NumberPairsColors.numberLineRightAddendColorProperty,
+        sumColorProperty: model.sumColorProperty,
+        leftAddendColorProperty: model.leftAddendColorProperty,
+        rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
       sceneRange: NumberPairsConstants.TWENTY_SCENE_RANGE
     }, providedOptions );
 
     super( model, options );
+
+    const backgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
+      if ( countingRepresentationType === CountingRepresentationType.CUBES || countingRepresentationType === CountingRepresentationType.NUMBER_LINE ) {
+        return NumberPairsColors.numberLineBackgroundColorProperty;
+      }
+      else {
+        return countingRepresentationType.sumColor;
+      }
+    } );
+    const countingArea = new CountingAreaNode( this.countingAreaBounds, {
+      backgroundColorProperty: backgroundColorProperty
+    } );
+    this.addChild( countingArea );
   }
 
   /**
