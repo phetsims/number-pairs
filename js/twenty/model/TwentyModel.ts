@@ -8,7 +8,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import NumberPairsModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -19,14 +19,15 @@ type SelfOptions = {
 
 type TwentyModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue'>;
+  & StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue' | 'initialCountingRepresentationType'>;
 
 export default class TwentyModel extends NumberPairsModel {
 
   public constructor( providedOptions: TwentyModelOptions ) {
     const options = optionize<TwentyModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       initialSumValue: NumberPairsConstants.TWENTY_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.TWENTY_INITIAL_LEFT_ADDEND_VALUE
+      initialLeftAddendValue: NumberPairsConstants.TWENTY_INITIAL_LEFT_ADDEND_VALUE,
+      initialCountingRepresentationType: CountingRepresentationType.APPLES
     }, providedOptions );
     super( options );
   }

@@ -8,7 +8,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import NumberPairsModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -19,14 +19,15 @@ type SelfOptions = {
 
 type TenModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'> &
-  StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue'>;
+  StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue' | 'initialCountingRepresentationType'>;
 
 export default class TenModel extends NumberPairsModel {
 
   public constructor( providedOptions: TenModelOptions ) {
     const options = optionize<TenModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       initialSumValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.TEN_INITIAL_LEFT_ADDEND_VALUE
+      initialLeftAddendValue: NumberPairsConstants.TEN_INITIAL_LEFT_ADDEND_VALUE,
+      initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
     super( options );
   }

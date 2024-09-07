@@ -23,7 +23,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 //   leftAddendImage: ImageableImage;
 //   rightAddendImage: ImageableImage;
 // };
-class CountingRepresentationType extends EnumerationValue {
+export class CountingRepresentationType extends EnumerationValue {
   public static readonly APPLES = new CountingRepresentationType(
     'apples',
     NumberPairsColors.locationSumColorProperty,
@@ -82,6 +82,7 @@ class CountingRepresentationType extends EnumerationValue {
 type SelfOptions = {
   initialSumValue: number;
   initialLeftAddendValue: number;
+  initialCountingRepresentationType: CountingRepresentationType;
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -109,7 +110,7 @@ export default class NumberPairsModel implements TModel {
       tandem: options.tandem.createTandem( 'rightAddendProperty' )
     } );
 
-    this.countingRepresentationTypeProperty = new EnumerationProperty( CountingRepresentationType.APPLES, {
+    this.countingRepresentationTypeProperty = new EnumerationProperty( options.initialCountingRepresentationType, {
       tandem: options.tandem.createTandem( 'countingRepresentationTypeProperty' )
     } );
   }
