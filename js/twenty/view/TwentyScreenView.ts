@@ -64,7 +64,8 @@ export default class TwentyScreenView extends NumberPairsScreenView {
       }
     } );
     const countingArea = new CountingAreaNode( this.countingAreaBounds, {
-      backgroundColorProperty: backgroundColorProperty
+      backgroundColorProperty: backgroundColorProperty,
+      countingRepresentationTypeProperty: model.countingRepresentationTypeProperty
     } );
     this.addChild( countingArea );
   }

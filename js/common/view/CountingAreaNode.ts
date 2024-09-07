@@ -14,9 +14,13 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { CountingRepresentationType } from '../model/NumberPairsModel.js';
+import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
+  countingRepresentationTypeProperty?: TReadOnlyProperty<CountingRepresentationType> | null;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -26,7 +30,10 @@ export default class CountingAreaNode extends Node {
 
   public constructor( countingAreaBounds: Bounds2, providedOptions: CountingAreaNodeOptions ) {
 
-    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
+      countingRepresentationTypeProperty: null
+    }, providedOptions );
+
     const backgroundRectangle = new Rectangle( countingAreaBounds, {
       fill: options.backgroundColorProperty.value,
       stroke: 'black',
@@ -42,6 +49,18 @@ export default class CountingAreaNode extends Node {
       children: [ backgroundRectangle ]
     }, options );
     super( superOptions );
+
+    if ( options.countingRepresentationTypeProperty ) {
+      const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ], countingRepresentationType => {
+        return countingRepresentationType === CountingRepresentationType.APPLES || countingRepresentationType === CountingRepresentationType.ONE_CARDS
+               || countingRepresentationType === CountingRepresentationType.SOCCER_BALLS || countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
+      } );
+
+      const splitCountingAreaBackground = new SplitCountingAreaNode( countingAreaBounds, {
+        visibleProperty: splitCountingAreaVisibleProperty
+      } );
+      this.addChild( splitCountingAreaBackground );
+    }
   }
 }
 
