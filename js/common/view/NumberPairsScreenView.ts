@@ -8,13 +8,14 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import SumRadioButtonGroup from './SumRadioButtonGroup.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 
 type SelfOptions = {
@@ -24,7 +25,11 @@ type SelfOptions = {
   sceneRange?: Range | null;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & ScreenViewOptions;
+
+const COUNTING_AREA_Y_MARGIN = 15; // empirically determined
 export default class NumberPairsScreenView extends ScreenView {
+
+  protected readonly countingAreaBounds: Bounds2;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
@@ -89,18 +94,13 @@ export default class NumberPairsScreenView extends ScreenView {
       this.addChild( sumSelectorAlignBox );
     }
 
-    const countingAreaWidth = this.layoutBounds.width - 2 * NumberPairsConstants.COUNTING_AREA_X_MARGIN;
-    const countingAreaHeight = 340; // empirically determined
-    const countingAreaYMargin = 15; // empirically determined
-    const countingAreaBackground = new Rectangle(
-      this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN,
-      this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN + options.numberBondContent.bounds.height + countingAreaYMargin,
-      countingAreaWidth, countingAreaHeight, {
-        fill: 'gray',
-        cornerRadius: 10,
-        stroke: 'black'
-      } );
-    this.addChild( countingAreaBackground );
+    const countingAreaMinX = this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN;
+    const countingAreaMinY = this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
+                             + options.numberBondContent.bounds.height + COUNTING_AREA_Y_MARGIN;
+    const countingAreaMaxX = this.layoutBounds.maxX - NumberPairsConstants.COUNTING_AREA_X_MARGIN;
+    const countingAreaMaxY = countingAreaMinY + 340; // empirically determined
+    this.countingAreaBounds = new Bounds2( countingAreaMinX, countingAreaMinY,
+      countingAreaMaxX, countingAreaMaxY );
   }
 
   /**

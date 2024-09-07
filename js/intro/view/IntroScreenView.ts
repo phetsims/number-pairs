@@ -16,6 +16,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import SplitCountingAreaNode from './SplitCountingAreaNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
@@ -23,6 +24,7 @@ type SelfOptions = {
 
 type IntroScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
+
 
 export default class IntroScreenView extends NumberPairsScreenView {
 
@@ -44,6 +46,9 @@ export default class IntroScreenView extends NumberPairsScreenView {
     }, providedOptions );
 
     super( model, options );
+
+    const countingAreaBackgroundNode = new SplitCountingAreaNode( this.countingAreaBounds );
+    this.addChild( countingAreaBackgroundNode );
   }
 
   /**
