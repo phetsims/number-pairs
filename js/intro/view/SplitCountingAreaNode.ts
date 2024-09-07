@@ -14,10 +14,10 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import { COUNTING_AREA_LINE_WIDTH } from '../../common/view/CountingAreaNode.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
-const COUNTING_AREA_LINE_WIDTH = 1.5;
 
 export default class SplitCountingAreaNode extends Node {
 

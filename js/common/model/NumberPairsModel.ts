@@ -13,6 +13,71 @@ import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import { TColor } from '../../../../scenery/js/imports.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+
+// type CountingRepresentationImageAssets = {
+//   leftAddendImage: ImageableImage;
+//   rightAddendImage: ImageableImage;
+// };
+class CountingRepresentationType extends EnumerationValue {
+  public static readonly APPLES = new CountingRepresentationType(
+    'apples',
+    NumberPairsColors.locationSumColorProperty,
+    NumberPairsColors.locationLeftAddendColorProperty,
+    NumberPairsColors.locationRightAddendColorProperty
+  );
+  public static readonly ONE_CARDS = new CountingRepresentationType(
+    'oneCards',
+    NumberPairsColors.locationSumColorProperty,
+    NumberPairsColors.locationLeftAddendColorProperty,
+    NumberPairsColors.locationRightAddendColorProperty
+  );
+  public static readonly SOCCER_BALLS = new CountingRepresentationType(
+    'soccerBalls',
+    NumberPairsColors.locationSumColorProperty,
+    NumberPairsColors.locationLeftAddendColorProperty,
+    NumberPairsColors.locationRightAddendColorProperty
+  );
+  public static readonly BUTTERFLIES = new CountingRepresentationType(
+    'butterflies',
+    NumberPairsColors.locationSumColorProperty,
+    NumberPairsColors.locationLeftAddendColorProperty,
+    NumberPairsColors.locationRightAddendColorProperty
+  );
+  public static readonly KITTENS = new CountingRepresentationType(
+    'kittens',
+    NumberPairsColors.attributeSumColorProperty,
+    NumberPairsColors.attributeLeftAddendColorProperty,
+    NumberPairsColors.attributeRightAddendColorProperty
+  );
+  public static readonly CUBES = new CountingRepresentationType(
+    'cubes',
+    NumberPairsColors.numberLineSumColorProperty,
+    NumberPairsColors.numberLineLeftAddendColorProperty,
+    NumberPairsColors.numberLineRightAddendColorProperty
+  );
+  public static readonly NUMBER_LINE = new CountingRepresentationType(
+    'numberLine',
+    NumberPairsColors.numberLineSumColorProperty,
+    NumberPairsColors.numberLineLeftAddendColorProperty,
+    NumberPairsColors.numberLineRightAddendColorProperty
+  );
+  public static readonly enumeration = new Enumeration( CountingRepresentationType );
+
+  public constructor(
+    public readonly label: string,
+    public readonly sumColor: TColor,
+    public readonly leftAddendColor: TColor,
+    public readonly rightAddendColor: TColor
+    // public readonly imageAssets: CountingRepresentationImageAssets | null TODO: pass in image assets
+  ) {
+    super();
+  }
+}
 
 type SelfOptions = {
   initialSumValue: number;
@@ -28,6 +93,8 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendProperty: Property<number>;
   public readonly rightAddendProperty: Property<number>;
 
+  public readonly countingRepresentationTypeProperty: Property<CountingRepresentationType>;
+
   public constructor( providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -40,6 +107,10 @@ export default class NumberPairsModel implements TModel {
     } );
     this.rightAddendProperty = new NumberProperty( initialRightAddendValue, {
       tandem: options.tandem.createTandem( 'rightAddendProperty' )
+    } );
+
+    this.countingRepresentationTypeProperty = new EnumerationProperty( CountingRepresentationType.APPLES, {
+      tandem: options.tandem.createTandem( 'countingRepresentationTypeProperty' )
     } );
   }
 

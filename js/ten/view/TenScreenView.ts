@@ -17,6 +17,8 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TenScreenView here
@@ -51,6 +53,15 @@ export default class TenScreenView extends NumberPairsScreenView {
     }, providedOptions );
 
     super( model, options );
+
+    const backgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentation => {
+      return countingRepresentation.sumColor;
+    } );
+    const countingArea = new CountingAreaNode( this.countingAreaBounds, {
+      backgroundColorProperty: backgroundColorProperty
+    } );
+    this.addChild( countingArea );
+
   }
 
   /**
