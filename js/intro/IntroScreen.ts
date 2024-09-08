@@ -30,7 +30,7 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: NumberPairsColors.screenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 
     super(

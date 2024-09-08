@@ -30,7 +30,7 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: NumberPairsColors.screenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 
     super(

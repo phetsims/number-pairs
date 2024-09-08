@@ -30,7 +30,7 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: NumberPairsColors.screenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.twentyScreenBackgroundColorProperty
     }, providedOptions );
 
     super(

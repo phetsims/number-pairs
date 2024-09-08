@@ -30,7 +30,7 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: NumberPairsColors.screenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.tenScreenBackgroundColorProperty
     }, providedOptions );
 
     super(

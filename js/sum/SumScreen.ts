@@ -30,7 +30,7 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: NumberPairsColors.screenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.sumScreenBackgroundColorProperty
     }, providedOptions );
 
     super(

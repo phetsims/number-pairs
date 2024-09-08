@@ -20,8 +20,17 @@ import numberPairs from '../numberPairs.js';
 const NumberPairsColors = {
 
   // Background color for screens in this sim
-  screenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'background', {
-    default: 'white'
+  introScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'introBackground', {
+    default: '#FFFFFF'
+  } ),
+  tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'tenBackground', {
+    default: '#FEF8EF'
+  } ),
+  twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'twentyBackground', {
+    default: '#FFFFFF'
+  } ),
+  sumScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'sumBackground', {
+    default: '#FEF8EF'
   } ),
   locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
     default: '#7bffa0'
