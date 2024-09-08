@@ -16,11 +16,13 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import SumRadioButtonGroup from './SumRadioButtonGroup.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 
 type SelfOptions = {
   numberSentenceContent: Node;
   numberBondContent: Node;
+  countingRepresentationContent: Node;
   equationContent?: Node | null;
   sceneRange?: Range | null;
 };
@@ -34,7 +36,8 @@ export default class NumberPairsScreenView extends ScreenView {
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       equationContent: null,
-      sceneRange: null
+      sceneRange: null,
+      children: [ providedOptions.countingRepresentationContent ]
     }, providedOptions );
     super( options );
 
@@ -50,6 +53,8 @@ export default class NumberPairsScreenView extends ScreenView {
       yAlign: 'top',
       xAlign: 'center'
     } );
+    this.addChild( numberSentenceAlignBox );
+    this.addChild( numberBondAlignBox );
 
     if ( options.equationContent ) {
       const equationAlignBox = new AlignBox( options.equationContent, {
@@ -60,8 +65,6 @@ export default class NumberPairsScreenView extends ScreenView {
       } );
       this.addChild( equationAlignBox );
     }
-    this.addChild( numberSentenceAlignBox );
-    this.addChild( numberBondAlignBox );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -101,6 +104,9 @@ export default class NumberPairsScreenView extends ScreenView {
     const countingAreaMaxY = countingAreaMinY + 340; // empirically determined
     this.countingAreaBounds = new Bounds2( countingAreaMinX, countingAreaMinY,
       countingAreaMaxX, countingAreaMaxY );
+
+    // Position the counting representation radio buttons below the counting area.
+    options.countingRepresentationContent.centerTop = new Vector2( this.countingAreaBounds.centerX, this.countingAreaBounds.maxY + COUNTING_AREA_Y_MARGIN );
   }
 
   /**

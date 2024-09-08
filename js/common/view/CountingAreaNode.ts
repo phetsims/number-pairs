@@ -11,7 +11,7 @@ import { Node, NodeOptions, Rectangle, TColor } from '../../../../scenery/js/imp
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { CountingRepresentationType } from '../model/NumberPairsModel.js';
@@ -19,7 +19,7 @@ import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
-  backgroundColorProperty: TReadOnlyProperty<TColor>;
+  backgroundColorProperty?: TReadOnlyProperty<TColor> | null;
   countingRepresentationTypeProperty?: TReadOnlyProperty<CountingRepresentationType> | null;
 };
 
@@ -31,24 +31,24 @@ export default class CountingAreaNode extends Node {
   public constructor( countingAreaBounds: Bounds2, providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
-      countingRepresentationTypeProperty: null
+      countingRepresentationTypeProperty: null,
+      backgroundColorProperty: null
     }, providedOptions );
 
-    const backgroundRectangle = new Rectangle( countingAreaBounds, {
-      fill: options.backgroundColorProperty.value,
-      stroke: 'black',
-      lineWidth: COUNTING_AREA_LINE_WIDTH,
-      cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
-    } );
+    super( options );
 
-    options.backgroundColorProperty.link( backgroundColor => {
-      backgroundRectangle.fill = backgroundColor;
-    } );
-
-    const superOptions = combineOptions<NodeOptions>( {
-      children: [ backgroundRectangle ]
-    }, options );
-    super( superOptions );
+    if ( options.backgroundColorProperty ) {
+      const backgroundRectangle = new Rectangle( countingAreaBounds, {
+        fill: options.backgroundColorProperty.value,
+        stroke: 'black',
+        lineWidth: COUNTING_AREA_LINE_WIDTH,
+        cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
+      } );
+      options.backgroundColorProperty.link( backgroundColor => {
+        backgroundRectangle.fill = backgroundColor;
+      } );
+      this.addChild( backgroundRectangle );
+    }
 
     if ( options.countingRepresentationTypeProperty ) {
       const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ], countingRepresentationType => {

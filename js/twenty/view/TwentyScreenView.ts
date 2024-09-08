@@ -20,12 +20,14 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
 };
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions,
+  'numberSentenceContent' | 'numberBondContent' | 'countingRepresentationContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 export default class TwentyScreenView extends NumberPairsScreenView {
@@ -49,6 +51,15 @@ export default class TwentyScreenView extends NumberPairsScreenView {
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
+      } ),
+      countingRepresentationContent: new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
+        countingRepresentations: [
+          CountingRepresentationType.APPLES,
+          CountingRepresentationType.ONE_CARDS,
+          CountingRepresentationType.CUBES,
+          CountingRepresentationType.KITTENS
+        ],
+        tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
       } ),
       sceneRange: NumberPairsConstants.TWENTY_SCENE_RANGE
     }, providedOptions );

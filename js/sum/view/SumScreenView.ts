@@ -19,12 +19,14 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
 };
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions,
+  'numberSentenceContent' | 'numberBondContent' | 'countingRepresentationContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 export default class SumScreenView extends NumberPairsScreenView {
 
@@ -49,6 +51,14 @@ export default class SumScreenView extends NumberPairsScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         addendsOnRight: false,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
+      } ),
+      countingRepresentationContent: new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
+        countingRepresentations: [
+          CountingRepresentationType.CUBES,
+          CountingRepresentationType.KITTENS,
+          CountingRepresentationType.NUMBER_LINE
+        ],
+        tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
       } )
     }, providedOptions );
 
