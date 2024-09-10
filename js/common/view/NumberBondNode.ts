@@ -11,7 +11,7 @@ import { Line, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import DecompositionModel from '../model/DecompositionModel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 
@@ -29,7 +29,7 @@ const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
 
 export default class NumberBondNode extends Node {
 
-  public constructor( model: Pick<NumberPairsModel, 'sumProperty' | 'leftAddendProperty' | 'rightAddendProperty'>, providedOptions: NumberBondNodeOptions ) {
+  public constructor( model: Pick<DecompositionModel, 'sumProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
       sumOnTop: true
@@ -45,7 +45,7 @@ export default class NumberBondNode extends Node {
       sum.fill = sumColor;
     } );
 
-    const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendProperty, {
+    const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendNumberProperty, {
       fill: options.leftAddendColorProperty.value,
       centerX: sum.centerX - HORIZONTAL_OFFSET,
       centerY: sum.centerY + verticalOffset
@@ -54,7 +54,7 @@ export default class NumberBondNode extends Node {
       leftAddend.fill = leftAddendColor;
     } );
 
-    const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendProperty, {
+    const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendNumberProperty, {
       fill: options.rightAddendColorProperty.value,
       centerX: sum.centerX + HORIZONTAL_OFFSET,
       centerY: sum.centerY + verticalOffset

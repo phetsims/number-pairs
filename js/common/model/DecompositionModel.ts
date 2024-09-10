@@ -20,6 +20,11 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import NumberPairsSceneModel from './NumberPairsSceneModel.js';
+import Range from '../../../../dot/js/Range.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import CountingObject from './CountingObject.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -83,19 +88,29 @@ export class CountingRepresentationType extends EnumerationValue {
 
 type SelfOptions = {
   initialSumValue: number;
-  initialLeftAddendValue: number;
+  sceneRange: Range;
   initialCountingRepresentationType: CountingRepresentationType;
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
-export default class NumberPairsModel implements TModel {
+export default class DecompositionModel implements TModel {
 
-  // TODO: This probably wants to be a derived Property. https://github.com/phetsims/number-pairs/issues/4
-  //  possibly dynamic and these Properties move into the sceneModel.
+  // The sumProperty is controlled by the user and determines the selected scene model by using the sumToSceneModelMap.
   public readonly sumProperty: Property<number>;
-  public readonly leftAddendProperty: Property<number>;
-  public readonly rightAddendProperty: Property<number>;
 
+  // Each scene is associated with a readonly sum. The selected scene model is determined by the sumProperty.
+  // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the sumProperty.value.
+  public readonly selectedSceneModelProperty: Property<NumberPairsSceneModel>;
+  public readonly sumToSceneModelMap = new Map<number, NumberPairsSceneModel>();
+  public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
+  public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
+
+  public readonly leftAddendNumberProperty: TReadOnlyProperty<number>;
+  public readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
+
+  // The counting representation type determines the colors of the sum and addends,
+  // as well as the image assets used to represent each counting object.
+  // The CUBES and NUMBER_LINE representations additionally support different user interactions.
   public readonly countingRepresentationTypeProperty: Property<CountingRepresentationType>;
   public readonly sumColorProperty: TReadOnlyProperty<TColor>;
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
@@ -104,15 +119,42 @@ export default class NumberPairsModel implements TModel {
   public constructor( providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
-    const initialRightAddendValue = options.initialSumValue - options.initialLeftAddendValue;
-    this.sumProperty = new NumberProperty( options.initialSumValue, {
+
+    // We need to create a scene model for each scene in the scene range including both the max and min values.
+    _.times( options.sceneRange.getLength() + 1, sum => {
+
+      let sceneModel: NumberPairsSceneModel;
+      if ( sum === 0 ) {
+        sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${sum}` ) );
+      }
+      else {
+        // The initial left addend value for each scene is n - 1.
+        const leftAddendValue = sum - 1;
+        const rightAddendValue = 1;
+        sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${sum}` ) );
+      }
+      this.sumToSceneModelMap.set( sum, sceneModel );
+    } );
+
+    const initialSceneModel = this.sumToSceneModelMap.get( options.initialSumValue );
+    assert && assert( initialSceneModel, `initialSceneModel not found for sum: ${options.initialSumValue}` );
+    this.selectedSceneModelProperty = new Property( initialSceneModel!, {
+      phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
+      tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
+    } );
+    this.sumProperty = new NumberProperty( this.selectedSceneModelProperty.value.sum, {
       tandem: options.tandem.createTandem( 'sumProperty' )
     } );
-    this.leftAddendProperty = new NumberProperty( options.initialLeftAddendValue, {
-      tandem: options.tandem.createTandem( 'leftAddendProperty' )
-    } );
-    this.rightAddendProperty = new NumberProperty( initialRightAddendValue, {
-      tandem: options.tandem.createTandem( 'rightAddendProperty' )
+    this.leftAddendCountingObjectsProperty = new DerivedProperty( [ this.selectedSceneModelProperty ],
+      sceneModel => sceneModel.leftAddendObjects );
+    this.rightAddendCountingObjectsProperty = new DerivedProperty( [ this.selectedSceneModelProperty ],
+      sceneModel => sceneModel.rightAddendObjects );
+
+    // When the sum changes we need to update the selected scene model.
+    this.sumProperty.link( sum => {
+      const newSceneModel = this.sumToSceneModelMap.get( sum );
+      assert && assert( newSceneModel, `newSceneModel not found for sum: ${sum}` );
+      this.selectedSceneModelProperty.set( newSceneModel! );
     } );
 
     this.countingRepresentationTypeProperty = new EnumerationProperty( options.initialCountingRepresentationType, {
@@ -128,6 +170,13 @@ export default class NumberPairsModel implements TModel {
     this.rightAddendColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
       return countingRepresentationType.rightAddendColor;
     } );
+
+    this.leftAddendNumberProperty = new DynamicProperty<number, number, ObservableArray<CountingObject>>( this.leftAddendCountingObjectsProperty, {
+      derive: 'lengthProperty'
+    } );
+    this.rightAddendNumberProperty = new DynamicProperty<number, number, ObservableArray<CountingObject>>( this.rightAddendCountingObjectsProperty, {
+      derive: 'lengthProperty'
+    } );
   }
 
   /**
@@ -135,9 +184,7 @@ export default class NumberPairsModel implements TModel {
    */
   public reset(): void {
     this.sumProperty.reset();
-    this.leftAddendProperty.reset();
-    this.rightAddendProperty.reset();
   }
 }
 
-numberPairs.register( 'NumberPairsModel', NumberPairsModel );
+numberPairs.register( 'DecompositionModel', DecompositionModel );

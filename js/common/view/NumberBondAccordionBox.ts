@@ -11,7 +11,7 @@ import numberPairs from '../../numberPairs.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import DecompositionModel from '../model/DecompositionModel.js';
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -25,7 +25,7 @@ type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationA
 
 export default class NumberBondAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
+  public constructor( model: DecompositionModel, providedOptions: NumberBondAccordionBoxOptions ) {
     const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );

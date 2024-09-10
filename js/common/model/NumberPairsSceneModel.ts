@@ -6,9 +6,10 @@
  *
  */
 import numberPairs from '../../numberPairs.js';
-import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from './CountingObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 
 
 export default class NumberPairsSceneModel {
@@ -23,9 +24,11 @@ export default class NumberPairsSceneModel {
     this.sum = initialLeftAddendValue + initialRightAddendValue;
 
     this.leftAddendObjects = createObservableArray( {
+      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: tandem.createTandem( 'leftAddendObjects' )
     } );
     this.rightAddendObjects = createObservableArray( {
+      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: tandem.createTandem( 'rightAddendObjects' )
     } );
 
@@ -36,6 +39,10 @@ export default class NumberPairsSceneModel {
       this.rightAddendObjects.push( new CountingObject() );
     } );
   }
+
+  public static NumberPairsSceneModelIO = new IOType( 'NumberPairsSceneModelIO', {
+    valueType: NumberPairsSceneModel
+  } );
 }
 
 numberPairs.register( 'NumberPairsSceneModel', NumberPairsSceneModel );

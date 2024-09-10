@@ -11,7 +11,7 @@
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
-import { CountingRepresentationType } from '../model/NumberPairsModel.js';
+import { CountingRepresentationType } from '../model/DecompositionModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';

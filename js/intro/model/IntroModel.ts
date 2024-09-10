@@ -9,7 +9,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import DecompositionModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/DecompositionModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -19,15 +19,15 @@ type SelfOptions = EmptySelfOptions;
 type IntroModelOptions =
   SelfOptions
   & PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'initialSumValue' | 'initialLeftAddendValue' | 'initialCountingRepresentationType'>;
+  & StrictOmit<NumberPairsModelOptions, 'sceneRange' | 'initialSumValue' | 'initialCountingRepresentationType'>;
 
-export default class IntroModel extends NumberPairsModel {
+export default class IntroModel extends DecompositionModel {
 
   public constructor( providedOptions: IntroModelOptions ) {
 
     const options = optionize<IntroModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+      sceneRange: NumberPairsConstants.TEN_SCENE_RANGE,
       initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
-      initialLeftAddendValue: NumberPairsConstants.INTRO_INITIAL_LEFT_ADDEND_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.APPLES
     }, providedOptions );
 

@@ -13,7 +13,7 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import DecompositionModel from '../model/DecompositionModel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberSquare from './NumberSquare.js';
@@ -29,7 +29,7 @@ type EquationAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAcc
 const SQUARE_DIMENSION = 40;
 export default class EquationAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: NumberPairsModel, providedOptions: EquationAccordionBoxOptions ) {
+  public constructor( model: DecompositionModel, providedOptions: EquationAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPairsStrings.equationStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
@@ -51,7 +51,7 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
       sumSquare.fill = sumColor;
     } );
 
-    const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendProperty, {
+    const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendNumberProperty, {
       fill: options.leftAddendColorProperty.value,
       cornerRadius: 5
     } );
@@ -59,7 +59,7 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
       leftAddendSquare.fill = leftAddendColor;
     } );
 
-    const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendProperty, {
+    const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendNumberProperty, {
       fill: options.rightAddendColorProperty.value,
       cornerRadius: 5
     } );

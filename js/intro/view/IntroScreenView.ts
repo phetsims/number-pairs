@@ -17,7 +17,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import { CountingRepresentationType } from '../../common/model/DecompositionModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here

@@ -8,6 +8,7 @@
  */
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 
 
 // We will probably need this to be a PhET-iO CountingObject for Group Sort later on.
@@ -16,6 +17,10 @@ export default class CountingObject extends PhetioObject {
   public constructor() {
    super();
   }
+
+  public static CountingObjectIO = new IOType( 'CountingObjectIO', {
+    valueType: CountingObject
+  } );
 }
 
 numberPairs.register( 'CountingObject', CountingObject );

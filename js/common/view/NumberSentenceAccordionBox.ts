@@ -10,7 +10,7 @@ import numberPairs from '../../numberPairs.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { RichText, Text } from '../../../../scenery/js/imports.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -64,12 +64,12 @@ type SelfOptions = EmptySelfOptions;
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
 export default class NumberSentenceAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
+  public constructor( model: DecompositionModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
     const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
       sum: model.sumProperty,
-      leftAddend: model.leftAddendProperty,
-      rightAddend: model.rightAddendProperty
+      leftAddend: model.leftAddendNumberProperty,
+      rightAddend: model.rightAddendNumberProperty
     }, {
       maps: {
 
