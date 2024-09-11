@@ -13,8 +13,6 @@ import numberPairs from '../numberPairs.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import tandem from '../../../tandem/js/Tandem.js';
-import NumberPairsConstants from '../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreen here

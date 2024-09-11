@@ -10,13 +10,14 @@ import numberPairs from '../../numberPairs.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { RichText, Text } from '../../../../scenery/js/imports.js';
-import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 const LOWERCASE_NUMBER_TO_WORD_MAP = new Map();
+LOWERCASE_NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.zeroStringProperty );
 LOWERCASE_NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.oneStringProperty );
 LOWERCASE_NUMBER_TO_WORD_MAP.set( 2, NumberPairsStrings.twoStringProperty );
 LOWERCASE_NUMBER_TO_WORD_MAP.set( 3, NumberPairsStrings.threeStringProperty );
@@ -39,6 +40,7 @@ LOWERCASE_NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.nineteenStringProperty 
 LOWERCASE_NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.twentyStringProperty );
 
 const UPPERCASE_NUMBER_TO_WORD_MAP = new Map();
+UPPERCASE_NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.uppercaseZeroStringProperty );
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.uppercaseOneStringProperty );
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 2, NumberPairsStrings.uppercaseTwoStringProperty );
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 3, NumberPairsStrings.uppercaseThreeStringProperty );
@@ -64,7 +66,7 @@ type SelfOptions = EmptySelfOptions;
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
 export default class NumberSentenceAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: DecompositionModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
     const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
       sum: model.sumProperty,

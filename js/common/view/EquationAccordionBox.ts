@@ -13,10 +13,10 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import DecompositionModel from '../model/DecompositionModel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberSquare from './NumberSquare.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -29,7 +29,7 @@ type EquationAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAcc
 const SQUARE_DIMENSION = 40;
 export default class EquationAccordionBox extends SumRepresentationAccordionBox {
 
-  public constructor( model: DecompositionModel, providedOptions: EquationAccordionBoxOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: EquationAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPairsStrings.equationStringProperty, {
       font: NumberPairsConstants.TITLE_FONT

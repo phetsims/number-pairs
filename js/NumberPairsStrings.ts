@@ -23,6 +23,8 @@ type StringsType = {
   'numberBondStringProperty': LocalizedStringProperty;
   'equationStringProperty': LocalizedStringProperty;
   'numberSentencePatternStringProperty': LocalizedStringProperty;
+  'zeroStringProperty': LocalizedStringProperty;
+  'uppercaseZeroStringProperty': LocalizedStringProperty;
   'oneStringProperty': LocalizedStringProperty;
   'uppercaseOneStringProperty': LocalizedStringProperty;
   'twoStringProperty': LocalizedStringProperty;

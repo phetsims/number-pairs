@@ -19,8 +19,8 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { CountingRepresentationType } from '../../common/model/DecompositionModel.js';
 import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
+import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TenScreenView here

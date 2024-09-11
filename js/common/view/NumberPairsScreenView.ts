@@ -12,11 +12,11 @@ import { AlignBox, Node } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import DecompositionModel from '../model/DecompositionModel.js';
 import Range from '../../../../dot/js/Range.js';
 import SumRadioButtonGroup from './SumRadioButtonGroup.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 
 type SelfOptions = {
@@ -33,7 +33,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly countingAreaBounds: Bounds2;
 
-  public constructor( model: DecompositionModel, providedOptions: NumberPairsScreenViewOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       equationContent: null,
       sceneRange: null,

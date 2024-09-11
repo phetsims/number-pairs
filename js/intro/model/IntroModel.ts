@@ -9,23 +9,24 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import DecompositionModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/DecompositionModel.js';
+import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 
 type SelfOptions = EmptySelfOptions;
 
 type IntroModelOptions =
   SelfOptions
-  & PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'sceneRange' | 'initialSumValue' | 'initialCountingRepresentationType'>;
+  & PickRequired<DecompositionModelOptions, 'tandem'>
+  & StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialSumValue' | 'initialCountingRepresentationType'>;
 
 export default class IntroModel extends DecompositionModel {
 
   public constructor( providedOptions: IntroModelOptions ) {
 
-    const options = optionize<IntroModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+    const options = optionize<IntroModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_SCENE_RANGE,
       initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.APPLES

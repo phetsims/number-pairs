@@ -14,9 +14,9 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { CountingRepresentationType } from '../model/DecompositionModel.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   backgroundColorProperty?: TReadOnlyProperty<TColor> | null;

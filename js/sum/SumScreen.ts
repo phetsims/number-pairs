@@ -13,7 +13,6 @@ import numberPairs from '../numberPairs.js';
 import SumModel from './model/SumModel.js';
 import SumScreenView from './view/SumScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import NumberPairsConstants from '../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreen here
