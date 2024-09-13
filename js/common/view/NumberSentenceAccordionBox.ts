@@ -9,7 +9,7 @@
 import numberPairs from '../../numberPairs.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
-import { RichText, Text } from '../../../../scenery/js/imports.js';
+import { RichText, Text, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -84,8 +84,58 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
         rightAddend: value => LOWERCASE_NUMBER_TO_WORD_MAP.get( value ).value
       }
     } );
+
+    let sumHighlight: Rectangle;
+    let leftAddendHighlight: Rectangle;
+    let rightAddendHighlight: Rectangle;
     const richText = new RichText( numberSentencePatternStringProperty, {
-      lineWrap: 250
+      lineWrap: 250,
+      leading: 10,
+      tags: {
+        sum: node => {
+          sumHighlight = new Rectangle( node.bounds.dilated( 1 ), {
+            fill: model.sumColorProperty.value
+          } );
+          return new Node( {
+            children: [
+              sumHighlight,
+              node
+            ]
+          } );
+        },
+        left: node => {
+          leftAddendHighlight = new Rectangle( node.bounds.dilated( 1 ), {
+            fill: model.leftAddendColorProperty.value
+          } );
+          return new Node( {
+            children: [
+              leftAddendHighlight,
+              node
+            ]
+          } );
+        },
+        right: node => {
+          rightAddendHighlight = new Rectangle( node.bounds.dilated( 1 ), {
+            fill: model.rightAddendColorProperty.value
+          } );
+          return new Node( {
+            children: [
+              rightAddendHighlight,
+              node
+            ]
+          } );
+        }
+      }
+    } );
+
+    model.sumColorProperty.link( color => {
+      sumHighlight.fill = color;
+    } );
+    model.leftAddendColorProperty.link( color => {
+      leftAddendHighlight.fill = color;
+    } );
+    model.rightAddendColorProperty.link( color => {
+      rightAddendHighlight.fill = color;
     } );
 
     const titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
