@@ -7,12 +7,14 @@
  */
 
 import numberPairs from '../../numberPairs.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import Slider from '../../../../sun/js/Slider.js';
+import { Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import SumModel from '../model/SumModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type NumberLineNodeOptions = NodeOptions;
 
@@ -21,14 +23,20 @@ export default class NumberLineNode extends Node {
 
   public constructor( model: SumModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
-    const trackSize = new Dimension2( numberLineWidth, 2 );
-    const decompositionSlider = new Slider( model.leftAddendNumberProperty, model.leftAddendNumberProperty.range, {
+    const trackSize = new Dimension2( numberLineWidth, 1 );
+    const decompositionSlider = new HSlider( model.leftAddendNumberProperty, model.leftAddendNumberProperty.range, {
       trackSize: trackSize,
-      constrainValue: n => Utils.toFixedNumber( n, 0 )
+      constrainValue: n => Utils.toFixedNumber( n, 0 ),
+      setTickInitialPoint: ( trackBounds, tickLength ) => new Vector2( 0, trackBounds.centerY + tickLength / 2 ),
+      positionLabel: ( label, tickBounds ) => {
+        label.centerX = tickBounds.centerX;
+        label.top = tickBounds.bottom + 10;
+      }
     } );
 
     _.times( model.sumProperty.rangeProperty.value.getLength() + 1, i => {
-      MAJOR_TICK_VALUES.includes( i ) ? decompositionSlider.addMajorTick( i ) : decompositionSlider.addMinorTick( i );
+      const label = new Text( i, { font: new PhetFont( 12 ) } );
+      MAJOR_TICK_VALUES.includes( i ) ? decompositionSlider.addMajorTick( i, label ) : decompositionSlider.addMinorTick( i, label );
     } );
 
     const options = optionize<NumberLineNodeOptions, EmptySelfOptions, NodeOptions>()( {
