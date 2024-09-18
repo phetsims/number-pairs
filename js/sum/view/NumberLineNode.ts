@@ -15,6 +15,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ThumbNode, { RADIUS } from './ThumbNode.js';
 
 type NumberLineNodeOptions = NodeOptions;
 
@@ -23,9 +24,13 @@ export default class NumberLineNode extends Node {
 
   public constructor( model: SumModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
+    const thumbNode = new ThumbNode();
+
     const trackSize = new Dimension2( numberLineWidth, 1 );
     const decompositionSlider = new HSlider( model.leftAddendNumberProperty, model.leftAddendNumberProperty.range, {
       trackSize: trackSize,
+      thumbNode: thumbNode,
+      thumbYOffset: thumbNode.height / 2 - RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       setTickInitialPoint: ( trackBounds, tickLength ) => new Vector2( 0, trackBounds.centerY + tickLength / 2 ),
       positionLabel: ( label, tickBounds ) => {
