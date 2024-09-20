@@ -52,6 +52,11 @@
               "ts-nocheck": true
             }
           ]
+        },
+        "parserOptions": {
+          "project": [
+            "../number-pairs/tsconfig.json"
+          ]
         }
       }
     ]
