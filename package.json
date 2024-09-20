@@ -55,7 +55,7 @@
         },
         "parserOptions": {
           "project": [
-            "../number-pairs/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
