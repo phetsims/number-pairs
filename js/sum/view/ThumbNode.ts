@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * TODO: describe file
+ * Creates the handle that the user can drag to change the value of the left addend.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -12,7 +12,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 
 export const RADIUS = 8;
-const HANDLE_LINE_LENGTH = 25;
+const HANDLE_LINE_LENGTH = 28;
 
 export default class ThumbNode extends Node {
   public constructor() {

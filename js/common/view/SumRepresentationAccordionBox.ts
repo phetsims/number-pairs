@@ -14,6 +14,8 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 export type SumRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
+
+// TODO: Rename to TotalRepresentationAccordionBox
 export default class SumRepresentationAccordionBox extends AccordionBox {
 
   public constructor( contentNode: Node, providedOptions: SumRepresentationAccordionBoxOptions ) {

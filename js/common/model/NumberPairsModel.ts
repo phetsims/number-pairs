@@ -23,6 +23,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 //   rightAddendImage: ImageableImage;
 // };
 
+// TODO: rename to RepresentationType
 export class CountingRepresentationType extends EnumerationValue {
   public static readonly APPLES = new CountingRepresentationType(
     'apples',
