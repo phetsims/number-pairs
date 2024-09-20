@@ -79,7 +79,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     this.addChild( countingArea );
 
     const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.NUMBER_LINE );
-    const numberLineNode = new NumberLineNode( model, countingArea.width - 20, {
+    const numberLineNode = new NumberLineNode( model, countingArea.width - 30, {
       center: countingArea.center,
       visibleProperty: numberLineVisibleProperty
     } );
