@@ -9,13 +9,13 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import GameScreen from './game/GameScreen.js';
 import IntroScreen from './intro/IntroScreen.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 import './common/NumberPairsQueryParameters.js';
+import SumScreen from './sum/SumScreen.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
-import SumScreen from './sum/SumScreen.js';
-import GameScreen from './game/GameScreen.js';
 
 simLauncher.launch( () => {
 
