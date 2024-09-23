@@ -17,6 +17,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -97,11 +98,12 @@ export default class NumberPairsModel implements TModel {
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
   public constructor(
+
     // The sumProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
     // determines the selected scene model by using the sumToSceneModelMap.
-    public readonly sumProperty: Property<number>,
-    public readonly leftAddendNumberProperty: TReadOnlyProperty<number>,
-    public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
+    public readonly sumNumberProperty: Property<number>,
+    public readonly leftAddendNumberProperty: PhetioProperty<number>,
+    public readonly rightAddendNumberProperty: PhetioProperty<number>,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -121,7 +123,7 @@ export default class NumberPairsModel implements TModel {
   }
 
   public reset(): void {
-    this.sumProperty.reset();
+    this.sumNumberProperty.reset();
   }
 }
 

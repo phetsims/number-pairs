@@ -65,7 +65,7 @@ export default class DecompositionModel extends NumberPairsModel {
       phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
-    const sumProperty = new NumberProperty( selectedSceneModelProperty.value.sum, {
+    const sumProperty = new NumberProperty( selectedSceneModelProperty.value.SUM, {
       tandem: options.tandem.createTandem( 'sumProperty' )
     } );
 
@@ -73,11 +73,13 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel => sceneModel.leftAddendObjects );
     const rightAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
       sceneModel => sceneModel.rightAddendObjects );
-    const leftAddendNumberProperty = new DynamicProperty<number, number, ObservableArray<CountingObject>>( leftAddendCountingObjectsProperty, {
-      derive: 'lengthProperty'
+    const leftAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+      derive: 'leftAddendNumberProperty',
+      bidirectional: true
     } );
-    const rightAddendNumberProperty = new DynamicProperty<number, number, ObservableArray<CountingObject>>( rightAddendCountingObjectsProperty, {
-      derive: 'lengthProperty'
+    const rightAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+      derive: 'rightAddendNumberProperty',
+      bidirectional: true
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
@@ -88,7 +90,7 @@ export default class DecompositionModel extends NumberPairsModel {
     this.rightAddendCountingObjectsProperty = rightAddendCountingObjectsProperty;
 
     // When the sum changes we need to update the selected scene model.
-    this.sumProperty.link( sum => {
+    this.sumNumberProperty.link( sum => {
       const newSceneModel = this.sumToSceneModelMap.get( sum );
       assert && assert( newSceneModel, `newSceneModel not found for sum: ${sum}` );
       this.selectedSceneModelProperty.set( newSceneModel! );

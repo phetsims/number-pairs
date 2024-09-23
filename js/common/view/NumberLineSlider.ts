@@ -9,28 +9,28 @@
 import HSlider from '../../../../sun/js/HSlider.js';
 import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import { Line, Node, Text } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ThumbNode from '../../sum/view/ThumbNode.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
 import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 const MINOR_TICK_LENGTH = 16;
 const MAJOR_TICK_LENGTH = 24;
-const NUMBER_LINE_RANGE = new Range( NumberPairsConstants.TEN_SCENE_RANGE.min, NumberPairsConstants.TWENTY_SCENE_RANGE.max );
 
 type SelfOptions = {
   numberLineWidth: number;
+  numberLineRange: Range;
 };
 type NumberLineSliderOptions = SliderOptions & SelfOptions;
 export default class NumberLineSlider extends HSlider {
@@ -38,15 +38,16 @@ export default class NumberLineSlider extends HSlider {
   public readonly sliderTickParent: Node;
 
   public constructor(
-    leftAddendNumberProperty: NumberProperty,
+    leftAddendNumberProperty: PhetioProperty<number>,
     sumNumberProperty: Property<number>,
     trackModelViewTransform: ModelViewTransform2,
     providedOptions: NumberLineSliderOptions
   ) {
 
     const trackDimension = new Dimension2( providedOptions.numberLineWidth, 0 );
+    const numberLineRange = providedOptions.numberLineRange;
     const sliderEnabledRangeProperty = new DerivedProperty( [ sumNumberProperty ], sum => {
-      return new Range( NUMBER_LINE_RANGE.min, sum );
+      return new Range( numberLineRange.min, sum );
     } );
     const thumbNode = new ThumbNode();
 
@@ -54,7 +55,8 @@ export default class NumberLineSlider extends HSlider {
     const sliderTrack = new NumberLineSliderTrack( leftAddendNumberProperty, sliderTickParent, trackModelViewTransform, {
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       size: trackDimension,
-      enabledRangeProperty: sliderEnabledRangeProperty
+      enabledRangeProperty: sliderEnabledRangeProperty,
+      numberLineRange: numberLineRange
     } );
 
     const options = combineOptions<NumberLineSliderOptions>( {
@@ -64,25 +66,34 @@ export default class NumberLineSlider extends HSlider {
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       enabledRangeProperty: sliderEnabledRangeProperty
     }, providedOptions );
-    super( leftAddendNumberProperty, NUMBER_LINE_RANGE, options );
+    super( leftAddendNumberProperty, numberLineRange, options );
 
     this.sliderTickParent = sliderTickParent;
   }
 }
 
+type TrackSelfOptions = {
+  numberLineRange: Range;
+};
+type NumberLineSliderTrackOptions = WithRequired<SliderTrackOptions, 'size' | 'enabledRangeProperty'> & TrackSelfOptions;
+
 class NumberLineSliderTrack extends SliderTrack {
 
-  public constructor( valueProperty: Property<number>, private readonly sliderTickParent: Node, private readonly trackModelViewTransform: ModelViewTransform2, providedOptions?: SliderTrackOptions ) {
+  public constructor(
+    valueProperty: TProperty<number>,
+    private readonly sliderTickParent: Node,
+    private readonly trackModelViewTransform: ModelViewTransform2,
+    providedOptions?: NumberLineSliderTrackOptions ) {
 
-    const options = combineOptions<WithRequired<SliderTrackOptions, 'size' | 'enabledRangeProperty'>>( {
+    const options = optionize<NumberLineSliderTrackOptions, TrackSelfOptions, SliderTrackOptions>()( {
       constrainValue: n => Utils.toFixedNumber( n, 0 )
     }, providedOptions );
     const trackNode = new Line( 0, 0, options.size.width, 0, {
       stroke: 'black'
     } );
-    super( valueProperty, trackNode, NUMBER_LINE_RANGE, providedOptions );
+    super( valueProperty, trackNode, options.numberLineRange, providedOptions );
 
-    _.times( NUMBER_LINE_RANGE.getLength() + 1, i => {
+    _.times( options.numberLineRange.getLength() + 1, i => {
       i % 10 === 0 ? this.addMajorTick( i ) : this.addMinorTick( i );
     } );
   }

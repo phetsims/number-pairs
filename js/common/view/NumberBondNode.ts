@@ -29,7 +29,7 @@ const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
 
 export default class NumberBondNode extends Node {
 
-  public constructor( model: Pick<DecompositionModel, 'sumProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
+  public constructor( model: Pick<DecompositionModel, 'sumNumberProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
       sumOnTop: true
@@ -38,7 +38,7 @@ export default class NumberBondNode extends Node {
     // If the sum is on the bottom we want to flip the vertical offset
     const verticalOffset = options.sumOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
-    const sum = new NumberCircle( CIRCLE_RADIUS, model.sumProperty, {
+    const sum = new NumberCircle( CIRCLE_RADIUS, model.sumNumberProperty, {
       fill: options.sumColorProperty.value
     } );
     options.sumColorProperty.link( sumColor => {

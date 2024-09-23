@@ -69,7 +69,7 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
     const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
-      sum: model.sumProperty,
+      sum: model.sumNumberProperty,
       leftAddend: model.leftAddendNumberProperty,
       rightAddend: model.rightAddendNumberProperty
     }, {

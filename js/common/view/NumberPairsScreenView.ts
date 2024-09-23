@@ -81,7 +81,7 @@ export default class NumberPairsScreenView extends ScreenView {
     // Add the sum radio button group if the scene range is provided. Each radio button represents a sum value
     // that is associated with a scene state.
     if ( options.sceneRange ) {
-      const sumRadioButtonGroup = new SumRadioButtonGroup( model.sumProperty, {
+      const sumRadioButtonGroup = new SumRadioButtonGroup( model.sumNumberProperty, {
         sceneRange: options.sceneRange
       } );
 

@@ -21,6 +21,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
 import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 import NumberLineNode from './NumberLineNode.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -81,7 +82,8 @@ export default class SumScreenView extends NumberPairsScreenView {
     const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.NUMBER_LINE );
     const numberLineNode = new NumberLineNode( model, countingArea.width - 30, {
       center: countingArea.center,
-      visibleProperty: numberLineVisibleProperty
+      visibleProperty: numberLineVisibleProperty,
+      screenRange: NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
     } );
     this.addChild( numberLineNode );
   }

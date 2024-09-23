@@ -11,11 +11,11 @@
 import { Node, NodeOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import TriangleNode from '../../../../scenery-phet/js/TriangleNode.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 type SelfOptions = {
   fill: TColor;
@@ -27,7 +27,7 @@ export default class EllipticalArrowNode extends Node {
 
   private tailPath: Path;
 
-  public constructor( startingValue: Property<number>, endingValue: Property<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
+  public constructor( startingValue: TProperty<number>, endingValue: TProperty<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
 
 
     const tailShape = new Shape();

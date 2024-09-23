@@ -27,9 +27,6 @@ type SumModelOptions = SelfOptions &
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_SCENE_RANGE.min, NumberPairsConstants.TWENTY_SCENE_RANGE.max );
 
 export default class SumModel extends NumberPairsModel {
-  public override readonly sumProperty: NumberProperty;
-  public override readonly leftAddendNumberProperty: NumberProperty;
-  public override readonly rightAddendNumberProperty: NumberProperty;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -53,10 +50,6 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     super( sumProperty, leftAddendNumberProperty, rightAddendNumberProperty, options );
-
-    this.sumProperty = sumProperty;
-    this.leftAddendNumberProperty = leftAddendNumberProperty;
-    this.rightAddendNumberProperty = rightAddendNumberProperty;
   }
 
   /**

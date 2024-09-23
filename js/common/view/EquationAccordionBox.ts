@@ -43,7 +43,7 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
       contentYMargin: 25
     }, providedOptions );
 
-    const sumSquare = new NumberSquare( SQUARE_DIMENSION, model.sumProperty, {
+    const sumSquare = new NumberSquare( SQUARE_DIMENSION, model.sumNumberProperty, {
       fill: options.sumColorProperty.value,
       cornerRadius: 5
     } );
