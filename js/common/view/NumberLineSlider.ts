@@ -20,9 +20,10 @@ import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ThumbNode, { RADIUS } from '../../sum/view/ThumbNode.js';
+import ThumbNode from '../../sum/view/ThumbNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
+import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
 
 const MINOR_TICK_LENGTH = 16;
 const MAJOR_TICK_LENGTH = 24;
@@ -59,7 +60,7 @@ export default class NumberLineSlider extends HSlider {
     const options = combineOptions<NumberLineSliderOptions>( {
       thumbNode: thumbNode,
       trackNode: sliderTrack,
-      thumbYOffset: thumbNode.height / 2 - RADIUS,
+      thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       enabledRangeProperty: sliderEnabledRangeProperty
     }, providedOptions );

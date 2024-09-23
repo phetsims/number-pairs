@@ -10,14 +10,14 @@ import numberPairs from '../../numberPairs.js';
 import { Circle, Line, Node } from '../../../../scenery/js/imports.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 
-export const RADIUS = 8;
 const HANDLE_LINE_LENGTH = 28;
 
 export default class ThumbNode extends Node {
   public constructor() {
 
-    const trackPoint = new Circle( RADIUS, {
+    const trackPoint = new Circle( NUMBER_LINE_POINT_RADIUS, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       stroke: 'black'
     } );
@@ -25,7 +25,7 @@ export default class ThumbNode extends Node {
       stroke: 'black',
       top: trackPoint.bottom
     } );
-    const handleKnob = new ShadedSphereNode( RADIUS * 2, {
+    const handleKnob = new ShadedSphereNode( NUMBER_LINE_POINT_RADIUS * 2, {
       mainColor: NumberPairsColors.numberLineLeftAddendColorProperty,
       top: handleLine.bottom
     } );

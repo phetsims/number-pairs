@@ -12,15 +12,15 @@ import { Circle, Line, Node, NodeOptions } from '../../../../scenery/js/imports.
 import SumModel from '../model/SumModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { RADIUS } from './ThumbNode.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberLineSlider from '../../common/view/NumberLineSlider.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import EllipticalArrowNode from '../../common/view/EllipticalArrowNode.js';
 
 type NumberLineNodeOptions = NodeOptions;
 
-const HIGHLIGHT_LINE_WIDTH = RADIUS;
+export const NUMBER_LINE_POINT_RADIUS = 8;
 export default class NumberLineNode extends Node {
   public constructor( model: SumModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
     const trackModelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
@@ -31,25 +31,28 @@ export default class NumberLineNode extends Node {
     const slider = new NumberLineSlider( model.leftAddendNumberProperty, model.sumProperty, trackModelViewTransform, {
       numberLineWidth: numberLineWidth
     } );
-    const sumCircle = new Circle( RADIUS, {
+    const sumCircle = new Circle( NUMBER_LINE_POINT_RADIUS, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       stroke: 'black'
     } );
-    const sumHighlight = new Line( 0, HIGHLIGHT_LINE_WIDTH / 2,
-      trackModelViewTransform.modelToViewX( model.sumProperty.value ), HIGHLIGHT_LINE_WIDTH / 2, {
+    const sumHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
+      trackModelViewTransform.modelToViewX( model.sumProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineSumColorProperty,
-        lineWidth: HIGHLIGHT_LINE_WIDTH
+        lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const leftAddendHighlight = new Line( 0, -HIGHLIGHT_LINE_WIDTH / 2,
-      trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -HIGHLIGHT_LINE_WIDTH / 2, {
+    const leftAddendHighlight = new Line( 0, -NUMBER_LINE_POINT_RADIUS / 2,
+      trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineLeftAddendColorProperty,
-        lineWidth: HIGHLIGHT_LINE_WIDTH
+        lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -HIGHLIGHT_LINE_WIDTH / 2,
-      trackModelViewTransform.modelToViewX( model.sumProperty.value ), -HIGHLIGHT_LINE_WIDTH / 2, {
+    const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
+      trackModelViewTransform.modelToViewX( model.sumProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineRightAddendColorProperty,
-        lineWidth: HIGHLIGHT_LINE_WIDTH
+        lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
+    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendNumberProperty, model.sumProperty, trackModelViewTransform, {
+      fill: NumberPairsColors.numberLineRightAddendColorProperty
+    } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.sumProperty ],
       ( leftAddend, rightAddend, sum ) => {
@@ -57,10 +60,10 @@ export default class NumberLineNode extends Node {
         rightAddendHighlight.setX1( trackModelViewTransform.modelToViewX( leftAddend ) );
         rightAddendHighlight.setX2( trackModelViewTransform.modelToViewX( sum ) );
         sumHighlight.setX2( trackModelViewTransform.modelToViewX( sum ) );
-    } );
+      } );
 
     const options = optionize<NumberLineNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      children: [ leftAddendHighlight, rightAddendHighlight, sumHighlight, slider.sliderTickParent, slider, sumCircle ]
+      children: [ leftAddendHighlight, rightAddendHighlight, sumHighlight, rightAddendArrow, slider.sliderTickParent, slider, sumCircle ]
     }, providedOptions );
     super( options );
     model.sumProperty.link( sum => {
