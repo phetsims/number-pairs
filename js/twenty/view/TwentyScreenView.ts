@@ -21,6 +21,7 @@ import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
 import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import NumberLineNode from '../../sum/view/NumberLineNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
@@ -57,7 +58,8 @@ export default class TwentyScreenView extends NumberPairsScreenView {
           CountingRepresentationType.APPLES,
           CountingRepresentationType.ONE_CARDS,
           CountingRepresentationType.CUBES,
-          CountingRepresentationType.KITTENS
+          CountingRepresentationType.KITTENS,
+          CountingRepresentationType.NUMBER_LINE
         ],
         tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
       } ),
@@ -79,6 +81,14 @@ export default class TwentyScreenView extends NumberPairsScreenView {
       countingRepresentationTypeProperty: model.countingRepresentationTypeProperty
     } );
     this.addChild( countingArea );
+
+    const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.NUMBER_LINE );
+    const numberLineNode = new NumberLineNode( model, countingArea.width - 30, {
+      center: countingArea.center,
+      visibleProperty: numberLineVisibleProperty,
+      screenRange: NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
+    } );
+    this.addChild( numberLineNode );
   }
 
   /**
