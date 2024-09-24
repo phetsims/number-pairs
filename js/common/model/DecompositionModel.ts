@@ -78,8 +78,7 @@ export default class DecompositionModel extends NumberPairsModel {
       bidirectional: true
     } );
     const rightAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
-      derive: 'rightAddendNumberProperty',
-      bidirectional: true
+      derive: 'rightAddendNumberProperty'
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );

@@ -8,13 +8,14 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import NumberPairsModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -43,11 +44,15 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
     } );
 
-    const initialRightAddendValue = sumProperty.value - leftAddendNumberProperty.value;
-    const rightAddendNumberProperty = new NumberProperty( initialRightAddendValue, {
-      range: SCENE_RANGE,
-      tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
-    } );
+    // The right addend value is the only value that is not required to be directly set by a component controlled
+    // by the user. Therefore, it is derived from the sum and left addend values.
+    const rightAddendNumberProperty = new DerivedProperty( [ sumProperty, leftAddendNumberProperty ],
+      ( sum: number, leftAddend: number ) => {
+        return sum - leftAddend;
+      }, {
+        tandem: options.tandem.createTandem( 'rightAddendNumberProperty' ),
+        phetioValueType: NumberIO
+      } );
 
     super( sumProperty, leftAddendNumberProperty, rightAddendNumberProperty, options );
   }

@@ -13,6 +13,8 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 
 export default class NumberPairsSceneModel {
@@ -20,15 +22,13 @@ export default class NumberPairsSceneModel {
   // The sum as initialized by the values provided to the constructor. This is a constant.
   public readonly SUM: number;
 
-  // The leftAddendNumberProperty handles adding or removing CountingObjects from the leftAddendObjects array.
   public readonly leftAddendNumberProperty: Property<number>;
+
+  // The right addend number is derived from the sum and left addend number and is used to update
+  // the counting objects in each array as it changes.
+  public readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
   public readonly leftAddendObjects: ObservableArray<CountingObject>;
-
-  // The rightAddendNumberProperty handles adding or removing CountingObjects from the rightAddendObjects array.
-  public readonly rightAddendNumberProperty: Property<number>;
   public readonly rightAddendObjects: ObservableArray<CountingObject>;
-
-  private addendsStable = false;
 
   public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, tandem: Tandem ) {
 
@@ -45,10 +45,8 @@ export default class NumberPairsSceneModel {
       tandem: tandem.createTandem( 'leftAddendObjects' )
     } );
 
-    this.rightAddendNumberProperty = new NumberProperty( initialRightAddendValue, {
-      range: sceneRange,
-      numberType: 'Integer',
-      tandem: tandem.createTandem( 'rightAddendNumberProperty' )
+    this.rightAddendNumberProperty = new DerivedProperty( [ this.leftAddendNumberProperty ], leftAddendValue => {
+      return this.SUM - leftAddendValue;
     } );
     this.rightAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -64,37 +62,12 @@ export default class NumberPairsSceneModel {
 
     assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.SUM, 'leftAddendObjects.length + rightAddendObjects.length should equal sum' );
 
-    // TODO: is addendsStable necessary? Currently feels like an extra precaution in case updateCountingObjects is called
-    //  in more places.
-    this.addendsStable = true;
-    this.leftAddendNumberProperty.link( value => {
-      this.addendsStable = false;
-      this.rightAddendNumberProperty.value = this.SUM - value;
-      if ( value + this.rightAddendNumberProperty.value === this.SUM ) {
-        this.addendsStable = true;
-      }
-      this.updateCountingObjects();
-    } );
-
-    this.rightAddendNumberProperty.link( value => {
-      this.addendsStable = false;
-      this.leftAddendNumberProperty.value = this.SUM - value;
-      if ( value + this.leftAddendNumberProperty.value === this.SUM ) {
-        this.addendsStable = true;
-      }
-      this.updateCountingObjects();
-    } );
-  }
-
-  // TODO: There is still work to do here. Clean it up and document.
-  // TODO: Is having this many assertions a red flag... CM am I overthinking this?
-  private updateCountingObjects(): void {
-    if ( this.addendsStable ) {
+    // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
+    this.rightAddendNumberProperty.link( rightAddendValue => {
       const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
-      const rightAddendDelta = this.rightAddendNumberProperty.value - this.rightAddendObjects.length;
+      const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 
       if ( leftAddendDelta === 0 || rightAddendDelta === 0 ) {
-
         assert && assert( leftAddendDelta === 0 && rightAddendDelta === 0, 'leftAddendDelta and rightAddendDelta should both be 0' );
         return;
       }
@@ -120,7 +93,7 @@ export default class NumberPairsSceneModel {
       assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
       assert && assert( this.rightAddendNumberProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.SUM, 'leftAddendObjects.length + rightAddendObjects.length should equal sum' );
-    }
+    } );
   }
 
   public static NumberPairsSceneModelIO = new IOType( 'NumberPairsSceneModelIO', {

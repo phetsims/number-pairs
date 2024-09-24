@@ -98,12 +98,14 @@ export default class NumberPairsModel implements TModel {
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
   public constructor(
-
     // The sumProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
     // determines the selected scene model by using the sumToSceneModelMap.
     public readonly sumNumberProperty: Property<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
-    public readonly rightAddendNumberProperty: PhetioProperty<number>,
+
+    // The right addend value is the only value that is not required to be directly set by a component controlled
+    // by the user. Therefore, it is derived from the sum and left addend values.
+    public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
