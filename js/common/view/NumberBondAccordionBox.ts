@@ -16,6 +16,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 
 type SelfOptions = {
   numberBondNodeOptions: NumberBondNodeOptions;
@@ -33,7 +34,8 @@ export default class NumberBondAccordionBox extends SumRepresentationAccordionBo
       titleNode: titleNode,
       titleXSpacing: 10,
       contentXMargin: 30,
-      contentXSpacing: 0
+      contentXSpacing: 0,
+      fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );
 
     const numberBondNode = new NumberBondNode( model, options.numberBondNodeOptions );

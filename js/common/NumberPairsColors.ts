@@ -24,13 +24,13 @@ const NumberPairsColors = {
     default: '#FFFFFF'
   } ),
   tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'tenBackground', {
-    default: '#FEF8EF'
+    default: '#FFF7E8'
   } ),
   twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'twentyBackground', {
-    default: '#FFFFFF'
+    default: '#FFF7E8'
   } ),
   sumScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'sumBackground', {
-    default: '#FEF8EF'
+    default: '#FFF7E8'
   } ),
   locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
     default: '#7bffa0'
@@ -61,6 +61,12 @@ const NumberPairsColors = {
   } ),
   numberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineBackground', {
     default: 'white'
+  } ),
+  accordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'accordionBoxBackground', {
+    default: '#F9E5CE'
+  } ),
+  numberBondAccordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberBondAccordionBoxBackground', {
+    default: '#F8F8FD'
   } )
 };
 

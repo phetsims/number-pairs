@@ -12,6 +12,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 
 export type SumRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
 
@@ -22,7 +23,8 @@ export default class SumRepresentationAccordionBox extends AccordionBox {
     const options = optionize<SumRepresentationAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       showTitleWhenExpanded: false,
       titleYMargin: 10,
-      titleAlignX: 'left'
+      titleAlignX: 'left',
+      fill: NumberPairsColors.accordionBoxBackgroundColorProperty
     }, providedOptions );
    super( contentNode, options );
   }
