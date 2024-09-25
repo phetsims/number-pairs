@@ -8,7 +8,7 @@
  *
  */
 
-import { Node, NodeOptions, Path, TColor } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, NodeTransformOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import { EllipticalArc, Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -16,47 +16,60 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   fill: TColor;
+  belowNumberLine?: boolean;
+  ellipseYRadius?: number;
 };
-type EllipticalArrowNodeOptions = NodeOptions & SelfOptions;
+type EllipticalArrowNodeOptions = StrictOmit<NodeOptions, 'children' | keyof NodeTransformOptions> & SelfOptions;
 
 // CONSTANTS
 const ARROW_START_ANGLE = Math.PI;
 const CALCULATION_ELLIPSE_END_ANGLE = Math.PI * 2;
-const ELLIPTICAL_Y_RADIUS = 55;
 const ARROW_HEAD_BASE_WIDTH = 14;
 const ARROW_HEAD_HEIGHT = 16;
 const ARROW_TAIL_LINE_WIDTH = 3;
 
 export default class EllipticalArrowNode extends Node {
 
-  private tailNode: Path;
-  private arrowHeadNode: Path;
+  private readonly tailNode: Path;
+  private readonly arrowHeadNode: Path;
+  private readonly antiClockwise: boolean;
+  private readonly ellipseYRadius: number;
 
   public constructor( startingValue: TProperty<number>, endingValue: TProperty<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
 
+    const options = optionize<EllipticalArrowNodeOptions, SelfOptions, NodeOptions>()( {
+      belowNumberLine: false,
+      ellipseYRadius: 55
+    }, providedOptions );
 
     const tailShape = new Shape();
     const arrowHeadShape = new Shape();
     const arrowHeadNode = new Path( arrowHeadShape, {
-      fill: providedOptions.fill,
+      fill: options.fill,
       stroke: null
     } );
 
     const tailNode = new Path( tailShape, {
-      stroke: providedOptions.fill,
+      stroke: options.fill,
       lineWidth: ARROW_TAIL_LINE_WIDTH
     } );
 
-    super( {
+    const superOptions = combineOptions<NodeOptions>( {
       children: [ tailNode, arrowHeadNode ]
-    } );
+    }, options );
+    super( superOptions );
 
     this.tailNode = tailNode;
     this.arrowHeadNode = arrowHeadNode;
+    this.ellipseYRadius = options.ellipseYRadius;
 
+    // If the arrow is above the number line, the arrow should be drawn in a clockwise direction.
+    this.antiClockwise = options.belowNumberLine;
 
     Multilink.multilink( [ startingValue, endingValue ], ( startingValue, endingValue ) => {
       const pointsToItself = startingValue === endingValue;
@@ -73,10 +86,10 @@ export default class EllipticalArrowNode extends Node {
         // this is rendered.
         tailEllipticalArc = new EllipticalArc(
           ellipseCenter,
-          NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, ELLIPTICAL_Y_RADIUS,
+          NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, this.ellipseYRadius,
           0,
           ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
-          false
+          this.antiClockwise
         );
       }
        else {
@@ -84,11 +97,11 @@ export default class EllipticalArrowNode extends Node {
         tailEllipticalArc = new EllipticalArc(
           ellipseCenter,
           ellipseXRadius,
-          ELLIPTICAL_Y_RADIUS,
+          this.ellipseYRadius,
           0,
           ARROW_START_ANGLE,
           CALCULATION_ELLIPSE_END_ANGLE,
-          false
+          this.antiClockwise
         );
       }
 
@@ -103,7 +116,7 @@ export default class EllipticalArrowNode extends Node {
         NUMBER_LINE_POINT_RADIUS, NUMBER_LINE_POINT_RADIUS,
         0,
         ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
-        false
+        this.antiClockwise
       );
       const arrowHeadPoint = this.getEllipseIntersection( tailEllipticalArc, numberLinePointArc );
 
@@ -121,7 +134,7 @@ export default class EllipticalArrowNode extends Node {
         baseArcRadius, baseArcRadius,
         0,
         ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
-        false
+        this.antiClockwise
       );
       const baseMidpoint = this.getEllipseIntersection( tailEllipticalArc, baseMidpointArc );
 
@@ -134,7 +147,7 @@ export default class EllipticalArrowNode extends Node {
        * asin( triangleCenter.y / yRadius ) = t ;
        */
       const ellipseEndPoint = baseMidpoint.average( arrowHeadPoint );
-      const arrowEndAngle = Math.asin( ellipseEndPoint.y / ELLIPTICAL_Y_RADIUS );
+      const arrowEndAngle = Math.asin( ellipseEndPoint.y / this.ellipseYRadius );
 
       this.updateTailShape( pointsToItself, ellipseCenter, ellipseXRadius, arrowEndAngle );
       this.updateArrowHeadShape( arrowHeadPoint, baseMidpoint );
@@ -149,10 +162,22 @@ export default class EllipticalArrowNode extends Node {
     // to the same spot. We do this by positioning the elliptical arc to start slightly left of and end slightly right
     // of the point on the number line.
     if ( pointsToItself ) {
-      tailShape = new Shape().ellipticalArc( ellipseCenter.x, 0, NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, ELLIPTICAL_Y_RADIUS, 0, ARROW_START_ANGLE, arrowEndAngle );
+      tailShape = new Shape().ellipticalArc(
+        ellipseCenter.x, 0,
+        NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, this.ellipseYRadius,
+        0,
+        ARROW_START_ANGLE, arrowEndAngle,
+        this.antiClockwise
+      );
     }
     else {
-      tailShape = new Shape().ellipticalArc( ellipseCenter.x, 0, ellipseXRadius, ELLIPTICAL_Y_RADIUS, 0, ARROW_START_ANGLE, arrowEndAngle );
+      tailShape = new Shape().ellipticalArc(
+        ellipseCenter.x, 0,
+        ellipseXRadius, this.ellipseYRadius,
+        0,
+        ARROW_START_ANGLE, arrowEndAngle,
+        this.antiClockwise
+      );
     }
     this.tailNode.setShape( tailShape );
   }

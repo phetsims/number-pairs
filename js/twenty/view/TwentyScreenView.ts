@@ -86,7 +86,7 @@ export default class TwentyScreenView extends NumberPairsScreenView {
     const numberLineNode = new NumberLineNode( model, countingArea.width - 30, {
       center: countingArea.center,
       visibleProperty: numberLineVisibleProperty,
-      screenRange: NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
+      numberLineRange: NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
     } );
     this.addChild( numberLineNode );
   }
