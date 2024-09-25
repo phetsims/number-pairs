@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * This is a base class for accordion boxes that contain a representation of a sum decomposed into two addends.
+ * This is a base class for accordion boxes that contain a representation of a total decomposed into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -14,13 +14,12 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 
-export type SumRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
+export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
 
-// TODO: Rename to TotalRepresentationAccordionBox
-export default class SumRepresentationAccordionBox extends AccordionBox {
+export default class TotalRepresentationAccordionBox extends AccordionBox {
 
-  public constructor( contentNode: Node, providedOptions: SumRepresentationAccordionBoxOptions ) {
-    const options = optionize<SumRepresentationAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
+  public constructor( contentNode: Node, providedOptions: TotalRepresentationAccordionBoxOptions ) {
+    const options = optionize<TotalRepresentationAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       showTitleWhenExpanded: false,
       titleYMargin: 10,
       titleAlignX: 'left',
@@ -30,4 +29,4 @@ export default class SumRepresentationAccordionBox extends AccordionBox {
   }
 }
 
-numberPairs.register( 'SumRepresentationAccordionBox', SumRepresentationAccordionBox );
+numberPairs.register( 'TotalRepresentationAccordionBox', TotalRepresentationAccordionBox );

@@ -20,7 +20,7 @@ type SelfOptions = EmptySelfOptions;
 type IntroModelOptions =
   SelfOptions
   & PickRequired<DecompositionModelOptions, 'tandem'>
-  & StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialSumValue' | 'initialCountingRepresentationType'>;
+  & StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialCountingRepresentationType'>;
 
 export default class IntroModel extends DecompositionModel {
 
@@ -28,7 +28,7 @@ export default class IntroModel extends DecompositionModel {
 
     const options = optionize<IntroModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_SCENE_RANGE,
-      initialSumValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
+      initialTotalValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.APPLES
     }, providedOptions );
 

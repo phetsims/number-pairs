@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * SumRadioButtonGroup is a RectangularRadioButtonGroup that displays the sum values that can be selected by the user.
- * The sum values are displayed in descending order and are each associated with a scene that tracks its own state.
+ * TotalRadioButtonGroup is a RectangularRadioButtonGroup that displays the total values that can be selected by the user.
+ * The total values are displayed in descending order and are each associated with a scene that tracks its own state.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -20,9 +20,9 @@ type SelfOptions = {
   sceneRange: Range;
 };
 type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButtonGroupOptions;
-export default class SumRadioButtonGroup extends RectangularRadioButtonGroup<number> {
+export default class TotalRadioButtonGroup extends RectangularRadioButtonGroup<number> {
 
-  public constructor( sumProperty: Property<number>, providedOptions: SceneSelectionRadioButtonGroupOptions ) {
+  public constructor( totalProperty: Property<number>, providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       radioButtonOptions: {
         size: new Dimension2( 35, 35 )
@@ -36,11 +36,11 @@ export default class SumRadioButtonGroup extends RectangularRadioButtonGroup<num
       return {
         createNode: () => sceneIcon,
         value: sceneValue,
-        tandem: `sum${sceneValue}RadioButton`
+        tandem: `total${sceneValue}RadioButton`
       };
     } ).reverse();
-    super( sumProperty, groupItems, options );
+    super( totalProperty, groupItems, options );
   }
 }
 
-numberPairs.register( 'SumRadioButtonGroup', SumRadioButtonGroup );
+numberPairs.register( 'TotalRadioButtonGroup', TotalRadioButtonGroup );

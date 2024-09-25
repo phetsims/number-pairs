@@ -39,15 +39,15 @@ export default class NumberLineSlider extends HSlider {
 
   public constructor(
     leftAddendNumberProperty: PhetioProperty<number>,
-    sumNumberProperty: Property<number>,
+    totalNumberProperty: Property<number>,
     trackModelViewTransform: ModelViewTransform2,
     providedOptions: NumberLineSliderOptions
   ) {
 
     const trackDimension = new Dimension2( providedOptions.numberLineWidth, 0 );
     const numberLineRange = providedOptions.numberLineRange;
-    const sliderEnabledRangeProperty = new DerivedProperty( [ sumNumberProperty ], sum => {
-      return new Range( numberLineRange.min, sum );
+    const sliderEnabledRangeProperty = new DerivedProperty( [ totalNumberProperty ], total => {
+      return new Range( numberLineRange.min, total );
     } );
     const thumbNode = new ThumbNode();
 

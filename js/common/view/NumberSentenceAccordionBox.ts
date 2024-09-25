@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * This accordion box contains a number sentence that describes the decomposition of a sum into two addends.
+ * This accordion box contains a number sentence that describes the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -11,7 +11,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { RichText, Text, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -63,13 +63,13 @@ UPPERCASE_NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.uppercaseNineteenString
 UPPERCASE_NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.uppercaseTwentyStringProperty );
 
 type SelfOptions = EmptySelfOptions;
-type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
-export default class NumberSentenceAccordionBox extends SumRepresentationAccordionBox {
+type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
+export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
     const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
-      sum: model.sumNumberProperty,
+      sum: model.totalNumberProperty,
       leftAddend: model.leftAddendNumberProperty,
       rightAddend: model.rightAddendNumberProperty
     }, {
@@ -85,7 +85,7 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
       }
     } );
 
-    let sumHighlight: Rectangle;
+    let totalHighlight: Rectangle;
     let leftAddendHighlight: Rectangle;
     let rightAddendHighlight: Rectangle;
     const richText = new RichText( numberSentencePatternStringProperty, {
@@ -93,12 +93,12 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
       leading: 10,
       tags: {
         sum: node => {
-          sumHighlight = new Rectangle( node.bounds.dilated( 1 ), {
-            fill: model.sumColorProperty.value
+          totalHighlight = new Rectangle( node.bounds.dilated( 1 ), {
+            fill: model.totalColorProperty.value
           } );
           return new Node( {
             children: [
-              sumHighlight,
+              totalHighlight,
               node
             ]
           } );
@@ -128,8 +128,8 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
       }
     } );
 
-    model.sumColorProperty.link( color => {
-      sumHighlight.fill = color;
+    model.totalColorProperty.link( color => {
+      totalHighlight.fill = color;
     } );
     model.leftAddendColorProperty.link( color => {
       leftAddendHighlight.fill = color;
@@ -142,7 +142,7 @@ export default class NumberSentenceAccordionBox extends SumRepresentationAccordi
       font: NumberPairsConstants.TITLE_FONT
     } );
 
-    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
+    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode,
       titleXSpacing: 10,
       contentXMargin: 30,

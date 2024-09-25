@@ -31,7 +31,7 @@ export default class NumberLineNode extends Node {
   public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
     // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
-    // the starting value for the leftAddendArrow and sumArrow will always be 0.
+    // the starting value for the leftAddendArrow and totalArrow will always be 0.
     const zeroNumberProperty = new Property( providedOptions.numberLineRange.min );
 
     const trackModelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
@@ -39,20 +39,20 @@ export default class NumberLineNode extends Node {
       Vector2.ZERO,
       numberLineWidth / providedOptions.numberLineRange.getLength()
     );
-    const slider = new NumberLineSlider( model.leftAddendNumberProperty, model.sumNumberProperty, trackModelViewTransform, {
+    const slider = new NumberLineSlider( model.leftAddendNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
       numberLineRange: providedOptions.numberLineRange,
       numberLineWidth: numberLineWidth
     } );
-    const sumCircle = new Circle( NUMBER_LINE_POINT_RADIUS, {
+    const totalCircle = new Circle( NUMBER_LINE_POINT_RADIUS, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       stroke: 'black'
     } );
-    const sumHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.sumNumberProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
+    const totalHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
+      trackModelViewTransform.modelToViewX( model.totalNumberProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineSumColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const sumArrow = new EllipticalArrowNode( zeroNumberProperty, model.sumNumberProperty, trackModelViewTransform, {
+    const totalArrow = new EllipticalArrowNode( zeroNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
       ellipseYRadius: 80
@@ -68,28 +68,28 @@ export default class NumberLineNode extends Node {
     } );
 
     const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.sumNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
+      trackModelViewTransform.modelToViewX( model.totalNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineRightAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendNumberProperty, model.sumNumberProperty, trackModelViewTransform, {
+    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
     } );
 
-    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.sumNumberProperty ],
-      ( leftAddend, rightAddend, sum ) => {
+    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ],
+      ( leftAddend, rightAddend, total ) => {
         leftAddendHighlight.setX2( trackModelViewTransform.modelToViewX( leftAddend ) );
         rightAddendHighlight.setX1( trackModelViewTransform.modelToViewX( leftAddend ) );
-        rightAddendHighlight.setX2( trackModelViewTransform.modelToViewX( sum ) );
-        sumHighlight.setX2( trackModelViewTransform.modelToViewX( sum ) );
+        rightAddendHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
+        totalHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
       } );
 
     const options = optionize<NumberLineNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      children: [ leftAddendHighlight, rightAddendHighlight, sumHighlight, rightAddendArrow, leftAddendArrow, sumArrow, slider.sliderTickParent, slider, sumCircle ]
+      children: [ leftAddendHighlight, rightAddendHighlight, totalHighlight, rightAddendArrow, leftAddendArrow, totalArrow, slider.sliderTickParent, slider, totalCircle ]
     }, providedOptions );
     super( options );
-    model.sumNumberProperty.link( sum => {
-      sumCircle.centerX = trackModelViewTransform.modelToViewX( sum );
+    model.totalNumberProperty.link( total => {
+      totalCircle.centerX = trackModelViewTransform.modelToViewX( total );
     } );
   }
 }

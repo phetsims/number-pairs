@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 /**
  * The base class for the model in the Number Pairs simulation.
- * This class keeps track of the sum and both addends.
+ * This class keeps track of the total and both addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -22,7 +22,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 
 type SelfOptions = {
-  initialSumValue: number;
+  initialTotalValue: number;
   sceneRange: Range;
 };
 
@@ -30,10 +30,10 @@ export type DecompositionModelOptions = SelfOptions & NumberPairsModelOptions;
 export default class DecompositionModel extends NumberPairsModel {
 
 
-  // Each scene is associated with a readonly sum. The selected scene model is determined by the sumProperty.
-  // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the sumProperty.value.
+  // Each scene is associated with a readonly total. The selected scene model is determined by the totalProperty.
+  // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
   public readonly selectedSceneModelProperty: Property<NumberPairsSceneModel>;
-  public readonly sumToSceneModelMap: Map<number, NumberPairsSceneModel>;
+  public readonly totalToSceneModelMap: Map<number, NumberPairsSceneModel>;
   public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
@@ -42,31 +42,31 @@ export default class DecompositionModel extends NumberPairsModel {
     const options = providedOptions;
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
-    const sumToSceneModelMap = new Map<number, NumberPairsSceneModel>();
+    const totalToSceneModelMap = new Map<number, NumberPairsSceneModel>();
     _.times( options.sceneRange.getLength() + 1, i => {
 
-      const sum = i + options.sceneRange.min;
+      const total = i + options.sceneRange.min;
       let sceneModel: NumberPairsSceneModel;
-      if ( sum === 0 ) {
-        sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${sum}` ) );
+      if ( total === 0 ) {
+        sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
       }
       else {
         // The initial left addend value for each scene is n - 1.
-        const leftAddendValue = sum - 1;
+        const leftAddendValue = total - 1;
         const rightAddendValue = 1;
-        sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${sum}` ) );
+        sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
       }
-      sumToSceneModelMap.set( sum, sceneModel );
+      totalToSceneModelMap.set( total, sceneModel );
     } );
 
-    const initialSceneModel = sumToSceneModelMap.get( options.initialSumValue );
-    assert && assert( initialSceneModel, `initialSceneModel not found for sum: ${options.initialSumValue}` );
+    const initialSceneModel = totalToSceneModelMap.get( options.initialTotalValue );
+    assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
       phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
-    const sumProperty = new NumberProperty( selectedSceneModelProperty.value.SUM, {
-      tandem: options.tandem.createTandem( 'sumProperty' )
+    const totalProperty = new NumberProperty( selectedSceneModelProperty.value.TOTAL, {
+      tandem: options.tandem.createTandem( 'totalProperty' )
     } );
 
     const leftAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
@@ -82,16 +82,16 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
-    super( sumProperty, leftAddendNumberProperty, rightAddendNumberProperty, superOptions );
+    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, superOptions );
     this.selectedSceneModelProperty = selectedSceneModelProperty;
-    this.sumToSceneModelMap = sumToSceneModelMap;
+    this.totalToSceneModelMap = totalToSceneModelMap;
     this.leftAddendCountingObjectsProperty = leftAddendCountingObjectsProperty;
     this.rightAddendCountingObjectsProperty = rightAddendCountingObjectsProperty;
 
-    // When the sum changes we need to update the selected scene model.
-    this.sumNumberProperty.link( sum => {
-      const newSceneModel = this.sumToSceneModelMap.get( sum );
-      assert && assert( newSceneModel, `newSceneModel not found for sum: ${sum}` );
+    // When the total changes we need to update the selected scene model.
+    this.totalNumberProperty.link( total => {
+      const newSceneModel = this.totalToSceneModelMap.get( total );
+      assert && assert( newSceneModel, `newSceneModel not found for total: ${total}` );
       this.selectedSceneModelProperty.set( newSceneModel! );
     } );
   }

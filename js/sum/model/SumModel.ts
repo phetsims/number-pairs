@@ -34,9 +34,9 @@ export default class SumModel extends NumberPairsModel {
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
 
-    const sumProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_SUM_VALUE, {
+    const totalProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_SUM_VALUE, {
       range: SCENE_RANGE,
-      tandem: options.tandem.createTandem( 'sumProperty' )
+      tandem: options.tandem.createTandem( 'totalProperty' )
     } );
 
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
@@ -45,16 +45,16 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     // The right addend value is the only value that is not required to be directly set by a component controlled
-    // by the user. Therefore, it is derived from the sum and left addend values.
-    const rightAddendNumberProperty = new DerivedProperty( [ sumProperty, leftAddendNumberProperty ],
-      ( sum: number, leftAddend: number ) => {
-        return sum - leftAddend;
+    // by the user. Therefore, it is derived from the total and left addend values.
+    const rightAddendNumberProperty = new DerivedProperty( [ totalProperty, leftAddendNumberProperty ],
+      ( total: number, leftAddend: number ) => {
+        return total - leftAddend;
       }, {
         tandem: options.tandem.createTandem( 'rightAddendNumberProperty' ),
         phetioValueType: NumberIO
       } );
 
-    super( sumProperty, leftAddendNumberProperty, rightAddendNumberProperty, options );
+    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, options );
   }
 
   /**

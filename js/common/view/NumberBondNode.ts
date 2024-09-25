@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * A graphical representation of a number bond which shows the sum and two addends.
+ * A graphical representation of a number bond which shows the total and two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -16,10 +16,10 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  sumColorProperty: TReadOnlyProperty<TColor>;
+  totalColorProperty: TReadOnlyProperty<TColor>;
   leftAddendColorProperty: TReadOnlyProperty<TColor>;
   rightAddendColorProperty: TReadOnlyProperty<TColor>;
-  sumOnTop?: boolean;
+  totalOnTop?: boolean;
 };
 export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 
@@ -29,26 +29,26 @@ const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
 
 export default class NumberBondNode extends Node {
 
-  public constructor( model: Pick<DecompositionModel, 'sumNumberProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
+  public constructor( model: Pick<DecompositionModel, 'totalNumberProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-      sumOnTop: true
+      totalOnTop: true
     }, providedOptions );
 
-    // If the sum is on the bottom we want to flip the vertical offset
-    const verticalOffset = options.sumOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
+    // If the total is on the bottom we want to flip the vertical offset
+    const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
-    const sum = new NumberCircle( CIRCLE_RADIUS, model.sumNumberProperty, {
-      fill: options.sumColorProperty.value
+    const total = new NumberCircle( CIRCLE_RADIUS, model.totalNumberProperty, {
+      fill: options.totalColorProperty.value
     } );
-    options.sumColorProperty.link( sumColor => {
-      sum.fill = sumColor;
+    options.totalColorProperty.link( totalColor => {
+      total.fill = totalColor;
     } );
 
     const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendNumberProperty, {
       fill: options.leftAddendColorProperty.value,
-      centerX: sum.centerX - HORIZONTAL_OFFSET,
-      centerY: sum.centerY + verticalOffset
+      centerX: total.centerX - HORIZONTAL_OFFSET,
+      centerY: total.centerY + verticalOffset
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddend.fill = leftAddendColor;
@@ -56,22 +56,22 @@ export default class NumberBondNode extends Node {
 
     const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendNumberProperty, {
       fill: options.rightAddendColorProperty.value,
-      centerX: sum.centerX + HORIZONTAL_OFFSET,
-      centerY: sum.centerY + verticalOffset
+      centerX: total.centerX + HORIZONTAL_OFFSET,
+      centerY: total.centerY + verticalOffset
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddend.fill = rightAddendColor;
     } );
 
-    const leftLine = new Line( sum.centerX, sum.centerY, leftAddend.centerX, leftAddend.centerY, {
+    const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {
       stroke: 'black'
     } );
-    const rightLine = new Line( sum.centerX, sum.centerY, rightAddend.centerX, rightAddend.centerY, {
+    const rightLine = new Line( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY, {
       stroke: 'black'
     } );
 
     const superOptions = combineOptions<NodeOptions>( {
-      children: [ leftLine, rightLine, sum, leftAddend, rightAddend ]
+      children: [ leftLine, rightLine, total, leftAddend, rightAddend ]
     }, options );
     super( superOptions );
   }

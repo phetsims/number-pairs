@@ -72,7 +72,7 @@ export class CountingRepresentationType extends EnumerationValue {
 
   public constructor(
     public readonly label: string,
-    public readonly sumColor: TColor,
+    public readonly totalColor: TColor,
     public readonly leftAddendColor: TColor,
     public readonly rightAddendColor: TColor
     // public readonly imageAssets: CountingRepresentationImageAssets | null TODO: pass in image assets
@@ -89,22 +89,22 @@ export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOpt
 
 export default class NumberPairsModel implements TModel {
 
-  // The counting representation type determines the colors of the sum and addends,
+  // The counting representation type determines the colors of the total and addends,
   // as well as the image assets used to represent each counting object.
   // The CUBES and NUMBER_LINE representations additionally support different user interactions.
   public readonly countingRepresentationTypeProperty: Property<CountingRepresentationType>;
-  public readonly sumColorProperty: TReadOnlyProperty<TColor>;
+  public readonly totalColorProperty: TReadOnlyProperty<TColor>;
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
   public constructor(
-    // The sumProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
-    // determines the selected scene model by using the sumToSceneModelMap.
-    public readonly sumNumberProperty: Property<number>,
+    // The totalProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
+    // determines the selected scene model by using the totalToSceneModelMap.
+    public readonly totalNumberProperty: Property<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
 
     // The right addend value is the only value that is not required to be directly set by a component controlled
-    // by the user. Therefore, it is derived from the sum and left addend values.
+    // by the user. Therefore, it is derived from the total and left addend values.
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
     providedOptions: NumberPairsModelOptions ) {
 
@@ -113,8 +113,8 @@ export default class NumberPairsModel implements TModel {
       tandem: options.tandem.createTandem( 'countingRepresentationTypeProperty' )
     } );
 
-    this.sumColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
-      return countingRepresentationType.sumColor;
+    this.totalColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
+      return countingRepresentationType.totalColor;
     } );
     this.leftAddendColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
       return countingRepresentationType.leftAddendColor;
@@ -125,7 +125,7 @@ export default class NumberPairsModel implements TModel {
   }
 
   public reset(): void {
-    this.sumNumberProperty.reset();
+    this.totalNumberProperty.reset();
   }
 }
 

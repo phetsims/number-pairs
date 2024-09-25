@@ -19,12 +19,12 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 export default class NumberPairsSceneModel {
 
-  // The sum as initialized by the values provided to the constructor. This is a constant.
-  public readonly SUM: number;
+  // The total as initialized by the values provided to the constructor. This is a constant.
+  public readonly TOTAL: number;
 
   public readonly leftAddendNumberProperty: Property<number>;
 
-  // The right addend number is derived from the sum and left addend number and is used to update
+  // The right addend number is derived from the total and left addend number and is used to update
   // the counting objects in each array as it changes.
   public readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
   public readonly leftAddendObjects: ObservableArray<CountingObject>;
@@ -32,8 +32,8 @@ export default class NumberPairsSceneModel {
 
   public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, tandem: Tandem ) {
 
-    this.SUM = initialLeftAddendValue + initialRightAddendValue;
-    const sceneRange = new Range( 0, this.SUM );
+    this.TOTAL = initialLeftAddendValue + initialRightAddendValue;
+    const sceneRange = new Range( 0, this.TOTAL );
 
     this.leftAddendNumberProperty = new NumberProperty( initialLeftAddendValue, {
       range: sceneRange,
@@ -46,7 +46,7 @@ export default class NumberPairsSceneModel {
     } );
 
     this.rightAddendNumberProperty = new DerivedProperty( [ this.leftAddendNumberProperty ], leftAddendValue => {
-      return this.SUM - leftAddendValue;
+      return this.TOTAL - leftAddendValue;
     } );
     this.rightAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -60,7 +60,7 @@ export default class NumberPairsSceneModel {
       this.rightAddendObjects.push( new CountingObject() );
     } );
 
-    assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.SUM, 'leftAddendObjects.length + rightAddendObjects.length should equal sum' );
+    assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.TOTAL, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
     this.rightAddendNumberProperty.link( rightAddendValue => {
@@ -92,7 +92,7 @@ export default class NumberPairsSceneModel {
 
       assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
       assert && assert( this.rightAddendNumberProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
-      assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.SUM, 'leftAddendObjects.length + rightAddendObjects.length should equal sum' );
+      assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.TOTAL, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
   }
 

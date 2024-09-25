@@ -38,7 +38,7 @@ export default class IntroScreenView extends NumberPairsScreenView {
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
-          sumColorProperty: model.sumColorProperty,
+          totalColorProperty: model.totalColorProperty,
           leftAddendColorProperty: model.leftAddendColorProperty,
           rightAddendColorProperty: model.rightAddendColorProperty
         },

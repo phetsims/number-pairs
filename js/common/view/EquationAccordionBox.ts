@@ -1,12 +1,12 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * This accordion box displays an equation that represents the decomposition of a sum into two addends.
+ * This accordion box displays an equation that represents the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
 
-import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import { HBox, TColor, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
@@ -20,21 +20,21 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
-  sumColorProperty: TReadOnlyProperty<TColor>;
+  totalColorProperty: TReadOnlyProperty<TColor>;
   leftAddendColorProperty: TReadOnlyProperty<TColor>;
   rightAddendColorProperty: TReadOnlyProperty<TColor>;
 };
-type EquationAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
+type EquationAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
 const SQUARE_DIMENSION = 40;
-export default class EquationAccordionBox extends SumRepresentationAccordionBox {
+export default class EquationAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: EquationAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPairsStrings.equationStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );
-    const options = optionize<EquationAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
+    const options = optionize<EquationAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       addendsOnRight: true,
       titleNode: titleNode,
       titleXSpacing: 10,
@@ -43,12 +43,12 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
       contentYMargin: 25
     }, providedOptions );
 
-    const sumSquare = new NumberSquare( SQUARE_DIMENSION, model.sumNumberProperty, {
-      fill: options.sumColorProperty.value,
+    const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalNumberProperty, {
+      fill: options.totalColorProperty.value,
       cornerRadius: 5
     } );
-    options.sumColorProperty.link( sumColor => {
-      sumSquare.fill = sumColor;
+    options.totalColorProperty.link( totalColor => {
+      totalSquare.fill = totalColor;
     } );
 
     const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendNumberProperty, {
@@ -70,8 +70,8 @@ export default class EquationAccordionBox extends SumRepresentationAccordionBox 
     const equalSign = new Text( '=', { font: new PhetFont( 20 ) } );
     const plusSign = new Text( '+', { font: new PhetFont( 20 ) } );
 
-    const contentChildren = options.addendsOnRight ? [ sumSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
-                                                   : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, sumSquare ];
+    const contentChildren = options.addendsOnRight ? [ totalSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
+                                                   : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
     const contentNode = new HBox( {
       children: contentChildren,
       spacing: 5

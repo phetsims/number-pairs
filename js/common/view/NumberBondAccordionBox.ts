@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * This accordion box contains a number bond that represents the decomposition of a sum into two addends.
+ * This accordion box contains a number bond that represents the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -11,7 +11,7 @@ import numberPairs from '../../numberPairs.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import SumRepresentationAccordionBox, { SumRepresentationAccordionBoxOptions } from './SumRepresentationAccordionBox.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
@@ -21,16 +21,16 @@ import NumberPairsColors from '../NumberPairsColors.js';
 type SelfOptions = {
   numberBondNodeOptions: NumberBondNodeOptions;
 };
-type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<SumRepresentationAccordionBoxOptions, 'titleNode'>;
+type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
 
-export default class NumberBondAccordionBox extends SumRepresentationAccordionBox {
+export default class NumberBondAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
     const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );
-    const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, SumRepresentationAccordionBoxOptions>()( {
+    const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode,
       titleXSpacing: 10,
       contentXMargin: 30,

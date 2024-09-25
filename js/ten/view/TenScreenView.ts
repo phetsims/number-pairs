@@ -41,14 +41,14 @@ export default class TenScreenView extends NumberPairsScreenView {
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
-          sumColorProperty: model.sumColorProperty,
+          totalColorProperty: model.totalColorProperty,
           leftAddendColorProperty: model.leftAddendColorProperty,
           rightAddendColorProperty: model.rightAddendColorProperty
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       equationContent: new EquationAccordionBox( model, {
-        sumColorProperty: model.sumColorProperty,
+        totalColorProperty: model.totalColorProperty,
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
@@ -71,7 +71,7 @@ export default class TenScreenView extends NumberPairsScreenView {
         return NumberPairsColors.numberLineBackgroundColorProperty;
       }
       else {
-        return countingRepresentationType.sumColor;
+        return countingRepresentationType.totalColor;
       }
     } );
     const countingArea = new CountingAreaNode( this.countingAreaBounds, {

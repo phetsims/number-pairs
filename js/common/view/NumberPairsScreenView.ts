@@ -13,7 +13,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Range from '../../../../dot/js/Range.js';
-import SumRadioButtonGroup from './SumRadioButtonGroup.js';
+import TotalRadioButtonGroup from './TotalRadioButtonGroup.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -78,15 +78,15 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // Add the sum radio button group if the scene range is provided. Each radio button represents a sum value
+    // Add the total radio button group if the scene range is provided. Each radio button represents a total value
     // that is associated with a scene state.
     if ( options.sceneRange ) {
-      const sumRadioButtonGroup = new SumRadioButtonGroup( model.sumNumberProperty, {
+      const totalRadioButtonGroup = new TotalRadioButtonGroup( model.totalNumberProperty, {
         sceneRange: options.sceneRange
       } );
 
       // Sum radio buttons should be center aligned vertically above the reset all button.
-      const sumSelectorAlignBox = new AlignBox( sumRadioButtonGroup, {
+      const totalSelectorAlignBox = new AlignBox( totalRadioButtonGroup, {
         alignBounds: this.layoutBounds.withOffsets( 0, 0, 0, -resetAllButton.height - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN ),
         yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
         xMargin: NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
@@ -94,7 +94,7 @@ export default class NumberPairsScreenView extends ScreenView {
         xAlign: 'right'
       } );
 
-      this.addChild( sumSelectorAlignBox );
+      this.addChild( totalSelectorAlignBox );
     }
 
     const countingAreaMinX = this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN;

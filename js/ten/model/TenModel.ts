@@ -20,14 +20,14 @@ type SelfOptions = {
 
 type TenModelOptions = SelfOptions &
   PickRequired<DecompositionModelOptions, 'tandem'> &
-  StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialSumValue' | 'initialCountingRepresentationType'>;
+  StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialCountingRepresentationType'>;
 
 export default class TenModel extends DecompositionModel {
 
   public constructor( providedOptions: TenModelOptions ) {
     const options = optionize<TenModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_SCENE_RANGE,
-      initialSumValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
+      initialTotalValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
     super( options );
