@@ -39,7 +39,6 @@ const COUNTING_AREA_Y_MARGIN = 25; // empirically determined
 export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly countingAreaBounds: Bounds2;
-  protected readonly numberLineNode: Node | undefined;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -151,8 +150,6 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: numberLineVisibleProperty
       } );
       this.addChild( numberLineCheckboxGroup );
-
-      this.numberLineNode = numberLineNode;
     }
 
     // Position the counting representation radio buttons below the counting area.

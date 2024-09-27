@@ -12,7 +12,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 
-const HANDLE_LINE_LENGTH = 28;
+const HANDLE_LINE_LENGTH = 34;
 
 export default class ThumbNode extends Node {
   public constructor() {

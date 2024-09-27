@@ -10,27 +10,30 @@ import numberPairs from '../../numberPairs.js';
 import { Rectangle, RectangleOptions, Text } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
+type SelfOptions = {
+  numberFontSize?: number;
+};
 
-type NumberSquareOptions = StrictOmit<RectangleOptions, 'children'>;
+type NumberSquareOptions = SelfOptions & StrictOmit<RectangleOptions, 'children'>;
 export default class NumberSquare extends Rectangle {
 
   public constructor( squareDimension: number, numberProperty: TReadOnlyProperty<number>, providedOptions: NumberSquareOptions ) {
 
-    const options = combineOptions<RectangleOptions>( {
-      rectSize: new Dimension2( squareDimension, squareDimension ),
-      stroke: 'black'
+    const options = optionize<NumberSquareOptions, SelfOptions, RectangleOptions>()( {
+      numberFontSize: 24,
+      rectSize: new Dimension2( squareDimension, squareDimension )
     }, providedOptions );
-   super( options );
+    super( options );
 
     const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
     const numberText = new Text( numberStringProperty, {
-      font: new PhetFont( 24 ),
+      font: new PhetFont( options.numberFontSize ),
       center: this.center
     } );
     this.addChild( numberText );

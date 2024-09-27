@@ -41,6 +41,7 @@ export default class NumberLineSlider extends HSlider {
     leftAddendNumberProperty: PhetioProperty<number>,
     totalNumberProperty: Property<number>,
     trackModelViewTransform: ModelViewTransform2,
+    tickValuesVisibleProperty: Property<boolean>,
     providedOptions: NumberLineSliderOptions
   ) {
 
@@ -52,7 +53,12 @@ export default class NumberLineSlider extends HSlider {
     const thumbNode = new ThumbNode();
 
     const sliderTickParent = new Node();
-    const sliderTrack = new NumberLineSliderTrack( leftAddendNumberProperty, sliderTickParent, trackModelViewTransform, {
+    const sliderTrack = new NumberLineSliderTrack(
+      leftAddendNumberProperty,
+      sliderTickParent,
+      trackModelViewTransform,
+      tickValuesVisibleProperty,
+      {
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       size: trackDimension,
       enabledRangeProperty: sliderEnabledRangeProperty,
@@ -83,6 +89,7 @@ class NumberLineSliderTrack extends SliderTrack {
     valueProperty: TProperty<number>,
     private readonly sliderTickParent: Node,
     private readonly trackModelViewTransform: ModelViewTransform2,
+    private readonly tickValuesVisibleProperty: Property<boolean>,
     providedOptions?: NumberLineSliderTrackOptions ) {
 
     const options = optionize<NumberLineSliderTrackOptions, TrackSelfOptions, SliderTrackOptions>()( {
@@ -106,7 +113,8 @@ class NumberLineSliderTrack extends SliderTrack {
     this.sliderTickParent.addChild( new Text( i, {
       font: new PhetFont( 16 ),
       centerX: xPosition,
-      top: MAJOR_TICK_LENGTH / 2 + 5
+      top: MAJOR_TICK_LENGTH / 2 + 5,
+      visibleProperty: this.tickValuesVisibleProperty
     } ) );
   }
 
@@ -118,7 +126,8 @@ class NumberLineSliderTrack extends SliderTrack {
     this.sliderTickParent.addChild( new Text( i, {
       font: new PhetFont( 16 ),
       centerX: xPosition,
-      top: MAJOR_TICK_LENGTH / 2 + 5 // Should be at the same y position as the MajorTick labels.
+      top: MAJOR_TICK_LENGTH / 2 + 5, // Should be at the same y position as the MajorTick labels.
+      visibleProperty: this.tickValuesVisibleProperty
     } ) );
   }
 }

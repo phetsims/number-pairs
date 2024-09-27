@@ -3,12 +3,10 @@
  * Contains a slider that is decorated to show the decomposition of a number.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
- * TODO: add this representation to other screens as well
  */
 
 import numberPairs from '../../numberPairs.js';
-import { Circle, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Line, ManualConstraint, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -19,6 +17,7 @@ import EllipticalArrowNode from './EllipticalArrowNode.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
+import NumberSquare from './NumberSquare.js';
 
 type SelfOptions = {
   numberLineRange: Range;
@@ -26,6 +25,8 @@ type SelfOptions = {
 type NumberLineNodeOptions = NodeOptions & SelfOptions;
 
 export const NUMBER_LINE_POINT_RADIUS = 8;
+const LABEL_DIMENSION = 28;
+
 
 export default class NumberLineNode extends Node {
   public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
@@ -39,10 +40,19 @@ export default class NumberLineNode extends Node {
       Vector2.ZERO,
       numberLineWidth / providedOptions.numberLineRange.getLength()
     );
-    const slider = new NumberLineSlider( model.leftAddendNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
+    const slider = new NumberLineSlider(
+      model.leftAddendNumberProperty,
+      model.totalNumberProperty,
+      trackModelViewTransform,
+      model.showTickValuesProperty,
+      {
       numberLineRange: providedOptions.numberLineRange,
       numberLineWidth: numberLineWidth
     } );
+
+    /**
+     * TOTAL
+     */
     const totalCircle = new Circle( NUMBER_LINE_POINT_RADIUS, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       stroke: 'black'
@@ -55,9 +65,19 @@ export default class NumberLineNode extends Node {
     const totalArrow = new EllipticalArrowNode( zeroNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
-      ellipseYRadius: 80
+      ellipseYRadius: 80,
+      visibleProperty: model.showTotalJumpProperty
+    } );
+    const totalLabel = new NumberSquare( LABEL_DIMENSION, model.totalNumberProperty, {
+      fill: NumberPairsColors.numberLineSumColorProperty,
+      cornerRadius: 5,
+      visibleProperty: model.showTotalJumpProperty,
+      numberFontSize: 20
     } );
 
+    /**
+     * LEFT ADDEND
+     */
     const leftAddendHighlight = new Line( 0, -NUMBER_LINE_POINT_RADIUS / 2,
       trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineLeftAddendColorProperty,
@@ -66,7 +86,16 @@ export default class NumberLineNode extends Node {
     const leftAddendArrow = new EllipticalArrowNode( zeroNumberProperty, model.leftAddendNumberProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty
     } );
+    const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendNumberProperty, {
+      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      cornerRadius: 5,
+      visibleProperty: model.showAddendValuesProperty,
+      numberFontSize: 20
+    } );
 
+    /**
+     * RIGHT ADDEND
+     */
     const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
       trackModelViewTransform.modelToViewX( model.totalNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineRightAddendColorProperty,
@@ -74,6 +103,12 @@ export default class NumberLineNode extends Node {
       } );
     const rightAddendArrow = new EllipticalArrowNode( model.leftAddendNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
+    } );
+    const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendNumberProperty, {
+      fill: NumberPairsColors.numberLineRightAddendColorProperty,
+      cornerRadius: 5,
+      visibleProperty: model.showAddendValuesProperty,
+      numberFontSize: 20
     } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ],
@@ -85,11 +120,38 @@ export default class NumberLineNode extends Node {
       } );
 
     const options = optionize<NumberLineNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      children: [ leftAddendHighlight, rightAddendHighlight, totalHighlight, rightAddendArrow, leftAddendArrow, totalArrow, slider.sliderTickParent, slider, totalCircle ]
+      children: [
+        leftAddendHighlight,
+        rightAddendHighlight,
+        totalHighlight,
+        rightAddendArrow,
+        leftAddendArrow,
+        totalArrow,
+        slider.sliderTickParent,
+        slider,
+        totalCircle,
+        rightAddendLabel,
+        leftAddendLabel,
+        totalLabel
+      ]
     }, providedOptions );
     super( options );
+
+    // Position the total circle at the total value on the number line.
     model.totalNumberProperty.link( total => {
       totalCircle.centerX = trackModelViewTransform.modelToViewX( total );
+    } );
+
+    // Position the total and left/right addend labels.
+    ManualConstraint.create( this, [ totalArrow, totalLabel ], ( arrowProxy, labelProxy ) => {
+      labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, 5 );
+    } );
+    model.leftAddendNumberProperty.link( leftAddend => {
+      leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
+      leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 4;
+    } );
+    ManualConstraint.create( this, [ rightAddendArrow, rightAddendLabel ], ( arrowProxy, labelProxy ) => {
+      labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -5 );
     } );
   }
 }
