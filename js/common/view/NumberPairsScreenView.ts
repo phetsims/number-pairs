@@ -8,7 +8,7 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -24,6 +24,8 @@ import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CountingAreaNode from './CountingAreaNode.js';
+import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 
 type SelfOptions = {
@@ -150,6 +152,21 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: numberLineVisibleProperty
       } );
       this.addChild( numberLineCheckboxGroup );
+
+      const leftAddendLabelPlacementSwitch = new ABSwitch(
+        model.leftAddendLabelPlacementProperty,
+        'handle', new Text( 'Handle' ),
+        'arrow', new Text( 'Arrow' ),
+        {
+          top: this.countingAreaBounds.bottom + COUNTING_AREA_Y_MARGIN,
+          left: this.countingAreaBounds.left,
+          visibleProperty: numberLineVisibleProperty,
+          toggleSwitchOptions: {
+            size: new Dimension2( 36, 18 )
+          },
+          tandem: options.tandem.createTandem( 'leftAddendLabelPlacementSwitch' )
+        } );
+      this.addChild( leftAddendLabelPlacementSwitch );
     }
 
     // Position the counting representation radio buttons below the counting area.

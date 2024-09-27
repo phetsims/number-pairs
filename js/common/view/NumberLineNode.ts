@@ -46,9 +46,9 @@ export default class NumberLineNode extends Node {
       trackModelViewTransform,
       model.showTickValuesProperty,
       {
-      numberLineRange: providedOptions.numberLineRange,
-      numberLineWidth: numberLineWidth
-    } );
+        numberLineRange: providedOptions.numberLineRange,
+        numberLineWidth: numberLineWidth
+      } );
 
     /**
      * TOTAL
@@ -146,10 +146,16 @@ export default class NumberLineNode extends Node {
     ManualConstraint.create( this, [ totalArrow, totalLabel ], ( arrowProxy, labelProxy ) => {
       labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, 5 );
     } );
-    model.leftAddendNumberProperty.link( leftAddend => {
-      leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
-      leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 4;
-    } );
+    Multilink.multilink( [ model.leftAddendNumberProperty, model.leftAddendLabelPlacementProperty, leftAddendArrow.boundsProperty ],
+      ( leftAddend, placement, bounds ) => {
+        if ( placement === 'handle' ) {
+          leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
+          leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 4;
+        }
+        else {
+          leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -5 );
+        }
+      } );
     ManualConstraint.create( this, [ rightAddendArrow, rightAddendLabel ], ( arrowProxy, labelProxy ) => {
       labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -5 );
     } );
