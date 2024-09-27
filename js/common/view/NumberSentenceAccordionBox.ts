@@ -9,58 +9,37 @@
 import numberPairs from '../../numberPairs.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
-import { RichText, Text, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
-const LOWERCASE_NUMBER_TO_WORD_MAP = new Map();
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.zeroStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.oneStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 2, NumberPairsStrings.twoStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 3, NumberPairsStrings.threeStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 4, NumberPairsStrings.fourStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 5, NumberPairsStrings.fiveStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 6, NumberPairsStrings.sixStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 7, NumberPairsStrings.sevenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 8, NumberPairsStrings.eightStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 9, NumberPairsStrings.nineStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 10, NumberPairsStrings.tenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 11, NumberPairsStrings.elevenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 12, NumberPairsStrings.twelveStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 13, NumberPairsStrings.thirteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 14, NumberPairsStrings.fourteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 15, NumberPairsStrings.fifteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 16, NumberPairsStrings.sixteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 17, NumberPairsStrings.seventeenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 18, NumberPairsStrings.eighteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.nineteenStringProperty );
-LOWERCASE_NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.twentyStringProperty );
-
-const UPPERCASE_NUMBER_TO_WORD_MAP = new Map();
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.uppercaseZeroStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.uppercaseOneStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 2, NumberPairsStrings.uppercaseTwoStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 3, NumberPairsStrings.uppercaseThreeStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 4, NumberPairsStrings.uppercaseFourStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 5, NumberPairsStrings.uppercaseFiveStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 6, NumberPairsStrings.uppercaseSixStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 7, NumberPairsStrings.uppercaseSevenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 8, NumberPairsStrings.uppercaseEightStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 9, NumberPairsStrings.uppercaseNineStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 10, NumberPairsStrings.uppercaseTenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 11, NumberPairsStrings.uppercaseElevenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 12, NumberPairsStrings.uppercaseTwelveStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 13, NumberPairsStrings.uppercaseThirteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 14, NumberPairsStrings.uppercaseFourteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 15, NumberPairsStrings.uppercaseFifteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 16, NumberPairsStrings.uppercaseSixteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 17, NumberPairsStrings.uppercaseSeventeenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 18, NumberPairsStrings.uppercaseEighteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.uppercaseNineteenStringProperty );
-UPPERCASE_NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.uppercaseTwentyStringProperty );
+const NUMBER_TO_WORD_MAP = new Map();
+NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.zeroStringProperty );
+NUMBER_TO_WORD_MAP.set( 1, NumberPairsStrings.oneStringProperty );
+NUMBER_TO_WORD_MAP.set( 2, NumberPairsStrings.twoStringProperty );
+NUMBER_TO_WORD_MAP.set( 3, NumberPairsStrings.threeStringProperty );
+NUMBER_TO_WORD_MAP.set( 4, NumberPairsStrings.fourStringProperty );
+NUMBER_TO_WORD_MAP.set( 5, NumberPairsStrings.fiveStringProperty );
+NUMBER_TO_WORD_MAP.set( 6, NumberPairsStrings.sixStringProperty );
+NUMBER_TO_WORD_MAP.set( 7, NumberPairsStrings.sevenStringProperty );
+NUMBER_TO_WORD_MAP.set( 8, NumberPairsStrings.eightStringProperty );
+NUMBER_TO_WORD_MAP.set( 9, NumberPairsStrings.nineStringProperty );
+NUMBER_TO_WORD_MAP.set( 10, NumberPairsStrings.tenStringProperty );
+NUMBER_TO_WORD_MAP.set( 11, NumberPairsStrings.elevenStringProperty );
+NUMBER_TO_WORD_MAP.set( 12, NumberPairsStrings.twelveStringProperty );
+NUMBER_TO_WORD_MAP.set( 13, NumberPairsStrings.thirteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 14, NumberPairsStrings.fourteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 15, NumberPairsStrings.fifteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 16, NumberPairsStrings.sixteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 17, NumberPairsStrings.seventeenStringProperty );
+NUMBER_TO_WORD_MAP.set( 18, NumberPairsStrings.eighteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.nineteenStringProperty );
+NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.twentyStringProperty );
 
 type SelfOptions = EmptySelfOptions;
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
@@ -68,21 +47,17 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
-    const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
-      sum: model.totalNumberProperty,
-      leftAddend: model.leftAddendNumberProperty,
-      rightAddend: model.rightAddendNumberProperty
-    }, {
-      maps: {
+    const totalStringProperty = new DerivedProperty( [ model.totalNumberProperty ],
+      total => NUMBER_TO_WORD_MAP.get( total ) );
+    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendNumberProperty ],
+      leftAddend => NUMBER_TO_WORD_MAP.get( leftAddend ) );
+    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendNumberProperty ],
+      rightAddend => NUMBER_TO_WORD_MAP.get( rightAddend ) );
 
-        // TODO: Pretty sure this will not work with translations. Didn't have time to address yet. Will tackle next.
-        //  https://github.com/phetsims/number-pairs/issues/4
-        //  I would like to chat with CM about this. I think it needs to be a DerivedProperty that passes through all the possible
-        //  string Properties, but that sounds annoying...
-        sum: value => UPPERCASE_NUMBER_TO_WORD_MAP.get( value ).value,
-        leftAddend: value => LOWERCASE_NUMBER_TO_WORD_MAP.get( value ).value,
-        rightAddend: value => LOWERCASE_NUMBER_TO_WORD_MAP.get( value ).value
-      }
+    const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
+      total: new DynamicProperty( totalStringProperty ),
+      leftAddend: new DynamicProperty( leftAddendStringProperty ),
+      rightAddend: new DynamicProperty( rightAddendStringProperty )
     } );
 
     let totalHighlight: Rectangle;
@@ -92,7 +67,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       lineWrap: 250,
       leading: 10,
       tags: {
-        sum: node => {
+        total: node => {
           totalHighlight = new Rectangle( node.bounds.dilated( 1 ), {
             fill: model.totalColorProperty.value
           } );
