@@ -37,15 +37,13 @@ export default class DecompositionModel extends NumberPairsModel {
   public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
-  public constructor( providedOptions: DecompositionModelOptions ) {
+  protected constructor( providedOptions: DecompositionModelOptions ) {
 
     const options = providedOptions;
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
     const totalToSceneModelMap = new Map<number, NumberPairsSceneModel>();
-    _.times( options.sceneRange.getLength() + 1, i => {
-
-      const total = i + options.sceneRange.min;
+    for ( let total = options.sceneRange.min; total <= options.sceneRange.max; total++ ) {
       let sceneModel: NumberPairsSceneModel;
       if ( total === 0 ) {
         sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
@@ -57,7 +55,7 @@ export default class DecompositionModel extends NumberPairsModel {
         sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
       }
       totalToSceneModelMap.set( total, sceneModel );
-    } );
+    }
 
     const initialSceneModel = totalToSceneModelMap.get( options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
@@ -65,7 +63,7 @@ export default class DecompositionModel extends NumberPairsModel {
       phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
-    const totalProperty = new NumberProperty( selectedSceneModelProperty.value.TOTAL, {
+    const totalProperty = new NumberProperty( selectedSceneModelProperty.value.total, {
       tandem: options.tandem.createTandem( 'totalProperty' )
     } );
 

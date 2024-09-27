@@ -97,7 +97,7 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
-  public constructor(
+  protected constructor(
     // The totalProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
     // determines the selected scene model by using the totalToSceneModelMap.
     public readonly totalNumberProperty: Property<number>,
