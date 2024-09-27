@@ -15,20 +15,12 @@ import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordio
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
-import CountingAreaNode from '../../common/view/CountingAreaNode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
-import NumberLineNode from './NumberLineNode.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
 };
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions,
-  'numberSentenceContent' | 'numberBondContent' | 'countingRepresentationContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 export default class SumScreenView extends NumberPairsScreenView {
 
@@ -53,39 +45,10 @@ export default class SumScreenView extends NumberPairsScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         addendsOnRight: false,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
-      } ),
-      countingRepresentationContent: new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
-        countingRepresentations: [
-          CountingRepresentationType.CUBES,
-          CountingRepresentationType.KITTENS,
-          CountingRepresentationType.NUMBER_LINE
-        ],
-        tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
       } )
     }, providedOptions );
 
     super( model, options );
-
-    const backgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
-      if ( countingRepresentationType === CountingRepresentationType.CUBES || countingRepresentationType === CountingRepresentationType.NUMBER_LINE ) {
-        return NumberPairsColors.numberLineBackgroundColorProperty;
-      }
-      else {
-        return countingRepresentationType.totalColor;
-      }
-    } );
-    const countingArea = new CountingAreaNode( this.countingAreaBounds, {
-      backgroundColorProperty: backgroundColorProperty
-    } );
-    this.addChild( countingArea );
-
-    const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.NUMBER_LINE );
-    const numberLineNode = new NumberLineNode( model, countingArea.width - 30, {
-      center: countingArea.center,
-      visibleProperty: numberLineVisibleProperty,
-      numberLineRange: NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
-    } );
-    this.addChild( numberLineNode );
   }
 
   /**

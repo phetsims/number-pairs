@@ -18,6 +18,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -97,6 +98,10 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
+  public readonly showAddendValuesProperty: Property<boolean>;
+  public readonly showTickValuesProperty: Property<boolean>;
+  public readonly showTotalJumpProperty: Property<boolean>;
+
   protected constructor(
     // The totalProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
     // determines the selected scene model by using the totalToSceneModelMap.
@@ -121,6 +126,16 @@ export default class NumberPairsModel implements TModel {
     } );
     this.rightAddendColorProperty = new DerivedProperty( [ this.countingRepresentationTypeProperty ], countingRepresentationType => {
       return countingRepresentationType.rightAddendColor;
+    } );
+
+    this.showAddendValuesProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'showAddendValuesProperty' )
+    } );
+    this.showTickValuesProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'showTickValuesProperty' )
+    } );
+    this.showTotalJumpProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'showTotalJumpProperty' )
     } );
   }
 

@@ -15,16 +15,12 @@ import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../commo
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import CountingAreaNode from '../../common/view/CountingAreaNode.js';
-import CountingRepresentationRadioButtonGroup from '../../common/view/CountingRepresentationRadioButtonGroup.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
 };
 
-type IntroScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions,
-  'numberSentenceContent' | 'numberBondContent' | 'countingRepresentationContent'>
+type IntroScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 
@@ -44,24 +40,10 @@ export default class IntroScreenView extends NumberPairsScreenView {
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      countingRepresentationContent: new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
-        countingRepresentations: [
-          CountingRepresentationType.APPLES,
-          CountingRepresentationType.ONE_CARDS,
-          CountingRepresentationType.SOCCER_BALLS,
-          CountingRepresentationType.BUTTERFLIES
-        ],
-        tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
-      } ),
       sceneRange: NumberPairsConstants.TEN_SCENE_RANGE
     }, providedOptions );
 
     super( model, options );
-
-    const countingAreaBackgroundNode = new CountingAreaNode( this.countingAreaBounds, {
-      countingRepresentationTypeProperty: model.countingRepresentationTypeProperty
-    } );
-    this.addChild( countingAreaBackgroundNode );
   }
 
   /**

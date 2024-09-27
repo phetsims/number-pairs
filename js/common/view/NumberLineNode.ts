@@ -11,12 +11,12 @@ import numberPairs from '../../numberPairs.js';
 import { Circle, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import NumberLineSlider from '../../common/view/NumberLineSlider.js';
+import NumberLineSlider from './NumberLineSlider.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import EllipticalArrowNode from '../../common/view/EllipticalArrowNode.js';
-import NumberPairsModel from '../../common/model/NumberPairsModel.js';
+import EllipticalArrowNode from './EllipticalArrowNode.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 

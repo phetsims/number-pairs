@@ -66,6 +66,9 @@ type StringsType = {
   'uppercaseNineteenStringProperty': LocalizedStringProperty;
   'twentyStringProperty': LocalizedStringProperty;
   'uppercaseTwentyStringProperty': LocalizedStringProperty;
+  'addendsStringProperty': LocalizedStringProperty;
+  'tickNumbersStringProperty': LocalizedStringProperty;
+  'totalJumpStringProperty': LocalizedStringProperty;
 };
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;

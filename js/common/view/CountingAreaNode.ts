@@ -19,8 +19,8 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
-  backgroundColorProperty?: TReadOnlyProperty<TColor> | null;
-  countingRepresentationTypeProperty?: TReadOnlyProperty<CountingRepresentationType> | null;
+  backgroundColorProperty: TReadOnlyProperty<TColor>;
+  countingRepresentationTypeProperty: TReadOnlyProperty<CountingRepresentationType>;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -30,37 +30,30 @@ export default class CountingAreaNode extends Node {
 
   public constructor( countingAreaBounds: Bounds2, providedOptions: CountingAreaNodeOptions ) {
 
-    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
-      countingRepresentationTypeProperty: null,
-      backgroundColorProperty: null
-    }, providedOptions );
+    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
     super( options );
 
-    if ( options.backgroundColorProperty ) {
-      const backgroundRectangle = new Rectangle( countingAreaBounds, {
-        fill: options.backgroundColorProperty.value,
-        stroke: 'black',
-        lineWidth: COUNTING_AREA_LINE_WIDTH,
-        cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
-      } );
-      options.backgroundColorProperty.link( backgroundColor => {
-        backgroundRectangle.fill = backgroundColor;
-      } );
-      this.addChild( backgroundRectangle );
-    }
+    const backgroundRectangle = new Rectangle( countingAreaBounds, {
+      fill: options.backgroundColorProperty.value,
+      stroke: 'black',
+      lineWidth: COUNTING_AREA_LINE_WIDTH,
+      cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
+    } );
+    options.backgroundColorProperty.link( backgroundColor => {
+      backgroundRectangle.fill = backgroundColor;
+    } );
+    this.addChild( backgroundRectangle );
 
-    if ( options.countingRepresentationTypeProperty ) {
-      const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ], countingRepresentationType => {
-        return countingRepresentationType === CountingRepresentationType.APPLES || countingRepresentationType === CountingRepresentationType.ONE_CARDS
-               || countingRepresentationType === CountingRepresentationType.SOCCER_BALLS || countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
-      } );
+    const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ], countingRepresentationType => {
+      return countingRepresentationType === CountingRepresentationType.APPLES || countingRepresentationType === CountingRepresentationType.ONE_CARDS
+             || countingRepresentationType === CountingRepresentationType.SOCCER_BALLS || countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
+    } );
 
-      const splitCountingAreaBackground = new SplitCountingAreaNode( countingAreaBounds, {
-        visibleProperty: splitCountingAreaVisibleProperty
-      } );
-      this.addChild( splitCountingAreaBackground );
-    }
+    const splitCountingAreaBackground = new SplitCountingAreaNode( countingAreaBounds, {
+      visibleProperty: splitCountingAreaVisibleProperty
+    } );
+    this.addChild( splitCountingAreaBackground );
   }
 }
 

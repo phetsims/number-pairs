@@ -19,9 +19,9 @@ import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ThumbNode from '../../sum/view/ThumbNode.js';
+import ThumbNode from './ThumbNode.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
-import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 

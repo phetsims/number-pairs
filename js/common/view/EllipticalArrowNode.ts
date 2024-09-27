@@ -13,7 +13,7 @@ import numberPairs from '../../numberPairs.js';
 import { EllipticalArc, Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { NUMBER_LINE_POINT_RADIUS } from '../../sum/view/NumberLineNode.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
