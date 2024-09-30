@@ -31,8 +31,6 @@ type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 export default class CubesOnWireNode extends Node {
 
   public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: CubesOnWireNodeOptions ) {
-    // const usableWireWidth = countingAreaBounds.width - 40;
-    console.log( countingAreaBounds.left );
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       new Vector2( 0, 0 ),
       new Vector2( CUBE_WIDTH, 0 ),
@@ -47,14 +45,9 @@ export default class CubesOnWireNode extends Node {
     } );
 
     const cubes: Node[] = [];
-    for ( let i = 0; i < providedOptions.sceneRange.max; i++ ) {
-      const cube = new CubeNode();
-      cubes.push( cube );
-    }
-    const options = combineOptions<NodeOptions>( {
-      children: [ wire, cubeSeparator, ...cubes ]
-    }, providedOptions );
-    super( options );
+    model.countingObjects.forEach( countingObject => {
+     cubes.push( new CubeNode( countingObject ) );
+    } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], ( leftAddend, rightAddend, total ) => {
       const leftAddendCubes = [];
@@ -78,6 +71,11 @@ export default class CubesOnWireNode extends Node {
         cubes[ i ].visible = i < total;
       }
     } );
+
+    const options = combineOptions<NodeOptions>( {
+      children: [ wire, cubeSeparator, ...cubes ]
+    }, providedOptions );
+    super( options );
   }
 }
 

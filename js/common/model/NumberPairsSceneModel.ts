@@ -7,7 +7,7 @@
  */
 import numberPairs from '../../numberPairs.js';
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
-import CountingObject from './CountingObject.js';
+import CountingObject, { AddendType } from './CountingObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import Property from '../../../../axon/js/Property.js';
@@ -53,17 +53,8 @@ export default class NumberPairsSceneModel {
       tandem: tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    _.times( initialLeftAddendValue, () => {
-      this.leftAddendObjects.push( new CountingObject() );
-    } );
-    _.times( initialRightAddendValue, () => {
-      this.rightAddendObjects.push( new CountingObject() );
-    } );
-
-    assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
-
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
-    this.rightAddendNumberProperty.link( rightAddendValue => {
+    this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
       const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 
@@ -94,6 +85,21 @@ export default class NumberPairsSceneModel {
       assert && assert( this.rightAddendNumberProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
+
+    this.leftAddendObjects.addItemAddedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.LEFT;
+    } );
+    this.leftAddendObjects.addItemRemovedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+    } );
+
+    this.rightAddendObjects.addItemAddedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.RIGHT;
+    } );
+    this.rightAddendObjects.addItemRemovedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+    } );
+
   }
 
   public static NumberPairsSceneModelIO = new IOType( 'NumberPairsSceneModelIO', {

@@ -27,6 +27,7 @@ type SumModelOptions = SelfOptions &
 
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
+// TODO: Add left/right observable arrays. See DecompositionModel for an example.
 export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
@@ -54,7 +55,7 @@ export default class SumModel extends NumberPairsModel {
         phetioValueType: NumberIO
       } );
 
-    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, options );
+    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, SCENE_RANGE.max, options );
   }
 
   /**

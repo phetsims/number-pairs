@@ -20,6 +20,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
+import CountingObject from './CountingObject.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -92,6 +93,8 @@ export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOpt
 
 export default class NumberPairsModel implements TModel {
 
+  public readonly countingObjects: CountingObject[] = [];
+
   // The counting representation type determines the colors of the total and addends,
   // as well as the image assets used to represent each counting object.
   // The CUBES and NUMBER_LINE representations additionally support different user interactions.
@@ -114,10 +117,10 @@ export default class NumberPairsModel implements TModel {
     //  the scene. This would have to be bi-directional.
     public readonly totalNumberProperty: Property<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
-
     // The right addend value is the only value that is not required to be directly set by a component controlled
     // by the user. Therefore, it is derived from the total and left addend values.
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
+    numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -147,6 +150,14 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {
       phetioValueType: StringIO,
       tandem: options.tandem.createTandem( 'leftAddendLabelPlacementProperty' )
+    } );
+
+    _.times( numberOfCountingObjects, i => {
+      const countingObjectID = i + 1;
+      this.countingObjects.push( new CountingObject( {
+        id: countingObjectID,
+        tandem: options.tandem.createTandem( `CountingObject${countingObjectID}` )
+      } ) );
     } );
   }
 

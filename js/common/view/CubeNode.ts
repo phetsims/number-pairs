@@ -10,18 +10,23 @@
 
 import { Node, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
 
 export const CUBE_WIDTH = 37;
 
 export default class CubeNode extends Node {
 
-  public constructor() {
+  public constructor( model: CountingObject ) {
     const cubeStandIn = new Rectangle( 0, 0, CUBE_WIDTH, CUBE_WIDTH, {
       fill: 'blue'
     } );
-   super( {
-     children: [ cubeStandIn ]
-   } );
+
+    model.addendTypeProperty.link( addendType => {
+      cubeStandIn.fill = addendType === AddendType.LEFT ? 'blue' : 'red';
+    } );
+    super( {
+      children: [ cubeStandIn ]
+    } );
   }
 }
 

@@ -15,7 +15,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPairsSceneModel from './NumberPairsSceneModel.js';
 import Range from '../../../../dot/js/Range.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject from './CountingObject.js';
+import CountingObject, { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -82,7 +82,38 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
-    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, superOptions );
+    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, options.sceneRange.max, superOptions );
+
+    // Add all the counting objects to the appropriate observable array in each scene.
+    totalToSceneModelMap.forEach( sceneModel => {
+      let countingObjectsIndex = 0;
+      _.times( sceneModel.leftAddendNumberProperty.value, () => {
+        sceneModel.leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
+        countingObjectsIndex++;
+      } );
+      _.times( sceneModel.rightAddendNumberProperty.value, () => {
+        sceneModel.rightAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
+        countingObjectsIndex++;
+      } );
+
+      assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+    } );
+
+    selectedSceneModelProperty.link( sceneModel => {
+
+      // Set all the counting objects to inactive so that the objects in each observable array
+      // get set to the proper state below.
+      this.countingObjects.forEach( countingObject => {
+        countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+      } );
+      sceneModel.leftAddendObjects.forEach( countingObject => {
+        countingObject.addendTypeProperty.value = AddendType.LEFT;
+      } );
+      sceneModel.rightAddendObjects.forEach( countingObject => {
+        countingObject.addendTypeProperty.value = AddendType.RIGHT;
+      } );
+    } );
+
     this.selectedSceneModelProperty = selectedSceneModelProperty;
     this.totalToSceneModelMap = totalToSceneModelMap;
     this.leftAddendCountingObjectsProperty = leftAddendCountingObjectsProperty;
