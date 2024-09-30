@@ -26,7 +26,7 @@ export default class TwentyModel extends DecompositionModel {
 
   public constructor( providedOptions: TwentyModelOptions ) {
     const options = optionize<TwentyModelOptions, SelfOptions, DecompositionModelOptions>()( {
-      sceneRange: NumberPairsConstants.TWENTY_SCENE_RANGE,
+      sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE,
       initialTotalValue: NumberPairsConstants.TWENTY_INITIAL_SUM_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.APPLES
     }, providedOptions );

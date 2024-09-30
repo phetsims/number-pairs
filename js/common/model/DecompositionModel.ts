@@ -64,6 +64,8 @@ export default class DecompositionModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
     const totalProperty = new NumberProperty( selectedSceneModelProperty.value.total, {
+      range: options.sceneRange,
+      numberType: 'Integer',
       tandem: options.tandem.createTandem( 'totalProperty' )
     } );
 

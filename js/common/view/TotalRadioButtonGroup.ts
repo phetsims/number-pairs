@@ -20,6 +20,9 @@ type SelfOptions = {
   sceneRange: Range;
 };
 type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButtonGroupOptions;
+
+// TODO: SceneSelectionRadioButtonGroup, listens to sceneProperty and each group item's value is connected to
+//   a specific scene rather than the total. or change the options name ot match class.
 export default class TotalRadioButtonGroup extends RectangularRadioButtonGroup<number> {
 
   public constructor( totalProperty: Property<number>, providedOptions: SceneSelectionRadioButtonGroupOptions ) {

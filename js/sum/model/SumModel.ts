@@ -25,7 +25,7 @@ type SumModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
   & StrictOmit<NumberPairsModelOptions, 'initialCountingRepresentationType'>;
 
-const SCENE_RANGE = new Range( NumberPairsConstants.TEN_SCENE_RANGE.min, NumberPairsConstants.TWENTY_SCENE_RANGE.max );
+const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
 export default class SumModel extends NumberPairsModel {
 

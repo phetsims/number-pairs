@@ -46,7 +46,7 @@ export default class TenScreenView extends NumberPairsScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TEN_SCENE_RANGE
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE
     }, providedOptions );
 
     super( model, options );

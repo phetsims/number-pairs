@@ -40,7 +40,7 @@ export default class IntroScreenView extends NumberPairsScreenView {
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TEN_SCENE_RANGE
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE
     }, providedOptions );
 
     super( model, options );

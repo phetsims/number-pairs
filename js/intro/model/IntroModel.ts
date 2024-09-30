@@ -27,7 +27,7 @@ export default class IntroModel extends DecompositionModel {
   public constructor( providedOptions: IntroModelOptions ) {
 
     const options = optionize<IntroModelOptions, SelfOptions, DecompositionModelOptions>()( {
-      sceneRange: NumberPairsConstants.TEN_SCENE_RANGE,
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
       initialTotalValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
       initialCountingRepresentationType: CountingRepresentationType.APPLES
     }, providedOptions );

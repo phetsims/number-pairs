@@ -108,6 +108,10 @@ export default class NumberPairsModel implements TModel {
   protected constructor(
     // The totalProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
     // determines the selected scene model by using the totalToSceneModelMap.
+    // TODO: this should be derived from the selectedSceneModelProperty in the decomposition models
+    //   and the left/right addend values in the Sum screen.
+    //  Check with CC on what she prefers for PhET-iO. Can we use a PhET-iO only Property that clients can access to set
+    //  the scene. This would have to be bi-directional.
     public readonly totalNumberProperty: Property<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
 

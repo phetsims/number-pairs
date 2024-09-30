@@ -143,8 +143,8 @@ export default class NumberPairsScreenView extends ScreenView {
       const numberLineNode = new NumberLineNode( model, this.countingAreaBounds.width - 30, {
         center: this.countingAreaBounds.center,
         visibleProperty: numberLineVisibleProperty,
-        numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_SCENE_RANGE.max ?
-                         NumberPairsConstants.NUMBER_LINE_TEN_RANGE : NumberPairsConstants.NUMBER_LINE_TWENTY_RANGE
+        numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
+                         NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE
       } );
       this.addChild( numberLineNode );
 
