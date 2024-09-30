@@ -26,6 +26,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import CubesOnWireNode from './CubesOnWireNode.js';
 
 
 type SelfOptions = {
@@ -167,6 +168,20 @@ export default class NumberPairsScreenView extends ScreenView {
           tandem: options.tandem.createTandem( 'leftAddendLabelPlacementSwitch' )
         } );
       this.addChild( leftAddendLabelPlacementSwitch );
+    }
+
+    /**
+     * Create the cubes on wire representation and accompanying features.
+     */
+    if ( options.countingRepresentations.includes( CountingRepresentationType.CUBES ) ) {
+      const cubesVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.CUBES );
+      const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
+      const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {
+        sceneRange: sceneRange,
+        center: countingArea.center,
+        visibleProperty: cubesVisibleProperty
+      } );
+      this.addChild( cubesOnWireNode );
     }
 
     // Position the counting representation radio buttons below the counting area.
