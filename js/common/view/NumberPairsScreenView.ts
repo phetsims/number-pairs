@@ -99,7 +99,8 @@ export default class NumberPairsScreenView extends ScreenView {
     // that is associated with a scene state.
     if ( options.sceneRange ) {
       const totalRadioButtonGroup = new TotalRadioButtonGroup( model.totalNumberProperty, {
-        sceneRange: options.sceneRange
+        sceneRange: options.sceneRange,
+        tandem: options.tandem.createTandem( 'totalRadioButtonGroup' )
       } );
 
       // Sum radio buttons should be center aligned vertically above the reset all button.
@@ -145,12 +146,14 @@ export default class NumberPairsScreenView extends ScreenView {
         center: this.countingAreaBounds.center,
         visibleProperty: numberLineVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
-                         NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE
+                         NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
+        tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       this.addChild( numberLineNode );
 
       const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, this.countingAreaBounds, {
-        visibleProperty: numberLineVisibleProperty
+        visibleProperty: numberLineVisibleProperty,
+        tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
       this.addChild( numberLineCheckboxGroup );
 

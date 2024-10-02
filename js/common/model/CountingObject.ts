@@ -39,7 +39,10 @@ export default class CountingObject extends PhetioObject {
 
   public constructor( providedOptions: CountingObjectOptions ) {
 
-    const options = optionize<CountingObjectOptions, SelfOptions, PhetioObjectOptions>()( {}, providedOptions );
+    const options = optionize<CountingObjectOptions, SelfOptions, PhetioObjectOptions>()( {
+      phetioType: CountingObject.CountingObjectIO,
+      phetioState: false // TODO, this needs to be set to true
+    }, providedOptions );
     super( options );
 
     this.positionProperty = new Property( Vector2.ZERO, {

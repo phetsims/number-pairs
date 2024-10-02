@@ -39,7 +39,7 @@ export default class TotalRadioButtonGroup extends RectangularRadioButtonGroup<n
       return {
         createNode: () => sceneIcon,
         value: sceneValue,
-        tandem: `total${sceneValue}RadioButton`
+        tandemName: `total${sceneValue}RadioButton`
       };
     } ).reverse();
     super( totalProperty, groupItems, options );

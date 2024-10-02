@@ -15,13 +15,14 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 const CHECKBOX_LABEL_OPTIONS = {
   font: new PhetFont( 16 )
 };
 export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGroup {
 
-  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: VerticalCheckboxGroupOptions ) {
+  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: WithRequired<VerticalCheckboxGroupOptions, 'tandem'> ) {
     const options = combineOptions<VerticalCheckboxGroupOptions>( {
       bottom: countingAreaBounds.top - 8,
       right: countingAreaBounds.right
@@ -29,15 +30,18 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
         createNode: () => new Text( NumberPairsStrings.addendsStringProperty, CHECKBOX_LABEL_OPTIONS ),
-        property: model.showAddendValuesProperty
+        property: model.showAddendValuesProperty,
+        tandemName: 'addendsCheckbox'
       },
       {
         createNode: () => new Text( NumberPairsStrings.tickNumbersStringProperty, CHECKBOX_LABEL_OPTIONS ),
-        property: model.showTickValuesProperty
+        property: model.showTickValuesProperty,
+        tandemName: 'tickValuesCheckbox'
       },
       {
         createNode: () => new Text( NumberPairsStrings.totalJumpStringProperty, CHECKBOX_LABEL_OPTIONS ),
-        property: model.showTotalJumpProperty
+        property: model.showTotalJumpProperty,
+        tandemName: 'totalJumpCheckbox'
       }
     ];
     super( checkboxGroupItems, options );

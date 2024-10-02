@@ -30,7 +30,7 @@ export default class CountingRepresentationRadioButtonGroup extends RectangularR
       return {
         value: countingRepresentationType,
         createNode: () => new Text( countingRepresentationType.label, { font: new PhetFont( 10 ) } ),
-        tandem: providedOptions.tandem.createTandem( countingRepresentationType.label )
+        tandemName: countingRepresentationType.label + 'RadioButton'
       };
     } );
 

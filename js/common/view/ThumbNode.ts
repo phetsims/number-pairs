@@ -11,11 +11,12 @@ import { Circle, Line, Node } from '../../../../scenery/js/imports.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const HANDLE_LINE_LENGTH = 34;
 
 export default class ThumbNode extends Node {
-  public constructor() {
+  public constructor( tandem: Tandem ) {
 
     const trackPoint = new Circle( NUMBER_LINE_POINT_RADIUS, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
@@ -29,9 +30,10 @@ export default class ThumbNode extends Node {
       mainColor: NumberPairsColors.numberLineLeftAddendColorProperty,
       top: handleLine.bottom
     } );
-   super( {
-     children: [ trackPoint, handleLine, handleKnob ]
-   } );
+    super( {
+      children: [ trackPoint, handleLine, handleKnob ],
+      tandem: tandem.createTandem( 'thumbNode' )
+    } );
   }
 }
 

@@ -15,7 +15,15 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
 
+const STATE_SCHEMA = {
+  leftAddendNumber: NumberIO,
+  rightAddendNumber: NumberIO
+};
+
+type NumberPairsSceneStateObject = StateObject<typeof STATE_SCHEMA>;
 
 export default class NumberPairsSceneModel {
 
@@ -102,8 +110,20 @@ export default class NumberPairsSceneModel {
 
   }
 
+  public toStateObject(): NumberPairsSceneStateObject {
+    return {
+      leftAddendNumber: this.leftAddendNumberProperty.value,
+      rightAddendNumber: this.rightAddendNumberProperty.value
+    };
+  }
+
   public static NumberPairsSceneModelIO = new IOType( 'NumberPairsSceneModelIO', {
-    valueType: NumberPairsSceneModel
+    valueType: NumberPairsSceneModel,
+    stateSchema: STATE_SCHEMA,
+    toStateObject: ( model: NumberPairsSceneModel ) => model.toStateObject(),
+    fromStateObject: ( stateObject: NumberPairsSceneStateObject ) => {
+      return new NumberPairsSceneModel( stateObject.leftAddendNumber, stateObject.rightAddendNumber, Tandem.REQUIRED );
+    }
   } );
 }
 

@@ -32,7 +32,7 @@ type SelfOptions = {
   numberLineWidth: number;
   numberLineRange: Range;
 };
-type NumberLineSliderOptions = SliderOptions & SelfOptions;
+type NumberLineSliderOptions = WithRequired<SliderOptions, 'tandem'> & SelfOptions;
 export default class NumberLineSlider extends HSlider {
 
   public readonly sliderTickParent: Node;
@@ -50,24 +50,25 @@ export default class NumberLineSlider extends HSlider {
     const sliderEnabledRangeProperty = new DerivedProperty( [ totalNumberProperty ], total => {
       return new Range( numberLineRange.min, total );
     } );
-    const thumbNode = new ThumbNode();
+    const thumbNode = new ThumbNode( providedOptions.tandem );
 
     const sliderTickParent = new Node();
-    const sliderTrack = new NumberLineSliderTrack(
+    const trackNode = new NumberLineSliderTrack(
       leftAddendNumberProperty,
       sliderTickParent,
       trackModelViewTransform,
       tickValuesVisibleProperty,
       {
-      constrainValue: n => Utils.toFixedNumber( n, 0 ),
-      size: trackDimension,
-      enabledRangeProperty: sliderEnabledRangeProperty,
-      numberLineRange: numberLineRange
-    } );
+        constrainValue: n => Utils.toFixedNumber( n, 0 ),
+        size: trackDimension,
+        enabledRangeProperty: sliderEnabledRangeProperty,
+        numberLineRange: numberLineRange,
+        tandem: providedOptions.tandem.createTandem( 'trackNode' )
+      } );
 
     const options = combineOptions<NumberLineSliderOptions>( {
       thumbNode: thumbNode,
-      trackNode: sliderTrack,
+      trackNode: trackNode,
       thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       enabledRangeProperty: sliderEnabledRangeProperty

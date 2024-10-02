@@ -18,11 +18,12 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
   numberLineRange: Range;
 };
-type NumberLineNodeOptions = NodeOptions & SelfOptions;
+type NumberLineNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
 export const NUMBER_LINE_POINT_RADIUS = 8;
 const LABEL_DIMENSION = 28;
@@ -47,7 +48,8 @@ export default class NumberLineNode extends Node {
       model.showTickValuesProperty,
       {
         numberLineRange: providedOptions.numberLineRange,
-        numberLineWidth: numberLineWidth
+        numberLineWidth: numberLineWidth,
+        tandem: providedOptions.tandem.createTandem( 'slider' )
       } );
 
     /**
