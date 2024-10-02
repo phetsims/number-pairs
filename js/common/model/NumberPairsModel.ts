@@ -20,7 +20,8 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
-import CountingObject from './CountingObject.js';
+import CountingObject, { AddendType } from './CountingObject.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -161,6 +162,21 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject> ): void {
+    leftAddendObjects.addItemAddedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.LEFT;
+    } );
+    leftAddendObjects.addItemRemovedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+    } );
+
+    rightAddendObjects.addItemAddedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.RIGHT;
+    } );
+    rightAddendObjects.addItemRemovedListener( countingObject => {
+      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+    } );
+  }
   public reset(): void {
     this.totalNumberProperty.reset();
   }

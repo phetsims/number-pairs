@@ -86,6 +86,8 @@ export default class DecompositionModel extends NumberPairsModel {
 
     // Add all the counting objects to the appropriate observable array in each scene.
     totalToSceneModelMap.forEach( sceneModel => {
+      this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects );
+
       let countingObjectsIndex = 0;
       _.times( sceneModel.leftAddendNumberProperty.value, () => {
         sceneModel.leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
