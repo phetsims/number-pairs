@@ -25,16 +25,17 @@ type SelfOptions = {
   sceneRange: Range;
 };
 
+const CUBE_OVERLAP = 5;
+
 type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 
-// const CUBE_SPACING = 5;
 export default class CubesOnWireNode extends Node {
 
   public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: CubesOnWireNodeOptions ) {
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       new Vector2( 0, 0 ),
       new Vector2( CUBE_WIDTH, 0 ),
-      CUBE_WIDTH
+      CUBE_WIDTH - CUBE_OVERLAP
     );
     const wire = new Line( 0, 0, countingAreaBounds.width, 0, {
       lineWidth: 2,
@@ -59,12 +60,19 @@ export default class CubesOnWireNode extends Node {
         rightAddendCubes.push( cubes[ i + leftAddend ] );
       }
 
+      // Cubes should be lined up on the wire in groups of 5.
       leftAddendCubes.forEach( ( cube, i ) => {
-        cube.center = new Vector2( modelViewTransform.modelToViewX( i ), 0 );
+        const placeOnWire = Math.floor( i / 5 ) + i;
+        cube.center = new Vector2( modelViewTransform.modelToViewX( placeOnWire ), 0 );
       } );
-      cubeSeparator.centerX = modelViewTransform.modelToViewX( leftAddend );
+
+      // The cube separator should not be grouped as part of the groups of 5.
+      const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
+      const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment;
+      cubeSeparator.centerX = modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
       rightAddendCubes.forEach( ( cube, i ) => {
-        cube.center = new Vector2( modelViewTransform.modelToViewX( i + leftAddend + 1 ), 0 );
+        const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
+        cube.center = new Vector2( modelViewTransform.modelToViewX( placeOnWire ), 0 );
       } );
 
       for ( let i = 0; i < cubes.length; i++ ) {
