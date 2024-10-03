@@ -47,8 +47,9 @@ export default class CubesOnWireNode extends Node {
     } );
 
     const cubes: Node[] = [];
+    const cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
     model.countingObjects.forEach( ( countingObject, i ) => {
-     cubes.push( new CubeNode( countingObject, providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
+     cubes.push( new CubeNode( countingObject, cubeDragBounds, providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
     } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], ( leftAddend, rightAddend, total ) => {

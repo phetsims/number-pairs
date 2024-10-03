@@ -16,12 +16,13 @@ import cubeCircleOutline_svg from '../../../images/cubeCircleOutline_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import cubeHexOutline_svg from '../../../images/cubeHexOutline_svg.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export const CUBE_WIDTH = 37;
 
 export default class CubeNode extends Node {
 
-  public constructor( model: CountingObject, tandem: Tandem ) {
+  public constructor( model: CountingObject, dragBounds: Bounds2, tandem: Tandem ) {
     const cubeBackground = new Image( cubeBackground_svg, {
       maxWidth: CUBE_WIDTH
     } );
@@ -47,7 +48,7 @@ export default class CubeNode extends Node {
 
     const dragListener = new RichDragListener( {
       drag: event => {
-        this.centerX = event.pointer.point.x;
+        this.centerX = dragBounds.closestPointTo( this.globalToParentPoint( event.pointer.point ) ).x;
       },
       dragListenerOptions: {
         tandem: tandem.createTandem( 'dragListener' )
