@@ -24,6 +24,7 @@ import { SliderOptions } from '../../../../sun/js/Slider.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const MINOR_TICK_LENGTH = 16;
 const MAJOR_TICK_LENGTH = 24;
@@ -39,7 +40,7 @@ export default class NumberLineSlider extends HSlider {
 
   public constructor(
     leftAddendNumberProperty: PhetioProperty<number>,
-    totalNumberProperty: Property<number>,
+    totalNumberProperty: TReadOnlyProperty<number>,
     trackModelViewTransform: ModelViewTransform2,
     tickValuesVisibleProperty: Property<boolean>,
     providedOptions: NumberLineSliderOptions

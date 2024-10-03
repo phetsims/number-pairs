@@ -9,7 +9,6 @@
 
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPairsSceneModel from './NumberPairsSceneModel.js';
@@ -33,7 +32,7 @@ export default class DecompositionModel extends NumberPairsModel {
   // Each scene is associated with a readonly total. The selected scene model is determined by the totalProperty.
   // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
   public readonly selectedSceneModelProperty: Property<NumberPairsSceneModel>;
-  public readonly totalToSceneModelMap: Map<number, NumberPairsSceneModel>;
+  public readonly sceneModels: NumberPairsSceneModel[];
   public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
@@ -42,33 +41,30 @@ export default class DecompositionModel extends NumberPairsModel {
     const options = providedOptions;
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
-    const totalToSceneModelMap = new Map<number, NumberPairsSceneModel>();
+    const sceneModels = [];
     for ( let total = options.sceneRange.min; total <= options.sceneRange.max; total++ ) {
       let sceneModel: NumberPairsSceneModel;
       if ( total === 0 ) {
         sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
       }
       else {
+
         // The initial left addend value for each scene is n - 1.
         const leftAddendValue = total - 1;
         const rightAddendValue = 1;
         sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
       }
-      totalToSceneModelMap.set( total, sceneModel );
+      sceneModels.push( sceneModel );
     }
 
-    const initialSceneModel = totalToSceneModelMap.get( options.initialTotalValue );
+    const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
       phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
-    const totalProperty = new NumberProperty( selectedSceneModelProperty.value.total, {
-      range: options.sceneRange,
-      numberType: 'Integer',
-      tandem: options.tandem.createTandem( 'totalProperty' )
-    } );
 
+    const totalProperty = new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total );
     const leftAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
       sceneModel => sceneModel.leftAddendObjects );
     const rightAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
@@ -85,7 +81,7 @@ export default class DecompositionModel extends NumberPairsModel {
     super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, options.sceneRange.max, superOptions );
 
     // Add all the counting objects to the appropriate observable array in each scene.
-    totalToSceneModelMap.forEach( sceneModel => {
+    sceneModels.forEach( sceneModel => {
       this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects );
 
       let countingObjectsIndex = 0;
@@ -117,16 +113,9 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     this.selectedSceneModelProperty = selectedSceneModelProperty;
-    this.totalToSceneModelMap = totalToSceneModelMap;
+    this.sceneModels = sceneModels;
     this.leftAddendCountingObjectsProperty = leftAddendCountingObjectsProperty;
     this.rightAddendCountingObjectsProperty = rightAddendCountingObjectsProperty;
-
-    // When the total changes we need to update the selected scene model.
-    this.totalNumberProperty.link( total => {
-      const newSceneModel = this.totalToSceneModelMap.get( total );
-      assert && assert( newSceneModel, `newSceneModel not found for total: ${total}` );
-      this.selectedSceneModelProperty.set( newSceneModel! );
-    } );
   }
 
   /**

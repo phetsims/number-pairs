@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Range from '../../../../dot/js/Range.js';
-import TotalRadioButtonGroup from './TotalRadioButtonGroup.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel, { CountingRepresentationType } from '../model/NumberPairsModel.js';
@@ -42,6 +41,7 @@ const COUNTING_AREA_Y_MARGIN = 25; // empirically determined
 export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly countingAreaBounds: Bounds2;
+  protected readonly resetAllButton: Node;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -83,7 +83,7 @@ export default class NumberPairsScreenView extends ScreenView {
       this.addChild( equationAlignBox );
     }
 
-    const resetAllButton = new ResetAllButton( {
+    this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
@@ -93,27 +93,7 @@ export default class NumberPairsScreenView extends ScreenView {
       bottom: this.layoutBounds.maxY - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
-    this.addChild( resetAllButton );
-
-    // Add the total radio button group if the scene range is provided. Each radio button represents a total value
-    // that is associated with a scene state.
-    if ( options.sceneRange ) {
-      const totalRadioButtonGroup = new TotalRadioButtonGroup( model.totalNumberProperty, {
-        sceneRange: options.sceneRange,
-        tandem: options.tandem.createTandem( 'totalRadioButtonGroup' )
-      } );
-
-      // Sum radio buttons should be center aligned vertically above the reset all button.
-      const totalSelectorAlignBox = new AlignBox( totalRadioButtonGroup, {
-        alignBounds: this.layoutBounds.withOffsets( 0, 0, 0, -resetAllButton.height - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN ),
-        yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-        xMargin: NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-        yAlign: 'center',
-        xAlign: 'right'
-      } );
-
-      this.addChild( totalSelectorAlignBox );
-    }
+    this.addChild( this.resetAllButton );
 
     const countingAreaMinX = this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN;
     const countingAreaMinY = this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN

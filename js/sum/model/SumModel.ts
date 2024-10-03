@@ -40,11 +40,6 @@ export default class SumModel extends NumberPairsModel {
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
 
-    const totalProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_SUM_VALUE, {
-      range: SCENE_RANGE,
-      tandem: options.tandem.createTandem( 'totalProperty' )
-    } );
-
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
       range: SCENE_RANGE,
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
@@ -52,11 +47,14 @@ export default class SumModel extends NumberPairsModel {
 
     // The right addend value is the only value that is not required to be directly set by a component controlled
     // by the user. Therefore, it is derived from the total and left addend values.
-    const rightAddendNumberProperty = new DerivedProperty( [ totalProperty, leftAddendNumberProperty ],
-      ( total: number, leftAddend: number ) => {
-        return total - leftAddend;
-      }, {
-        tandem: options.tandem.createTandem( 'rightAddendNumberProperty' ),
+    const rightAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
+      range: SCENE_RANGE,
+      tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
+    } );
+
+    const totalProperty = new DerivedProperty( [ leftAddendNumberProperty, rightAddendNumberProperty ],
+      ( leftAddend: number, rightAddend: number ) => leftAddend + rightAddend, {
+        tandem: options.tandem.createTandem( 'totalProperty' ),
         phetioValueType: NumberIO
       } );
 

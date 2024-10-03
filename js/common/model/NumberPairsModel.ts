@@ -116,10 +116,8 @@ export default class NumberPairsModel implements TModel {
     //   and the left/right addend values in the Sum screen.
     //  Check with CC on what she prefers for PhET-iO. Can we use a PhET-iO only Property that clients can access to set
     //  the scene. This would have to be bi-directional.
-    public readonly totalNumberProperty: Property<number>,
+    public readonly totalNumberProperty: TReadOnlyProperty<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
-    // The right addend value is the only value that is not required to be directly set by a component controlled
-    // by the user. Therefore, it is derived from the total and left addend values.
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
     numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
@@ -178,7 +176,7 @@ export default class NumberPairsModel implements TModel {
     } );
   }
   public reset(): void {
-    this.totalNumberProperty.reset();
+    //TODO
   }
 }
 

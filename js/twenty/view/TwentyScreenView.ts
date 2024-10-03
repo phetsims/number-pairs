@@ -9,26 +9,26 @@
 import numberPairs from '../../numberPairs.js';
 import TwentyModel from '../model/TwentyModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
 };
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
-  & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
+  & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
-export default class TwentyScreenView extends NumberPairsScreenView {
+export default class TwentyScreenView extends DecompositionScreenView {
 
   public constructor( model: TwentyModel, providedOptions: TwentyScreenViewOptions ) {
 
-    const options = optionize<TwentyScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
+    const options = optionize<TwentyScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),

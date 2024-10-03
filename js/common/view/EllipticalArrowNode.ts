@@ -14,10 +14,10 @@ import { EllipticalArc, Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   fill: TColor;
@@ -40,7 +40,7 @@ export default class EllipticalArrowNode extends Node {
   private readonly antiClockwise: boolean;
   private readonly ellipseYRadius: number;
 
-  public constructor( startingValue: TProperty<number>, endingValue: TProperty<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
+  public constructor( startingValue: TReadOnlyProperty<number>, endingValue: TReadOnlyProperty<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
 
     const options = optionize<EllipticalArrowNodeOptions, SelfOptions, NodeOptions>()( {
       belowNumberLine: false,
@@ -92,8 +92,8 @@ export default class EllipticalArrowNode extends Node {
           this.antiClockwise
         );
       }
-       else {
-         ellipseCenter = new Vector2( this.modelViewTransform.modelToViewX( ( endingValue - startingValue ) / 2 + startingValue ), 0 );
+      else {
+        ellipseCenter = new Vector2( this.modelViewTransform.modelToViewX( ( endingValue - startingValue ) / 2 + startingValue ), 0 );
         tailEllipticalArc = new EllipticalArc(
           ellipseCenter,
           ellipseXRadius,
