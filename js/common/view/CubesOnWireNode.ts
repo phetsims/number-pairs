@@ -20,6 +20,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import CubeNode, { CUBE_WIDTH } from './CubeNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Range from '../../../../dot/js/Range.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -27,7 +28,7 @@ type SelfOptions = {
 
 const CUBE_OVERLAP = 5;
 
-type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
+type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class CubesOnWireNode extends Node {
 
@@ -46,8 +47,8 @@ export default class CubesOnWireNode extends Node {
     } );
 
     const cubes: Node[] = [];
-    model.countingObjects.forEach( countingObject => {
-     cubes.push( new CubeNode( countingObject ) );
+    model.countingObjects.forEach( ( countingObject, i ) => {
+     cubes.push( new CubeNode( countingObject, providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
     } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], ( leftAddend, rightAddend, total ) => {

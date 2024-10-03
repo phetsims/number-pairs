@@ -8,19 +8,20 @@
  *
  */
 
-import { Node, Image } from '../../../../scenery/js/imports.js';
+import { Image, Node, RichDragListener } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import cubeBackground_svg from '../../../images/cubeBackground_svg.js';
 import cubeCircleOutline_svg from '../../../images/cubeCircleOutline_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import cubeHexOutline_svg from '../../../images/cubeHexOutline_svg.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export const CUBE_WIDTH = 37;
 
 export default class CubeNode extends Node {
 
-  public constructor( model: CountingObject ) {
+  public constructor( model: CountingObject, tandem: Tandem ) {
     const cubeBackground = new Image( cubeBackground_svg, {
       maxWidth: CUBE_WIDTH
     } );
@@ -43,6 +44,19 @@ export default class CubeNode extends Node {
     super( {
       children: [ cubeBackground, cubeLeftAddendOutline, cubeRightAddendOutline ]
     } );
+
+    const dragListener = new RichDragListener( {
+      drag: event => {
+        this.centerX = event.pointer.point.x;
+      },
+      dragListenerOptions: {
+        tandem: tandem.createTandem( 'dragListener' )
+      },
+      keyboardDragListenerOptions: {
+        tandem: tandem.createTandem( 'keyboardDragListener' )
+      }
+    } );
+    this.addInputListener( dragListener );
   }
 }
 

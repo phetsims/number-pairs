@@ -182,7 +182,8 @@ export default class NumberPairsScreenView extends ScreenView {
       const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {
         sceneRange: sceneRange,
         center: countingArea.center,
-        visibleProperty: cubesVisibleProperty
+        visibleProperty: cubesVisibleProperty,
+        tandem: options.tandem.createTandem( 'cubesOnWireNode' )
       } );
       this.addChild( cubesOnWireNode );
     }
