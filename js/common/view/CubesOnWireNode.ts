@@ -21,6 +21,7 @@ import CubeNode, { CUBE_WIDTH } from './CubeNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -42,14 +43,24 @@ export default class CubesOnWireNode extends Node {
       lineWidth: 2,
       stroke: 'black'
     } );
+
+    // TODO, this is a convenience Property, I don't believe it needs to be isntrumented.
+    const cubeSeparatorCenterXProperty = new Property( 0 );
     const cubeSeparator = new Circle( 5, {
       fill: 'black'
     } );
+    cubeSeparatorCenterXProperty.link( x => { cubeSeparator.centerX = x; } );
 
     const cubes: Node[] = [];
     const cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
     model.countingObjects.forEach( ( countingObject, i ) => {
-     cubes.push( new CubeNode( countingObject, cubeDragBounds, providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
+     cubes.push( new CubeNode(
+       countingObject,
+       model.leftAddendCountingObjectsProperty,
+       model.rightAddenedCountingObjectsProperty,
+       cubeSeparatorCenterXProperty,
+       cubeDragBounds,
+       providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
     } );
 
     Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], ( leftAddend, rightAddend, total ) => {
@@ -71,7 +82,7 @@ export default class CubesOnWireNode extends Node {
       // The cube separator should not be grouped as part of the groups of 5.
       const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
       const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment;
-      cubeSeparator.centerX = modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
+      cubeSeparatorCenterXProperty.value = modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
       rightAddendCubes.forEach( ( cube, i ) => {
         const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
         cube.center = new Vector2( modelViewTransform.modelToViewX( placeOnWire ), 0 );

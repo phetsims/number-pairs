@@ -17,12 +17,21 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import cubeHexOutline_svg from '../../../images/cubeHexOutline_svg.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export const CUBE_WIDTH = 37;
 
 export default class CubeNode extends Node {
 
-  public constructor( model: CountingObject, dragBounds: Bounds2, tandem: Tandem ) {
+  public constructor(
+    model: CountingObject,
+    leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    cubeSeparatorPositionProperty: TReadOnlyProperty<number>,
+    dragBounds: Bounds2,
+    tandem: Tandem ) {
+
     const cubeBackground = new Image( cubeBackground_svg, {
       maxWidth: CUBE_WIDTH
     } );
@@ -49,6 +58,19 @@ export default class CubeNode extends Node {
     const dragListener = new RichDragListener( {
       drag: event => {
         this.centerX = dragBounds.closestPointTo( this.globalToParentPoint( event.pointer.point ) ).x;
+
+        if ( this.centerX > cubeSeparatorPositionProperty.value ) {
+          if ( !rightAddendCountingObjectsProperty.value.includes( model ) ) {
+            leftAddendCountingObjectsProperty.value.remove( model );
+            rightAddendCountingObjectsProperty.value.add( model );
+          }
+        }
+        if ( this.centerX < cubeSeparatorPositionProperty.value ) {
+          if ( !leftAddendCountingObjectsProperty.value.includes( model ) ) {
+            rightAddendCountingObjectsProperty.value.remove( model );
+            leftAddendCountingObjectsProperty.value.add( model );
+          }
+        }
       },
       dragListenerOptions: {
         tandem: tandem.createTandem( 'dragListener' )

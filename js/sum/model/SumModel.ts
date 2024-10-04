@@ -18,6 +18,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from '../../common/model/CountingObject.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -32,8 +33,7 @@ const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberP
 // TODO: Add left/right observable arrays. See DecompositionModel for an example.
 export default class SumModel extends NumberPairsModel {
 
-  public readonly leftAddendObjects: ObservableArray<CountingObject>;
-  public readonly rightAddendObjects: ObservableArray<CountingObject>;
+  public override readonly rightAddendNumberProperty: NumberProperty;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -58,29 +58,48 @@ export default class SumModel extends NumberPairsModel {
         phetioValueType: NumberIO
       } );
 
-    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, SCENE_RANGE.max, options );
-
-    this.leftAddendObjects = createObservableArray( {
+    const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
-    this.rightAddendObjects = createObservableArray( {
+    const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    this.registerObservableArrays( this.leftAddendObjects, this.rightAddendObjects );
+
+    // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
+    super(
+      totalProperty,
+      leftAddendNumberProperty,
+      rightAddendNumberProperty,
+      new Property( leftAddendObjects ),
+      new Property( rightAddendObjects ),
+      SCENE_RANGE.max,
+      options
+    );
+
+    this.rightAddendNumberProperty = rightAddendNumberProperty;
+
+    this.registerObservableArrays( leftAddendObjects, rightAddendObjects );
 
     let countingObjectsIndex = 0;
     _.times( this.leftAddendNumberProperty.value, () => {
-      this.leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
+      leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
       countingObjectsIndex++;
     } );
     _.times( this.rightAddendNumberProperty.value, () => {
-      this.rightAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
+      rightAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
       countingObjectsIndex++;
     } );
-    assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+
+    leftAddendObjects.lengthProperty.link( leftAddend => {
+      this.leftAddendNumberProperty.value = leftAddend;
+    } );
+    rightAddendObjects.lengthProperty.link( rightAddend => {
+      this.rightAddendNumberProperty.value = rightAddend;
+    } );
   }
 
   /**

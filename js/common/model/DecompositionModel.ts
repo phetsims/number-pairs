@@ -10,11 +10,9 @@
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPairsSceneModel from './NumberPairsSceneModel.js';
 import Range from '../../../../dot/js/Range.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject, { AddendType } from './CountingObject.js';
+import { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -33,8 +31,6 @@ export default class DecompositionModel extends NumberPairsModel {
   // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
   public readonly selectedSceneModelProperty: Property<NumberPairsSceneModel>;
   public readonly sceneModels: NumberPairsSceneModel[];
-  public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
-  public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
   protected constructor( providedOptions: DecompositionModelOptions ) {
 
@@ -78,7 +74,15 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
-    super( totalProperty, leftAddendNumberProperty, rightAddendNumberProperty, options.sceneRange.max, superOptions );
+    super(
+      totalProperty,
+      leftAddendNumberProperty,
+      rightAddendNumberProperty,
+      leftAddendCountingObjectsProperty,
+      rightAddendCountingObjectsProperty,
+      options.sceneRange.max,
+      superOptions
+    );
 
     // Add all the counting objects to the appropriate observable array in each scene.
     sceneModels.forEach( sceneModel => {
@@ -95,6 +99,12 @@ export default class DecompositionModel extends NumberPairsModel {
       } );
 
       assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+
+      // We only need to update the leftAddendNumberProperty since the rightAddend is derived.
+      // This link must be registered after the observable arrays are populated.
+      sceneModel.leftAddendObjects.lengthProperty.lazyLink( length => {
+        this.leftAddendNumberProperty.value = length;
+      } );
     } );
 
     selectedSceneModelProperty.link( sceneModel => {
@@ -114,8 +124,6 @@ export default class DecompositionModel extends NumberPairsModel {
 
     this.selectedSceneModelProperty = selectedSceneModelProperty;
     this.sceneModels = sceneModels;
-    this.leftAddendCountingObjectsProperty = leftAddendCountingObjectsProperty;
-    this.rightAddendCountingObjectsProperty = rightAddendCountingObjectsProperty;
   }
 
   /**

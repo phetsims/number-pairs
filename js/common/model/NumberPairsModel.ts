@@ -110,15 +110,14 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   protected constructor(
-    // The totalProperty is controlled by the user. In decomposition models (Intro, Ten, and Twenty screens) it also
-    // determines the selected scene model by using the totalToSceneModelMap.
-    // TODO: this should be derived from the selectedSceneModelProperty in the decomposition models
-    //   and the left/right addend values in the Sum screen.
-    //  Check with CC on what she prefers for PhET-iO. Can we use a PhET-iO only Property that clients can access to set
-    //  the scene. This would have to be bi-directional.
+
+    // The totalProperty is derived from the left and right addend numbers.
+    // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
     public readonly totalNumberProperty: TReadOnlyProperty<number>,
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
+    public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    public readonly rightAddenedCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
 
