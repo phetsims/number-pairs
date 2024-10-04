@@ -8,20 +8,26 @@
  *
  */
 
-import { Image, Node, RichDragListener } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, RichDragListener } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import cubeBackground_svg from '../../../images/cubeBackground_svg.js';
 import cubeCircleOutline_svg from '../../../images/cubeCircleOutline_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import cubeHexOutline_svg from '../../../images/cubeHexOutline_svg.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 export const CUBE_WIDTH = 37;
 
+type SelfOptions = {
+  onDrop: () => void;
+};
+type CubeNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class CubeNode extends Node {
 
   public constructor(
@@ -30,7 +36,7 @@ export default class CubeNode extends Node {
     rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     cubeSeparatorPositionProperty: TReadOnlyProperty<number>,
     dragBounds: Bounds2,
-    tandem: Tandem ) {
+    providedOptions: CubeNodeOptions ) {
 
     const cubeBackground = new Image( cubeBackground_svg, {
       maxWidth: CUBE_WIDTH
@@ -51,9 +57,11 @@ export default class CubeNode extends Node {
     model.addendTypeProperty.link( addendType => {
       // cubeBackground.fill = addendType === AddendType.LEFT ? 'blue' : 'red';
     } );
-    super( {
+
+    const options = combineOptions<NodeOptions>( {
       children: [ cubeBackground, cubeLeftAddendOutline, cubeRightAddendOutline ]
-    } );
+    }, providedOptions );
+    super( options );
 
     const dragListener = new RichDragListener( {
       drag: event => {
@@ -72,11 +80,12 @@ export default class CubeNode extends Node {
           }
         }
       },
+      end: providedOptions.onDrop,
       dragListenerOptions: {
-        tandem: tandem.createTandem( 'dragListener' )
+        tandem: providedOptions.tandem.createTandem( 'dragListener' )
       },
       keyboardDragListenerOptions: {
-        tandem: tandem.createTandem( 'keyboardDragListener' )
+        tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
       }
     } );
     this.addInputListener( dragListener );

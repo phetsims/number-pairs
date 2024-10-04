@@ -33,7 +33,15 @@ type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions 
 
 export default class CubesOnWireNode extends Node {
 
-  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: CubesOnWireNodeOptions ) {
+  private readonly cubes: CubeNode[] = [];
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly cubeSeparatorCenterXProperty: Property<number>;
+
+  public constructor(
+    private readonly model: NumberPairsModel,
+    countingAreaBounds: Bounds2,
+    providedOptions: CubesOnWireNodeOptions
+  ) {
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       new Vector2( 0, 0 ),
       new Vector2( CUBE_WIDTH, 0 ),
@@ -44,59 +52,74 @@ export default class CubesOnWireNode extends Node {
       stroke: 'black'
     } );
 
-    // TODO, this is a convenience Property, I don't believe it needs to be isntrumented.
+    // TODO, this is a convenience Property, I don't believe it needs to be instrumented.
     const cubeSeparatorCenterXProperty = new Property( 0 );
     const cubeSeparator = new Circle( 5, {
       fill: 'black'
     } );
     cubeSeparatorCenterXProperty.link( x => { cubeSeparator.centerX = x; } );
 
-    const cubes: Node[] = [];
-    const cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
-    model.countingObjects.forEach( ( countingObject, i ) => {
-     cubes.push( new CubeNode(
-       countingObject,
-       model.leftAddendCountingObjectsProperty,
-       model.rightAddenedCountingObjectsProperty,
-       cubeSeparatorCenterXProperty,
-       cubeDragBounds,
-       providedOptions.tandem.createTandem( `cubeNode${i}` ) ) );
-    } );
-
-    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], ( leftAddend, rightAddend, total ) => {
-      const leftAddendCubes = [];
-      const rightAddendCubes = [];
-      for ( let i = 0; i < leftAddend; i++ ) {
-        leftAddendCubes.push( cubes[ i ] );
-      }
-      for ( let i = 0; i < rightAddend; i++ ) {
-        rightAddendCubes.push( cubes[ i + leftAddend ] );
-      }
-
-      // Cubes should be lined up on the wire in groups of 5.
-      leftAddendCubes.forEach( ( cube, i ) => {
-        const placeOnWire = Math.floor( i / 5 ) + i;
-        cube.center = new Vector2( modelViewTransform.modelToViewX( placeOnWire ), 0 );
-      } );
-
-      // The cube separator should not be grouped as part of the groups of 5.
-      const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
-      const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment;
-      cubeSeparatorCenterXProperty.value = modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
-      rightAddendCubes.forEach( ( cube, i ) => {
-        const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
-        cube.center = new Vector2( modelViewTransform.modelToViewX( placeOnWire ), 0 );
-      } );
-
-      for ( let i = 0; i < cubes.length; i++ ) {
-        cubes[ i ].visible = i < total;
-      }
-    } );
-
     const options = combineOptions<NodeOptions>( {
-      children: [ wire, cubeSeparator, ...cubes ]
+      children: [ wire, cubeSeparator ]
     }, providedOptions );
     super( options );
+    this.modelViewTransform = modelViewTransform;
+    this.cubeSeparatorCenterXProperty = cubeSeparatorCenterXProperty;
+
+    const cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
+    model.countingObjects.forEach( ( countingObject, i ) => {
+      this.cubes.push( new CubeNode(
+        countingObject,
+        model.leftAddendCountingObjectsProperty,
+        model.rightAddenedCountingObjectsProperty,
+        cubeSeparatorCenterXProperty,
+        cubeDragBounds,
+        {
+          tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
+          onDrop: this.snapCubesToPositions.bind( this )
+        } ) );
+    } );
+
+    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], () => {
+      this.snapCubesToPositions();
+    } );
+
+    this.cubes.forEach( cube => {
+      this.addChild( cube );
+    } );
+  }
+
+  public snapCubesToPositions( ): void {
+    const leftAddend = this.model.leftAddendNumberProperty.value;
+    const rightAddend = this.model.rightAddendNumberProperty.value;
+    const total = leftAddend + rightAddend;
+    const leftAddendCubes = [];
+    const rightAddendCubes = [];
+    for ( let i = 0; i < leftAddend; i++ ) {
+      leftAddendCubes.push( this.cubes[ i ] );
+    }
+    for ( let i = 0; i < rightAddend; i++ ) {
+      rightAddendCubes.push( this.cubes[ i + leftAddend ] );
+    }
+
+    // Cubes should be lined up on the wire in groups of 5.
+    leftAddendCubes.forEach( ( cube, i ) => {
+      const placeOnWire = Math.floor( i / 5 ) + i;
+      cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
+    } );
+
+    // The cube separator should not be grouped as part of the groups of 5.
+    const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
+    const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment;
+    this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
+    rightAddendCubes.forEach( ( cube, i ) => {
+      const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
+      cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
+    } );
+
+    for ( let i = 0; i < this.cubes.length; i++ ) {
+      this.cubes[ i ].visible = i < total;
+    }
   }
 }
 
