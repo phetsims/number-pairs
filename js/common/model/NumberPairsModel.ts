@@ -117,7 +117,7 @@ export default class NumberPairsModel implements TModel {
     public readonly leftAddendNumberProperty: PhetioProperty<number>,
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly rightAddenedCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
 

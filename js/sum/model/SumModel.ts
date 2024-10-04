@@ -45,8 +45,6 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
     } );
 
-    // The right addend value is the only value that is not required to be directly set by a component controlled
-    // by the user. Therefore, it is derived from the total and left addend values.
     const rightAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
       range: SCENE_RANGE,
       tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )

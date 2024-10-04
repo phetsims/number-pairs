@@ -22,12 +22,16 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Property from '../../../../axon/js/Property.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;
 };
 
 const CUBE_OVERLAP = 5;
+const LEFT_MOST_CUBE_X = 2;
 
 type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -36,6 +40,10 @@ export default class CubesOnWireNode extends Node {
   private readonly cubes: CubeNode[] = [];
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly cubeSeparatorCenterXProperty: Property<number>;
+  private readonly cubeDragBounds: Bounds2;
+
+  private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
+  private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
   public constructor(
     private readonly model: NumberPairsModel,
@@ -65,18 +73,17 @@ export default class CubesOnWireNode extends Node {
     super( options );
     this.modelViewTransform = modelViewTransform;
     this.cubeSeparatorCenterXProperty = cubeSeparatorCenterXProperty;
+    this.cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
+    this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
+    this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 
-    const cubeDragBounds = wire.bounds.dilatedX( -CUBE_WIDTH );
     model.countingObjects.forEach( ( countingObject, i ) => {
       this.cubes.push( new CubeNode(
         countingObject,
-        model.leftAddendCountingObjectsProperty,
-        model.rightAddenedCountingObjectsProperty,
-        cubeSeparatorCenterXProperty,
-        cubeDragBounds,
         {
           tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
-          onDrop: this.snapCubesToPositions.bind( this )
+          onDrop: this.snapCubesToPositions.bind( this ),
+          onDrag: this.handleCubeMove.bind( this )
         } ) );
     } );
 
@@ -89,7 +96,7 @@ export default class CubesOnWireNode extends Node {
     } );
   }
 
-  public snapCubesToPositions( ): void {
+  public snapCubesToPositions(): void {
     const leftAddend = this.model.leftAddendNumberProperty.value;
     const rightAddend = this.model.rightAddendNumberProperty.value;
     const total = leftAddend + rightAddend;
@@ -104,13 +111,13 @@ export default class CubesOnWireNode extends Node {
 
     // Cubes should be lined up on the wire in groups of 5.
     leftAddendCubes.forEach( ( cube, i ) => {
-      const placeOnWire = Math.floor( i / 5 ) + i;
+      const placeOnWire = Math.floor( i / 5 ) + i + LEFT_MOST_CUBE_X;
       cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
     } );
 
     // The cube separator should not be grouped as part of the groups of 5.
     const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
-    const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment;
+    const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment + LEFT_MOST_CUBE_X;
     this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
     rightAddendCubes.forEach( ( cube, i ) => {
       const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
@@ -120,6 +127,40 @@ export default class CubesOnWireNode extends Node {
     for ( let i = 0; i < this.cubes.length; i++ ) {
       this.cubes[ i ].visible = i < total;
     }
+  }
+
+  public handleCubeMove( newPosition: Vector2, grabbedCube: CubeNode ): void {
+    const draggingRight = Math.sign( newPosition.x - grabbedCube.parentToGlobalPoint( grabbedCube.bounds.center ).x ) > 0;
+    const activeCubes = this.cubes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
+      .sort( ( a, b ) => a.centerX - b.centerX );
+
+    const sortedCubes = draggingRight ? activeCubes : activeCubes.reverse();
+    const index = sortedCubes.indexOf( grabbedCube );
+    const cubesToMove = sortedCubes.slice( index, sortedCubes.length + 1 ).filter(
+      cube => {
+        return cube.model.addendTypeProperty.value === grabbedCube.model.addendTypeProperty.value;
+      } );
+
+    const oldCenterX = grabbedCube.centerX;
+    const dragBoundsWithMovingCubes = this.cubeDragBounds.dilatedX( -CUBE_WIDTH * ( cubesToMove.length - 1 ) );
+    const newCenterX = dragBoundsWithMovingCubes.closestPointTo( grabbedCube.globalToParentPoint( newPosition ) ).x;
+    const deltaX = newCenterX - oldCenterX;
+    cubesToMove.forEach( cube => {
+      cube.centerX += deltaX;
+
+      if ( cube.centerX > this.cubeSeparatorCenterXProperty.value ) {
+        if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
+          this.leftAddendCountingObjectsProperty.value.remove( cube.model );
+          this.rightAddendCountingObjectsProperty.value.add( cube.model );
+        }
+      }
+      if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
+        if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
+          this.rightAddendCountingObjectsProperty.value.remove( cube.model );
+          this.leftAddendCountingObjectsProperty.value.add( cube.model );
+        }
+      }
+    } );
   }
 }
 
