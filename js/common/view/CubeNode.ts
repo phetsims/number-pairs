@@ -11,14 +11,13 @@
 import { Image, Node, NodeOptions, RichDragListener } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import cubeBackground_svg from '../../../images/cubeBackground_svg.js';
-import cubeCircleOutline_svg from '../../../images/cubeCircleOutline_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import cubeHexOutline_svg from '../../../images/cubeHexOutline_svg.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
+import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 
 export const CUBE_WIDTH = 37;
 
@@ -33,18 +32,15 @@ export default class CubeNode extends Node {
     public readonly model: CountingObject,
     providedOptions: CubeNodeOptions ) {
 
-    const cubeBackground = new Image( cubeBackground_svg, {
-      maxWidth: CUBE_WIDTH
-    } );
 
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
     const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
-    const cubeLeftAddendOutline = new Image( cubeHexOutline_svg, {
+    const cubeLeftAddendImage = new Image( cubePinkHexagon_svg, {
       maxWidth: CUBE_WIDTH,
       visibleProperty: leftAddendVisibleProperty
     } );
 
-    const cubeRightAddendOutline = new Image( cubeCircleOutline_svg, {
+    const cubeRightAddendImage = new Image( cubeBlueCircle_svg, {
       maxWidth: CUBE_WIDTH,
       visibleProperty: rightAddendVisibleProperty
     } );
@@ -54,7 +50,7 @@ export default class CubeNode extends Node {
     } );
 
     const options = combineOptions<NodeOptions>( {
-      children: [ cubeBackground, cubeLeftAddendOutline, cubeRightAddendOutline ]
+      children: [ cubeLeftAddendImage, cubeRightAddendImage ]
     }, providedOptions );
     super( options );
 

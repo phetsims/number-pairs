@@ -1,5 +1,5 @@
 {
-  "cubeBackground.svg": {
+  "cubeBlueCircle.svg": {
     "text": [
       "Copyright 2024 University of Colorado Boulder"
     ],
@@ -7,15 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mariah Hermsmeyer"
   },
-  "cubeCircleOutline.svg": {
-    "text": [
-      "Copyright 2024 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
-  "cubeHexOutline.svg": {
+  "cubePinkHexagon.svg": {
     "text": [
       "Copyright 2024 University of Colorado Boulder"
     ],
