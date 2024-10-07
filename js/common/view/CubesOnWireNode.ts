@@ -96,6 +96,10 @@ export default class CubesOnWireNode extends Node {
     } );
   }
 
+  /**
+   * Snap the cubes to their positions on the wire based on the addend values. By default, the cubes are arranged in
+   * groups of 5 with a separator between the two addends.
+   */
   public snapCubesToPositions(): void {
     const leftAddend = this.model.leftAddendNumberProperty.value;
     const rightAddend = this.model.rightAddendNumberProperty.value;
@@ -129,25 +133,47 @@ export default class CubesOnWireNode extends Node {
     }
   }
 
+  /**
+   * Handle the movement of a cube and its neighbors when it is dragged.
+   * @param newPosition
+   * @param grabbedCube
+   */
   public handleCubeMove( newPosition: Vector2, grabbedCube: CubeNode ): void {
+
+    // Determine whether we are dragging the cube to the right or left along the wire.
     const draggingRight = Math.sign( newPosition.x - grabbedCube.parentToGlobalPoint( grabbedCube.bounds.center ).x ) > 0;
+
+    // Sort all active cubes by their x position, and reverse if we are dragging towards the left.
     const activeCubes = this.cubes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
-
     const sortedCubes = draggingRight ? activeCubes : activeCubes.reverse();
-    const index = sortedCubes.indexOf( grabbedCube );
-    const cubesToMove = sortedCubes.slice( index, sortedCubes.length + 1 ).filter(
+
+    // Now that the cubes are sorted in the proper direction we can determine which cubes need to be moved based
+    // on the index of the grabbed cube.
+    const grabbedCubeIndex = sortedCubes.indexOf( grabbedCube );
+    const cubesToMove = sortedCubes.slice( grabbedCubeIndex, sortedCubes.length + 1 ).filter(
       cube => {
         return cube.model.addendTypeProperty.value === grabbedCube.model.addendTypeProperty.value;
       } );
 
+    // Calculate the distance the grabbed cube has moved and constrain the movement so that it does not exit
+    // the drag bounds.
     const oldCenterX = grabbedCube.centerX;
     const dragBoundsWithMovingCubes = this.cubeDragBounds.dilatedX( -CUBE_WIDTH * ( cubesToMove.length - 1 ) );
     const newCenterX = dragBoundsWithMovingCubes.closestPointTo( grabbedCube.globalToParentPoint( newPosition ) ).x;
     const deltaX = newCenterX - oldCenterX;
-    cubesToMove.forEach( cube => {
-      cube.centerX += deltaX;
 
+    // Calculate the distance between the grabbed cube and the closest cube in the dragging direction.
+    // The first cube in the array is the grabbed cube, and the second is the closest since we sorted the cubes above.
+    const closestCubeDistance = cubesToMove.length > 1 ? Math.abs( cubesToMove[ 1 ].centerX - cubesToMove[ 0 ].centerX ) : 0;
+    grabbedCube.centerX = newCenterX;
+
+    cubesToMove.forEach( cube => {
+
+      // Check the distance to see if the grabbed cube is close enough to the closest cube to move it.
+      if ( cube !== grabbedCube && closestCubeDistance < CUBE_WIDTH ) {
+        cube.centerX += deltaX;
+      }
       if ( cube.centerX > this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           this.leftAddendCountingObjectsProperty.value.remove( cube.model );
@@ -158,6 +184,19 @@ export default class CubesOnWireNode extends Node {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           this.rightAddendCountingObjectsProperty.value.remove( cube.model );
           this.leftAddendCountingObjectsProperty.value.add( cube.model );
+        }
+      }
+    } );
+
+    // Once all the cubes are moved confirm that their centers are each the required minimum distance apart to avoid
+    // overlap.
+    cubesToMove.forEach( ( cube, i ) => {
+      if ( i > 0 ) {
+        const previousCube = cubesToMove[ i - 1 ];
+        const distance = Math.abs( cube.centerX - previousCube.centerX );
+        if ( distance < CUBE_WIDTH ) {
+          cube.centerX = draggingRight ? previousCube.centerX + CUBE_WIDTH - CUBE_OVERLAP
+                                       : previousCube.centerX - CUBE_WIDTH + CUBE_OVERLAP;
         }
       }
     } );
