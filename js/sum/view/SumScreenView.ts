@@ -18,6 +18,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import { VBox } from '../../../../scenery/js/imports.js';
+import AddendSpinnerPanel from './AddendSpinnerPanel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -59,6 +61,32 @@ export default class SumScreenView extends NumberPairsScreenView {
     }, providedOptions );
 
     super( model, options );
+
+    const leftAddendSpinner = new AddendSpinnerPanel(
+      model.leftAddendCountingObjectsProperty.value,
+      model.inactiveCountingObjects,
+      model.leftAddendNumberProperty,
+      model.leftAddendRangeProperty,
+      model.addendsStableProperty,
+      {
+        tandem: providedOptions.tandem.createTandem( 'leftAddendSpinner' )
+      } );
+    const rightAddendSpinner = new AddendSpinnerPanel(
+      model.rightAddendCountingObjectsProperty.value,
+      model.inactiveCountingObjects,
+      model.rightAddendNumberProperty,
+      model.rightAddendRangeProperty,
+      model.addendsStableProperty,
+      {
+        tandem: providedOptions.tandem.createTandem( 'rightAddendSpinner' )
+      } );
+    const addendSpinners = new VBox( {
+      children: [ leftAddendSpinner, rightAddendSpinner ],
+      spacing: 20,
+      centerY: this.countingAreaBounds.centerY,
+      right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN
+    } );
+    this.addChild( addendSpinners );
   }
 
   /**

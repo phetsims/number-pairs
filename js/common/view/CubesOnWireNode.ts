@@ -37,7 +37,7 @@ type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions 
 
 export default class CubesOnWireNode extends Node {
 
-  private readonly cubes: CubeNode[] = [];
+  private readonly cubeModelToNodeMap = new Map<CountingObject, CubeNode>();
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly cubeSeparatorCenterXProperty: Property<number>;
   private readonly cubeDragBounds: Bounds2;
@@ -78,20 +78,27 @@ export default class CubesOnWireNode extends Node {
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 
     model.countingObjects.forEach( ( countingObject, i ) => {
-      this.cubes.push( new CubeNode(
+      const cubeNode = new CubeNode(
         countingObject,
         {
           tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
           onDrop: this.snapCubesToPositions.bind( this ),
           onDrag: this.handleCubeMove.bind( this )
-        } ) );
+        } );
+      this.cubeModelToNodeMap.set( countingObject, cubeNode );
     } );
 
-    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ], () => {
+    Multilink.multilink( [
+      model.leftAddendNumberProperty,
+      model.rightAddendNumberProperty,
+      model.totalNumberProperty,
+      model.leftAddendCountingObjectsProperty,
+      model.rightAddendCountingObjectsProperty
+    ], () => {
       this.snapCubesToPositions();
     } );
 
-    this.cubes.forEach( cube => {
+    this.cubeModelToNodeMap.forEach( cube => {
       this.addChild( cube );
     } );
   }
@@ -102,16 +109,8 @@ export default class CubesOnWireNode extends Node {
    */
   public snapCubesToPositions(): void {
     const leftAddend = this.model.leftAddendNumberProperty.value;
-    const rightAddend = this.model.rightAddendNumberProperty.value;
-    const total = leftAddend + rightAddend;
-    const leftAddendCubes = [];
-    const rightAddendCubes = [];
-    for ( let i = 0; i < leftAddend; i++ ) {
-      leftAddendCubes.push( this.cubes[ i ] );
-    }
-    for ( let i = 0; i < rightAddend; i++ ) {
-      rightAddendCubes.push( this.cubes[ i + leftAddend ] );
-    }
+    const leftAddendCubes = this.leftAddendCountingObjectsProperty.value.map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
+    const rightAddendCubes = this.rightAddendCountingObjectsProperty.value.map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
 
     // Cubes should be lined up on the wire in groups of 5.
     leftAddendCubes.forEach( ( cube, i ) => {
@@ -127,10 +126,6 @@ export default class CubesOnWireNode extends Node {
       const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
       cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
     } );
-
-    for ( let i = 0; i < this.cubes.length; i++ ) {
-      this.cubes[ i ].visible = i < total;
-    }
   }
 
   /**
@@ -144,7 +139,8 @@ export default class CubesOnWireNode extends Node {
     const draggingRight = Math.sign( newPosition.x - grabbedCube.parentToGlobalPoint( grabbedCube.bounds.center ).x ) > 0;
 
     // Sort all active cubes by their x position, and reverse if we are dragging towards the left.
-    const activeCubes = this.cubes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
+    const cubeNodes = [ ...this.cubeModelToNodeMap.values() ];
+    const activeCubes = cubeNodes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
     const sortedCubes = draggingRight ? activeCubes : activeCubes.reverse();
 

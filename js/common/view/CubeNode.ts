@@ -50,7 +50,8 @@ export default class CubeNode extends Node {
     } );
 
     const options = combineOptions<NodeOptions>( {
-      children: [ cubeLeftAddendImage, cubeRightAddendImage ]
+      children: [ cubeLeftAddendImage, cubeRightAddendImage ],
+      visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
     super( options );
 

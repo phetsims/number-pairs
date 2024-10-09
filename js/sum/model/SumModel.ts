@@ -20,6 +20,7 @@ import createObservableArray, { ObservableArray, ObservableArrayIO } from '../..
 import CountingObject from '../../common/model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -31,22 +32,33 @@ type SumModelOptions = SelfOptions &
 
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
-// TODO: Add left/right observable arrays. See DecompositionModel for an example.
 export default class SumModel extends NumberPairsModel {
 
-  public override readonly rightAddendNumberProperty: NumberProperty;
+  public override readonly rightAddendNumberProperty: Property<number>;
+  public override readonly leftAddendNumberProperty: Property<number>;
+  public readonly leftAddendRangeProperty: TReadOnlyProperty<Range>;
+  public readonly rightAddendRangeProperty: TReadOnlyProperty<Range>;
+  public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
   // This Property is used to provide an interface for the number line slider and then updates the observable array
   // accordingly. leftAddendProxyProperty's value is updated by the slider and the leftAddendNumberProperty.
   // Although this loop creates a possibility for reentrant behavior, the values should stabilize after completing
   // one cycle.
   public readonly leftAddendProxyProperty: Property<number>;
+
+  // TODO: A proxy property will probably need to be created for studio for the right and left addends as well.
   public readonly addendsStableProperty: Property<boolean>;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
+
+    const addendsStableProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'addendsStableProperty' ),
+      phetioReadOnly: true,
+      phetioFeatured: false
+    } );
 
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
       numberType: 'Integer',
@@ -87,8 +99,9 @@ export default class SumModel extends NumberPairsModel {
       options
     );
 
+    this.leftAddendNumberProperty = leftAddendNumberProperty;
     this.rightAddendNumberProperty = rightAddendNumberProperty;
-    // TODO: create proxy Property for left addend. This would be reentrant.
+
     // NumberProperty that links to the LeftAddendNumberProperty.
     // Link to proxy to update the observable array
     this.leftAddendProxyProperty = new NumberProperty( leftAddendNumberProperty.value, {
@@ -97,50 +110,56 @@ export default class SumModel extends NumberPairsModel {
       phetioReadOnly: true,
       phetioFeatured: false
     } );
-    this.addendsStableProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'addendsStableProperty' ),
-      phetioReadOnly: true,
-      phetioFeatured: false
+    this.addendsStableProperty = addendsStableProperty;
+
+    this.inactiveCountingObjects = createObservableArray( {
+      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
+      tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
+
+    this.registerObservableArrays( leftAddendObjects, rightAddendObjects );
+
+    this.countingObjects.forEach( countingObject => {
+      this.inactiveCountingObjects.push( countingObject );
+    } );
+    _.times( this.leftAddendNumberProperty.value, () => {
+      const countingObject = this.inactiveCountingObjects.shift();
+      assert && assert( countingObject, 'no more inactive counting objects' );
+      leftAddendObjects.push( countingObject! );
+    } );
+    _.times( this.rightAddendNumberProperty.value, () => {
+      const countingObject = this.inactiveCountingObjects.shift();
+      assert && assert( countingObject, 'no more inactive counting objects' );
+      rightAddendObjects.push( countingObject! );
+    } );
+    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+
 
     // The left addend proxy Property controls both the left/right addend ObservableArrays. The leftAddendNumberProperty
     // should not update observable arrays. That logic should only be handled by the proxy Property to avoid
     // malicious reentrant behavior.
     this.leftAddendProxyProperty.lazyLink( ( newValue, oldValue ) => {
       const delta = newValue - oldValue;
-      this.addendsStableProperty.value = false;
-      if ( delta > 0 ) {
+      if ( delta > 0 && this.addendsStableProperty.value ) {
         _.times( delta, () => {
           const countingObject = rightAddendObjects.pop();
           assert && assert( countingObject, 'rightAddendObjects should not be empty' );
           leftAddendObjects.push( countingObject! );
         } );
       }
-      else if ( delta < 0 ) {
+      else if ( delta < 0 && this.addendsStableProperty.value ) {
+        this.addendsStableProperty.value = false;
         _.times( -delta, () => {
           const countingObject = leftAddendObjects.pop();
           assert && assert( countingObject, 'leftAddendObjects should not be empty' );
           rightAddendObjects.push( countingObject! );
         } );
+        this.addendsStableProperty.value = true;
       }
-      this.addendsStableProperty.value = true;
     } );
-    this.leftAddendNumberProperty.link( leftAddend => {
+    this.leftAddendNumberProperty.lazyLink( leftAddend => {
       this.leftAddendProxyProperty.value = leftAddend;
     } );
-
-    this.registerObservableArrays( leftAddendObjects, rightAddendObjects );
-
-    let countingObjectsIndex = 0;
-    _.times( this.leftAddendNumberProperty.value, () => {
-      leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
-      countingObjectsIndex++;
-    } );
-    _.times( this.rightAddendNumberProperty.value, () => {
-      rightAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
-      countingObjectsIndex++;
-    } );
-    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
       this.leftAddendNumberProperty.value = leftAddend;
@@ -148,6 +167,19 @@ export default class SumModel extends NumberPairsModel {
     rightAddendObjects.lengthProperty.link( rightAddend => {
       this.rightAddendNumberProperty.value = rightAddend;
     } );
+
+    this.leftAddendRangeProperty = new DerivedProperty( [ this.rightAddendNumberProperty, this.addendsStableProperty ],
+      ( rightAddend, addendsStable ) => {
+        return addendsStable ? new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - rightAddend ) :
+          new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max );
+      } );
+    this.rightAddendRangeProperty = new DerivedProperty( [ this.leftAddendNumberProperty, this.addendsStableProperty ],
+      ( leftAddend, addendsStable ) => {
+        return addendsStable ? new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - leftAddend ) :
+          new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max );
+      } );
+
+    this.addendsStableProperty.value = true;
   }
 
   /**
