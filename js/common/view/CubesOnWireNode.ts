@@ -31,8 +31,8 @@ type SelfOptions = {
   sceneRange: Range;
 };
 
-const CUBE_OVERLAP = 5;
-const LEFT_MOST_CUBE_X = 2;
+const CUBE_OVERLAP = 6;
+const LEFT_MOST_CUBE_X = 1;
 const END_CAP_RADIUS = 10;
 
 type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -126,8 +126,10 @@ export default class CubesOnWireNode extends Node {
    */
   public snapCubesToPositions(): void {
     const leftAddend = this.model.leftAddendNumberProperty.value;
-    const leftAddendCubes = this.leftAddendCountingObjectsProperty.value.map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
-    const rightAddendCubes = this.rightAddendCountingObjectsProperty.value.map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
+    const leftAddendCubes = this.leftAddendCountingObjectsProperty.value
+      .map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
+    const rightAddendCubes = this.rightAddendCountingObjectsProperty.value
+      .map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
 
     // Cubes should be lined up on the wire in groups of 5.
     leftAddendCubes.forEach( ( cube, i ) => {
