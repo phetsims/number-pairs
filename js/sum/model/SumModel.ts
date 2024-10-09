@@ -19,6 +19,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -35,17 +36,26 @@ export default class SumModel extends NumberPairsModel {
 
   public override readonly rightAddendNumberProperty: NumberProperty;
 
+  // This Property is used to provide an interface for the number line slider and then updates the observable array
+  // accordingly. leftAddendProxyProperty's value is updated by the slider and the leftAddendNumberProperty.
+  // Although this loop creates a possibility for reentrant behavior, the values should stabilize after completing
+  // one cycle.
+  public readonly leftAddendProxyProperty: Property<number>;
+  public readonly addendsStableProperty: Property<boolean>;
+
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
 
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
+      numberType: 'Integer',
       range: SCENE_RANGE,
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
     } );
 
     const rightAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
+      numberType: 'Integer',
       range: SCENE_RANGE,
       tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
     } );
@@ -78,6 +88,46 @@ export default class SumModel extends NumberPairsModel {
     );
 
     this.rightAddendNumberProperty = rightAddendNumberProperty;
+    // TODO: create proxy Property for left addend. This would be reentrant.
+    // NumberProperty that links to the LeftAddendNumberProperty.
+    // Link to proxy to update the observable array
+    this.leftAddendProxyProperty = new NumberProperty( leftAddendNumberProperty.value, {
+      numberType: 'Integer',
+      tandem: options.tandem.createTandem( 'leftAddendProxyProperty' ),
+      phetioReadOnly: true,
+      phetioFeatured: false
+    } );
+    this.addendsStableProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'addendsStableProperty' ),
+      phetioReadOnly: true,
+      phetioFeatured: false
+    } );
+
+    // The left addend proxy Property controls both the left/right addend ObservableArrays. The leftAddendNumberProperty
+    // should not update observable arrays. That logic should only be handled by the proxy Property to avoid
+    // malicious reentrant behavior.
+    this.leftAddendProxyProperty.lazyLink( ( newValue, oldValue ) => {
+      const delta = newValue - oldValue;
+      this.addendsStableProperty.value = false;
+      if ( delta > 0 ) {
+        _.times( delta, () => {
+          const countingObject = rightAddendObjects.pop();
+          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
+          leftAddendObjects.push( countingObject! );
+        } );
+      }
+      else if ( delta < 0 ) {
+        _.times( -delta, () => {
+          const countingObject = leftAddendObjects.pop();
+          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+          rightAddendObjects.push( countingObject! );
+        } );
+      }
+      this.addendsStableProperty.value = true;
+    } );
+    this.leftAddendNumberProperty.link( leftAddend => {
+      this.leftAddendProxyProperty.value = leftAddend;
+    } );
 
     this.registerObservableArrays( leftAddendObjects, rightAddendObjects );
 

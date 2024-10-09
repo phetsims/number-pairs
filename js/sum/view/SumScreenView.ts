@@ -15,12 +15,15 @@ import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordio
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
 };
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sliderEnabledRangeProperty'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 export default class SumScreenView extends NumberPairsScreenView {
 
@@ -45,6 +48,13 @@ export default class SumScreenView extends NumberPairsScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         addendsOnRight: false,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
+      } ),
+      leftAddendProxyProperty: model.leftAddendProxyProperty,
+
+      // While observable arrays and addend values are being updated, we do not want to create a reentrant situation by having
+      // the slider's enabled range interrupt the natural progression of listeners firing.
+      sliderEnabledRangeProperty: new DerivedProperty( [ model.totalNumberProperty, model.addendsStableProperty ], ( totalNumber, addendsStable ) => {
+        return addendsStable ? new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, totalNumber ) : new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max );
       } )
     }, providedOptions );
 

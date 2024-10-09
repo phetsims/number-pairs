@@ -67,7 +67,7 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel => sceneModel.rightAddendObjects );
     const leftAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
       derive: 'leftAddendNumberProperty',
-      bidirectional: true
+      bidirectional: true // This property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );
     const rightAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
       derive: 'rightAddendNumberProperty'

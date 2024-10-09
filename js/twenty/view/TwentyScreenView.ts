@@ -16,12 +16,14 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
 };
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange' | 'sliderEnabledRangeProperty'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TwentyScreenView extends DecompositionScreenView {
@@ -46,7 +48,10 @@ export default class TwentyScreenView extends DecompositionScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE
+      sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE,
+      sliderEnabledRangeProperty: new DerivedProperty( [ model.totalNumberProperty ], totalNumber => {
+      return new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, totalNumber );
+    } )
     }, providedOptions );
 
     super( model, options );

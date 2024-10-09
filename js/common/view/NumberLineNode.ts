@@ -7,7 +7,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import { Circle, Line, ManualConstraint, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -19,9 +19,13 @@ import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   numberLineRange: Range;
+  leftAddendProperty?: PhetioProperty<number>;
+  sliderEnabledRangeProperty: TReadOnlyProperty<Range>;
 };
 type NumberLineNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
@@ -32,6 +36,10 @@ const LABEL_DIMENSION = 28;
 export default class NumberLineNode extends Node {
   public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
+    const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {
+      leftAddendProperty: model.leftAddendNumberProperty
+    }, providedOptions );
+
     // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
     const zeroNumberProperty = new Property( providedOptions.numberLineRange.min );
@@ -41,9 +49,10 @@ export default class NumberLineNode extends Node {
       Vector2.ZERO,
       numberLineWidth / providedOptions.numberLineRange.getLength()
     );
+
     const slider = new NumberLineSlider(
-      model.leftAddendNumberProperty,
-      model.totalNumberProperty,
+      options.leftAddendProperty,
+      options.sliderEnabledRangeProperty,
       trackModelViewTransform,
       model.showTickValuesProperty,
       {
@@ -121,7 +130,7 @@ export default class NumberLineNode extends Node {
         totalHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
       } );
 
-    const options = optionize<NumberLineNodeOptions, EmptySelfOptions, NodeOptions>()( {
+    const superOptions = combineOptions<NodeOptions>( {
       children: [
         leftAddendHighlight,
         rightAddendHighlight,
@@ -137,7 +146,7 @@ export default class NumberLineNode extends Node {
         totalLabel
       ]
     }, providedOptions );
-    super( options );
+    super( superOptions );
 
     // Position the total circle at the total value on the number line.
     model.totalNumberProperty.link( total => {

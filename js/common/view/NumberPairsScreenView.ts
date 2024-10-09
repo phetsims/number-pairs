@@ -26,6 +26,8 @@ import CountingAreaNode from './CountingAreaNode.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import CubesOnWireNode from './CubesOnWireNode.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 
 type SelfOptions = {
@@ -34,6 +36,8 @@ type SelfOptions = {
   countingRepresentations: CountingRepresentationType[];
   equationContent?: Node | null;
   sceneRange?: Range | null;
+  leftAddendProxyProperty?: Property<number> | null;
+  sliderEnabledRangeProperty: TReadOnlyProperty<Range> | null;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & WithRequired<ScreenViewOptions, 'tandem'>;
 
@@ -54,7 +58,8 @@ export default class NumberPairsScreenView extends ScreenView {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       equationContent: null,
       sceneRange: null,
-      children: [ countingRepresentationRadioButtonGroup ]
+      children: [ countingRepresentationRadioButtonGroup ],
+      leftAddendProxyProperty: null
     }, providedOptions );
     super( options );
 
@@ -121,12 +126,19 @@ export default class NumberPairsScreenView extends ScreenView {
      * Create the number line and accompanying features.
      */
     if ( options.countingRepresentations.includes( CountingRepresentationType.NUMBER_LINE ) ) {
-      const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.NUMBER_LINE );
+      assert && assert( options.sliderEnabledRangeProperty, 'sliderEnabledRangeProperty required for NumberLineNode' );
+      const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant(
+        model.countingRepresentationTypeProperty,
+        CountingRepresentationType.NUMBER_LINE
+      );
+
       const numberLineNode = new NumberLineNode( model, this.countingAreaBounds.width - 30, {
         center: this.countingAreaBounds.center,
         visibleProperty: numberLineVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
+        leftAddendProperty: options.leftAddendProxyProperty || model.leftAddendNumberProperty,
+        sliderEnabledRangeProperty: options.sliderEnabledRangeProperty!,
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       this.addChild( numberLineNode );

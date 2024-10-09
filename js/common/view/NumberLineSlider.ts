@@ -17,7 +17,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ThumbNode from './ThumbNode.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
@@ -40,7 +39,7 @@ export default class NumberLineSlider extends HSlider {
 
   public constructor(
     leftAddendNumberProperty: PhetioProperty<number>,
-    totalNumberProperty: TReadOnlyProperty<number>,
+    enabledRangeProperty: TReadOnlyProperty<Range>,
     trackModelViewTransform: ModelViewTransform2,
     tickValuesVisibleProperty: Property<boolean>,
     providedOptions: NumberLineSliderOptions
@@ -48,9 +47,6 @@ export default class NumberLineSlider extends HSlider {
 
     const trackDimension = new Dimension2( providedOptions.numberLineWidth, 0 );
     const numberLineRange = providedOptions.numberLineRange;
-    const sliderEnabledRangeProperty = new DerivedProperty( [ totalNumberProperty ], total => {
-      return new Range( numberLineRange.min, total );
-    } );
     const thumbNode = new ThumbNode( providedOptions.tandem );
 
     const sliderTickParent = new Node();
@@ -62,7 +58,7 @@ export default class NumberLineSlider extends HSlider {
       {
         constrainValue: n => Utils.toFixedNumber( n, 0 ),
         size: trackDimension,
-        enabledRangeProperty: sliderEnabledRangeProperty,
+        enabledRangeProperty: enabledRangeProperty,
         numberLineRange: numberLineRange,
         tandem: providedOptions.tandem.createTandem( 'trackNode' )
       } );
@@ -72,7 +68,7 @@ export default class NumberLineSlider extends HSlider {
       trackNode: trackNode,
       thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
-      enabledRangeProperty: sliderEnabledRangeProperty
+      enabledRangeProperty: enabledRangeProperty
     }, providedOptions );
     super( leftAddendNumberProperty, numberLineRange, options );
 

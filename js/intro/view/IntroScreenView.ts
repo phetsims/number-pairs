@@ -20,7 +20,7 @@ type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
 };
 
-type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
+type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange' | 'sliderEnabledRangeProperty'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 
@@ -40,7 +40,8 @@ export default class IntroScreenView extends DecompositionScreenView {
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
+      sliderEnabledRangeProperty: null
     }, providedOptions );
 
     super( model, options );
