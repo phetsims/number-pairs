@@ -9,7 +9,7 @@
  *
  */
 
-import { Circle, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -25,6 +25,7 @@ import Property from '../../../../axon/js/Property.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -32,6 +33,7 @@ type SelfOptions = {
 
 const CUBE_OVERLAP = 5;
 const LEFT_MOST_CUBE_X = 2;
+const END_CAP_RADIUS = 10;
 
 type CubesOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -60,6 +62,21 @@ export default class CubesOnWireNode extends Node {
       stroke: 'black'
     } );
 
+    const wireMinXEndCapShape = new Shape()
+      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, true ).lineTo( 0, 0 );
+    const wireMinXEndCap = new Path( wireMinXEndCapShape, {
+      left: wire.left,
+      centerY: wire.centerY,
+      fill: 'black'
+    } );
+    const wireMaxXEndCapShape = new Shape()
+      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, false ).lineTo( 0, 0 );
+    const wireMaxXEndCap = new Path( wireMaxXEndCapShape, {
+      right: wire.right,
+      centerY: wire.centerY,
+      fill: 'black'
+    } );
+
     // TODO, this is a convenience Property, I don't believe it needs to be instrumented.
     const cubeSeparatorCenterXProperty = new Property( 0 );
     const cubeSeparator = new Circle( 5, {
@@ -68,7 +85,7 @@ export default class CubesOnWireNode extends Node {
     cubeSeparatorCenterXProperty.link( x => { cubeSeparator.centerX = x; } );
 
     const options = combineOptions<NodeOptions>( {
-      children: [ wire, cubeSeparator ]
+      children: [ wire, cubeSeparator, wireMinXEndCap, wireMaxXEndCap ]
     }, providedOptions );
     super( options );
     this.modelViewTransform = modelViewTransform;

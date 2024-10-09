@@ -133,7 +133,6 @@ export default class NumberPairsScreenView extends ScreenView {
       );
 
       const numberLineNode = new NumberLineNode( model, this.countingAreaBounds.width - 30, {
-        center: this.countingAreaBounds.center,
         visibleProperty: numberLineVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
@@ -142,6 +141,10 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       this.addChild( numberLineNode );
+
+      // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
+      //  is added to the scene graph.
+      numberLineNode.center = this.countingAreaBounds.center;
 
       const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, this.countingAreaBounds, {
         visibleProperty: numberLineVisibleProperty,
@@ -173,11 +176,12 @@ export default class NumberPairsScreenView extends ScreenView {
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
       const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {
         sceneRange: sceneRange,
-        center: countingArea.center,
         visibleProperty: cubesVisibleProperty,
         tandem: options.tandem.createTandem( 'cubesOnWireNode' )
       } );
       this.addChild( cubesOnWireNode );
+
+      cubesOnWireNode.center = this.countingAreaBounds.center;
     }
 
     // Position the counting representation radio buttons below the counting area.
