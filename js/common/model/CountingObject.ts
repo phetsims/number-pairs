@@ -15,6 +15,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -35,6 +36,7 @@ type CountingObjectOptions = SelfOptions & PhetioObjectOptions;
 export default class CountingObject extends PhetioObject {
   public readonly positionProperty: Property<Vector2>;
   public readonly addendTypeProperty: Property<AddendType>;
+  public readonly focusedProperty: Property<boolean>;
   public readonly id: number;
 
   public constructor( providedOptions: CountingObjectOptions ) {
@@ -53,6 +55,9 @@ export default class CountingObject extends PhetioObject {
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
       phetioReadOnly: false,
       phetioFeatured: false
+    } );
+    this.focusedProperty = new BooleanProperty( false, {
+      tandem: this.tandem.createTandem( 'focusedProperty' )
     } );
     this.id = options.id;
 

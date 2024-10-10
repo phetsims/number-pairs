@@ -28,6 +28,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import CubesOnWireNode from './CubesOnWireNode.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import KittensLayerNode from './KittensLayerNode.js';
 
 
 type SelfOptions = {
@@ -121,6 +122,21 @@ export default class NumberPairsScreenView extends ScreenView {
       backgroundColorProperty: backgroundColorProperty
     } );
     this.addChild( countingArea );
+
+    /**
+     * Create the attribute based kitten node layer and accompanying features.
+     */
+    if ( options.countingRepresentations.includes( CountingRepresentationType.KITTENS ) ) {
+      const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.KITTENS );
+      kittensLayerVisibleProperty.link( visible => {
+        console.log( visible );
+      } );
+      const kittensLayerNode = new KittensLayerNode( model.countingObjects, this.countingAreaBounds, {
+        visibleProperty: kittensLayerVisibleProperty,
+        tandem: options.tandem.createTandem( 'kittensLayerNode' )
+      } );
+      this.addChild( kittensLayerNode );
+    }
 
     /**
      * Create the number line and accompanying features.
