@@ -50,6 +50,8 @@ export default class CubesOnWireNode extends Node {
   private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
+  private cubeDragging = false;
+
   public constructor(
     private readonly model: NumberPairsModel,
     countingAreaBounds: Bounds2,
@@ -104,8 +106,14 @@ export default class CubesOnWireNode extends Node {
         countingObject,
         {
           tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
-          onDrop: this.snapCubesToPositions.bind( this ),
-          onDrag: this.handleCubeMove.bind( this )
+          onDrop: () => {
+            this.cubeDragging = false;
+            this.snapCubesToPositions();
+          },
+          onDrag: ( pointerPoint: Vector2, cubeNode: CubeNode ) => {
+            this.cubeDragging = true;
+            this.handleCubeMove( pointerPoint, cubeNode );
+          }
         } );
       this.cubeModelToNodeMap.set( countingObject, cubeNode );
     } );
@@ -117,7 +125,7 @@ export default class CubesOnWireNode extends Node {
       model.leftAddendCountingObjectsProperty,
       model.rightAddendCountingObjectsProperty
     ], () => {
-      this.snapCubesToPositions();
+      !this.cubeDragging && this.snapCubesToPositions();
     } );
 
     this.cubeModelToNodeMap.forEach( cube => {
@@ -140,6 +148,7 @@ export default class CubesOnWireNode extends Node {
     leftAddendCubes.forEach( ( cube, i ) => {
       const placeOnWire = Math.floor( i / 5 ) + i + LEFT_MOST_CUBE_X;
       cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
+      cube.moveToFront();
     } );
 
     // The cube separator should not be grouped as part of the groups of 5.
@@ -149,6 +158,7 @@ export default class CubesOnWireNode extends Node {
     rightAddendCubes.forEach( ( cube, i ) => {
       const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
       cube.center = new Vector2( this.modelViewTransform.modelToViewX( placeOnWire ), 0 );
+      cube.moveToFront();
     } );
   }
 
@@ -196,12 +206,23 @@ export default class CubesOnWireNode extends Node {
       }
       if ( cube.centerX > this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
-          this.leftAddendCountingObjectsProperty.value.remove( cube.model );
+
+          // Since a cube is moving to the right, the separator should adjust one position to the left.
+          this.cubeSeparatorCenterXProperty.value = this.calculateCubeSeparatorXPosition( this.model.leftAddendNumberProperty.value - 1 );
+
+          // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
+          // updated in the ObservableArray.lengthProperty listener.
           this.rightAddendCountingObjectsProperty.value.add( cube.model );
+          this.leftAddendCountingObjectsProperty.value.remove( cube.model );
         }
       }
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
+          // Since a cube is moving to the left, the separator should adjust one position to the right.
+          this.cubeSeparatorCenterXProperty.value = this.calculateCubeSeparatorXPosition( this.model.leftAddendNumberProperty.value + 1 );
+
+          // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
+          // updated in the ObservableArray.lengthProperty listener.
           this.rightAddendCountingObjectsProperty.value.remove( cube.model );
           this.leftAddendCountingObjectsProperty.value.add( cube.model );
         }
@@ -220,6 +241,17 @@ export default class CubesOnWireNode extends Node {
         }
       }
     } );
+
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendNumberProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendNumberProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
+  }
+
+  private calculateCubeSeparatorXPosition( leftAddendValue: number ): number {
+
+    // The cube separator should not be grouped as part of the groups of 5.
+    const separatorAdjustment = leftAddendValue % 5 === 0 ? 1 : 0;
+    const cubeSeparatorPlaceOnWire = Math.floor( leftAddendValue / 5 ) + leftAddendValue - separatorAdjustment + LEFT_MOST_CUBE_X;
+    return this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
   }
 }
 

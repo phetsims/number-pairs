@@ -8,7 +8,7 @@
  *
  */
 
-import { Image, Node, NodeOptions, RichDragListener } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -18,6 +18,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
 import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 export const CUBE_WIDTH = 37;
 
@@ -45,10 +46,6 @@ export default class CubeNode extends Node {
       visibleProperty: rightAddendVisibleProperty
     } );
 
-    model.addendTypeProperty.link( addendType => {
-      // cubeBackground.fill = addendType === AddendType.LEFT ? 'blue' : 'red';
-    } );
-
     const options = combineOptions<NodeOptions>( {
       children: [ cubeLeftAddendImage, cubeRightAddendImage ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
@@ -68,6 +65,18 @@ export default class CubeNode extends Node {
       }
     } );
     this.addInputListener( dragListener );
+    this.addDebugText( model );
+  }
+
+  public addDebugText( cube: CountingObject ): void {
+    // Show index when debugging with ?dev
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addChild( new Text( cube.id + '', {
+        font: new PhetFont( 20 ),
+        fill: 'black',
+        center: this.center
+      } ) );
+    }
   }
 }
 

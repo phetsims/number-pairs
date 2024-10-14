@@ -72,7 +72,7 @@ export default class NumberPairsSceneModel {
 
       if ( Math.sign( leftAddendDelta ) === 1 ) {
         _.times( leftAddendDelta, () => {
-          const countingObject = this.rightAddendObjects.pop();
+          const countingObject = this.inactiveCountingObjects.pop();
           assert && assert( countingObject, 'rightAddendObjects should not be empty' );
           this.leftAddendObjects.push( countingObject! );
         } );
@@ -81,23 +81,22 @@ export default class NumberPairsSceneModel {
         _.times( Math.abs( leftAddendDelta ), () => {
           const countingObject = this.leftAddendObjects.pop();
           assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+          this.inactiveCountingObjects.push( countingObject! );
+        } );
+      }
+      if ( Math.sign( rightAddendDelta ) === 1 ) {
+        _.times( rightAddendDelta, () => {
+          const countingObject = this.inactiveCountingObjects.pop();
+          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
           this.rightAddendObjects.push( countingObject! );
         } );
-
-        if ( Math.sign( rightAddendDelta ) === 1 ) {
-          _.times( rightAddendDelta, () => {
-            const countingObject = this.inactiveCountingObjects.pop();
-            assert && assert( countingObject, 'rightAddendObjects should not be empty' );
-            this.rightAddendObjects.push( countingObject! );
-          } );
-        }
-        else {
-          _.times( Math.abs( rightAddendDelta ), () => {
-            const countingObject = this.rightAddendObjects.pop();
-            assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-            this.inactiveCountingObjects.push( countingObject! );
-          } );
-        }
+      }
+      else {
+        _.times( Math.abs( rightAddendDelta ), () => {
+          const countingObject = this.rightAddendObjects.pop();
+          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+          this.inactiveCountingObjects.push( countingObject! );
+        } );
       }
 
       assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );

@@ -159,18 +159,16 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
-  public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject> ): void {
+  public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject>, inactiveCountingObjects: ObservableArray<CountingObject> ): void {
     leftAddendObjects.addItemAddedListener( countingObject => {
       countingObject.addendTypeProperty.value = AddendType.LEFT;
-    } );
-    leftAddendObjects.addItemRemovedListener( countingObject => {
-      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
     } );
 
     rightAddendObjects.addItemAddedListener( countingObject => {
       countingObject.addendTypeProperty.value = AddendType.RIGHT;
     } );
-    rightAddendObjects.addItemRemovedListener( countingObject => {
+
+    inactiveCountingObjects.addItemAddedListener( countingObject => {
       countingObject.addendTypeProperty.value = AddendType.INACTIVE;
     } );
   }

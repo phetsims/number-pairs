@@ -101,7 +101,7 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
 
-    this.registerObservableArrays( leftAddendObjects, rightAddendObjects );
+    this.registerObservableArrays( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
 
     this.countingObjects.forEach( countingObject => {
       this.inactiveCountingObjects.push( countingObject );
@@ -123,9 +123,6 @@ export default class SumModel extends NumberPairsModel {
     this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
       const leftAddendDelta = this.leftAddendNumberProperty.value - leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
-      console.log( 'leftAddendDelta', leftAddendDelta, 'rightAddendDelta', rightAddendDelta );
-
-      assert && assert( Math.sign( leftAddendDelta ) !== Math.sign( rightAddendDelta ), 'leftAddendDelta and rightAddendDelta should have opposite signs' );
 
       if ( Math.sign( leftAddendDelta ) === 1 ) {
         _.times( leftAddendDelta, () => {
