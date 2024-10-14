@@ -14,13 +14,13 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -34,31 +34,22 @@ const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberP
 
 export default class SumModel extends NumberPairsModel {
 
-  public override readonly rightAddendNumberProperty: Property<number>;
   public override readonly leftAddendNumberProperty: Property<number>;
   public readonly leftAddendRangeProperty: TReadOnlyProperty<Range>;
-  public readonly rightAddendRangeProperty: TReadOnlyProperty<Range>;
+
+  // The right addend is derived due to competing user interactions in the Sum Screen.
+  // You can find more information in this issue: https://github.com/phetsims/number-pairs/issues/17
+  public override readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
+  public override readonly totalNumberProperty: Property<number>;
+  public readonly totalRangeProperty: Property<Range>;
+
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
-
-  // This Property is used to provide an interface for the number line slider and then updates the observable array
-  // accordingly. leftAddendProxyProperty's value is updated by the slider and the leftAddendNumberProperty.
-  // Although this loop creates a possibility for reentrant behavior, the values should stabilize after completing
-  // one cycle.
-  public readonly leftAddendProxyProperty: Property<number>;
-
-  // TODO: A proxy property will probably need to be created for studio for the right and left addends as well.
-  public readonly addendsStableProperty: Property<boolean>;
+  public readonly updateRangePropertiesEmitter: Emitter;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       initialCountingRepresentationType: CountingRepresentationType.CUBES
     }, providedOptions );
-
-    const addendsStableProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'addendsStableProperty' ),
-      phetioReadOnly: true,
-      phetioFeatured: false
-    } );
 
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
       numberType: 'Integer',
@@ -66,16 +57,18 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
     } );
 
-    const rightAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
+    const totalNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
+      tandem: options.tandem.createTandem( 'totalNumberProperty' ),
       numberType: 'Integer',
-      range: SCENE_RANGE,
-      tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
+      range: SCENE_RANGE
     } );
 
-    const totalProperty = new DerivedProperty( [ leftAddendNumberProperty, rightAddendNumberProperty ],
-      ( leftAddend: number, rightAddend: number ) => leftAddend + rightAddend, {
-        tandem: options.tandem.createTandem( 'totalProperty' ),
-        phetioValueType: NumberIO
+    const rightAddendNumberProperty = new DerivedProperty( [ leftAddendNumberProperty, totalNumberProperty ], ( leftAddend, total ) => {
+        return total - leftAddend;
+      },
+      {
+        phetioValueType: NumberIO,
+        tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
       } );
 
     const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
@@ -90,7 +83,7 @@ export default class SumModel extends NumberPairsModel {
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(
-      totalProperty,
+      totalNumberProperty,
       leftAddendNumberProperty,
       rightAddendNumberProperty,
       new Property( leftAddendObjects ),
@@ -101,16 +94,7 @@ export default class SumModel extends NumberPairsModel {
 
     this.leftAddendNumberProperty = leftAddendNumberProperty;
     this.rightAddendNumberProperty = rightAddendNumberProperty;
-
-    // NumberProperty that links to the LeftAddendNumberProperty.
-    // Link to proxy to update the observable array
-    this.leftAddendProxyProperty = new NumberProperty( leftAddendNumberProperty.value, {
-      numberType: 'Integer',
-      tandem: options.tandem.createTandem( 'leftAddendProxyProperty' ),
-      phetioReadOnly: true,
-      phetioFeatured: false
-    } );
-    this.addendsStableProperty = addendsStableProperty;
+    this.totalNumberProperty = totalNumberProperty;
 
     this.inactiveCountingObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -122,12 +106,12 @@ export default class SumModel extends NumberPairsModel {
     this.countingObjects.forEach( countingObject => {
       this.inactiveCountingObjects.push( countingObject );
     } );
-    _.times( this.leftAddendNumberProperty.value, () => {
+    _.times( leftAddendNumberProperty.value, () => {
       const countingObject = this.inactiveCountingObjects.shift();
       assert && assert( countingObject, 'no more inactive counting objects' );
       leftAddendObjects.push( countingObject! );
     } );
-    _.times( this.rightAddendNumberProperty.value, () => {
+    _.times( rightAddendNumberProperty.value, () => {
       const countingObject = this.inactiveCountingObjects.shift();
       assert && assert( countingObject, 'no more inactive counting objects' );
       rightAddendObjects.push( countingObject! );
@@ -135,51 +119,66 @@ export default class SumModel extends NumberPairsModel {
     assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
 
-    // The left addend proxy Property controls both the left/right addend ObservableArrays. The leftAddendNumberProperty
-    // should not update observable arrays. That logic should only be handled by the proxy Property to avoid
-    // malicious reentrant behavior.
-    this.leftAddendProxyProperty.lazyLink( ( newValue, oldValue ) => {
-      const delta = newValue - oldValue;
-      if ( delta > 0 && this.addendsStableProperty.value ) {
-        _.times( delta, () => {
-          const countingObject = rightAddendObjects.pop();
+    // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
+    this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
+      const leftAddendDelta = this.leftAddendNumberProperty.value - leftAddendObjects.length;
+      const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
+      console.log( 'leftAddendDelta', leftAddendDelta, 'rightAddendDelta', rightAddendDelta );
+
+      assert && assert( Math.sign( leftAddendDelta ) !== Math.sign( rightAddendDelta ), 'leftAddendDelta and rightAddendDelta should have opposite signs' );
+
+      if ( Math.sign( leftAddendDelta ) === 1 ) {
+        _.times( leftAddendDelta, () => {
+          const countingObject = this.inactiveCountingObjects.pop();
           assert && assert( countingObject, 'rightAddendObjects should not be empty' );
           leftAddendObjects.push( countingObject! );
         } );
       }
-      else if ( delta < 0 && this.addendsStableProperty.value ) {
-        this.addendsStableProperty.value = false;
-        _.times( -delta, () => {
+      else {
+        _.times( Math.abs( leftAddendDelta ), () => {
           const countingObject = leftAddendObjects.pop();
           assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+          this.inactiveCountingObjects.push( countingObject! );
+        } );
+      }
+
+      if ( Math.sign( rightAddendDelta ) === 1 ) {
+        _.times( rightAddendDelta, () => {
+          const countingObject = this.inactiveCountingObjects.pop();
+          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
           rightAddendObjects.push( countingObject! );
         } );
-        this.addendsStableProperty.value = true;
       }
-    } );
-    this.leftAddendNumberProperty.lazyLink( leftAddend => {
-      this.leftAddendProxyProperty.value = leftAddend;
+      else {
+        _.times( Math.abs( rightAddendDelta ), () => {
+          const countingObject = rightAddendObjects.pop();
+          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+          this.inactiveCountingObjects.push( countingObject! );
+        } );
+      }
+
+      assert && assert( this.leftAddendNumberProperty.value === leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
+      assert && assert( this.rightAddendNumberProperty.value === rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
+      assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
+      console.log( 'leftAddendObjects.lengthProperty.link', leftAddend );
       this.leftAddendNumberProperty.value = leftAddend;
     } );
-    rightAddendObjects.lengthProperty.link( rightAddend => {
-      this.rightAddendNumberProperty.value = rightAddend;
+
+    this.leftAddendRangeProperty = new Property( new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - this.rightAddendNumberProperty.value ), {
+      phetioValueType: Range.RangeIO,
+      tandem: options.tandem.createTandem( 'leftAddendRangeProperty' )
+    } );
+    this.totalRangeProperty = new Property( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE, {
+      phetioValueType: Range.RangeIO,
+      tandem: options.tandem.createTandem( 'totalRangeProperty' )
     } );
 
-    this.leftAddendRangeProperty = new DerivedProperty( [ this.rightAddendNumberProperty, this.addendsStableProperty ],
-      ( rightAddend, addendsStable ) => {
-        return addendsStable ? new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - rightAddend ) :
-          new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max );
-      } );
-    this.rightAddendRangeProperty = new DerivedProperty( [ this.leftAddendNumberProperty, this.addendsStableProperty ],
-      ( leftAddend, addendsStable ) => {
-        return addendsStable ? new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - leftAddend ) :
-          new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max );
-      } );
-
-    this.addendsStableProperty.value = true;
+    this.updateRangePropertiesEmitter = new Emitter( {
+      tandem: options.tandem.createTandem( 'updateRangePropertiesEmitter' )
+    } );
   }
 
   /**

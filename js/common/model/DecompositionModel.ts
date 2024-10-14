@@ -88,14 +88,18 @@ export default class DecompositionModel extends NumberPairsModel {
     sceneModels.forEach( sceneModel => {
       this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects );
 
-      let countingObjectsIndex = 0;
+      this.countingObjects.forEach( countingObject => {
+        sceneModel.inactiveCountingObjects.push( countingObject );
+      } );
       _.times( sceneModel.leftAddendNumberProperty.value, () => {
-        sceneModel.leftAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
-        countingObjectsIndex++;
+        const countingObject = sceneModel.inactiveCountingObjects.shift();
+        assert && assert( countingObject, 'no more inactive counting objects' );
+        sceneModel.leftAddendObjects.push( countingObject! );
       } );
       _.times( sceneModel.rightAddendNumberProperty.value, () => {
-        sceneModel.rightAddendObjects.push( this.countingObjects[ countingObjectsIndex ] );
-        countingObjectsIndex++;
+        const countingObject = sceneModel.inactiveCountingObjects.shift();
+        assert && assert( countingObject, 'no more inactive counting objects' );
+        sceneModel.rightAddendObjects.push( countingObject! );
       } );
 
       assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );

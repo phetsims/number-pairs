@@ -19,13 +19,10 @@ import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   numberLineRange: Range;
-  leftAddendProperty?: PhetioProperty<number>;
-  sliderEnabledRangeProperty: TReadOnlyProperty<Range>;
 };
 type NumberLineNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
@@ -36,9 +33,7 @@ const LABEL_DIMENSION = 28;
 export default class NumberLineNode extends Node {
   public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
-    const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {
-      leftAddendProperty: model.leftAddendNumberProperty
-    }, providedOptions );
+    const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
     // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
@@ -50,9 +45,10 @@ export default class NumberLineNode extends Node {
       numberLineWidth / providedOptions.numberLineRange.getLength()
     );
 
+    const sliderEnabledRangeProperty = new DerivedProperty( [ model.totalNumberProperty ], total => new Range( options.numberLineRange.min, total ) );
     const slider = new NumberLineSlider(
-      options.leftAddendProperty,
-      options.sliderEnabledRangeProperty,
+      model.leftAddendNumberProperty,
+      sliderEnabledRangeProperty,
       trackModelViewTransform,
       model.showTickValuesProperty,
       {
