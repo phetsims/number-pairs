@@ -69,7 +69,6 @@ export default class NumberPairsSceneModel {
     this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
       const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
-      assert && assert( Math.sign( leftAddendDelta ) !== Math.sign( rightAddendDelta ), 'leftAddendDelta and rightAddendDelta should have opposite signs' );
 
       if ( Math.sign( leftAddendDelta ) === 1 ) {
         _.times( leftAddendDelta, () => {
@@ -84,6 +83,21 @@ export default class NumberPairsSceneModel {
           assert && assert( countingObject, 'leftAddendObjects should not be empty' );
           this.rightAddendObjects.push( countingObject! );
         } );
+
+        if ( Math.sign( rightAddendDelta ) === 1 ) {
+          _.times( rightAddendDelta, () => {
+            const countingObject = this.inactiveCountingObjects.pop();
+            assert && assert( countingObject, 'rightAddendObjects should not be empty' );
+            this.rightAddendObjects.push( countingObject! );
+          } );
+        }
+        else {
+          _.times( Math.abs( rightAddendDelta ), () => {
+            const countingObject = this.rightAddendObjects.pop();
+            assert && assert( countingObject, 'leftAddendObjects should not be empty' );
+            this.inactiveCountingObjects.push( countingObject! );
+          } );
+        }
       }
 
       assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );

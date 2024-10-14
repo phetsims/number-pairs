@@ -26,6 +26,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -41,6 +42,8 @@ export default class CubesOnWireNode extends Node {
 
   private readonly cubeModelToNodeMap = new Map<CountingObject, CubeNode>();
   private readonly modelViewTransform: ModelViewTransform2;
+
+  // Convenience Property
   private readonly cubeSeparatorCenterXProperty: Property<number>;
   private readonly cubeDragBounds: Bounds2;
 
@@ -77,8 +80,10 @@ export default class CubesOnWireNode extends Node {
       fill: 'black'
     } );
 
-    // TODO, this is a convenience Property, I don't believe it needs to be instrumented.
-    const cubeSeparatorCenterXProperty = new Property( 0 );
+    const cubeSeparatorCenterXProperty = new NumberProperty( 0, {
+      tandem: providedOptions.tandem.createTandem( 'cubeSeparatorCenterXProperty' ),
+      phetioReadOnly: true
+    } );
     const cubeSeparator = new Circle( 5, {
       fill: 'black'
     } );

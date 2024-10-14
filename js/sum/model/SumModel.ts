@@ -163,7 +163,6 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
-      console.log( 'leftAddendObjects.lengthProperty.link', leftAddend );
       this.leftAddendNumberProperty.value = leftAddend;
     } );
 

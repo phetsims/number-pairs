@@ -55,7 +55,6 @@ export default class SumScreenView extends NumberPairsScreenView {
     super( model, options );
 
     const leftAddendProxyProperty = new NumberProperty( model.leftAddendNumberProperty.value );
-    // Strategy #1:
     leftAddendProxyProperty.lazyLink( ( newTotal, oldTotal ) => {
       const delta = newTotal - oldTotal;
       model.totalNumberProperty.value += delta;
