@@ -151,9 +151,7 @@ export default class CubesOnWireNode extends Node {
       cube.moveToFront();
     } );
 
-    // The cube separator should not be grouped as part of the groups of 5.
-    const separatorAdjustment = leftAddend % 5 === 0 ? 1 : 0;
-    const cubeSeparatorPlaceOnWire = Math.floor( leftAddend / 5 ) + leftAddend - separatorAdjustment + LEFT_MOST_CUBE_X;
+    const cubeSeparatorPlaceOnWire = this.calculateCubeSeparatorPlacement( leftAddend );
     this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
     rightAddendCubes.forEach( ( cube, i ) => {
       const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
@@ -208,7 +206,7 @@ export default class CubesOnWireNode extends Node {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
 
           // Since a cube is moving to the right, the separator should adjust one position to the left.
-          this.cubeSeparatorCenterXProperty.value = this.calculateCubeSeparatorXPosition( this.model.leftAddendNumberProperty.value - 1 );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( this.calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value - 1 ) );
 
           // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -219,7 +217,7 @@ export default class CubesOnWireNode extends Node {
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           // Since a cube is moving to the left, the separator should adjust one position to the right.
-          this.cubeSeparatorCenterXProperty.value = this.calculateCubeSeparatorXPosition( this.model.leftAddendNumberProperty.value + 1 );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( this.calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value + 1 ) );
 
           // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -246,12 +244,11 @@ export default class CubesOnWireNode extends Node {
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendNumberProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
   }
 
-  private calculateCubeSeparatorXPosition( leftAddendValue: number ): number {
+  private calculateCubeSeparatorPlacement( leftAddendValue: number ): number {
 
     // The cube separator should not be grouped as part of the groups of 5.
     const separatorAdjustment = leftAddendValue % 5 === 0 ? 1 : 0;
-    const cubeSeparatorPlaceOnWire = Math.floor( leftAddendValue / 5 ) + leftAddendValue - separatorAdjustment + LEFT_MOST_CUBE_X;
-    return this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
+    return Math.floor( leftAddendValue / 5 ) + leftAddendValue - separatorAdjustment + LEFT_MOST_CUBE_X;
   }
 }
 
