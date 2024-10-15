@@ -25,29 +25,45 @@ import Emitter from '../../../../axon/js/Emitter.js';
 
 type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
-const PANEL_WIDTH = 100;
-const PANEL_HEIGHT = 140;
+const PANEL_WIDTH = 90;
+const PANEL_HEIGHT = 120;
 
 export default class KittenNode extends Node {
 
   public constructor( model: CountingObject, dragBounds: Bounds2, newKittenFocusedEmitter: Emitter, providedOptions: KittenNodeOptions ) {
-    const isLeftAddendProxyProperty = new BooleanProperty( model.addendTypeProperty.value === AddendType.LEFT, {} );
 
-    const leftIcon = new Circle( 8, {
+    // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
+    // a Property that allows us to toggle between the left and right addend while also still respecting the
+    // INACTIVE options that addendTypeProperty supports.
+    const isLeftAddendProperty = new BooleanProperty( model.addendTypeProperty.value === AddendType.LEFT, {} );
+    isLeftAddendProperty.link( isLeftAddend => {
+
+      // Only update the addendTypeProperty if it is not inactive. We should not be changing the state of an
+      // inactive counting object.
+       if ( model.addendTypeProperty.value !== AddendType.INACTIVE ) {
+         model.addendTypeProperty.value = isLeftAddend ? AddendType.LEFT : AddendType.RIGHT;
+       }
+    } );
+    model.addendTypeProperty.link( addendType => {
+      isLeftAddendProperty.value = addendType === AddendType.LEFT;
+    } );
+
+    const switchLeftIcon = new Circle( 8, {
       fill: NumberPairsColors.attributeLeftAddendColorProperty
     } );
-    const rightIcon = new Circle( 8, {
+    const switchRightIcon = new Circle( 8, {
       fill: NumberPairsColors.attributeRightAddendColorProperty
+    } );
+    const kittenAttributeSwitch = new ABSwitch( isLeftAddendProperty, true, switchLeftIcon, false, switchRightIcon, {
+      toggleSwitchOptions: {
+        size: new Dimension2( 32, 16 )
+      },
+      tandem: providedOptions.tandem.createTandem( 'kittenAttributeSwitch' )
     } );
 
     // When a kitten is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, PANEL_WIDTH, PANEL_HEIGHT );
-    const panelAlignBox = new AlignBox( new ABSwitch( isLeftAddendProxyProperty, true, leftIcon, false, rightIcon, {
-      toggleSwitchOptions: {
-        size: new Dimension2( 40, 20 )
-      },
-      tandem: providedOptions.tandem.createTandem( 'kittenAttributeSwitch' )
-    } ), {
+    const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
       alignBounds: panelBounds,
       yAlign: 'top',
       xAlign: 'center'
@@ -79,6 +95,7 @@ export default class KittenNode extends Node {
 
     const dragListener = new RichDragListener( {
       dragListenerOptions: {
+        useParentOffset: true,
         positionProperty: model.positionProperty,
         start: () => {
           newKittenFocusedEmitter.emit();
@@ -100,7 +117,7 @@ export default class KittenNode extends Node {
     } );
 
     model.positionProperty.link( position => {
-      this.center = this.parentToGlobalPoint( position );
+      this.center = position;
     } );
   }
 }

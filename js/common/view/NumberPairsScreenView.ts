@@ -123,7 +123,7 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     if ( options.countingRepresentations.includes( CountingRepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.KITTENS );
-      const kittensLayerNode = new KittensLayerNode( model.countingObjects, this.countingAreaBounds, {
+      const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, this.countingAreaBounds, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
