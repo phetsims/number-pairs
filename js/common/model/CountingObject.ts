@@ -68,6 +68,7 @@ export default class CountingObject extends PhetioObject {
 
   public reset(): void {
     this.positionProperty.reset();
+    this.focusedProperty.reset();
   }
 
   public static CountingObjectIO = new IOType( 'CountingObjectIO', {

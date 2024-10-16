@@ -27,6 +27,7 @@ import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import CubesOnWireNode from './CubesOnWireNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
+import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 
 
 type SelfOptions = {
@@ -117,6 +118,21 @@ export default class NumberPairsScreenView extends ScreenView {
       backgroundColorProperty: backgroundColorProperty
     } );
     this.addChild( countingArea );
+
+    // All the location representations at least include One Cards
+    if ( options.countingRepresentations.includes( CountingRepresentationType.ONE_CARDS ) ) {
+      const locationLayerVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
+          countingRepresentationType =>
+        countingRepresentationType === CountingRepresentationType.APPLES ||
+        countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
+        countingRepresentationType === CountingRepresentationType.BUTTERFLIES ||
+        countingRepresentationType === CountingRepresentationType.SOCCER_BALLS );
+      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, this.countingAreaBounds, {
+        visibleProperty: locationLayerVisibleProperty,
+        tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
+      } );
+      this.addChild( locationCountingObjectsLayerNode );
+    }
 
     /**
      * Create the attribute based kitten node layer and accompanying features.
