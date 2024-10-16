@@ -16,7 +16,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type KittensLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 export default class KittensLayerNode extends Node {
@@ -26,12 +26,14 @@ export default class KittensLayerNode extends Node {
     const kittens: KittenNode[] = [];
     countingObjects.forEach( ( countingObject, i ) => {
       kittens.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
+        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onDrop: model.dropCountingObject.bind( model ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } ) );
 
-      Multilink.multilink( [ countingObject.addendTypeProperty, model.leftAddendCountingObjectsProperty, model.rightAddendCountingObjectsProperty ],
-        ( addendType, leftAddendCountingObjects, rightAddendCountingObjects ) => {
+      countingObject.addendTypeProperty.link( addendType => {
+        const leftAddendCountingObjects = model.leftAddendCountingObjectsProperty.value;
+        const rightAddendCountingObjects = model.rightAddendCountingObjectsProperty.value;
         if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) ) {
           rightAddendCountingObjects.remove( countingObject );
           leftAddendCountingObjects.add( countingObject );

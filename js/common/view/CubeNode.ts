@@ -33,7 +33,6 @@ export default class CubeNode extends Node {
     public readonly model: CountingObject,
     providedOptions: CubeNodeOptions ) {
 
-
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
     const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
     const cubeLeftAddendImage = new Image( cubePinkHexagon_svg, {

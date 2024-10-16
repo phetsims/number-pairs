@@ -24,6 +24,8 @@ import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Animation from '../../../../twixt/js/Animation.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import Range from '../../../../dot/js/Range.js';
 
 
 // type CountingRepresentationImageAssets = {
@@ -105,9 +107,13 @@ export default class NumberPairsModel implements TModel {
   // as well as the image assets used to represent each counting object.
   // The CUBES and NUMBER_LINE representations additionally support different user interactions.
   public readonly countingRepresentationTypeProperty: Property<CountingRepresentationType>;
+
+  // The colors that code each addend and the total in the sim change based on the chosen counting representation.
   public readonly totalColorProperty: TReadOnlyProperty<TColor>;
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
+
+  public readonly numberLineSliderEnabledRangeProperty: Property<Range>;
 
   public readonly showAddendValuesProperty: Property<boolean>;
   public readonly showTickValuesProperty: Property<boolean>;
@@ -163,6 +169,13 @@ export default class NumberPairsModel implements TModel {
         tandem: options.tandem.createTandem( `CountingObject${countingObjectID}` )
       } ) );
     } );
+
+    // The range will update after all addends have stabilized their values.
+    this.numberLineSliderEnabledRangeProperty = new Property(
+      new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
+      phetioValueType: Range.RangeIO,
+      tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
+    } );
   }
 
   public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject>, inactiveCountingObjects: ObservableArray<CountingObject> ): void {
@@ -179,6 +192,10 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  /**
+   * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
+   * @param droppedCountingObject
+   */
   public dropCountingObject( droppedCountingObject: CountingObject ): void {
     const dropZoneBoundsCenter = droppedCountingObject.positionProperty.value;
     const dropZoneBounds = new Bounds2(
@@ -211,6 +228,7 @@ export default class NumberPairsModel implements TModel {
         targets: animationTargets
       } );
       this.dropAnimation.endedEmitter.addListener( () => {
+        // TODO: Do I need to dispose?
         this.dropAnimation = null;
       } );
       this.dropAnimation.start();
@@ -218,7 +236,7 @@ export default class NumberPairsModel implements TModel {
   }
 
   public reset(): void {
-    //TODO
+    this.dropAnimation?.stop();
   }
 }
 

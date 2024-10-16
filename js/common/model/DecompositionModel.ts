@@ -16,6 +16,8 @@ import { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 
 type SelfOptions = {
@@ -124,6 +126,15 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel.rightAddendObjects.forEach( countingObject => {
         countingObject.addendTypeProperty.value = AddendType.RIGHT;
       } );
+    } );
+
+    // TODO: Kind of weird that we're using the twenty number line range min here always... right now both the ten and twenty are 0... but what if that changes?
+    Multilink.multilink( [ leftAddendNumberProperty, rightAddendNumberProperty ], ( leftAddendNumber, rightAddendNumber ) => {
+
+      // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
+      // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
+      // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
+      this.numberLineSliderEnabledRangeProperty.value = new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, leftAddendNumber + rightAddendNumber );
     } );
 
     this.selectedSceneModelProperty = selectedSceneModelProperty;

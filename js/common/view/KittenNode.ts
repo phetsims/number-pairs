@@ -7,7 +7,7 @@
  *
  */
 
-import { AlignBox, Circle, Node, NodeOptions, RichDragListener } from '../../../../scenery/js/imports.js';
+import { AlignBox, Circle, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Panel from '../../../../sun/js/Panel.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
@@ -22,6 +22,7 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type SelfOptions = {
   onDrop: ( countingObject: CountingObject ) => void;
@@ -31,6 +32,7 @@ type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 const ICON_RADIUS = 7;
 
 export default class KittenNode extends Node {
+  private readonly focusPanel: Node;
 
   public constructor(
     model: CountingObject,
@@ -101,6 +103,7 @@ export default class KittenNode extends Node {
       children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ]
     }, options );
     super( superOptions );
+    this.focusPanel = focusPanel;
     focusPanel.center = this.center;
 
     const dragListener = new RichDragListener( {
@@ -132,6 +135,19 @@ export default class KittenNode extends Node {
     model.positionProperty.link( position => {
       this.center = position;
     } );
+
+    this.addDebugText( model );
+  }
+
+  public addDebugText( countingObject: CountingObject ): void {
+    // Show index when debugging with ?dev
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addChild( new Text( countingObject.id + '', {
+        font: new PhetFont( 20 ),
+        fill: 'black',
+        center: this.focusPanel.center
+      } ) );
+    }
   }
 }
 

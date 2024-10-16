@@ -19,7 +19,6 @@ import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   numberLineRange: Range;
@@ -37,24 +36,23 @@ export default class NumberLineNode extends Node {
 
     // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
-    const zeroNumberProperty = new Property( providedOptions.numberLineRange.min );
+    const zeroNumberProperty = new Property( options.numberLineRange.min );
 
     const trackModelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       Vector2.ZERO,
       Vector2.ZERO,
-      numberLineWidth / providedOptions.numberLineRange.getLength()
+      numberLineWidth / options.numberLineRange.getLength()
     );
 
-    const sliderEnabledRangeProperty = new DerivedProperty( [ model.totalNumberProperty ], total => new Range( options.numberLineRange.min, total ) );
     const slider = new NumberLineSlider(
       model.leftAddendNumberProperty,
-      sliderEnabledRangeProperty,
+      model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
       model.showTickValuesProperty,
       {
-        numberLineRange: providedOptions.numberLineRange,
+        numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
-        tandem: providedOptions.tandem.createTandem( 'slider' )
+        tandem: options.tandem.createTandem( 'slider' )
       } );
 
     /**
