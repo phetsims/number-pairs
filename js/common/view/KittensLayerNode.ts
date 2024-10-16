@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TODO: describe file
+ * KittensLayerNode is a Node that contains all the KittenNodes for the counting objects in the model.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -26,6 +26,7 @@ export default class KittensLayerNode extends Node {
     const kittens: KittenNode[] = [];
     countingObjects.forEach( ( countingObject, i ) => {
       kittens.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
+        onDrop: model.dropCountingObject.bind( model ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } ) );
 

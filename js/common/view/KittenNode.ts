@@ -12,10 +12,10 @@ import numberPairs from '../../numberPairs.js';
 import Panel from '../../../../sun/js/Panel.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
+import CountingObject, { AddendType, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT } from '../model/CountingObject.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
@@ -23,14 +23,24 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
-type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'>;
+type SelfOptions = {
+  onDrop: ( countingObject: CountingObject ) => void;
+};
+type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
-const PANEL_WIDTH = 90;
-const PANEL_HEIGHT = 120;
+const ICON_RADIUS = 7;
 
 export default class KittenNode extends Node {
 
-  public constructor( model: CountingObject, dragBounds: Bounds2, newKittenFocusedEmitter: Emitter, providedOptions: KittenNodeOptions ) {
+  public constructor(
+    model: CountingObject,
+    dragBounds: Bounds2,
+    newKittenFocusedEmitter: Emitter,
+    providedOptions: KittenNodeOptions
+  ) {
+
+    const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
+    }, providedOptions );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
     // a Property that allows us to toggle between the left and right addend while also still respecting the
@@ -48,21 +58,21 @@ export default class KittenNode extends Node {
       isLeftAddendProperty.value = addendType === AddendType.LEFT;
     } );
 
-    const switchLeftIcon = new Circle( 8, {
+    const switchLeftIcon = new Circle( ICON_RADIUS, {
       fill: NumberPairsColors.attributeLeftAddendColorProperty
     } );
-    const switchRightIcon = new Circle( 8, {
+    const switchRightIcon = new Circle( ICON_RADIUS, {
       fill: NumberPairsColors.attributeRightAddendColorProperty
     } );
     const kittenAttributeSwitch = new ABSwitch( isLeftAddendProperty, true, switchLeftIcon, false, switchRightIcon, {
       toggleSwitchOptions: {
-        size: new Dimension2( 32, 16 )
+        size: new Dimension2( 28, 14 )
       },
-      tandem: providedOptions.tandem.createTandem( 'kittenAttributeSwitch' )
+      tandem: options.tandem.createTandem( 'kittenAttributeSwitch' )
     } );
 
     // When a kitten is focused the panel with a switch is visible
-    const panelBounds = new Bounds2( 0, 0, PANEL_WIDTH, PANEL_HEIGHT );
+    const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
     const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
       alignBounds: panelBounds,
       yAlign: 'top',
@@ -84,12 +94,12 @@ export default class KittenNode extends Node {
     } );
 
     // Make sure that the initial position is within the drag bounds
-    const dilatedDragBounds = dragBounds.dilatedXY( -PANEL_WIDTH / 2, -PANEL_HEIGHT / 2 );
+    const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2, -KITTEN_PANEL_HEIGHT / 2 );
     model.positionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
     const superOptions = combineOptions<NodeOptions>( {
       children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ]
-    }, providedOptions );
+    }, options );
     super( superOptions );
     focusPanel.center = this.center;
 
@@ -101,6 +111,9 @@ export default class KittenNode extends Node {
           newKittenFocusedEmitter.emit();
           model.focusedProperty.value = true;
           this.moveToFront();
+        },
+        end: () => {
+          options.onDrop( model );
         },
         dragBoundsProperty: new Property( dilatedDragBounds, {} ),
         tandem: providedOptions.tandem.createTandem( 'dragListener' )

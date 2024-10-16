@@ -20,8 +20,11 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
-import CountingObject, { AddendType } from './CountingObject.js';
+import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Animation from '../../../../twixt/js/Animation.js';
+
 
 // type CountingRepresentationImageAssets = {
 //   leftAddendImage: ImageableImage;
@@ -92,6 +95,8 @@ type SelfOptions = {
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
+const DROP_ZONE_MARGIN = KITTEN_PANEL_WIDTH / 1.75;
+
 export default class NumberPairsModel implements TModel {
 
   public readonly countingObjects: CountingObject[] = [];
@@ -109,8 +114,9 @@ export default class NumberPairsModel implements TModel {
   public readonly showTotalJumpProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
-  protected constructor(
+  private dropAnimation: Animation | null = null;
 
+  protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
     public readonly totalNumberProperty: TReadOnlyProperty<number>,
@@ -172,6 +178,45 @@ export default class NumberPairsModel implements TModel {
       countingObject.addendTypeProperty.value = AddendType.INACTIVE;
     } );
   }
+
+  public dropCountingObject( droppedCountingObject: CountingObject ): void {
+    const dropZoneBoundsCenter = droppedCountingObject.positionProperty.value;
+    const dropZoneBounds = new Bounds2(
+      dropZoneBoundsCenter.x - DROP_ZONE_MARGIN,
+      dropZoneBoundsCenter.y - DROP_ZONE_MARGIN,
+      dropZoneBoundsCenter.x + DROP_ZONE_MARGIN,
+      dropZoneBoundsCenter.y + DROP_ZONE_MARGIN
+    );
+
+    // Find all the active counting objects that are half a panel width away from the dropped counting object.
+    const activeCountingObjects = this.countingObjects.filter( countingObject =>
+      countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
+    const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject =>
+      dropZoneBounds.containsPoint( countingObject.positionProperty.value ) );
+
+    // If there are counting objects inside the drop zone, add the dropped counting object to the array, so it can be
+    // also be positioned towards the boundary of the drop zone.
+    if ( countingObjectsInsideDropZone.length !== 0 ) {
+      countingObjectsInsideDropZone.push( droppedCountingObject );
+
+      // Animate the object to the closest boundary point of the drop zone.
+      const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
+        return {
+          property: countingObject.positionProperty,
+          to: dropZoneBounds.closestBoundaryPointTo( countingObject.positionProperty.value )
+        };
+      } );
+      this.dropAnimation = new Animation( {
+        duration: 0.4,
+        targets: animationTargets
+      } );
+      this.dropAnimation.endedEmitter.addListener( () => {
+        this.dropAnimation = null;
+      } );
+      this.dropAnimation.start();
+    }
+  }
+
   public reset(): void {
     //TODO
   }
