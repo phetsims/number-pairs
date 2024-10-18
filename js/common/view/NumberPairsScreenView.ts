@@ -30,6 +30,7 @@ import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameButton from './TenFrameButton.js';
+import CommutativeButton from './CommutativeButton.js';
 
 
 type SelfOptions = {
@@ -134,8 +135,11 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       visibleProperty: tenFrameButtonVisibleProperty
     } );
+    const commutativeButton = new CommutativeButton( model.swapAddends.bind( model ), {
+      tandem: options.tandem.createTandem( 'commutativeButton' )
+    } );
     const countingAreaButtonsVBox = new VBox( {
-      children: [ tenFrameButton ],
+      children: [ tenFrameButton, commutativeButton ],
       spacing: 10,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.countingAreaBounds.minY

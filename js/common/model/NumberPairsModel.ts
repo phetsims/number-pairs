@@ -235,8 +235,12 @@ export default class NumberPairsModel implements TModel {
     }
   }
 
+  public swapAddends(): void {
+    // TODO: Add logic that swaps the left and right addends. https://github.com/phetsims/number-pairs/issues/18
+  }
+
   public organizeIntoTenFrame(): void {
-    // TODO: Add logic that organizes draggable counting objects into a ten frame.
+    // TODO: Add logic that organizes draggable counting objects into a ten frame. https://github.com/phetsims/number-pairs/issues/18
   }
 
   public reset(): void {

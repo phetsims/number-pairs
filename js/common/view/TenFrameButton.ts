@@ -14,12 +14,12 @@ import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
-type TenFrameButtonOptions = WithRequired<RectangularPushButtonOptions, 'tandem'>;
+type TenFrameButtonOptions = SelfOptions & WithRequired<RectangularPushButtonOptions, 'tandem'>;
 
 export default class TenFrameButton extends RectangularPushButton {
 
   public constructor( organizeIntoTenFrame: () => void, providedOptions: TenFrameButtonOptions ) {
-    const tenFrameIcon = TenFrameButton.CreateTenFrameIcon();
+    const tenFrameIcon = TenFrameButton.createTenFrameIcon();
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
         content: tenFrameIcon,
@@ -28,7 +28,7 @@ export default class TenFrameButton extends RectangularPushButton {
     super( options );
   }
 
-  private static CreateTenFrameIcon(): Node {
+  private static createTenFrameIcon(): Node {
     const tenFrameWidth = 48;
     const tenFrameHeight = 22;
     const tenFrameLineWidth = 2;
