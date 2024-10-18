@@ -28,6 +28,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import CubesOnWireNode from './CubesOnWireNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
+import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 
 
 type SelfOptions = {
@@ -60,15 +61,20 @@ export default class NumberPairsScreenView extends ScreenView {
     }, providedOptions );
     super( options );
 
+    /**
+     * Set the layout of the accordion boxes along the top of each screen.
+     */
     const numberSentenceAlignBox = new AlignBox( options.numberSentenceContent, {
-      alignBounds: this.layoutBounds.dilatedX( -NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
+      alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
       yAlign: 'top',
       xAlign: 'left'
     } );
     const numberBondAlignBox = new AlignBox( options.numberBondContent, {
-      alignBounds: this.layoutBounds.dilatedX( NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
+      alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
       yAlign: 'top',
       xAlign: 'center'
     } );
@@ -77,13 +83,24 @@ export default class NumberPairsScreenView extends ScreenView {
 
     if ( options.equationContent ) {
       const equationAlignBox = new AlignBox( options.equationContent, {
-        alignBounds: this.layoutBounds.dilatedX( -NumberPairsConstants.COUNTING_AREA_X_MARGIN ),
+        alignBounds: this.layoutBounds,
         yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+        xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
         yAlign: 'top',
         xAlign: 'right'
       } );
       this.addChild( equationAlignBox );
     }
+
+    /**
+     * Create the buttons along the left edge of each screen
+     */
+    const speechSynthesisButton = new SpeechSynthesisButton( {
+      tandem: options.tandem.createTandem( 'speechSynthesisButton' ),
+      x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+      y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
+    } );
+    this.addChild( speechSynthesisButton );
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -122,11 +139,11 @@ export default class NumberPairsScreenView extends ScreenView {
     // All the location representations at least include One Cards
     if ( options.countingRepresentations.includes( CountingRepresentationType.ONE_CARDS ) ) {
       const locationLayerVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
-          countingRepresentationType =>
-        countingRepresentationType === CountingRepresentationType.APPLES ||
-        countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
-        countingRepresentationType === CountingRepresentationType.BUTTERFLIES ||
-        countingRepresentationType === CountingRepresentationType.SOCCER_BALLS );
+        countingRepresentationType =>
+          countingRepresentationType === CountingRepresentationType.APPLES ||
+          countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
+          countingRepresentationType === CountingRepresentationType.BUTTERFLIES ||
+          countingRepresentationType === CountingRepresentationType.SOCCER_BALLS );
       const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, this.countingAreaBounds, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )

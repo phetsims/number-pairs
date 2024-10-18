@@ -9,6 +9,8 @@
 import numberPairs from '../numberPairs.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Range from '../../../dot/js/Range.js';
+import Dimension2 from '../../../dot/js/Dimension2.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );
@@ -33,7 +35,12 @@ const NumberPairsConstants = {
   TEN_TOTAL_RANGE: TEN_TOTAL_RANGE,
   TEN_NUMBER_LINE_RANGE: new Range( 0, TEN_TOTAL_RANGE.max ),
   TWENTY_TOTAL_RANGE: TWENTY_TOTAL_RANGE,
-  TWENTY_NUMBER_LINE_RANGE: new Range( 0, TWENTY_TOTAL_RANGE.max )
+  TWENTY_NUMBER_LINE_RANGE: new Range( 0, TWENTY_TOTAL_RANGE.max ),
+
+  RECTANGULAR_PUSH_BUTTON_OPTIONS: {
+    size: new Dimension2( 50, 50 ),
+    baseColor: PhetColorScheme.BUTTON_YELLOW
+  }
 };
 
 numberPairs.register( 'NumberPairsConstants', NumberPairsConstants );
