@@ -37,7 +37,14 @@ export const KITTEN_PANEL_HEIGHT = 110;
 
 // We will probably need this to be a PhET-iO CountingObject for Group Sort later on.
 export default class CountingObject extends PhetioObject {
-  public readonly positionProperty: Property<Vector2>;
+
+  // The position Property of Counting Objects when they are in attribute based representations
+  // (KITTENS)
+  public readonly attributePositionProperty: Property<Vector2>;
+
+  // The position Property of Counting Objects when they are in location based representations
+  // (APPLES, ONE_CARDS, SOCCER_BALLS, BUTTERFLIES)
+  public readonly locationPositionProperty: Property<Vector2>;
   public readonly addendTypeProperty: Property<AddendType>;
   public readonly focusedProperty: Property<boolean>;
   public readonly id: number;
@@ -50,9 +57,13 @@ export default class CountingObject extends PhetioObject {
     }, providedOptions );
     super( options );
 
-    this.positionProperty = new Property( Vector2.ZERO, {
+    this.attributePositionProperty = new Property( Vector2.ZERO, {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'positionProperty' )
+    } );
+    this.locationPositionProperty = new Property( Vector2.ZERO, {
+      phetioValueType: Vector2.Vector2IO,
+      tandem: this.tandem.createTandem( 'locationPositionProperty' )
     } );
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
@@ -67,7 +78,8 @@ export default class CountingObject extends PhetioObject {
   }
 
   public reset(): void {
-    this.positionProperty.reset();
+    this.attributePositionProperty.reset();
+    this.locationPositionProperty.reset();
     this.focusedProperty.reset();
   }
 

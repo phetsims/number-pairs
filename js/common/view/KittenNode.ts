@@ -97,7 +97,7 @@ export default class KittenNode extends Node {
 
     // Make sure that the initial position is within the drag bounds
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2, -KITTEN_PANEL_HEIGHT / 2 );
-    model.positionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
+    model.attributePositionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
     const superOptions = combineOptions<NodeOptions>( {
       children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ]
@@ -109,7 +109,7 @@ export default class KittenNode extends Node {
     const dragListener = new RichDragListener( {
       dragListenerOptions: {
         useParentOffset: true,
-        positionProperty: model.positionProperty,
+        positionProperty: model.attributePositionProperty,
         start: () => {
           newKittenFocusedEmitter.emit();
           model.focusedProperty.value = true;
@@ -132,7 +132,7 @@ export default class KittenNode extends Node {
       model.focusedProperty.value = false;
     } );
 
-    model.positionProperty.link( position => {
+    model.attributePositionProperty.link( position => {
       this.center = position;
     } );
 

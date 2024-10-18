@@ -16,10 +16,13 @@ import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
-type LocationCountingObjectNodeOptions = WithRequired<NodeOptions, 'tandem'>;
+type SelfOptions = {
+  handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
+};
+type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 // TODO: Right now the position is not affecting the addend at all. That needs to happen next.
 export default class LocationCountingObjectNode extends Node {
@@ -30,30 +33,30 @@ export default class LocationCountingObjectNode extends Node {
     providedOptions: LocationCountingObjectNodeOptions
   ) {
 
-    const apple = new Circle( 10, {
+    const apple = new Circle( 20, {
       fill: 'red',
+      stroke: 'black',
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.APPLES )
     } );
-    const oneCard = new Rectangle( 0, 0, 20, 30, {
+    const oneCard = new Rectangle( 0, 0, 40, 55, {
       fill: 'white',
       stroke: 'black',
       cornerRadius: 5,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.ONE_CARDS )
     } );
-    const soccerBall = new Circle( 10, {
+    const soccerBall = new Circle( 20, {
       fill: 'white',
       stroke: 'black',
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.SOCCER_BALLS )
     } );
-    const butterfly = new Circle( 10, {
+    const butterfly = new Circle( 20, {
       fill: 'orange',
+      stroke: 'black',
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.BUTTERFLIES )
     } );
 
-    // Make sure that the initial position is within the drag bounds
     // TODO: Grab widest image for bounds dilation.
     const dilatedDragBounds = dragBounds.dilatedXY( -20, -20 );
-    model.positionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
     const superOptions = combineOptions<NodeOptions>( {
       children: [ apple, oneCard, soccerBall, butterfly ]
@@ -68,7 +71,7 @@ export default class LocationCountingObjectNode extends Node {
     const dragListener = new RichDragListener( {
       dragListenerOptions: {
         dragBoundsProperty: new Property( dilatedDragBounds, {} ),
-        positionProperty: model.positionProperty,
+        positionProperty: model.locationPositionProperty,
         tandem: providedOptions.tandem.createTandem( 'dragListener' )
       },
       keyboardDragListenerOptions: {
@@ -77,8 +80,9 @@ export default class LocationCountingObjectNode extends Node {
     } );
     this.addInputListener( dragListener );
 
-    model.positionProperty.link( position => {
+    model.locationPositionProperty.link( position => {
       this.center = position;
+      providedOptions.handleLocationChange( model, position );
     } );
   }
 }

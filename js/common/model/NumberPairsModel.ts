@@ -197,7 +197,7 @@ export default class NumberPairsModel implements TModel {
    * @param droppedCountingObject
    */
   public dropCountingObject( droppedCountingObject: CountingObject ): void {
-    const dropZoneBoundsCenter = droppedCountingObject.positionProperty.value;
+    const dropZoneBoundsCenter = droppedCountingObject.attributePositionProperty.value;
     const dropZoneBounds = new Bounds2(
       dropZoneBoundsCenter.x - DROP_ZONE_MARGIN,
       dropZoneBoundsCenter.y - DROP_ZONE_MARGIN,
@@ -209,7 +209,7 @@ export default class NumberPairsModel implements TModel {
     const activeCountingObjects = this.countingObjects.filter( countingObject =>
       countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
     const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject =>
-      dropZoneBounds.containsPoint( countingObject.positionProperty.value ) );
+      dropZoneBounds.containsPoint( countingObject.attributePositionProperty.value ) );
 
     // If there are counting objects inside the drop zone, add the dropped counting object to the array, so it can be
     // also be positioned towards the boundary of the drop zone.
@@ -219,8 +219,8 @@ export default class NumberPairsModel implements TModel {
       // Animate the object to the closest boundary point of the drop zone.
       const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
         return {
-          property: countingObject.positionProperty,
-          to: dropZoneBounds.closestBoundaryPointTo( countingObject.positionProperty.value )
+          property: countingObject.attributePositionProperty,
+          to: dropZoneBounds.closestBoundaryPointTo( countingObject.attributePositionProperty.value )
         };
       } );
       this.dropAnimation = new Animation( {
