@@ -235,6 +235,10 @@ export default class NumberPairsModel implements TModel {
     }
   }
 
+  public organizeIntoTenFrame(): void {
+    // TODO: Add logic that organizes draggable counting objects into a ten frame.
+  }
+
   public reset(): void {
     this.dropAnimation?.stop();
   }

@@ -11,7 +11,7 @@ import numberPairs from '../../numberPairs.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
 import bullhornSolidShape from '../../../../sherpa/js/fontawesome-5/bullhornSolidShape.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -22,17 +22,13 @@ export default class SpeechSynthesisButton extends RectangularPushButton {
 
   public constructor( providedOptions?: SpeechSynthesisButtonOptions ) {
 
-    const options = optionize<SpeechSynthesisButtonOptions, SelfOptions, RectangularPushButtonOptions>()(
+    const options = optionize4<SpeechSynthesisButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
         content: new Path( bullhornSolidShape, {
           fill: Color.BLACK
         } )
-      }, providedOptions );
-    const superOptions = combineOptions<RectangularPushButtonOptions>(
-      options,
-      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS
-    );
-    super( superOptions );
+      }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
+    super( options );
   }
 }
 

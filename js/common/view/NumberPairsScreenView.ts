@@ -8,7 +8,7 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -29,6 +29,7 @@ import CubesOnWireNode from './CubesOnWireNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
+import TenFrameButton from './TenFrameButton.js';
 
 
 type SelfOptions = {
@@ -92,16 +93,6 @@ export default class NumberPairsScreenView extends ScreenView {
       this.addChild( equationAlignBox );
     }
 
-    /**
-     * Create the buttons along the left edge of each screen
-     */
-    const speechSynthesisButton = new SpeechSynthesisButton( {
-      tandem: options.tandem.createTandem( 'speechSynthesisButton' ),
-      x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
-    } );
-    this.addChild( speechSynthesisButton );
-
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -122,7 +113,36 @@ export default class NumberPairsScreenView extends ScreenView {
     this.countingAreaBounds = new Bounds2( countingAreaMinX, countingAreaMinY,
       countingAreaMaxX, countingAreaMaxY );
 
-    const backgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
+    /**
+     * Create the buttons along the left edge of each screen
+     */
+    const speechSynthesisButton = new SpeechSynthesisButton( {
+      tandem: options.tandem.createTandem( 'speechSynthesisButton' ),
+      x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+      y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
+    } );
+    this.addChild( speechSynthesisButton );
+
+    const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
+      countingRepresentation => countingRepresentation === CountingRepresentationType.APPLES ||
+        countingRepresentation === CountingRepresentationType.ONE_CARDS ||
+        countingRepresentation === CountingRepresentationType.BUTTERFLIES ||
+        countingRepresentation === CountingRepresentationType.SOCCER_BALLS ||
+        countingRepresentation === CountingRepresentationType.KITTENS );
+
+    const tenFrameButton = new TenFrameButton( model.organizeIntoTenFrame, {
+      tandem: options.tandem.createTandem( 'tenFrameButton' ),
+      visibleProperty: tenFrameButtonVisibleProperty
+    } );
+    const countingAreaButtonsVBox = new VBox( {
+      children: [ tenFrameButton ],
+      spacing: 10,
+      x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+      y: this.countingAreaBounds.minY
+    } );
+    this.addChild( countingAreaButtonsVBox );
+
+    const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
       if ( countingRepresentationType === CountingRepresentationType.CUBES || countingRepresentationType === CountingRepresentationType.NUMBER_LINE ) {
         return NumberPairsColors.numberLineBackgroundColorProperty;
       }
@@ -132,7 +152,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     const countingArea = new CountingAreaNode( this.countingAreaBounds, {
       countingRepresentationTypeProperty: model.countingRepresentationTypeProperty,
-      backgroundColorProperty: backgroundColorProperty
+      backgroundColorProperty: countingAreaBackgroundColorProperty
     } );
     this.addChild( countingArea );
 
