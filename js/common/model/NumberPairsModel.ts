@@ -26,6 +26,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 
 // type CountingRepresentationImageAssets = {
@@ -170,7 +171,7 @@ export default class NumberPairsModel implements TModel {
       } ) );
     } );
 
-    // The range will update after all addends have stabilized their values.
+    // The range will update after all addends have stabilized their values during construction.
     this.numberLineSliderEnabledRangeProperty = new Property(
       new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
       phetioValueType: Range.RangeIO,
@@ -233,6 +234,21 @@ export default class NumberPairsModel implements TModel {
       } );
       this.dropAnimation.start();
     }
+  }
+
+  /**
+   * Creates a multilink that updates the enabled range of the number line slider based on the left and right addend numbers.
+   */
+  protected createNumberLineEnabledRangeLinks(): void {
+
+    // TODO: Kind of weird that we're using the twenty number line range min here always... right now both the ten and twenty are 0... but what if that changes?
+    Multilink.multilink( [ this.leftAddendNumberProperty, this.rightAddendNumberProperty ], ( leftAddendNumber, rightAddendNumber ) => {
+
+      // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
+      // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
+      // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
+      this.numberLineSliderEnabledRangeProperty.value = new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, leftAddendNumber + rightAddendNumber );
+    } );
   }
 
   public swapAddends(): void {

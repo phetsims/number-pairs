@@ -18,7 +18,6 @@ import createObservableArray, { ObservableArray, ObservableArrayIO } from '../..
 import CountingObject from '../../common/model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
@@ -35,16 +34,13 @@ const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberP
 export default class SumModel extends NumberPairsModel {
 
   public override readonly leftAddendNumberProperty: Property<number>;
-  public readonly leftAddendRangeProperty: TReadOnlyProperty<Range>;
 
   // The right addend is derived due to competing user interactions in the Sum Screen.
   // You can find more information in this issue: https://github.com/phetsims/number-pairs/issues/17
   public override readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
   public override readonly totalNumberProperty: Property<number>;
-  public readonly totalRangeProperty: Property<Range>;
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
-  public readonly updateRangePropertiesEmitter: Emitter;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -64,7 +60,9 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     const rightAddendNumberProperty = new DerivedProperty( [ leftAddendNumberProperty, totalNumberProperty ], ( leftAddend, total ) => {
-        return total - leftAddend;
+        const newValue = total - leftAddend;
+        assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendNumberProperty out of range' );
+        return newValue;
       },
       {
         phetioValueType: NumberIO,
@@ -126,8 +124,8 @@ export default class SumModel extends NumberPairsModel {
 
       if ( Math.sign( leftAddendDelta ) === 1 ) {
         _.times( leftAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.pop();
-          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
+          const countingObject = this.inactiveCountingObjects.shift();
+          assert && assert( countingObject, 'inactiveCountingObjects should not be empty' );
           leftAddendObjects.push( countingObject! );
         } );
       }
@@ -135,22 +133,22 @@ export default class SumModel extends NumberPairsModel {
         _.times( Math.abs( leftAddendDelta ), () => {
           const countingObject = leftAddendObjects.pop();
           assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-          this.inactiveCountingObjects.push( countingObject! );
+          this.inactiveCountingObjects.unshift( countingObject! );
         } );
       }
 
       if ( Math.sign( rightAddendDelta ) === 1 ) {
         _.times( rightAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.pop();
-          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
+          const countingObject = this.inactiveCountingObjects.shift();
+          assert && assert( countingObject, 'inactiveCountingObjects should not be empty' );
           rightAddendObjects.push( countingObject! );
         } );
       }
       else {
         _.times( Math.abs( rightAddendDelta ), () => {
           const countingObject = rightAddendObjects.pop();
-          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-          this.inactiveCountingObjects.push( countingObject! );
+          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
+          this.inactiveCountingObjects.unshift( countingObject! );
         } );
       }
 
@@ -163,18 +161,8 @@ export default class SumModel extends NumberPairsModel {
       this.leftAddendNumberProperty.value = leftAddend;
     } );
 
-    this.leftAddendRangeProperty = new Property( new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max - this.rightAddendNumberProperty.value ), {
-      phetioValueType: Range.RangeIO,
-      tandem: options.tandem.createTandem( 'leftAddendRangeProperty' )
-    } );
-    this.totalRangeProperty = new Property( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE, {
-      phetioValueType: Range.RangeIO,
-      tandem: options.tandem.createTandem( 'totalRangeProperty' )
-    } );
+    this.createNumberLineEnabledRangeLinks();
 
-    this.updateRangePropertiesEmitter = new Emitter( {
-      tandem: options.tandem.createTandem( 'updateRangePropertiesEmitter' )
-    } );
   }
 
   /**

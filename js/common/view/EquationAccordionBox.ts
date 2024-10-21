@@ -44,24 +44,21 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     }, providedOptions );
 
     const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalNumberProperty, {
-      fill: options.totalColorProperty.value,
-      cornerRadius: 5
+      fill: options.totalColorProperty.value
     } );
     options.totalColorProperty.link( totalColor => {
       totalSquare.fill = totalColor;
     } );
 
     const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendNumberProperty, {
-      fill: options.leftAddendColorProperty.value,
-      cornerRadius: 5
+      fill: options.leftAddendColorProperty.value
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddendSquare.fill = leftAddendColor;
     } );
 
     const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendNumberProperty, {
-      fill: options.rightAddendColorProperty.value,
-      cornerRadius: 5
+      fill: options.rightAddendColorProperty.value
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddendSquare.fill = rightAddendColor;

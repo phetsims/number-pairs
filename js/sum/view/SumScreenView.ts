@@ -17,8 +17,8 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { VBox } from '../../../../scenery/js/imports.js';
-import AddendSpinnerPanel from './AddendSpinnerPanel.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import AddendControlPanel from './AddendControlPanel.js';
+import { AddendType } from '../../common/model/CountingObject.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -54,27 +54,26 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     super( model, options );
 
-    const leftAddendProxyProperty = new NumberProperty( model.leftAddendNumberProperty.value );
-    leftAddendProxyProperty.lazyLink( ( newTotal, oldTotal ) => {
-      const delta = newTotal - oldTotal;
-      model.totalNumberProperty.value += delta;
-      model.leftAddendNumberProperty.value += delta;
-    } );
-
-    const leftAddendSpinner = new AddendSpinnerPanel(
-      leftAddendProxyProperty,
-      model.totalRangeProperty,
-      {
-        tandem: providedOptions.tandem.createTandem( 'leftAddendSpinner' )
-      } );
-    const rightAddendSpinner = new AddendSpinnerPanel(
+    const leftAddendControlPanel = new AddendControlPanel(
       model.totalNumberProperty,
-      model.totalRangeProperty,
+      model.leftAddendCountingObjectsProperty.value,
+      model.inactiveCountingObjects,
+      model.countingRepresentationTypeProperty,
       {
-        tandem: providedOptions.tandem.createTandem( 'rightAddendSpinner' )
+        tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' ),
+        addendType: AddendType.LEFT
+      } );
+    const rightAddendControlPanel = new AddendControlPanel(
+      model.totalNumberProperty,
+      model.rightAddendCountingObjectsProperty.value,
+      model.inactiveCountingObjects,
+      model.countingRepresentationTypeProperty,
+      {
+        tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' ),
+        addendType: AddendType.RIGHT
       } );
     const addendSpinners = new VBox( {
-      children: [ leftAddendSpinner, rightAddendSpinner ],
+      children: [ leftAddendControlPanel, rightAddendControlPanel ],
       spacing: 20,
       centerY: this.countingAreaBounds.centerY,
       right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN

@@ -23,11 +23,12 @@ type SelfOptions = {
 type NumberSquareOptions = SelfOptions & StrictOmit<RectangleOptions, 'children'>;
 export default class NumberSquare extends Rectangle {
 
-  public constructor( squareDimension: number, numberProperty: TReadOnlyProperty<number>, providedOptions: NumberSquareOptions ) {
+  public constructor( squareDimension: number, numberProperty: TReadOnlyProperty<number>, providedOptions?: NumberSquareOptions ) {
 
     const options = optionize<NumberSquareOptions, SelfOptions, RectangleOptions>()( {
       numberFontSize: 24,
-      rectSize: new Dimension2( squareDimension, squareDimension )
+      rectSize: new Dimension2( squareDimension, squareDimension ),
+      cornerRadius: 5
     }, providedOptions );
     super( options );
 
