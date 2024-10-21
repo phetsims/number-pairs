@@ -16,8 +16,6 @@ import { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 
 
 type SelfOptions = {
