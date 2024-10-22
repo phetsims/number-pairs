@@ -53,7 +53,8 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
     } );
 
-    const totalNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
+    const totalNumberProperty = new NumberProperty(
+      NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
       tandem: options.tandem.createTandem( 'totalNumberProperty' ),
       numberType: 'Integer',
       range: SCENE_RANGE
@@ -122,36 +123,54 @@ export default class SumModel extends NumberPairsModel {
       const leftAddendDelta = this.leftAddendNumberProperty.value - leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
 
-      if ( Math.sign( leftAddendDelta ) === 1 ) {
-        _.times( leftAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.shift();
-          assert && assert( countingObject, 'inactiveCountingObjects should not be empty' );
-          leftAddendObjects.push( countingObject! );
-        } );
-      }
-      else {
-        _.times( Math.abs( leftAddendDelta ), () => {
-          const countingObject = leftAddendObjects.pop();
-          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-          this.inactiveCountingObjects.unshift( countingObject! );
-        } );
+      if ( leftAddendDelta === 0 && rightAddendDelta === 0 ) {
+        return; // No work to be done.
       }
 
-      if ( Math.sign( rightAddendDelta ) === 1 ) {
-        _.times( rightAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.shift();
-          assert && assert( countingObject, 'inactiveCountingObjects should not be empty' );
-          rightAddendObjects.push( countingObject! );
-        } );
-      }
-      else {
-        _.times( Math.abs( rightAddendDelta ), () => {
-          const countingObject = rightAddendObjects.pop();
-          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
-          this.inactiveCountingObjects.unshift( countingObject! );
-        } );
+      // When inactiveCountingObjects is empty and the total value is maxed out, the left and right addends
+      // are inextricably linked.
+      if ( this.inactiveCountingObjects.length === 0 &&
+           this.totalNumberProperty.value === NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max ) {
+        assert && assert( Math.abs( leftAddendDelta ) === Math.abs( rightAddendDelta ) &&
+        Math.sign( leftAddendDelta ) !== Math.sign( rightAddendDelta ),
+          'leftAddendDelta and rightAddendDelta should be exact opposites' );
+
+        if ( Math.sign( leftAddendDelta ) === 1 ) {
+          _.times( leftAddendDelta, () => {
+            this.moveCountingObjectsBetweenAddends( leftAddendDelta, rightAddendObjects, leftAddendObjects );
+          } );
+        }
+        else {
+          _.times( rightAddendDelta, () => {
+            this.moveCountingObjectsBetweenAddends( rightAddendDelta, leftAddendObjects, rightAddendObjects );
+          } );
+        }
       }
 
+      // Otherwise handle each delta independently.
+      else {
+        if ( Math.sign( leftAddendDelta ) === 1 ) {
+          _.times( leftAddendDelta, () => {
+            leftAddendObjects.push( this.getInactiveCountingObject() );
+          } );
+        }
+        else {
+          _.times( Math.abs( leftAddendDelta ), () => {
+            this.inactiveCountingObjects.unshift( this.getActiveCountingObject( leftAddendObjects ) );
+          } );
+        }
+
+        if ( Math.sign( rightAddendDelta ) === 1 ) {
+          _.times( rightAddendDelta, () => {
+            rightAddendObjects.push( this.getInactiveCountingObject() );
+          } );
+        }
+        else {
+          _.times( Math.abs( rightAddendDelta ), () => {
+            this.inactiveCountingObjects.unshift( this.getActiveCountingObject( rightAddendObjects ) );
+          } );
+        }
+      }
       assert && assert( this.leftAddendNumberProperty.value === leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
       assert && assert( this.rightAddendNumberProperty.value === rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
@@ -162,7 +181,24 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     this.createNumberLineEnabledRangeLinks();
+  }
 
+  private moveCountingObjectsBetweenAddends( amountToMove: number, sourceCountingObjects: CountingObject[],
+                                             destinationCountingObjects: ObservableArray<CountingObject> ): void {
+    const countingObjects = sourceCountingObjects.splice( 0, amountToMove );
+    destinationCountingObjects.push( ...countingObjects );
+  }
+
+  private getInactiveCountingObject(): CountingObject {
+    const countingObject = this.inactiveCountingObjects.shift();
+    assert && assert( countingObject, 'no more inactive counting objects' );
+    return countingObject!;
+  }
+
+  private getActiveCountingObject( sourceCountingObjects: CountingObject[] ): CountingObject {
+    const countingObject = sourceCountingObjects.pop();
+    assert && assert( countingObject, 'no more counting objects' );
+    return countingObject!;
   }
 
   /**
