@@ -126,10 +126,10 @@ export default class NumberPairsScreenView extends ScreenView {
 
     const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
       countingRepresentation => countingRepresentation === CountingRepresentationType.APPLES ||
-        countingRepresentation === CountingRepresentationType.ONE_CARDS ||
-        countingRepresentation === CountingRepresentationType.BUTTERFLIES ||
-        countingRepresentation === CountingRepresentationType.SOCCER_BALLS ||
-        countingRepresentation === CountingRepresentationType.KITTENS );
+                                countingRepresentation === CountingRepresentationType.ONE_CARDS ||
+                                countingRepresentation === CountingRepresentationType.BUTTERFLIES ||
+                                countingRepresentation === CountingRepresentationType.SOCCER_BALLS ||
+                                countingRepresentation === CountingRepresentationType.KITTENS );
 
     const tenFrameButton = new TenFrameButton( model.organizeIntoTenFrame, {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
@@ -154,11 +154,13 @@ export default class NumberPairsScreenView extends ScreenView {
         return countingRepresentationType.totalColor;
       }
     } );
-    const countingArea = new CountingAreaNode( this.countingAreaBounds, {
-      countingRepresentationTypeProperty: model.countingRepresentationTypeProperty,
-      backgroundColorProperty: countingAreaBackgroundColorProperty
-    } );
-    this.addChild( countingArea );
+    const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty,
+      this.countingAreaBounds, {
+        countingRepresentationTypeProperty: model.countingRepresentationTypeProperty,
+        backgroundColorProperty: countingAreaBackgroundColorProperty,
+        tandem: options.tandem.createTandem( 'countingAreaNode' )
+      } );
+    this.addChild( countingAreaNode );
 
     // All the location representations at least include One Cards
     if ( options.countingRepresentations.includes( CountingRepresentationType.ONE_CARDS ) ) {

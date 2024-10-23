@@ -30,7 +30,7 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
         createNode: () => new Text( NumberPairsStrings.addendsStringProperty, CHECKBOX_LABEL_OPTIONS ),
-        property: model.showAddendValuesProperty,
+        property: model.showNumberLineAddendValuesProperty,
         tandemName: 'addendsCheckbox'
       },
       {

@@ -94,7 +94,7 @@ export default class NumberLineNode extends Node {
     const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendNumberProperty, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showAddendValuesProperty,
+      visibleProperty: model.showNumberLineAddendValuesProperty,
       numberFontSize: 20
     } );
 
@@ -112,7 +112,7 @@ export default class NumberLineNode extends Node {
     const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendNumberProperty, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showAddendValuesProperty,
+      visibleProperty: model.showNumberLineAddendValuesProperty,
       numberFontSize: 20
     } );
 

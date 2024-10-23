@@ -114,9 +114,14 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
   public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
 
+  public readonly leftAddendVisibleProperty: BooleanProperty;
+  public readonly rightAddendVisibleProperty: BooleanProperty;
+  public readonly totalVisibleProperty: BooleanProperty;
+
   public readonly numberLineSliderEnabledRangeProperty: Property<Range>;
 
-  public readonly showAddendValuesProperty: Property<boolean>;
+  // The following Properties control the visibility of decorators on the number line.
+  public readonly showNumberLineAddendValuesProperty: Property<boolean>;
   public readonly showTickValuesProperty: Property<boolean>;
   public readonly showTotalJumpProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
@@ -149,8 +154,18 @@ export default class NumberPairsModel implements TModel {
       return countingRepresentationType.rightAddendColor;
     } );
 
-    this.showAddendValuesProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'showAddendValuesProperty' )
+    this.leftAddendVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'leftAddendVisibleProperty' )
+    } );
+    this.rightAddendVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'rightAddendVisibleProperty' )
+    } );
+    this.totalVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'totalVisibleProperty' )
+    } );
+
+    this.showNumberLineAddendValuesProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'showNumberLineAddendValuesProperty' )
     } );
     this.showTickValuesProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'showTickValuesProperty' )

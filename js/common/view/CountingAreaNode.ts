@@ -17,22 +17,39 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { CountingRepresentationType } from '../model/NumberPairsModel.js';
+import ShowHideAddendButton from './ShowHideAddendButton.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
   countingRepresentationTypeProperty: TReadOnlyProperty<CountingRepresentationType>;
 };
 
-type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
 export const COUNTING_AREA_LINE_WIDTH = 1.5;
+export const COUNTING_AREA_MARGIN = 10;
 export default class CountingAreaNode extends Node {
 
-  public constructor( countingAreaBounds: Bounds2, providedOptions: CountingAreaNodeOptions ) {
+  public constructor(
+    leftAddendVisibleProperty: BooleanProperty,
+    rightAddendVisibleProperty: BooleanProperty,
+    countingAreaBounds: Bounds2,
+    providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
-
     super( options );
+
+    // The split counting area is only visible when we are in a location based counting representation.
+    // i.e. Apples, Soccer Balls, Butterflies, One Cards
+    const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ],
+      countingRepresentationType => {
+        return countingRepresentationType === CountingRepresentationType.APPLES ||
+               countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
+               countingRepresentationType === CountingRepresentationType.SOCCER_BALLS ||
+               countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
+      } );
 
     const backgroundRectangle = new Rectangle( countingAreaBounds, {
       fill: options.backgroundColorProperty.value,
@@ -43,17 +60,38 @@ export default class CountingAreaNode extends Node {
     options.backgroundColorProperty.link( backgroundColor => {
       backgroundRectangle.fill = backgroundColor;
     } );
-    this.addChild( backgroundRectangle );
-
-    const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ], countingRepresentationType => {
-      return countingRepresentationType === CountingRepresentationType.APPLES || countingRepresentationType === CountingRepresentationType.ONE_CARDS
-             || countingRepresentationType === CountingRepresentationType.SOCCER_BALLS || countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
+    const addendsVisibleProperty = new BooleanProperty( leftAddendVisibleProperty.value && rightAddendVisibleProperty.value );
+    addendsVisibleProperty.link( addendsVisible => {
+      leftAddendVisibleProperty.value = addendsVisible;
+      rightAddendVisibleProperty.value = addendsVisible;
     } );
+    const showHideBothAddendsButton = new ShowHideAddendButton( addendsVisibleProperty, {
+      left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      visibleProperty: DerivedProperty.not( splitCountingAreaVisibleProperty ),
+      tandem: options.tandem.createTandem( 'showHideBothAddendsButton' )
+    } );
+    this.addChild( backgroundRectangle );
+    this.addChild( showHideBothAddendsButton );
 
     const splitCountingAreaBackground = new SplitCountingAreaNode( countingAreaBounds, {
       visibleProperty: splitCountingAreaVisibleProperty
     } );
+    const leftShowHideAddendButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+      left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      visibleProperty: splitCountingAreaVisibleProperty,
+      tandem: options.tandem.createTandem( 'leftShowHideAddendButton' )
+    } );
+    const rightShowHideAddendButton = new ShowHideAddendButton( rightAddendVisibleProperty, {
+      right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      visibleProperty: splitCountingAreaVisibleProperty,
+      tandem: options.tandem.createTandem( 'rightShowHideAddendButton' )
+    } );
     this.addChild( splitCountingAreaBackground );
+    this.addChild( leftShowHideAddendButton );
+    this.addChild( rightShowHideAddendButton );
   }
 }
 
