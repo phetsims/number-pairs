@@ -13,12 +13,13 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import CountingObjectControl from './CountingObjectControl.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
+import CountingObject from '../../common/model/CountingObject.js';
 import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 import Property from '../../../../axon/js/Property.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  addendType: AddendType;
+  addendNumberProperty?: Property<number> | null;
 };
 type AddendSpinnerPanelOptions = WithRequired<PanelOptions, 'tandem'> & SelfOptions;
 export default class AddendControlPanel extends Panel {
@@ -31,19 +32,22 @@ export default class AddendControlPanel extends Panel {
     providedOptions: AddendSpinnerPanelOptions
   ) {
 
+    const options = optionize<AddendSpinnerPanelOptions, SelfOptions, PanelOptions>()( {
+      addendNumberProperty: null
+    }, providedOptions );
     const countingObjectControl = new CountingObjectControl(
       totalNumberProperty,
       addendCountingObjects,
       inactiveCountingObjects,
       countingRepresentationTypeProperty, {
-      tandem: providedOptions.tandem.createTandem( 'countingObjectControl' ),
-      addendType: providedOptions.addendType
-    } );
+        tandem: providedOptions.tandem.createTandem( 'countingObjectControl' ),
+        addendNumberProperty: options.addendNumberProperty
+      } );
     const container = new Node( {
       children: [ countingObjectControl ]
     } );
 
-    super( container, providedOptions );
+    super( container, options );
 
     // TODO: Add grouped alt-input behavior
   }

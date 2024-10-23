@@ -13,7 +13,7 @@ import { Circle, HBox, HBoxOptions, Image, Node, VBox } from '../../../../scener
 import numberPairs from '../../numberPairs.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
+import CountingObject from '../../common/model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
@@ -27,7 +27,7 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
-  addendType: AddendType;
+  addendNumberProperty?: Property<number> | null;
 };
 type AddendObjectControlOptions = WithRequired<HBoxOptions, 'tandem'> & SelfOptions;
 
@@ -58,15 +58,18 @@ export default class CountingObjectControl extends HBox {
     providedOptions: AddendObjectControlOptions
   ) {
 
-    const options = optionize<AddendObjectControlOptions, SelfOptions, HBoxOptions>()( {}, providedOptions );
+    const options = optionize<AddendObjectControlOptions, SelfOptions, HBoxOptions>()( {
+      addendNumberProperty: null
+    }, providedOptions );
 
     const incrementEnabledProperty = new DerivedProperty( [ inactiveCountingObjects.lengthProperty ],
       ( inactiveCountingObjectsLength: number ) => inactiveCountingObjectsLength > 0 );
     const incrementButton = new ArrowButton( 'up', () => {
-      const countingObject = inactiveCountingObjects.shift();
-      assert && assert( countingObject, 'no more inactive counting objects' );
-      addendCountingObjects.push( countingObject! );
+
+      // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
+      // into a negative value when moving up from 0.
       totalNumberProperty.value += 1;
+      options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value + 1 );
     }, {
       arrowHeight: ARROW_HEIGHT,
       arrowWidth: ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
@@ -79,9 +82,7 @@ export default class CountingObjectControl extends HBox {
     const decrementEnabledProperty = new DerivedProperty( [ addendCountingObjects.lengthProperty ],
       ( addendCountingObjectsLength: number ) => addendCountingObjectsLength > 0 );
     const decrementButton = new ArrowButton( 'down', () => {
-      const countingObject = addendCountingObjects.pop();
-      assert && assert( countingObject, 'no more addend counting objects' );
-      inactiveCountingObjects.unshift( countingObject! );
+      options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value - 1 );
       totalNumberProperty.value -= 1;
     }, {
       arrowHeight: ARROW_HEIGHT,
@@ -97,7 +98,7 @@ export default class CountingObjectControl extends HBox {
       spacing: 5
     } );
 
-    const images = options.addendType === AddendType.LEFT ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
+    const images = options.addendNumberProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
     countingRepresentationTypeProperty.link( countingRepresentationType => {
       images.cube.visible = countingRepresentationType === CountingRepresentationType.CUBES;
       images.kitten.visible = countingRepresentationType === CountingRepresentationType.KITTENS;

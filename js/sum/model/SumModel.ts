@@ -123,54 +123,40 @@ export default class SumModel extends NumberPairsModel {
       const leftAddendDelta = this.leftAddendNumberProperty.value - leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
 
-      if ( leftAddendDelta === 0 && rightAddendDelta === 0 ) {
-        return; // No work to be done.
-      }
+      if ( leftAddendDelta + rightAddendDelta === 0 ) {
 
-      // When inactiveCountingObjects is empty and the total value is maxed out, the left and right addends
-      // are inextricably linked.
-      if ( this.inactiveCountingObjects.length === 0 &&
-           this.totalNumberProperty.value === NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.max ) {
-        assert && assert( Math.abs( leftAddendDelta ) === Math.abs( rightAddendDelta ) &&
-        Math.sign( leftAddendDelta ) !== Math.sign( rightAddendDelta ),
-          'leftAddendDelta and rightAddendDelta should be exact opposites' );
+        if ( leftAddendDelta > 0 ) {
+          assert && assert( rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
+          leftAddendObjects.push( ...rightAddendObjects.splice( 0, leftAddendDelta ) );
 
-        if ( Math.sign( leftAddendDelta ) === 1 ) {
-          _.times( leftAddendDelta, () => {
-            this.moveCountingObjectsBetweenAddends( leftAddendDelta, rightAddendObjects, leftAddendObjects );
-          } );
         }
-        else {
-          _.times( rightAddendDelta, () => {
-            this.moveCountingObjectsBetweenAddends( rightAddendDelta, leftAddendObjects, rightAddendObjects );
-          } );
+        else if ( rightAddendDelta > 0 ) {
+          assert && assert( leftAddendObjects.length >= rightAddendDelta, 'not enough right addend objects' );
+          rightAddendObjects.push( ...leftAddendObjects.splice( 0, rightAddendDelta ) );
         }
       }
-
-      // Otherwise handle each delta independently.
       else {
-        if ( Math.sign( leftAddendDelta ) === 1 ) {
-          _.times( leftAddendDelta, () => {
-            leftAddendObjects.push( this.getInactiveCountingObject() );
-          } );
+        if ( rightAddendDelta > 0 ) {
+          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
+
+          // We use the immutable `slice` here because removing and item from the inactiveCountingObjects array
+          // should be handled by the addend specific ObservableArray.
+          rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, rightAddendDelta ) );
         }
-        else {
-          _.times( Math.abs( leftAddendDelta ), () => {
-            this.inactiveCountingObjects.unshift( this.getActiveCountingObject( leftAddendObjects ) );
-          } );
+        else if ( rightAddendDelta < 0 ) {
+          rightAddendObjects.splice( rightAddendDelta, -rightAddendDelta );
         }
 
-        if ( Math.sign( rightAddendDelta ) === 1 ) {
-          _.times( rightAddendDelta, () => {
-            rightAddendObjects.push( this.getInactiveCountingObject() );
-          } );
+        if ( leftAddendDelta > 0 ) {
+          assert && assert( this.inactiveCountingObjects.length >= leftAddendDelta, 'not enough inactive counting objects' );
+          leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, leftAddendDelta ) );
         }
-        else {
-          _.times( Math.abs( rightAddendDelta ), () => {
-            this.inactiveCountingObjects.unshift( this.getActiveCountingObject( rightAddendObjects ) );
-          } );
+        else if ( leftAddendDelta < 0 ) {
+          leftAddendObjects.splice( leftAddendDelta, -leftAddendDelta );
         }
       }
+
+
       assert && assert( this.leftAddendNumberProperty.value === leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
       assert && assert( this.rightAddendNumberProperty.value === rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
@@ -181,24 +167,6 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     this.createNumberLineEnabledRangeLinks();
-  }
-
-  private moveCountingObjectsBetweenAddends( amountToMove: number, sourceCountingObjects: CountingObject[],
-                                             destinationCountingObjects: ObservableArray<CountingObject> ): void {
-    const countingObjects = sourceCountingObjects.splice( 0, amountToMove );
-    destinationCountingObjects.push( ...countingObjects );
-  }
-
-  private getInactiveCountingObject(): CountingObject {
-    const countingObject = this.inactiveCountingObjects.shift();
-    assert && assert( countingObject, 'no more inactive counting objects' );
-    return countingObject!;
-  }
-
-  private getActiveCountingObject( sourceCountingObjects: CountingObject[] ): CountingObject {
-    const countingObject = sourceCountingObjects.pop();
-    assert && assert( countingObject, 'no more counting objects' );
-    return countingObject!;
   }
 
   /**

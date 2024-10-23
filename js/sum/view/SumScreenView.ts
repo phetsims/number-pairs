@@ -18,7 +18,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import AddendControlPanel from './AddendControlPanel.js';
-import { AddendType } from '../../common/model/CountingObject.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
@@ -63,7 +62,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.countingRepresentationTypeProperty,
       {
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' ),
-        addendType: AddendType.LEFT
+        addendNumberProperty: model.leftAddendNumberProperty
       } );
     const rightAddendControlPanel = new AddendControlPanel(
       model.totalNumberProperty,
@@ -71,8 +70,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.inactiveCountingObjects,
       model.countingRepresentationTypeProperty,
       {
-        tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' ),
-        addendType: AddendType.RIGHT
+        tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );
     const addendSpinners = new VBox( {
       children: [ leftAddendControlPanel, rightAddendControlPanel ],
