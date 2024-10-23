@@ -70,33 +70,31 @@ export default class NumberPairsSceneModel {
       const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 
-      if ( Math.sign( leftAddendDelta ) === 1 ) {
-        _.times( leftAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.pop();
-          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
-          this.leftAddendObjects.push( countingObject! );
-        } );
+      if ( this.inactiveCountingObjects.length === 0 ) {
+        if ( leftAddendDelta > 0 ) {
+          this.leftAddendObjects.push( ...this.rightAddendObjects.splice( 0, leftAddendDelta ) );
+        }
+        else if ( leftAddendDelta < 0 ) {
+          this.rightAddendObjects.push( ...this.leftAddendObjects.splice( 0, rightAddendDelta ) );
+        }
       }
       else {
-        _.times( Math.abs( leftAddendDelta ), () => {
-          const countingObject = this.leftAddendObjects.pop();
-          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-          this.inactiveCountingObjects.push( countingObject! );
-        } );
-      }
-      if ( Math.sign( rightAddendDelta ) === 1 ) {
-        _.times( rightAddendDelta, () => {
-          const countingObject = this.inactiveCountingObjects.pop();
-          assert && assert( countingObject, 'rightAddendObjects should not be empty' );
-          this.rightAddendObjects.push( countingObject! );
-        } );
-      }
-      else {
-        _.times( Math.abs( rightAddendDelta ), () => {
-          const countingObject = this.rightAddendObjects.pop();
-          assert && assert( countingObject, 'leftAddendObjects should not be empty' );
-          this.inactiveCountingObjects.push( countingObject! );
-        } );
+        if ( rightAddendDelta > 0 ) {
+
+          // We use the immutable `slice` here because removing and item from the inactiveCountingObjects array
+          // should be handled by the addend specific ObservableArray.
+          this.rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, rightAddendDelta ) );
+        }
+        else if ( rightAddendDelta < 0 ) {
+          this.rightAddendObjects.splice( rightAddendDelta, -rightAddendDelta );
+        }
+
+        if ( leftAddendDelta > 0 ) {
+          this.leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, leftAddendDelta ) );
+        }
+        else if ( leftAddendDelta < 0 ) {
+          this.leftAddendObjects.splice( leftAddendDelta, -leftAddendDelta );
+        }
       }
 
       assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );

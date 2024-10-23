@@ -49,6 +49,11 @@ export default class CountingObject extends PhetioObject {
   public readonly focusedProperty: Property<boolean>;
   public readonly id: number;
 
+  // This Property determines whether the object should move through the inactiveCountingObjects array when it
+  // is removed from a left or right addend array. Used in CubesOnWireNode, LocationCountingObjectsLayerNode,
+  // and KittensLayerNode.
+  public traverseInactiveObjects = true;
+
   public constructor( providedOptions: CountingObjectOptions ) {
 
     const options = optionize<CountingObjectOptions, SelfOptions, PhetioObjectOptions>()( {

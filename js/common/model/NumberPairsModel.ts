@@ -194,13 +194,33 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  /**
+   * Registers the provided observable arrays to update their counting objects as expected when added or removed.
+   * Overall, the removal and addition of counting objects to the inactiveCountingObjects array should be handled
+   * in these listeners. This allows us to keep the arrays in sync in one central location.
+   * @param leftAddendObjects
+   * @param rightAddendObjects
+   * @param inactiveCountingObjects
+   */
   public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject>, inactiveCountingObjects: ObservableArray<CountingObject> ): void {
     leftAddendObjects.addItemAddedListener( countingObject => {
+      inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
       countingObject.addendTypeProperty.value = AddendType.LEFT;
+    } );
+    leftAddendObjects.addItemRemovedListener( countingObject => {
+      if ( countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+        inactiveCountingObjects.unshift( countingObject );
+      }
     } );
 
     rightAddendObjects.addItemAddedListener( countingObject => {
+      inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
       countingObject.addendTypeProperty.value = AddendType.RIGHT;
+    } );
+    rightAddendObjects.addItemRemovedListener( countingObject => {
+      if ( countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+        inactiveCountingObjects.unshift( countingObject );
+      }
     } );
 
     inactiveCountingObjects.addItemAddedListener( countingObject => {

@@ -35,12 +35,16 @@ export default class KittensLayerNode extends Node {
         const leftAddendCountingObjects = model.leftAddendCountingObjectsProperty.value;
         const rightAddendCountingObjects = model.rightAddendCountingObjectsProperty.value;
         if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) ) {
+          countingObject.traverseInactiveObjects = false;
           rightAddendCountingObjects.remove( countingObject );
           leftAddendCountingObjects.add( countingObject );
+          countingObject.traverseInactiveObjects = true;
         }
         else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) ) {
+          countingObject.traverseInactiveObjects = false;
           rightAddendCountingObjects.add( countingObject );
           leftAddendCountingObjects.remove( countingObject );
+          countingObject.traverseInactiveObjects = true;
         }
       } );
     } );

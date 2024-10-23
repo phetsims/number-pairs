@@ -70,15 +70,19 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const leftAddendCountingObjects = this.model.leftAddendCountingObjectsProperty.value;
     const rightAddendCountingObjects = this.model.rightAddendCountingObjectsProperty.value;
     if ( this.leftCountingAreaBounds.containsPoint( newPosition ) && !leftAddendCountingObjects.includes( countingObject ) ) {
+      countingObject.traverseInactiveObjects = false;
       rightAddendCountingObjects.remove( countingObject );
       leftAddendCountingObjects.add( countingObject );
+      countingObject.traverseInactiveObjects = true;
     }
     else if ( this.rightCountingAreaBounds.containsPoint( newPosition ) && !rightAddendCountingObjects.includes( countingObject ) ) {
 
       // Add the countingObject to the right addend array first to avoid duplicate work being done when the left addend
       // value is updated in the ObservableArray.lengthProperty listener.
+      countingObject.traverseInactiveObjects = false;
       rightAddendCountingObjects.add( countingObject );
       leftAddendCountingObjects.remove( countingObject );
+      countingObject.traverseInactiveObjects = true;
     }
   }
 }

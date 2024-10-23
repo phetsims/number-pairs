@@ -210,8 +210,10 @@ export default class CubesOnWireNode extends Node {
 
           // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
+          cube.model.traverseInactiveObjects = false;
           this.rightAddendCountingObjectsProperty.value.add( cube.model );
           this.leftAddendCountingObjectsProperty.value.remove( cube.model );
+          cube.model.traverseInactiveObjects = true;
         }
       }
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
@@ -221,8 +223,10 @@ export default class CubesOnWireNode extends Node {
 
           // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
+          cube.model.traverseInactiveObjects = false;
           this.rightAddendCountingObjectsProperty.value.remove( cube.model );
           this.leftAddendCountingObjectsProperty.value.add( cube.model );
+          cube.model.traverseInactiveObjects = true;
         }
       }
     } );
