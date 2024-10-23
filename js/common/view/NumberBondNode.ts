@@ -9,11 +9,11 @@
 
 import { Line, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import NumberCircle from './NumberCircle.js';
+import NumberCircle, { CIRCLE_RADIUS } from './NumberCircle.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import DecompositionModel from '../model/DecompositionModel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   totalColorProperty: TReadOnlyProperty<TColor>;
@@ -23,13 +23,12 @@ type SelfOptions = {
 };
 export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
 
-const CIRCLE_RADIUS = 30;
 const HORIZONTAL_OFFSET = 1.5 * CIRCLE_RADIUS;
 const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
 
 export default class NumberBondNode extends Node {
 
-  public constructor( model: Pick<DecompositionModel, 'totalNumberProperty' | 'leftAddendNumberProperty' | 'rightAddendNumberProperty'>, providedOptions: NumberBondNodeOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
       totalOnTop: true
@@ -38,14 +37,14 @@ export default class NumberBondNode extends Node {
     // If the total is on the bottom we want to flip the vertical offset
     const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
-    const total = new NumberCircle( CIRCLE_RADIUS, model.totalNumberProperty, {
+    const total = new NumberCircle( model.totalNumberProperty, model.totalVisibleProperty, {
       fill: options.totalColorProperty.value
     } );
     options.totalColorProperty.link( totalColor => {
       total.fill = totalColor;
     } );
 
-    const leftAddend = new NumberCircle( CIRCLE_RADIUS, model.leftAddendNumberProperty, {
+    const leftAddend = new NumberCircle( model.leftAddendNumberProperty, model.leftAddendVisibleProperty, {
       fill: options.leftAddendColorProperty.value,
       centerX: total.centerX - HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset
@@ -54,7 +53,7 @@ export default class NumberBondNode extends Node {
       leftAddend.fill = leftAddendColor;
     } );
 
-    const rightAddend = new NumberCircle( CIRCLE_RADIUS, model.rightAddendNumberProperty, {
+    const rightAddend = new NumberCircle( model.rightAddendNumberProperty, model.rightAddendVisibleProperty, {
       fill: options.rightAddendColorProperty.value,
       centerX: total.centerX + HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset

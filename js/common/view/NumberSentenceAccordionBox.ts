@@ -12,11 +12,12 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.zeroStringProperty );
@@ -40,21 +41,34 @@ NUMBER_TO_WORD_MAP.set( 17, NumberPairsStrings.seventeenStringProperty );
 NUMBER_TO_WORD_MAP.set( 18, NumberPairsStrings.eighteenStringProperty );
 NUMBER_TO_WORD_MAP.set( 19, NumberPairsStrings.nineteenStringProperty );
 NUMBER_TO_WORD_MAP.set( 20, NumberPairsStrings.twentyStringProperty );
+NUMBER_TO_WORD_MAP.set( 'aNumber', NumberPairsStrings.aNumberStringProperty );
+NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringProperty );
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  numberSentenceStringProperty: TReadOnlyProperty<string>;
+};
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
-    const totalStringProperty = new DerivedProperty( [ model.totalNumberProperty ],
-      total => NUMBER_TO_WORD_MAP.get( total ) );
-    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendNumberProperty ],
-      leftAddend => NUMBER_TO_WORD_MAP.get( leftAddend ) );
-    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendNumberProperty ],
-      rightAddend => NUMBER_TO_WORD_MAP.get( rightAddend ) );
+    const totalStringProperty = new DerivedProperty( [ model.totalNumberProperty, model.totalVisibleProperty ],
+      ( total, visible ) => {
+        const key = visible ? total : 'aNumber';
+        return NUMBER_TO_WORD_MAP.get( key );
+      } );
+    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendNumberProperty, model.leftAddendVisibleProperty ],
+      ( total, visible ) => {
+        const key = visible ? total : 'aNumber';
+        return NUMBER_TO_WORD_MAP.get( key );
+      } );
+    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendNumberProperty, model.rightAddendVisibleProperty ],
+      ( total, visible ) => {
+        const key = visible ? total : 'anotherNumber';
+        return NUMBER_TO_WORD_MAP.get( key );
+      } );
 
-    const numberSentencePatternStringProperty = new PatternStringProperty( NumberPairsStrings.numberSentencePatternStringProperty, {
+    const numberSentencePatternStringProperty = new PatternStringProperty( providedOptions.numberSentenceStringProperty, {
       total: new DynamicProperty( totalStringProperty ),
       leftAddend: new DynamicProperty( leftAddendStringProperty ),
       rightAddend: new DynamicProperty( rightAddendStringProperty )

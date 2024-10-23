@@ -17,23 +17,37 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 type NumberCircleOptions = StrictOmit<CircleOptions, 'children'>;
 
+export const CIRCLE_RADIUS = 30;
 export default class NumberCircle extends Circle {
-  public constructor( radius: number, numberProperty: TReadOnlyProperty<number>, providedOptions: NumberCircleOptions ) {
+  public constructor(
+    numberProperty: TReadOnlyProperty<number>,
+    numberVisibleProperty: TReadOnlyProperty<boolean>,
+    providedOptions: NumberCircleOptions ) {
 
     const options = combineOptions<CircleOptions>( {
-      stroke: 'black'
+      stroke: 'black',
+      excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
-    super( radius, options );
+    super( CIRCLE_RADIUS, options );
 
     const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
     const numberText = new Text( numberStringProperty, {
       font: new PhetFont( 28 ),
-      center: this.center
+      center: this.center,
+      visibleProperty: numberVisibleProperty
     } );
+
+    const questionMark = new Text( '?', {
+      font: new PhetFont( 28 ),
+      center: this.center,
+      visibleProperty: DerivedProperty.not( numberVisibleProperty )
+    } );
+    this.addChild( questionMark );
     this.addChild( numberText );
 
     Multilink.multilink( [ numberText.boundsProperty, this.localBoundsProperty ], ( numberTextBounds, circleBounds ) => {
       numberText.center = circleBounds.center;
+      questionMark.center = circleBounds.center;
     } );
   }
 }

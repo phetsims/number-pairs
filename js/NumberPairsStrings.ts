@@ -23,7 +23,10 @@ type StringsType = {
   'numberSentenceStringProperty': LocalizedStringProperty;
   'numberBondStringProperty': LocalizedStringProperty;
   'equationStringProperty': LocalizedStringProperty;
-  'numberSentencePatternStringProperty': LocalizedStringProperty;
+  'decompositionNumberSentencePatternStringProperty': LocalizedStringProperty;
+  'sumNumberSentencePatternStringProperty': LocalizedStringProperty;
+  'aNumberStringProperty': LocalizedStringProperty;
+  'anotherNumberStringProperty': LocalizedStringProperty;
   'zeroStringProperty': LocalizedStringProperty;
   'oneStringProperty': LocalizedStringProperty;
   'twoStringProperty': LocalizedStringProperty;

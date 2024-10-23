@@ -19,6 +19,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import AddendControlPanel from './AddendControlPanel.js';
 import { AddendType } from '../../common/model/CountingObject.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -32,6 +33,7 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
+        numberSentenceStringProperty: NumberPairsStrings.sumNumberSentencePatternStringProperty,
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
