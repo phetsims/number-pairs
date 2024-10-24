@@ -146,6 +146,9 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( countingAreaButtonsVBox );
 
+    /**
+     * Create the counting area and accompanying features.
+     */
     const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
       if ( countingRepresentationType === CountingRepresentationType.CUBES || countingRepresentationType === CountingRepresentationType.NUMBER_LINE ) {
         return NumberPairsColors.numberLineBackgroundColorProperty;
@@ -177,6 +180,13 @@ export default class NumberPairsScreenView extends ScreenView {
       this.addChild( locationCountingObjectsLayerNode );
     }
 
+    // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
+    // or rightAddendVisibleProperty is false, then none of the other counting representations should be visible.
+    const countingRepresentationsLayer = new Node( {
+      visibleProperty: DerivedProperty.and( [ model.leftAddendVisibleProperty, model.rightAddendVisibleProperty ] )
+    } );
+    this.addChild( countingRepresentationsLayer );
+
     /**
      * Create the attribute based kitten node layer and accompanying features.
      */
@@ -186,7 +196,7 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
-      this.addChild( kittensLayerNode );
+      countingRepresentationsLayer.addChild( kittensLayerNode );
     }
 
     /**
@@ -204,7 +214,7 @@ export default class NumberPairsScreenView extends ScreenView {
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
-      this.addChild( numberLineNode );
+      countingRepresentationsLayer.addChild( numberLineNode );
 
       // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
       //  is added to the scene graph.
@@ -243,7 +253,7 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: cubesVisibleProperty,
         tandem: options.tandem.createTandem( 'cubesOnWireNode' )
       } );
-      this.addChild( cubesOnWireNode );
+      countingRepresentationsLayer.addChild( cubesOnWireNode );
 
       cubesOnWireNode.center = this.countingAreaBounds.center;
     }

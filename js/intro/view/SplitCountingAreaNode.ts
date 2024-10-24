@@ -8,20 +8,31 @@
  */
 
 import numberPairs from '../../numberPairs.js';
-import { Line, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import { COUNTING_AREA_LINE_WIDTH } from '../../common/view/CountingAreaNode.js';
+import { COUNTING_AREA_LINE_WIDTH, COUNTING_AREA_MARGIN } from '../../common/view/CountingAreaNode.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
 
+type SplitCountingAreaNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 export default class SplitCountingAreaNode extends Node {
 
-  public constructor( countingAreaBounds: Bounds2, providedOptions?: NodeOptions ) {
+  public constructor(
+    countingAreaBounds: Bounds2,
+    leftAddendVisibleProperty: BooleanProperty,
+    rightAddendVisibleProperty: BooleanProperty,
+    providedOptions: SplitCountingAreaNodeOptions
+  ) {
 
     // Create the counting area background.
     const leftCountingAreaShape = Shape.roundedRectangleWithRadii(
@@ -61,10 +72,37 @@ export default class SplitCountingAreaNode extends Node {
       cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
     } );
 
-    const options = combineOptions<NodeOptions>( {
-      children: [ leftCountingArea, rightCountingArea, locationSeparator, countingAreaOutline ]
+    // Create the question marks that are displayed when either addend is not visible.
+    const leftAddendNotVisibleNode = new Text( '?', {
+      font: new PhetFont( 80 ),
+      center: leftCountingArea.center,
+      visibleProperty: DerivedProperty.not( leftAddendVisibleProperty )
+    } );
+    const rightAddendNotVisibleNode = new Text( '?', {
+      font: new PhetFont( 80 ),
+      center: rightCountingArea.center,
+      visibleProperty: DerivedProperty.not( rightAddendVisibleProperty )
+    } );
+
+    const options = optionize<SplitCountingAreaNodeOptions, EmptySelfOptions, NodeOptions>()( {
+      children: [ leftCountingArea, leftAddendNotVisibleNode, rightCountingArea,
+        rightAddendNotVisibleNode, locationSeparator, countingAreaOutline ]
     }, providedOptions );
-   super( options );
+    super( options );
+
+    const leftShowHideAddendButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+      left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      tandem: options.tandem.createTandem( 'leftShowHideAddendButton' )
+    } );
+    const rightShowHideAddendButton = new ShowHideAddendButton( rightAddendVisibleProperty, {
+      right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      tandem: options.tandem.createTandem( 'rightShowHideAddendButton' )
+    } );
+    this.addChild( leftShowHideAddendButton );
+    this.addChild( rightShowHideAddendButton );
+
   }
 }
 

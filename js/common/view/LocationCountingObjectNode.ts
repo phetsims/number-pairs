@@ -72,7 +72,13 @@ export default class LocationCountingObjectNode extends Node {
       dragListenerOptions: {
         dragBoundsProperty: new Property( dilatedDragBounds, {} ),
         positionProperty: model.locationPositionProperty,
-        tandem: providedOptions.tandem.createTandem( 'dragListener' )
+        tandem: providedOptions.tandem.createTandem( 'dragListener' ),
+        start: () => {
+          model.draggingProperty.value = true;
+        },
+        end: () => {
+          model.draggingProperty.value = false;
+        }
       },
       keyboardDragListenerOptions: {
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )

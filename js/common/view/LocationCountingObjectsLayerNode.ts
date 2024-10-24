@@ -35,8 +35,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
     model.countingObjects.forEach( countingObject => {
       this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.countingRepresentationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
-        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ],
-          addendType => addendType !== AddendType.INACTIVE ),
+        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
+            model.rightAddendVisibleProperty, countingObject.draggingProperty ],
+          ( addendType, leftVisible, rightVisible, dragging ) =>
+            dragging || ( addendType !== AddendType.INACTIVE && ( addendType === AddendType.LEFT ? leftVisible : rightVisible ) ) ),
         tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )
       } ) );
     } );

@@ -7,7 +7,7 @@
  *
  */
 
-import { Node, NodeOptions, Rectangle, TColor } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -20,6 +20,7 @@ import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 import ShowHideAddendButton from './ShowHideAddendButton.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -57,41 +58,36 @@ export default class CountingAreaNode extends Node {
       lineWidth: COUNTING_AREA_LINE_WIDTH,
       cornerRadius: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
     } );
+    const addendsNotVisibleNode = new Text( '?', {
+      font: new PhetFont( 80 ),
+      center: backgroundRectangle.center,
+      visibleProperty: new DerivedProperty( [ leftAddendVisibleProperty, rightAddendVisibleProperty ],
+        ( leftAddendVisible, rightAddendVisible ) => {
+          return !leftAddendVisible || !rightAddendVisible;
+        } )
+    } );
+    backgroundRectangle.addChild( addendsNotVisibleNode );
     options.backgroundColorProperty.link( backgroundColor => {
       backgroundRectangle.fill = backgroundColor;
     } );
-    const addendsVisibleProperty = new BooleanProperty( leftAddendVisibleProperty.value && rightAddendVisibleProperty.value );
-    addendsVisibleProperty.link( addendsVisible => {
-      leftAddendVisibleProperty.value = addendsVisible;
-      rightAddendVisibleProperty.value = addendsVisible;
-    } );
-    const showHideBothAddendsButton = new ShowHideAddendButton( addendsVisibleProperty, {
+
+    const showHideBothAddendsButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
+      secondAddendVisibleProperty: rightAddendVisibleProperty,
       visibleProperty: DerivedProperty.not( splitCountingAreaVisibleProperty ),
       tandem: options.tandem.createTandem( 'showHideBothAddendsButton' )
     } );
     this.addChild( backgroundRectangle );
     this.addChild( showHideBothAddendsButton );
 
-    const splitCountingAreaBackground = new SplitCountingAreaNode( countingAreaBounds, {
-      visibleProperty: splitCountingAreaVisibleProperty
-    } );
-    const leftShowHideAddendButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
-      left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
-      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      visibleProperty: splitCountingAreaVisibleProperty,
-      tandem: options.tandem.createTandem( 'leftShowHideAddendButton' )
-    } );
-    const rightShowHideAddendButton = new ShowHideAddendButton( rightAddendVisibleProperty, {
-      right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
-      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      visibleProperty: splitCountingAreaVisibleProperty,
-      tandem: options.tandem.createTandem( 'rightShowHideAddendButton' )
-    } );
+    const splitCountingAreaBackground = new SplitCountingAreaNode(
+      countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
+        visibleProperty: splitCountingAreaVisibleProperty,
+        tandem: options.tandem.createTandem( 'splitCountingAreaBackground' )
+      } );
+
     this.addChild( splitCountingAreaBackground );
-    this.addChild( leftShowHideAddendButton );
-    this.addChild( rightShowHideAddendButton );
   }
 }
 

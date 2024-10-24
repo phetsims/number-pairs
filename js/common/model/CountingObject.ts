@@ -49,6 +49,8 @@ export default class CountingObject extends PhetioObject {
   public readonly focusedProperty: Property<boolean>;
   public readonly id: number;
 
+  public readonly draggingProperty: Property<boolean>;
+
   // This Property determines whether the object should move through the inactiveCountingObjects array when it
   // is removed from a left or right addend array. Used in CubesOnWireNode, LocationCountingObjectsLayerNode,
   // and KittensLayerNode.
@@ -78,6 +80,10 @@ export default class CountingObject extends PhetioObject {
     this.focusedProperty = new BooleanProperty( false, {
       tandem: this.tandem.createTandem( 'focusedProperty' )
     } );
+    this.draggingProperty = new BooleanProperty( false, {
+      tandem: this.tandem.createTandem( 'isDraggingProperty' )
+    } );
+
     this.id = options.id;
 
   }
@@ -86,6 +92,7 @@ export default class CountingObject extends PhetioObject {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
     this.focusedProperty.reset();
+    this.draggingProperty.reset();
   }
 
   public static CountingObjectIO = new IOType( 'CountingObjectIO', {
