@@ -70,29 +70,37 @@ export default class NumberPairsSceneModel {
       const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 
-      if ( this.inactiveCountingObjects.length === 0 ) {
+      if ( leftAddendDelta + rightAddendDelta === 0 ) {
         if ( leftAddendDelta > 0 ) {
+          assert && assert( this.rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
           this.leftAddendObjects.push( ...this.rightAddendObjects.splice( 0, leftAddendDelta ) );
+
         }
-        else if ( leftAddendDelta < 0 ) {
+        else if ( rightAddendDelta > 0 ) {
+          assert && assert( this.leftAddendObjects.length >= rightAddendDelta, 'not enough left addend objects' );
           this.rightAddendObjects.push( ...this.leftAddendObjects.splice( 0, rightAddendDelta ) );
         }
       }
       else {
         if ( rightAddendDelta > 0 ) {
+          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
 
           // We use the immutable `slice` here because removing and item from the inactiveCountingObjects array
           // should be handled by the addend specific ObservableArray.
           this.rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, rightAddendDelta ) );
         }
         else if ( rightAddendDelta < 0 ) {
+          assert && assert( this.rightAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough right addend objects' );
           this.rightAddendObjects.splice( rightAddendDelta, -rightAddendDelta );
         }
 
         if ( leftAddendDelta > 0 ) {
+          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
+
           this.leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, leftAddendDelta ) );
         }
         else if ( leftAddendDelta < 0 ) {
+          assert && assert( this.leftAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough left addend objects' );
           this.leftAddendObjects.splice( leftAddendDelta, -leftAddendDelta );
         }
       }
