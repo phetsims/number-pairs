@@ -7,12 +7,12 @@
  *
  */
 
-import { AlignBox, Circle, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
+import { AlignBox, Circle, Node, NodeOptions, RichDragListener, Text, Image } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Panel from '../../../../sun/js/Panel.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import CountingObject, { AddendType, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT } from '../model/CountingObject.js';
+import CountingObject, { AddendType, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT, KITTEN_PANEL_MARGIN } from '../model/CountingObject.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -23,6 +23,8 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 
 type SelfOptions = {
   onDrop: ( countingObject: CountingObject ) => void;
@@ -30,7 +32,7 @@ type SelfOptions = {
 type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
 const ICON_RADIUS = 7;
-
+const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
 export default class KittenNode extends Node {
   private readonly focusPanel: Node;
 
@@ -84,19 +86,22 @@ export default class KittenNode extends Node {
       visibleProperty: model.focusedProperty
     } );
 
-    const leftAddendKittenImage = new Circle( 25, {
-      fill: NumberPairsColors.attributeLeftAddendColorProperty,
-      center: focusPanel.center,
+    const leftAddendKittenImage = new Image( kittenYellow_svg, {
+      centerX: focusPanel.centerX + KITTEN_OFFSET,
+      bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
+      maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT )
     } );
-    const rightAddendKittenImage = new Circle( 25, {
-      fill: NumberPairsColors.attributeRightAddendColorProperty,
-      center: focusPanel.center,
+    const rightAddendKittenImage = new Image( kittenBlue_svg, {
+      maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
+      bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
+      centerX: focusPanel.centerX + KITTEN_OFFSET,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT )
     } );
 
-    // Make sure that the initial position is within the drag bounds
-    const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2, -KITTEN_PANEL_HEIGHT / 2 );
+    // Dilate by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
+    // the dragged object and the counting area boundary.
+    const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
     model.attributePositionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
     const superOptions = combineOptions<NodeOptions>( {

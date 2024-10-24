@@ -8,7 +8,7 @@
  *
  */
 
-import { Circle, Node, NodeOptions, Rectangle, RichDragListener } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, Rectangle, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import { CountingRepresentationType } from '../model/NumberPairsModel.js';
@@ -18,13 +18,19 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import apple_svg from '../../../images/apple_svg.js';
+import soccerball_svg from '../../../images/soccerball_svg.js';
+import butterfly_svg from '../../../images/butterfly_svg.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
 };
 type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
-// TODO: Right now the position is not affecting the addend at all. That needs to happen next.
+const IMAGE_WIDTH = 40;
+const ONE_CARD_HEIGHT = 55;
+const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public constructor(
     model: CountingObject,
@@ -33,30 +39,35 @@ export default class LocationCountingObjectNode extends Node {
     providedOptions: LocationCountingObjectNodeOptions
   ) {
 
-    const apple = new Circle( 20, {
-      fill: 'red',
-      stroke: 'black',
+    const apple = new Image( apple_svg, {
+      maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.APPLES )
     } );
-    const oneCard = new Rectangle( 0, 0, 40, 55, {
+    const oneCard = new Rectangle( 0, 0, IMAGE_WIDTH, ONE_CARD_HEIGHT, {
       fill: 'white',
       stroke: 'black',
       cornerRadius: 5,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.ONE_CARDS )
     } );
-    const soccerBall = new Circle( 20, {
-      fill: 'white',
-      stroke: 'black',
+
+    // Create the one card.
+    const numberOne = new Text( '1', {
+      font: new PhetFont( 40 ),
+      center: oneCard.center,
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.ONE_CARDS )
+    } );
+    oneCard.addChild( numberOne );
+
+    const soccerBall = new Image( soccerball_svg, {
+      maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.SOCCER_BALLS )
     } );
-    const butterfly = new Circle( 20, {
-      fill: 'orange',
-      stroke: 'black',
+    const butterfly = new Image( butterfly_svg, {
+      maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.BUTTERFLIES )
     } );
 
-    // TODO: Grab widest image for bounds dilation.
-    const dilatedDragBounds = dragBounds.dilatedXY( -20, -20 );
+    const dilatedDragBounds = dragBounds.dilatedXY( -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN, -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN );
 
     const superOptions = combineOptions<NodeOptions>( {
       children: [ apple, oneCard, soccerBall, butterfly ]
@@ -78,7 +89,8 @@ export default class LocationCountingObjectNode extends Node {
         },
         end: () => {
           model.draggingProperty.value = false;
-        }
+        },
+        useParentOffset: true
       },
       keyboardDragListenerOptions: {
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
