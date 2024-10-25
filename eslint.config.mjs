@@ -7,6 +7,7 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
+import banTSCommentConfig from '../perennial-alias/js/eslint/banTSCommentConfig.mjs';
 import simEslintConfig from '../perennial-alias/js/eslint/sim.eslint.config.mjs';
 
 export default [
@@ -16,18 +17,5 @@ export default [
       'phet/todo-should-have-issue': 'off'
     }
   },
-  {
-    files: [ '**/*.ts' ],
-    rules: {
-      '@typescript-eslint/ban-ts-comment': [
-        'error',
-        {
-          'ts-expect-error': true,
-          'ts-ignore': true,
-          'ts-check': true,
-          'ts-nocheck': true
-        }
-      ]
-    }
-  }
+  ...banTSCommentConfig
 ];
