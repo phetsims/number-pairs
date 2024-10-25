@@ -16,7 +16,6 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
@@ -33,6 +32,13 @@ export default class LocationCountingObjectsLayerNode extends Node {
     this.rightCountingAreaBounds = countingAreaBounds.withOffsets( -countingAreaBounds.width / 2, 0, 0, 0 );
 
     model.countingObjects.forEach( countingObject => {
+
+      // Update the location of the countingObject when the addendType changes as long as it is not being dragged.
+      countingObject.addendTypeProperty.link( addendType => {
+        if ( !countingObject.draggingProperty.value && addendType !== AddendType.INACTIVE ) {
+          this.updateLocation( countingObject, addendType );
+        }
+      } );
       this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.countingRepresentationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
@@ -43,19 +49,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } ) );
     } );
 
-    Multilink.multilink( [ model.leftAddendCountingObjectsProperty, model.rightAddendCountingObjectsProperty ],
-      ( leftAddendCountingObjects, rightAddendCountingObjects ) => {
-        leftAddendCountingObjects.forEach( countingObject => {
-          this.updateLocation( countingObject, AddendType.LEFT );
-        } );
-        rightAddendCountingObjects.forEach( countingObject => {
-          this.updateLocation( countingObject, AddendType.RIGHT );
-        } );
-      } );
   }
 
   /**
-   *
+   * Update the location of the countingObject to be within the correct addend area.
    * @param countingObject
    * @param addendType - We do not want to rely on listener order and therefore the addendType is passed in.
    */
@@ -68,6 +65,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
     }
   }
 
+  /**
+   * As the counting object changes location, we need to update the addend arrays.
+   * @param countingObject
+   * @param newPosition
+   */
   public handleLocationChange( countingObject: CountingObject, newPosition: Vector2 ): void {
     const leftAddendCountingObjects = this.model.leftAddendCountingObjectsProperty.value;
     const rightAddendCountingObjects = this.model.rightAddendCountingObjectsProperty.value;

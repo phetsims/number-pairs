@@ -286,8 +286,11 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  /**
+   * Set the left addend to the right addend value. Derived Properties and listeners take care of the rest.
+   */
   public swapAddends(): void {
-    // TODO: Add logic that swaps the left and right addends. https://github.com/phetsims/number-pairs/issues/18
+    this.leftAddendNumberProperty.value = this.rightAddendNumberProperty.value;
   }
 
   public organizeIntoTenFrame(): void {
