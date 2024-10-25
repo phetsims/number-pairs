@@ -54,7 +54,7 @@ const NumberPairsColors = {
     default: '#AFDDC6'
   } ),
   attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
-    default: '#EDD9B7'
+    default: '#ffee8c'
   } ),
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A3ADDD'
@@ -67,6 +67,9 @@ const NumberPairsColors = {
   } ),
   numberBondAccordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberBondAccordionBoxBackground', {
     default: '#F8F8FD'
+  } ),
+  kittenPanelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'kittenPanelBackground', {
+    default: 'rgba( 255, 255, 255, 1 )'
   } )
 };
 
