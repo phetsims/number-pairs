@@ -11,11 +11,10 @@
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Color, Node } from '../../../../scenery/js/imports.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { CountingRepresentationType } from '../model/NumberPairsModel.js';
+import { CountingRepresentationType, ICON_MAX_HEIGHT } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   countingRepresentations: CountingRepresentationType[];
@@ -29,13 +28,21 @@ export default class CountingRepresentationRadioButtonGroup extends RectangularR
     const groupItems = providedOptions.countingRepresentations.map( countingRepresentationType => {
       return {
         value: countingRepresentationType,
-        createNode: () => new Text( countingRepresentationType.label, { font: new PhetFont( 10 ) } ),
+        createNode: () => new Node( { children: [ countingRepresentationType.icon ] } ),
         tandemName: countingRepresentationType.label + 'RadioButton'
       };
     } );
 
+    const buttonMargin = 3;
     const options = optionize<CountingRepresentationRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
-      orientation: 'horizontal'
+      orientation: 'horizontal',
+      radioButtonOptions: {
+        baseColor: Color.WHITE,
+        xMargin: buttonMargin,
+        yMargin: buttonMargin,
+        minWidth: ICON_MAX_HEIGHT + 2 * buttonMargin, // the buttons should be square, and the ICON_MAX_HEIGHT is larger than the ICON_MAX_WIDTH
+        minHeight: ICON_MAX_HEIGHT + 2 * buttonMargin
+      }
     }, providedOptions );
     super( countingRepresentationTypeProperty, groupItems, options );
   }

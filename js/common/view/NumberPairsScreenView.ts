@@ -42,7 +42,7 @@ type SelfOptions = {
 };
 export type NumberPairsScreenViewOptions = SelfOptions & WithRequired<ScreenViewOptions, 'tandem'>;
 
-const COUNTING_AREA_Y_MARGIN = 25; // empirically determined
+const COUNTING_AREA_Y_MARGIN = 15; // empirically determined
 export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly countingAreaBounds: Bounds2;
