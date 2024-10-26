@@ -14,16 +14,18 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 const CHECKBOX_LABEL_OPTIONS = {
   font: new PhetFont( 16 )
 };
+
+type NumberLineOptionsCheckboxGroupOptions = WithRequired<VerticalCheckboxGroupOptions, 'tandem'>;
 export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGroup {
 
-  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: WithRequired<VerticalCheckboxGroupOptions, 'tandem'> ) {
-    const options = combineOptions<VerticalCheckboxGroupOptions>( {
+  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
+    const options = optionize<NumberLineOptionsCheckboxGroupOptions, EmptySelfOptions, VerticalCheckboxGroupOptions>()( {
       bottom: countingAreaBounds.top - 8,
       right: countingAreaBounds.right
     }, providedOptions );

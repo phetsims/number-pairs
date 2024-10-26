@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * TotalRadioButtonGroup is a RectangularRadioButtonGroup that displays the total values that can be selected by the user.
+ * SceneSelectionRadioButtonGroup is a RectangularRadioButtonGroup that displays the total values that can be selected by the user.
  * The total values are displayed in descending order and are each associated with a scene that tracks its own state.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -24,7 +24,7 @@ type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButto
 
 // TODO: SceneSelectionRadioButtonGroup, listens to sceneProperty and each group item's value is connected to
 //   a specific scene rather than the total. or change the options name ot match class.
-export default class TotalRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsSceneModel> {
+export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsSceneModel> {
 
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsSceneModel>, sceneModels: NumberPairsSceneModel[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
@@ -46,4 +46,4 @@ export default class TotalRadioButtonGroup extends RectangularRadioButtonGroup<N
   }
 }
 
-numberPairs.register( 'TotalRadioButtonGroup', TotalRadioButtonGroup );
+numberPairs.register( 'SceneSelectionRadioButtonGroup', SceneSelectionRadioButtonGroup );

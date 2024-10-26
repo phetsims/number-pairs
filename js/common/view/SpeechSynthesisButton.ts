@@ -20,7 +20,7 @@ type SpeechSynthesisButtonOptions = WithRequired<RectangularPushButtonOptions, '
 // TODO: Add speech synthesis functionality: https://github.com/phetsims/number-pairs/issues/18
 export default class SpeechSynthesisButton extends RectangularPushButton {
 
-  public constructor( providedOptions?: SpeechSynthesisButtonOptions ) {
+  public constructor( providedOptions: SpeechSynthesisButtonOptions ) {
 
     const options = optionize4<SpeechSynthesisButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {

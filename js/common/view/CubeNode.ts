@@ -14,7 +14,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
 import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
@@ -45,7 +45,7 @@ export default class CubeNode extends Node {
       visibleProperty: rightAddendVisibleProperty
     } );
 
-    const options = combineOptions<NodeOptions>( {
+    const options = optionize<CubeNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ cubeLeftAddendImage, cubeRightAddendImage ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );

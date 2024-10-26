@@ -13,7 +13,7 @@
 import { Circle, Line, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -86,7 +86,7 @@ export default class CubesOnWireNode extends Node {
     } );
     cubeSeparatorCenterXProperty.link( x => { cubeSeparator.centerX = x; } );
 
-    const options = combineOptions<NodeOptions>( {
+    const options = optionize<CubesOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, cubeSeparator, wireMinXEndCap, wireMaxXEndCap ]
     }, providedOptions );
     super( options );

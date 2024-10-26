@@ -10,7 +10,7 @@
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
-import TotalRadioButtonGroup from './TotalRadioButtonGroup.js';
+import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import { AlignBox } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
@@ -27,13 +27,13 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
 
     // Add the total radio button group if the scene range is provided. Each radio button represents a total value
     // that is associated with a scene state.
-    const totalRadioButtonGroup = new TotalRadioButtonGroup( model.selectedSceneModelProperty, model.sceneModels, {
+    const sceneSelectionRadioButtonGroup = new SceneSelectionRadioButtonGroup( model.selectedSceneModelProperty, model.sceneModels, {
       sceneRange: providedOptions.sceneRange,
-      tandem: providedOptions.tandem.createTandem( 'totalRadioButtonGroup' )
+      tandem: providedOptions.tandem.createTandem( 'sceneSelectionRadioButtonGroup' )
     } );
 
     // Sum radio buttons should be center aligned vertically above the reset all button.
-    const totalSelectorAlignBox = new AlignBox( totalRadioButtonGroup, {
+    const totalSelectorAlignBox = new AlignBox( sceneSelectionRadioButtonGroup, {
       alignBounds: this.layoutBounds.withOffsets( 0, 0, 0, -this.resetAllButton.height - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN ),
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       xMargin: NumberPairsConstants.SCREEN_VIEW_X_MARGIN,

@@ -12,13 +12,14 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import KittenNode from './KittenNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
-type KittensLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
+type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
 
   public constructor( model: NumberPairsModel, countingObjects: CountingObject[], countingAreaBounds: Bounds2, providedOptions: KittensLayerNodeOptions ) {
@@ -49,10 +50,10 @@ export default class KittensLayerNode extends Node {
       } );
     } );
 
-    const superOptions = combineOptions<NodeOptions>( {
+    const options = optionize<KittensLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
       children: kittens
     }, providedOptions );
-    super( superOptions );
+    super( options );
   }
 }
 

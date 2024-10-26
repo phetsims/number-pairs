@@ -15,7 +15,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Multilink from '../../../../axon/js/Multilink.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
@@ -59,10 +59,8 @@ export default class EllipticalArrowNode extends Node {
       lineWidth: ARROW_TAIL_LINE_WIDTH
     } );
 
-    const superOptions = combineOptions<NodeOptions>( {
-      children: [ tailNode, arrowHeadNode ]
-    }, options );
-    super( superOptions );
+    options.children = [ tailNode, arrowHeadNode ];
+    super( options );
 
     this.tailNode = tailNode;
     this.arrowHeadNode = arrowHeadNode;

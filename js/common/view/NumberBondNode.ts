@@ -12,7 +12,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberCircle, { CIRCLE_RADIUS } from './NumberCircle.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
@@ -21,7 +21,7 @@ type SelfOptions = {
   rightAddendColorProperty: TReadOnlyProperty<TColor>;
   totalOnTop?: boolean;
 };
-export type NumberBondNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions;
+export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 const HORIZONTAL_OFFSET = 1.5 * CIRCLE_RADIUS;
 const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
@@ -69,10 +69,8 @@ export default class NumberBondNode extends Node {
       stroke: 'black'
     } );
 
-    const superOptions = combineOptions<NodeOptions>( {
-      children: [ leftLine, rightLine, total, leftAddend, rightAddend ]
-    }, options );
-    super( superOptions );
+    options.children = [ leftLine, rightLine, total, leftAddend, rightAddend ];
+    super( options );
   }
 }
 

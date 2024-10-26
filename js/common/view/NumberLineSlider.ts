@@ -6,20 +6,19 @@
  *
  */
 
-import HSlider from '../../../../sun/js/HSlider.js';
+import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import { Line, Node, Text } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ThumbNode from './ThumbNode.js';
-import { SliderOptions } from '../../../../sun/js/Slider.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
@@ -32,7 +31,7 @@ type SelfOptions = {
   numberLineWidth: number;
   numberLineRange: Range;
 };
-type NumberLineSliderOptions = WithRequired<SliderOptions, 'tandem'> & SelfOptions;
+type NumberLineSliderOptions = SelfOptions & WithRequired<HSliderOptions, 'tandem'>;
 export default class NumberLineSlider extends HSlider {
 
   public readonly sliderTickParent: Node;
@@ -63,7 +62,7 @@ export default class NumberLineSlider extends HSlider {
         tandem: providedOptions.tandem.createTandem( 'trackNode' )
       } );
 
-    const options = combineOptions<NumberLineSliderOptions>( {
+    const options = optionize<NumberLineSliderOptions, SelfOptions, HSliderOptions>()( {
       thumbNode: thumbNode,
       trackNode: trackNode,
       thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,

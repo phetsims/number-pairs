@@ -7,7 +7,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import { Circle, Line, ManualConstraint, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -19,11 +19,12 @@ import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   numberLineRange: Range;
 };
-type NumberLineNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
+type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
 export const NUMBER_LINE_POINT_RADIUS = 8;
 const LABEL_DIMENSION = 28;
@@ -36,7 +37,9 @@ export default class NumberLineNode extends Node {
 
     // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
-    const zeroNumberProperty = new Property( options.numberLineRange.min );
+    const zeroNumberProperty = new Property( options.numberLineRange.min, {
+      isValidValue: value => value === options.numberLineRange.min
+    } );
 
     const trackModelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       Vector2.ZERO,
@@ -124,23 +127,21 @@ export default class NumberLineNode extends Node {
         totalHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
       } );
 
-    const superOptions = combineOptions<NodeOptions>( {
-      children: [
-        leftAddendHighlight,
-        rightAddendHighlight,
-        totalHighlight,
-        rightAddendArrow,
-        leftAddendArrow,
-        totalArrow,
-        slider.sliderTickParent,
-        slider,
-        totalCircle,
-        rightAddendLabel,
-        leftAddendLabel,
-        totalLabel
-      ]
-    }, providedOptions );
-    super( superOptions );
+    options.children = [
+      leftAddendHighlight,
+      rightAddendHighlight,
+      totalHighlight,
+      rightAddendArrow,
+      leftAddendArrow,
+      totalArrow,
+      slider.sliderTickParent,
+      slider,
+      totalCircle,
+      rightAddendLabel,
+      leftAddendLabel,
+      totalLabel
+    ];
+    super( options );
 
     // Position the total circle at the total value on the number line.
     model.totalNumberProperty.link( total => {

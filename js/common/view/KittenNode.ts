@@ -109,6 +109,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
     model.attributePositionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
+    // REVIEW: Doesn't it make sense to use combineOptions here so I can properly use options above and not have
+    // to mutate super? https://github.com/phetsims/number-pairs/issues/20
     const superOptions = combineOptions<NodeOptions>( {
       children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ],
       tagName: 'div',

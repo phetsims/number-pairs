@@ -14,7 +14,7 @@ import CountingObject from '../model/CountingObject.js';
 import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -69,10 +69,10 @@ export default class LocationCountingObjectNode extends Node {
 
     const dilatedDragBounds = dragBounds.dilatedXY( -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN, -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN );
 
-    const superOptions = combineOptions<NodeOptions>( {
+    const options = optionize<LocationCountingObjectNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ apple, oneCard, soccerBall, butterfly ]
     }, providedOptions );
-    super( superOptions );
+    super( options );
 
     apple.center = this.center;
     oneCard.center = this.center;

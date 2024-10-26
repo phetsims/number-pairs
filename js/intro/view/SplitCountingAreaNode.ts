@@ -18,13 +18,14 @@ import { COUNTING_AREA_LINE_WIDTH, COUNTING_AREA_MARGIN } from '../../common/vie
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
 
-type SplitCountingAreaNodeOptions = WithRequired<NodeOptions, 'tandem'>;
+type SplitCountingAreaNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class SplitCountingAreaNode extends Node {
 
   public constructor(
