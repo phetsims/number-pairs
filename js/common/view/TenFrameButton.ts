@@ -8,13 +8,15 @@
 
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPairs from '../../numberPairs.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = EmptySelfOptions;
-type TenFrameButtonOptions = SelfOptions & WithRequired<RectangularPushButtonOptions, 'tandem'>;
+type TenFrameButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOptions, 'tandem'>
+  & StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
 
 export default class TenFrameButton extends RectangularPushButton {
 

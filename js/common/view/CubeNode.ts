@@ -26,7 +26,8 @@ type SelfOptions = {
   onDrag: ( position: Vector2, cube: CubeNode ) => void;
   onDrop: () => void;
 };
-type CubeNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
+type CubeNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
+  StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
 export default class CubeNode extends Node {
 
   public constructor(

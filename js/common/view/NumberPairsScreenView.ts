@@ -17,7 +17,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel, { CountingRepresentationType } from '../model/NumberPairsModel.js';
 import CountingRepresentationRadioButtonGroup from './CountingRepresentationRadioButtonGroup.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
@@ -31,6 +30,8 @@ import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameButton from './TenFrameButton.js';
 import CommutativeButton from './CommutativeButton.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 
 type SelfOptions = {
@@ -40,7 +41,8 @@ type SelfOptions = {
   equationContent?: Node | null;
   sceneRange?: Range | null;
 };
-export type NumberPairsScreenViewOptions = SelfOptions & WithRequired<ScreenViewOptions, 'tandem'>;
+export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'> &
+  StrictOmit<ScreenViewOptions, 'children'>;
 
 const COUNTING_AREA_Y_MARGIN = 15; // empirically determined
 export default class NumberPairsScreenView extends ScreenView {

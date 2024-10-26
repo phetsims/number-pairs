@@ -22,7 +22,7 @@ type SelfOptions = {
   numberVisibleProperty?: TReadOnlyProperty<boolean>;
 };
 
-type NumberSquareOptions = SelfOptions & StrictOmit<RectangleOptions, 'children'>;
+type NumberSquareOptions = SelfOptions & StrictOmit<RectangleOptions, 'children' | 'rectSize'>;
 export default class NumberSquare extends Rectangle {
 
   public constructor(

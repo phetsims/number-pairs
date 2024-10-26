@@ -11,13 +11,17 @@ import RectangularPushButton, { RectangularPushButtonOptions } from '../../../..
 import numberPairs from '../../numberPairs.js';
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 
 type SelfOptions = EmptySelfOptions;
-type CommutativeButtonOptions = SelfOptions & WithRequired<RectangularPushButtonOptions, 'tandem'>;
+type CommutativeButtonOptions =
+  SelfOptions
+  & PickRequired<RectangularPushButtonOptions, 'tandem'>
+  & StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
 export default class CommutativeButton extends RectangularPushButton {
 
   public constructor( swapAddends: () => void, providedOptions: CommutativeButtonOptions ) {

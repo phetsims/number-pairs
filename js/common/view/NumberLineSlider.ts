@@ -23,6 +23,8 @@ import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const MINOR_TICK_LENGTH = 16;
 const MAJOR_TICK_LENGTH = 24;
@@ -31,7 +33,8 @@ type SelfOptions = {
   numberLineWidth: number;
   numberLineRange: Range;
 };
-type NumberLineSliderOptions = SelfOptions & WithRequired<HSliderOptions, 'tandem'>;
+type NumberLineSliderOptions = SelfOptions & PickRequired<HSliderOptions, 'tandem'> &
+  StrictOmit<HSliderOptions, 'thumbNode' | 'trackNode' | 'enabledRangeProperty' | 'constrainValue'>;
 export default class NumberLineSlider extends HSlider {
 
   public readonly sliderTickParent: Node;

@@ -15,7 +15,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
-type NumberCircleOptions = StrictOmit<CircleOptions, 'children'>;
+type NumberCircleOptions = StrictOmit<CircleOptions, 'children' | 'radius'>;
 
 export const CIRCLE_RADIUS = 30;
 export default class NumberCircle extends Circle {
