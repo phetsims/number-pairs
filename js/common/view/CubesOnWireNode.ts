@@ -2,14 +2,15 @@
 
 /**
  * Cubes are arranged in two groups, one for each addend. All the cubes are lined up on a "wire" and can be dragged
- * to either the left or right of the separator. The number of cubes in each group is determined by the addend values.
- * The number of visible cubes is determined by the total value.
+ * to either the left or right of the separator. Because the cubes are on a wire, when you drag one cube any cube it
+ * touches in the direction of the drag will move with it. The number of cubes in each group is determined by the
+ * addend values. The number of visible cubes is determined by the total value.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
 
-import { Circle, Line, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -67,19 +68,13 @@ export default class CubesOnWireNode extends Node {
       stroke: 'black'
     } );
 
-    const wireMinXEndCapShape = new Shape()
-      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, true ).lineTo( 0, 0 );
-    const wireMinXEndCap = new Path( wireMinXEndCapShape, {
+    const wireMinXEndCap = new WireEndCap( true, {
       left: wire.left,
-      centerY: wire.centerY,
-      fill: 'black'
+      centerY: wire.centerY
     } );
-    const wireMaxXEndCapShape = new Shape()
-      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, false ).lineTo( 0, 0 );
-    const wireMaxXEndCap = new Path( wireMaxXEndCapShape, {
+    const wireMaxXEndCap = new WireEndCap( false, {
       right: wire.right,
-      centerY: wire.centerY,
-      fill: 'black'
+      centerY: wire.centerY
     } );
 
     const cubeSeparatorCenterXProperty = new NumberProperty( 0, {
@@ -137,7 +132,7 @@ export default class CubesOnWireNode extends Node {
    * Snap the cubes to their positions on the wire based on the addend values. By default, the cubes are arranged in
    * groups of 5 with a separator between the two addends.
    */
-  public snapCubesToPositions(): void {
+  private snapCubesToPositions(): void {
     const leftAddend = this.model.leftAddendNumberProperty.value;
     const leftAddendCubes = this.leftAddendCountingObjectsProperty.value
       .map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
@@ -151,7 +146,7 @@ export default class CubesOnWireNode extends Node {
       cube.moveToFront();
     } );
 
-    const cubeSeparatorPlaceOnWire = this.calculateCubeSeparatorPlacement( leftAddend );
+    const cubeSeparatorPlaceOnWire = calculateCubeSeparatorPlacement( leftAddend );
     this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( cubeSeparatorPlaceOnWire );
     rightAddendCubes.forEach( ( cube, i ) => {
       const placeOnWire = Math.floor( i / 5 ) + i + cubeSeparatorPlaceOnWire + 1;
@@ -165,7 +160,7 @@ export default class CubesOnWireNode extends Node {
    * @param newPosition
    * @param grabbedCube
    */
-  public handleCubeMove( newPosition: Vector2, grabbedCube: CubeNode ): void {
+  private handleCubeMove( newPosition: Vector2, grabbedCube: CubeNode ): void {
 
     // Determine whether we are dragging the cube to the right or left along the wire.
     const draggingRight = Math.sign( newPosition.x - grabbedCube.parentToGlobalPoint( grabbedCube.bounds.center ).x ) > 0;
@@ -206,7 +201,7 @@ export default class CubesOnWireNode extends Node {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
 
           // Since a cube is moving to the right, the separator should adjust one position to the left.
-          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( this.calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value - 1 ) );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value - 1 ) );
 
           // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -219,7 +214,7 @@ export default class CubesOnWireNode extends Node {
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           // Since a cube is moving to the left, the separator should adjust one position to the right.
-          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( this.calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value + 1 ) );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value + 1 ) );
 
           // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -247,12 +242,24 @@ export default class CubesOnWireNode extends Node {
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendNumberProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendNumberProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
   }
+}
 
-  private calculateCubeSeparatorPlacement( leftAddendValue: number ): number {
+function calculateCubeSeparatorPlacement( leftAddendValue: number ): number {
 
-    // The cube separator should not be grouped as part of the groups of 5.
-    const separatorAdjustment = leftAddendValue % 5 === 0 ? 1 : 0;
-    return Math.floor( leftAddendValue / 5 ) + leftAddendValue - separatorAdjustment + LEFT_MOST_CUBE_X;
+  // The cube separator should not be grouped as part of the groups of 5.
+  const separatorAdjustment = leftAddendValue % 5 === 0 ? 1 : 0;
+  return Math.floor( leftAddendValue / 5 ) + leftAddendValue - separatorAdjustment + LEFT_MOST_CUBE_X;
+}
+
+class WireEndCap extends Path {
+  public constructor( minXEndCap: boolean, providedOptions: PathOptions ) {
+    const endCapShape = new Shape()
+      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
+
+    const options = combineOptions<PathOptions>( {
+      fill: 'black'
+    }, providedOptions );
+    super( endCapShape, options );
   }
 }
 
