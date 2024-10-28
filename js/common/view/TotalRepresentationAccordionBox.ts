@@ -18,7 +18,7 @@ export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOp
 
 export default class TotalRepresentationAccordionBox extends AccordionBox {
 
-  public constructor( contentNode: Node, providedOptions: TotalRepresentationAccordionBoxOptions ) {
+  protected constructor( contentNode: Node, providedOptions: TotalRepresentationAccordionBoxOptions ) {
     const options = optionize<TotalRepresentationAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
       showTitleWhenExpanded: false,
       titleYMargin: 10,

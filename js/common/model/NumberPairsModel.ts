@@ -37,6 +37,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 // TODO: rename to RepresentationType
+// TODO: Pull enumeration out into it's own file.
 const ICON_MAX_WIDTH = 25;
 export const ICON_MAX_HEIGHT = 32;
 export class CountingRepresentationType extends EnumerationValue {
@@ -108,6 +109,7 @@ export class CountingRepresentationType extends EnumerationValue {
 }
 
 type leftAddendLabelPlacement = 'handle' | 'arrow';
+// TODO: Add counting representations valid values to options
 type SelfOptions = {
   initialCountingRepresentationType: CountingRepresentationType;
 };

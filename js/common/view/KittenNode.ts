@@ -18,7 +18,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
@@ -27,11 +26,15 @@ import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   onDrop: ( countingObject: CountingObject ) => void;
 };
-type KittenNodeOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
+
+// TODO: Exclude translation options
+type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
 const ICON_RADIUS = 5;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
@@ -45,7 +48,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
     providedOptions: KittenNodeOptions
   ) {
 
-    const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
+      tagName: 'div',
+      focusable: true
+    }, providedOptions );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
     // a Property that allows us to toggle between the left and right addend while also still respecting the
@@ -75,7 +81,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       },
       spacing: 4,
       focusable: false,
-      tandem: options.tandem.createTandem( 'kittenAttributeSwitch' )
+      tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
+      setLabelEnabled: _.noop // We do not want the labels to change opacity
     } );
 
     // When a kitten is focused the panel with a switch is visible
@@ -109,12 +116,9 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
     model.attributePositionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
-    // REVIEW: Doesn't it make sense to use combineOptions here so I can properly use options above and not have
-    // to mutate super? https://github.com/phetsims/number-pairs/issues/20
+    // TODO: use options.children = instead, etc.
     const superOptions = combineOptions<NodeOptions>( {
       children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ],
-      tagName: 'div',
-      focusable: true,
       focusHighlight: Shape.bounds( focusPanel.bounds )
     }, options );
     super( superOptions );
