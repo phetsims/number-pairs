@@ -31,6 +31,7 @@ export default class SumScreenView extends NumberPairsScreenView {
   public constructor( model: SumModel, providedOptions: SumScreenViewOptions ) {
 
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
+      sumScreen: true,
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
         numberSentenceStringProperty: NumberPairsStrings.sumNumberSentencePatternStringProperty,
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )

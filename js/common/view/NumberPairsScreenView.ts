@@ -40,6 +40,7 @@ type SelfOptions = {
   numberBondContent: Node;
   equationContent?: Node | null;
   sceneRange?: Range | null;
+  sumScreen?: boolean;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'> &
   StrictOmit<ScreenViewOptions, 'children'>;
@@ -60,6 +61,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       equationContent: null,
       sceneRange: null,
+      sumScreen: false,
       children: [ countingRepresentationRadioButtonGroup ]
     }, providedOptions );
     super( options );
@@ -132,7 +134,11 @@ export default class NumberPairsScreenView extends ScreenView {
                                 countingRepresentation === RepresentationType.SOCCER_BALLS ||
                                 countingRepresentation === RepresentationType.KITTENS );
 
-    const tenFrameButton = new TenFrameButton( this.countingAreaBounds, model.organizeIntoTenFrame.bind( model ), {
+    // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
+    // we have access to the countingAreaBounds which are defined during construction.
+    const sumTenFrameBounds = this.countingAreaBounds.erodedX( this.countingAreaBounds.width / 3.5 );
+    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( this.countingAreaBounds );
+    const tenFrameButton = new TenFrameButton( tenFrameBounds, model.organizeIntoTenFrame.bind( model ), {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       visibleProperty: tenFrameButtonVisibleProperty
     } );

@@ -233,11 +233,28 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendNumberProperty.value = this.rightAddendNumberProperty.value;
   }
 
-  public organizeIntoTenFrame( leftCountingAreaBounds: Bounds2, rightCountingAreaBounds: Bounds2 ): void {
+  /**
+   * Organizes the counting objects into a ten frame based on the provided bounds.
+   * @param tenFrameBounds
+   */
+  public organizeIntoTenFrame( tenFrameBounds: Bounds2[] ): void {
+    assert && assert( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
-    const leftGridCoordinates = this.getTenFrameGridCoordinates( leftCountingAreaBounds, true );
-    const rightGridCoordinates = this.getTenFrameGridCoordinates( rightCountingAreaBounds, false );
+
+    // If we are only provided one ten frame bound, we will organize the objects within that single ten frame bounds.
+    let leftGridCoordinates: Vector2[];
+    let rightGridCoordinates: Vector2[];
+    if ( tenFrameBounds.length === 1 ) {
+      const gridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
+      leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length );
+    }
+    else {
+      leftGridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 0 ], 20, 50 );
+      rightGridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 1 ], 50, 20 );
+    }
+
 
     leftAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.attributePositionProperty.value = leftGridCoordinates[ index ];
@@ -253,17 +270,17 @@ export default class NumberPairsModel implements TModel {
    * Returns grid coordinates based on the provided bounds.
    * This function assumes that we want the coordinates for a ten frame based grid which means there are 5 columns.
    * @param bounds
-   * @param applyMarginToRight - If true, the margin will be applied to the right side of the bounds, else the left side.
+   * @param leftMargin
+   * @param rightMargin
    */
-  private getTenFrameGridCoordinates( bounds: Bounds2, applyMarginToRight: boolean ): Vector2[] {
+  private getTenFrameGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number ): Vector2[] {
     const columnNumber = 5;
     const rowNumber = 4;
-    const xMargin = 30;
     const topMargin = 9;
     const bottomMargin = 58;
     assert && assert( columnNumber * rowNumber >= this.numberOfCountingObjects, 'There are not enough cells for the possible amount of counting objects.' );
 
-    const columnWidth = ( bounds.width - xMargin ) / columnNumber;
+    const columnWidth = ( bounds.width - rightMargin - leftMargin ) / columnNumber;
     const rowHeight = ( bounds.height - bottomMargin - topMargin ) / rowNumber;
 
     const cellCenterCoordinates: Vector2[] = [];
@@ -273,7 +290,6 @@ export default class NumberPairsModel implements TModel {
       for ( let j = 0; j < columnNumber; j++ ) {
         const x = bounds.minX + j * columnWidth + columnWidth / 2;
         const y = bounds.minY + i * rowHeight + rowHeight / 2;
-        const leftMargin = applyMarginToRight ? 0 : xMargin;
         cellCenterCoordinates.push( new Vector2( x + leftMargin, y + topMargin ) );
       }
     }
