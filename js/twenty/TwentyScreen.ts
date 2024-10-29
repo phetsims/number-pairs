@@ -35,15 +35,17 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
     }, providedOptions );
 
     super(
-      () => new TwentyModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new TwentyScreenView( model, {
-        countingRepresentations: [
+      () => new TwentyModel( {
+        countingRepresentationTypeValidValues: [
           CountingRepresentationType.APPLES,
           CountingRepresentationType.ONE_CARDS,
           CountingRepresentationType.CUBES,
           CountingRepresentationType.KITTENS,
           CountingRepresentationType.NUMBER_LINE
         ],
+        tandem: options.tandem.createTandem( 'model' )
+      } ),
+      model => new TwentyScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options

@@ -12,14 +12,12 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from 
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
 import { Color, Node } from '../../../../scenery/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { CountingRepresentationType, ICON_MAX_HEIGHT } from '../model/NumberPairsModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
-type SelfOptions = {
-  countingRepresentations: CountingRepresentationType[];
-};
+type SelfOptions = EmptySelfOptions;
 type CountingRepresentationRadioButtonGroupOptions = SelfOptions & PickRequired<RectangularRadioButtonGroupOptions, 'tandem'> &
   StrictOmit<RectangularRadioButtonGroupOptions, 'orientation'>;
 export default class CountingRepresentationRadioButtonGroup extends RectangularRadioButtonGroup<CountingRepresentationType> {
@@ -27,13 +25,13 @@ export default class CountingRepresentationRadioButtonGroup extends RectangularR
   public constructor(
     countingRepresentationTypeProperty: Property<CountingRepresentationType>,
     providedOptions: CountingRepresentationRadioButtonGroupOptions ) {
-    const groupItems = providedOptions.countingRepresentations.map( countingRepresentationType => {
+    const groupItems = countingRepresentationTypeProperty.validValues?.map( countingRepresentationType => {
       return {
         value: countingRepresentationType,
         createNode: () => new Node( { children: [ countingRepresentationType.icon ] } ),
         tandemName: countingRepresentationType.label + 'RadioButton'
       };
-    } );
+    } ) || [];
 
     const buttonMargin = 3;
     const options = optionize<CountingRepresentationRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {

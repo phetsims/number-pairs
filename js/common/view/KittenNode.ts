@@ -7,7 +7,7 @@
  *
  */
 
-import { AlignBox, Circle, Image, InteractiveHighlightingNode, KeyboardListener, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import { AlignBox, Circle, Image, InteractiveHighlightingNode, KeyboardListener, Node, NodeOptions, NodeTranslationOptions, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Panel from '../../../../sun/js/Panel.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
@@ -33,8 +33,8 @@ type SelfOptions = {
   onDrop: ( countingObject: CountingObject ) => void;
 };
 
-// TODO: Exclude translation options
-type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
+type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
+  StrictOmit<NodeOptions, 'children' | keyof NodeTranslationOptions>;
 
 const ICON_RADIUS = 5;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
@@ -77,10 +77,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
     const kittenAttributeSwitch = new ABSwitch( isLeftAddendProperty, true, switchLeftIcon, false, switchRightIcon, {
       toggleSwitchOptions: {
-        size: new Dimension2( 20, 10 )
+        size: new Dimension2( 20, 10 ),
+        focusable: false
       },
       spacing: 4,
-      focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
       setLabelEnabled: _.noop // We do not want the labels to change opacity
     } );

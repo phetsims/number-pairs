@@ -12,7 +12,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import { Color, Rectangle, TColor } from '../../../../scenery/js/imports.js';
+import { Color, Image, Line, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -27,7 +27,6 @@ import Animation from '../../../../twixt/js/Animation.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { Node, Image, Line, Text } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
@@ -40,6 +39,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 // TODO: Pull enumeration out into it's own file.
 const ICON_MAX_WIDTH = 25;
 export const ICON_MAX_HEIGHT = 32;
+
 export class CountingRepresentationType extends EnumerationValue {
   public static readonly APPLES = new CountingRepresentationType(
     'apples',
@@ -109,9 +109,9 @@ export class CountingRepresentationType extends EnumerationValue {
 }
 
 type leftAddendLabelPlacement = 'handle' | 'arrow';
-// TODO: Add counting representations valid values to options
 type SelfOptions = {
   initialCountingRepresentationType: CountingRepresentationType;
+  countingRepresentationTypeValidValues: CountingRepresentationType[];
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -159,6 +159,7 @@ export default class NumberPairsModel implements TModel {
 
     const options = providedOptions;
     this.countingRepresentationTypeProperty = new EnumerationProperty( options.initialCountingRepresentationType, {
+      validValues: options.countingRepresentationTypeValidValues,
       tandem: options.tandem.createTandem( 'countingRepresentationTypeProperty' )
     } );
 
@@ -207,9 +208,9 @@ export default class NumberPairsModel implements TModel {
     // The range will update after all addends have stabilized their values during construction.
     this.numberLineSliderEnabledRangeProperty = new Property(
       new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
-      phetioValueType: Range.RangeIO,
-      tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
-    } );
+        phetioValueType: Range.RangeIO,
+        tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
+      } );
   }
 
   /**

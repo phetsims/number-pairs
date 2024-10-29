@@ -35,13 +35,15 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
     }, providedOptions );
 
     super(
-      () => new TenModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new TenScreenView( model, {
-        countingRepresentations: [
+      () => new TenModel( {
+        countingRepresentationTypeValidValues: [
           CountingRepresentationType.CUBES,
           CountingRepresentationType.KITTENS,
           CountingRepresentationType.NUMBER_LINE
         ],
+        tandem: options.tandem.createTandem( 'model' )
+      } ),
+      model => new TenScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options

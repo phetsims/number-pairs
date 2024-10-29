@@ -35,13 +35,15 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
     }, providedOptions );
 
     super(
-      () => new SumModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new SumScreenView( model, {
-        countingRepresentations: [
+      () => new SumModel( {
+        countingRepresentationTypeValidValues: [
           CountingRepresentationType.CUBES,
           CountingRepresentationType.KITTENS,
           CountingRepresentationType.NUMBER_LINE
         ],
+        tandem: options.tandem.createTandem( 'model' )
+      } ),
+      model => new SumScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options

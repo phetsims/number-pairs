@@ -37,7 +37,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 type SelfOptions = {
   numberSentenceContent: Node;
   numberBondContent: Node;
-  countingRepresentations: CountingRepresentationType[];
   equationContent?: Node | null;
   sceneRange?: Range | null;
 };
@@ -54,7 +53,6 @@ export default class NumberPairsScreenView extends ScreenView {
 
     // Create the radio buttons that live below the counting area and determine which representation is shown.
     const countingRepresentationRadioButtonGroup = new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
-      countingRepresentations: providedOptions.countingRepresentations,
       tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
     } );
 
@@ -168,7 +166,7 @@ export default class NumberPairsScreenView extends ScreenView {
     this.addChild( countingAreaNode );
 
     // All the location representations at least include One Cards
-    if ( options.countingRepresentations.includes( CountingRepresentationType.ONE_CARDS ) ) {
+    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.ONE_CARDS ) ) {
       const locationLayerVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
         countingRepresentationType =>
           countingRepresentationType === CountingRepresentationType.APPLES ||
@@ -192,7 +190,7 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the attribute based kitten node layer and accompanying features.
      */
-    if ( options.countingRepresentations.includes( CountingRepresentationType.KITTENS ) ) {
+    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.KITTENS );
       const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, this.countingAreaBounds, {
         visibleProperty: kittensLayerVisibleProperty,
@@ -204,7 +202,7 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the number line and accompanying features.
      */
-    if ( options.countingRepresentations.includes( CountingRepresentationType.NUMBER_LINE ) ) {
+    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.NUMBER_LINE ) ) {
       const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant(
         model.countingRepresentationTypeProperty,
         CountingRepresentationType.NUMBER_LINE
@@ -247,7 +245,7 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the cubes on wire representation and accompanying features.
      */
-    if ( options.countingRepresentations.includes( CountingRepresentationType.CUBES ) ) {
+    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.CUBES ) ) {
       const cubesVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.CUBES );
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
       const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {

@@ -35,14 +35,16 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
     }, providedOptions );
 
     super(
-      () => new IntroModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new IntroScreenView( model, {
-        countingRepresentations: [
+      () => new IntroModel( {
+        countingRepresentationTypeValidValues: [
           CountingRepresentationType.APPLES,
           CountingRepresentationType.SOCCER_BALLS,
           CountingRepresentationType.BUTTERFLIES,
           CountingRepresentationType.ONE_CARDS
         ],
+        tandem: options.tandem.createTandem( 'model' )
+      } ),
+      model => new IntroScreenView( model, {
         tandem: options.tandem.createTandem( 'view' )
       } ),
       options
