@@ -259,8 +259,8 @@ export default class NumberPairsModel implements TModel {
     const columnNumber = 5;
     const rowNumber = 4;
     const xMargin = 30;
-    const topMargin = 8;
-    const bottomMargin = 60;
+    const topMargin = 9;
+    const bottomMargin = 58;
     assert && assert( columnNumber * rowNumber >= this.numberOfCountingObjects, 'There are not enough cells for the possible amount of counting objects.' );
 
     const columnWidth = ( bounds.width - xMargin ) / columnNumber;
