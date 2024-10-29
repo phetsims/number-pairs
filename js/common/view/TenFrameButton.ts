@@ -13,6 +13,8 @@ import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import NumberPairsScreenView from './NumberPairsScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenFrameButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOptions, 'tandem'>
@@ -20,12 +22,21 @@ type TenFrameButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOpt
 
 export default class TenFrameButton extends RectangularPushButton {
 
-  public constructor( organizeIntoTenFrame: () => void, providedOptions: TenFrameButtonOptions ) {
+  public constructor(
+    countingAreaBounds: Bounds2,
+    organizeIntoTenFrame: ( leftBounds: Bounds2, rightBounds: Bounds2 ) => void,
+    providedOptions: TenFrameButtonOptions
+  ) {
     const tenFrameIcon = TenFrameButton.createTenFrameIcon();
+    const splitBounds = NumberPairsScreenView.splitBoundsInHalf( countingAreaBounds );
+    const leftBounds = splitBounds[ 0 ];
+    const rightBounds = splitBounds[ 1 ];
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
         content: tenFrameIcon,
-        listener: organizeIntoTenFrame
+        listener: () => {
+          organizeIntoTenFrame( leftBounds, rightBounds );
+}
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

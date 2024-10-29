@@ -21,6 +21,7 @@ import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NumberPairsScreenView from '../../common/view/NumberPairsScreenView.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
@@ -36,11 +37,14 @@ export default class SplitCountingAreaNode extends Node {
   ) {
 
     // Create the counting area background.
+    const splitBounds = NumberPairsScreenView.splitBoundsInHalf( countingAreaBounds );
+    const leftBounds = splitBounds[ 0 ];
+    const rightBounds = splitBounds[ 1 ];
     const leftCountingAreaShape = Shape.roundedRectangleWithRadii(
-      countingAreaBounds.minX - COUNTING_AREA_LINE_WIDTH / 2,
-      countingAreaBounds.minY,
-      countingAreaBounds.width / 2,
-      countingAreaBounds.height, {
+      leftBounds.minX - COUNTING_AREA_LINE_WIDTH / 2,
+      leftBounds.minY,
+      leftBounds.width,
+      leftBounds.height, {
         topLeft: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS,
         bottomLeft: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
       } );
@@ -48,10 +52,10 @@ export default class SplitCountingAreaNode extends Node {
       fill: LEFT_ADDEND_COLOR_PROPERTY
     } );
     const rightCountingAreaShape = Shape.roundedRectangleWithRadii(
-      countingAreaBounds.minX + countingAreaBounds.width / 2 - COUNTING_AREA_LINE_WIDTH / 2,
-      countingAreaBounds.minY,
-      countingAreaBounds.width / 2,
-      countingAreaBounds.height, {
+      rightBounds.minX - COUNTING_AREA_LINE_WIDTH / 2,
+      rightBounds.minY,
+      rightBounds.width,
+      rightBounds.height, {
         topRight: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS,
         bottomRight: NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS
       } );

@@ -1,6 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * TODO: describe file
+ * NumberPairsModel is the base model for the Number Pairs simulation. It contains the properties that control the
+ * addends, total, and counting objects in the sim. The model also contains properties that control the visibility of
+ * the addends and total, as well as the representation type of the counting objects.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -25,6 +27,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import RepresentationType from './RepresentationType.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type leftAddendLabelPlacement = 'handle' | 'arrow';
 type SelfOptions = {
@@ -72,7 +75,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    numberOfCountingObjects: number,
+    private readonly numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -230,8 +233,51 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendNumberProperty.value = this.rightAddendNumberProperty.value;
   }
 
-  public organizeIntoTenFrame(): void {
-    // TODO: Add logic that organizes draggable counting objects into a ten frame. https://github.com/phetsims/number-pairs/issues/18
+  public organizeIntoTenFrame( leftCountingAreaBounds: Bounds2, rightCountingAreaBounds: Bounds2 ): void {
+    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+    const leftGridCoordinates = this.getTenFrameGridCoordinates( leftCountingAreaBounds, true );
+    const rightGridCoordinates = this.getTenFrameGridCoordinates( rightCountingAreaBounds, false );
+
+    leftAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = leftGridCoordinates[ index ];
+      countingObject.locationPositionProperty.value = leftGridCoordinates[ index ];
+    } );
+    rightAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = rightGridCoordinates[ index ];
+      countingObject.locationPositionProperty.value = rightGridCoordinates[ index ];
+    } );
+  }
+
+  /**
+   * Returns grid coordinates based on the provided bounds.
+   * This function assumes that we want the coordinates for a ten frame based grid which means there are 5 columns.
+   * @param bounds
+   * @param applyMarginToRight - If true, the margin will be applied to the right side of the bounds, else the left side.
+   */
+  private getTenFrameGridCoordinates( bounds: Bounds2, applyMarginToRight: boolean ): Vector2[] {
+    const columnNumber = 5;
+    const rowNumber = 4;
+    const xMargin = 30;
+    const topMargin = 8;
+    const bottomMargin = 60;
+    assert && assert( columnNumber * rowNumber >= this.numberOfCountingObjects, 'There are not enough cells for the possible amount of counting objects.' );
+
+    const columnWidth = ( bounds.width - xMargin ) / columnNumber;
+    const rowHeight = ( bounds.height - bottomMargin - topMargin ) / rowNumber;
+
+    const cellCenterCoordinates: Vector2[] = [];
+
+    //
+    for ( let i = 0; i < rowNumber; i++ ) {
+      for ( let j = 0; j < columnNumber; j++ ) {
+        const x = bounds.minX + j * columnWidth + columnWidth / 2;
+        const y = bounds.minY + i * rowHeight + rowHeight / 2;
+        const leftMargin = applyMarginToRight ? 0 : xMargin;
+        cellCenterCoordinates.push( new Vector2( x + leftMargin, y + topMargin ) );
+      }
+    }
+    return cellCenterCoordinates;
   }
 
   public reset(): void {

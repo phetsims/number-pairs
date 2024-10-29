@@ -18,6 +18,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
@@ -29,7 +30,7 @@ export default class ShowHideAddendButton extends RectangularPushButton {
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: ShowHideAddendButtonOptions ) {
 
     const initialOptions = optionize<ShowHideAddendButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
-      size: NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size,
+      size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, 40 ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE
     }, providedOptions );

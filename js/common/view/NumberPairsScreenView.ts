@@ -132,7 +132,7 @@ export default class NumberPairsScreenView extends ScreenView {
                                 countingRepresentation === RepresentationType.SOCCER_BALLS ||
                                 countingRepresentation === RepresentationType.KITTENS );
 
-    const tenFrameButton = new TenFrameButton( model.organizeIntoTenFrame, {
+    const tenFrameButton = new TenFrameButton( this.countingAreaBounds, model.organizeIntoTenFrame.bind( model ), {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       visibleProperty: tenFrameButtonVisibleProperty
     } );
@@ -268,6 +268,17 @@ export default class NumberPairsScreenView extends ScreenView {
    */
   public reset(): void {
     //TODO
+  }
+
+  /**
+   * Splits the bounds in half along the y-axis and returns an array of the two new bounds.
+   * @param bounds
+   */
+  public static splitBoundsInHalf( bounds: Bounds2 ): Bounds2[] {
+    return [
+      new Bounds2( bounds.minX, bounds.minY, bounds.centerX, bounds.maxY ),
+      new Bounds2( bounds.centerX, bounds.minY, bounds.maxX, bounds.maxY )
+    ];
   }
 }
 
