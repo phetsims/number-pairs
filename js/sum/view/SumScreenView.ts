@@ -59,7 +59,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.totalNumberProperty,
       model.leftAddendCountingObjectsProperty.value,
       model.inactiveCountingObjects,
-      model.countingRepresentationTypeProperty,
+      model.representationTypeProperty,
       {
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' ),
         addendNumberProperty: model.leftAddendNumberProperty
@@ -68,7 +68,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.totalNumberProperty,
       model.rightAddendCountingObjectsProperty.value,
       model.inactiveCountingObjects,
-      model.countingRepresentationTypeProperty,
+      model.representationTypeProperty,
       {
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );

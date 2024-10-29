@@ -134,7 +134,7 @@ export default class DecompositionModel extends NumberPairsModel {
   public override reset(): void {
     super.reset();
     this.selectedSceneModelProperty.reset();
-    this.countingRepresentationTypeProperty.reset();
+    this.representationTypeProperty.reset();
   }
 }
 

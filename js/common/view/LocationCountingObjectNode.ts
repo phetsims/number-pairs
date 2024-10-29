@@ -11,7 +11,6 @@
 import { Image, Node, NodeOptions, Rectangle, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
-import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -22,6 +21,7 @@ import apple_svg from '../../../images/apple_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import RepresentationType from '../model/RepresentationType.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -35,36 +35,36 @@ export default class LocationCountingObjectNode extends Node {
   public constructor(
     model: CountingObject,
     dragBounds: Bounds2,
-    countingRepresentationTypeProperty: Property<CountingRepresentationType>,
+    countingRepresentationTypeProperty: Property<RepresentationType>,
     providedOptions: LocationCountingObjectNodeOptions
   ) {
 
     const apple = new Image( apple_svg, {
       maxWidth: IMAGE_WIDTH,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.APPLES )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.APPLES )
     } );
     const oneCard = new Rectangle( 0, 0, IMAGE_WIDTH, ONE_CARD_HEIGHT, {
       fill: 'white',
       stroke: 'black',
       cornerRadius: 5,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.ONE_CARDS )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
 
     // Create the one card.
     const numberOne = new Text( '1', {
       font: new PhetFont( 40 ),
       center: oneCard.center,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.ONE_CARDS )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
     oneCard.addChild( numberOne );
 
     const soccerBall = new Image( soccerball_svg, {
       maxWidth: IMAGE_WIDTH,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.SOCCER_BALLS )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.SOCCER_BALLS )
     } );
     const butterfly = new Image( butterfly_svg, {
       maxWidth: IMAGE_WIDTH,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, CountingRepresentationType.BUTTERFLIES )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.BUTTERFLIES )
     } );
 
     const dilatedDragBounds = dragBounds.dilatedXY( -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN, -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN );

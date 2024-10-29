@@ -14,9 +14,9 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import CountingObjectControl from './CountingObjectControl.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from '../../common/model/CountingObject.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;
@@ -28,7 +28,7 @@ export default class AddendControlPanel extends Panel {
     totalNumberProperty: Property<number>,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
-    countingRepresentationTypeProperty: TReadOnlyProperty<CountingRepresentationType>,
+    countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
     providedOptions: AddendSpinnerPanelOptions
   ) {
 

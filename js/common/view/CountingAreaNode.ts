@@ -16,15 +16,15 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { CountingRepresentationType } from '../model/NumberPairsModel.js';
 import ShowHideAddendButton from './ShowHideAddendButton.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import RepresentationType from '../model/RepresentationType.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
-  countingRepresentationTypeProperty: TReadOnlyProperty<CountingRepresentationType>;
+  countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
@@ -46,10 +46,10 @@ export default class CountingAreaNode extends Node {
     // i.e. Apples, Soccer Balls, Butterflies, One Cards
     const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ],
       countingRepresentationType => {
-        return countingRepresentationType === CountingRepresentationType.APPLES ||
-               countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
-               countingRepresentationType === CountingRepresentationType.SOCCER_BALLS ||
-               countingRepresentationType === CountingRepresentationType.BUTTERFLIES;
+        return countingRepresentationType === RepresentationType.APPLES ||
+               countingRepresentationType === RepresentationType.ONE_CARDS ||
+               countingRepresentationType === RepresentationType.SOCCER_BALLS ||
+               countingRepresentationType === RepresentationType.BUTTERFLIES;
       } );
 
     const backgroundRectangle = new Rectangle( countingAreaBounds, {

@@ -13,17 +13,17 @@ import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
 import { Color, Node } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { CountingRepresentationType, ICON_MAX_HEIGHT } from '../model/NumberPairsModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import RepresentationType, { ICON_MAX_HEIGHT } from '../model/RepresentationType.js';
 
 type SelfOptions = EmptySelfOptions;
 type CountingRepresentationRadioButtonGroupOptions = SelfOptions & PickRequired<RectangularRadioButtonGroupOptions, 'tandem'> &
   StrictOmit<RectangularRadioButtonGroupOptions, 'orientation'>;
-export default class CountingRepresentationRadioButtonGroup extends RectangularRadioButtonGroup<CountingRepresentationType> {
+export default class CountingRepresentationRadioButtonGroup extends RectangularRadioButtonGroup<RepresentationType> {
 
   public constructor(
-    countingRepresentationTypeProperty: Property<CountingRepresentationType>,
+    countingRepresentationTypeProperty: Property<RepresentationType>,
     providedOptions: CountingRepresentationRadioButtonGroupOptions ) {
     const groupItems = countingRepresentationTypeProperty.validValues?.map( countingRepresentationType => {
       return {

@@ -13,14 +13,14 @@ import DecompositionModel, { DecompositionModelOptions } from '../../common/mode
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = EmptySelfOptions;
 
 type IntroModelOptions =
   SelfOptions
   & PickRequired<DecompositionModelOptions, 'tandem'>
-  & StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialCountingRepresentationType'>;
+  & StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialRepresentationType'>;
 
 export default class IntroModel extends DecompositionModel {
 
@@ -29,7 +29,7 @@ export default class IntroModel extends DecompositionModel {
     const options = optionize<IntroModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
       initialTotalValue: NumberPairsConstants.INTRO_INITIAL_SUM_VALUE,
-      initialCountingRepresentationType: CountingRepresentationType.APPLES
+      initialRepresentationType: RepresentationType.APPLES
     }, providedOptions );
 
     super( options );

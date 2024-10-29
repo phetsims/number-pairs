@@ -13,7 +13,7 @@ import numberPairs from '../numberPairs.js';
 import SumModel from './model/SumModel.js';
 import SumScreenView from './view/SumScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import { CountingRepresentationType } from '../common/model/NumberPairsModel.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreen here
@@ -36,10 +36,10 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
 
     super(
       () => new SumModel( {
-        countingRepresentationTypeValidValues: [
-          CountingRepresentationType.CUBES,
-          CountingRepresentationType.KITTENS,
-          CountingRepresentationType.NUMBER_LINE
+        representationTypeValidValues: [
+          RepresentationType.CUBES,
+          RepresentationType.KITTENS,
+          RepresentationType.NUMBER_LINE
         ],
         tandem: options.tandem.createTandem( 'model' )
       } ),

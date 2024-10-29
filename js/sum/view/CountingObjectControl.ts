@@ -22,9 +22,9 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;
@@ -54,7 +54,7 @@ export default class CountingObjectControl extends HBox {
     totalNumberProperty: Property<number>,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
-    countingRepresentationTypeProperty: TReadOnlyProperty<CountingRepresentationType>,
+    countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
     providedOptions: AddendObjectControlOptions
   ) {
 
@@ -100,9 +100,9 @@ export default class CountingObjectControl extends HBox {
 
     const images = options.addendNumberProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
     countingRepresentationTypeProperty.link( countingRepresentationType => {
-      images.cube.visible = countingRepresentationType === CountingRepresentationType.CUBES;
-      images.kitten.visible = countingRepresentationType === CountingRepresentationType.KITTENS;
-      images.numberSquare.visible = countingRepresentationType === CountingRepresentationType.NUMBER_LINE;
+      images.cube.visible = countingRepresentationType === RepresentationType.CUBES;
+      images.kitten.visible = countingRepresentationType === RepresentationType.KITTENS;
+      images.numberSquare.visible = countingRepresentationType === RepresentationType.NUMBER_LINE;
     } );
     const objectImageNode = new Node( {
       children: [

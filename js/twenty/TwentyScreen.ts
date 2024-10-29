@@ -13,7 +13,7 @@ import numberPairs from '../numberPairs.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import { CountingRepresentationType } from '../common/model/NumberPairsModel.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreen here
@@ -36,12 +36,12 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
 
     super(
       () => new TwentyModel( {
-        countingRepresentationTypeValidValues: [
-          CountingRepresentationType.APPLES,
-          CountingRepresentationType.ONE_CARDS,
-          CountingRepresentationType.CUBES,
-          CountingRepresentationType.KITTENS,
-          CountingRepresentationType.NUMBER_LINE
+        representationTypeValidValues: [
+          RepresentationType.APPLES,
+          RepresentationType.ONE_CARDS,
+          RepresentationType.CUBES,
+          RepresentationType.KITTENS,
+          RepresentationType.NUMBER_LINE
         ],
         tandem: options.tandem.createTandem( 'model' )
       } ),

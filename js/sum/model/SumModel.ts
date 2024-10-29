@@ -8,7 +8,7 @@
 
 import numberPairs from '../../numberPairs.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsModel, { CountingRepresentationType, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -20,6 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -27,7 +28,7 @@ type SelfOptions = {
 
 type SumModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'initialCountingRepresentationType'>;
+  & StrictOmit<NumberPairsModelOptions, 'initialRepresentationType'>;
 
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
@@ -44,7 +45,7 @@ export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialCountingRepresentationType: CountingRepresentationType.CUBES
+      initialRepresentationType: RepresentationType.CUBES
     }, providedOptions );
 
     const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
@@ -55,10 +56,10 @@ export default class SumModel extends NumberPairsModel {
 
     const totalNumberProperty = new NumberProperty(
       NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
-      tandem: options.tandem.createTandem( 'totalNumberProperty' ),
-      numberType: 'Integer',
-      range: SCENE_RANGE
-    } );
+        tandem: options.tandem.createTandem( 'totalNumberProperty' ),
+        numberType: 'Integer',
+        range: SCENE_RANGE
+      } );
 
     const rightAddendNumberProperty = new DerivedProperty( [ leftAddendNumberProperty, totalNumberProperty ], ( leftAddend, total ) => {
         const newValue = total - leftAddend;

@@ -13,7 +13,7 @@ import numberPairs from '../numberPairs.js';
 import TenModel from './model/TenModel.js';
 import TenScreenView from './view/TenScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import { CountingRepresentationType } from '../common/model/NumberPairsModel.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TenScreen here
@@ -36,10 +36,10 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
 
     super(
       () => new TenModel( {
-        countingRepresentationTypeValidValues: [
-          CountingRepresentationType.CUBES,
-          CountingRepresentationType.KITTENS,
-          CountingRepresentationType.NUMBER_LINE
+        representationTypeValidValues: [
+          RepresentationType.CUBES,
+          RepresentationType.KITTENS,
+          RepresentationType.NUMBER_LINE
         ],
         tandem: options.tandem.createTandem( 'model' )
       } ),

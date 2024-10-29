@@ -39,7 +39,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
           this.updateLocation( countingObject, addendType );
         }
       } );
-      this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.countingRepresentationTypeProperty, {
+      this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
             model.rightAddendVisibleProperty, countingObject.draggingProperty ],

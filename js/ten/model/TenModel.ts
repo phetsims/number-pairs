@@ -12,7 +12,7 @@ import DecompositionModel, { DecompositionModelOptions } from '../../common/mode
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { CountingRepresentationType } from '../../common/model/NumberPairsModel.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TenModel here
@@ -20,7 +20,7 @@ type SelfOptions = {
 
 type TenModelOptions = SelfOptions &
   PickRequired<DecompositionModelOptions, 'tandem'> &
-  StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialCountingRepresentationType'>;
+  StrictOmit<DecompositionModelOptions, 'sceneRange' | 'initialTotalValue' | 'initialRepresentationType'>;
 
 export default class TenModel extends DecompositionModel {
 
@@ -28,7 +28,7 @@ export default class TenModel extends DecompositionModel {
     const options = optionize<TenModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
       initialTotalValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
-      initialCountingRepresentationType: CountingRepresentationType.CUBES
+      initialRepresentationType: RepresentationType.CUBES
     }, providedOptions );
     super( options );
   }

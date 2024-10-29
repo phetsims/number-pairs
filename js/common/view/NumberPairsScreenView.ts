@@ -15,7 +15,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import Range from '../../../../dot/js/Range.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import NumberPairsModel, { CountingRepresentationType } from '../model/NumberPairsModel.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import CountingRepresentationRadioButtonGroup from './CountingRepresentationRadioButtonGroup.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberLineNode from './NumberLineNode.js';
@@ -32,6 +32,7 @@ import TenFrameButton from './TenFrameButton.js';
 import CommutativeButton from './CommutativeButton.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import RepresentationType from '../model/RepresentationType.js';
 
 
 type SelfOptions = {
@@ -52,7 +53,7 @@ export default class NumberPairsScreenView extends ScreenView {
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
     // Create the radio buttons that live below the counting area and determine which representation is shown.
-    const countingRepresentationRadioButtonGroup = new CountingRepresentationRadioButtonGroup( model.countingRepresentationTypeProperty, {
+    const countingRepresentationRadioButtonGroup = new CountingRepresentationRadioButtonGroup( model.representationTypeProperty, {
       tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
     } );
 
@@ -124,12 +125,12 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( speechSynthesisButton );
 
-    const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
-      countingRepresentation => countingRepresentation === CountingRepresentationType.APPLES ||
-                                countingRepresentation === CountingRepresentationType.ONE_CARDS ||
-                                countingRepresentation === CountingRepresentationType.BUTTERFLIES ||
-                                countingRepresentation === CountingRepresentationType.SOCCER_BALLS ||
-                                countingRepresentation === CountingRepresentationType.KITTENS );
+    const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
+      countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
+                                countingRepresentation === RepresentationType.ONE_CARDS ||
+                                countingRepresentation === RepresentationType.BUTTERFLIES ||
+                                countingRepresentation === RepresentationType.SOCCER_BALLS ||
+                                countingRepresentation === RepresentationType.KITTENS );
 
     const tenFrameButton = new TenFrameButton( model.organizeIntoTenFrame, {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
@@ -149,8 +150,8 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the counting area and accompanying features.
      */
-    const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ], countingRepresentationType => {
-      if ( countingRepresentationType === CountingRepresentationType.CUBES || countingRepresentationType === CountingRepresentationType.NUMBER_LINE ) {
+    const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.representationTypeProperty ], countingRepresentationType => {
+      if ( countingRepresentationType === RepresentationType.CUBES || countingRepresentationType === RepresentationType.NUMBER_LINE ) {
         return NumberPairsColors.numberLineBackgroundColorProperty;
       }
       else {
@@ -159,20 +160,20 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty,
       this.countingAreaBounds, {
-        countingRepresentationTypeProperty: model.countingRepresentationTypeProperty,
+        countingRepresentationTypeProperty: model.representationTypeProperty,
         backgroundColorProperty: countingAreaBackgroundColorProperty,
         tandem: options.tandem.createTandem( 'countingAreaNode' )
       } );
     this.addChild( countingAreaNode );
 
     // All the location representations at least include One Cards
-    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.ONE_CARDS ) ) {
-      const locationLayerVisibleProperty = new DerivedProperty( [ model.countingRepresentationTypeProperty ],
+    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
+      const locationLayerVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
         countingRepresentationType =>
-          countingRepresentationType === CountingRepresentationType.APPLES ||
-          countingRepresentationType === CountingRepresentationType.ONE_CARDS ||
-          countingRepresentationType === CountingRepresentationType.BUTTERFLIES ||
-          countingRepresentationType === CountingRepresentationType.SOCCER_BALLS );
+          countingRepresentationType === RepresentationType.APPLES ||
+          countingRepresentationType === RepresentationType.ONE_CARDS ||
+          countingRepresentationType === RepresentationType.BUTTERFLIES ||
+          countingRepresentationType === RepresentationType.SOCCER_BALLS );
       const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, this.countingAreaBounds, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
@@ -190,8 +191,8 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the attribute based kitten node layer and accompanying features.
      */
-    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.KITTENS ) ) {
-      const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.KITTENS );
+    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ) {
+      const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.KITTENS );
       const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, this.countingAreaBounds, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
@@ -202,10 +203,10 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the number line and accompanying features.
      */
-    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.NUMBER_LINE ) ) {
+    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.NUMBER_LINE ) ) {
       const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant(
-        model.countingRepresentationTypeProperty,
-        CountingRepresentationType.NUMBER_LINE
+        model.representationTypeProperty,
+        RepresentationType.NUMBER_LINE
       );
 
       const numberLineNode = new NumberLineNode( model, this.countingAreaBounds.width - 30, {
@@ -245,8 +246,8 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the cubes on wire representation and accompanying features.
      */
-    if ( model.countingRepresentationTypeProperty.validValues?.includes( CountingRepresentationType.CUBES ) ) {
-      const cubesVisibleProperty = DerivedProperty.valueEqualsConstant( model.countingRepresentationTypeProperty, CountingRepresentationType.CUBES );
+    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.CUBES ) ) {
+      const cubesVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
       const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {
         sceneRange: sceneRange,

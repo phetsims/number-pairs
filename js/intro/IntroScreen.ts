@@ -13,7 +13,7 @@ import numberPairs from '../numberPairs.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
-import { CountingRepresentationType } from '../common/model/NumberPairsModel.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreen here
@@ -36,11 +36,11 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
     super(
       () => new IntroModel( {
-        countingRepresentationTypeValidValues: [
-          CountingRepresentationType.APPLES,
-          CountingRepresentationType.SOCCER_BALLS,
-          CountingRepresentationType.BUTTERFLIES,
-          CountingRepresentationType.ONE_CARDS
+        representationTypeValidValues: [
+          RepresentationType.APPLES,
+          RepresentationType.SOCCER_BALLS,
+          RepresentationType.BUTTERFLIES,
+          RepresentationType.ONE_CARDS
         ],
         tandem: options.tandem.createTandem( 'model' )
       } ),
