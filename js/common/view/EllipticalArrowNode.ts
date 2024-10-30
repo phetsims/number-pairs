@@ -23,8 +23,12 @@ type SelfOptions = {
   fill: TColor;
   belowNumberLine?: boolean;
   ellipseYRadius?: number;
+  arrowTailLineWidth?: number;
+  pointRadius?: number;
+  arrowHeadHeight?: number;
+  arrowHeadBaseWidth?: number;
 };
-type EllipticalArrowNodeOptions = StrictOmit<NodeOptions, 'children' | keyof NodeTransformOptions> & SelfOptions;
+export type EllipticalArrowNodeOptions = StrictOmit<NodeOptions, 'children' | keyof NodeTransformOptions> & SelfOptions;
 
 // CONSTANTS
 const ARROW_START_ANGLE = Math.PI;
@@ -39,12 +43,22 @@ export default class EllipticalArrowNode extends Node {
   private readonly arrowHeadNode: Path;
   private readonly antiClockwise: boolean;
   private readonly ellipseYRadius: number;
+  private readonly arrowTailLineWidth: number;
+  private readonly pointRadius: number;
 
-  public constructor( startingValue: TReadOnlyProperty<number>, endingValue: TReadOnlyProperty<number>, private readonly modelViewTransform: ModelViewTransform2, providedOptions: EllipticalArrowNodeOptions ) {
+  public constructor(
+    startingValue: TReadOnlyProperty<number>,
+    endingValue: TReadOnlyProperty<number>,
+    private readonly modelViewTransform: ModelViewTransform2,
+    providedOptions: EllipticalArrowNodeOptions ) {
 
     const options = optionize<EllipticalArrowNodeOptions, SelfOptions, NodeOptions>()( {
       belowNumberLine: false,
-      ellipseYRadius: 55
+      ellipseYRadius: 55,
+      arrowTailLineWidth: ARROW_TAIL_LINE_WIDTH,
+      pointRadius: NUMBER_LINE_POINT_RADIUS,
+      arrowHeadHeight: ARROW_HEAD_HEIGHT,
+      arrowHeadBaseWidth: ARROW_HEAD_BASE_WIDTH
     }, providedOptions );
 
     const tailShape = new Shape();
@@ -56,7 +70,7 @@ export default class EllipticalArrowNode extends Node {
 
     const tailNode = new Path( tailShape, {
       stroke: options.fill,
-      lineWidth: ARROW_TAIL_LINE_WIDTH
+      lineWidth: options.arrowTailLineWidth
     } );
 
     options.children = [ tailNode, arrowHeadNode ];
@@ -65,6 +79,8 @@ export default class EllipticalArrowNode extends Node {
     this.tailNode = tailNode;
     this.arrowHeadNode = arrowHeadNode;
     this.ellipseYRadius = options.ellipseYRadius;
+    this.arrowTailLineWidth = options.arrowTailLineWidth;
+    this.pointRadius = options.pointRadius;
 
     // If the arrow is above the number line, the arrow should be drawn in a clockwise direction.
     this.antiClockwise = options.belowNumberLine;
@@ -84,7 +100,7 @@ export default class EllipticalArrowNode extends Node {
         // this is rendered.
         tailEllipticalArc = new EllipticalArc(
           ellipseCenter,
-          NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, this.ellipseYRadius,
+          options.pointRadius - options.arrowTailLineWidth / 2, this.ellipseYRadius,
           0,
           ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
           this.antiClockwise
@@ -111,7 +127,7 @@ export default class EllipticalArrowNode extends Node {
        */
       const numberLinePointArc = new EllipticalArc(
         endingValueCenter,
-        NUMBER_LINE_POINT_RADIUS, NUMBER_LINE_POINT_RADIUS,
+        options.pointRadius, options.pointRadius,
         0,
         ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
         this.antiClockwise
@@ -125,8 +141,8 @@ export default class EllipticalArrowNode extends Node {
        * arrow tail elliptical arc, and creating a circle with radius equal to the desired arrow head height,
        * plus the distance between the arrow head point and the number line.
        */
-      const baseArcRadius = pointsToItself ? NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2 + ARROW_HEAD_HEIGHT :
-                            NUMBER_LINE_POINT_RADIUS + ARROW_HEAD_HEIGHT;
+      const baseArcRadius = pointsToItself ? options.pointRadius - options.arrowTailLineWidth / 2 + options.arrowHeadHeight :
+                            options.pointRadius + options.arrowHeadHeight;
       const baseMidpointArc = new EllipticalArc(
         endingValueCenter,
         baseArcRadius, baseArcRadius,
@@ -148,7 +164,7 @@ export default class EllipticalArrowNode extends Node {
       const arrowEndAngle = Math.asin( ellipseEndPoint.y / this.ellipseYRadius );
 
       this.updateTailShape( pointsToItself, ellipseCenter, ellipseXRadius, arrowEndAngle );
-      this.updateArrowHeadShape( arrowHeadPoint, baseMidpoint );
+      this.updateArrowHeadShape( arrowHeadPoint, baseMidpoint, options.arrowHeadBaseWidth );
     } );
   }
 
@@ -162,7 +178,7 @@ export default class EllipticalArrowNode extends Node {
     if ( pointsToItself ) {
       tailShape = new Shape().ellipticalArc(
         ellipseCenter.x, 0,
-        NUMBER_LINE_POINT_RADIUS - ARROW_TAIL_LINE_WIDTH / 2, this.ellipseYRadius,
+        this.pointRadius - this.arrowTailLineWidth / 2, this.ellipseYRadius,
         0,
         ARROW_START_ANGLE, arrowEndAngle,
         this.antiClockwise
@@ -180,9 +196,9 @@ export default class EllipticalArrowNode extends Node {
     this.tailNode.setShape( tailShape );
   }
 
-  private updateArrowHeadShape( arrowHeadPoint: Vector2, arrowHeadBaseMidPoint: Vector2 ): void {
-    const basePoint1 = arrowHeadBaseMidPoint.plus( arrowHeadPoint.minus( arrowHeadBaseMidPoint ).perpendicular.normalized().times( ARROW_HEAD_BASE_WIDTH / 2 ) );
-    const basePoint2 = arrowHeadBaseMidPoint.minus( arrowHeadPoint.minus( arrowHeadBaseMidPoint ).perpendicular.normalized().times( ARROW_HEAD_BASE_WIDTH / 2 ) );
+  private updateArrowHeadShape( arrowHeadPoint: Vector2, arrowHeadBaseMidPoint: Vector2, arrowHeadBaseWidth: number ): void {
+    const basePoint1 = arrowHeadBaseMidPoint.plus( arrowHeadPoint.minus( arrowHeadBaseMidPoint ).perpendicular.normalized().times( arrowHeadBaseWidth / 2 ) );
+    const basePoint2 = arrowHeadBaseMidPoint.minus( arrowHeadPoint.minus( arrowHeadBaseMidPoint ).perpendicular.normalized().times( arrowHeadBaseWidth / 2 ) );
 
     const arrowHeadShape = new Shape()
       .moveTo( basePoint1.x, basePoint1.y )

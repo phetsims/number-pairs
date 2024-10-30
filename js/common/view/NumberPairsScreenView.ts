@@ -8,7 +8,7 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -33,6 +33,7 @@ import CommutativeButton from './CommutativeButton.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import RepresentationType from '../model/RepresentationType.js';
+import NumberLineIcon from './NumberLineIcon.js';
 
 
 type SelfOptions = {
@@ -233,10 +234,12 @@ export default class NumberPairsScreenView extends ScreenView {
       } );
       this.addChild( numberLineCheckboxGroup );
 
+      const iconWidth = 35;
+      const iconValue = 2;
       const leftAddendLabelPlacementSwitch = new ABSwitch(
         model.leftAddendLabelPlacementProperty,
-        'handle', new Text( 'Handle' ),
-        'arrow', new Text( 'Arrow' ),
+        'handle', new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
+        'arrow', new NumberLineIcon( iconWidth, iconValue, { showLeftArrow: true, showRightArrow: true } ),
         {
           top: this.countingAreaBounds.bottom + COUNTING_AREA_Y_MARGIN,
           left: this.countingAreaBounds.left,
