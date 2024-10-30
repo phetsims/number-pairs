@@ -17,9 +17,10 @@ import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import EllipticalArrowNode, { EllipticalArrowNodeOptions } from './EllipticalArrowNode.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;
@@ -27,6 +28,22 @@ type SelfOptions = {
 };
 type NumberLineIconOptions = SelfOptions & NodeOptions;
 const ICON_RANGE = new Range( 0, 3 );
+const NUMBER_SQUARE_DIMENSION = 7;
+const MAJOR_TICK_LENGTH = 14;
+const MINOR_TICK_LENGTH = 9;
+const NUMBER_SQUARE_MARGIN = 2;
+const ARROW_NODE_OPTIONS: EllipticalArrowNodeOptions = {
+  fill: null,
+  arrowTailLineWidth: 1.5,
+  ellipseYRadius: 10,
+  pointRadius: 1,
+  arrowHeadHeight: 5,
+  arrowHeadBaseWidth: 6
+};
+const NUMBER_SQUARE_OPTIONS: NumberSquareOptions = {
+  numberFontSize: 5,
+  cornerRadius: 2
+};
 export default class NumberLineIcon extends Node {
 
   public constructor( iconWidth: number, iconNumberLineValue: number, providedOptions: NumberLineIconOptions ) {
@@ -44,31 +61,57 @@ export default class NumberLineIcon extends Node {
       iconWidth / ICON_RANGE.getLength() );
 
     super( options );
-    const arrowNodeOptions: EllipticalArrowNodeOptions = {
-      fill: null,
-      arrowTailLineWidth: 1.5,
-      ellipseYRadius: 10,
-      pointRadius: 1,
-      arrowHeadHeight: 5,
-      arrowHeadBaseWidth: 6
-    };
+
+    /**
+     * Create the number line decorators.
+     */
     if ( options.showRightArrow ) {
-      arrowNodeOptions.fill = NumberPairsColors.numberLineRightAddendColorProperty;
-      this.addChild( new EllipticalArrowNode(
-        new Property( iconNumberLineValue ), new Property( ICON_RANGE.max ), modelViewTransform, arrowNodeOptions ) );
+      ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineRightAddendColorProperty;
+      const startingValueProperty = new Property( iconNumberLineValue );
+      const rightAddendValueProperty = new Property( ICON_RANGE.max - iconNumberLineValue );
+      const arrowNode = new EllipticalArrowNode(
+        startingValueProperty, new Property( ICON_RANGE.max ), modelViewTransform, ARROW_NODE_OPTIONS );
+      this.addChild( arrowNode );
+
+      const numberSquareOptions = combineOptions<NumberSquareOptions>( {
+        centerX: arrowNode.centerX,
+        bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
+        fill: NumberPairsColors.numberLineRightAddendColorProperty
+      }, NUMBER_SQUARE_OPTIONS );
+      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, rightAddendValueProperty, numberSquareOptions ) );
     }
 
     if ( options.showLeftArrow ) {
-      arrowNodeOptions.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
-      this.addChild( new EllipticalArrowNode(
-        new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, arrowNodeOptions ) );
+      ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
+      const arrowNode = new EllipticalArrowNode(
+        new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, ARROW_NODE_OPTIONS );
+      this.addChild( arrowNode );
+
+      const numberSquareOptions = combineOptions<NumberSquareOptions>( {
+        centerX: arrowNode.centerX,
+        bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
+        fill: NumberPairsColors.numberLineLeftAddendColorProperty
+      }, NUMBER_SQUARE_OPTIONS );
+      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, new Property( iconNumberLineValue ), numberSquareOptions ) );
+
+    }
+
+    // We only want to show the left addend number square on the bottom of the number line if there is no
+    // arrow for the left addend.
+    if ( options.showRightArrow && !options.showLeftArrow ) {
+      const numberSquareOptions = combineOptions<NumberSquareOptions>( {
+        centerX: modelViewTransform.modelToViewX( iconNumberLineValue ),
+        fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+        top: MINOR_TICK_LENGTH / 2 + NUMBER_SQUARE_MARGIN
+      }, NUMBER_SQUARE_OPTIONS );
+      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, new Property( iconNumberLineValue ), numberSquareOptions ) );
     }
 
     const numberLine = new NumberLineSliderTrack( valueProperty, this, modelViewTransform, new Property( false ), {
       size: new Dimension2( iconWidth, 0 ),
       numberLineRange: ICON_RANGE,
-      majorTickLength: 14,
-      minorTickLength: 9,
+      majorTickLength: MAJOR_TICK_LENGTH,
+      minorTickLength: MINOR_TICK_LENGTH,
       tandem: Tandem.OPT_OUT
     } );
     this.addChild( numberLine );

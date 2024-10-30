@@ -235,7 +235,7 @@ export default class NumberPairsScreenView extends ScreenView {
       this.addChild( numberLineCheckboxGroup );
 
       const iconWidth = 35;
-      const iconValue = 2;
+      const iconValue = 1;
       const leftAddendLabelPlacementSwitch = new ABSwitch(
         model.leftAddendLabelPlacementProperty,
         'handle', new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
