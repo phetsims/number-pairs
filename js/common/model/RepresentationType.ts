@@ -10,7 +10,7 @@
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import { Color, Image, Line, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
+import { Color, Image, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
@@ -19,6 +19,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+
+// eslint-disable-next-line phet/no-view-imported-from-model
+import NumberLineIcon from '../view/NumberLineIcon.js';
 
 
 const ICON_MAX_WIDTH = 25;
@@ -78,7 +81,7 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.numberLineSumColorProperty,
     NumberPairsColors.numberLineLeftAddendColorProperty,
     NumberPairsColors.numberLineRightAddendColorProperty,
-    new Line( 0, 0, ICON_MAX_WIDTH, 0, { stroke: 'black' } )
+    new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } )
   );
   public static readonly enumeration = new Enumeration( RepresentationType );
 

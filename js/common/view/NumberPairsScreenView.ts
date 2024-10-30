@@ -16,7 +16,7 @@ import Range from '../../../../dot/js/Range.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import CountingRepresentationRadioButtonGroup from './CountingRepresentationRadioButtonGroup.js';
+import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
@@ -55,7 +55,7 @@ export default class NumberPairsScreenView extends ScreenView {
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
     // Create the radio buttons that live below the counting area and determine which representation is shown.
-    const countingRepresentationRadioButtonGroup = new CountingRepresentationRadioButtonGroup( model.representationTypeProperty, {
+    const countingRepresentationRadioButtonGroup = new RepresentationRadioButtonGroup( model.representationTypeProperty, {
       tandem: providedOptions.tandem.createTandem( 'countingRepresentationRadioButtonGroup' )
     } );
 

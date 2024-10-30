@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * CountingRepresentationRadioButtonGroup is a group of radio buttons that allow users to select between
+ * RepresentationRadioButtonGroup is a group of radio buttons that allow users to select between
  * different counting representations. Each representation allows the user to think about the number pairs in a
  * different way, or with different images.
  *
@@ -20,7 +20,7 @@ import RepresentationType, { ICON_MAX_HEIGHT } from '../model/RepresentationType
 type SelfOptions = EmptySelfOptions;
 type CountingRepresentationRadioButtonGroupOptions = SelfOptions & PickRequired<RectangularRadioButtonGroupOptions, 'tandem'> &
   StrictOmit<RectangularRadioButtonGroupOptions, 'orientation'>;
-export default class CountingRepresentationRadioButtonGroup extends RectangularRadioButtonGroup<RepresentationType> {
+export default class RepresentationRadioButtonGroup extends RectangularRadioButtonGroup<RepresentationType> {
 
   public constructor(
     countingRepresentationTypeProperty: Property<RepresentationType>,
@@ -48,4 +48,4 @@ export default class CountingRepresentationRadioButtonGroup extends RectangularR
   }
 }
 
-numberPairs.register( 'CountingRepresentationRadioButtonGroup', CountingRepresentationRadioButtonGroup );
+numberPairs.register( 'RepresentationRadioButtonGroup', RepresentationRadioButtonGroup );

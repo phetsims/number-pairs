@@ -7,7 +7,7 @@
  *
  */
 
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Color, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -21,12 +21,14 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import EllipticalArrowNode, { EllipticalArrowNodeOptions } from './EllipticalArrowNode.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;
   showLeftArrow?: boolean;
+  showHighlight?: boolean;
 };
-type NumberLineIconOptions = SelfOptions & NodeOptions;
+type NumberLineIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'excludeInvisibleChildrenFromBounds'>;
 const ICON_RANGE = new Range( 0, 3 );
 const NUMBER_SQUARE_DIMENSION = 7;
 const MAJOR_TICK_LENGTH = 14;
@@ -49,7 +51,9 @@ export default class NumberLineIcon extends Node {
   public constructor( iconWidth: number, iconNumberLineValue: number, providedOptions: NumberLineIconOptions ) {
     const options = optionize<NumberLineIconOptions, SelfOptions, NodeOptions>()( {
       showRightArrow: false,
-      showLeftArrow: false
+      showLeftArrow: false,
+      showHighlight: false,
+      excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
 
     const valueProperty = new NumberProperty( iconNumberLineValue, {
@@ -107,6 +111,15 @@ export default class NumberLineIcon extends Node {
       this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, new Property( iconNumberLineValue ), numberSquareOptions ) );
     }
 
+    if ( options.showHighlight ) {
+      const highlightHeight = 4;
+      const valueX = modelViewTransform.modelToViewX( iconNumberLineValue );
+      const highlightRectangle = new Rectangle( 0, -highlightHeight / 2, valueX, highlightHeight, {
+        fill: NumberPairsColors.numberLineSumColorProperty
+      } );
+      this.addChild( highlightRectangle );
+    }
+
     const numberLine = new NumberLineSliderTrack( valueProperty, this, modelViewTransform, new Property( false ), {
       size: new Dimension2( iconWidth, 0 ),
       numberLineRange: ICON_RANGE,
@@ -115,6 +128,16 @@ export default class NumberLineIcon extends Node {
       tandem: Tandem.OPT_OUT
     } );
     this.addChild( numberLine );
+
+    if ( options.showHighlight ) {
+      const valuePoint = new Circle( 3, {
+        fill: NumberPairsColors.numberLineSumColorProperty,
+        stroke: Color.BLACK,
+        lineWidth: 0.5,
+        centerX: modelViewTransform.modelToViewX( iconNumberLineValue )
+      } );
+      this.addChild( valuePoint );
+    }
 
 
   }
