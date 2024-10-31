@@ -16,6 +16,10 @@ import NumberPairsColors from '../NumberPairsColors.js';
 
 export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
 
+export const EXPAND_COLLAPSE_SIDE_LENGTH = 20;
+export const CONTENT_X_MARGIN = 10;
+export const BUTTON_X_MARGIN = 10;
+
 export default class TotalRepresentationAccordionBox extends AccordionBox {
 
   protected constructor( contentNode: Node, providedOptions: TotalRepresentationAccordionBoxOptions ) {
@@ -23,7 +27,14 @@ export default class TotalRepresentationAccordionBox extends AccordionBox {
       showTitleWhenExpanded: false,
       titleYMargin: 10,
       titleAlignX: 'left',
-      fill: NumberPairsColors.accordionBoxBackgroundColorProperty
+      titleXSpacing: BUTTON_X_MARGIN,
+      contentXMargin: CONTENT_X_MARGIN,
+      buttonXMargin: BUTTON_X_MARGIN,
+      contentXSpacing: 0,
+      fill: NumberPairsColors.accordionBoxBackgroundColorProperty,
+      expandCollapseButtonOptions: {
+        sideLength: EXPAND_COLLAPSE_SIDE_LENGTH
+      }
     }, providedOptions );
    super( contentNode, options );
   }

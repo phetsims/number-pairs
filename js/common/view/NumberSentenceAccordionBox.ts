@@ -11,7 +11,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
+import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -48,6 +48,14 @@ type SelfOptions = {
   numberSentenceStringProperty: TReadOnlyProperty<string>;
 };
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
+
+const LINE_WRAP = 240;
+
+// We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
+// width should stay the same. In order to do this we must define and control all options that contribute
+// to the width of the accordion box.
+export const ACCORDION_BOX_WIDTH = LINE_WRAP + 2 * CONTENT_X_MARGIN + EXPAND_COLLAPSE_SIDE_LENGTH + BUTTON_X_MARGIN;
+
 export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
@@ -78,7 +86,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     let leftAddendHighlight: Rectangle;
     let rightAddendHighlight: Rectangle;
     const richText = new RichText( numberSentencePatternStringProperty, {
-      lineWrap: 250,
+      lineWrap: LINE_WRAP,
       leading: 10,
       tags: {
         total: node => {
@@ -133,10 +141,8 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
     const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode,
-      titleXSpacing: 10,
-      contentXMargin: 30,
-      contentXSpacing: 0,
-      contentYMargin: 20
+      contentYMargin: 20,
+      minWidth: ACCORDION_BOX_WIDTH
     }, providedOptions );
     super( richText, options );
   }

@@ -17,6 +17,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberSquare from './NumberSquare.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import { ACCORDION_BOX_WIDTH } from './NumberSentenceAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -37,10 +38,8 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     const options = optionize<EquationAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       addendsOnRight: true,
       titleNode: titleNode,
-      titleXSpacing: 10,
-      contentXMargin: 45,
-      contentXSpacing: 0,
-      contentYMargin: 18
+      contentYMargin: 18,
+      minWidth: ACCORDION_BOX_WIDTH
     }, providedOptions );
 
     const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {
