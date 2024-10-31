@@ -10,7 +10,7 @@
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberPairsSceneModel from './NumberPairsSceneModel.js';
+import NumberPairsScene from './NumberPairsScene.js';
 import Range from '../../../../dot/js/Range.js';
 import { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
@@ -29,8 +29,8 @@ export default class DecompositionModel extends NumberPairsModel {
 
   // Each scene is associated with a readonly total. The selected scene model is determined by the totalProperty.
   // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
-  public readonly selectedSceneModelProperty: Property<NumberPairsSceneModel>;
-  public readonly sceneModels: NumberPairsSceneModel[];
+  public readonly selectedSceneProperty: Property<NumberPairsScene>;
+  public readonly scenes: NumberPairsScene[];
 
   protected constructor( providedOptions: DecompositionModelOptions ) {
 
@@ -39,16 +39,16 @@ export default class DecompositionModel extends NumberPairsModel {
     // We need to create a scene model for each scene in the scene range including both the max and min values.
     const sceneModels = [];
     for ( let total = options.sceneRange.min; total <= options.sceneRange.max; total++ ) {
-      let sceneModel: NumberPairsSceneModel;
+      let sceneModel: NumberPairsScene;
       if ( total === 0 ) {
-        sceneModel = new NumberPairsSceneModel( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
+        sceneModel = new NumberPairsScene( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
       }
       else {
 
         // The initial left addend value for each scene is n - 1.
         const leftAddendValue = total - 1;
         const rightAddendValue = 1;
-        sceneModel = new NumberPairsSceneModel( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
+        sceneModel = new NumberPairsScene( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
       }
       sceneModels.push( sceneModel );
     }
@@ -56,7 +56,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
-      phetioValueType: NumberPairsSceneModel.NumberPairsSceneModelIO,
+      phetioValueType: NumberPairsScene.NumberPairsSceneIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
     } );
 
@@ -65,11 +65,11 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel => sceneModel.leftAddendObjects );
     const rightAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
       sceneModel => sceneModel.rightAddendObjects );
-    const leftAddendProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+    const leftAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'leftAddendProperty',
       bidirectional: true // This property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );
-    const rightAddendProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+    const rightAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'rightAddendProperty'
     } );
 
@@ -124,8 +124,8 @@ export default class DecompositionModel extends NumberPairsModel {
 
     this.createNumberLineEnabledRangeLinks();
 
-    this.selectedSceneModelProperty = selectedSceneModelProperty;
-    this.sceneModels = sceneModels;
+    this.selectedSceneProperty = selectedSceneModelProperty;
+    this.scenes = sceneModels;
   }
 
   /**
@@ -133,7 +133,7 @@ export default class DecompositionModel extends NumberPairsModel {
    */
   public override reset(): void {
     super.reset();
-    this.selectedSceneModelProperty.reset();
+    this.selectedSceneProperty.reset();
     this.representationTypeProperty.reset();
   }
 }

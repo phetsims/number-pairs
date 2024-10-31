@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 /**
- * NumberPairsSceneModel is the model for the scene in the Number Pairs simulation.
+ * NumberPairsScene is the model for the scene in the Number Pairs simulation.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -25,7 +25,7 @@ const STATE_SCHEMA = {
 
 type NumberPairsSceneStateObject = StateObject<typeof STATE_SCHEMA>;
 
-export default class NumberPairsSceneModel {
+export default class NumberPairsScene {
 
   // The total as initialized by the values provided to the constructor. This is a constant.
   public readonly total: number;
@@ -118,14 +118,14 @@ export default class NumberPairsSceneModel {
     };
   }
 
-  public static NumberPairsSceneModelIO = new IOType( 'NumberPairsSceneModelIO', {
-    valueType: NumberPairsSceneModel,
+  public static NumberPairsSceneIO = new IOType( 'NumberPairsSceneIO', {
+    valueType: NumberPairsScene,
     stateSchema: STATE_SCHEMA,
-    toStateObject: ( model: NumberPairsSceneModel ) => model.toStateObject(),
+    toStateObject: ( model: NumberPairsScene ) => model.toStateObject(),
     fromStateObject: ( stateObject: NumberPairsSceneStateObject ) => {
-      return new NumberPairsSceneModel( stateObject.leftAddendNumber, stateObject.rightAddendNumber, Tandem.REQUIRED );
+      return new NumberPairsScene( stateObject.leftAddendNumber, stateObject.rightAddendNumber, Tandem.REQUIRED );
     }
   } );
 }
 
-numberPairs.register( 'NumberPairsSceneModel', NumberPairsSceneModel );
+numberPairs.register( 'NumberPairsScene', NumberPairsScene );

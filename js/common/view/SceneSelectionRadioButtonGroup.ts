@@ -14,7 +14,7 @@ import numberPairs from '../../numberPairs.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberPairsSceneModel from '../model/NumberPairsSceneModel.js';
+import NumberPairsScene from '../model/NumberPairsScene.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 type SelfOptions = {
@@ -24,9 +24,9 @@ type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButto
 
 // TODO: SceneSelectionRadioButtonGroup, listens to sceneProperty and each group item's value is connected to
 //   a specific scene rather than the total. or change the options name ot match class.
-export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsSceneModel> {
+export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
 
-  public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsSceneModel>, sceneModels: NumberPairsSceneModel[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
+  public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       radioButtonOptions: {
         size: new Dimension2( 35, 35 )
