@@ -104,7 +104,7 @@ export default class NumberPairsModel implements TModel {
       tandem: options.tandem.createTandem( 'totalVisibleProperty' )
     } );
 
-    this.showNumberLineAddendValuesProperty = new BooleanProperty( false, {
+    this.showNumberLineAddendValuesProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'showNumberLineAddendValuesProperty' )
     } );
     this.showTickValuesProperty = new BooleanProperty( false, {

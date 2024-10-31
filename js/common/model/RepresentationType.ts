@@ -16,12 +16,12 @@ import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberLineIcon from '../view/NumberLineIcon.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 
 
 const ICON_MAX_WIDTH = 25;
@@ -67,7 +67,7 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new Image( kittenYellow_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
+    new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly CUBES = new RepresentationType(
     'cubes',

@@ -40,7 +40,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       titleXSpacing: 10,
       contentXMargin: 45,
       contentXSpacing: 0,
-      contentYMargin: 25
+      contentYMargin: 18
     }, providedOptions );
 
     const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {
