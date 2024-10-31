@@ -37,14 +37,14 @@ export default class NumberBondNode extends Node {
     // If the total is on the bottom we want to flip the vertical offset
     const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
-    const total = new NumberCircle( model.totalNumberProperty, model.totalVisibleProperty, {
+    const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
       fill: options.totalColorProperty.value
     } );
     options.totalColorProperty.link( totalColor => {
       total.fill = totalColor;
     } );
 
-    const leftAddend = new NumberCircle( model.leftAddendNumberProperty, model.leftAddendVisibleProperty, {
+    const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
       fill: options.leftAddendColorProperty.value,
       centerX: total.centerX - HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset
@@ -53,7 +53,7 @@ export default class NumberBondNode extends Node {
       leftAddend.fill = leftAddendColor;
     } );
 
-    const rightAddend = new NumberCircle( model.rightAddendNumberProperty, model.rightAddendVisibleProperty, {
+    const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
       fill: options.rightAddendColorProperty.value,
       centerX: total.centerX + HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset

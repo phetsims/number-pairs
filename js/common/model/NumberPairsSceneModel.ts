@@ -30,11 +30,11 @@ export default class NumberPairsSceneModel {
   // The total as initialized by the values provided to the constructor. This is a constant.
   public readonly total: number;
 
-  public readonly leftAddendNumberProperty: Property<number>;
+  public readonly leftAddendProperty: Property<number>;
 
   // The right addend number is derived from the total and left addend number and is used to update
   // the counting objects in each array as it changes.
-  public readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
+  public readonly rightAddendProperty: TReadOnlyProperty<number>;
   public readonly leftAddendObjects: ObservableArray<CountingObject>;
   public readonly rightAddendObjects: ObservableArray<CountingObject>;
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
@@ -47,17 +47,17 @@ export default class NumberPairsSceneModel {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: tandem.createTandem( 'inactiveCountingObjects' )
     } );
-    this.leftAddendNumberProperty = new NumberProperty( initialLeftAddendValue, {
+    this.leftAddendProperty = new NumberProperty( initialLeftAddendValue, {
       range: sceneRange,
       numberType: 'Integer',
-      tandem: tandem.createTandem( 'leftAddendNumberProperty' )
+      tandem: tandem.createTandem( 'leftAddendProperty' )
     } );
     this.leftAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: tandem.createTandem( 'leftAddendObjects' )
     } );
 
-    this.rightAddendNumberProperty = new DerivedProperty( [ this.leftAddendNumberProperty ], leftAddendValue => {
+    this.rightAddendProperty = new DerivedProperty( [ this.leftAddendProperty ], leftAddendValue => {
       return this.total - leftAddendValue;
     } );
     this.rightAddendObjects = createObservableArray( {
@@ -66,8 +66,8 @@ export default class NumberPairsSceneModel {
     } );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
-    this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
-      const leftAddendDelta = this.leftAddendNumberProperty.value - this.leftAddendObjects.length;
+    this.rightAddendProperty.lazyLink( rightAddendValue => {
+      const leftAddendDelta = this.leftAddendProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 
       if ( leftAddendDelta + rightAddendDelta === 0 ) {
@@ -105,16 +105,16 @@ export default class NumberPairsSceneModel {
         }
       }
 
-      assert && assert( this.leftAddendNumberProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
-      assert && assert( this.rightAddendNumberProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
+      assert && assert( this.leftAddendProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
+      assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
   }
 
   public toStateObject(): NumberPairsSceneStateObject {
     return {
-      leftAddendNumber: this.leftAddendNumberProperty.value,
-      rightAddendNumber: this.rightAddendNumberProperty.value
+      leftAddendNumber: this.leftAddendProperty.value,
+      rightAddendNumber: this.rightAddendProperty.value
     };
   }
 

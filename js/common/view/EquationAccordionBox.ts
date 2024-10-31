@@ -43,7 +43,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       contentYMargin: 25
     }, providedOptions );
 
-    const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalNumberProperty, {
+    const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {
       numberVisibleProperty: model.totalVisibleProperty,
       fill: options.totalColorProperty.value
     } );
@@ -51,7 +51,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       totalSquare.fill = totalColor;
     } );
 
-    const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendNumberProperty, {
+    const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendProperty, {
       numberVisibleProperty: model.leftAddendVisibleProperty,
       fill: options.leftAddendColorProperty.value
     } );
@@ -59,7 +59,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       leftAddendSquare.fill = leftAddendColor;
     } );
 
-    const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendNumberProperty, {
+    const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendProperty, {
       numberVisibleProperty: model.rightAddendVisibleProperty,
       fill: options.rightAddendColorProperty.value
     } );

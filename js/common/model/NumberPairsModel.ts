@@ -70,9 +70,9 @@ export default class NumberPairsModel implements TModel {
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
-    public readonly totalNumberProperty: TReadOnlyProperty<number>,
-    public readonly leftAddendNumberProperty: PhetioProperty<number>,
-    public readonly rightAddendNumberProperty: TReadOnlyProperty<number>,
+    public readonly totalProperty: TReadOnlyProperty<number>,
+    public readonly leftAddendProperty: PhetioProperty<number>,
+    public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     private readonly numberOfCountingObjects: number,
@@ -217,12 +217,12 @@ export default class NumberPairsModel implements TModel {
   protected createNumberLineEnabledRangeLinks(): void {
 
     // TODO: Kind of weird that we're using the twenty number line range min here always... right now both the ten and twenty are 0... but what if that changes?
-    Multilink.multilink( [ this.leftAddendNumberProperty, this.rightAddendNumberProperty ], ( leftAddendNumber, rightAddendNumber ) => {
+    Multilink.multilink( [ this.leftAddendProperty, this.rightAddendProperty ], ( leftAddend, rightAddend ) => {
 
       // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
       // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
       // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
-      this.numberLineSliderEnabledRangeProperty.value = new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, leftAddendNumber + rightAddendNumber );
+      this.numberLineSliderEnabledRangeProperty.value = new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, leftAddend + rightAddend );
     } );
   }
 
@@ -230,7 +230,7 @@ export default class NumberPairsModel implements TModel {
    * Set the left addend to the right addend value. Derived Properties and listeners take care of the rest.
    */
   public swapAddends(): void {
-    this.leftAddendNumberProperty.value = this.rightAddendNumberProperty.value;
+    this.leftAddendProperty.value = this.rightAddendProperty.value;
   }
 
   /**

@@ -52,17 +52,17 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
-    const totalStringProperty = new DerivedProperty( [ model.totalNumberProperty, model.totalVisibleProperty ],
+    const totalStringProperty = new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty ],
       ( total, visible ) => {
         const key = visible ? total : 'aNumber';
         return NUMBER_TO_WORD_MAP.get( key );
       } );
-    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendNumberProperty, model.leftAddendVisibleProperty ],
+    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty ],
       ( total, visible ) => {
         const key = visible ? total : 'aNumber';
         return NUMBER_TO_WORD_MAP.get( key );
       } );
-    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendNumberProperty, model.rightAddendVisibleProperty ],
+    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty ],
       ( total, visible ) => {
         const key = visible ? total : 'anotherNumber';
         return NUMBER_TO_WORD_MAP.get( key );

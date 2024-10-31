@@ -34,12 +34,12 @@ const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberP
 
 export default class SumModel extends NumberPairsModel {
 
-  public override readonly leftAddendNumberProperty: Property<number>;
+  public override readonly leftAddendProperty: Property<number>;
 
   // The right addend is derived due to competing user interactions in the Sum Screen.
   // You can find more information in this issue: https://github.com/phetsims/number-pairs/issues/17
-  public override readonly rightAddendNumberProperty: TReadOnlyProperty<number>;
-  public override readonly totalNumberProperty: Property<number>;
+  public override readonly rightAddendProperty: TReadOnlyProperty<number>;
+  public override readonly totalProperty: Property<number>;
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
@@ -48,27 +48,27 @@ export default class SumModel extends NumberPairsModel {
       initialRepresentationType: RepresentationType.CUBES
     }, providedOptions );
 
-    const leftAddendNumberProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
+    const leftAddendProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
       numberType: 'Integer',
       range: SCENE_RANGE,
-      tandem: options.tandem.createTandem( 'leftAddendNumberProperty' )
+      tandem: options.tandem.createTandem( 'leftAddendProperty' )
     } );
 
-    const totalNumberProperty = new NumberProperty(
+    const totalProperty = new NumberProperty(
       NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
-        tandem: options.tandem.createTandem( 'totalNumberProperty' ),
+        tandem: options.tandem.createTandem( 'totalProperty' ),
         numberType: 'Integer',
         range: SCENE_RANGE
       } );
 
-    const rightAddendNumberProperty = new DerivedProperty( [ leftAddendNumberProperty, totalNumberProperty ], ( leftAddend, total ) => {
-        const newValue = total - leftAddend;
-        assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendNumberProperty out of range' );
+    const rightAddendProperty = new DerivedProperty( [ leftAddendProperty, totalProperty ], ( leftAddend, total ) => {
+        const newValue: number = total - leftAddend;
+        assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendProperty out of range' );
         return newValue;
       },
       {
         phetioValueType: NumberIO,
-        tandem: options.tandem.createTandem( 'rightAddendNumberProperty' )
+        tandem: options.tandem.createTandem( 'rightAddendProperty' )
       } );
 
     const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
@@ -83,18 +83,18 @@ export default class SumModel extends NumberPairsModel {
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(
-      totalNumberProperty,
-      leftAddendNumberProperty,
-      rightAddendNumberProperty,
+      totalProperty,
+      leftAddendProperty,
+      rightAddendProperty,
       new Property( leftAddendObjects ),
       new Property( rightAddendObjects ),
       SCENE_RANGE.max,
       options
     );
 
-    this.leftAddendNumberProperty = leftAddendNumberProperty;
-    this.rightAddendNumberProperty = rightAddendNumberProperty;
-    this.totalNumberProperty = totalNumberProperty;
+    this.leftAddendProperty = leftAddendProperty;
+    this.rightAddendProperty = rightAddendProperty;
+    this.totalProperty = totalProperty;
 
     this.inactiveCountingObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -106,22 +106,22 @@ export default class SumModel extends NumberPairsModel {
     this.countingObjects.forEach( countingObject => {
       this.inactiveCountingObjects.push( countingObject );
     } );
-    _.times( leftAddendNumberProperty.value, () => {
+    _.times( leftAddendProperty.value, () => {
       const countingObject = this.inactiveCountingObjects.shift();
       assert && assert( countingObject, 'no more inactive counting objects' );
       leftAddendObjects.push( countingObject! );
     } );
-    _.times( rightAddendNumberProperty.value, () => {
+    _.times( rightAddendProperty.value, () => {
       const countingObject = this.inactiveCountingObjects.shift();
       assert && assert( countingObject, 'no more inactive counting objects' );
       rightAddendObjects.push( countingObject! );
     } );
-    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
 
-    // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
-    this.rightAddendNumberProperty.lazyLink( rightAddendValue => {
-      const leftAddendDelta = this.leftAddendNumberProperty.value - leftAddendObjects.length;
+    // Listen to the rightAddendProperty since it is derived and will therefore be updated last.
+    this.rightAddendProperty.lazyLink( rightAddendValue => {
+      const leftAddendDelta = this.leftAddendProperty.value - leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
 
       if ( leftAddendDelta + rightAddendDelta === 0 ) {
@@ -158,13 +158,13 @@ export default class SumModel extends NumberPairsModel {
       }
 
 
-      assert && assert( this.leftAddendNumberProperty.value === leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
-      assert && assert( this.rightAddendNumberProperty.value === rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
-      assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalNumberProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+      assert && assert( this.leftAddendProperty.value === leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
+      assert && assert( this.rightAddendProperty.value === rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
+      assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
-      this.leftAddendNumberProperty.value = leftAddend;
+      this.leftAddendProperty.value = leftAddend;
     } );
 
     this.createNumberLineEnabledRangeLinks();

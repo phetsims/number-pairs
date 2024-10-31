@@ -65,19 +65,19 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel => sceneModel.leftAddendObjects );
     const rightAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
       sceneModel => sceneModel.rightAddendObjects );
-    const leftAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
-      derive: 'leftAddendNumberProperty',
+    const leftAddendProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+      derive: 'leftAddendProperty',
       bidirectional: true // This property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );
-    const rightAddendNumberProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
-      derive: 'rightAddendNumberProperty'
+    const rightAddendProperty = new DynamicProperty<number, number, NumberPairsSceneModel>( selectedSceneModelProperty, {
+      derive: 'rightAddendProperty'
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
     super(
       totalProperty,
-      leftAddendNumberProperty,
-      rightAddendNumberProperty,
+      leftAddendProperty,
+      rightAddendProperty,
       leftAddendCountingObjectsProperty,
       rightAddendCountingObjectsProperty,
       options.sceneRange.max,
@@ -91,19 +91,19 @@ export default class DecompositionModel extends NumberPairsModel {
       this.countingObjects.forEach( countingObject => {
         sceneModel.inactiveCountingObjects.push( countingObject );
       } );
-      _.times( sceneModel.leftAddendNumberProperty.value, () => {
+      _.times( sceneModel.leftAddendProperty.value, () => {
         sceneModel.leftAddendObjects.push( sceneModel.inactiveCountingObjects[ 0 ] );
       } );
-      _.times( sceneModel.rightAddendNumberProperty.value, () => {
+      _.times( sceneModel.rightAddendProperty.value, () => {
         sceneModel.rightAddendObjects.push( sceneModel.inactiveCountingObjects[ 0 ] );
       } );
 
       assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
-      // We only need to update the leftAddendNumberProperty since the rightAddend is derived.
+      // We only need to update the leftAddendProperty since the rightAddend is derived.
       // This link must be registered after the observable arrays are populated.
       sceneModel.leftAddendObjects.lengthProperty.lazyLink( length => {
-        this.leftAddendNumberProperty.value = length;
+        this.leftAddendProperty.value = length;
       } );
     } );
 

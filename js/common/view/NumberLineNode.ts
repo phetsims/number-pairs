@@ -48,7 +48,7 @@ export default class NumberLineNode extends Node {
     );
 
     const slider = new NumberLineSlider(
-      model.leftAddendNumberProperty,
+      model.leftAddendProperty,
       model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
       model.showTickValuesProperty,
@@ -66,17 +66,17 @@ export default class NumberLineNode extends Node {
       stroke: 'black'
     } );
     const totalHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.totalNumberProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
+      trackModelViewTransform.modelToViewX( model.totalProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineSumColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const totalArrow = new EllipticalArrowNode( zeroNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
+    const totalArrow = new EllipticalArrowNode( zeroNumberProperty, model.totalProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
       ellipseYRadius: 80,
       visibleProperty: model.showTotalJumpProperty
     } );
-    const totalLabel = new NumberSquare( LABEL_DIMENSION, model.totalNumberProperty, {
+    const totalLabel = new NumberSquare( LABEL_DIMENSION, model.totalProperty, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showTotalJumpProperty,
@@ -87,14 +87,14 @@ export default class NumberLineNode extends Node {
      * LEFT ADDEND
      */
     const leftAddendHighlight = new Line( 0, -NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
+      trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineLeftAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const leftAddendArrow = new EllipticalArrowNode( zeroNumberProperty, model.leftAddendNumberProperty, trackModelViewTransform, {
+    const leftAddendArrow = new EllipticalArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty
     } );
-    const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendNumberProperty, {
+    const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,
@@ -104,22 +104,22 @@ export default class NumberLineNode extends Node {
     /**
      * RIGHT ADDEND
      */
-    const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.totalNumberProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
+    const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
+      trackModelViewTransform.modelToViewX( model.totalProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
         stroke: NumberPairsColors.numberLineRightAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendNumberProperty, model.totalNumberProperty, trackModelViewTransform, {
+    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
     } );
-    const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendNumberProperty, {
+    const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendProperty, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,
       numberFontSize: 20
     } );
 
-    Multilink.multilink( [ model.leftAddendNumberProperty, model.rightAddendNumberProperty, model.totalNumberProperty ],
+    Multilink.multilink( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
       ( leftAddend, rightAddend, total ) => {
         leftAddendHighlight.setX2( trackModelViewTransform.modelToViewX( leftAddend ) );
         rightAddendHighlight.setX1( trackModelViewTransform.modelToViewX( leftAddend ) );
@@ -144,7 +144,7 @@ export default class NumberLineNode extends Node {
     super( options );
 
     // Position the total circle at the total value on the number line.
-    model.totalNumberProperty.link( total => {
+    model.totalProperty.link( total => {
       totalCircle.centerX = trackModelViewTransform.modelToViewX( total );
     } );
 
@@ -152,7 +152,7 @@ export default class NumberLineNode extends Node {
     ManualConstraint.create( this, [ totalArrow, totalLabel ], ( arrowProxy, labelProxy ) => {
       labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, 5 );
     } );
-    Multilink.multilink( [ model.leftAddendNumberProperty, model.leftAddendLabelPlacementProperty, leftAddendArrow.boundsProperty ],
+    Multilink.multilink( [ model.leftAddendProperty, model.leftAddendLabelPlacementProperty, leftAddendArrow.boundsProperty ],
       ( leftAddend, placement, bounds ) => {
         if ( placement === 'handle' ) {
           leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );

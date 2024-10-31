@@ -114,9 +114,9 @@ export default class CubesOnWireNode extends Node {
     } );
 
     Multilink.multilink( [
-      model.leftAddendNumberProperty,
-      model.rightAddendNumberProperty,
-      model.totalNumberProperty,
+      model.leftAddendProperty,
+      model.rightAddendProperty,
+      model.totalProperty,
       model.leftAddendCountingObjectsProperty,
       model.rightAddendCountingObjectsProperty
     ], () => {
@@ -133,7 +133,7 @@ export default class CubesOnWireNode extends Node {
    * groups of 5 with a separator between the two addends.
    */
   private snapCubesToPositions(): void {
-    const leftAddend = this.model.leftAddendNumberProperty.value;
+    const leftAddend = this.model.leftAddendProperty.value;
     const leftAddendCubes = this.leftAddendCountingObjectsProperty.value
       .map( countingObject => this.cubeModelToNodeMap.get( countingObject )! );
     const rightAddendCubes = this.rightAddendCountingObjectsProperty.value
@@ -201,7 +201,7 @@ export default class CubesOnWireNode extends Node {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
 
           // Since a cube is moving to the right, the separator should adjust one position to the left.
-          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value - 1 ) );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendProperty.value - 1 ) );
 
           // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -214,7 +214,7 @@ export default class CubesOnWireNode extends Node {
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           // Since a cube is moving to the left, the separator should adjust one position to the right.
-          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendNumberProperty.value + 1 ) );
+          this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
 
           // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -239,8 +239,8 @@ export default class CubesOnWireNode extends Node {
       }
     } );
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendNumberProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendNumberProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
   }
 }
 
