@@ -41,6 +41,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
       this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
+        onDrop: model.dropCountingObject.bind( model ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
             model.rightAddendVisibleProperty, countingObject.draggingProperty ],
           ( addendType, leftVisible, rightVisible, dragging ) =>

@@ -37,6 +37,7 @@ type SelfOptions = {
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
+export type PositionPropertyType = 'attribute' | 'location';
 const DROP_ZONE_MARGIN = KITTEN_PANEL_WIDTH / 1.75;
 
 export default class NumberPairsModel implements TModel {
@@ -171,32 +172,31 @@ export default class NumberPairsModel implements TModel {
   /**
    * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
    * @param droppedCountingObject
+   * @param positionPropertyType
    */
-  public dropCountingObject( droppedCountingObject: CountingObject ): void {
-    const dropZoneBoundsCenter = droppedCountingObject.attributePositionProperty.value;
-    const dropZoneBounds = new Bounds2(
-      dropZoneBoundsCenter.x - DROP_ZONE_MARGIN,
-      dropZoneBoundsCenter.y - DROP_ZONE_MARGIN,
-      dropZoneBoundsCenter.x + DROP_ZONE_MARGIN,
-      dropZoneBoundsCenter.y + DROP_ZONE_MARGIN
-    );
-
-    // Find all the active counting objects that are half a panel width away from the dropped counting object.
+  public dropCountingObject( droppedCountingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): void {
+    const dropZoneBounds = positionPropertyType === 'attribute' ?
+                           this.getDropZoneBounds( droppedCountingObject.attributePositionProperty.value ) :
+                           this.getDropZoneBounds( droppedCountingObject.locationPositionProperty.value );
     const activeCountingObjects = this.countingObjects.filter( countingObject =>
       countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
-    const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject =>
-      dropZoneBounds.containsPoint( countingObject.attributePositionProperty.value ) );
 
-    // If there are counting objects inside the drop zone, add the dropped counting object to the array, so it can be
-    // also be positioned towards the boundary of the drop zone.
+    // Find all the active counting objects that are half a panel width away from the dropped counting object.
+    const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject => {
+      const positionProperty = positionPropertyType === 'attribute' ?
+                               countingObject.attributePositionProperty : countingObject.locationPositionProperty;
+      return dropZoneBounds.containsPoint( positionProperty.value );
+    } );
+
     if ( countingObjectsInsideDropZone.length !== 0 ) {
-      countingObjectsInsideDropZone.push( droppedCountingObject );
 
       // Animate the object to the closest boundary point of the drop zone.
       const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
+        const positionProperty = positionPropertyType === 'attribute' ?
+                                 countingObject.attributePositionProperty : countingObject.locationPositionProperty;
         return {
-          property: countingObject.attributePositionProperty,
-          to: dropZoneBounds.closestBoundaryPointTo( countingObject.attributePositionProperty.value )
+          property: positionProperty,
+          to: dropZoneBounds.closestBoundaryPointTo( positionProperty.value )
         };
       } );
       this.dropAnimation = new Animation( {
@@ -209,6 +209,19 @@ export default class NumberPairsModel implements TModel {
       } );
       this.dropAnimation.start();
     }
+  }
+
+  /**
+   * Returns the bounds of the drop zone based on the provided drop zone center.
+   * @param dropZoneCenter
+   */
+  private getDropZoneBounds( dropZoneCenter: Vector2 ): Bounds2 {
+    return new Bounds2(
+      dropZoneCenter.x - DROP_ZONE_MARGIN,
+      dropZoneCenter.y - DROP_ZONE_MARGIN,
+      dropZoneCenter.x + DROP_ZONE_MARGIN,
+      dropZoneCenter.y + DROP_ZONE_MARGIN
+    );
   }
 
   /**

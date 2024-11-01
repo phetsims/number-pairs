@@ -22,9 +22,11 @@ import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import RepresentationType from '../model/RepresentationType.js';
+import { PositionPropertyType } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
+  onDrop: ( droppedObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
 };
 type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
@@ -80,16 +82,18 @@ export default class LocationCountingObjectNode extends Node {
     butterfly.center = this.center;
 
     const dragListener = new RichDragListener( {
+      start: () => {
+        model.draggingProperty.value = true;
+        this.moveToFront();
+      },
+      end: () => {
+        model.draggingProperty.value = false;
+        options.onDrop( model, 'location' );
+      },
       dragListenerOptions: {
         dragBoundsProperty: new Property( dilatedDragBounds, {} ),
         positionProperty: model.locationPositionProperty,
         tandem: providedOptions.tandem.createTandem( 'dragListener' ),
-        start: () => {
-          model.draggingProperty.value = true;
-        },
-        end: () => {
-          model.draggingProperty.value = false;
-        },
         useParentOffset: true
       },
       keyboardDragListenerOptions: {

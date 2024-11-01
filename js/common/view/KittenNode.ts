@@ -28,9 +28,10 @@ import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragList
 import { Shape } from '../../../../kite/js/imports.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { PositionPropertyType } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
-  onDrop: ( countingObject: CountingObject ) => void;
+  onDrop: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -133,7 +134,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
         this.moveToFront();
       },
       end: () => {
-        options.onDrop( model );
+        options.onDrop( model, 'attribute' );
       },
       dragBoundsProperty: new Property( dilatedDragBounds, {} ),
       dragListenerOptions: {
