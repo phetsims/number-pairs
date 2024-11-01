@@ -103,7 +103,6 @@ export default class CubesOnWireNode extends Node {
           tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
           onDrop: () => {
             this.cubeDragging = false;
-            this.snapCubesToPositions();
           },
           onDrag: ( pointerPoint: Vector2, cubeNode: CubeNode ) => {
             this.cubeDragging = true;
@@ -113,6 +112,7 @@ export default class CubesOnWireNode extends Node {
       this.cubeModelToNodeMap.set( countingObject, cubeNode );
     } );
 
+    // TODO: When we add cubes to the wire they should not snap. They should be placed in random spots
     Multilink.multilink( [
       model.leftAddendProperty,
       model.rightAddendProperty,
@@ -172,29 +172,31 @@ export default class CubesOnWireNode extends Node {
     const sortedCubes = draggingRight ? activeCubes : activeCubes.reverse();
 
     // Now that the cubes are sorted in the proper direction we can determine which cubes need to be moved based
-    // on the index of the grabbed cube.
+    // on the index of the grabbed cube and their proximity to each other.
     const grabbedCubeIndex = sortedCubes.indexOf( grabbedCube );
-    const cubesToMove = sortedCubes.slice( grabbedCubeIndex, sortedCubes.length + 1 ).filter(
-      cube => {
-        return cube.model.addendTypeProperty.value === grabbedCube.model.addendTypeProperty.value;
+    let cubeSpaceFound = false;
+    const slicedCubes = sortedCubes.slice( grabbedCubeIndex, sortedCubes.length + 1 );
+    const cubesToMove = slicedCubes.filter(
+      ( cube, i ) => {
+        const addendMatch: boolean = cube.model.addendTypeProperty.value === grabbedCube.model.addendTypeProperty.value;
+        const touchingPreviousCube = i === 0 || Math.abs( cube.centerX - slicedCubes[ i - 1 ].centerX ) <= CUBE_WIDTH;
+        if ( !touchingPreviousCube ) {
+          cubeSpaceFound = true;
+        }
+        return addendMatch && touchingPreviousCube && !cubeSpaceFound;
       } );
 
     // Calculate the distance the grabbed cube has moved and constrain the movement so that it does not exit
     // the drag bounds.
     const oldCenterX = grabbedCube.centerX;
-    const dragBoundsWithMovingCubes = this.cubeDragBounds.dilatedX( -CUBE_WIDTH * ( cubesToMove.length - 1 ) );
+    const dragBoundsWithMovingCubes = this.cubeDragBounds.dilatedX( -( CUBE_WIDTH - CUBE_OVERLAP ) * ( cubesToMove.length - 1 ) );
     const newCenterX = dragBoundsWithMovingCubes.closestPointTo( grabbedCube.globalToParentPoint( newPosition ) ).x;
     const deltaX = newCenterX - oldCenterX;
-
-    // Calculate the distance between the grabbed cube and the closest cube in the dragging direction.
-    // The first cube in the array is the grabbed cube, and the second is the closest since we sorted the cubes above.
-    const closestCubeDistance = cubesToMove.length > 1 ? Math.abs( cubesToMove[ 1 ].centerX - cubesToMove[ 0 ].centerX ) : 0;
     grabbedCube.centerX = newCenterX;
 
     cubesToMove.forEach( cube => {
 
-      // Check the distance to see if the grabbed cube is close enough to the closest cube to move it.
-      if ( cube !== grabbedCube && closestCubeDistance < CUBE_WIDTH ) {
+      if ( cube !== grabbedCube ) {
         cube.centerX += deltaX;
       }
       if ( cube.centerX > this.cubeSeparatorCenterXProperty.value ) {
