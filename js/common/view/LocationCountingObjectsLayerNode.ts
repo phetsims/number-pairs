@@ -17,6 +17,7 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import { COUNTING_AREA_MARGIN } from './CountingAreaNode.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 export default class LocationCountingObjectsLayerNode extends Node {
@@ -62,7 +63,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
     // Check to see if the countingObject is already in the correct addend area. If it is, we do not want to move it.
     if ( !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-      countingObject.locationPositionProperty.value = dotRandom.nextPointInBounds( addendBounds );
+      countingObject.locationPositionProperty.value = dotRandom.sample( this.model.getGridCoordinates( addendBounds, COUNTING_AREA_MARGIN, COUNTING_AREA_MARGIN, 6 ) );
     }
   }
 

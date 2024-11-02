@@ -9,7 +9,7 @@
 
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
+import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from '../model/CountingObject.js';
 import KittenNode from './KittenNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,6 +18,7 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
@@ -25,8 +26,14 @@ export default class KittensLayerNode extends Node {
   public constructor( model: NumberPairsModel, countingObjects: CountingObject[], countingAreaBounds: Bounds2, providedOptions: KittensLayerNodeOptions ) {
     const newKittenFocusedEmitter = new Emitter();
     const kittens: KittenNode[] = [];
+
+    const availableGridPositions = model.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
     countingObjects.forEach( ( countingObject, i ) => {
+      const initialPosition = dotRandom.sample( availableGridPositions );
+      availableGridPositions.splice( availableGridPositions.indexOf( initialPosition ), 1 );
+
       kittens.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
+        initialPosition: initialPosition,
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onDrop: model.dropCountingObject.bind( model ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )

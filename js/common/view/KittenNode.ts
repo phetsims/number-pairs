@@ -18,7 +18,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Property from '../../../../axon/js/Property.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -29,9 +28,11 @@ import { Shape } from '../../../../kite/js/imports.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
   onDrop: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
+  initialPosition: Vector2;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -115,7 +116,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // Dilate by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
     // the dragged object and the counting area boundary.
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
-    model.attributePositionProperty.value = dotRandom.nextPointInBounds( dilatedDragBounds );
 
     // TODO: use options.children = instead, etc.
     const superOptions = combineOptions<NodeOptions>( {
@@ -165,6 +165,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       model.focusedProperty.value = false;
     } );
 
+    model.attributePositionProperty.value = options.initialPosition;
     model.attributePositionProperty.link( position => {
       this.center = position;
     } );

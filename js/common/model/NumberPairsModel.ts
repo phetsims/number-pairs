@@ -259,13 +259,13 @@ export default class NumberPairsModel implements TModel {
     let leftGridCoordinates: Vector2[];
     let rightGridCoordinates: Vector2[];
     if ( tenFrameBounds.length === 1 ) {
-      const gridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
+      const gridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
       leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
       rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length );
     }
     else {
-      leftGridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 0 ], 20, 50 );
-      rightGridCoordinates = this.getTenFrameGridCoordinates( tenFrameBounds[ 1 ], 50, 20 );
+      leftGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 );
+      rightGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 );
     }
 
 
@@ -285,9 +285,9 @@ export default class NumberPairsModel implements TModel {
    * @param bounds
    * @param leftMargin
    * @param rightMargin
+   * @param columnNumber
    */
-  private getTenFrameGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number ): Vector2[] {
-    const columnNumber = 5;
+  public getGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] {
     const rowNumber = 4;
     const topMargin = 9;
     const bottomMargin = 58;
