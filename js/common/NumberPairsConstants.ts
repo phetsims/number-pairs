@@ -19,7 +19,7 @@ const NumberPairsConstants = {
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
 
-  TITLE_FONT: new PhetFont( 20 ),
+  TITLE_FONT: new PhetFont( 16 ),
 
   INTRO_INITIAL_SUM_VALUE: 3,
   INTRO_INITIAL_LEFT_ADDEND_VALUE: 2,
