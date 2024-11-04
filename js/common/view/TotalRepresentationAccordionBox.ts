@@ -18,7 +18,7 @@ export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOp
 
 export const EXPAND_COLLAPSE_SIDE_LENGTH = 20;
 export const CONTENT_X_MARGIN = 10;
-export const BUTTON_X_MARGIN = 10;
+export const BUTTON_X_MARGIN = 8;
 
 export default class TotalRepresentationAccordionBox extends AccordionBox {
 
@@ -30,6 +30,7 @@ export default class TotalRepresentationAccordionBox extends AccordionBox {
       titleXSpacing: BUTTON_X_MARGIN,
       contentXMargin: CONTENT_X_MARGIN,
       buttonXMargin: BUTTON_X_MARGIN,
+      cornerRadius: 5,
       contentXSpacing: 0,
       fill: NumberPairsColors.accordionBoxBackgroundColorProperty,
       expandCollapseButtonOptions: {
