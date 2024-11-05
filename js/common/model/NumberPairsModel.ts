@@ -111,7 +111,7 @@ export default class NumberPairsModel implements TModel {
     this.showTickValuesProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'showTickValuesProperty' )
     } );
-    this.showTotalJumpProperty = new BooleanProperty( false, {
+    this.showTotalJumpProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'showTotalJumpProperty' )
     } );
     this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {

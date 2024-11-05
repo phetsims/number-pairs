@@ -36,10 +36,10 @@ const NumberPairsColors = {
     default: '#7bffa0'
   } ),
   locationLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationLeftAddend', {
-    default: '#76e1ff'
+    default: '#ffffc0'
   } ),
   locationRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationRightAddend', {
-    default: '#ffffc0'
+    default: '#76e1ff'
   } ),
   numberLineSumColorProperty: new ProfileColorProperty( numberPairs, 'numberLineSum', {
     default: '#D0BDFB'
