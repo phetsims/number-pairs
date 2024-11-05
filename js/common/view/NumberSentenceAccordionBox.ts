@@ -141,7 +141,9 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
     const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       titleNode: titleNode,
+      contentXMargin: 20,
       contentYMargin: 20,
+      contentAlign: 'left',
       minWidth: ACCORDION_BOX_WIDTH
     }, providedOptions );
     super( richText, options );
