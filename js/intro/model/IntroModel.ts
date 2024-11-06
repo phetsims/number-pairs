@@ -39,15 +39,7 @@ export default class IntroModel extends DecompositionModel {
    * Resets the model.
    */
   public override reset(): void {
-    //TODO
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    //TODO
+    super.reset();
   }
 }
 

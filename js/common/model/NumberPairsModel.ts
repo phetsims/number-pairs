@@ -71,6 +71,7 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   private dropAnimation: Animation | null = null;
+  private tenFrameAnimation: Animation | null = null;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -174,6 +175,29 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
+   * Creates a link that updates the addend type of the counting object based on the changed addend type.
+   * @param countingObject
+   */
+  public createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
+    countingObject.addendTypeProperty.lazyLink( addendType => {
+      const leftAddendCountingObjects = this.leftAddendCountingObjectsProperty.value;
+      const rightAddendCountingObjects = this.rightAddendCountingObjectsProperty.value;
+      if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) && rightAddendCountingObjects.includes( countingObject ) ) {
+        countingObject.traverseInactiveObjects = false;
+        rightAddendCountingObjects.remove( countingObject );
+        leftAddendCountingObjects.add( countingObject );
+        countingObject.traverseInactiveObjects = true;
+      }
+      else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) && leftAddendCountingObjects.includes( countingObject ) ) {
+        countingObject.traverseInactiveObjects = false;
+        rightAddendCountingObjects.add( countingObject );
+        leftAddendCountingObjects.remove( countingObject );
+        countingObject.traverseInactiveObjects = true;
+      }
+    } );
+  }
+
+  /**
    * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
    * @param droppedCountingObject
    * @param positionPropertyType
@@ -235,7 +259,6 @@ export default class NumberPairsModel implements TModel {
 
     // TODO: Kind of weird that we're using the twenty number line range min here always... right now both the ten and twenty are 0... but what if that changes?
     Multilink.multilink( [ this.leftAddendProperty, this.rightAddendProperty ], ( leftAddend, rightAddend ) => {
-
       // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
       // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
       // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
@@ -295,11 +318,14 @@ export default class NumberPairsModel implements TModel {
       } );
     } );
 
-    const tenFrameAnimation = new Animation( {
+    this.tenFrameAnimation = new Animation( {
       duration: 0.4,
       targets: tenFrameAnimationTargets
     } );
-    tenFrameAnimation.start();
+    this.tenFrameAnimation.endedEmitter.addListener( () => {
+      this.tenFrameAnimation = null;
+    } );
+    this.tenFrameAnimation.start();
   }
 
   /**
@@ -333,7 +359,20 @@ export default class NumberPairsModel implements TModel {
   }
 
   public reset(): void {
+
+    // Stop any animations that may be in progress.
     this.dropAnimation?.stop();
+    this.tenFrameAnimation?.stop();
+
+    this.representationTypeProperty.reset();
+    this.leftAddendVisibleProperty.reset();
+    this.rightAddendVisibleProperty.reset();
+    this.totalVisibleProperty.reset();
+    this.showNumberLineAddendValuesProperty.reset();
+    this.showTickValuesProperty.reset();
+    this.showTotalJumpProperty.reset();
+    this.leftAddendLabelPlacementProperty.reset();
+    this.numberLineSliderEnabledRangeProperty.reset();
   }
 }
 

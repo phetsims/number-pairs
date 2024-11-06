@@ -200,7 +200,7 @@ export default class CubesOnWireNode extends Node {
         cube.centerX += deltaX;
       }
       if ( cube.centerX > this.cubeSeparatorCenterXProperty.value ) {
-        if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
+        if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) && this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
 
           // Since a cube is moving to the right, the separator should adjust one position to the left.
           this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendProperty.value - 1 ) );
@@ -214,7 +214,7 @@ export default class CubesOnWireNode extends Node {
         }
       }
       if ( cube.centerX < this.cubeSeparatorCenterXProperty.value ) {
-        if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
+        if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) && this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           // Since a cube is moving to the left, the separator should adjust one position to the right.
           this.cubeSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateCubeSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
 

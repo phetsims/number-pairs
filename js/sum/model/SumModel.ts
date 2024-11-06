@@ -168,6 +168,12 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     this.createNumberLineEnabledRangeLinks();
+
+    // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
+    // that is handled manually above.
+    this.countingObjects.forEach( countingObject => {
+      this.createCountingObjectAddendTypeLinks( countingObject );
+    } );
   }
 
   /**
@@ -175,15 +181,9 @@ export default class SumModel extends NumberPairsModel {
    */
   public override reset(): void {
     super.reset();
-    //TODO
-  }
+    this.leftAddendProperty.reset();
+    this.totalProperty.reset();
 
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    //TODO
   }
 }
 

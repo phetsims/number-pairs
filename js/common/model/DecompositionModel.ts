@@ -103,7 +103,7 @@ export default class DecompositionModel extends NumberPairsModel {
       // We only need to update the leftAddendProperty since the rightAddend is derived.
       // This link must be registered after the observable arrays are populated.
       sceneModel.leftAddendObjects.lengthProperty.lazyLink( length => {
-        this.leftAddendProperty.value = length;
+        sceneModel.leftAddendProperty.value = length;
       } );
     } );
 
@@ -126,15 +126,26 @@ export default class DecompositionModel extends NumberPairsModel {
 
     this.selectedSceneProperty = selectedSceneModelProperty;
     this.scenes = sceneModels;
+
+    // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
+    // that is handled manually above.
+    this.countingObjects.forEach( countingObject => {
+      this.createCountingObjectAddendTypeLinks( countingObject );
+    } );
   }
 
   /**
    * Resets the model.
    */
   public override reset(): void {
-    super.reset();
     this.selectedSceneProperty.reset();
+
+    super.reset();
     this.representationTypeProperty.reset();
+
+    this.scenes.forEach( scene => {
+      scene.reset();
+    } );
   }
 }
 

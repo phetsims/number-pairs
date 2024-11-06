@@ -66,6 +66,7 @@ export default class NumberPairsScene {
     } );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
+    // We manually handle counting object distribution during construction.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
       const leftAddendDelta = this.leftAddendProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
@@ -116,6 +117,10 @@ export default class NumberPairsScene {
       leftAddendNumber: this.leftAddendProperty.value,
       rightAddendNumber: this.rightAddendProperty.value
     };
+  }
+
+  public reset(): void {
+    this.leftAddendProperty.reset();
   }
 
   public static NumberPairsSceneIO = new IOType( 'NumberPairsSceneIO', {

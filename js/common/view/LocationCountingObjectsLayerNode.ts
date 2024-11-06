@@ -75,13 +75,17 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public handleLocationChange( countingObject: CountingObject, newPosition: Vector2 ): void {
     const leftAddendCountingObjects = this.model.leftAddendCountingObjectsProperty.value;
     const rightAddendCountingObjects = this.model.rightAddendCountingObjectsProperty.value;
-    if ( this.leftCountingAreaBounds.containsPoint( newPosition ) && !leftAddendCountingObjects.includes( countingObject ) ) {
+    if ( this.leftCountingAreaBounds.containsPoint( newPosition ) &&
+         !leftAddendCountingObjects.includes( countingObject ) &&
+         rightAddendCountingObjects.includes( countingObject ) ) {
       countingObject.traverseInactiveObjects = false;
       rightAddendCountingObjects.remove( countingObject );
       leftAddendCountingObjects.add( countingObject );
       countingObject.traverseInactiveObjects = true;
     }
-    else if ( this.rightCountingAreaBounds.containsPoint( newPosition ) && !rightAddendCountingObjects.includes( countingObject ) ) {
+    else if ( this.rightCountingAreaBounds.containsPoint( newPosition ) &&
+              !rightAddendCountingObjects.includes( countingObject ) &&
+              leftAddendCountingObjects.includes( countingObject ) ) {
 
       // Add the countingObject to the right addend array first to avoid duplicate work being done when the left addend
       // value is updated in the ObservableArray.lengthProperty listener.
