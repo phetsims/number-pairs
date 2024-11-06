@@ -29,6 +29,10 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import RepresentationType from './RepresentationType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
+type AnimationTarget = {
+  property: Property<Vector2>;
+  to: Vector2;
+};
 type leftAddendLabelPlacement = 'handle' | 'arrow';
 type SelfOptions = {
   initialRepresentationType: RepresentationType;
@@ -269,14 +273,33 @@ export default class NumberPairsModel implements TModel {
     }
 
 
+    const tenFrameAnimationTargets: AnimationTarget[] = [];
     leftAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.attributePositionProperty.value = leftGridCoordinates[ index ];
-      countingObject.locationPositionProperty.value = leftGridCoordinates[ index ];
+      tenFrameAnimationTargets.push( {
+        property: countingObject.attributePositionProperty,
+        to: leftGridCoordinates[ index ]
+      } );
+      tenFrameAnimationTargets.push( {
+        property: countingObject.locationPositionProperty,
+        to: leftGridCoordinates[ index ]
+      } );
     } );
     rightAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.attributePositionProperty.value = rightGridCoordinates[ index ];
-      countingObject.locationPositionProperty.value = rightGridCoordinates[ index ];
+      tenFrameAnimationTargets.push( {
+        property: countingObject.attributePositionProperty,
+        to: rightGridCoordinates[ index ]
+      } );
+      tenFrameAnimationTargets.push( {
+        property: countingObject.locationPositionProperty,
+        to: rightGridCoordinates[ index ]
+      } );
     } );
+
+    const tenFrameAnimation = new Animation( {
+      duration: 0.4,
+      targets: tenFrameAnimationTargets
+    } );
+    tenFrameAnimation.start();
   }
 
   /**
