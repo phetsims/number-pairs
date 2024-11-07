@@ -51,6 +51,7 @@ export default class BeadsOnWireNode extends Node {
   private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
   private beadDragging = false;
+  private sceneRange: Range;
 
   public constructor(
     private readonly model: NumberPairsModel,
@@ -99,6 +100,7 @@ export default class BeadsOnWireNode extends Node {
       const beadNode = new BeadNode(
         countingObject,
         {
+          opacity: 0.8,
           tandem: providedOptions.tandem.createTandem( `cubeNode${i}` ),
           onDrop: () => {
             this.beadDragging = false;
@@ -125,6 +127,8 @@ export default class BeadsOnWireNode extends Node {
     this.beadModelToNodeMap.forEach( cube => {
       this.addChild( cube );
     } );
+
+    this.sceneRange = options.sceneRange;
   }
 
   private getBeadNodes( countingObjects: CountingObject[] ): BeadNode[] {
@@ -178,16 +182,16 @@ export default class BeadsOnWireNode extends Node {
     const draggingRight = Math.sign( newPosition.x - grabbedCube.parentToGlobalPoint( grabbedCube.bounds.center ).x ) > 0;
 
     // Sort all active cubes by their x position, and reverse if we are dragging towards the left.
-    const cubeNodes = [ ...this.beadModelToNodeMap.values() ];
-    const activeCubes = cubeNodes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
+    const beadNodes = [ ...this.beadModelToNodeMap.values() ];
+    const activeBeads = beadNodes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
-    const sortedCubes = draggingRight ? activeCubes : activeCubes.reverse();
+    const sortedBeads = draggingRight ? activeBeads : activeBeads.reverse();
 
     // Now that the cubes are sorted in the proper direction we can determine which cubes need to be moved based
     // on the index of the grabbed cube and their proximity to each other.
-    const grabbedCubeIndex = sortedCubes.indexOf( grabbedCube );
+    const grabbedCubeIndex = sortedBeads.indexOf( grabbedCube );
     let cubeSpaceFound = false;
-    const slicedCubes = sortedCubes.slice( grabbedCubeIndex, sortedCubes.length + 1 );
+    const slicedCubes = sortedBeads.slice( grabbedCubeIndex, sortedBeads.length + 1 );
     const cubesToMove = slicedCubes.filter(
       ( cube, i ) => {
         const addendMatch: boolean = cube.model.addendTypeProperty.value === grabbedCube.model.addendTypeProperty.value;
@@ -217,7 +221,8 @@ export default class BeadsOnWireNode extends Node {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( cube.model ) && this.leftAddendCountingObjectsProperty.value.includes( cube.model ) ) {
 
           // Since a cube is moving to the right, the separator should adjust one position to the left.
-          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value - 1 ) );
+          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
+            calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value - 1 ) );
 
           // Add the cube to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -225,12 +230,16 @@ export default class BeadsOnWireNode extends Node {
           this.rightAddendCountingObjectsProperty.value.add( cube.model );
           this.leftAddendCountingObjectsProperty.value.remove( cube.model );
           cube.model.traverseInactiveObjects = true;
+
+          // Immediately move the cubes past the separator
+          cube.centerX = Math.max( cube.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 );
         }
       }
       if ( cube.centerX < this.beadSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( cube.model ) && this.rightAddendCountingObjectsProperty.value.includes( cube.model ) ) {
           // Since a cube is moving to the left, the separator should adjust one position to the right.
-          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
+          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
+            calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
 
           // Remove the cube from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -238,9 +247,25 @@ export default class BeadsOnWireNode extends Node {
           this.rightAddendCountingObjectsProperty.value.remove( cube.model );
           this.leftAddendCountingObjectsProperty.value.add( cube.model );
           cube.model.traverseInactiveObjects = true;
+
+          // Immediately move the cubes past the separator
+          cube.centerX = Math.min( cube.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 );
         }
       }
     } );
+
+    // Once all the beads are moved confirm that any active beads on the wire  are each the required minimum distance
+    // apart to avoid overlap.
+    // TODO: this needs to be more sophisticated
+    // activeBeads.forEach( ( cube, i ) => {
+    //   if ( i > 0 && !cube.model.draggingProperty.value ) {
+    //     const previousCube = activeBeads[ i - 1 ];
+    //     const distance = Math.abs( cube.centerX - previousCube.centerX );
+    //     if ( distance < BEAD_WIDTH ) {
+    //       cube.centerX = previousCube.centerX + BEAD_WIDTH;
+    //     }
+    //   }
+    // } );
 
     // Once all the cubes are moved confirm that their centers are each the required minimum distance apart to avoid
     // overlap.
@@ -258,11 +283,13 @@ export default class BeadsOnWireNode extends Node {
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
   }
+
+
 }
 
 function calculateBeadSeparatorPlacement( leftAddendValue: number ): number {
-  const separatorAdjustment = Math.ceil( leftAddendValue / 5 ) + 1;
-  return leftAddendValue + separatorAdjustment + LEFT_MOST_BEAD_X;
+  const startingPosition = 12; // empirically determined;;
+  return leftAddendValue / 2.5 + startingPosition;
 }
 
 class WireEndCap extends Path {
