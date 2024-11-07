@@ -24,7 +24,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import CubesOnWireNode from './CubesOnWireNode.js';
+import BeadsOnWireNode from './BeadsOnWireNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
@@ -256,16 +256,16 @@ export default class NumberPairsScreenView extends ScreenView {
      * Create the cubes on wire representation and accompanying features.
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.CUBES ) ) {
-      const cubesVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
+      const beadsVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
-      const cubesOnWireNode = new CubesOnWireNode( model, this.countingAreaBounds, {
+      const beadsOnWireNode = new BeadsOnWireNode( model, this.countingAreaBounds, {
         sceneRange: sceneRange,
-        visibleProperty: cubesVisibleProperty,
-        tandem: options.tandem.createTandem( 'cubesOnWireNode' )
+        visibleProperty: beadsVisibleProperty,
+        tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );
-      countingRepresentationsLayer.addChild( cubesOnWireNode );
+      countingRepresentationsLayer.addChild( beadsOnWireNode );
 
-      cubesOnWireNode.center = this.countingAreaBounds.center;
+      beadsOnWireNode.center = this.countingAreaBounds.center;
     }
 
     // Position the counting representation radio buttons below the counting area.

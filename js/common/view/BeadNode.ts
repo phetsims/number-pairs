@@ -1,14 +1,14 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * CubeNode uses an svg to create the visual representation of the cube. It also handles drag interactions through
- * both mouse and keyboard events. The color of the cube changes depending on which addend it is associated with.
+ * BeadNode uses an svg to create the visual representation of the bead. It also handles drag interactions through
+ * both mouse and keyboard events. The color of the bead changes depending on which addend it is associated with.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
 
-import { Image, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Rectangle, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -16,38 +16,41 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
-import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 
-export const CUBE_WIDTH = 37;
+export const BEAD_WIDTH = 25;
+const BEAD_HEIGHT = 60;
 
 type SelfOptions = {
-  onDrag: ( position: Vector2, cube: CubeNode ) => void;
+  onDrag: ( position: Vector2, cube: BeadNode ) => void;
   onDrop: () => void;
 };
-type CubeNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
+type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
-export default class CubeNode extends Node {
+export default class BeadNode extends Node {
 
   public constructor(
     public readonly model: CountingObject,
-    providedOptions: CubeNodeOptions ) {
+    providedOptions: BeadNodeOptions ) {
 
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
     const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
-    const cubeLeftAddendImage = new Image( cubePinkHexagon_svg, {
-      maxWidth: CUBE_WIDTH,
+    const leftAddendBead = new Rectangle( 0, 0, BEAD_WIDTH, BEAD_HEIGHT, {
+      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      cornerRadius: 10,
+      stroke: Color.BLACK,
       visibleProperty: leftAddendVisibleProperty
     } );
 
-    const cubeRightAddendImage = new Image( cubeBlueCircle_svg, {
-      maxWidth: CUBE_WIDTH,
+    const rightAddendBead = new Rectangle( 0, 0, BEAD_WIDTH, BEAD_HEIGHT, {
+      fill: NumberPairsColors.numberLineRightAddendColorProperty,
+      cornerRadius: 10,
+      stroke: Color.BLACK,
       visibleProperty: rightAddendVisibleProperty
     } );
-
-    const options = optionize<CubeNodeOptions, SelfOptions, NodeOptions>()( {
-      children: [ cubeLeftAddendImage, cubeRightAddendImage ],
+    const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
+      children: [ leftAddendBead, rightAddendBead ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
     super( options );
@@ -80,4 +83,4 @@ export default class CubeNode extends Node {
   }
 }
 
-numberPairs.register( 'CubeNode', CubeNode );
+numberPairs.register( 'BeadNode', BeadNode );

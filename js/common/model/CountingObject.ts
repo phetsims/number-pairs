@@ -53,7 +53,7 @@ export default class CountingObject extends PhetioObject {
   public readonly draggingProperty: Property<boolean>;
 
   // This Property determines whether the object should move through the inactiveCountingObjects array when it
-  // is removed from a left or right addend array. Used in CubesOnWireNode, LocationCountingObjectsLayerNode,
+  // is removed from a left or right addend array. Used in BeadsOnWireNode, LocationCountingObjectsLayerNode,
   // and KittensLayerNode.
   public traverseInactiveObjects = true;
 
