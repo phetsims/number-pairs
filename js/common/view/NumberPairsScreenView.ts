@@ -157,12 +157,12 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the counting area and accompanying features.
      */
-    const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.representationTypeProperty ], countingRepresentationType => {
+    const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.representationTypeProperty, model.totalColorProperty ], ( countingRepresentationType, totalColor ) => {
       if ( countingRepresentationType === RepresentationType.CUBES || countingRepresentationType === RepresentationType.NUMBER_LINE ) {
         return NumberPairsColors.numberLineBackgroundColorProperty;
       }
       else {
-        return countingRepresentationType.totalColor;
+        return totalColor;
       }
     } );
     const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty,

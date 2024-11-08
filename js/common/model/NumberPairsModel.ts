@@ -11,9 +11,8 @@ import TModel from '../../../../joist/js/TModel.js';
 import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { TColor } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
@@ -28,6 +27,7 @@ import Range from '../../../../dot/js/Range.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import RepresentationType from './RepresentationType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -54,9 +54,9 @@ export default class NumberPairsModel implements TModel {
   public readonly representationTypeProperty: Property<RepresentationType>;
 
   // The colors that code each addend and the total in the sim change based on the chosen counting representation.
-  public readonly totalColorProperty: TReadOnlyProperty<TColor>;
-  public readonly leftAddendColorProperty: TReadOnlyProperty<TColor>;
-  public readonly rightAddendColorProperty: TReadOnlyProperty<TColor>;
+  public readonly totalColorProperty: TReadOnlyProperty<Color>;
+  public readonly leftAddendColorProperty: TReadOnlyProperty<Color>;
+  public readonly rightAddendColorProperty: TReadOnlyProperty<Color>;
 
   public readonly leftAddendVisibleProperty: BooleanProperty;
   public readonly rightAddendVisibleProperty: BooleanProperty;
@@ -90,14 +90,14 @@ export default class NumberPairsModel implements TModel {
       tandem: options.tandem.createTandem( 'representationTypeProperty' )
     } );
 
-    this.totalColorProperty = new DerivedProperty( [ this.representationTypeProperty ], countingRepresentationType => {
-      return countingRepresentationType.totalColor;
+    this.totalColorProperty = new DynamicProperty( this.representationTypeProperty, {
+      derive: 'totalColorProperty'
     } );
-    this.leftAddendColorProperty = new DerivedProperty( [ this.representationTypeProperty ], countingRepresentationType => {
-      return countingRepresentationType.leftAddendColor;
+    this.leftAddendColorProperty = new DynamicProperty( this.representationTypeProperty, {
+      derive: 'leftAddendColorProperty'
     } );
-    this.rightAddendColorProperty = new DerivedProperty( [ this.representationTypeProperty ], countingRepresentationType => {
-      return countingRepresentationType.rightAddendColor;
+    this.rightAddendColorProperty = new DynamicProperty( this.representationTypeProperty, {
+      derive: 'rightAddendColorProperty'
     } );
 
     this.leftAddendVisibleProperty = new BooleanProperty( true, {

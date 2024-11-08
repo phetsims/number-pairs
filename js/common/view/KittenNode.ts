@@ -72,9 +72,11 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
 
     const switchLeftIcon = new Circle( ICON_RADIUS, {
+      stroke: NumberPairsColors.attributeLeftAddendColorProperty.value.darkerColor(),
       fill: NumberPairsColors.attributeLeftAddendColorProperty
     } );
     const switchRightIcon = new Circle( ICON_RADIUS, {
+      stroke: NumberPairsColors.attributeRightAddendColorProperty.value.darkerColor(),
       fill: NumberPairsColors.attributeRightAddendColorProperty
     } );
     const kittenAttributeSwitch = new ABSwitch( isLeftAddendProperty, true, switchLeftIcon, false, switchRightIcon, {
@@ -97,7 +99,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const focusPanel = new Panel( panelAlignBox, {
       visibleProperty: model.focusedProperty,
       focusable: false,
-      fill: NumberPairsColors.kittenPanelBackgroundColorProperty
+      fill: NumberPairsColors.kittenPanelBackgroundColorProperty,
+      stroke: null
     } );
 
     const leftAddendKittenImage = new Image( kittenYellow_svg, {

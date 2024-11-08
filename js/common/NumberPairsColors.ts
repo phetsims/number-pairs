@@ -69,7 +69,7 @@ const NumberPairsColors = {
     default: '#F8F8FD'
   } ),
   kittenPanelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'kittenPanelBackground', {
-    default: 'rgba( 255, 255, 255, 1 )'
+    default: 'rgba( 255, 255, 255, 0.5 )'
   } )
 };
 

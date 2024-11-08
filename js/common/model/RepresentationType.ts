@@ -10,7 +10,7 @@
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import { Color, Image, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
+import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
@@ -22,6 +22,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberLineIcon from '../view/NumberLineIcon.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import Property from '../../../../axon/js/Property.js';
 
 
 const ICON_MAX_WIDTH = 25;
@@ -87,9 +88,9 @@ export default class RepresentationType extends EnumerationValue {
 
   public constructor(
     public readonly label: string,
-    public readonly totalColor: TColor,
-    public readonly leftAddendColor: TColor,
-    public readonly rightAddendColor: TColor,
+    public readonly totalColorProperty: Property<Color>,
+    public readonly leftAddendColorProperty: Property<Color>,
+    public readonly rightAddendColorProperty: Property<Color>,
     public readonly icon: Node
   ) {
     super();

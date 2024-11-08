@@ -33,7 +33,7 @@ type SelfOptions = {
 type CountingObjectOptions = SelfOptions & PhetioObjectOptions;
 
 export const KITTEN_PANEL_WIDTH = 56;
-export const KITTEN_PANEL_HEIGHT = 78;
+export const KITTEN_PANEL_HEIGHT = 82;
 export const KITTEN_PANEL_MARGIN = 3;
 
 // We will probably need this to be a PhET-iO CountingObject for Group Sort later on.

@@ -90,8 +90,9 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       leading: 10,
       tags: {
         total: node => {
-          totalHighlight = new Rectangle( node.bounds.dilated( 1 ), {
-            fill: model.totalColorProperty.value
+          totalHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+            fill: model.totalColorProperty.value,
+            stroke: model.totalColorProperty.value.darkerColor()
           } );
           return new Node( {
             children: [
@@ -101,8 +102,9 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
           } );
         },
         left: node => {
-          leftAddendHighlight = new Rectangle( node.bounds.dilated( 1 ), {
-            fill: model.leftAddendColorProperty.value
+          leftAddendHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+            fill: model.leftAddendColorProperty.value,
+            stroke: model.leftAddendColorProperty.value.darkerColor()
           } );
           return new Node( {
             children: [
@@ -112,8 +114,9 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
           } );
         },
         right: node => {
-          rightAddendHighlight = new Rectangle( node.bounds.dilated( 1 ), {
-            fill: model.rightAddendColorProperty.value
+          rightAddendHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+            fill: model.rightAddendColorProperty.value,
+            stroke: model.rightAddendColorProperty.value.darkerColor()
           } );
           return new Node( {
             children: [
@@ -127,12 +130,15 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
     model.totalColorProperty.link( color => {
       totalHighlight.fill = color;
+      totalHighlight.stroke = color.darkerColor();
     } );
     model.leftAddendColorProperty.link( color => {
       leftAddendHighlight.fill = color;
+      leftAddendHighlight.stroke = color.darkerColor();
     } );
     model.rightAddendColorProperty.link( color => {
       rightAddendHighlight.fill = color;
+      rightAddendHighlight.stroke = color.darkerColor();
     } );
 
     const titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {

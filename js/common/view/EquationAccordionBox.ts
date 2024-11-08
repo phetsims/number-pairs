@@ -8,7 +8,7 @@
 
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
-import { HBox, TColor, Text } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -21,9 +21,9 @@ import { ACCORDION_BOX_WIDTH } from './NumberSentenceAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
-  totalColorProperty: TReadOnlyProperty<TColor>;
-  leftAddendColorProperty: TReadOnlyProperty<TColor>;
-  rightAddendColorProperty: TReadOnlyProperty<TColor>;
+  totalColorProperty: TReadOnlyProperty<Color>;
+  leftAddendColorProperty: TReadOnlyProperty<Color>;
+  rightAddendColorProperty: TReadOnlyProperty<Color>;
 };
 type EquationAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
@@ -44,26 +44,32 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
 
     const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {
       numberVisibleProperty: model.totalVisibleProperty,
-      fill: options.totalColorProperty.value
+      fill: options.totalColorProperty.value,
+      stroke: options.totalColorProperty.value.darkerColor()
     } );
     options.totalColorProperty.link( totalColor => {
       totalSquare.fill = totalColor;
+      totalSquare.stroke = totalColor.darkerColor();
     } );
 
     const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendProperty, {
       numberVisibleProperty: model.leftAddendVisibleProperty,
-      fill: options.leftAddendColorProperty.value
+      fill: options.leftAddendColorProperty.value,
+      stroke: options.leftAddendColorProperty.value.darkerColor()
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddendSquare.fill = leftAddendColor;
+      leftAddendSquare.stroke = leftAddendColor.darkerColor();
     } );
 
     const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendProperty, {
       numberVisibleProperty: model.rightAddendVisibleProperty,
-      fill: options.rightAddendColorProperty.value
+      fill: options.rightAddendColorProperty.value,
+      stroke: options.rightAddendColorProperty.value.darkerColor()
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddendSquare.fill = rightAddendColor;
+      rightAddendSquare.stroke = rightAddendColor.darkerColor();
     } );
 
     const equalSign = new Text( '=', { font: new PhetFont( 20 ) } );
