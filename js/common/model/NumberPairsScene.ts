@@ -17,6 +17,9 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPairsModel from './NumberPairsModel.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 const STATE_SCHEMA = {
   leftAddendNumber: NumberIO,
@@ -38,6 +41,8 @@ export default class NumberPairsScene {
   public readonly leftAddendObjects: ObservableArray<CountingObject>;
   public readonly rightAddendObjects: ObservableArray<CountingObject>;
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
+
+  public readonly beadXPositionsProperty: Property<number[]>;
 
   public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, tandem: Tandem ) {
 
@@ -63,6 +68,18 @@ export default class NumberPairsScene {
     this.rightAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: tandem.createTandem( 'rightAddendObjects' )
+    } );
+
+    const initialBeadXPositions: number[] = [];
+    _.times( this.total, i => {
+      const leftAddend = this.leftAddendProperty.value;
+      const position = i < leftAddend ? i + NumberPairsConstants.LEFT_MOST_BEAD_X :
+                       i - leftAddend + NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
+      initialBeadXPositions.push( position );
+    } );
+    this.beadXPositionsProperty = new Property( initialBeadXPositions, {
+      tandem: tandem.createTandem( 'beadXPositionsProperty' ),
+      phetioValueType: ArrayIO( NumberIO )
     } );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.

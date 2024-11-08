@@ -21,6 +21,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -80,6 +81,17 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
+    const initialBeadXPositions: number[] = [];
+    _.times( totalProperty.value, i => {
+      const leftAddend = leftAddendProperty.value;
+      const position = i < leftAddend ? i + NumberPairsConstants.LEFT_MOST_BEAD_X :
+                       i - leftAddend + NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
+      initialBeadXPositions.push( position );
+    } );
+    const beadXPositionsProperty = new Property<number[]>( initialBeadXPositions, {
+      tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
+      phetioValueType: ArrayIO( NumberIO )
+    } );
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(
@@ -88,6 +100,7 @@ export default class SumModel extends NumberPairsModel {
       rightAddendProperty,
       new Property( leftAddendObjects ),
       new Property( rightAddendObjects ),
+      beadXPositionsProperty,
       SCENE_RANGE.max,
       options
     );

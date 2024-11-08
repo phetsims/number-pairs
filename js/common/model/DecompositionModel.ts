@@ -67,10 +67,14 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel => sceneModel.rightAddendObjects );
     const leftAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'leftAddendProperty',
-      bidirectional: true // This property needs to be bidirectional because it is set by the slider in the NumberLineNode.
+      bidirectional: true // This Property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );
     const rightAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'rightAddendProperty'
+    } );
+    const beadXPositionsProperty = new DynamicProperty<number[], number[], NumberPairsScene>( selectedSceneModelProperty, {
+      derive: 'beadXPositionsProperty',
+      bidirectional: true // This Property needs to be bidirectional because it is set by BeadsOnWireNode whenever a bead is dropped.
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {}, options );
@@ -80,6 +84,7 @@ export default class DecompositionModel extends NumberPairsModel {
       rightAddendProperty,
       leftAddendCountingObjectsProperty,
       rightAddendCountingObjectsProperty,
+      beadXPositionsProperty,
       options.sceneRange.max,
       superOptions
     );

@@ -16,6 +16,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -29,6 +30,7 @@ export class AddendType extends EnumerationValue {
 
 type SelfOptions = {
   id: number;
+  initialBeadXPosition: number;
 };
 type CountingObjectOptions = SelfOptions & PhetioObjectOptions;
 
@@ -46,6 +48,9 @@ export default class CountingObject extends PhetioObject {
   // The position Property of Counting Objects when they are in location based representations
   // (APPLES, ONE_CARDS, SOCCER_BALLS, BUTTERFLIES)
   public readonly locationPositionProperty: Property<Vector2>;
+
+  public readonly beadXPositionProperty: Property<number>;
+
   public readonly addendTypeProperty: Property<AddendType>;
   public readonly focusedProperty: Property<boolean>;
   public readonly id: number;
@@ -73,6 +78,12 @@ export default class CountingObject extends PhetioObject {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'locationPositionProperty' )
     } );
+
+    // This Property should not reset. It will be managed by the NumberPairsModel.beadXPositionsProperty.
+    this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
+      tandem: this.tandem.createTandem( 'beadXPositionProperty' )
+    } );
+
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
       phetioReadOnly: false,

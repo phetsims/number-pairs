@@ -81,6 +81,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    public readonly beadXPositionsProperty: PhetioProperty<number[]>,
     private readonly numberOfCountingObjects: number,
     providedOptions: NumberPairsModelOptions ) {
 
@@ -126,10 +127,18 @@ export default class NumberPairsModel implements TModel {
 
     _.times( numberOfCountingObjects, i => {
       const countingObjectID = i + 1;
+      const initialBeadXPosition = this.beadXPositionsProperty.value[ i ] || 0;
       this.countingObjects.push( new CountingObject( {
         id: countingObjectID,
+        initialBeadXPosition: initialBeadXPosition,
         tandem: options.tandem.createTandem( `CountingObject${countingObjectID}` )
       } ) );
+    } );
+
+    this.beadXPositionsProperty.link( beadXPositions => {
+      beadXPositions.forEach( ( beadXPosition, index ) => {
+        this.countingObjects[ index ].beadXPositionProperty.value = beadXPosition;
+      } );
     } );
 
     // The range will update after all addends have stabilized their values during construction.
@@ -274,6 +283,26 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
+   * Snap the cubes to their positions on the wire based on the addend values. By default, the cubes are arranged in
+   * groups of 5 with a separator between the two addends.
+   */
+  public organizeInGroupsOfFive(): void {
+    const leftAddend = this.leftAddendProperty.value;
+    const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
+
+    // Cubes should be lined up on the wire in groups of 5.
+    leftAddendBeads.forEach( ( bead, i ) => {
+      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + NumberPairsConstants.LEFT_MOST_BEAD_X;
+    } );
+
+    const beadSeparatorPlaceOnWire = NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
+    rightAddendBeads.forEach( ( bead, i ) => {
+      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + beadSeparatorPlaceOnWire + 1;
+    } );
+  }
+
+  /**
    * Organizes the counting objects into a ten frame based on the provided bounds.
    * @param tenFrameBounds
    */
@@ -373,6 +402,11 @@ export default class NumberPairsModel implements TModel {
     this.showTotalJumpProperty.reset();
     this.leftAddendLabelPlacementProperty.reset();
     this.numberLineSliderEnabledRangeProperty.reset();
+  }
+
+  public static calculateBeadSeparatorPlacement( leftAddendValue: number ): number {
+    const startingPosition = 15; // empirically determined;;
+    return leftAddendValue / 2.5 + startingPosition;
   }
 }
 

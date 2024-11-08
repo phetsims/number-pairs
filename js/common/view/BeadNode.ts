@@ -18,9 +18,10 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-export const BEAD_WIDTH = 25;
-const BEAD_HEIGHT = 60;
+export const BEAD_WIDTH = 22;
+const BEAD_HEIGHT = 80;
 
 type SelfOptions = {
   onDrag: ( position: Vector2, cube: BeadNode ) => void;
@@ -32,6 +33,7 @@ export default class BeadNode extends Node {
 
   public constructor(
     public readonly model: CountingObject,
+    modelViewTransform: ModelViewTransform2,
     providedOptions: BeadNodeOptions ) {
 
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
@@ -72,6 +74,7 @@ export default class BeadNode extends Node {
   }
 
   public addDebugText( cube: CountingObject ): void {
+
     // Show index when debugging with ?dev
     if ( phet.chipper.queryParameters.dev ) {
       this.addChild( new Text( cube.id + '', {

@@ -29,7 +29,7 @@ const NumberPairsConstants = {
   TWENTY_INITIAL_LEFT_ADDEND_VALUE: 10,
   SUM_INITIAL_RIGHT_ADDEND_VALUE: 1,
   SUM_INITIAL_LEFT_ADDEND_VALUE: 2,
-  COUNTING_AREA_X_MARGIN: 100,
+  COUNTING_AREA_X_MARGIN: 80,
   COUNTING_AREA_CORNER_RADIUS: 5,
 
   TEN_TOTAL_RANGE: TEN_TOTAL_RANGE,
@@ -40,7 +40,9 @@ const NumberPairsConstants = {
   RECTANGULAR_PUSH_BUTTON_OPTIONS: {
     size: new Dimension2( 50, 50 ),
     baseColor: PhetColorScheme.BUTTON_YELLOW
-  }
+  },
+
+  LEFT_MOST_BEAD_X: 1
 };
 
 numberPairs.register( 'NumberPairsConstants', NumberPairsConstants );

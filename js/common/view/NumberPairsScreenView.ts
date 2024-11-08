@@ -34,6 +34,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberLineIcon from './NumberLineIcon.js';
+import OrganizeBeadsButton from './OrganizeBeadsButton.js';
 
 
 type SelfOptions = {
@@ -143,11 +144,17 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       visibleProperty: tenFrameButtonVisibleProperty
     } );
+
+    const organizeButtonVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
+    const organizeBeadsButton = new OrganizeBeadsButton( model.organizeInGroupsOfFive.bind( model ), {
+      tandem: options.tandem.createTandem( 'organizeBeadsButton' ),
+      visibleProperty: organizeButtonVisibleProperty
+    } );
     const commutativeButton = new CommutativeButton( model.swapAddends.bind( model ), {
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
     const countingAreaButtonsVBox = new VBox( {
-      children: [ tenFrameButton, commutativeButton ],
+      children: [ tenFrameButton, organizeBeadsButton, commutativeButton ],
       spacing: 10,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.countingAreaBounds.minY
