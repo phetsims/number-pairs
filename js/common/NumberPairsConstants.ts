@@ -42,7 +42,7 @@ const NumberPairsConstants = {
     baseColor: PhetColorScheme.BUTTON_YELLOW
   },
 
-  LEFT_MOST_BEAD_X: 1
+  LEFT_MOST_BEAD_X: 0.5
 };
 
 numberPairs.register( 'NumberPairsConstants', NumberPairsConstants );

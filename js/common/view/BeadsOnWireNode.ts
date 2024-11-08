@@ -35,7 +35,7 @@ type SelfOptions = {
 };
 
 const LEFT_MOST_BEAD_X = NumberPairsConstants.LEFT_MOST_BEAD_X;
-const END_CAP_RADIUS = 10;
+const END_CAP_RADIUS = 8;
 
 type BeadsOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -92,7 +92,7 @@ export default class BeadsOnWireNode extends Node {
     super( options );
     this.modelViewTransform = modelViewTransform;
     this.beadSeparatorCenterXProperty = beadSeparatorCenterXProperty;
-    this.beadDragBounds = wire.bounds.dilatedX( -BEAD_WIDTH );
+    this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 

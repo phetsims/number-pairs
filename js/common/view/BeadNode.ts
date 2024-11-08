@@ -20,7 +20,9 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-export const BEAD_WIDTH = 22;
+// This width is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
+// of this writing will cause spacing issues along the wire if other adjustments are not made.
+export const BEAD_WIDTH = 21.5;
 const BEAD_HEIGHT = 80;
 
 type SelfOptions = {

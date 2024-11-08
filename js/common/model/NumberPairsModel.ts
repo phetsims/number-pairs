@@ -405,8 +405,11 @@ export default class NumberPairsModel implements TModel {
   }
 
   public static calculateBeadSeparatorPlacement( leftAddendValue: number ): number {
-    const startingPosition = 15; // empirically determined;;
-    return leftAddendValue / 2.5 + startingPosition;
+
+    // empirically determined. This starting position is closely intertwined with the
+    // both the width of the bead, and the denominator in the calculation below.
+    const startingPosition = 15;
+    return leftAddendValue / 2.2 + startingPosition;
   }
 }
 
