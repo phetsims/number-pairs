@@ -79,19 +79,21 @@ export default class BeadsOnWireNode extends Node {
       centerY: wire.centerY
     } );
 
+    const beadSeparator = new Circle( 5, {
+      fill: 'black'
+    } );
     const beadSeparatorCenterXProperty = new NumberProperty( 0, {
       tandem: providedOptions.tandem.createTandem( 'beadSeparatorCenterXProperty' ),
       phetioReadOnly: true
-    } );
-    const beadSeparator = new Circle( 5, {
-      fill: 'black'
     } );
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator, wireMinXEndCap, wireMaxXEndCap ]
     }, providedOptions );
+
     super( options );
+
     this.modelViewTransform = modelViewTransform;
     this.beadSeparatorCenterXProperty = beadSeparatorCenterXProperty;
     this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
@@ -206,6 +208,7 @@ export default class BeadsOnWireNode extends Node {
       if ( beadNode !== grabbedBeadNode ) {
         beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( beadNode.centerX + deltaX );
       }
+
       if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
 
@@ -224,6 +227,7 @@ export default class BeadsOnWireNode extends Node {
           beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
         }
       }
+
       if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
           // Since a bead is moving to the left, the separator should adjust one position to the right.
@@ -269,6 +273,7 @@ class WireEndCap extends Path {
     const options = combineOptions<PathOptions>( {
       fill: 'black'
     }, providedOptions );
+
     super( endCapShape, options );
   }
 }
