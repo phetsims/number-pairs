@@ -1,5 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
+//TODO Limit dragging to 1 bead - multitouch is too difficult and unnecessary.
 /**
  * Beads are arranged in two groups, one for each addend. All the beads are lined up on a "wire" and can be dragged
  * to either the left or right of the separator. Because the beads are on a wire, when you drag one bead any bead it
@@ -140,6 +141,7 @@ export default class BeadsOnWireNode extends Node {
     } );
   }
 
+  //TODO Delete getBeadNodes if it is still unused.
   private getBeadNodes( countingObjects: CountingObject[] ): BeadNode[] {
     return countingObjects.map( countingObject => this.beadModelToNodeMap.get( countingObject )! );
   }
