@@ -59,6 +59,7 @@ export default class BeadNode extends Node {
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
+      cursor: 'pointer',
       children: [ leftAddendBead, rightAddendBead ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
