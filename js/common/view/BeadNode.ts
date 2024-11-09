@@ -53,6 +53,7 @@ export default class BeadNode extends Node {
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
+      opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
       cursor: 'pointer',
       children: [ rectangle ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )

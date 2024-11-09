@@ -100,7 +100,6 @@ export default class BeadsOnWireNode extends Node {
       const beadNode = new BeadNode(
         countingObject,
         {
-          opacity: 0.8,
           tandem: providedOptions.tandem.createTandem( `beadNode${i}` ),
           onStartDrag: draggedBeadNode => {
 
