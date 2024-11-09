@@ -296,9 +296,9 @@ export default class NumberPairsModel implements TModel {
       bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + NumberPairsConstants.LEFTMOST_BEAD_X;
     } );
 
-    const beadSeparatorPlaceOnWire = NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
+    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
     rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + beadSeparatorPlaceOnWire + 1;
+      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + beadSeparatorXPosition + 1;
     } );
   }
 
@@ -404,7 +404,7 @@ export default class NumberPairsModel implements TModel {
     this.numberLineSliderEnabledRangeProperty.reset();
   }
 
-  public static calculateBeadSeparatorPlacement( leftAddendValue: number ): number {
+  public static calculateBeadSeparatorXPosition( leftAddendValue: number ): number {
 
     // empirically determined. This starting position is closely intertwined with the
     // both the width of the bead, and the denominator in the calculation below.

@@ -70,12 +70,13 @@ export default class NumberPairsScene {
       tandem: tandem.createTandem( 'rightAddendObjects' )
     } );
 
+    //TODO Computation of initialBeadXPositions is duplicated in SumModel.
     const initialBeadXPositions: number[] = [];
     _.times( this.total, i => {
       const leftAddend = this.leftAddendProperty.value;
-      const position = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
-                       i - leftAddend + NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
-      initialBeadXPositions.push( position );
+      const beadXPosition = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
+                            i - leftAddend + NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
+      initialBeadXPositions.push( beadXPosition );
     } );
     this.beadXPositionsProperty = new Property( initialBeadXPositions, {
       tandem: tandem.createTandem( 'beadXPositionsProperty' ),

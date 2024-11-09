@@ -130,7 +130,7 @@ export default class BeadsOnWireNode extends Node {
       model.rightAddendProperty
     ], ( leftAddend, rightAddend ) => {
       if ( !this.beadDragging ) {
-        this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend ) );
+        this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
         this.positionBeadsOnWire();
       }
     } );
@@ -150,7 +150,7 @@ export default class BeadsOnWireNode extends Node {
   }
 
   private positionBeadsOnWire(): void {
-    const beadSeparatorPlacement = NumberPairsModel.calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value );
+    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value );
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
@@ -158,7 +158,7 @@ export default class BeadsOnWireNode extends Node {
       bead.beadXPositionProperty.value = i + LEFTMOST_BEAD_X;
     } );
     rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = i + beadSeparatorPlacement + 1;
+      bead.beadXPositionProperty.value = i + beadSeparatorXPosition + 1;
     } );
   }
 
@@ -214,7 +214,7 @@ export default class BeadsOnWireNode extends Node {
 
           // Since a bead is moving to the right, the separator should adjust one position to the left.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
-            NumberPairsModel.calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value - 1 ) );
+            NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value - 1 ) );
 
           // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
@@ -232,7 +232,7 @@ export default class BeadsOnWireNode extends Node {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
           // Since a bead is moving to the left, the separator should adjust one position to the right.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
-            NumberPairsModel.calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
+            NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value + 1 ) );
 
           // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.

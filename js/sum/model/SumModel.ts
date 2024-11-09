@@ -84,9 +84,9 @@ export default class SumModel extends NumberPairsModel {
     const initialBeadXPositions: number[] = [];
     _.times( totalProperty.value, i => {
       const leftAddend = leftAddendProperty.value;
-      const position = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
-                       i - leftAddend + NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );
-      initialBeadXPositions.push( position );
+      const beadXPosition = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
+                            i - leftAddend + NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
+      initialBeadXPositions.push( beadXPosition );
     } );
     const beadXPositionsProperty = new Property<number[]>( initialBeadXPositions, {
       tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
