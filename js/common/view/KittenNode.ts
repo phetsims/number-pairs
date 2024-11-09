@@ -172,18 +172,21 @@ export default class KittenNode extends InteractiveHighlightingNode {
     model.attributePositionProperty.link( position => {
       this.center = position;
     } );
-    this.addDebugText( model );
+
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addCountingObjectID( model.id );
+    }
   }
 
-  public addDebugText( countingObject: CountingObject ): void {
-    // Show index when debugging with ?dev
-    if ( phet.chipper.queryParameters.dev ) {
-      this.addChild( new Text( countingObject.id + '', {
-        font: new PhetFont( 20 ),
-        fill: 'black',
-        center: this.focusPanel.center
-      } ) );
-    }
+  /**
+   * Show the kitten's id (object number) when debugging with ?dev.
+   */
+  private addCountingObjectID( id: number ): void {
+    this.addChild( new Text( id + '', {
+      font: new PhetFont( 20 ),
+      fill: 'black',
+      center: this.focusPanel.center
+    } ) );
   }
 }
 

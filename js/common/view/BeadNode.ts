@@ -25,8 +25,10 @@ type SelfOptions = {
   onDrag: ( position: Vector2, cube: BeadNode ) => void;
   onDrop: () => void;
 };
+
 type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
+
 export default class BeadNode extends Node {
 
   // BEAD_WIDTH is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
@@ -41,6 +43,7 @@ export default class BeadNode extends Node {
 
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
     const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
+
     const leftAddendBead = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 10,
@@ -54,10 +57,12 @@ export default class BeadNode extends Node {
       stroke: Color.BLACK,
       visibleProperty: rightAddendVisibleProperty
     } );
+
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ leftAddendBead, rightAddendBead ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
+
     super( options );
 
     const dragListener = new RichDragListener( {
@@ -73,19 +78,21 @@ export default class BeadNode extends Node {
       }
     } );
     this.addInputListener( dragListener );
-    this.addDebugText( model );
+
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addCountingObjectID( model.id );
+    }
   }
 
-  public addDebugText( cube: CountingObject ): void {
-
-    // Show index when debugging with ?dev
-    if ( phet.chipper.queryParameters.dev ) {
-      this.addChild( new Text( cube.id + '', {
-        font: new PhetFont( 20 ),
-        fill: 'black',
-        center: this.center
-      } ) );
-    }
+  /**
+   * Show the bead's id (object number) when debugging with ?dev.
+   */
+  private addCountingObjectID( id: number ): void {
+    this.addChild( new Text( id + '', {
+      font: new PhetFont( 20 ),
+      fill: 'black',
+      center: this.center
+    } ) );
   }
 }
 
