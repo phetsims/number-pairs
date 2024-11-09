@@ -293,7 +293,7 @@ export default class NumberPairsModel implements TModel {
 
     // Cubes should be lined up on the wire in groups of 5.
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + NumberPairsConstants.LEFT_MOST_BEAD_X;
+      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + NumberPairsConstants.LEFTMOST_BEAD_X;
     } );
 
     const beadSeparatorPlaceOnWire = NumberPairsModel.calculateBeadSeparatorPlacement( leftAddend );

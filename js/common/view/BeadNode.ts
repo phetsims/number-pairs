@@ -1,5 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
+//TODO Revise doc when BeadNode artwork is finalized, it may not be SVG.
 /**
  * BeadNode uses an svg to create the visual representation of the bead. It also handles drag interactions through
  * both mouse and keyboard events. The color of the bead changes depending on which addend it is associated with.
@@ -20,11 +21,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-// This width is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
-// of this writing will cause spacing issues along the wire if other adjustments are not made.
-export const BEAD_WIDTH = 21.5;
-const BEAD_HEIGHT = 80;
-
 type SelfOptions = {
   onDrag: ( position: Vector2, cube: BeadNode ) => void;
   onDrop: () => void;
@@ -33,6 +29,11 @@ type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
 export default class BeadNode extends Node {
 
+  // BEAD_WIDTH is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
+  // of this writing will cause spacing issues along the wire if other adjustments are not made.
+  public static readonly BEAD_WIDTH = 21.5;
+  private static readonly BEAD_HEIGHT = 80;
+
   public constructor(
     public readonly model: CountingObject,
     modelViewTransform: ModelViewTransform2,
@@ -40,14 +41,14 @@ export default class BeadNode extends Node {
 
     const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
     const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
-    const leftAddendBead = new Rectangle( 0, 0, BEAD_WIDTH, BEAD_HEIGHT, {
+    const leftAddendBead = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 10,
       stroke: Color.BLACK,
       visibleProperty: leftAddendVisibleProperty
     } );
 
-    const rightAddendBead = new Rectangle( 0, 0, BEAD_WIDTH, BEAD_HEIGHT, {
+    const rightAddendBead = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty,
       cornerRadius: 10,
       stroke: Color.BLACK,

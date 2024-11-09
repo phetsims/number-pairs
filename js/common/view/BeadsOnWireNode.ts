@@ -19,7 +19,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import BeadNode, { BEAD_WIDTH } from './BeadNode.js';
+import BeadNode from './BeadNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -31,12 +31,13 @@ import { Shape } from '../../../../kite/js/imports.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
+const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
+const LEFTMOST_BEAD_X = NumberPairsConstants.LEFTMOST_BEAD_X;
+const WIRE_END_CAP_RADIUS = 8;
+
 type SelfOptions = {
   sceneRange: Range;
 };
-
-const LEFT_MOST_BEAD_X = NumberPairsConstants.LEFT_MOST_BEAD_X;
-const END_CAP_RADIUS = 8;
 
 type BeadsOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -152,7 +153,7 @@ export default class BeadsOnWireNode extends Node {
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = i + LEFT_MOST_BEAD_X;
+      bead.beadXPositionProperty.value = i + LEFTMOST_BEAD_X;
     } );
     rightAddendBeads.forEach( ( bead, i ) => {
       bead.beadXPositionProperty.value = i + beadSeparatorPlacement + 1;
@@ -263,7 +264,7 @@ export default class BeadsOnWireNode extends Node {
 class WireEndCap extends Path {
   public constructor( minXEndCap: boolean, providedOptions: PathOptions ) {
     const endCapShape = new Shape()
-      .arc( 0, END_CAP_RADIUS / 2, END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
+      .arc( 0, WIRE_END_CAP_RADIUS / 2, WIRE_END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
 
     const options = combineOptions<PathOptions>( {
       fill: 'black'
