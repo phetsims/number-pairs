@@ -22,7 +22,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
 type SelfOptions = {
-  onDrag: ( position: Vector2, cube: BeadNode ) => void;
+  onDrag: ( position: Vector2, beadNode: BeadNode ) => void;
   onDrop: () => void;
 };
 
