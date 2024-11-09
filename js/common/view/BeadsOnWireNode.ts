@@ -103,7 +103,6 @@ export default class BeadsOnWireNode extends Node {
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
         countingObject,
-        this.modelViewTransform,
         {
           opacity: 0.8,
           tandem: providedOptions.tandem.createTandem( `beadNode${i}` ),

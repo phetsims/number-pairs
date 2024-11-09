@@ -19,7 +19,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
 type SelfOptions = {
   onDrag: ( position: Vector2, beadNode: BeadNode ) => void;
@@ -38,24 +37,17 @@ export default class BeadNode extends Node {
 
   public constructor(
     public readonly model: CountingObject,
-    modelViewTransform: ModelViewTransform2,
     providedOptions: BeadNodeOptions ) {
 
+    const fillProperty = new DerivedProperty(
+      [ model.addendTypeProperty, NumberPairsColors.numberLineLeftAddendColorProperty, NumberPairsColors.numberLineRightAddendColorProperty ],
+      ( addendType, numberLineLeftAddendColor, numberLineRightAddendColor ) =>
+        addendType === AddendType.LEFT ? numberLineLeftAddendColor : numberLineRightAddendColor );
+
     const rectangle = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
-      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      fill: fillProperty,
       cornerRadius: 10,
       stroke: Color.BLACK
-    } );
-
-    // Set the fill to match whether the bead is associated with the left or right addend.
-    //TODO A DerivedProperty would be preferred here, but Rectangle.fill will not take a DerivedProperty.
-    model.addendTypeProperty.link( addendType => {
-      if ( addendType === AddendType.LEFT ) {
-        rectangle.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
-      }
-      else {
-        rectangle.fill = NumberPairsColors.numberLineRightAddendColorProperty;
-      }
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
