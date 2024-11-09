@@ -10,7 +10,7 @@
  *
  */
 
-import { Circle, Line, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -32,7 +32,6 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const LEFTMOST_BEAD_X = NumberPairsConstants.LEFTMOST_BEAD_X;
-const WIRE_END_CAP_RADIUS = 8;
 
 type SelfOptions = {
   sceneRange: Range;
@@ -78,9 +77,7 @@ export default class BeadsOnWireNode extends Node {
       centerY: wire.centerY
     } );
 
-    const beadSeparator = new Circle( 5, {
-      fill: 'black'
-    } );
+    const beadSeparator = new BeadSeparator();
     const beadSeparatorCenterXProperty = new NumberProperty( 0, {
       tandem: providedOptions.tandem.createTandem( 'beadSeparatorCenterXProperty' ),
       phetioReadOnly: true
@@ -278,14 +275,26 @@ export default class BeadsOnWireNode extends Node {
 
 class WireEndCap extends Path {
   public constructor( minXEndCap: boolean, providedOptions: PathOptions ) {
+    const wireEndCapRadius = 8;
     const endCapShape = new Shape()
-      .arc( 0, WIRE_END_CAP_RADIUS / 2, WIRE_END_CAP_RADIUS, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
+      .arc( 0, wireEndCapRadius / 2, wireEndCapRadius, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
 
     const options = combineOptions<PathOptions>( {
       fill: 'black'
     }, providedOptions );
 
     super( endCapShape, options );
+  }
+}
+
+class BeadSeparator extends Line {
+  public constructor() {
+    const beadSeparatorHeight = 1.2 * BeadNode.BEAD_HEIGHT;
+    super( 0, -beadSeparatorHeight / 2, 0, beadSeparatorHeight / 2, {
+      stroke: 'black',
+      lineWidth: 3,
+      lineCap: 'round'
+    } );
   }
 }
 

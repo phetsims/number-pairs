@@ -34,7 +34,7 @@ export default class BeadNode extends Node {
   // BEAD_WIDTH is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
   // of this writing will cause spacing issues along the wire if other adjustments are not made.
   public static readonly BEAD_WIDTH = 21.5;
-  private static readonly BEAD_HEIGHT = 80;
+  public static readonly BEAD_HEIGHT = 80;
 
   public constructor(
     public readonly model: CountingObject,
