@@ -21,8 +21,9 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 
 type SelfOptions = {
+  onStartDrag: () => void;
   onDrag: ( position: Vector2, beadNode: BeadNode ) => void;
-  onDrop: () => void;
+  onEndDrag: () => void;
 };
 
 type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -59,10 +60,11 @@ export default class BeadNode extends Node {
     super( options );
 
     const dragListener = new RichDragListener( {
+      start: options.onStartDrag,
       drag: event => {
         providedOptions.onDrag( event.pointer.point, this );
       },
-      end: providedOptions.onDrop,
+      end: providedOptions.onEndDrag,
       dragListenerOptions: {
         tandem: providedOptions.tandem.createTandem( 'dragListener' )
       },

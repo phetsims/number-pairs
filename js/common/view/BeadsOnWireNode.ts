@@ -1,6 +1,5 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO Limit dragging to 1 bead - multitouch is too difficult and unnecessary.
 /**
  * Beads are arranged in two groups, one for each addend. All the beads are lined up on a "wire" and can be dragged
  * to either the left or right of the separator. Because the beads are on a wire, when you drag one bead any bead it
@@ -106,12 +105,15 @@ export default class BeadsOnWireNode extends Node {
         {
           opacity: 0.8,
           tandem: providedOptions.tandem.createTandem( `beadNode${i}` ),
-          onDrop: () => {
-            this.beadDragging = false;
+          onStartDrag: () => {
+            //TODO Interrupt dragging with other BeadNode instances, because multi-touch is too difficult.
           },
           onDrag: ( pointerPoint: Vector2, beadNode: BeadNode ) => {
             this.beadDragging = true;
             this.handleBeadMove( pointerPoint, beadNode );
+          },
+          onEndDrag: () => {
+            this.beadDragging = false;
           }
         } );
 

@@ -26,7 +26,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
-  onDrop: ( droppedObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
+  onEndDrag: ( droppedObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
 };
 type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
@@ -88,7 +88,7 @@ export default class LocationCountingObjectNode extends Node {
       },
       end: () => {
         model.draggingProperty.value = false;
-        options.onDrop( model, 'location' );
+        options.onEndDrag( model, 'location' );
       },
       dragListenerOptions: {
         dragBoundsProperty: new Property( dilatedDragBounds, {} ),

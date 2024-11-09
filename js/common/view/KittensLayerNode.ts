@@ -35,7 +35,7 @@ export default class KittensLayerNode extends Node {
       kittens.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
         initialPosition: initialPosition,
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
-        onDrop: model.dropCountingObject.bind( model ),
+        onEndDrag: model.dropCountingObject.bind( model ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } ) );
     } );

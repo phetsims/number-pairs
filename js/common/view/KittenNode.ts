@@ -31,7 +31,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
-  onDrop: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
+  onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
   initialPosition: Vector2;
 };
 
@@ -137,7 +137,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
         this.moveToFront();
       },
       end: () => {
-        options.onDrop( model, 'attribute' );
+        options.onEndDrag( model, 'attribute' );
       },
       dragBoundsProperty: new Property( dilatedDragBounds, {} ),
       dragListenerOptions: {
