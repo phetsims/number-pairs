@@ -115,7 +115,9 @@ export default class BeadsOnWireNode extends Node {
       countingObject.beadXPositionProperty.link( x => {
         beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
       } );
+
       this.beadModelToNodeMap.set( countingObject, beadNode );
+      this.addChild( beadNode );
     } );
 
     // TODO: When we add beads to the wire they should not snap.
@@ -135,10 +137,6 @@ export default class BeadsOnWireNode extends Node {
       if ( !this.beadDragging ) {
         model.beadXPositionsProperty.value = model.countingObjects.map( countingObject => countingObject.beadXPositionProperty.value );
       }
-    } );
-
-    this.beadModelToNodeMap.forEach( beadNode => {
-      this.addChild( beadNode );
     } );
   }
 
