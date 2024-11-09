@@ -40,6 +40,7 @@ export default class BeadNode extends Node {
     public readonly model: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
+    // Set the bead's fill based on which addend it is associated with.
     const fillProperty = new DerivedProperty(
       [ model.addendTypeProperty, NumberPairsColors.numberLineLeftAddendColorProperty, NumberPairsColors.numberLineRightAddendColorProperty ],
       ( addendType, numberLineLeftAddendColor, numberLineRightAddendColor ) =>
