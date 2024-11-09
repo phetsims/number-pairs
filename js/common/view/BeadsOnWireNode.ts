@@ -118,7 +118,7 @@ export default class BeadsOnWireNode extends Node {
       this.beadModelToNodeMap.set( countingObject, beadNode );
     } );
 
-    // TODO: When we add cubes to the wire they should not snap.
+    // TODO: When we add beads to the wire they should not snap.
     Multilink.multilink( [
       model.leftAddendProperty,
       model.rightAddendProperty
@@ -137,8 +137,8 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
-    this.beadModelToNodeMap.forEach( bead => {
-      this.addChild( bead );
+    this.beadModelToNodeMap.forEach( beadNode => {
+      this.addChild( beadNode );
     } );
   }
 
@@ -160,53 +160,53 @@ export default class BeadsOnWireNode extends Node {
   }
 
   /**
-   * Handle the movement of a cube and its neighbors when it is dragged.
+   * Handle the movement of a bead and its neighbors when it is dragged.
    * @param newPosition
-   * @param grabbedBead
+   * @param grabbedBeadNode
    */
-  private handleBeadMove( newPosition: Vector2, grabbedBead: BeadNode ): void {
+  private handleBeadMove( newPosition: Vector2, grabbedBeadNode: BeadNode ): void {
 
-    // Determine whether we are dragging the cube to the right or left along the wire.
-    const draggingRight = Math.sign( newPosition.x - grabbedBead.parentToGlobalPoint( grabbedBead.bounds.center ).x ) > 0;
+    // Determine whether we are dragging the bead to the right or left along the wire.
+    const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.parentToGlobalPoint( grabbedBeadNode.bounds.center ).x ) > 0;
 
-    // Sort all active cubes by their x position, and reverse if we are dragging towards the left.
+    // Sort all active beads by their x position, and reverse if we are dragging towards the left.
     const beadNodes = [ ...this.beadModelToNodeMap.values() ];
-    const activeBeads = beadNodes.filter( cube => cube.model.addendTypeProperty.value !== AddendType.INACTIVE )
+    const activeBeadNodes = beadNodes.filter( beadNode => beadNode.model.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
-    const sortedBeads = draggingRight ? activeBeads : activeBeads.reverse();
+    const sortedBeadNode = draggingRight ? activeBeadNodes : activeBeadNodes.reverse();
 
-    // Now that the cubes are sorted in the proper direction we can determine which cubes need to be moved based
-    // on the index of the grabbed cube and their proximity to each other.
-    const grabbedBeadIndex = sortedBeads.indexOf( grabbedBead );
+    // Now that the beads are sorted in the proper direction we can determine which beads need to be moved based
+    // on the index of the grabbed beads and their proximity to each other.
+    const grabbedBeadIndex = sortedBeadNode.indexOf( grabbedBeadNode );
     let beadSpaceFound = false;
-    const slicedBeads = sortedBeads.slice( grabbedBeadIndex, sortedBeads.length + 1 );
-    const beadsToMove = slicedBeads.filter(
-      ( bead, i ) => {
-        const addendMatch: boolean = bead.model.addendTypeProperty.value === grabbedBead.model.addendTypeProperty.value;
-        const touchingPreviousCube = i === 0 || Math.abs( bead.centerX - slicedBeads[ i - 1 ].centerX ) <= BEAD_WIDTH;
-        if ( !touchingPreviousCube ) {
+    const slicedBeadNodes = sortedBeadNode.slice( grabbedBeadIndex, sortedBeadNode.length + 1 );
+    const beadNodesToMove = slicedBeadNodes.filter(
+      ( beadNode, i ) => {
+        const addendMatch: boolean = beadNode.model.addendTypeProperty.value === grabbedBeadNode.model.addendTypeProperty.value;
+        const touchingPreviousBead = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
+        if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
         }
-        return addendMatch && touchingPreviousCube && !beadSpaceFound;
+        return addendMatch && touchingPreviousBead && !beadSpaceFound;
       } );
 
-    // Calculate the distance the grabbed cube has moved and constrain the movement so that it does not exit
+    // Calculate the distance the grabbed bead has moved and constrain the movement so that it does not exit
     // the drag bounds.
-    const oldCenterX = grabbedBead.centerX;
-    const minXOffset = draggingRight ? 0 : -( slicedBeads.length - 1 ) * BEAD_WIDTH;
-    const maxXOffset = draggingRight ? -( slicedBeads.length - 1 ) * BEAD_WIDTH : 0;
-    const dragBoundsWithMovingCubes = this.beadDragBounds.withOffsets( minXOffset, 0, maxXOffset, 0 );
-    const newCenterX = dragBoundsWithMovingCubes.closestPointTo( grabbedBead.globalToParentPoint( newPosition ) ).x;
+    const oldCenterX = grabbedBeadNode.centerX;
+    const minXOffset = draggingRight ? 0 : -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH;
+    const maxXOffset = draggingRight ? -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH : 0;
+    const dragBoundsWithMovingBeads = this.beadDragBounds.withOffsets( minXOffset, 0, maxXOffset, 0 );
+    const newCenterX = dragBoundsWithMovingBeads.closestPointTo( grabbedBeadNode.globalToParentPoint( newPosition ) ).x;
     const deltaX = newCenterX - oldCenterX;
-    grabbedBead.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
+    grabbedBeadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
 
-    beadsToMove.forEach( bead => {
+    beadNodesToMove.forEach( beadNode => {
 
-      if ( bead !== grabbedBead ) {
-        bead.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( bead.centerX + deltaX );
+      if ( beadNode !== grabbedBeadNode ) {
+        beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( beadNode.centerX + deltaX );
       }
-      if ( bead.centerX > this.beadSeparatorCenterXProperty.value ) {
-        if ( !this.rightAddendCountingObjectsProperty.value.includes( bead.model ) && this.leftAddendCountingObjectsProperty.value.includes( bead.model ) ) {
+      if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
+        if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
 
           // Since a bead is moving to the right, the separator should adjust one position to the left.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
@@ -214,43 +214,43 @@ export default class BeadsOnWireNode extends Node {
 
           // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
-          bead.model.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.add( bead.model );
-          this.leftAddendCountingObjectsProperty.value.remove( bead.model );
-          bead.model.traverseInactiveObjects = true;
+          beadNode.model.traverseInactiveObjects = false;
+          this.rightAddendCountingObjectsProperty.value.add( beadNode.model );
+          this.leftAddendCountingObjectsProperty.value.remove( beadNode.model );
+          beadNode.model.traverseInactiveObjects = true;
 
-          // Immediately move the cubes past the separator
-          bead.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.max( bead.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
+          // Immediately move the beads past the separator
+          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
         }
       }
-      if ( bead.centerX < this.beadSeparatorCenterXProperty.value ) {
-        if ( !this.leftAddendCountingObjectsProperty.value.includes( bead.model ) && this.rightAddendCountingObjectsProperty.value.includes( bead.model ) ) {
+      if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
+        if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
           // Since a bead is moving to the left, the separator should adjust one position to the right.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
             NumberPairsModel.calculateBeadSeparatorPlacement( this.model.leftAddendProperty.value + 1 ) );
 
           // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
-          bead.model.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.remove( bead.model );
-          this.leftAddendCountingObjectsProperty.value.add( bead.model );
-          bead.model.traverseInactiveObjects = true;
+          beadNode.model.traverseInactiveObjects = false;
+          this.rightAddendCountingObjectsProperty.value.remove( beadNode.model );
+          this.leftAddendCountingObjectsProperty.value.add( beadNode.model );
+          beadNode.model.traverseInactiveObjects = true;
 
-          // Immediately move the cubes past the separator
-          bead.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.min( bead.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
+          // Immediately move the beads past the separator
+          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
         }
       }
     } );
 
     // Once all the beads are moved confirm that any active beads on the wire are each the required minimum distance
     // apart to avoid overlap.
-    activeBeads.forEach( ( cube, i ) => {
-      if ( i > 0 && !cube.model.draggingProperty.value ) {
-        const previousCube = activeBeads[ i - 1 ];
-        const distance = Math.abs( cube.centerX - previousCube.centerX );
+    activeBeadNodes.forEach( ( beadNode, i ) => {
+      if ( i > 0 && !beadNode.model.draggingProperty.value ) {
+        const previousBeadNode = activeBeadNodes[ i - 1 ];
+        const distance = Math.abs( beadNode.centerX - previousBeadNode.centerX );
         if ( distance < BEAD_WIDTH ) {
-          const newPosition = draggingRight ? previousCube.centerX + BEAD_WIDTH : previousCube.centerX - BEAD_WIDTH;
-          cube.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newPosition );
+          const newPosition = draggingRight ? previousBeadNode.centerX + BEAD_WIDTH : previousBeadNode.centerX - BEAD_WIDTH;
+          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newPosition );
         }
       }
     } );
