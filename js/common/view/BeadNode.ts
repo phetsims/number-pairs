@@ -41,26 +41,26 @@ export default class BeadNode extends Node {
     modelViewTransform: ModelViewTransform2,
     providedOptions: BeadNodeOptions ) {
 
-    const leftAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT );
-    const rightAddendVisibleProperty = DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT );
-
-    const leftAddendBead = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
+    const rectangle = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 10,
-      stroke: Color.BLACK,
-      visibleProperty: leftAddendVisibleProperty
+      stroke: Color.BLACK
     } );
 
-    const rightAddendBead = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
-      fill: NumberPairsColors.numberLineRightAddendColorProperty,
-      cornerRadius: 10,
-      stroke: Color.BLACK,
-      visibleProperty: rightAddendVisibleProperty
+    // Set the fill to match whether the bead is associated with the left or right addend.
+    //TODO A DerivedProperty would be preferred here, but Rectangle.fill will not take a DerivedProperty.
+    model.addendTypeProperty.link( addendType => {
+      if ( addendType === AddendType.LEFT ) {
+        rectangle.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
+      }
+      else {
+        rectangle.fill = NumberPairsColors.numberLineRightAddendColorProperty;
+      }
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
       cursor: 'pointer',
-      children: [ leftAddendBead, rightAddendBead ],
+      children: [ rectangle ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
 
