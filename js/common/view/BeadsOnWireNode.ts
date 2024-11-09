@@ -105,11 +105,21 @@ export default class BeadsOnWireNode extends Node {
         {
           opacity: 0.8,
           tandem: providedOptions.tandem.createTandem( `beadNode${i}` ),
-          onStartDrag: () => {
-            //TODO Interrupt dragging with other BeadNode instances, because multi-touch is too difficult.
+          onStartDrag: draggedBeadNode => {
+
+            // Interrupt the drag that's in progress. Multitouch support is too difficult and unnecessary.
+            if ( this.beadDragging ) {
+              this.beadModelToNodeMap.forEach( ( beadNode, countingObject ) => {
+                if ( beadNode !== draggedBeadNode ) {
+                  beadNode.interruptSubtreeInput();
+                }
+              } );
+            }
+            else {
+              this.beadDragging = true;
+            }
           },
           onDrag: ( pointerPoint: Vector2, beadNode: BeadNode ) => {
-            this.beadDragging = true;
             this.handleBeadMove( pointerPoint, beadNode );
           },
           onEndDrag: () => {
