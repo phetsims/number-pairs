@@ -216,7 +216,7 @@ export default class BeadsOnWireNode extends Node {
         beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( beadNode.centerX + deltaX );
       }
 
-      //TODO These next 2 if's should be if-else, and need to handle beadNode.centerX === this.beadSeparatorCenterXProperty.value
+      //TODO https://github.com/phetsims/number-pairs/issues/21 These next 2 if's should be if-else, and need to handle beadNode.centerX === this.beadSeparatorCenterXProperty.value
       if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
 
