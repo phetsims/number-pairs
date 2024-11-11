@@ -72,7 +72,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       } );
     const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty ],
       ( total, visible ) => {
-        const key = visible ? total : 'anotherNumber';
+        const key: number | string = visible ? total : 'anotherNumber';
         return NUMBER_TO_WORD_MAP.get( key );
       } );
 
@@ -90,9 +90,10 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       leading: 10,
       tags: {
         total: node => {
-          totalHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+          totalHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.totalColorProperty.value,
-            stroke: model.totalColorProperty.value.darkerColor()
+            stroke: model.totalColorProperty.value.darkerColor(),
+            cornerRadius: 4
           } );
           return new Node( {
             children: [
@@ -102,9 +103,10 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
           } );
         },
         left: node => {
-          leftAddendHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+          leftAddendHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.leftAddendColorProperty.value,
-            stroke: model.leftAddendColorProperty.value.darkerColor()
+            stroke: model.leftAddendColorProperty.value.darkerColor(),
+            cornerRadius: 4
           } );
           return new Node( {
             children: [
@@ -114,9 +116,10 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
           } );
         },
         right: node => {
-          rightAddendHighlight = new Rectangle( node.bounds.dilated( 1.5 ), {
+          rightAddendHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.rightAddendColorProperty.value,
-            stroke: model.rightAddendColorProperty.value.darkerColor()
+            stroke: model.rightAddendColorProperty.value.darkerColor(),
+            cornerRadius: 4
           } );
           return new Node( {
             children: [
