@@ -10,7 +10,7 @@
 
 import { Node, NodeOptions, NodeTransformOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import { EllipticalArc, Shape } from '../../../../kite/js/imports.js';
+import { Cubic, EllipticalArc, Segment, Shape } from '../../../../kite/js/imports.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
@@ -36,19 +36,20 @@ const CALCULATION_ELLIPSE_END_ANGLE = Math.PI * 2;
 const ARROW_HEAD_BASE_WIDTH = 14;
 const ARROW_HEAD_HEIGHT = 16;
 const ARROW_TAIL_LINE_WIDTH = 3;
+const ARROW_HEAD_OFFSET = 2; // The amount we want the arrow head to overlap the number line point graphic
 
+// TODO: We probably want to rename now that we are using cubic curves and elliptical arcs depending on the situation.
 export default class EllipticalArrowNode extends Node {
 
   private readonly tailNode: Path;
   private readonly arrowHeadNode: Path;
   private readonly antiClockwise: boolean;
   private readonly ellipseYRadius: number;
-  private readonly arrowTailLineWidth: number;
-  private readonly pointRadius: number;
+  private _pointsToItself = false;
 
   public constructor(
-    startingValue: TReadOnlyProperty<number>,
-    endingValue: TReadOnlyProperty<number>,
+    startingValueProperty: TReadOnlyProperty<number>,
+    endingValueProperty: TReadOnlyProperty<number>,
     private readonly modelViewTransform: ModelViewTransform2,
     providedOptions: EllipticalArrowNodeOptions ) {
 
@@ -79,31 +80,33 @@ export default class EllipticalArrowNode extends Node {
     this.tailNode = tailNode;
     this.arrowHeadNode = arrowHeadNode;
     this.ellipseYRadius = options.ellipseYRadius;
-    this.arrowTailLineWidth = options.arrowTailLineWidth;
-    this.pointRadius = options.pointRadius;
 
     // If the arrow is above the number line, the arrow should be drawn in a clockwise direction.
     this.antiClockwise = options.belowNumberLine;
 
-    Multilink.multilink( [ startingValue, endingValue ], ( startingValue, endingValue ) => {
-      const pointsToItself = startingValue === endingValue;
+    Multilink.multilink( [ startingValueProperty, endingValueProperty ], ( startingValue, endingValue ) => {
+      this._pointsToItself = startingValue === endingValue;
       const ellipseXRadius = this.modelViewTransform.modelToViewDeltaX( ( endingValue - startingValue ) / 2 );
       const endingValueCenter = new Vector2( this.modelViewTransform.modelToViewX( endingValue ), 0 );
 
-      let tailEllipticalArc: EllipticalArc;
+      let tailEllipticalArc: Segment;
       let ellipseCenter: Vector2;
-      if ( pointsToItself ) {
-        ellipseCenter = endingValueCenter;
+      if ( this._pointsToItself ) {
+
+        // When the arrow points to itself the centerX of the curve is also the starting and end x values.
+        ellipseCenter = new Vector2( endingValueCenter.x, 0 );
+        const cubicHeight = this.antiClockwise ? -1 * this.ellipseYRadius : this.ellipseYRadius;
+        const controlPoint1 = new Vector2( ellipseCenter.x - options.pointRadius * 2, ellipseCenter.y - cubicHeight );
+        const controlPoint2 = new Vector2( ellipseCenter.x + options.pointRadius * 2, ellipseCenter.y - cubicHeight );
 
         // In order to minimize the intersection points between the arcs, the x radius of the tail elliptical arc
         // is adjusted by the half line width of the arrow tail. This also coincides up with the elliptical arc
         // this is rendered.
-        tailEllipticalArc = new EllipticalArc(
+        tailEllipticalArc = new Cubic(
           ellipseCenter,
-          options.pointRadius - options.arrowTailLineWidth / 2, this.ellipseYRadius,
-          0,
-          ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
-          this.antiClockwise
+          controlPoint1,
+          controlPoint2,
+          ellipseCenter
         );
       }
       else {
@@ -122,12 +125,16 @@ export default class EllipticalArrowNode extends Node {
       /**
        * CALCULATING THE ARROW HEAD POINT:
        * In order to find the arrow head point we want to calculate the intersection between the arrow tails elliptical
-       * arc, and a circle that provides a graphic for a value on the number line. We only need to create arcs that live
-       * above the x-axis, therefore our end angle for both elliptical arcs is PI * 2.
+       * arc, and a circle that provides a graphic for a value on the number line. The point of the arrow head should
+       * overlap the graphic as long as the point radius is large enough.
+       *
+       * We only need to create arcs that live above the x-axis, therefore our end angle
+       * for both elliptical arcs is PI * 2.
        */
+      const pointArcRadius = options.pointRadius <= ARROW_HEAD_OFFSET ? options.pointRadius : options.pointRadius - ARROW_HEAD_OFFSET;
       const numberLinePointArc = new EllipticalArc(
         endingValueCenter,
-        options.pointRadius, options.pointRadius,
+        pointArcRadius, pointArcRadius,
         0,
         ARROW_START_ANGLE, CALCULATION_ELLIPSE_END_ANGLE,
         this.antiClockwise
@@ -141,8 +148,7 @@ export default class EllipticalArrowNode extends Node {
        * arrow tail elliptical arc, and creating a circle with radius equal to the desired arrow head height,
        * plus the distance between the arrow head point and the number line.
        */
-      const baseArcRadius = pointsToItself ? options.pointRadius - options.arrowTailLineWidth / 2 + options.arrowHeadHeight :
-                            options.pointRadius + options.arrowHeadHeight;
+      const baseArcRadius = pointArcRadius + options.arrowHeadHeight;
       const baseMidpointArc = new EllipticalArc(
         endingValueCenter,
         baseArcRadius, baseArcRadius,
@@ -152,39 +158,39 @@ export default class EllipticalArrowNode extends Node {
       );
       const baseMidpoint = this.getEllipseIntersection( tailEllipticalArc, baseMidpointArc );
 
-      /**
-       * CALCULATING THE ARROW END ANGLE:
-       * Our arrow tail elliptical arc should end at the arrow head triangle's center. We find this angle by averaging
-       * the arrow head point and the base intersection point, and then use the parametric equation of an ellipse to find
-       * theta (t).
-       * x = a*cos(t) and y = b*sin(t) where a is the x radius and b is the y radius.
-       * asin( triangleCenter.y / yRadius ) = t ;
-       */
+      // Our arrow tail elliptical arc should end at the arrow head triangle's center, which we can find by
+      // by averaging the arrow head point and the base intersection point
       const ellipseEndPoint = baseMidpoint.average( arrowHeadPoint );
-      const arrowEndAngle = Math.asin( ellipseEndPoint.y / this.ellipseYRadius );
 
-      this.updateTailShape( pointsToItself, ellipseCenter, ellipseXRadius, arrowEndAngle );
+      this.updateTailShape( this.pointsToItself, ellipseCenter, ellipseXRadius, ellipseEndPoint );
       this.updateArrowHeadShape( arrowHeadPoint, baseMidpoint, options.arrowHeadBaseWidth );
     } );
   }
 
-  private updateTailShape( pointsToItself: boolean, ellipseCenter: Vector2, ellipseXRadius: number, arrowEndAngle: number ): void {
+  private updateTailShape( pointsToItself: boolean, ellipseCenter: Vector2, ellipseXRadius: number, ellipseEndPoint: Vector2 ): void {
 
     let tailShape: Shape;
 
     // If the starting value is the same as the ending value, the arrow should appear as if it is looping up and over
-    // to the same spot. We do this by positioning the elliptical arc to start slightly left of and end slightly right
-    // of the point on the number line.
+    // to the same spot. To do this we use a cubic curve that starts at the ellipse center, and ends at the ellipseEndPoint
     if ( pointsToItself ) {
-      tailShape = new Shape().ellipticalArc(
-        ellipseCenter.x, 0,
-        this.pointRadius - this.arrowTailLineWidth / 2, this.ellipseYRadius,
-        0,
-        ARROW_START_ANGLE, arrowEndAngle,
-        this.antiClockwise
-      );
+      const cubicYDirection = this.antiClockwise ? -1 : 1;
+      const cubicHeight = this.ellipseYRadius * cubicYDirection;
+      const controlPoint1 = new Vector2( ellipseCenter.x - NUMBER_LINE_POINT_RADIUS * 2, ellipseCenter.y - cubicHeight );
+      const controlPoint2 = new Vector2( ellipseCenter.x + NUMBER_LINE_POINT_RADIUS * 2, ellipseCenter.y - cubicHeight );
+      tailShape = new Shape().moveToPoint( ellipseCenter ).cubicCurveToPoint( controlPoint1, controlPoint2, ellipseEndPoint );
     }
     else {
+
+      /**
+       * CALCULATING THE ARROW END ANGLE:
+       * We find this angle using the parametric equation of an ellipse to find theta (t).
+       * x = a*cos(t) and y = b*sin(t) where a is the x radius and b is the y radius.
+       * asin( triangleCenter.y / yRadius ) = t ;
+       */
+      const arrowEndAngle = Math.asin( ellipseEndPoint.y / this.ellipseYRadius );
+
+
       tailShape = new Shape().ellipticalArc(
         ellipseCenter.x, 0,
         ellipseXRadius, this.ellipseYRadius,
@@ -208,10 +214,14 @@ export default class EllipticalArrowNode extends Node {
     this.arrowHeadNode.setShape( arrowHeadShape );
   }
 
-  private getEllipseIntersection( arcA: EllipticalArc, arcB: EllipticalArc ): Vector2 {
-    const intersections = EllipticalArc.intersect( arcA, arcB );
+  private getEllipseIntersection( arcA: Segment, arcB: Segment ): Vector2 {
+    const intersections = Segment.intersect( arcA, arcB );
     assert && assert( intersections.length > 0, 'An intersection should be defined' );
     return intersections[ intersections.length - 1 ].point;
+  }
+
+  public get pointsToItself(): boolean {
+    return this._pointsToItself;
   }
 }
 

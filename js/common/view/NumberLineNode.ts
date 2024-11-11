@@ -29,6 +29,7 @@ type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> &
 
 export const NUMBER_LINE_POINT_RADIUS = 8;
 const LABEL_DIMENSION = 28;
+const LABEL_MARGIN = 5; // distance between the label and the arrow
 
 
 export default class NumberLineNode extends Node {
@@ -152,7 +153,7 @@ export default class NumberLineNode extends Node {
 
     // Position the total and left/right addend labels.
     ManualConstraint.create( this, [ totalArrow, totalLabel ], ( arrowProxy, labelProxy ) => {
-      labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, 5 );
+      labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, LABEL_MARGIN );
     } );
     Multilink.multilink( [ model.leftAddendProperty, model.leftAddendLabelPlacementProperty, leftAddendArrow.boundsProperty ],
       ( leftAddend, placement, bounds ) => {
@@ -161,11 +162,18 @@ export default class NumberLineNode extends Node {
           leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 4;
         }
         else {
-          leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -5 );
+          leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -LABEL_MARGIN );
         }
       } );
+
+    // TODO: Center over dot instead of arrow only when the value is 0.
     ManualConstraint.create( this, [ rightAddendArrow, rightAddendLabel ], ( arrowProxy, labelProxy ) => {
-      labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -5 );
+      if ( rightAddendArrow.pointsToItself ) {
+      labelProxy.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( model.rightAddendProperty.value ), arrowProxy.top - LABEL_MARGIN );
+      }
+      else {
+        labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -LABEL_MARGIN );
+      }
     } );
   }
 }
