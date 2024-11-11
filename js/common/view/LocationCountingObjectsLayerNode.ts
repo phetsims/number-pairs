@@ -36,8 +36,27 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
       // Update the location of the countingObject when the addendType changes as long as it is not being dragged.
       countingObject.addendTypeProperty.link( addendType => {
-        if ( !countingObject.draggingProperty.value && addendType !== AddendType.INACTIVE ) {
-          this.updateLocation( countingObject, addendType );
+        if ( !countingObject.draggingProperty.value ) {
+          const addendBounds = ( addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds ).dilated( -20 );
+          if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
+
+            // we do not want to rely on listener order, therefore we find the counting objects based on our addend
+            // value rather than other Properties
+            const leftAddendCountingObjects = model.countingObjects.filter(
+              countingObject => countingObject.addendTypeProperty.value === AddendType.LEFT );
+            const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, addendBounds );
+            countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+          }
+          else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
+
+            // we do not want to rely on listener order, therefore we find the counting objects based on our addend
+            // value rather than other Properties
+            const rightAddendCountingObjects = model.countingObjects.filter(
+              countingObject => countingObject.addendTypeProperty.value === AddendType.RIGHT );
+            const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, addendBounds );
+            countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+          }
+
         }
       } );
       this.addChild( new LocationCountingObjectNode( countingObject, countingAreaBounds, model.representationTypeProperty, {
@@ -51,6 +70,13 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } ) );
     } );
 
+  }
+
+  private getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
+    const gridCoordinates = this.model.getGridCoordinates( addendBounds, COUNTING_AREA_MARGIN, COUNTING_AREA_MARGIN, 6 );
+    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
+        countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
+        countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
   }
 
   /**
