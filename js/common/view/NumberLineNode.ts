@@ -20,6 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 import NumberSquare from './NumberSquare.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   numberLineRange: Range;
@@ -92,7 +93,8 @@ export default class NumberLineNode extends Node {
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
     const leftAddendArrow = new EllipticalArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
-      fill: NumberPairsColors.numberLineLeftAddendColorProperty
+      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      visibleProperty: DerivedProperty.valueEqualsConstant( model.leftAddendLabelPlacementProperty, 'arrow' )
     } );
     const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
