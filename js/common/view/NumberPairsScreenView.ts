@@ -8,7 +8,7 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node, VBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node, PressListener, VBox } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -212,6 +212,20 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
       countingRepresentationsLayer.addChild( kittensLayerNode );
+
+      // If the user clicks outside the kittens, then remove focus from all the counting objects.
+      this.addInputListener( new PressListener( {
+        attach: false,
+        pressCursor: null,
+        press: event => {
+          if ( kittensLayerNode.kittenNodes.every( kittenNode => !event.trail.containsNode( kittenNode ) ) ) {
+            model.countingObjects.forEach( countingObject => {
+              countingObject.focusedProperty.value = false;
+            } );
+          }
+        },
+        tandem: options.tandem.createTandem( 'kittensLayerNodePressListener' )
+      } ) );
     }
 
     /**

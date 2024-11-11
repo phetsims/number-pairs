@@ -22,17 +22,17 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
-
+  public readonly kittenNodes: KittenNode[];
   public constructor( model: NumberPairsModel, countingObjects: CountingObject[], countingAreaBounds: Bounds2, providedOptions: KittensLayerNodeOptions ) {
     const newKittenFocusedEmitter = new Emitter();
-    const kittens: KittenNode[] = [];
+    const kittenNodes: KittenNode[] = [];
 
     const availableGridPositions = model.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
     countingObjects.forEach( ( countingObject, i ) => {
       const initialPosition = dotRandom.sample( availableGridPositions );
       availableGridPositions.splice( availableGridPositions.indexOf( initialPosition ), 1 );
 
-      kittens.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
+      kittenNodes.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
         initialPosition: initialPosition,
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onEndDrag: model.dropCountingObject.bind( model ),
@@ -41,9 +41,11 @@ export default class KittensLayerNode extends Node {
     } );
 
     const options = optionize<KittensLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      children: kittens
+      children: kittenNodes
     }, providedOptions );
     super( options );
+
+    this.kittenNodes = kittenNodes;
   }
 }
 
