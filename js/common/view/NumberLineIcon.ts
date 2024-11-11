@@ -18,7 +18,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import EllipticalArrowNode, { EllipticalArrowNodeOptions } from './EllipticalArrowNode.js';
+import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -37,7 +37,7 @@ const NUMBER_SQUARE_MARGIN = 2;
 const ARROW_NODE_OPTIONS: EllipticalArrowNodeOptions = {
   fill: null,
   arrowTailLineWidth: 1.5,
-  ellipseYRadius: 10,
+  curveYRadius: 10,
   pointRadius: 1,
   arrowHeadHeight: 5,
   arrowHeadBaseWidth: 6
@@ -73,7 +73,7 @@ export default class NumberLineIcon extends Node {
       ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineRightAddendColorProperty;
       const startingValueProperty = new Property( iconNumberLineValue );
       const rightAddendValueProperty = new Property( ICON_RANGE.max - iconNumberLineValue );
-      const arrowNode = new EllipticalArrowNode(
+      const arrowNode = new CurvedArrowNode(
         startingValueProperty, new Property( ICON_RANGE.max ), modelViewTransform, ARROW_NODE_OPTIONS );
       this.addChild( arrowNode );
 
@@ -87,7 +87,7 @@ export default class NumberLineIcon extends Node {
 
     if ( options.showLeftArrow ) {
       ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
-      const arrowNode = new EllipticalArrowNode(
+      const arrowNode = new CurvedArrowNode(
         new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, ARROW_NODE_OPTIONS );
       this.addChild( arrowNode );
 

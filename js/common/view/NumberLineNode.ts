@@ -13,7 +13,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberLineSlider from './NumberLineSlider.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import EllipticalArrowNode from './EllipticalArrowNode.js';
+import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
@@ -37,7 +37,7 @@ export default class NumberLineNode extends Node {
 
     const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
-    // EllipticalArrowNode needs the starting and ending values to be Property<number> instances. Even though
+    // CurvedArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
     const zeroNumberProperty = new Property( options.numberLineRange.min, {
       isValidValue: value => value === options.numberLineRange.min
@@ -72,10 +72,10 @@ export default class NumberLineNode extends Node {
         stroke: NumberPairsColors.numberLineSumColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const totalArrow = new EllipticalArrowNode( zeroNumberProperty, model.totalProperty, trackModelViewTransform, {
+    const totalArrow = new CurvedArrowNode( zeroNumberProperty, model.totalProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
-      ellipseYRadius: 80,
+      curveYRadius: 80,
       visibleProperty: model.showTotalJumpProperty
     } );
     const totalLabel = new NumberSquare( LABEL_DIMENSION, model.totalProperty, {
@@ -93,7 +93,7 @@ export default class NumberLineNode extends Node {
         stroke: NumberPairsColors.numberLineLeftAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const leftAddendArrow = new EllipticalArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
+    const leftAddendArrow = new CurvedArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.leftAddendLabelPlacementProperty, 'arrow' )
     } );
@@ -112,7 +112,7 @@ export default class NumberLineNode extends Node {
         stroke: NumberPairsColors.numberLineRightAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
-    const rightAddendArrow = new EllipticalArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
+    const rightAddendArrow = new CurvedArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
     } );
     const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendProperty, {
