@@ -188,6 +188,9 @@ export default class BeadsOnWireNode extends Node {
     // Now that the beads are sorted in the proper direction we can determine which beads need to be moved based
     // on the index of the grabbed beads and their proximity to each other.
     const grabbedBeadIndex = sortedBeadNode.indexOf( grabbedBeadNode );
+
+    // Find the beads that are touching the grabbed bead and have the same addend type. Any beads that are touching the
+    // grabbed bead should move with it. If a space is found between beads, stop moving beads in that direction.
     let beadSpaceFound = false;
     const slicedBeadNodes = sortedBeadNode.slice( grabbedBeadIndex, sortedBeadNode.length + 1 );
     const beadNodesToMove = slicedBeadNodes.filter(
@@ -200,24 +203,44 @@ export default class BeadsOnWireNode extends Node {
         return addendMatch && touchingPreviousBead && !beadSpaceFound;
       } );
 
-    // Calculate the distance the grabbed bead has moved and constrain the movement so that it does not exit
-    // the drag bounds.
-    const oldCenterX = grabbedBeadNode.centerX;
+    /**
+     * Calculate the distance the grabbed bead has moved and constrain the movement so that it does not exit
+     * the drag bounds.
+     *
+     * We should only adjust the bounds in the direction the bead is being dragged.
+     */
     const minXOffset = draggingRight ? 0 : -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH;
     const maxXOffset = draggingRight ? -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH : 0;
     const dragBoundsWithMovingBeads = this.beadDragBounds.withOffsets( minXOffset, 0, maxXOffset, 0 );
+
+    // Constrain the new position to the drag bounds and set the grabbed bead's updated position.
     const newCenterX = dragBoundsWithMovingBeads.closestPointTo( grabbedBeadNode.globalToParentPoint( newPosition ) ).x;
-    const deltaX = newCenterX - oldCenterX;
     grabbedBeadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
 
-    beadNodesToMove.forEach( beadNode => {
+    // Since beadNodesToMove was created above by slicing the sortedBeadNodeArray at the grabbedBead, we can
+    // be confident that the first beadNode in the beadNodesToMove array is the grabbedBeadNode, and rely
+    // on that assumption as we iterate over the array.
+    assert && assert( beadNodesToMove[ 0 ] === grabbedBeadNode, 'The first bead in beadNodesToMove should be the grabbed bead' );
 
+    beadNodesToMove.forEach( ( beadNode, i ) => {
       if ( beadNode !== grabbedBeadNode ) {
-        beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( beadNode.centerX + deltaX );
+
+        // Move the beads in the drag direction and base their positions on the grabbed bead.
+        beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+          grabbedBeadNode.centerX + i * ( draggingRight ? BEAD_WIDTH : -BEAD_WIDTH ) );
       }
 
-      //TODO https://github.com/phetsims/number-pairs/issues/21 These next 2 if's should be if-else, and need to handle beadNode.centerX === this.beadSeparatorCenterXProperty.value
-      if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
+      /**
+       * Handle the case where a bead is moved past the separator. In this case, the bead should be moved to the
+       * proper countingObjects observable array according to its new addendType value.
+       *
+       * When a bead is dragging to the right, and it's centerX value is equal to that of the separator, we assume the
+       * intention is to move the bead to the right addend. The same logic applies when dragging to the left.
+       */
+      if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ||
+           ( draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
+
+        // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
         if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
 
           // Since a bead is moving to the right, the separator should adjust one position to the left.
@@ -232,12 +255,16 @@ export default class BeadsOnWireNode extends Node {
           beadNode.model.traverseInactiveObjects = true;
 
           // Immediately move the beads past the separator
-          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
+          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+            Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
         }
       }
+      else if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ||
+           ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
 
-      if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
+        // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
         if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
+
           // Since a bead is moving to the left, the separator should adjust one position to the right.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
             NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value + 1 ) );
@@ -250,7 +277,8 @@ export default class BeadsOnWireNode extends Node {
           beadNode.model.traverseInactiveObjects = true;
 
           // Immediately move the beads past the separator
-          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
+          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+            Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
         }
       }
     } );
