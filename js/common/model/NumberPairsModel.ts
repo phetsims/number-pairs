@@ -28,6 +28,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import RepresentationType from './RepresentationType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -72,6 +73,8 @@ export default class NumberPairsModel implements TModel {
 
   private dropAnimation: Animation | null = null;
   private tenFrameAnimation: Animation | null = null;
+
+  public readonly groupSelectModel: GroupSelectModel<CountingObject>;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -147,6 +150,14 @@ export default class NumberPairsModel implements TModel {
         phetioValueType: Range.RangeIO,
         tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
       } );
+
+    this.groupSelectModel = new GroupSelectModel( {
+      getGroupItemValue: ( countingObject: CountingObject ) => {
+        assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
+        return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
+      },
+      tandem: options.tandem.createTandem( 'groupSelectModel' )
+    } );
   }
 
   /**
@@ -391,6 +402,28 @@ export default class NumberPairsModel implements TModel {
       }
     }
     return cellCenterCoordinates;
+  }
+
+  /**
+   * Returns a nested array of counting objects based on the provided bounds.
+   * the counting objects are sorted by row and column.
+   *
+   */
+  public getCountingObjectsInGridFormation( bounds: Bounds2 ): CountingObject[][] {
+    const grid: CountingObject[][] = [];
+    const numberOfRows = 5;
+    const rowHeight = bounds.height / numberOfRows;
+    _.times( numberOfRows, i => grid.push( this.getRowAt( bounds.minY + rowHeight / 2 + rowHeight * i, rowHeight ) ) );
+
+    return grid;
+  }
+
+  public getRowAt( centerY: number, rowHeight: number ): CountingObject[] {
+    return this.countingObjects.filter( countingObject =>
+      countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
+      countingObject.locationPositionProperty.value.y <= centerY + rowHeight / 2 &&
+      countingObject.locationPositionProperty.value.y >= centerY - rowHeight / 2 ).sort( ( a, b ) =>
+      a.locationPositionProperty.value.x - b.locationPositionProperty.value.x );
   }
 
   public reset(): void {
