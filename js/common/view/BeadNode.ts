@@ -1,6 +1,5 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO Revise doc when BeadNode artwork is finalized, it may not be SVG.
 /**
  * BeadNode uses an svg to create the visual representation of the bead. It also handles drag interactions through
  * both mouse and keyboard events. The color of the bead changes depending on which addend it is associated with.
@@ -9,7 +8,7 @@
  *
  */
 
-import { Color, Node, NodeOptions, Rectangle, RichDragListener, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -18,7 +17,8 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberPairsColors from '../NumberPairsColors.js';
+import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import beadPink_svg from '../../../images/beadPink_svg.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -40,22 +40,19 @@ export default class BeadNode extends Node {
     public readonly model: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
-    // Set the bead's fill based on which addend it is associated with.
-    const fillProperty = new DerivedProperty(
-      [ model.addendTypeProperty, NumberPairsColors.numberLineLeftAddendColorProperty, NumberPairsColors.numberLineRightAddendColorProperty ],
-      ( addendType, numberLineLeftAddendColor, numberLineRightAddendColor ) =>
-        addendType === AddendType.LEFT ? numberLineLeftAddendColor : numberLineRightAddendColor );
-
-    const rectangle = new Rectangle( 0, 0, BeadNode.BEAD_WIDTH, BeadNode.BEAD_HEIGHT, {
-      fill: fillProperty,
-      cornerRadius: 10,
-      stroke: Color.BLACK
+    const blueBead = new Image( beadBlue_svg, {
+      maxWidth: BeadNode.BEAD_WIDTH,
+      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT )
+    } );
+    const pinkBead = new Image( beadPink_svg, {
+      maxWidth: BeadNode.BEAD_WIDTH,
+      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT )
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
       opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
       cursor: 'pointer',
-      children: [ rectangle ],
+      children: [ blueBead, pinkBead ],
       visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
 

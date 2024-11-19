@@ -33,7 +33,10 @@ export default class AddendControlPanel extends Panel {
   ) {
 
     const options = optionize<AddendSpinnerPanelOptions, SelfOptions, PanelOptions>()( {
-      addendNumberProperty: null
+      addendNumberProperty: null,
+      yMargin: 4,
+      xMargin: 4,
+      cornerRadius: 5
     }, providedOptions );
     const countingObjectControl = new CountingObjectControl(
       totalNumberProperty,
@@ -41,12 +44,11 @@ export default class AddendControlPanel extends Panel {
       inactiveCountingObjects,
       countingRepresentationTypeProperty, {
         tandem: providedOptions.tandem.createTandem( 'countingObjectControl' ),
-        addendNumberProperty: options.addendNumberProperty
+        addendNumberProperty: options.addendNumberProperty // TODO: Add documentation about this option (if null we're a right addend)
       } );
     const container = new Node( {
       children: [ countingObjectControl ]
     } );
-
     super( container, options );
 
     // TODO: Add grouped alt-input behavior

@@ -75,7 +75,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       } );
     const addendSpinners = new VBox( {
       children: [ leftAddendControlPanel, rightAddendControlPanel ],
-      spacing: 20,
+      spacing: 35,
       centerY: this.countingAreaBounds.centerY,
       right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN
     } );

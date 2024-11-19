@@ -9,46 +9,57 @@
  *
  */
 
-import { Circle, HBox, HBoxOptions, Image, Node, VBox } from '../../../../scenery/js/imports.js';
+import { HBoxOptions, Image, Node, Rectangle, TColor, Text, VBox } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import cubePinkHexagon_svg from '../../../images/cubePinkHexagon_svg.js';
-import NumberSquare from '../../common/view/NumberSquare.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import cubeBlueCircle_svg from '../../../images/cubeBlueCircle_svg.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import beadPink_svg from '../../../images/beadPink_svg.js';
+import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;
 };
 type AddendObjectControlOptions = WithRequired<HBoxOptions, 'tandem'> & SelfOptions;
 
-const MAX_ICON_DIMENSION = 35;
+const MAX_ICON_HEIGHT = 38; // Empirically determined
+const MAX_ICON_WIDTH = 28; // Empirically determined
+
+const createNumberLineIcon = ( fill: TColor ) => {
+  const icon = new Rectangle( 0, 0, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, {
+    fill: fill,
+    cornerRadius: 5
+  } );
+  const numberOne = new Text( '1', {
+    font: new PhetFont( 24 ),
+    center: icon.center
+  } );
+  icon.addChild( numberOne );
+  return icon;
+};
 const LEFT_ADDEND_ICONS = {
-  cube: new Image( cubePinkHexagon_svg, { maxHeight: MAX_ICON_DIMENSION, maxWidth: MAX_ICON_DIMENSION } ),
-  kitten: new Circle( 10, { fill: NumberPairsColors.attributeLeftAddendColorProperty } ), // TODO: replace with kitten image
-  numberSquare: new NumberSquare( MAX_ICON_DIMENSION, new NumberProperty( 1 ), {
-    fill: NumberPairsColors.numberLineLeftAddendColorProperty
-  } )
+  bead: new Image( beadPink_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
+  kitten: new Image( kittenYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
+  numberSquare: createNumberLineIcon( NumberPairsColors.numberLineLeftAddendColorProperty )
 };
 const RIGHT_ADDEND_ICONS = {
-  cube: new Image( cubeBlueCircle_svg, { maxHeight: MAX_ICON_DIMENSION } ),
-  kitten: new Circle( 10, { fill: NumberPairsColors.attributeRightAddendColorProperty } ), // TODO: replace with kitten image
-  numberSquare: new NumberSquare( MAX_ICON_DIMENSION, new NumberProperty( 1 ), {
-    fill: NumberPairsColors.numberLineRightAddendColorProperty
-  } )
+  bead: new Image( beadBlue_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
+  kitten: new Image( kittenBlue_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
+  numberSquare: createNumberLineIcon( NumberPairsColors.numberLineRightAddendColorProperty )
 };
 
 const ARROW_HEIGHT = 12;
-export default class CountingObjectControl extends HBox {
+export default class CountingObjectControl extends VBox {
 
   public constructor(
     totalNumberProperty: Property<number>,
@@ -93,31 +104,26 @@ export default class CountingObjectControl extends HBox {
       tandem: options.tandem.createTandem( 'decrementButton' )
     } );
 
-    const buttonsVBox = new VBox( {
-      children: [ incrementButton, decrementButton ],
-      spacing: 5
-    } );
-
     const images = options.addendNumberProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
     countingRepresentationTypeProperty.link( countingRepresentationType => {
-      images.cube.visible = countingRepresentationType === RepresentationType.CUBES;
+      images.bead.visible = countingRepresentationType === RepresentationType.CUBES;
       images.kitten.visible = countingRepresentationType === RepresentationType.KITTENS;
       images.numberSquare.visible = countingRepresentationType === RepresentationType.NUMBER_LINE;
     } );
     const objectImageNode = new Node( {
       children: [
-        images.cube,
+        images.bead,
         images.kitten,
         images.numberSquare
       ],
       excludeInvisibleChildrenFromBounds: true, // This allows the HBox parent to properly align the icons along the Y axis.
       layoutOptions: {
-        minContentWidth: MAX_ICON_DIMENSION + 2
+        minContentWidth: MAX_ICON_WIDTH + 2
       }
     } );
 
     const superOptions = combineOptions<HBoxOptions>( {
-      children: [ buttonsVBox, objectImageNode ],
+      children: [ incrementButton, objectImageNode, decrementButton ],
       spacing: 5,
       align: 'center',
       justify: 'center'

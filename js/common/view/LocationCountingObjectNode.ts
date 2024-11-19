@@ -45,14 +45,14 @@ export default class LocationCountingObjectNode extends Node {
       maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.APPLES )
     } );
+
+    // Create the one card.
     const oneCard = new Rectangle( 0, 0, IMAGE_WIDTH, ONE_CARD_HEIGHT, {
       fill: 'white',
       stroke: 'black',
       cornerRadius: 5,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
-
-    // Create the one card.
     const numberOne = new Text( '1', {
       font: new PhetFont( 40 ),
       center: oneCard.center,
