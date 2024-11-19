@@ -29,7 +29,7 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       radioButtonOptions: {
-        size: new Dimension2( 35, 35 )
+        size: new Dimension2( 40, 40 )
       }
     }, providedOptions );
 
