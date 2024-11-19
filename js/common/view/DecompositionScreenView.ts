@@ -29,6 +29,9 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     // that is associated with a scene state.
     const sceneSelectionRadioButtonGroup = new SceneSelectionRadioButtonGroup( model.selectedSceneProperty, model.scenes, {
       sceneRange: providedOptions.sceneRange,
+      radioButtonOptions: {
+        baseColor: model.totalColorProperty
+      },
       tandem: providedOptions.tandem.createTandem( 'sceneSelectionRadioButtonGroup' )
     } );
 
