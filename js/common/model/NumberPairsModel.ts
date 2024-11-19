@@ -404,6 +404,11 @@ export default class NumberPairsModel implements TModel {
     return cellCenterCoordinates;
   }
 
+  public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
+    return this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
+      .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
+  }
+
   /**
    * Returns a nested array of counting objects based on the provided bounds.
    * the counting objects are sorted by row and column.
