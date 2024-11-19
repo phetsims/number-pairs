@@ -166,10 +166,11 @@ export default class NumberLineNode extends Node {
         }
       } );
 
-    // TODO: Center over dot instead of arrow only when the value is 0.
+    // Center the right addend label on the left addend number line value if the arrow points to itself,
+    // otherwise place the label above the arrow.
     ManualConstraint.create( this, [ rightAddendArrow, rightAddendLabel ], ( arrowProxy, labelProxy ) => {
       if ( rightAddendArrow.pointsToItself ) {
-      labelProxy.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( model.rightAddendProperty.value ), arrowProxy.top - LABEL_MARGIN );
+      labelProxy.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), arrowProxy.top - LABEL_MARGIN );
       }
       else {
         labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -LABEL_MARGIN );
