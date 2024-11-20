@@ -10,10 +10,10 @@
  *
  */
 
-import { Line, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -26,12 +26,9 @@ import Property from '../../../../axon/js/Property.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
-const LEFTMOST_BEAD_X = NumberPairsConstants.LEFTMOST_BEAD_X;
 
 type SelfOptions = {
   sceneRange: Range;
@@ -52,29 +49,22 @@ export default class BeadsOnWireNode extends Node {
   private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
   private beadDragging = false;
+  private readonly numberOfSpotsOnWire: number;
 
   public constructor(
     private readonly model: NumberPairsModel,
     countingAreaBounds: Bounds2,
     providedOptions: BeadsOnWireNodeOptions
   ) {
+    const numberOfSpotsOnWire = Math.floor( countingAreaBounds.width / BEAD_WIDTH );
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
-      new Vector2( 0, 0 ),
-      new Vector2( BEAD_WIDTH / 2, 0 ),
-      BEAD_WIDTH
+      Vector2.ZERO,
+      Vector2.ZERO,
+      countingAreaBounds.width / numberOfSpotsOnWire
     );
     const wire = new Line( 0, 0, countingAreaBounds.width, 0, {
       lineWidth: 2,
       stroke: 'black'
-    } );
-
-    const wireMinXEndCap = new WireEndCap( true, {
-      left: wire.left,
-      centerY: wire.centerY
-    } );
-    const wireMaxXEndCap = new WireEndCap( false, {
-      right: wire.right,
-      centerY: wire.centerY
     } );
 
     const beadSeparator = new BeadSeparator();
@@ -85,7 +75,8 @@ export default class BeadsOnWireNode extends Node {
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
-      children: [ wire, beadSeparator, wireMinXEndCap, wireMaxXEndCap ]
+      children: [ wire, beadSeparator ],
+      excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
 
     super( options );
@@ -95,6 +86,7 @@ export default class BeadsOnWireNode extends Node {
     this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
+    this.numberOfSpotsOnWire = numberOfSpotsOnWire;
 
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
@@ -162,7 +154,7 @@ export default class BeadsOnWireNode extends Node {
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = i + LEFTMOST_BEAD_X;
+      bead.beadXPositionProperty.value = beadSeparatorXPosition - i - 1;
     } );
     rightAddendBeads.forEach( ( bead, i ) => {
       bead.beadXPositionProperty.value = i + beadSeparatorXPosition + 1;
@@ -260,7 +252,7 @@ export default class BeadsOnWireNode extends Node {
         }
       }
       else if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ||
-           ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
+                ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
 
         // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
         if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
@@ -298,20 +290,6 @@ export default class BeadsOnWireNode extends Node {
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
-  }
-}
-
-class WireEndCap extends Path {
-  public constructor( minXEndCap: boolean, providedOptions: PathOptions ) {
-    const wireEndCapRadius = 8;
-    const endCapShape = new Shape()
-      .arc( 0, wireEndCapRadius / 2, wireEndCapRadius, Math.PI / 2, 1.5 * Math.PI, minXEndCap ).lineTo( 0, 0 );
-
-    const options = combineOptions<PathOptions>( {
-      fill: 'black'
-    }, providedOptions );
-
-    super( endCapShape, options );
   }
 }
 

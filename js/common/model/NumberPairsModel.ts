@@ -294,8 +294,8 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
-   * Snap the cubes to their positions on the wire based on the addend values. By default, the cubes are arranged in
-   * groups of 5 with a separator between the two addends.
+   * Snap the beads to their organized positions on the wire based on the addend values. When organized the beads are
+   * arranged in groups of 5 with a separator between the two addends.
    */
   public organizeInGroupsOfFive(): void {
     const leftAddend = this.leftAddendProperty.value;
@@ -304,18 +304,17 @@ export default class NumberPairsModel implements TModel {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
-    // Cubes should be lined up on the wire in groups of 5.
+    // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
     //TODO https://github.com/phetsims/number-pairs/issues/21 Is it safe to assume that leftAddendBeads is ordered by ascending CountingObject.id?
+    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
+    const leftAddendRemainder = leftAddendBeads.length % 5;
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + NumberPairsConstants.LEFTMOST_BEAD_X;
+      bead.beadXPositionProperty.value = beadSeparatorXPosition - Math.floor( ( i - leftAddendRemainder ) / 5 ) - i - 2;
     } );
 
-    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
-
-    //TODO https://github.com/phetsims/number-pairs/issues/21 Sort is needed to maintain order. Why is rightAddendBeads ordered by descending CountingObject.id?
-    const sortedRightAddendBeads = rightAddendBeads.sort( ( a, b ) => a.id - b.id );
-    sortedRightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = Math.floor( i / 5 ) + i + beadSeparatorXPosition + 1;
+    const rightAddendRemainder = rightAddendBeads.length % 5;
+    rightAddendBeads.forEach( ( bead, i ) => {
+      bead.beadXPositionProperty.value = Math.floor( ( i - rightAddendRemainder ) / 5 ) + i + beadSeparatorXPosition + 2;
     } );
   }
 
