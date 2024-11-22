@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-dev.1 Fri Nov 22 2024 13:53:56 GMT-0800 (Pacific Standard Time)",
+  "comment": "# number-pairs 1.0.0-dev.2 Fri Nov 22 2024 14:20:26 GMT-0800 (Pacific Standard Time)",
   "assert": {
     "sha": "386a2323ecc3b36fbe30babf13b660dc1cc522a8",
     "branch": "main"
@@ -29,7 +29,7 @@
     "branch": "main"
   },
   "number-pairs": {
-    "sha": "8dfb8828d2b114fb54907bed1fd6b8995e327f16",
+    "sha": "680fb1747e06b27d40994a96ec079476e1b3faf7",
     "branch": "main"
   },
   "perennial-alias": {
