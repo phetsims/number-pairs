@@ -9,7 +9,6 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import GameScreen from './game/GameScreen.js';
 import IntroScreen from './intro/IntroScreen.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 import './common/NumberPairsQueryParameters.js';
@@ -25,8 +24,8 @@ simLauncher.launch( () => {
     new IntroScreen( { tandem: Tandem.ROOT.createTandem( 'introScreen' ) } ),
     new TenScreen( { tandem: Tandem.ROOT.createTandem( 'tenScreen' ) } ),
     new TwentyScreen( { tandem: Tandem.ROOT.createTandem( 'twentyScreen' ) } ),
-    new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } ),
-    new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } )
+    new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } )
+    // new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } ) // On hold until PhET-iO Game design is ready to continue.
   ];
 
   const options: SimOptions = {
