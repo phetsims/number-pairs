@@ -10,7 +10,7 @@
  *
  */
 
-import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Circle, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -27,9 +27,11 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
-
+const WIRE_HEIGHT = 5;
 type SelfOptions = {
   sceneRange: Range;
 };
@@ -62,9 +64,17 @@ export default class BeadsOnWireNode extends Node {
       Vector2.ZERO,
       countingAreaBounds.width / numberOfSpotsOnWire
     );
-    const wire = new Line( 0, 0, countingAreaBounds.width, 0, {
-      lineWidth: 2,
-      stroke: 'black'
+
+    const wireGradient = new LinearGradient( 0, -WIRE_HEIGHT / 2, 0, WIRE_HEIGHT / 2 )
+      .addColorStop( 0, NumberPairsColors.wireHighlightColorProperty )
+      .addColorStop( 0.2, NumberPairsColors.wireHighlightColorProperty )
+      .addColorStop( 0.6, NumberPairsColors.wireBaseColorProperty )
+      .addColorStop( 1, NumberPairsColors.wireBaseColorProperty );
+    const wireLineWidth = 1;
+    const wire = new Rectangle( 0, -WIRE_HEIGHT / 2, countingAreaBounds.width - wireLineWidth, WIRE_HEIGHT, {
+      fill: wireGradient,
+      stroke: 'black',
+      lineWidth: wireLineWidth
     } );
 
     const beadSeparator = new BeadSeparator();
@@ -293,13 +303,17 @@ export default class BeadsOnWireNode extends Node {
   }
 }
 
-class BeadSeparator extends Line {
+class BeadSeparator extends Circle {
   public constructor() {
-    const beadSeparatorHeight = 1.2 * BeadNode.BEAD_HEIGHT;
-    super( 0, -beadSeparatorHeight / 2, 0, beadSeparatorHeight / 2, {
+    const circleRadius = WIRE_HEIGHT * 1.5;
+    const circleHighlightShape = new Shape().ellipse( new Vector2( -2, -2 ), 3.25, 2.5, -Math.PI / 4 );
+    const circleHighlight = new Path( circleHighlightShape, {
+      fill: NumberPairsColors.wireHighlightColorProperty
+    } );
+    super( circleRadius, {
+      fill: NumberPairsColors.wireBaseColorProperty,
       stroke: 'black',
-      lineWidth: 3,
-      lineCap: 'round'
+      children: [ circleHighlight ]
     } );
   }
 }

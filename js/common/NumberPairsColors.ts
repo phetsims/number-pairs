@@ -70,6 +70,12 @@ const NumberPairsColors = {
   } ),
   kittenPanelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'kittenPanelBackground', {
     default: 'rgba( 255, 255, 255, 0.5 )'
+  } ),
+  wireBaseColorProperty: new ProfileColorProperty( numberPairs, 'wireBaseColor', {
+    default: '#B3B3B3'
+  } ),
+  wireHighlightColorProperty: new ProfileColorProperty( numberPairs, 'wireHighlightColor', {
+    default: '#F2F2F2'
   } )
 };
 
