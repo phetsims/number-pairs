@@ -70,11 +70,11 @@ export default class CountingObject extends PhetioObject {
     }, providedOptions );
     super( options );
 
-    this.attributePositionProperty = new Property( Vector2.ZERO, {
+    this.attributePositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'positionProperty' )
     } );
-    this.locationPositionProperty = new Property( Vector2.ZERO, {
+    this.locationPositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'locationPositionProperty' )
     } );
@@ -97,7 +97,6 @@ export default class CountingObject extends PhetioObject {
     } );
 
     this.id = options.id;
-
   }
 
   public reset(): void {

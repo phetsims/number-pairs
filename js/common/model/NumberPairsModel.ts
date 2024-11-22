@@ -287,10 +287,73 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
-   * Set the left addend to the right addend value. Derived Properties and listeners take care of the rest.
+   * Set the left addend to the right addend value and update positions as is desired.
    */
-  public swapAddends(): void {
+  public swapAddends( countingAreaWidth: number ): void {
+    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+
+    // Save old positions.
+    const leftAttributePositions = leftAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
+    const rightAttributePositions = rightAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
+    const leftLocationPositions = leftAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
+    const rightLocationPositions = rightAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
+
+    // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
+
+    // All attribute counting objects should appear to not have moved, and every object's color was simply swapped.
+    // This is not how the model handles movement between addends so we must do that artificially here.
+    this.updateAttributePositions( rightAttributePositions, leftAttributePositions );
+
+    // All location counting objects should be a translation across the counting area of their previous position.
+    const xTranslation = countingAreaWidth / 2;
+    const newRightLocationPositions = leftLocationPositions.map( position =>
+      new Vector2( position.x + xTranslation, position.y ) );
+    const newLeftLocationPositions = rightLocationPositions.map( position =>
+      new Vector2( position.x - xTranslation, position.y ) );
+    this.updateLocationPositions( newLeftLocationPositions, newRightLocationPositions );
+
+  }
+
+  /**
+   * Update the location positions of the counting objects based on the provided left and right location positions.
+   * @param leftLocationPositions
+   * @param rightLocationPositions
+   */
+  public updateLocationPositions( leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
+    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+
+    assert && assert( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions now that they have been swapped.' );
+    assert && assert( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions now that they have been swapped.' );
+
+    leftAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
+    } );
+    rightAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
+    } );
+  }
+
+  /**
+   * Update the attribute positions of the counting objects based on the provided left and right addend positions.
+   * @param leftAttributePositions
+   * @param rightAttributePositions
+   */
+  public updateAttributePositions( leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
+    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+
+    assert && assert( leftAddendObjects.length === leftAttributePositions.length, 'leftAddendObjects should be the same length as the rightAttributePositions now that they have been swapped.' );
+    assert && assert( rightAddendObjects.length === rightAttributePositions.length, 'rightAddendObjects should be the same length as the leftAttributePositions now that they have been swapped.' );
+
+    leftAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
+    } );
+    rightAddendObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
+    } );
   }
 
   /**

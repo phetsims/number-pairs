@@ -24,13 +24,13 @@ type CommutativeButtonOptions =
   & StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
 export default class CommutativeButton extends RectangularPushButton {
 
-  public constructor( swapAddends: () => void, providedOptions: CommutativeButtonOptions ) {
+  public constructor( swapAddends: ( countingAreaWidth: number ) => void, countingAreaWidth: number, providedOptions: CommutativeButtonOptions ) {
 
     const commutativeArrowsIcon = CommutativeButton.createCommutativeArrowsIcon();
     const options = optionize4<CommutativeButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
         content: commutativeArrowsIcon,
-        listener: swapAddends
+        listener: () => swapAddends( countingAreaWidth )
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

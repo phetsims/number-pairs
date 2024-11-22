@@ -150,7 +150,7 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'organizeBeadsButton' ),
       visibleProperty: organizeButtonVisibleProperty
     } );
-    const commutativeButton = new CommutativeButton( model.swapAddends.bind( model ), {
+    const commutativeButton = new CommutativeButton( model.swapAddends.bind( model ), this.countingAreaBounds.width, {
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
     const countingAreaButtonsVBox = new VBox( {
