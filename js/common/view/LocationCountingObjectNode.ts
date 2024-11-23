@@ -8,7 +8,7 @@
  *
  */
 
-import { Image, Node, NodeOptions, Rectangle, RichDragListener, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
@@ -23,6 +23,7 @@ import butterfly_svg from '../../../images/butterfly_svg.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import RepresentationType from '../model/RepresentationType.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
+import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -81,7 +82,7 @@ export default class LocationCountingObjectNode extends Node {
     soccerBall.center = this.center;
     butterfly.center = this.center;
 
-    const dragListener = new RichDragListener( {
+    const dragListener = new SoundRichDragListener( {
       start: () => {
         model.draggingProperty.value = true;
         this.moveToFront();

@@ -8,7 +8,7 @@
  *
  */
 
-import { Image, Node, NodeOptions, RichDragListener, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -19,6 +19,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadPink_svg from '../../../images/beadPink_svg.js';
+import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -58,7 +59,7 @@ export default class BeadNode extends Node {
 
     super( options );
 
-    const dragListener = new RichDragListener( {
+    const dragListener = new SoundRichDragListener( {
       start: () => options.onStartDrag( this ),
       drag: event => providedOptions.onDrag( event.pointer.point, this ),
       end: providedOptions.onEndDrag,
