@@ -138,15 +138,17 @@ export default class SumModel extends NumberPairsModel {
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
 
       if ( leftAddendDelta + rightAddendDelta === 0 ) {
-
         if ( leftAddendDelta > 0 ) {
           assert && assert( rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
-          leftAddendObjects.push( ...rightAddendObjects.splice( 0, leftAddendDelta ) );
 
+          // Remove from the end of the array to create a less jarring experience for the user.
+          leftAddendObjects.push( ...rightAddendObjects.splice( -1, leftAddendDelta ) );
         }
         else if ( rightAddendDelta > 0 ) {
           assert && assert( leftAddendObjects.length >= rightAddendDelta, 'not enough right addend objects' );
-          rightAddendObjects.push( ...leftAddendObjects.splice( 0, rightAddendDelta ) );
+
+          // Remove from the end of the array to create a less jarring experience for the user.
+          rightAddendObjects.push( ...leftAddendObjects.splice( -1, rightAddendDelta ) );
         }
       }
       else {
