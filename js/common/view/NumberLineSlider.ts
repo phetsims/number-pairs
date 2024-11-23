@@ -64,7 +64,9 @@ export default class NumberLineSlider extends HSlider {
       trackNode: trackNode,
       thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
-      enabledRangeProperty: enabledRangeProperty
+      enabledRangeProperty: enabledRangeProperty,
+      keyboardStep: 1,
+      shiftKeyboardStep: 2
     }, providedOptions );
     super( leftAddendNumberProperty, numberLineRange, options );
 
