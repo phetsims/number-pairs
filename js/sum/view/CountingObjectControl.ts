@@ -118,7 +118,7 @@ export default class CountingObjectControl extends VBox {
       ],
       excludeInvisibleChildrenFromBounds: true, // This allows the HBox parent to properly align the icons along the Y axis.
       layoutOptions: {
-        minContentWidth: MAX_ICON_WIDTH + 2
+        minContentWidth: MAX_ICON_WIDTH + 10
       }
     } );
 
