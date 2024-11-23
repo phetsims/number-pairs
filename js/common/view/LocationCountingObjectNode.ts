@@ -98,6 +98,9 @@ export default class LocationCountingObjectNode extends Node {
         useParentOffset: true
       },
       keyboardDragListenerOptions: {
+        focus: () => {
+          this.moveToFront();
+        },
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
       }
     } );

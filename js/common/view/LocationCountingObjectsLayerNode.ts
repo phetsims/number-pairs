@@ -42,11 +42,22 @@ export default class LocationCountingObjectsLayerNode extends Node {
     this.leftCountingAreaBounds = countingAreaBounds.withOffsets( 0, 0, -countingAreaBounds.width / 2, 0 );
     this.rightCountingAreaBounds = countingAreaBounds.withOffsets( -countingAreaBounds.width / 2, 0, 0, 0 );
 
+    /**
+     * Implement keyboard navigation for the counting objects using GroupSortInteraction.
+     */
+    const groupSelectModel = model.groupSelectModel;
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.countingObjectModelToNodeMap, {
+      tandem: options.tandem.createTandem( 'groupSelectView' )
+    } );
+    groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( countingAreaBounds );
+
     model.countingObjects.forEach( countingObject => {
 
-      // Update the location of the countingObject when the addendType changes as long as it is not being dragged.
+      // Update the location of the countingObject when the addendType changes as long as it is not being dragged or it
+      // is not being manipulated by keyboard navigation.
       countingObject.addendTypeProperty.link( addendType => {
-        if ( !countingObject.draggingProperty.value ) {
+        if ( !countingObject.draggingProperty.value &&
+             ( groupSelectModel.selectedGroupItemProperty.value !== countingObject || !groupSelectModel.isGroupItemKeyboardGrabbedProperty ) ) {
           const addendBounds = ( addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds ).dilated( -20 );
           if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
 
@@ -81,15 +92,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       this.addChild( countingObjectNode );
       this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
     } );
-
-    /**
-     * Implement keyboard navigation for the counting objects using GroupSortInteraction.
-     */
-    const groupSelectModel = model.groupSelectModel;
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.countingObjectModelToNodeMap, {
-      tandem: options.tandem.createTandem( 'groupSelectView' )
-    } );
-    groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( countingAreaBounds );
   }
 
 
