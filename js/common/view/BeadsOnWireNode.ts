@@ -180,6 +180,7 @@ export default class BeadsOnWireNode extends Node {
    * @param grabbedBeadNode
    */
   private handleBeadMove( newPosition: Vector2, grabbedBeadNode: BeadNode ): void {
+    const proposedParentPosition = grabbedBeadNode.globalToParentPoint( newPosition );
 
     // Determine whether we are dragging the bead to the right or left along the wire.
     const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.parentToGlobalPoint( grabbedBeadNode.bounds.center ).x ) > 0;
@@ -201,12 +202,16 @@ export default class BeadsOnWireNode extends Node {
     const beadNodesToMove = slicedBeadNodes.filter(
       ( beadNode, i ) => {
         const addendMatch: boolean = beadNode.model.addendTypeProperty.value === grabbedBeadNode.model.addendTypeProperty.value;
-        // TODO: take into consideration if the grabbed bead has moved past a bead. In that case it also needs to move.
-        const touchingPreviousBead = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
+        const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
         }
-        return addendMatch && touchingPreviousBead && !beadSpaceFound;
+        const newPositionPastBead = draggingRight ? proposedParentPosition.x >= beadNode.centerX : proposedParentPosition.x <= beadNode.centerX;
+
+        // We want to only return beads that are the same addend type as the grabbed bead, and are touching the
+        // grabbed bead without space in between, OR the grabbed bead is proposing to move past a bead no matter
+        // what it's addend type is.
+        return ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead;
       } );
 
     /**
@@ -220,7 +225,7 @@ export default class BeadsOnWireNode extends Node {
     const dragBoundsWithMovingBeads = this.beadDragBounds.withOffsets( minXOffset, 0, maxXOffset, 0 );
 
     // Constrain the new position to the drag bounds and set the grabbed bead's updated position.
-    const newCenterX = dragBoundsWithMovingBeads.closestPointTo( grabbedBeadNode.globalToParentPoint( newPosition ) ).x;
+    const newCenterX = dragBoundsWithMovingBeads.closestPointTo( proposedParentPosition ).x;
     grabbedBeadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
 
     // Since beadNodesToMove was created above by slicing the sortedBeadNodeArray at the grabbedBead, we can
