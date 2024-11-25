@@ -362,13 +362,10 @@ export default class NumberPairsModel implements TModel {
    */
   public organizeInGroupsOfFive(): void {
     const leftAddend = this.leftAddendProperty.value;
-
-    //TODO https://github.com/phetsims/number-pairs/issues/21 If there are assumptions about the ordering of CountingObjects, those assumptions should be documented and verified with assertions.
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
     // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
-    //TODO https://github.com/phetsims/number-pairs/issues/21 Is it safe to assume that leftAddendBeads is ordered by ascending CountingObject.id?
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
     const leftAddendRemainder = leftAddendBeads.length % 5;
     leftAddendBeads.forEach( ( bead, i ) => {

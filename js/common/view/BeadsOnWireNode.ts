@@ -59,10 +59,13 @@ export default class BeadsOnWireNode extends Node {
     providedOptions: BeadsOnWireNodeOptions
   ) {
     const numberOfSpotsOnWire = Math.floor( countingAreaBounds.width / BEAD_WIDTH );
+
+    // TODO: add documentation for the modelViewTransform
+    //  Perhaps use a LinearFunction instead.
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       Vector2.ZERO,
       Vector2.ZERO,
-      countingAreaBounds.width / numberOfSpotsOnWire
+      BEAD_WIDTH
     );
 
     const wireGradient = new LinearGradient( 0, -WIRE_HEIGHT / 2, 0, WIRE_HEIGHT / 2 )
@@ -198,6 +201,7 @@ export default class BeadsOnWireNode extends Node {
     const beadNodesToMove = slicedBeadNodes.filter(
       ( beadNode, i ) => {
         const addendMatch: boolean = beadNode.model.addendTypeProperty.value === grabbedBeadNode.model.addendTypeProperty.value;
+        // TODO: take into consideration if the grabbed bead has moved past a bead. In that case it also needs to move.
         const touchingPreviousBead = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;

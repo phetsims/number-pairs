@@ -60,6 +60,9 @@ export default class BeadNode extends Node {
     super( options );
 
     const dragListener = new SoundRichDragListener( {
+
+      // TODO: Ask CC if we want to use an offset here. See ShoppingItemDragListener for example. There's a weird scenario where it can make other beads jump too sometimes
+      //  I think we should handle the offset.
       start: () => options.onStartDrag( this ),
       drag: event => providedOptions.onDrag( event.pointer.point, this ),
       end: providedOptions.onEndDrag,
