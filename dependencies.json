@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-dev.2 Fri Nov 22 2024 14:20:26 GMT-0800 (Pacific Standard Time)",
+  "comment": "# number-pairs 1.0.0-dev.4 Mon Nov 25 2024 08:58:57 GMT-0800 (Pacific Standard Time)",
   "assert": {
     "sha": "386a2323ecc3b36fbe30babf13b660dc1cc522a8",
     "branch": "main"
@@ -13,7 +13,7 @@
     "branch": "main"
   },
   "chipper": {
-    "sha": "53768c933cdb6ad22a87dc7474051db2241d86b0",
+    "sha": "6e02487c268103e6a869e19729c369f0e62e1b82",
     "branch": "main"
   },
   "dot": {
@@ -21,7 +21,7 @@
     "branch": "main"
   },
   "joist": {
-    "sha": "cc99bd8dbf2013831a34bd951c204dbdb6682056",
+    "sha": "dd3460d14f68c7fa935148715c84be631ece7bab",
     "branch": "main"
   },
   "kite": {
@@ -29,11 +29,11 @@
     "branch": "main"
   },
   "number-pairs": {
-    "sha": "680fb1747e06b27d40994a96ec079476e1b3faf7",
+    "sha": "87e3f3aeafe6a10ab8b3c427fb841cdb36e91789",
     "branch": "main"
   },
   "perennial-alias": {
-    "sha": "5aeb83ff53ab219c7ac722b6a11e9ef42c220986",
+    "sha": "ac2617412ad31b82c33fd659659525e59724d365",
     "branch": "main"
   },
   "phet-core": {
