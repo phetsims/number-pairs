@@ -142,13 +142,13 @@ export default class SumModel extends NumberPairsModel {
           assert && assert( rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
 
           // Remove from the end of the array to create a less jarring experience for the user.
-          leftAddendObjects.push( ...rightAddendObjects.splice( -1, leftAddendDelta ) );
+          leftAddendObjects.push( ...rightAddendObjects.splice( -leftAddendDelta, leftAddendDelta ) );
         }
         else if ( rightAddendDelta > 0 ) {
           assert && assert( leftAddendObjects.length >= rightAddendDelta, 'not enough right addend objects' );
 
           // Remove from the end of the array to create a less jarring experience for the user.
-          rightAddendObjects.push( ...leftAddendObjects.splice( -1, rightAddendDelta ) );
+          rightAddendObjects.push( ...leftAddendObjects.splice( -rightAddendDelta, rightAddendDelta ) );
         }
       }
       else {
@@ -179,6 +179,7 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
+      console.log( '*** left addend set to ***', leftAddend );
       this.leftAddendProperty.value = leftAddend;
     } );
 
