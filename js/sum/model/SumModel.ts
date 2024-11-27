@@ -179,7 +179,6 @@ export default class SumModel extends NumberPairsModel {
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
-      console.log( '*** left addend set to ***', leftAddend );
       this.leftAddendProperty.value = leftAddend;
     } );
 

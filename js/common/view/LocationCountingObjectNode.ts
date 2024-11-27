@@ -23,6 +23,7 @@ import soccerball_svg from '../../../images/soccerball_svg.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import RepresentationType from '../model/RepresentationType.js';
 
 type SelfOptions = {
@@ -82,7 +83,7 @@ export default class LocationCountingObjectNode extends Node {
     soccerBall.center = this.center;
     butterfly.center = this.center;
 
-    const dragListener = new SoundRichDragListener( {
+    const dragListener = new SoundDragListener( {
       start: () => {
         model.draggingProperty.value = true;
         this.moveToFront();
@@ -91,18 +92,10 @@ export default class LocationCountingObjectNode extends Node {
         model.draggingProperty.value = false;
         options.onEndDrag( model, 'location' );
       },
-      dragListenerOptions: {
-        dragBoundsProperty: new Property( dilatedDragBounds, {} ),
-        positionProperty: model.locationPositionProperty,
-        tandem: providedOptions.tandem.createTandem( 'dragListener' ),
-        useParentOffset: true
-      },
-      keyboardDragListenerOptions: {
-        focus: () => {
-          this.moveToFront();
-        },
-        tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
-      }
+      dragBoundsProperty: new Property( dilatedDragBounds, {} ),
+      positionProperty: model.locationPositionProperty,
+      tandem: providedOptions.tandem.createTandem( 'dragListener' ),
+      useParentOffset: true
     } );
     this.addInputListener( dragListener );
 

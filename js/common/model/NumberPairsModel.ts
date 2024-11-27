@@ -74,7 +74,8 @@ export default class NumberPairsModel implements TModel {
   private dropAnimation: Animation | null = null;
   private tenFrameAnimation: Animation | null = null;
 
-  public readonly groupSelectModel: GroupSelectModel<CountingObject>;
+  public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
+  public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -151,12 +152,19 @@ export default class NumberPairsModel implements TModel {
         tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
       } );
 
-    this.groupSelectModel = new GroupSelectModel( {
+    this.groupSelectLocationObjectsModel = new GroupSelectModel( {
       getGroupItemValue: ( countingObject: CountingObject ) => {
         assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
       },
-      tandem: options.tandem.createTandem( 'groupSelectModel' )
+      tandem: options.tandem.createTandem( 'groupSelectLocationObjectsModel' )
+    } );
+    this.groupSelectBeadsModel = new GroupSelectModel( {
+      getGroupItemValue: ( countingObject: CountingObject ) => {
+        assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
+        return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
+      },
+      tandem: options.tandem.createTandem( 'groupSelectBeadsModel' )
     } );
   }
 

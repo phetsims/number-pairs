@@ -20,6 +20,9 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import { COUNTING_AREA_MARGIN } from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import Utils from '../../../../dot/js/Utils.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
@@ -45,12 +48,61 @@ export default class LocationCountingObjectsLayerNode extends Node {
     /**
      * Implement keyboard navigation for the counting objects using GroupSortInteraction.
      */
-    const groupSelectModel = model.groupSelectModel;
+    const groupSelectModel = model.groupSelectLocationObjectsModel;
+    const selectedItemPositionProperty = new DynamicProperty<Vector2, Vector2, CountingObject>( groupSelectModel.selectedGroupItemProperty, {
+      derive: countingObject => countingObject.locationPositionProperty,
+      bidirectional: true
+    } );
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.countingObjectModelToNodeMap, {
+      soundKeyboardDragListenerOptions: {
+        positionProperty: selectedItemPositionProperty
+      },
+      getGroupItemToSelect: () => {
+        const countingObjects = model.getCountingObjectsSortedByLocationPosition();
+        if ( countingObjects.length === 0 ) {
+          return null;
+        }
+        else {
+          return countingObjects[ 0 ];
+        }
+      },
+      getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
+        /**
+         * Algorithm to search for the next group item to select.
+         *
+         * 1. Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
+         * delta created by the arrow keys (1, 0) for right, (-1, 0), etc. The use the slope to calculate the angle.
+         * 2. Return all counting objects in the above calculated direction. (if none stay where we are)
+         * 3. Filter to objects within the 90-degree angle of the direction.
+         * 4. If the 90 degree filter is empty return to step 2 and find the next closest object.
+         * 5. If the 90 degree filter is not empty, find the closest object in the 90-degree filter.
+         */
+
+        // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
+        // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
+        const startingPoint = groupItem.locationPositionProperty.value;
+        const delta = this.getKeysDelta( keysPressed );
+        const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
+          countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
+          countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta ) );
+
+        let selectedGroupItem = groupItem;
+        if ( countingObjectsInDirection.length > 0 ) {
+          countingObjectsInDirection.sort( ( a, b ) =>
+            a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
+
+          const coordinate = Utils.clamp( delta.x === 0 ? Math.abs( delta.y ) : Math.abs( delta.x ), 0, countingObjectsInDirection.length );
+          selectedGroupItem = countingObjectsInDirection[ coordinate - 1 ];
+        }
+        return selectedGroupItem;
+      },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( countingAreaBounds );
 
+    /**
+     * Create the LocationCountingObjectNodes for each countingObject in the model, and attach necessary listeners.
+     */
     model.countingObjects.forEach( countingObject => {
 
       // Update the location of the countingObject when the addendType changes as long as it is not being dragged or it
@@ -142,6 +194,37 @@ export default class LocationCountingObjectsLayerNode extends Node {
       rightAddendCountingObjects.add( countingObject );
       leftAddendCountingObjects.remove( countingObject );
       countingObject.traverseInactiveObjects = true;
+    }
+  }
+
+  private getKeysDelta( keysPressed: string ): Vector2 {
+    switch( keysPressed ) {
+      case 'd':
+      case 'arrowRight':
+        return new Vector2( 1, 0 );
+      case 'a':
+      case 'arrowLeft':
+        return new Vector2( -1, 0 );
+      case 'w':
+      case 'arrowUp':
+        return new Vector2( 0, -1 );
+      case 's':
+      case 'arrowDown':
+        return new Vector2( 0, 1 );
+      case 'shift+d':
+      case 'shift+arrowRight':
+        return new Vector2( 2, 0 );
+      case 'shift+a':
+      case 'shift+arrowLeft':
+        return new Vector2( -2, 0 );
+      case 'shift+w':
+      case 'shift+arrowUp':
+        return new Vector2( 0, -2 );
+      case 'shift+s':
+      case 'shift+arrowDown':
+        return new Vector2( 0, 2 );
+      default:
+        return new Vector2( 0, 0 );
     }
   }
 }

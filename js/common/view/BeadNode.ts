@@ -18,6 +18,7 @@ import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragList
 import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadPink_svg from '../../../images/beadPink_svg.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 
@@ -59,19 +60,14 @@ export default class BeadNode extends Node {
 
     super( options );
 
-    const dragListener = new SoundRichDragListener( {
+    const dragListener = new SoundDragListener( {
 
       // TODO: Ask CC if we want to use an offset here. See ShoppingItemDragListener for example. There's a weird scenario where it can make other beads jump too sometimes
       //  I think we should handle the offset.
       start: () => options.onStartDrag( this ),
-      drag: event => providedOptions.onDrag( event.pointer.point, this ),
-      end: providedOptions.onEndDrag,
-      dragListenerOptions: {
-        tandem: providedOptions.tandem.createTandem( 'dragListener' )
-      },
-      keyboardDragListenerOptions: {
-        tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
-      }
+      drag: event => options.onDrag( event.pointer.point, this ),
+      end: options.onEndDrag,
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragListener );
 

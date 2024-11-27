@@ -28,6 +28,9 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
@@ -89,7 +92,8 @@ export default class BeadsOnWireNode extends Node {
 
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
-      excludeInvisibleChildrenFromBounds: true
+      excludeInvisibleChildrenFromBounds: true,
+      accessibleName: 'Beads On a Wire'
     }, providedOptions );
 
     super( options );
@@ -101,11 +105,42 @@ export default class BeadsOnWireNode extends Node {
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
     this.numberOfSpotsOnWire = numberOfSpotsOnWire;
 
+    /**
+     * GroupSelectView is used to handle keyboard interactions for selecting and dragging beads.
+     */
+    const groupSelectView = new GroupSelectDragInteractionView( model.groupSelectBeadsModel, model, this, this.beadModelToNodeMap, {
+      soundKeyboardDragListenerOptions: {
+        keyboardDragDirection: 'leftRight'
+      },
+      getGroupItemToSelect: () => {
+        return this.getSortedBeadNodes()[ 0 ].model;
+      },
+      getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
+        const sortedBeadNodes = this.getSortedBeadNodes();
+
+        const selectedBeadNode = this.beadModelToNodeMap.get( groupItem );
+        assert && assert( selectedBeadNode, 'selectedBeadNode should not be null' );
+        const groupItemIndex = sortedBeadNodes.indexOf( selectedBeadNode! );
+
+        // Determine the delta based on the keys pressed, then use this delta to find the appropriate bead to select.
+        const delta = this.getKeysDelta( keysPressed );
+        const selectedGroupItemIndex = Utils.clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
+        return sortedBeadNodes[ selectedGroupItemIndex ].model;
+      },
+      tandem: options.tandem.createTandem( 'groupSelectView' )
+    } );
+
+    // TODO: Why is this.getGlobalToLocalMatrix() telling me that we are in the same coordinate frame as global when we are obviously not?
+    //  The counting are bounds are being rendered as if there is a local coordinate frame they are worrying about.
+    //  The origin (0,0) is set at the center left edge of the counting area. Does a different origin not
+    //   automatically create a new coordinate frame?
+    groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
+
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
         countingObject,
         {
-          tandem: providedOptions.tandem.createTandem( `beadNode${i}` ),
+          tandem: options.tandem.createTandem( `beadNode${i}` ),
           onStartDrag: draggedBeadNode => {
 
             // Interrupt the drag that's in progress. Multitouch support is too difficult and unnecessary.
@@ -185,10 +220,8 @@ export default class BeadsOnWireNode extends Node {
     // Determine whether we are dragging the bead to the right or left along the wire.
     const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.parentToGlobalPoint( grabbedBeadNode.bounds.center ).x ) > 0;
 
-    // Sort all active beads by their x position, and reverse if we are dragging towards the left.
-    const beadNodes = [ ...this.beadModelToNodeMap.values() ];
-    const activeBeadNodes = beadNodes.filter( beadNode => beadNode.model.addendTypeProperty.value !== AddendType.INACTIVE )
-      .sort( ( a, b ) => a.centerX - b.centerX );
+    // Reverse the sorted and active beads if we are dragging towards the left.
+    const activeBeadNodes = this.getSortedBeadNodes();
     const sortedBeadNode = draggingRight ? activeBeadNodes : activeBeadNodes.reverse();
 
     // Now that the beads are sorted in the proper direction we can determine which beads need to be moved based
@@ -309,6 +342,42 @@ export default class BeadsOnWireNode extends Node {
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
+  }
+
+  /**
+   * Sort all active beads by their x position.
+   */
+  private getSortedBeadNodes(): BeadNode[] {
+    return [ ...this.beadModelToNodeMap.values() ]
+      .filter( beadNode => beadNode.model.addendTypeProperty.value !== AddendType.INACTIVE )
+      .sort( ( a, b ) => a.centerX - b.centerX );
+  }
+
+  private getKeysDelta( keysPressed: string ): number {
+    switch( keysPressed ) {
+      case 'd':
+      case 'w':
+      case 'arrowUp':
+      case 'arrowRight':
+        return 1;
+      case 'a':
+      case 's':
+      case 'arrowDown':
+      case 'arrowLeft':
+        return -1;
+      case 'shift+d':
+      case 'shift+w':
+        case 'shift+arrowUp':
+      case 'shift+arrowRight':
+        return 2;
+      case 'shift+a':
+      case 'shift+s':
+      case 'shift+arrowDown':
+      case 'shift+arrowLeft':
+        return -2;
+      default:
+        return 0;
+    }
   }
 }
 
