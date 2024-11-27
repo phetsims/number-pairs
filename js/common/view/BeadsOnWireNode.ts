@@ -31,6 +31,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 5;
@@ -107,9 +108,18 @@ export default class BeadsOnWireNode extends Node {
     /**
      * GroupSelectView is used to handle keyboard interactions for selecting and dragging beads.
      */
-    const groupSelectView = new GroupSelectDragInteractionView( model.groupSelectBeadsModel, model, this, this.beadModelToNodeMap, {
+    const groupSelectModel = model.groupSelectBeadsModel;
+    const selectedBeadPositionProperty = new DynamicProperty<Vector2, number, CountingObject>( groupSelectModel.selectedGroupItemProperty, {
+      derive: countingObject => countingObject.beadXPositionProperty,
+      bidirectional: true,
+      map: ( beadXPosition: number ) => new Vector2( beadXPosition, 0 ),
+      inverseMap: ( position: Vector2 ) => position.x
+    } );
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
-        keyboardDragDirection: 'leftRight'
+        keyboardDragDirection: 'leftRight',
+        positionProperty: selectedBeadPositionProperty,
+        transform: modelViewTransform
       },
       getGroupItemToSelect: () => {
         return this.getSortedBeadNodes()[ 0 ].model;
@@ -162,8 +172,18 @@ export default class BeadsOnWireNode extends Node {
           }
         } );
 
+      // TODO: Is it odd that we are using handleBeadMove here only for keyboard?
+      //  If we want to put it here for mouse as well we need to create Properties about whether it is mouse grabbed and
+      //  track which one is dragging.
+      //  Additional complications... this is reentrant... duh. I want to get the proposed value from keyboard before
+      //  deciding to set it there, but I don't see support for that in the KeyboardDragListener. Consult with CM
       countingObject.beadXPositionProperty.link( x => {
-        beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
+        if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value && groupSelectModel.selectedGroupItemProperty.value === countingObject ) {
+          // this.handleBeadMove( new Vector2( this.modelViewTransform.modelToViewX( x ), 0 ), beadNode );
+        }
+        else {
+          beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
+        }
       } );
 
       this.beadModelToNodeMap.set( countingObject, beadNode );
