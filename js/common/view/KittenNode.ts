@@ -7,28 +7,28 @@
  *
  */
 
-import { AlignBox, Circle, Image, InteractiveHighlightingNode, KeyboardListener, Node, NodeOptions, NodeTranslationOptions, Text } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import Panel from '../../../../sun/js/Panel.js';
-import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import CountingObject, { AddendType, KITTEN_PANEL_HEIGHT, KITTEN_PANEL_MARGIN, KITTEN_PANEL_WIDTH } from '../model/CountingObject.js';
-import NumberPairsColors from '../NumberPairsColors.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Property from '../../../../axon/js/Property.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
-import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
-import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PositionPropertyType } from '../model/NumberPairsModel.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
+import { AlignBox, Circle, Image, InteractiveHighlightingNode, KeyboardListener, Node, NodeOptions, NodeTranslationOptions, Text } from '../../../../scenery/js/imports.js';
+import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import Panel from '../../../../sun/js/Panel.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
+import numberPairs from '../../numberPairs.js';
+import CountingObject, { AddendType, KITTEN_PANEL_HEIGHT, KITTEN_PANEL_MARGIN, KITTEN_PANEL_WIDTH } from '../model/CountingObject.js';
+import { PositionPropertyType } from '../model/NumberPairsModel.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;

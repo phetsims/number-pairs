@@ -7,16 +7,16 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
 type SelfOptions = {
   numberBondNodeOptions: NumberBondNodeOptions;

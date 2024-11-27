@@ -6,35 +6,35 @@
  *
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import numberPairs from '../../numberPairs.js';
-import { AlignBox, Node, PressListener, VBox } from '../../../../scenery/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import Range from '../../../../dot/js/Range.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberLineNode from './NumberLineNode.js';
-import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
-import NumberPairsColors from '../NumberPairsColors.js';
-import CountingAreaNode from './CountingAreaNode.js';
-import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import BeadsOnWireNode from './BeadsOnWireNode.js';
-import KittensLayerNode from './KittensLayerNode.js';
-import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
-import SpeechSynthesisButton from './SpeechSynthesisButton.js';
-import TenFrameButton from './TenFrameButton.js';
-import CommutativeButton from './CommutativeButton.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import { AlignBox, Node, PressListener, VBox } from '../../../../scenery/js/imports.js';
+import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import BeadsOnWireNode from './BeadsOnWireNode.js';
+import CommutativeButton from './CommutativeButton.js';
+import CountingAreaNode from './CountingAreaNode.js';
+import KittensLayerNode from './KittensLayerNode.js';
+import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import NumberLineIcon from './NumberLineIcon.js';
+import NumberLineNode from './NumberLineNode.js';
+import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
 import OrganizeBeadsButton from './OrganizeBeadsButton.js';
+import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
+import SpeechSynthesisButton from './SpeechSynthesisButton.js';
+import TenFrameButton from './TenFrameButton.js';
 
 
 type SelfOptions = {

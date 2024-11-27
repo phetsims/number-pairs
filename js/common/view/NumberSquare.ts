@@ -6,16 +6,16 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import { Rectangle, RectangleOptions, Text } from '../../../../scenery/js/imports.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Rectangle, RectangleOptions, Text } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
   numberFontSize?: number;

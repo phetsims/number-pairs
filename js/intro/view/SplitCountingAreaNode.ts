@@ -7,21 +7,21 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
-import { COUNTING_AREA_LINE_WIDTH, COUNTING_AREA_MARGIN } from '../../common/view/CountingAreaNode.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import { COUNTING_AREA_LINE_WIDTH, COUNTING_AREA_MARGIN } from '../../common/view/CountingAreaNode.js';
 import NumberPairsScreenView from '../../common/view/NumberPairsScreenView.js';
+import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
+import numberPairs from '../../numberPairs.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;

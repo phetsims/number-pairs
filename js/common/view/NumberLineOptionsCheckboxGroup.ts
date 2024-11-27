@@ -7,15 +7,15 @@
  *
  */
 
-import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 const CHECKBOX_LABEL_OPTIONS = {
   font: new PhetFont( 16 )

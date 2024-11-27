@@ -7,11 +7,11 @@
  *
  */
 
-import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 
 export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;

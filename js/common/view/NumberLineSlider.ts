@@ -6,22 +6,22 @@
  *
  */
 
-import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
-import numberPairs from '../../numberPairs.js';
-import Range from '../../../../dot/js/Range.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import Property from '../../../../axon/js/Property.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ThumbNode from './ThumbNode.js';
-import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
+import numberPairs from '../../numberPairs.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
+import ThumbNode from './ThumbNode.js';
 
 type SelfOptions = {
   numberLineWidth: number;

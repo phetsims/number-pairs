@@ -8,13 +8,13 @@
  *
  */
 
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import numberPairs from '../../numberPairs.js';
 import Property from '../../../../axon/js/Property.js';
-import { Color, Node } from '../../../../scenery/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { Color, Node } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import numberPairs from '../../numberPairs.js';
 import RepresentationType, { ICON_MAX_HEIGHT } from '../model/RepresentationType.js';
 
 type SelfOptions = EmptySelfOptions;

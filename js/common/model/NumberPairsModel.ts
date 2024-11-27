@@ -1,4 +1,15 @@
 // Copyright 2024, University of Colorado Boulder
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 /**
  * NumberPairsModel is the base model for the Number Pairs simulation. It contains the properties that control the
  * addends, total, and counting objects in the sim. The model also contains properties that control the visibility of
@@ -8,27 +19,16 @@
  *
  */
 import TModel from '../../../../joist/js/TModel.js';
-import numberPairs from '../../numberPairs.js';
-import Property from '../../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { Color } from '../../../../scenery/js/imports.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StringIO from '../../../../tandem/js/types/StringIO.js';
-import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Animation from '../../../../twixt/js/Animation.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import Range from '../../../../dot/js/Range.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import RepresentationType from './RepresentationType.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
+import { Color } from '../../../../scenery/js/imports.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import StringIO from '../../../../tandem/js/types/StringIO.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
+import RepresentationType from './RepresentationType.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;

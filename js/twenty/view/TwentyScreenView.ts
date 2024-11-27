@@ -6,17 +6,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../../numberPairs.js';
-import TwentyModel from '../model/TwentyModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
-import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
+import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
+import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import TwentyModel from '../model/TwentyModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here

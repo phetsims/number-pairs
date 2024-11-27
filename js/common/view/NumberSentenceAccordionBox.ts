@@ -6,18 +6,18 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberPairsStrings.zeroStringProperty );

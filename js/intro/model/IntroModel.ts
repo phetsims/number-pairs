@@ -7,13 +7,13 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import numberPairs from '../../numberPairs.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 

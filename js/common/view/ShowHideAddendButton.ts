@@ -6,19 +6,19 @@
  *
  */
 
-import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
-import numberPairs from '../../numberPairs.js';
-import { Color, Node, Path } from '../../../../scenery/js/imports.js';
-import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
-import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { Color, Node, Path } from '../../../../scenery/js/imports.js';
+import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
+import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;

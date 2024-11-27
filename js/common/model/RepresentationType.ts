@@ -7,22 +7,22 @@
  *
  */
 
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsColors from '../NumberPairsColors.js';
-import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import apple_svg from '../../../images/apple_svg.js';
-import soccerball_svg from '../../../images/soccerball_svg.js';
-import butterfly_svg from '../../../images/butterfly_svg.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import apple_svg from '../../../images/apple_svg.js';
+import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import butterfly_svg from '../../../images/butterfly_svg.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import soccerball_svg from '../../../images/soccerball_svg.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberLineIcon from '../view/NumberLineIcon.js';
-import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
-import Property from '../../../../axon/js/Property.js';
-import beadBlue_svg from '../../../images/beadBlue_svg.js';
 
 
 const ICON_MAX_WIDTH = 25;

@@ -6,14 +6,14 @@
  *
  */
 
-import { Circle, CircleOptions, Text } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Circle, CircleOptions, Text } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
 
 type NumberCircleOptions = StrictOmit<CircleOptions, 'children' | 'radius'>;
 

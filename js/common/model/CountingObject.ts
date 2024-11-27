@@ -1,4 +1,12 @@
 // Copyright 2024, University of Colorado Boulder
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 /**
  * CountingObject is the model for the individual objects users can interact with to explore the decomposition of
  * a number.
@@ -7,16 +15,8 @@
  *
  */
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import numberPairs from '../../numberPairs.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import numberPairs from '../../numberPairs.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();

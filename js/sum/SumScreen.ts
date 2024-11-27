@@ -8,12 +8,12 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
+import NumberPairsStrings from '../NumberPairsStrings.js';
 import SumModel from './model/SumModel.js';
 import SumScreenView from './view/SumScreenView.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
-import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreen here

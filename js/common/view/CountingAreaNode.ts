@@ -7,20 +7,20 @@
  *
  */
 
-import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import ShowHideAddendButton from './ShowHideAddendButton.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
+import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
+import numberPairs from '../../numberPairs.js';
 import RepresentationType from '../model/RepresentationType.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import ShowHideAddendButton from './ShowHideAddendButton.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;

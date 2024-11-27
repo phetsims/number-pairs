@@ -8,12 +8,12 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
+import NumberPairsStrings from '../NumberPairsStrings.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
-import RepresentationType from '../common/model/RepresentationType.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreen here

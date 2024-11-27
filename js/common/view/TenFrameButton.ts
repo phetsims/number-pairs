@@ -6,14 +6,14 @@
  *
  */
 
-import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
-import numberPairs from '../../numberPairs.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
-import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenFrameButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOptions, 'tandem'>

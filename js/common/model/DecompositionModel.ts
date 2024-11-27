@@ -7,15 +7,15 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberPairsScene from './NumberPairsScene.js';
-import Range from '../../../../dot/js/Range.js';
-import { AddendType } from './CountingObject.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
+import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import numberPairs from '../../numberPairs.js';
+import { AddendType } from './CountingObject.js';
+import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
+import NumberPairsScene from './NumberPairsScene.js';
 
 
 type SelfOptions = {

@@ -7,21 +7,21 @@
  *
  */
 
-import { Circle, Color, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import NumberLineSliderTrack from './NumberLineSliderTrack.js';
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
-import NumberPairsColors from '../NumberPairsColors.js';
-import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { Circle, Color, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
+import NumberLineSliderTrack from './NumberLineSliderTrack.js';
+import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;

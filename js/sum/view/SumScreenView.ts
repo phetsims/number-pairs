@@ -6,19 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../../numberPairs.js';
-import SumModel from '../model/SumModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
-import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { VBox } from '../../../../scenery/js/imports.js';
-import AddendControlPanel from './AddendControlPanel.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
+import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
+import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import SumModel from '../model/SumModel.js';
+import AddendControlPanel from './AddendControlPanel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here

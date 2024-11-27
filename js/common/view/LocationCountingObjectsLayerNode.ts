@@ -7,20 +7,20 @@
  *
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import { COUNTING_AREA_MARGIN } from './CountingAreaNode.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 

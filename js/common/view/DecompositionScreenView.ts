@@ -7,13 +7,13 @@
  *
  */
 
-import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
+import Range from '../../../../dot/js/Range.js';
+import { AlignBox } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
-import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
-import { AlignBox } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import Range from '../../../../dot/js/Range.js';
+import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
+import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 
 type SelfOptions = {
   sceneRange: Range;

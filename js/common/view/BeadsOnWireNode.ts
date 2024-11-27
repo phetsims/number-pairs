@@ -10,25 +10,25 @@
  *
  */
 
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import BeadNode from './BeadNode.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Range from '../../../../dot/js/Range.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Property from '../../../../axon/js/Property.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import BeadNode from './BeadNode.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 5;

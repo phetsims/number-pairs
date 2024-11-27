@@ -7,15 +7,15 @@
  *
  */
 
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsScene from '../model/NumberPairsScene.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;

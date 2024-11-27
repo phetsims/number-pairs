@@ -8,16 +8,16 @@
  *
  */
 
-import Range from '../../../../dot/js/Range.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import { Line, Node, Text } from '../../../../scenery/js/imports.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Property from '../../../../axon/js/Property.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Line, Node, Text } from '../../../../scenery/js/imports.js';
+import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import numberPairs from '../../numberPairs.js';
 
 type TrackSelfOptions = {

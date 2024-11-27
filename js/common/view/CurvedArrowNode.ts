@@ -8,16 +8,16 @@
  *
  */
 
-import { Node, NodeOptions, NodeTransformOptions, Path, TColor } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import { Cubic, EllipticalArc, Segment, Shape } from '../../../../kite/js/imports.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Cubic, EllipticalArc, Segment, Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import { Node, NodeOptions, NodeTransformOptions, Path, TColor } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 
 type SelfOptions = {
   fill: TColor;

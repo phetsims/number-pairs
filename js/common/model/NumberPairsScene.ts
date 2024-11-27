@@ -1,4 +1,15 @@
 // Copyright 2024, University of Colorado Boulder
+import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
 /**
  * NumberPairsScene is the model for the scene in the Number Pairs simulation.
  *
@@ -6,20 +17,9 @@
  *
  */
 import numberPairs from '../../numberPairs.js';
-import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
-import CountingObject from './CountingObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import CountingObject from './CountingObject.js';
 import NumberPairsModel from './NumberPairsModel.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 const STATE_SCHEMA = {
   leftAddendNumber: NumberIO,

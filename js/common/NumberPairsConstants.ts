@@ -6,11 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../numberPairs.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import Range from '../../../dot/js/Range.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
+import Range from '../../../dot/js/Range.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import numberPairs from '../numberPairs.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );

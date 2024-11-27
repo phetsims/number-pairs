@@ -6,17 +6,17 @@
  *
  */
 
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import numberPairs from '../../numberPairs.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import CountingObjectControl from './CountingObjectControl.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject from '../../common/model/CountingObject.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import numberPairs from '../../numberPairs.js';
+import CountingObjectControl from './CountingObjectControl.js';
 
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;

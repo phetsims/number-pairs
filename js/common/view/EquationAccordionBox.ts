@@ -6,18 +6,18 @@
  *
  */
 
-import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
-import numberPairs from '../../numberPairs.js';
-import { Color, HBox, Text } from '../../../../scenery/js/imports.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberSquare from './NumberSquare.js';
+import { Color, HBox, Text } from '../../../../scenery/js/imports.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 import { ACCORDION_BOX_WIDTH } from './NumberSentenceAccordionBox.js';
+import NumberSquare from './NumberSquare.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;

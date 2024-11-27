@@ -9,23 +9,23 @@
  *
  */
 
-import { HBoxOptions, Image, Node, Rectangle, TColor, Text, VBox } from '../../../../scenery/js/imports.js';
-import numberPairs from '../../numberPairs.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import CountingObject from '../../common/model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Property from '../../../../axon/js/Property.js';
-import RepresentationType from '../../common/model/RepresentationType.js';
-import beadPink_svg from '../../../images/beadPink_svg.js';
-import beadBlue_svg from '../../../images/beadBlue_svg.js';
-import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
-import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { HBoxOptions, Image, Node, Rectangle, TColor, Text, VBox } from '../../../../scenery/js/imports.js';
+import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import beadPink_svg from '../../../images/beadPink_svg.js';
+import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
+import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
+import CountingObject from '../../common/model/CountingObject.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;

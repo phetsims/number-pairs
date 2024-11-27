@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../../numberPairs.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyModel here

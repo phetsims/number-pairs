@@ -6,12 +6,12 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import { Circle, Line, Node } from '../../../../scenery/js/imports.js';
-import NumberPairsColors from '../NumberPairsColors.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
+import { Circle, Line, Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 
 const HANDLE_LINE_LENGTH = 34;
 

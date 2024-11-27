@@ -6,16 +6,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../../numberPairs.js';
-import IntroModel from '../model/IntroModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
-import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
+import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import IntroModel from '../model/IntroModel.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here

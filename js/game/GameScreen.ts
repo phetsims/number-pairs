@@ -10,9 +10,9 @@ import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
+import NumberPairsStrings from '../NumberPairsStrings.js';
 import GameModel from './model/GameModel.js';
 import GameScreenView from './view/GameScreenView.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
 
 type SelfOptions = {
   //TODO add options that are specific to GameScreen here

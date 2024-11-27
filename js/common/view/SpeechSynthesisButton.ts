@@ -6,12 +6,12 @@
  *
  */
 
-import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
-import numberPairs from '../../numberPairs.js';
+import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
 import bullhornSolidShape from '../../../../sherpa/js/fontawesome-5/bullhornSolidShape.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
+import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
