@@ -15,7 +15,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 import { Image, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';

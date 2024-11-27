@@ -14,7 +14,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadPink_svg from '../../../images/beadPink_svg.js';
@@ -62,8 +61,8 @@ export default class BeadNode extends Node {
 
     const dragListener = new SoundDragListener( {
 
-      // TODO: Ask CC if we want to use an offset here. See ShoppingItemDragListener for example. There's a weird scenario where it can make other beads jump too sometimes
-      //  I think we should handle the offset.
+      // TODO: Ask CC if we want to use an offset here. See ShoppingItemDragListener for example. There's a weird scenario where it can make other beads jump
+      // too sometimes I think we should handle the offset.
       start: () => options.onStartDrag( this ),
       drag: event => options.onDrag( event.pointer.point, this ),
       end: options.onEndDrag,

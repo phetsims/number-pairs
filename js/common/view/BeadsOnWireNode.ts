@@ -28,7 +28,6 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
@@ -367,7 +366,7 @@ export default class BeadsOnWireNode extends Node {
         return -1;
       case 'shift+d':
       case 'shift+w':
-        case 'shift+arrowUp':
+      case 'shift+arrowUp':
       case 'shift+arrowRight':
         return 2;
       case 'shift+a':

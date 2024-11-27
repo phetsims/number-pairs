@@ -17,23 +17,10 @@ import { KeyboardListener, Node } from '../../../../scenery/js/imports.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
-import GroupSelectView, { GroupSelectViewOptions } from '../../../../scenery-phet/js/accessibility/group-sort/view/GroupSelectView.js';
-import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
-import { KeyboardListener, Node } from '../../../../scenery/js/imports.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import numberPairs from '../../numberPairs.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [

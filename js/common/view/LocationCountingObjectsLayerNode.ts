@@ -20,7 +20,6 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import { COUNTING_AREA_MARGIN } from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
@@ -78,8 +77,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
          * 5. If the 90 degree filter is not empty, find the closest object in the 90-degree filter.
          */
 
-        // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
-        // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
+          // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
+          // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
         const startingPoint = groupItem.locationPositionProperty.value;
         const delta = this.getKeysDelta( keysPressed );
         const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
