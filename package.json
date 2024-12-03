@@ -11,6 +11,10 @@
   },
   "phet": {
     "requirejsNamespace": "NUMBER_PAIRS",
+    "phetLibs": [
+      "counting-common",
+      "number-suite-common"
+    ],
     "simulation": true,
     "runnable": true,
     "supportedBrands": [

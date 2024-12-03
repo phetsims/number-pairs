@@ -34,6 +34,10 @@
       },
       "phet": {
         "requirejsNamespace": "NUMBER_PAIRS",
+        "phetLibs": [
+          "counting-common",
+          "number-suite-common"
+        ],
         "simulation": true,
         "runnable": true,
         "supportedBrands": [
@@ -59,12 +63,20 @@
   window.phet.chipper.stringRepos =
     [
       {
+        "repo": "counting-common",
+        "requirejsNamespace": "COUNTING_COMMON"
+      },
+      {
         "repo": "joist",
         "requirejsNamespace": "JOIST"
       },
       {
         "repo": "number-pairs",
         "requirejsNamespace": "NUMBER_PAIRS"
+      },
+      {
+        "repo": "number-suite-common",
+        "requirejsNamespace": "NUMBER_SUITE_COMMON"
       },
       {
         "repo": "scenery-phet",
