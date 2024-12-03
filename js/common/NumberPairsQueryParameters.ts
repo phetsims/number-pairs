@@ -11,8 +11,15 @@ import logGlobal from '../../../phet-core/js/logGlobal.js';
 import numberPairs from '../numberPairs.js';
 
 const SCHEMA_MAP = {
-  //TODO add schemas for query parameters
-};
+
+  // Specifies a second locale for the speech synthesis feature.
+  // Values are a locale code, e.g. "en" or "zh_CN". null means no second locale.
+  secondLocale: {
+    public: true,
+    type: 'string',
+    defaultValue: null
+  }
+} as const;
 
 const NumberPairsQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
 
