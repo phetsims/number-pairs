@@ -116,13 +116,16 @@ export default class NumberPairsModel implements TModel {
     } );
 
     this.showNumberLineAddendValuesProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showNumberLineAddendValuesProperty' )
+      tandem: options.tandem.createTandem( 'showNumberLineAddendValuesProperty' ),
+      phetioFeatured: true
     } );
     this.showTickValuesProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'showTickValuesProperty' )
+      tandem: options.tandem.createTandem( 'showTickValuesProperty' ),
+      phetioFeatured: true
     } );
     this.showTotalJumpProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showTotalJumpProperty' )
+      tandem: options.tandem.createTandem( 'showTotalJumpProperty' ),
+      phetioFeatured: true
     } );
     this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {
       phetioValueType: StringIO,
