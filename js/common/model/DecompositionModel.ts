@@ -100,7 +100,10 @@ export default class DecompositionModel extends NumberPairsModel {
         sceneModel.leftAddendObjects.push( sceneModel.inactiveCountingObjects[ 0 ] );
       } );
       _.times( sceneModel.rightAddendProperty.value, () => {
-        sceneModel.rightAddendObjects.push( sceneModel.inactiveCountingObjects[ 0 ] );
+
+        // We want to pull from the end of the inactiveCountingObjects array to keep as much consistency as possible
+        // between which countingObjects belong to which addend in the initial state.
+        sceneModel.rightAddendObjects.push( sceneModel.inactiveCountingObjects[ sceneModel.inactiveCountingObjects.length - 1 ] );
       } );
 
       assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
