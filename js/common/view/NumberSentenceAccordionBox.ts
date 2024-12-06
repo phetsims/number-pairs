@@ -92,7 +92,6 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
         total: node => {
           totalHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.totalColorProperty.value,
-            stroke: model.totalColorProperty.value.darkerColor(),
             cornerRadius: 4
           } );
           return new Node( {
@@ -105,7 +104,6 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
         left: node => {
           leftAddendHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.leftAddendColorProperty.value,
-            stroke: model.leftAddendColorProperty.value.darkerColor(),
             cornerRadius: 4
           } );
           return new Node( {
@@ -118,7 +116,6 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
         right: node => {
           rightAddendHighlight = new Rectangle( node.bounds.dilated( 2 ), {
             fill: model.rightAddendColorProperty.value,
-            stroke: model.rightAddendColorProperty.value.darkerColor(),
             cornerRadius: 4
           } );
           return new Node( {
@@ -133,15 +130,12 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
     model.totalColorProperty.link( color => {
       totalHighlight.fill = color;
-      totalHighlight.stroke = color.darkerColor();
     } );
     model.leftAddendColorProperty.link( color => {
       leftAddendHighlight.fill = color;
-      leftAddendHighlight.stroke = color.darkerColor();
     } );
     model.rightAddendColorProperty.link( color => {
       rightAddendHighlight.fill = color;
-      rightAddendHighlight.stroke = color.darkerColor();
     } );
 
     const titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
@@ -153,7 +147,8 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       contentXMargin: 20,
       contentYMargin: 20,
       contentAlign: 'left',
-      minWidth: ACCORDION_BOX_WIDTH
+      minWidth: ACCORDION_BOX_WIDTH,
+      expandedDefaultValue: false
     }, providedOptions );
     super( richText, options );
   }

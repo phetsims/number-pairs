@@ -39,7 +39,8 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       addendsOnRight: true,
       titleNode: titleNode,
       contentYMargin: 18,
-      minWidth: ACCORDION_BOX_WIDTH
+      minWidth: ACCORDION_BOX_WIDTH,
+      expandedDefaultValue: false
     }, providedOptions );
 
     const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {

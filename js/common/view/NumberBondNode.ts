@@ -25,6 +25,7 @@ export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'child
 
 const HORIZONTAL_OFFSET = 1.5 * CIRCLE_RADIUS;
 const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
+const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export default class NumberBondNode extends Node {
 
@@ -38,7 +39,8 @@ export default class NumberBondNode extends Node {
     const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
     const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
-      fill: options.totalColorProperty.value
+      fill: options.totalColorProperty.value,
+      lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     options.totalColorProperty.link( totalColor => {
       total.fill = totalColor;
@@ -47,7 +49,8 @@ export default class NumberBondNode extends Node {
     const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
       fill: options.leftAddendColorProperty.value,
       centerX: total.centerX - HORIZONTAL_OFFSET,
-      centerY: total.centerY + verticalOffset
+      centerY: total.centerY + verticalOffset,
+      lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddend.fill = leftAddendColor;
@@ -56,17 +59,20 @@ export default class NumberBondNode extends Node {
     const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
       fill: options.rightAddendColorProperty.value,
       centerX: total.centerX + HORIZONTAL_OFFSET,
-      centerY: total.centerY + verticalOffset
+      centerY: total.centerY + verticalOffset,
+      lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddend.fill = rightAddendColor;
     } );
 
     const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     const rightLine = new Line( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY, {
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
     options.children = [ leftLine, rightLine, total, leftAddend, rightAddend ];

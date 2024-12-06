@@ -50,6 +50,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,
         addendsOnRight: false,
+        expandedDefaultValue: true,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } )
     }, providedOptions );
