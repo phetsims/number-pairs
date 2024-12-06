@@ -29,6 +29,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -228,15 +229,75 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  private getValidDropPoint( invalidBounds: Bounds2, proposedPoint: Vector2, allowedDirection: 'upLeft' | 'upRight' ): Vector2 {
+
+    if ( invalidBounds.containsPoint( proposedPoint ) ) {
+      const closestXEdge = allowedDirection === 'upLeft' ? invalidBounds.minX : invalidBounds.maxX;
+      const closestYEdge = invalidBounds.minY;
+
+      if ( Math.abs( closestXEdge - proposedPoint.x ) < Math.abs( closestYEdge - proposedPoint.y ) ) {
+        return new Vector2( closestXEdge, proposedPoint.y );
+      }
+      else {
+        return new Vector2( proposedPoint.x, closestYEdge );
+      }
+    }
+    else {
+      return proposedPoint;
+    }
+  }
+
+  private sendToValidDropPoint( countingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): Vector2 {
+    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
+    const positionProperty = positionPropertyType === 'attribute' ? countingObject.attributePositionProperty :
+                             countingObject.locationPositionProperty;
+
+    const addendVisibleButtonDimension = new Dimension2(
+      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN,
+      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.height + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN
+    );
+    const leftAddendVisibleButtonBounds = new Bounds2(
+      countingAreaBounds.minX,
+      countingAreaBounds.maxY - addendVisibleButtonDimension.height,
+      countingAreaBounds.minX + addendVisibleButtonDimension.width,
+      countingAreaBounds.maxY );
+    const invalidDropBounds = positionPropertyType === 'attribute' ? [ leftAddendVisibleButtonBounds ] :
+      [
+        leftAddendVisibleButtonBounds,
+        leftAddendVisibleButtonBounds.shiftedX( countingAreaBounds.width - addendVisibleButtonDimension.width )
+      ];
+
+    let validDropPoint = positionProperty.value;
+    invalidDropBounds.forEach( ( bounds, i ) => {
+
+      // The first bounds is on the left side of the counting area
+      const direction = i === 0 ? 'upRight' : 'upLeft';
+      validDropPoint = this.getValidDropPoint( bounds, validDropPoint, direction );
+    } );
+
+    const animation = new Animation( {
+      duration: 0.4,
+      targets: [ {
+        property: positionProperty,
+        to: validDropPoint
+      } ]
+    } );
+    animation.start();
+    return validDropPoint;
+  }
+
+
   /**
    * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
    * @param droppedCountingObject
    * @param positionPropertyType
+   *
+   * // TODO: We still need to handle when a point is calculated to be outside of the Counting Area bounds.
    */
   public dropCountingObject( droppedCountingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): void {
-    const dropZoneBounds = positionPropertyType === 'attribute' ?
-                           this.getDropZoneBounds( droppedCountingObject.attributePositionProperty.value ) :
-                           this.getDropZoneBounds( droppedCountingObject.locationPositionProperty.value );
+
+    const countingObjectValidDropPoint = this.sendToValidDropPoint( droppedCountingObject, positionPropertyType );
+    const dropZoneBounds = this.getDropZoneBounds( countingObjectValidDropPoint );
     const activeCountingObjects = this.countingObjects.filter( countingObject =>
       countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
 
