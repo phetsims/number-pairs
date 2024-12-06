@@ -48,9 +48,9 @@ export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenView
   StrictOmit<ScreenViewOptions, 'children'>;
 
 const COUNTING_AREA_Y_MARGIN = 15; // empirically determined
+const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 export default class NumberPairsScreenView extends ScreenView {
 
-  protected readonly countingAreaBounds: Bounds2;
   protected readonly resetAllButton: Node;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
@@ -111,14 +111,6 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( this.resetAllButton );
 
-    const countingAreaMinX = this.layoutBounds.minX + NumberPairsConstants.COUNTING_AREA_X_MARGIN;
-    const countingAreaMinY = this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
-                             + options.numberBondContent.bounds.height + COUNTING_AREA_Y_MARGIN;
-    const countingAreaMaxX = this.layoutBounds.maxX - NumberPairsConstants.COUNTING_AREA_X_MARGIN;
-    const countingAreaMaxY = countingAreaMinY + 340; // empirically determined
-    this.countingAreaBounds = new Bounds2( countingAreaMinX, countingAreaMinY,
-      countingAreaMaxX, countingAreaMaxY );
-
     /**
      * Create the buttons along the left edge of each screen
      */
@@ -138,8 +130,8 @@ export default class NumberPairsScreenView extends ScreenView {
 
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
-    const sumTenFrameBounds = this.countingAreaBounds.erodedX( this.countingAreaBounds.width / 3.5 );
-    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( this.countingAreaBounds );
+    const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
+    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const tenFrameButton = new TenFrameButton( tenFrameBounds, model.organizeIntoTenFrame.bind( model ), {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       visibleProperty: tenFrameButtonVisibleProperty
@@ -150,14 +142,15 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'organizeBeadsButton' ),
       visibleProperty: organizeButtonVisibleProperty
     } );
-    const commutativeButton = new CommutativeButton( model.swapAddends.bind( model ), this.countingAreaBounds.width, {
+    const commutativeButton = new CommutativeButton( {
+      listener: model.swapAddends,
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
     const countingAreaButtonsVBox = new VBox( {
       children: [ tenFrameButton, organizeBeadsButton, commutativeButton ],
       spacing: 10,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      y: this.countingAreaBounds.minY
+      y: COUNTING_AREA_BOUNDS.minY
     } );
     this.addChild( countingAreaButtonsVBox );
 
@@ -173,7 +166,7 @@ export default class NumberPairsScreenView extends ScreenView {
       }
     } );
     const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty,
-      this.countingAreaBounds, {
+      COUNTING_AREA_BOUNDS, {
         countingRepresentationTypeProperty: model.representationTypeProperty,
         backgroundColorProperty: countingAreaBackgroundColorProperty,
         tandem: options.tandem.createTandem( 'countingAreaNode' )
@@ -188,7 +181,7 @@ export default class NumberPairsScreenView extends ScreenView {
           countingRepresentationType === RepresentationType.ONE_CARDS ||
           countingRepresentationType === RepresentationType.BUTTERFLIES ||
           countingRepresentationType === RepresentationType.SOCCER_BALLS );
-      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, this.countingAreaBounds, {
+      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, COUNTING_AREA_BOUNDS, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
@@ -207,7 +200,7 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.KITTENS );
-      const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, this.countingAreaBounds, {
+      const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, COUNTING_AREA_BOUNDS, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
@@ -237,7 +230,7 @@ export default class NumberPairsScreenView extends ScreenView {
         RepresentationType.NUMBER_LINE
       );
 
-      const numberLineNode = new NumberLineNode( model, this.countingAreaBounds.width - 40, {
+      const numberLineNode = new NumberLineNode( model, COUNTING_AREA_BOUNDS.width - 40, {
         visibleProperty: numberLineVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
@@ -247,9 +240,9 @@ export default class NumberPairsScreenView extends ScreenView {
 
       // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
       //  is added to the scene graph.
-      numberLineNode.center = this.countingAreaBounds.center;
+      numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
-      const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, this.countingAreaBounds, {
+      const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, COUNTING_AREA_BOUNDS, {
         visibleProperty: numberLineVisibleProperty,
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
@@ -262,8 +255,8 @@ export default class NumberPairsScreenView extends ScreenView {
         'handle', new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
         'arrow', new NumberLineIcon( iconWidth, iconValue, { showLeftArrow: true, showRightArrow: true } ),
         {
-          top: this.countingAreaBounds.bottom + COUNTING_AREA_Y_MARGIN,
-          left: this.countingAreaBounds.left,
+          top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
+          left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineVisibleProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 )
@@ -279,18 +272,18 @@ export default class NumberPairsScreenView extends ScreenView {
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.CUBES ) ) {
       const beadsVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
-      const beadsOnWireNode = new BeadsOnWireNode( model, this.countingAreaBounds, {
+      const beadsOnWireNode = new BeadsOnWireNode( model, COUNTING_AREA_BOUNDS, {
         sceneRange: sceneRange,
         visibleProperty: beadsVisibleProperty,
         tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );
       countingRepresentationsLayer.addChild( beadsOnWireNode );
 
-      beadsOnWireNode.center = this.countingAreaBounds.center;
+      beadsOnWireNode.center = COUNTING_AREA_BOUNDS.center;
     }
 
     // Position the counting representation radio buttons below the counting area.
-    countingRepresentationRadioButtonGroup.centerTop = new Vector2( this.countingAreaBounds.centerX, this.countingAreaBounds.maxY + COUNTING_AREA_Y_MARGIN );
+    countingRepresentationRadioButtonGroup.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
   }
 
   /**

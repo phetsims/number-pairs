@@ -26,6 +26,9 @@ type SelfOptions = {
 
 type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
+
+const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
+
 export default class SumScreenView extends NumberPairsScreenView {
 
   public constructor( model: SumModel, providedOptions: SumScreenViewOptions ) {
@@ -77,7 +80,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     const addendSpinners = new VBox( {
       children: [ leftAddendControlPanel, rightAddendControlPanel ],
       spacing: 35,
-      centerY: this.countingAreaBounds.centerY,
+      centerY: COUNTING_AREA_BOUNDS.centerY,
       right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN
     } );
     this.addChild( addendSpinners );

@@ -21,16 +21,15 @@ type SelfOptions = EmptySelfOptions;
 type CommutativeButtonOptions =
   SelfOptions
   & PickRequired<RectangularPushButtonOptions, 'tandem'>
-  & StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
+  & StrictOmit<RectangularPushButtonOptions, 'content'>;
 export default class CommutativeButton extends RectangularPushButton {
 
-  public constructor( swapAddends: ( countingAreaWidth: number ) => void, countingAreaWidth: number, providedOptions: CommutativeButtonOptions ) {
+  public constructor( providedOptions: CommutativeButtonOptions ) {
 
     const commutativeArrowsIcon = CommutativeButton.createCommutativeArrowsIcon();
     const options = optionize4<CommutativeButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
-        content: commutativeArrowsIcon,
-        listener: () => swapAddends( countingAreaWidth )
+        content: commutativeArrowsIcon
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

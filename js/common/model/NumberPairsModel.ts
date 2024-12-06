@@ -300,7 +300,8 @@ export default class NumberPairsModel implements TModel {
   /**
    * Set the left addend to the right addend value and update positions as is desired.
    */
-  public swapAddends( countingAreaWidth: number ): void {
+  public swapAddends(): void {
+    const countingAreaWidth = NumberPairsConstants.COUNTING_AREA_BOUNDS.width;
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 

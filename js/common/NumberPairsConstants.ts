@@ -11,9 +11,14 @@ import Range from '../../../dot/js/Range.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPairs from '../numberPairs.js';
+import Bounds2 from '../../../dot/js/Bounds2.js';
+import ScreenView from '../../../joist/js/ScreenView.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );
+const COUNTING_AREA_X_MARGIN = 80;
+const COUNTING_AREA_MIN_Y = ScreenView.DEFAULT_LAYOUT_BOUNDS.minY + 200;
+
 const NumberPairsConstants = {
 
   SCREEN_VIEW_X_MARGIN: 15,
@@ -31,6 +36,8 @@ const NumberPairsConstants = {
   SUM_INITIAL_LEFT_ADDEND_VALUE: 2,
   COUNTING_AREA_X_MARGIN: 80,
   COUNTING_AREA_CORNER_RADIUS: 5,
+  COUNTING_AREA_BOUNDS: new Bounds2( ScreenView.DEFAULT_LAYOUT_BOUNDS.minX + COUNTING_AREA_X_MARGIN,
+    COUNTING_AREA_MIN_Y, ScreenView.DEFAULT_LAYOUT_BOUNDS.maxX - COUNTING_AREA_X_MARGIN, COUNTING_AREA_MIN_Y + 340 ),
 
   TEN_TOTAL_RANGE: TEN_TOTAL_RANGE,
   TEN_NUMBER_LINE_RANGE: new Range( 0, TEN_TOTAL_RANGE.max ),
