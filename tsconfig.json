@@ -8,6 +8,12 @@
   ],
   "references": [
     {
+      "path": "../counting-common/tsconfig.json"
+    },
+    {
+      "path": "../number-suite-common/tsconfig.json"
+    },
+    {
       "path": "../perennial-alias/tsconfig/buildjson/tsconfig.json"
     }
   ]
