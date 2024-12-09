@@ -8,6 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+//TODO https://github.com/phetsims/number-pairs/issues/22 None of the controls reused herein currently support PhET-iO.
 //TODO https://github.com/phetsims/number-pairs/issues/22 Move this to view, to eliminate eslint-disable-next-line comments?
 
 import PreferencesModel from '../../../../joist/js/preferences/PreferencesModel.js';
