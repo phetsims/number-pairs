@@ -53,6 +53,8 @@ type StringsType = {
   'addendsStringProperty': LocalizedStringProperty;
   'tickNumbersStringProperty': LocalizedStringProperty;
   'totalJumpStringProperty': LocalizedStringProperty;
+  'automaticallyHearPhraseStringProperty': LocalizedStringProperty;
+  'automaticallyHearPhraseDescriptionStringProperty': LocalizedStringProperty;
 };
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;

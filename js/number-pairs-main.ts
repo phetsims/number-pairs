@@ -15,13 +15,14 @@ import './common/NumberPairsQueryParameters.js';
 import SumScreen from './sum/SumScreen.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
-import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import { Display } from '../../scenery/js/imports.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
 import numberPairsSpeechSynthesisAnnouncer from './common/view/numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './common/view/numberPairsUtteranceQueue.js';
+import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import NumberPairsPreferencesModel from './common/model/NumberPairsPreferencesModel.js';
 
 simLauncher.launch( () => {
 
@@ -47,7 +48,8 @@ simLauncher.launch( () => {
       graphicArts: '',
       soundDesign: '',
       thanks: ''
-    }
+    },
+    preferencesModel: new NumberPairsPreferencesModel()
   };
 
   const sim = new Sim( titleStringProperty, screens, options );
