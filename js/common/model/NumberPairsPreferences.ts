@@ -32,18 +32,18 @@ const secondLocaleProperty = new LocaleProperty( secondLocale as Locale || local
 
 const NumberPairsPreferences = {
 
-  // second locale
+  // Second locale
   secondLocaleProperty: secondLocaleProperty,
 
-  // voice of the primary locale
+  // Voice for the primary locale
   //TODO https://github.com/phetsims/number-pairs/issues/22 Cannot instrument because there is no IOType for SpeechSynthesisVoice.
   primaryVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
-  // voice of the second locale
+  // Voice for the second locale
   //TODO https://github.com/phetsims/number-pairs/issues/22 Cannot instrument because there is no IOType for SpeechSynthesisVoice.
   secondVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
-  // whether the sim speaks the model value of screens that use speech synthesis when the data or voice changes
+  // When true, the phrase will automatically be spoken whenever it changes.
   autoHearEnabledProperty: new BooleanProperty( false ),
 
   //TODO https://github.com/phetsims/number-pairs/issues/22 Properties below here are global, but do not belong in Preferences.
@@ -51,7 +51,7 @@ const NumberPairsPreferences = {
   // If a valid secondary locale was provided via a query parameter, display the secondary locale on sim startup.
   showSecondLocaleProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale ),
 
-  // Whether the sim is using its primary locale or secondary locale on screens that support two locales.
+  // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
   isPrimaryLocaleProperty: new BooleanProperty( true ),
 
   // Strings for the current secondLocale.
