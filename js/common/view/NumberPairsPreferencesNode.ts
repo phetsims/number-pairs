@@ -32,7 +32,12 @@ export default class NumberPairsPreferencesNode extends Node {
       secondLanguageControlVisible: true
     }, providedOptions );
 
-    const secondLanguageControl = new SecondLanguageControl( NumberPairsPreferences, NumberPairsConstants.ALL_URL,
+    const secondLanguageControl = new SecondLanguageControl(
+      NumberPairsPreferences.secondLocaleProperty,
+      NumberPairsPreferences.secondVoiceProperty,
+      NumberPairsPreferences.showSecondLocaleProperty,
+      NumberPairsPreferences.isPrimaryLocaleProperty,
+      NumberPairsConstants.ALL_URL,
       numberPairsUtteranceQueue, {
         visible: options.secondLanguageControlVisible
       } );
