@@ -22,6 +22,7 @@ type SelfOptions = {
 
 export type NumberPairsPreferencesNodeOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
 
+//TODO https://github.com/phetsims/number-pairs/issues/22 Use a different superclass when more controls are added.
 export default class NumberPairsPreferencesNode extends Node {
 
   public constructor( providedOptions?: NumberPairsPreferencesNodeOptions ) {
