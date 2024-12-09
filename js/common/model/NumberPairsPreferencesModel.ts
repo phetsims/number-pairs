@@ -43,7 +43,7 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
         customPreferences: [ {
           createContent: () => new AutoHearControl(
             NumberPairsPreferences.autoHearEnabledProperty,
-            numberPairsSpeechSynthesisAnnouncer,
+            numberPairsSpeechSynthesisAnnouncer.hasVoiceProperty,
             NumberPairsStrings.automaticallyHearPhraseStringProperty,
             NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty )
         } ],
