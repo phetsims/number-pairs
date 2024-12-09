@@ -9,7 +9,7 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBoxOptions, Node } from '../../../../scenery/js/imports.js';
+import { HBoxOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import SecondLanguageControl from '../../../../number-suite-common/js/common/view/SecondLanguageControl.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
@@ -26,10 +26,13 @@ export default class NumberPairsPreferencesNode extends Node {
 
   public constructor( providedOptions?: NumberPairsPreferencesNodeOptions ) {
 
-    const options = optionize<NumberPairsPreferencesNodeOptions, SelfOptions, HBoxOptions>()( {
+    const options = optionize<NumberPairsPreferencesNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      secondLanguageControlVisible: true
+      secondLanguageControlVisible: true,
+
+      // NodeOptions
+      isDisposable: false
     }, providedOptions );
 
     const secondLanguageControl = new SecondLanguageControl(

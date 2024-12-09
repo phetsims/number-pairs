@@ -31,6 +31,7 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
 
   public constructor() {
     super( {
+      isDisposable: false,
 
       // Preferences > Simulation
       simulationOptions: {
