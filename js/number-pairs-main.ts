@@ -15,6 +15,13 @@ import './common/NumberPairsQueryParameters.js';
 import SumScreen from './sum/SumScreen.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
+import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import { Display } from '../../scenery/js/imports.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
+import audioManager from '../../joist/js/audioManager.js';
+import numberPairsSpeechSynthesisAnnouncer from './common/view/numberPairsSpeechSynthesisAnnouncer.js';
+import numberPairsUtteranceQueue from './common/view/numberPairsUtteranceQueue.js';
 
 simLauncher.launch( () => {
 
@@ -45,4 +52,19 @@ simLauncher.launch( () => {
 
   const sim = new Sim( titleStringProperty, screens, options );
   sim.start();
+
+  // Initialize the speech synthesis feature. This was adapted from number-play-main.ts.
+  if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
+    numberPairsSpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, {
+
+      // Properties that control whether output is allowed with speech synthesis.
+      speechAllowedProperty: new DerivedProperty(
+        [ sim.isConstructionCompleteProperty, sim.browserTabVisibleProperty, sim.activeProperty,
+          isSettingPhetioStateProperty, audioManager.audioEnabledProperty ],
+        ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, audioEnabled ) =>
+          simConstructionComplete && simVisible && simActive && !simSettingPhetioState && audioEnabled )
+    } );
+    numberPairsSpeechSynthesisAnnouncer.enabledProperty.value = true;
+  }
+  numberPairsUtteranceQueue.initialize( sim.selectedScreenProperty );
 } );

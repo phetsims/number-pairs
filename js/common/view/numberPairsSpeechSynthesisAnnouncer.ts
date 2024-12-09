@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * An Announcer for speech synthesis in the Number Pairs sim, adapted from numberPlaySpeechSynthesisAnnouncer.
+ * A singleton Announcer for speech synthesis in the Number Pairs sim, adapted from numberPlaySpeechSynthesisAnnouncer.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
