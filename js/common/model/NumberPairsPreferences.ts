@@ -43,6 +43,9 @@ const NumberPairsPreferences = {
   //TODO https://github.com/phetsims/number-pairs/issues/22 Cannot instrument because there is no IOType for SpeechSynthesisVoice.
   secondVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
+  // whether the sim speaks the model value of screens that use speech synthesis when the data or voice changes
+  autoHearEnabledProperty: new BooleanProperty( false ),
+
   //TODO https://github.com/phetsims/number-pairs/issues/22 Properties below here are global, but do not belong in Preferences.
 
   // If a valid secondary locale was provided via a query parameter, display the secondary locale on sim startup.
