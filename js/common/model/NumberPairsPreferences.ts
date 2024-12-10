@@ -15,8 +15,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
-//TODO https://github.com/phetsims/number-pairs/issues/22 second or secondary? Other sims in the suite are very inconsistent.
-
 // As with the primary locale, use initialize-globals checkAndRemapLocale() to check validity of the second locale.
 // This potentially either falls back to 'en', or remaps from 3-character locales to PhET locales.
 let secondLocale = NumberPairsQueryParameters.secondLocale;
