@@ -8,8 +8,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-//TODO https://github.com/phetsims/number-pairs/issues/22 None of the controls reused herein currently support PhET-iO.
-
 import PreferencesModel from '../../../../joist/js/preferences/PreferencesModel.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import AutoHearControl from '../../../../number-suite-common/js/common/view/AutoHearControl.js';
@@ -35,20 +33,22 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
       // Preferences > Simulation
       simulationOptions: {
         customPreferences: [ {
-          createContent: () => new NumberPairsPreferencesNode()
+          createContent: tandem => new NumberPairsPreferencesNode( {
+            tandem: tandem
+          } )
         } ]
       },
 
       // Preferences > Audio
       audioOptions: {
         customPreferences: [ {
-          createContent: () => new AutoHearControl(
+          createContent: tandem => new AutoHearControl(
             NumberPairsPreferences.autoHearEnabledProperty,
             numberPairsSpeechSynthesisAnnouncer.hasVoiceProperty,
             NumberPairsStrings.automaticallyHearPhraseStringProperty,
-            NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty
-            //TODO https://github.com/phetsims/number-pairs/issues/22 If Game screen does not have speech synthesis, then we'll need to provide the 'visible' (5th) argument to AutoHearControl.
-          )
+            NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty, {
+              tandem: tandem.createTandem( 'autoHearControl' )
+            } )
         } ],
 
         // speech synthesis is the only sound used in this sim, no general sim sounds
@@ -59,11 +59,12 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
       localizationOptions: {
         includeLocalePanel: false,
         customPreferences: [ {
-          createContent: () => new LanguageAndVoiceControl(
+          createContent: tandem => new LanguageAndVoiceControl(
             localeProperty,
             NumberPairsPreferences.primaryVoiceProperty,
-            numberPairsUtteranceQueue
-          )
+            numberPairsUtteranceQueue, {
+              tandem: tandem.createTandem( 'languageAndVoiceControl' )
+            } )
         } ]
       }
     } );
