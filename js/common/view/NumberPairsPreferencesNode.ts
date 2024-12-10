@@ -2,14 +2,14 @@
 
 /**
  * NumberPairsPreferencesNode is the set of controls for preferences that appear in the Simulation tab
- * of the Preferences dialog
+ * of the Preferences dialog.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { HBoxOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import SecondLanguageControl from '../../../../number-suite-common/js/common/view/SecondLanguageControl.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
@@ -20,9 +20,8 @@ type SelfOptions = {
   secondLanguageControlVisible?: boolean; // should the 'Second Language' control be enabled?
 };
 
-export type NumberPairsPreferencesNodeOptions = SelfOptions & StrictOmit<HBoxOptions, 'children'>;
+export type NumberPairsPreferencesNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-//TODO https://github.com/phetsims/number-pairs/issues/22 Use a different superclass when more controls are added.
 export default class NumberPairsPreferencesNode extends Node {
 
   public constructor( providedOptions?: NumberPairsPreferencesNodeOptions ) {
@@ -39,7 +38,7 @@ export default class NumberPairsPreferencesNode extends Node {
     const secondLanguageControl = new SecondLanguageControl(
       NumberPairsPreferences.secondLocaleProperty,
       NumberPairsPreferences.secondVoiceProperty,
-      NumberPairsPreferences.showSecondLocaleProperty,
+      NumberPairsPreferences.secondLocaleEnabledProperty,
       NumberPairsPreferences.isPrimaryLocaleProperty,
       NumberPairsConstants.ALL_URL,
       numberPairsUtteranceQueue, {

@@ -46,18 +46,19 @@ const NumberPairsPreferences = {
   // When true, the phrase will automatically be spoken whenever it changes.
   autoHearEnabledProperty: new BooleanProperty( false ),
 
-  //TODO https://github.com/phetsims/number-pairs/issues/22 Properties below here are global, but do not belong in Preferences.
-
-  // If a valid secondary locale was provided via a query parameter, display the secondary locale on sim startup.
-  showSecondLocaleProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale ),
-
-  // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
-  isPrimaryLocaleProperty: new BooleanProperty( true ),
+  // Whether the second locale feature is enabled.
+  secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale ),
 
   // Strings for the current secondLocale.
   secondLocaleStringsProperty: new DerivedProperty( [ secondLocaleProperty ], secondLocale => {
     return phet.chipper.strings[ secondLocale ];
-  } )
+  } ),
+
+  //TODO https://github.com/phetsims/number-pairs/issues/22 Properties below here are global, but do not belong in Preferences.
+
+  // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
+  //TODO https://github.com/phetsims/number-pairs/issues/22 Shouldn't this be specific to each screen? How about Reset All behavior?
+  isPrimaryLocaleProperty: new BooleanProperty( true )
 };
 
 numberPairs.register( 'NumberPairsPreferences', NumberPairsPreferences );

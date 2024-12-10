@@ -9,7 +9,6 @@
  */
 
 //TODO https://github.com/phetsims/number-pairs/issues/22 None of the controls reused herein currently support PhET-iO.
-//TODO https://github.com/phetsims/number-pairs/issues/22 Move this to view, to eliminate eslint-disable-next-line comments?
 
 import PreferencesModel from '../../../../joist/js/preferences/PreferencesModel.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
@@ -47,7 +46,9 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
             NumberPairsPreferences.autoHearEnabledProperty,
             numberPairsSpeechSynthesisAnnouncer.hasVoiceProperty,
             NumberPairsStrings.automaticallyHearPhraseStringProperty,
-            NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty )
+            NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty
+            //TODO https://github.com/phetsims/number-pairs/issues/22 If Game screen does not have speech synthesis, then we'll need to provide the 'visible' (5th) argument to AutoHearControl.
+          )
         } ],
 
         // speech synthesis is the only sound used in this sim, no general sim sounds

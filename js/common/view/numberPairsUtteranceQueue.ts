@@ -66,6 +66,7 @@ class NumberPairsUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
     // Notify listeners on speechDataProperty so if autoHear is turned on, the data is spoken whenever the selected
     // screen changes. The DerivedProperty above covers most, but not all, cases when changing screens.
     // See https://github.com/phetsims/number-play/issues/217.
+    //TODO https://github.com/phetsims/number-pairs/issues/22 Is this a potential order problem with the above DerivedProperty?
     selectedScreenProperty.lazyLink( () => {
       speechDataProperty.value && speechDataProperty.notifyListenersStatic();
     } );
