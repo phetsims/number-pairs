@@ -36,29 +36,34 @@ const NumberPairsPreferences = {
   secondLocaleProperty: secondLocaleProperty,
 
   // Voice for the primary locale
-  //TODO https://github.com/phetsims/number-pairs/issues/22 Cannot instrument because there is no IOType for SpeechSynthesisVoice.
   primaryVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
   // Voice for the second locale
-  //TODO https://github.com/phetsims/number-pairs/issues/22 Cannot instrument because there is no IOType for SpeechSynthesisVoice.
   secondVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
   // When true, the phrase will automatically be spoken whenever it changes.
-  autoHearEnabledProperty: new BooleanProperty( false ),
+  autoHearEnabledProperty: new BooleanProperty( false, {
+    tandem: Tandem.PREFERENCES.createTandem( 'autoHearEnabledProperty' ),
+    phetioFeatured: true
+  } ),
 
   // Whether the second locale feature is enabled.
-  secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale ),
+  secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale, {
+    tandem: Tandem.PREFERENCES.createTandem( 'secondLocaleEnabledProperty' ),
+    phetioReadOnly: true
+  } ),
 
   // Strings for the current secondLocale.
   secondLocaleStringsProperty: new DerivedProperty( [ secondLocaleProperty ], secondLocale => {
     return phet.chipper.strings[ secondLocale ];
   } ),
 
-  //TODO https://github.com/phetsims/number-pairs/issues/22 Properties below here are global, but do not belong in Preferences.
-
   // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
   //TODO https://github.com/phetsims/number-pairs/issues/22 Shouldn't this be specific to each screen? How about Reset All behavior?
-  isPrimaryLocaleProperty: new BooleanProperty( true )
+  isPrimaryLocaleProperty: new BooleanProperty( true, {
+    tandem: Tandem.PREFERENCES.createTandem( 'isPrimaryLocaleProperty' ),
+    phetioReadOnly: true
+  } )
 };
 
 numberPairs.register( 'NumberPairsPreferences', NumberPairsPreferences );
