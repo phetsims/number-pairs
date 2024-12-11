@@ -41,12 +41,15 @@ export default class BeadNode extends Node {
     public readonly model: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
+    // giving the bead image an extra 0.5 width allows the outlines to line up cleanly when next to each other.
+    // This prevents odd gaps now and then as well as graphical artifacts.
+    const beadMaxWidth = BeadNode.BEAD_WIDTH + 0.5;
     const blueBead = new Image( beadBlue_svg, {
-      maxWidth: BeadNode.BEAD_WIDTH,
+      maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT )
     } );
     const pinkBead = new Image( beadPink_svg, {
-      maxWidth: BeadNode.BEAD_WIDTH,
+      maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT )
     } );
 
