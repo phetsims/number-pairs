@@ -33,8 +33,10 @@ import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
 import OrganizeBeadsButton from './OrganizeBeadsButton.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
-import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameButton from './TenFrameButton.js';
+import SpeechSynthesisButton from '../../../../number-suite-common/js/common/view/SpeechSynthesisButton.js';
+import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
+import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 
 
 type SelfOptions = {
@@ -114,8 +116,7 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the buttons along the left edge of each screen
      */
-    const speechSynthesisButton = new SpeechSynthesisButton( {
-      tandem: options.tandem.createTandem( 'speechSynthesisButton' ),
+    const speechSynthesisButton = new SpeechSynthesisButton( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
     } );

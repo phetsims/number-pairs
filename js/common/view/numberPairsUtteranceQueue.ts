@@ -11,13 +11,9 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
-import TenScreen from '../../ten/TenScreen.js';
-import TwentyScreen from '../../twenty/TwentyScreen.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
-import IntroScreen from '../../intro/IntroScreen.js';
-import SumScreen from '../../sum/SumScreen.js';
 
 class NumberPairsUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
 
@@ -56,10 +52,10 @@ class NumberPairsUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
 
         // We want the speech data to reflect the selected screen. Returns null for screens that do not support speech
         // synthesis.
-        return selectedScreen instanceof IntroScreen ? introScreenSpeechData :
-               selectedScreen instanceof TenScreen ? tenScreenSpeechData :
-               selectedScreen instanceof TwentyScreen ? twentyScreenSpeechData :
-               selectedScreen instanceof SumScreen ? sumScreenSpeechData :
+        return selectedScreen instanceof phet.numberPairs.IntroScreen ? introScreenSpeechData :
+               selectedScreen instanceof phet.numberPairs.TenScreen ? tenScreenSpeechData :
+               selectedScreen instanceof phet.numberPairs.TwentyScreen ? twentyScreenSpeechData :
+               selectedScreen instanceof phet.numberPairs.SumScreen ? sumScreenSpeechData :
                null;
       } );
 
