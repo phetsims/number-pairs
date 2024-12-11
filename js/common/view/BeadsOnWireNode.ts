@@ -216,15 +216,16 @@ export default class BeadsOnWireNode extends Node {
   }
 
   private positionBeadsOnWire(): void {
+    const distanceFromSeparator = 1.5;
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value );
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = beadSeparatorXPosition - i - 1;
+      bead.beadXPositionProperty.value = beadSeparatorXPosition - i - distanceFromSeparator;
     } );
     rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = i + beadSeparatorXPosition + 1;
+      bead.beadXPositionProperty.value = i + beadSeparatorXPosition + distanceFromSeparator;
     } );
   }
 

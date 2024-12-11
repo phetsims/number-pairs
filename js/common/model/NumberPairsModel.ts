@@ -437,17 +437,26 @@ export default class NumberPairsModel implements TModel {
     const leftAddend = this.leftAddendProperty.value;
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
+    const distanceFromSeparator = 1.5;
 
     // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
     const leftAddendRemainder = leftAddendBeads.length % 5;
     leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = beadSeparatorXPosition - Math.floor( ( i - leftAddendRemainder ) / 5 ) - i - 2;
+
+      // TODO: I don't like this solution but it's working... There's got to be a better way.
+      //  the negative numbers from subtracting the remainder is what gets me here. But I'm having
+      //  hard time finding a way to deal with it because of situations where the remainder can also be zero.
+      const numerator = leftAddendRemainder === 0 ? i - 5 : i - leftAddendRemainder;
+      const groupingIndex = Math.floor( numerator / 5 ) + 1;
+      bead.beadXPositionProperty.value = beadSeparatorXPosition - groupingIndex - i - distanceFromSeparator;
     } );
 
     const rightAddendRemainder = rightAddendBeads.length % 5;
     rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = Math.floor( ( i - rightAddendRemainder ) / 5 ) + i + beadSeparatorXPosition + 2;
+      const numerator = rightAddendRemainder === 0 ? i - 5 : i - rightAddendRemainder;
+      const groupingIndex = Math.floor( numerator / 5 ) + 1;
+      bead.beadXPositionProperty.value = groupingIndex + i + beadSeparatorXPosition + distanceFromSeparator;
     } );
   }
 
