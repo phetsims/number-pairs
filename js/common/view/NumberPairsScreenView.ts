@@ -34,9 +34,9 @@ import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js'
 import OrganizeBeadsButton from './OrganizeBeadsButton.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
-import SpeechSynthesisButton from '../../../../number-suite-common/js/common/view/SpeechSynthesisButton.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
+import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 
 
 type SelfOptions = {
@@ -116,11 +116,12 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the buttons along the left edge of each screen
      */
-    const speechSynthesisButton = new SpeechSynthesisButton( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
+    const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
+      y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      tandem: options.tandem.createTandem( 'speechSynthesisControl' )
     } );
-    this.addChild( speechSynthesisButton );
+    this.addChild( speechSynthesisControl );
 
     const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
