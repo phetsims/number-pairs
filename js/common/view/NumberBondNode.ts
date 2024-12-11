@@ -23,8 +23,8 @@ type SelfOptions = {
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-const HORIZONTAL_OFFSET = 1.5 * CIRCLE_RADIUS;
-const VERTICAL_OFFSET = 3 * CIRCLE_RADIUS;
+const HORIZONTAL_OFFSET = 1.4 * CIRCLE_RADIUS;
+const VERTICAL_OFFSET = 2.25 * CIRCLE_RADIUS;
 const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export default class NumberBondNode extends Node {

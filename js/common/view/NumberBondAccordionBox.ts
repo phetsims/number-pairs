@@ -35,6 +35,8 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       titleXSpacing: 10,
       contentXMargin: 30,
       contentXSpacing: 0,
+      contentYSpacing: 0,
+      showTitleWhenExpanded: true,
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );
 

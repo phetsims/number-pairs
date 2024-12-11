@@ -34,7 +34,7 @@ import BeadNode from './BeadNode.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
-const WIRE_HEIGHT = 5;
+const WIRE_HEIGHT = 4;
 type SelfOptions = {
   sceneRange: Range;
 };
