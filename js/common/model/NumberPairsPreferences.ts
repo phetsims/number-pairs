@@ -33,10 +33,10 @@ const NumberPairsPreferences = {
   // Second locale
   secondLocaleProperty: secondLocaleProperty,
 
-  // Voice for the primary locale
+  // Voices for the primary and second locale. At 12/12/24 PhET-iO meeting, we decided that these Properties will
+  // not be instrumented for PhET-iO. SpeechSynthesisVoice is a native JavaScript type, so creating an IOType is
+  // problematic. And it doesn’t make sense to configure in a wrapper, because available voices are platform specific.
   primaryVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
-
-  // Voice for the second locale
   secondVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
   // When true, the phrase will automatically be spoken whenever it changes.
