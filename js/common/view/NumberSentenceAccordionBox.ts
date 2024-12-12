@@ -21,6 +21,11 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import numberPairsPreferences from '../model/NumberPairsPreferences.js';
+import Property from '../../../../axon/js/Property.js';
+import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberSuiteCommonStrings.zeroStringProperty );
@@ -48,8 +53,8 @@ NUMBER_TO_WORD_MAP.set( 'aNumber', NumberPairsStrings.aNumberStringProperty );
 NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringProperty );
 
 type SelfOptions = {
-  numberSentenceStringProperty: TReadOnlyProperty<string>;
-  numberPhraseSpeechStringProperty: TReadOnlyProperty<string>;
+  numberSentenceStringProperty: LocalizedStringProperty;
+  numberPhraseSpeechStringProperty: LocalizedStringProperty;
   speechDataProperty: TProperty<string>;
 };
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
@@ -73,43 +78,79 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       expandedDefaultValue: false
     }, providedOptions );
 
-    const totalStringProperty = new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty ],
-      ( total, visible ) => {
-        const key = visible ? total : 'aNumber';
-        return NUMBER_TO_WORD_MAP.get( key );
-      } );
-    const leftAddendStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty ],
-      ( total, visible ) => {
-        const key = visible ? total : 'aNumber';
-        return NUMBER_TO_WORD_MAP.get( key );
-      } );
-    const rightAddendStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty ],
-      ( total, visible ) => {
-        const key: number | string = visible ? total : 'anotherNumber';
-        return NUMBER_TO_WORD_MAP.get( key );
-      } );
+    /**
+     * Create the string Properties that drive the display of the number sentence as well as the speech data.
+     */
+    const isPrimaryLocaleProperty = numberPairsPreferences.isPrimaryLocaleProperty;
+    const secondLocaleStringsProperty = numberPairsPreferences.secondLocaleStringsProperty;
 
+    const createNumberStringProperty = ( numberProperty: TReadOnlyProperty<number>, visibleProperty: TReadOnlyProperty<boolean>, shellProperty: Property<string> ) => {
+
+      // We want to grab the right string based on the number, visibility, primary vs. secondary locale, second locale strings.
+      // and the primary locale strings. It is easier to listen to the global localeProperty than to pass in every possible
+      // stringProperty in the NUMBER_TO_WORD_MAP above.
+      return new DerivedProperty( [ numberProperty, visibleProperty, isPrimaryLocaleProperty, secondLocaleStringsProperty, localeProperty ],
+        ( total, visible, isPrimaryLocale, secondLocaleStrings ) => {
+          const key = visible ? total : 'aNumber';
+          const primaryStringProperty = NUMBER_TO_WORD_MAP.get( key );
+          if ( isPrimaryLocale ) {
+            return primaryStringProperty;
+          }
+          else {
+            const secondLocaleString = secondLocaleStrings[ primaryStringProperty.localizedString.stringKey ];
+            shellProperty.value = secondLocaleString ? secondLocaleString : primaryStringProperty.value;
+            return shellProperty;
+          }
+        } );
+    };
+
+    // Shell Properties for the second locale strings to fill in.
+    const secondLocaleTotalStringProperty = new Property( '' );
+    const secondLocaleLeftAddendStringProperty = new Property( '' );
+    const secondLocaleRightAddendStringProperty = new Property( '' );
+
+    const totalStringProperty = createNumberStringProperty( model.totalProperty, model.totalVisibleProperty, secondLocaleTotalStringProperty );
+    const leftAddendStringProperty = createNumberStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, secondLocaleLeftAddendStringProperty );
+    const rightAddendStringProperty = createNumberStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, secondLocaleRightAddendStringProperty );
+
+    // Nest these in a DynamicProperty to abstract any additional listeners needed to account for translation.
     const totalDynamicProperty = new DynamicProperty( totalStringProperty );
     const leftAddendDynamicProperty = new DynamicProperty( leftAddendStringProperty );
     const rightAddendDynamicProperty = new DynamicProperty( rightAddendStringProperty );
-    const numberSentencePatternStringProperty = new PatternStringProperty( options.numberSentenceStringProperty, {
+
+    // Create the PatternStringProperties for primary and secondary locales.
+    const primaryLocalePatternStringProperty = new PatternStringProperty( options.numberSentenceStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    const numberPhraseSpeechPatternStringProperty = new PatternStringProperty( options.numberPhraseSpeechStringProperty, {
+    const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberSentenceStringProperty ],
+      ( secondLocaleStrings, numberSentenceString ) => {
+      const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+
+      // If the secondLocaleString is not defined, default to the primary locale string.
+      return secondLocaleString ? secondLocaleString : numberSentenceString;
+    } );
+    const secondaryLocalePatternStringProperty = new PatternStringProperty( secondaryLocaleStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    numberPhraseSpeechPatternStringProperty.link( speechString => {
-      options.speechDataProperty.value = speechString;
+
+    // This is the final Property that the RichText will listen to. At this point all decisions about what locale
+    // to display based on translation have been filtered down.
+    const numberSentenceStringProperty = new DerivedProperty( [
+      isPrimaryLocaleProperty,
+      primaryLocalePatternStringProperty,
+      secondaryLocalePatternStringProperty
+    ], isPrimaryLocale => {
+      return isPrimaryLocale ? primaryLocalePatternStringProperty.value : secondaryLocalePatternStringProperty.value;
     } );
 
     let totalHighlight: Rectangle;
     let leftAddendHighlight: Rectangle;
     let rightAddendHighlight: Rectangle;
-    const richText = new RichText( numberSentencePatternStringProperty, {
+    const richText = new RichText( numberSentenceStringProperty, {
       lineWrap: LINE_WRAP,
       leading: 10,
       tags: {
@@ -152,6 +193,34 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       }
     } );
 
+    /**
+     * Update the speech data
+     */
+    const primaryLocaleSpeechPatternStringProperty = new PatternStringProperty( options.numberPhraseSpeechStringProperty, {
+      total: totalDynamicProperty,
+      leftAddend: leftAddendDynamicProperty,
+      rightAddend: rightAddendDynamicProperty
+    } );
+    const secondaryLocaleSpeechStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberPhraseSpeechStringProperty ],
+      ( secondLocaleStrings, numberPhraseSpeechString ) => {
+      const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+
+      // If the secondLocaleString is not defined, default to the primary locale string.
+      return secondLocaleString ? secondLocaleString : numberPhraseSpeechString;
+    } );
+    const secondaryLocaleSpeechPatternStringProperty = new PatternStringProperty( secondaryLocaleSpeechStringProperty, {
+      total: totalDynamicProperty,
+      leftAddend: leftAddendDynamicProperty,
+      rightAddend: rightAddendDynamicProperty
+    } );
+    Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty ],
+      ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern ) => {
+      options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+    } );
+
+    /**
+     * Update the highlight colors as the counting representation changes.
+     */
     model.totalColorProperty.link( color => {
       totalHighlight.fill = color;
     } );

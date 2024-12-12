@@ -37,7 +37,8 @@ import TenFrameButton from './TenFrameButton.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
-
+import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 
 type SelfOptions = {
   numberSentenceContent: Node;
@@ -73,7 +74,13 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Set the layout of the accordion boxes along the top of each screen.
      */
-    const numberSentenceAlignBox = new AlignBox( options.numberSentenceContent, {
+
+    const numberSentenceVBox = new VBox( {
+      children: [ options.numberSentenceContent ],
+      spacing: 5,
+      align: 'left'
+    } );
+    const numberSentenceAlignBox = new AlignBox( numberSentenceVBox, {
       alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
@@ -122,6 +129,10 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'speechSynthesisControl' )
     } );
     this.addChild( speechSynthesisControl );
+    const localeSwitch = new LocaleSwitch( NumberPairsPreferences, numberPairsUtteranceQueue, 300, {
+      tandem: options.tandem.createTandem( 'localeSwitch' )
+    } );
+    numberSentenceVBox.addChild( localeSwitch );
 
     const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||

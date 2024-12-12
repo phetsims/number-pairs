@@ -32,6 +32,7 @@ export default class TotalRepresentationAccordionBox extends AccordionBox {
       buttonXMargin: BUTTON_X_MARGIN,
       cornerRadius: 5,
       contentXSpacing: 0,
+      useExpandedBoundsWhenCollapsed: false,
       fill: NumberPairsColors.accordionBoxBackgroundColorProperty,
       expandCollapseButtonOptions: {
         sideLength: EXPAND_COLLAPSE_SIDE_LENGTH
