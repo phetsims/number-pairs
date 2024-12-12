@@ -12,6 +12,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import { Node, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
@@ -19,6 +20,7 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberSuiteCommonStrings.zeroStringProperty );
@@ -47,6 +49,8 @@ NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringP
 
 type SelfOptions = {
   numberSentenceStringProperty: TReadOnlyProperty<string>;
+  numberPhraseSpeechStringProperty: TReadOnlyProperty<string>;
+  speechDataProperty: TProperty<string>;
 };
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
@@ -60,6 +64,14 @@ export const ACCORDION_BOX_WIDTH = LINE_WRAP + 2 * CONTENT_X_MARGIN + EXPAND_COL
 export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
+
+    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
+      contentXMargin: 20,
+      contentYMargin: 20,
+      contentAlign: 'left',
+      minWidth: ACCORDION_BOX_WIDTH,
+      expandedDefaultValue: false
+    }, providedOptions );
 
     const totalStringProperty = new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty ],
       ( total, visible ) => {
@@ -77,10 +89,21 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
         return NUMBER_TO_WORD_MAP.get( key );
       } );
 
-    const numberSentencePatternStringProperty = new PatternStringProperty( providedOptions.numberSentenceStringProperty, {
-      total: new DynamicProperty( totalStringProperty ),
-      leftAddend: new DynamicProperty( leftAddendStringProperty ),
-      rightAddend: new DynamicProperty( rightAddendStringProperty )
+    const totalDynamicProperty = new DynamicProperty( totalStringProperty );
+    const leftAddendDynamicProperty = new DynamicProperty( leftAddendStringProperty );
+    const rightAddendDynamicProperty = new DynamicProperty( rightAddendStringProperty );
+    const numberSentencePatternStringProperty = new PatternStringProperty( options.numberSentenceStringProperty, {
+      total: totalDynamicProperty,
+      leftAddend: leftAddendDynamicProperty,
+      rightAddend: rightAddendDynamicProperty
+    } );
+    const numberPhraseSpeechPatternStringProperty = new PatternStringProperty( options.numberPhraseSpeechStringProperty, {
+      total: totalDynamicProperty,
+      leftAddend: leftAddendDynamicProperty,
+      rightAddend: rightAddendDynamicProperty
+    } );
+    numberPhraseSpeechPatternStringProperty.link( speechString => {
+      options.speechDataProperty.value = speechString;
     } );
 
     let totalHighlight: Rectangle;
@@ -139,18 +162,10 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       rightAddendHighlight.fill = color;
     } );
 
-    const titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
+    options.titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
       font: NumberPairsConstants.TITLE_FONT
     } );
 
-    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
-      titleNode: titleNode,
-      contentXMargin: 20,
-      contentYMargin: 20,
-      contentAlign: 'left',
-      minWidth: ACCORDION_BOX_WIDTH,
-      expandedDefaultValue: false
-    }, providedOptions );
     super( richText, options );
   }
 }

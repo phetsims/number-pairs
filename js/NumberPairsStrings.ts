@@ -26,7 +26,9 @@ type StringsType = {
   'numberBondStringProperty': LocalizedStringProperty;
   'equationStringProperty': LocalizedStringProperty;
   'decompositionNumberSentencePatternStringProperty': LocalizedStringProperty;
+  'decompositionNumberPhraseSpeechPatternStringProperty': LocalizedStringProperty;
   'sumNumberSentencePatternStringProperty': LocalizedStringProperty;
+  'sumNumberPhraseSpeechPatternStringProperty': LocalizedStringProperty;
   'aNumberStringProperty': LocalizedStringProperty;
   'anotherNumberStringProperty': LocalizedStringProperty;
   'addendsStringProperty': LocalizedStringProperty;

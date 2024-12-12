@@ -16,6 +16,7 @@ import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordio
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import IntroModel from '../model/IntroModel.js';
+import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
@@ -32,6 +33,8 @@ export default class IntroScreenView extends DecompositionScreenView {
     const options = optionize<IntroScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
         numberSentenceStringProperty: NumberPairsStrings.decompositionNumberSentencePatternStringProperty,
+        numberPhraseSpeechStringProperty: NumberPairsStrings.decompositionNumberPhraseSpeechPatternStringProperty,
+        speechDataProperty: numberPairsUtteranceQueue.introScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {

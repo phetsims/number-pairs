@@ -17,6 +17,7 @@ import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordio
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import TwentyModel from '../model/TwentyModel.js';
+import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
@@ -32,6 +33,8 @@ export default class TwentyScreenView extends DecompositionScreenView {
     const options = optionize<TwentyScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
         numberSentenceStringProperty: NumberPairsStrings.decompositionNumberSentencePatternStringProperty,
+        numberPhraseSpeechStringProperty: NumberPairsStrings.decompositionNumberPhraseSpeechPatternStringProperty,
+        speechDataProperty: numberPairsUtteranceQueue.twentyScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {

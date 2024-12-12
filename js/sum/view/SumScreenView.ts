@@ -19,6 +19,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
+import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreenView here
@@ -37,6 +38,8 @@ export default class SumScreenView extends NumberPairsScreenView {
       sumScreen: true,
       numberSentenceContent: new NumberSentenceAccordionBox( model, {
         numberSentenceStringProperty: NumberPairsStrings.sumNumberSentencePatternStringProperty,
+        numberPhraseSpeechStringProperty: NumberPairsStrings.sumNumberPhraseSpeechPatternStringProperty,
+        speechDataProperty: numberPairsUtteranceQueue.sumScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
