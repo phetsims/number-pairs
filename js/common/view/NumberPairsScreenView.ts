@@ -145,8 +145,9 @@ export default class NumberPairsScreenView extends ScreenView {
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
-    const tenFrameButton = new TenFrameButton( tenFrameBounds, model.organizeIntoTenFrame.bind( model ), {
+    const tenFrameButton = new TenFrameButton( {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
+      listener: () => model.organizeIntoTenFrame.bind( model )( tenFrameBounds ),
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 

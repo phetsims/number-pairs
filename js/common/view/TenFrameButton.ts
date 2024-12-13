@@ -6,33 +6,28 @@
  *
  */
 
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Line, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenFrameButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOptions, 'tandem'>
-  & StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
+  & StrictOmit<RectangularPushButtonOptions, 'content'>;
 
 export default class TenFrameButton extends RectangularPushButton {
 
   public constructor(
-    tenFrameBounds: Bounds2[],
-    organizeIntoTenFrame: ( bounds: Bounds2[] ) => void,
     providedOptions: TenFrameButtonOptions
   ) {
     const tenFrameIcon = TenFrameButton.createTenFrameIcon();
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
-        content: tenFrameIcon,
-        listener: () => {
-          organizeIntoTenFrame( tenFrameBounds );
-        }
+        content: tenFrameIcon
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }
@@ -41,24 +36,24 @@ export default class TenFrameButton extends RectangularPushButton {
     const tenFrameWidth = 48;
     const tenFrameHeight = 22;
     const tenFrameLineWidth = 2;
-    const outerFrame = new Rectangle( 0, 0, tenFrameWidth, tenFrameHeight, {
-      stroke: 'black',
-      lineWidth: tenFrameLineWidth
-    } );
+
+    // outer frame
+    const shape = new Shape().rect( 0, 0, tenFrameWidth, tenFrameHeight );
+    shape.moveTo( 0, tenFrameHeight / 2 );
+
+    // horizontal line
+    shape.lineTo( tenFrameWidth, tenFrameHeight / 2 );
+
+    // vertical lines
     const verticalLineSpacing = tenFrameWidth / 5;
-    const verticalLines = _.times( 4, i => new Line(
-      verticalLineSpacing + i * verticalLineSpacing,
-      0,
-      verticalLineSpacing + i * verticalLineSpacing,
-      tenFrameHeight,
-      { stroke: 'black', lineWidth: tenFrameLineWidth }
-    ) );
-    const horizontalLine = new Line( 0, tenFrameHeight / 2, tenFrameWidth, tenFrameHeight / 2, {
+    _.times( 4, i => {
+      shape.moveTo( verticalLineSpacing + i * verticalLineSpacing, 0 );
+      shape.lineTo( verticalLineSpacing + i * verticalLineSpacing, tenFrameHeight );
+    } );
+
+    return new Path( shape, {
       stroke: 'black',
       lineWidth: tenFrameLineWidth
-    } );
-    return new Node( {
-      children: [ outerFrame, ...verticalLines, horizontalLine ]
     } );
   }
 }
