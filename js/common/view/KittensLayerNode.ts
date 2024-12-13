@@ -24,7 +24,7 @@ type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
   public constructor( model: NumberPairsModel, countingObjects: CountingObject[], countingAreaBounds: Bounds2, providedOptions: KittensLayerNodeOptions ) {
-    const newKittenFocusedEmitter = new Emitter();
+    const newKittenSelectedEmitter = new Emitter<[CountingObject]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
 
     const availableGridPositions = model.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
@@ -32,7 +32,7 @@ export default class KittensLayerNode extends Node {
       const initialPosition = dotRandom.sample( availableGridPositions );
       availableGridPositions.splice( availableGridPositions.indexOf( initialPosition ), 1 );
 
-      kittenNodes.push( new KittenNode( countingObject, countingAreaBounds, newKittenFocusedEmitter, {
+      kittenNodes.push( new KittenNode( countingObject, countingAreaBounds, newKittenSelectedEmitter, {
         initialPosition: initialPosition,
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onEndDrag: model.dropCountingObject.bind( model ),

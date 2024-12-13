@@ -226,7 +226,7 @@ export default class NumberPairsScreenView extends ScreenView {
         press: event => {
           if ( kittensLayerNode.kittenNodes.every( kittenNode => !event.trail.containsNode( kittenNode ) ) ) {
             model.countingObjects.forEach( countingObject => {
-              countingObject.focusedProperty.value = false;
+              countingObject.kittenSelectedProperty.value = false;
             } );
           }
         },

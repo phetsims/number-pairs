@@ -46,7 +46,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
   public constructor(
     model: CountingObject,
     dragBounds: Bounds2,
-    newKittenFocusedEmitter: Emitter,
+    newKittenSelectedEmitter: Emitter<[CountingObject]>,
     providedOptions: KittenNodeOptions
   ) {
 
@@ -97,7 +97,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       xAlign: 'center'
     } );
     const focusPanel = new Panel( panelAlignBox, {
-      visibleProperty: model.focusedProperty,
+      visibleProperty: model.kittenSelectedProperty,
       focusable: false,
       fill: NumberPairsColors.kittenPanelBackgroundColorProperty,
       stroke: null
@@ -132,8 +132,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const dragListener = new SoundRichDragListener( {
       positionProperty: model.attributePositionProperty,
       start: () => {
-        newKittenFocusedEmitter.emit();
-        model.focusedProperty.value = true;
+        newKittenSelectedEmitter.emit( model );
+        model.kittenSelectedProperty.value = true;
         this.moveToFront();
       },
       end: () => {
@@ -147,25 +147,26 @@ export default class KittenNode extends InteractiveHighlightingNode {
       },
       keyboardDragListenerOptions: {
         focus: () => {
-          newKittenFocusedEmitter.emit();
-          model.focusedProperty.value = true;
+          newKittenSelectedEmitter.emit( model );
+          model.kittenSelectedProperty.value = true;
+          this.moveToFront();
         },
-        blur: () => { model.focusedProperty.value = false; },
+        blur: () => { model.kittenSelectedProperty.value = false; },
         dragSpeed: 200,
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
       }
     } );
 
-    const ABSwitchKeyboardListener = new KeyboardListener( {
+    const toggleAddendKeyboardListener = new KeyboardListener( {
       keys: [ 'space' ],
       press: () => {
         isLeftAddendProperty.toggle();
       }
     } );
-    this.addInputListener( ABSwitchKeyboardListener );
+    this.addInputListener( toggleAddendKeyboardListener );
     this.addInputListener( dragListener );
-    newKittenFocusedEmitter.addListener( () => {
-      model.focusedProperty.value = false;
+    newKittenSelectedEmitter.addListener( focusedKitten => {
+      model.kittenSelectedProperty.value = model === focusedKitten;
     } );
 
     model.attributePositionProperty.value = options.initialPosition;

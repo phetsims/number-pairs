@@ -52,7 +52,7 @@ export default class CountingObject extends PhetioObject {
   public readonly beadXPositionProperty: Property<number>;
 
   public readonly addendTypeProperty: Property<AddendType>;
-  public readonly focusedProperty: Property<boolean>;
+  public readonly kittenSelectedProperty: Property<boolean>;
   public readonly id: number;
 
   public readonly draggingProperty: Property<boolean>;
@@ -89,7 +89,7 @@ export default class CountingObject extends PhetioObject {
       phetioReadOnly: false,
       phetioFeatured: false
     } );
-    this.focusedProperty = new BooleanProperty( false, {
+    this.kittenSelectedProperty = new BooleanProperty( false, {
       tandem: this.tandem.createTandem( 'focusedProperty' )
     } );
     this.draggingProperty = new BooleanProperty( false, {
@@ -102,7 +102,7 @@ export default class CountingObject extends PhetioObject {
   public reset(): void {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
-    this.focusedProperty.reset();
+    this.kittenSelectedProperty.reset();
     this.draggingProperty.reset();
   }
 
