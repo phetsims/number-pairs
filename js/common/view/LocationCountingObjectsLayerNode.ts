@@ -154,20 +154,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
   }
 
   /**
-   * Update the location of the countingObject to be within the correct addend area.
-   * @param countingObject
-   * @param addendType - We do not want to rely on listener order and therefore the addendType is passed in.
-   */
-  public updateLocation( countingObject: CountingObject, addendType: AddendType ): void {
-    const addendBounds = ( addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds ).dilated( -20 );
-
-    // Check to see if the countingObject is already in the correct addend area. If it is, we do not want to move it.
-    if ( !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-      countingObject.locationPositionProperty.value = dotRandom.sample( this.model.getGridCoordinates( addendBounds, COUNTING_AREA_MARGIN, COUNTING_AREA_MARGIN, 6 ) );
-    }
-  }
-
-  /**
    * As the counting object changes location, we need to update the addend arrays.
    * @param countingObject
    * @param newPosition
@@ -175,6 +161,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public handleLocationChange( countingObject: CountingObject, newPosition: Vector2 ): void {
     const leftAddendCountingObjects = this.model.leftAddendCountingObjectsProperty.value;
     const rightAddendCountingObjects = this.model.rightAddendCountingObjectsProperty.value;
+
+    // If the countingObject is in the left addend area, remove it from the right addend area and add it to the
+    // left addend area and vice versa.
+    // This function will no-op if the countingObject is not in the left or right addend area, or if it is already in
+    // the correct countingObject array.
     if ( this.leftCountingAreaBounds.containsPoint( newPosition ) &&
          !leftAddendCountingObjects.includes( countingObject ) &&
          rightAddendCountingObjects.includes( countingObject ) ) {
