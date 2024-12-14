@@ -84,16 +84,19 @@ export default class CountingObject extends PhetioObject {
       tandem: this.tandem.createTandem( 'beadXPositionProperty' )
     } );
 
+    // This Property should not reset. It is managed by the addend array when added or removed.O
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
-      phetioReadOnly: false,
+      phetioReadOnly: true,
       phetioFeatured: false
     } );
     this.kittenSelectedProperty = new BooleanProperty( false, {
-      tandem: this.tandem.createTandem( 'focusedProperty' )
+      tandem: this.tandem.createTandem( 'focusedProperty' ),
+      phetioReadOnly: true
     } );
     this.draggingProperty = new BooleanProperty( false, {
-      tandem: this.tandem.createTandem( 'isDraggingProperty' )
+      tandem: this.tandem.createTandem( 'isDraggingProperty' ),
+      phetioReadOnly: true
     } );
 
     this.id = options.id;

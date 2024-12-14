@@ -24,12 +24,13 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
   onEndDrag: ( droppedObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
 };
-type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
 export const IMAGE_WIDTH = 40;
 export const ONE_CARD_HEIGHT = 55;
