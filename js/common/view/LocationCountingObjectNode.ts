@@ -14,8 +14,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Image, Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
@@ -24,6 +23,7 @@ import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import RepresentationType from '../model/RepresentationType.js';
+import OneCard from './OneCard.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -31,8 +31,8 @@ type SelfOptions = {
 };
 type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
-const IMAGE_WIDTH = 40;
-const ONE_CARD_HEIGHT = 55;
+export const IMAGE_WIDTH = 40;
+export const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public constructor(
@@ -48,18 +48,9 @@ export default class LocationCountingObjectNode extends Node {
     } );
 
     // Create the one card.
-    const oneCard = new Rectangle( 0, 0, IMAGE_WIDTH, ONE_CARD_HEIGHT, {
-      fill: 'white',
-      stroke: 'black',
-      cornerRadius: 5,
+    const oneCard = new OneCard( IMAGE_WIDTH, ONE_CARD_HEIGHT, {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
-    const numberOne = new Text( '1', {
-      font: new PhetFont( 40 ),
-      center: oneCard.center,
-      visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
-    } );
-    oneCard.addChild( numberOne );
 
     const soccerBall = new Image( soccerball_svg, {
       maxWidth: IMAGE_WIDTH,

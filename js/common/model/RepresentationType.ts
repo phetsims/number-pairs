@@ -8,11 +8,9 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, Image, Node } from '../../../../scenery/js/imports.js';
 import apple_svg from '../../../images/apple_svg.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
@@ -23,6 +21,8 @@ import NumberPairsColors from '../NumberPairsColors.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberLineIcon from '../view/NumberLineIcon.js';
+// eslint-disable-next-line phet/no-view-imported-from-model
+import OneCard from '../view/OneCard.js';
 
 
 const ICON_MAX_WIDTH = 25;
@@ -56,12 +56,7 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new Rectangle( 0, 0, ICON_MAX_WIDTH, ICON_MAX_HEIGHT, {
-      cornerRadius: 5,
-      fill: Color.WHITE,
-      stroke: 'black',
-      children: [ new Text( '1', { font: new PhetFont( 18 ), center: new Vector2( ICON_MAX_WIDTH / 2, ICON_MAX_HEIGHT / 2 ) } ) ]
-    } )
+    new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT )
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
