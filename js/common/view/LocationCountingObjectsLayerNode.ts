@@ -109,14 +109,16 @@ export default class LocationCountingObjectsLayerNode extends Node {
       countingObject.addendTypeProperty.link( addendType => {
         if ( !countingObject.draggingProperty.value &&
              ( groupSelectModel.selectedGroupItemProperty.value !== countingObject || !groupSelectModel.isGroupItemKeyboardGrabbedProperty ) ) {
-          const addendBounds = ( addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds ).dilated( -20 );
+          const addendBounds = addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds;
+          const dilatedAddendBounds = addendBounds.dilated( -20 );
+
           if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
 
             // we do not want to rely on listener order, therefore we find the counting objects based on our addend
             // value rather than other Properties
             const leftAddendCountingObjects = model.countingObjects.filter(
               countingObject => countingObject.addendTypeProperty.value === AddendType.LEFT );
-            const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, addendBounds );
+            const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
             countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
           }
           else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
@@ -125,7 +127,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
             // value rather than other Properties
             const rightAddendCountingObjects = model.countingObjects.filter(
               countingObject => countingObject.addendTypeProperty.value === AddendType.RIGHT );
-            const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, addendBounds );
+            const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
             countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
           }
 

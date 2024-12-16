@@ -22,6 +22,7 @@ import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/Nu
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -62,10 +63,18 @@ export default class SumModel extends NumberPairsModel {
         range: SCENE_RANGE
       } );
 
-    const rightAddendProperty = new DerivedProperty( [ leftAddendProperty, totalProperty ], ( leftAddend, total ) => {
+    const rightAddendProperty: TReadOnlyProperty<number> = new DerivedProperty( [ leftAddendProperty, totalProperty ], ( leftAddend, total ) => {
         const newValue: number = total - leftAddend;
-        assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendProperty out of range' );
-        return newValue;
+
+        // We may hit intermediate values that are outside the scene range when resetting all,
+        // so we need to handle this case.
+        if ( ResetAllButton.isResettingAllProperty.value && !SCENE_RANGE.contains( newValue ) ) {
+          return rightAddendProperty.value;
+        }
+        else {
+          assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendProperty out of range' );
+          return newValue;
+        }
       },
       {
         phetioValueType: NumberIO,
@@ -198,7 +207,6 @@ export default class SumModel extends NumberPairsModel {
     super.reset();
     this.leftAddendProperty.reset();
     this.totalProperty.reset();
-
   }
 }
 
