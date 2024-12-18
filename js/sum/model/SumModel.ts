@@ -22,7 +22,7 @@ import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/Nu
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumModel here
@@ -68,7 +68,7 @@ export default class SumModel extends NumberPairsModel {
 
         // We may hit intermediate values that are outside the scene range when resetting all,
         // so we need to handle this case.
-        if ( ResetAllButton.isResettingAllProperty.value && !SCENE_RANGE.contains( newValue ) ) {
+        if ( isResettingAllProperty.value && !SCENE_RANGE.contains( newValue ) ) {
           return rightAddendProperty.value;
         }
         else {
