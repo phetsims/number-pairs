@@ -49,7 +49,7 @@ export default class LocationCountingObjectNode extends Node {
     } );
 
     // Create the one card.
-    const oneCard = new OneCard( IMAGE_WIDTH, ONE_CARD_HEIGHT, {
+    const oneCard = new OneCard( IMAGE_WIDTH, ONE_CARD_HEIGHT, 40, {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
 

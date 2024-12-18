@@ -56,7 +56,7 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT )
+    new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT, 20 )
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',

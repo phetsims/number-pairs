@@ -16,14 +16,14 @@ type SelfOptions = EmptySelfOptions;
 type OneCardOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 export default class OneCard extends Node {
 
-  public constructor( cardWidth: number, cardHeight: number, providedOptions?: OneCardOptions ) {
+  public constructor( cardWidth: number, cardHeight: number, fontSize: number, providedOptions?: OneCardOptions ) {
     const background = new Rectangle( 0, 0, cardWidth, cardHeight, {
       fill: 'white',
       stroke: 'black',
       cornerRadius: 5
     } );
     const numberOne = new Text( '1', {
-      font: new PhetFont( 40 ),
+      font: new PhetFont( fontSize ),
       center: background.center
     } );
 
