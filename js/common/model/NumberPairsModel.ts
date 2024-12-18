@@ -143,12 +143,6 @@ export default class NumberPairsModel implements TModel {
       } ) );
     } );
 
-    this.beadXPositionsProperty.link( beadXPositions => {
-      beadXPositions.forEach( ( beadXPosition, index ) => {
-        this.countingObjects[ index ].beadXPositionProperty.value = beadXPosition;
-      } );
-    } );
-
     // The range will update after all addends have stabilized their values during construction.
     this.numberLineSliderEnabledRangeProperty = new Property(
       new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
@@ -360,6 +354,7 @@ export default class NumberPairsModel implements TModel {
 
   /**
    * Set the left addend to the right addend value and update positions as is desired.
+   * //TODO: Update beadXPositionsProperty
    */
   public swapAddends(): void {
     const countingAreaWidth = NumberPairsConstants.COUNTING_AREA_BOUNDS.width;
@@ -430,8 +425,25 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
+   * Position the beads on the wire according to the left and right addend values. This function puts beads
+   * in their default starting positions, all grouped together on either the left or right side of the wire depending
+   * on their addend type.
+   */
+  public static getInitialBeadPositions( leftAddendValue: number, rightAddendValue: number ): { leftAddendXPositions: number[]; rightAddendXPositions: number[] } {
+    const distanceFromSeparator = 1.5;
+    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
+
+    return {
+      leftAddendXPositions: _.times( leftAddendValue, i => beadSeparatorXPosition - i - distanceFromSeparator ),
+      rightAddendXPositions: _.times( rightAddendValue, i => i + beadSeparatorXPosition + distanceFromSeparator )
+    };
+  }
+
+  /**
    * Snap the beads to their organized positions on the wire based on the addend values. When organized the beads are
    * arranged in groups of 5 with a separator between the two addends.
+   *
+   * // TODO: Use the beadXPositionsProperty to update the bead positions instead of the beads themselves.
    */
   public organizeInGroupsOfFive(): void {
     const leftAddend = this.leftAddendProperty.value;

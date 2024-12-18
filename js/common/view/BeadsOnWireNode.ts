@@ -169,6 +169,7 @@ export default class BeadsOnWireNode extends Node {
           },
           onEndDrag: () => {
             this.beadDragging = false;
+            this.updateBeadXPositions();
           }
         } );
 
@@ -190,43 +191,51 @@ export default class BeadsOnWireNode extends Node {
       this.addChild( beadNode );
     } );
 
-    // TODO: When we add beads to the wire they should not snap.
+    // TODO: Should we also listen to the observable array length Properties here?
     Multilink.multilink( [
       model.leftAddendProperty,
       model.rightAddendProperty
     ], ( leftAddend, rightAddend ) => {
-      if ( !this.beadDragging ) {
+
+      // If we are not dragging a bead was added or removed from the wire.
+      // We also want to make sure that our values are in sync during state or scene changes.
+      if ( !this.beadDragging && leftAddend === this.leftAddendCountingObjectsProperty.value.length && rightAddend === this.rightAddendCountingObjectsProperty.value.length ) {
         this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
-        this.positionBeadsOnWire();
-      }
-    } );
-
-    // Whenever the positions of a bead change and the bead is not being dragged, update the beadXPositionsProperty.
-    const beadPositionDependencies = model.countingObjects.map( countingObject => countingObject.beadXPositionProperty );
-    Multilink.multilinkAny( beadPositionDependencies, () => {
-      if ( !this.beadDragging ) {
-        model.beadXPositionsProperty.value = model.countingObjects.map( countingObject => countingObject.beadXPositionProperty.value );
+        this.updateBeadPositions( leftAddend, rightAddend );
       }
     } );
   }
 
-  //TODO Delete getBeadNodes if it is still unused.
-  private getBeadNodes( countingObjects: CountingObject[] ): BeadNode[] {
-    return countingObjects.map( countingObject => this.beadModelToNodeMap.get( countingObject )! );
+  private updateBeadXPositions(): void {
+    const sortedBeads = this.getSortedBeadNodes();
+    this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.model.beadXPositionProperty.value );
   }
 
-  private positionBeadsOnWire(): void {
-    const distanceFromSeparator = 1.5;
-    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value );
+  private updateBeadPositions( leftAddend: number, rightAddend: number ): void {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
 
-    leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = beadSeparatorXPosition - i - distanceFromSeparator;
-    } );
-    rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = i + beadSeparatorXPosition + distanceFromSeparator;
-    } );
+    // Match the bead positions to what the model has provided.
+    if ( leftAddendBeads.length + rightAddendBeads.length <= this.model.beadXPositionsProperty.value.length ) {
+      leftAddendBeads.forEach( ( bead, i ) => {
+        bead.beadXPositionProperty.value = this.model.beadXPositionsProperty.value[ i ];
+      } );
+      rightAddendBeads.forEach( ( bead, i ) => {
+        bead.beadXPositionProperty.value = this.model.beadXPositionsProperty.value[ i + leftAddendBeads.length ];
+      } );
+    }
+    else {
+
+      // TODO: this is temporary. We want to keep beads where they are at as much as possible. and add new beads into
+      //  the empty space.
+      const positions = NumberPairsModel.getInitialBeadPositions( leftAddend, rightAddend );
+      leftAddendBeads.forEach( ( bead, i ) => {
+        bead.beadXPositionProperty.value = positions.leftAddendXPositions[ i ];
+      } );
+      rightAddendBeads.forEach( ( bead, i ) => {
+        bead.beadXPositionProperty.value = positions.rightAddendXPositions[ i ];
+      } );
+    }
   }
 
   /**

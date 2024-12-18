@@ -17,7 +17,6 @@ import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
  *
  */
 import numberPairs from '../../numberPairs.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject from './CountingObject.js';
 import NumberPairsModel from './NumberPairsModel.js';
 
@@ -70,15 +69,8 @@ export default class NumberPairsScene {
       tandem: tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    //TODO Computation of initialBeadXPositions is duplicated in SumModel.
-    const initialBeadXPositions: number[] = [];
-    _.times( this.total, i => {
-      const leftAddend = this.leftAddendProperty.value;
-      const beadXPosition = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
-                            i - leftAddend + NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
-      initialBeadXPositions.push( beadXPosition );
-    } );
-    this.beadXPositionsProperty = new Property( initialBeadXPositions, {
+    const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( initialLeftAddendValue, initialRightAddendValue );
+    this.beadXPositionsProperty = new Property( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
       tandem: tandem.createTandem( 'beadXPositionsProperty' ),
       phetioValueType: ArrayIO( NumberIO )
     } );
@@ -128,6 +120,10 @@ export default class NumberPairsScene {
       assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
+  }
+
+  public getAllCountingObjects(): CountingObject[] {
+    return [ ...this.leftAddendObjects, ...this.rightAddendObjects ];
   }
 
   public toStateObject(): NumberPairsSceneStateObject {

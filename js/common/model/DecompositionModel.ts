@@ -128,6 +128,11 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel.rightAddendObjects.forEach( countingObject => {
         countingObject.addendTypeProperty.value = AddendType.RIGHT;
       } );
+
+      // Update beadXPositionsProperty to reflect the saved state in the scene.
+      sceneModel.getAllCountingObjects().forEach( ( countingObject, i ) => {
+        countingObject.beadXPositionProperty.value = sceneModel.beadXPositionsProperty.value[ i ];
+      } );
     } );
 
     this.createNumberLineEnabledRangeLinks();

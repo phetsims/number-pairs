@@ -90,14 +90,8 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    const initialBeadXPositions: number[] = [];
-    _.times( totalProperty.value, i => {
-      const leftAddend = leftAddendProperty.value;
-      const beadXPosition = i < leftAddend ? i + NumberPairsConstants.LEFTMOST_BEAD_X :
-                            i - leftAddend + NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
-      initialBeadXPositions.push( beadXPosition );
-    } );
-    const beadXPositionsProperty = new Property<number[]>( initialBeadXPositions, {
+    const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( leftAddendProperty.value, rightAddendProperty.value );
+    const beadXPositionsProperty = new Property<number[]>( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
       tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
       phetioValueType: ArrayIO( NumberIO )
     } );
