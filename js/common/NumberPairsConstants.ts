@@ -13,6 +13,9 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPairs from '../numberPairs.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
+import Property from '../../../axon/js/Property.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import StringIO from '../../../tandem/js/types/StringIO.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );
@@ -50,6 +53,12 @@ const NumberPairsConstants = {
   },
 
   LEFTMOST_BEAD_X: 0.5,
+
+  NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
+    tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
+    phetioValueType: StringIO,
+    validValues: [ 'numberBondModel', 'barModel' ]
+  } ),
 
   // URL to the {REPO}_all.html file for this simulation.
   ALL_URL: 'https://phet.colorado.edu/sims/html/number-pairs/latest/number-pairs_all.html'
