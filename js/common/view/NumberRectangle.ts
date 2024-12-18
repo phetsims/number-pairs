@@ -23,16 +23,16 @@ type SelfOptions = {
 };
 
 export type NumberSquareOptions = SelfOptions & StrictOmit<RectangleOptions, 'children' | 'rectSize'>;
-export default class NumberSquare extends Rectangle {
+export default class NumberRectangle extends Rectangle {
 
   public constructor(
-    squareDimension: number,
+    dimension: Dimension2,
     numberProperty: TReadOnlyProperty<number>,
     providedOptions?: NumberSquareOptions ) {
 
     const options = optionize<NumberSquareOptions, SelfOptions, RectangleOptions>()( {
       numberFontSize: 24,
-      rectSize: new Dimension2( squareDimension, squareDimension ),
+      rectSize: dimension,
       cornerRadius: 5,
       numberVisibleProperty: new Property( true ),
       excludeInvisibleChildrenFromBounds: true
@@ -53,11 +53,11 @@ export default class NumberSquare extends Rectangle {
     this.addChild( questionMark );
     this.addChild( numberText );
 
-    Multilink.multilink( [ numberText.boundsProperty, this.localBoundsProperty ], ( numberTextBounds, circleBounds ) => {
-      numberText.center = circleBounds.center;
-      questionMark.center = circleBounds.center;
+    Multilink.multilink( [ numberText.boundsProperty, this.localBoundsProperty ], ( numberTextBounds, rectangleBounds ) => {
+      numberText.center = rectangleBounds.center;
+      questionMark.center = rectangleBounds.center;
     } );
   }
 }
 
-numberPairs.register( 'NumberSquare', NumberSquare );
+numberPairs.register( 'NumberRectangle', NumberRectangle );

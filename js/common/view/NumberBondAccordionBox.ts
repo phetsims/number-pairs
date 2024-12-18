@@ -7,9 +7,9 @@
  *
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Text, Node } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -17,9 +17,11 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
+import BarModelNode from './BarModelNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
-  numberBondNodeOptions: NumberBondNodeOptions;
+  numberBondNodeOptions?: NumberBondNodeOptions;
 };
 type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
@@ -31,17 +33,27 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       font: NumberPairsConstants.TITLE_FONT
     } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
+      numberBondNodeOptions: {},
       titleNode: titleNode,
       titleXSpacing: 10,
-      contentXMargin: 30,
       contentXSpacing: 0,
       contentYSpacing: 0,
       showTitleWhenExpanded: true,
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );
 
-    const numberBondNode = new NumberBondNode( model, options.numberBondNodeOptions );
-    super( numberBondNode, options );
+    const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, 'numberBondModel' )
+    }, options.numberBondNodeOptions );
+    const numberBondNode = new NumberBondNode( model, numberBondOptions );
+    const barModelNode = new BarModelNode( model, {
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, 'barModel' )
+    } );
+    const contentNode = new Node( {
+      children: [ numberBondNode, barModelNode ],
+      excludeInvisibleChildrenFromBounds: true
+    } );
+    super( contentNode, options );
   }
 }
 

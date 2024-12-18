@@ -20,7 +20,8 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberLineSlider from './NumberLineSlider.js';
-import NumberSquare from './NumberSquare.js';
+import NumberRectangle from './NumberRectangle.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = {
   numberLineRange: Range;
@@ -78,7 +79,7 @@ export default class NumberLineNode extends Node {
       curveYRadius: 80,
       visibleProperty: model.showTotalJumpProperty
     } );
-    const totalLabel = new NumberSquare( LABEL_DIMENSION, model.totalProperty, {
+    const totalLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.totalProperty, {
       fill: NumberPairsColors.numberLineSumColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showTotalJumpProperty,
@@ -97,7 +98,7 @@ export default class NumberLineNode extends Node {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       visibleProperty: DerivedProperty.valueEqualsConstant( model.leftAddendLabelPlacementProperty, 'arrow' )
     } );
-    const leftAddendLabel = new NumberSquare( LABEL_DIMENSION, model.leftAddendProperty, {
+    const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,
@@ -115,7 +116,7 @@ export default class NumberLineNode extends Node {
     const rightAddendArrow = new CurvedArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
     } );
-    const rightAddendLabel = new NumberSquare( LABEL_DIMENSION, model.rightAddendProperty, {
+    const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {
       fill: NumberPairsColors.numberLineRightAddendColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,

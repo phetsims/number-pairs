@@ -21,7 +21,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
-import NumberSquare, { NumberSquareOptions } from './NumberSquare.js';
+import NumberRectangle, { NumberSquareOptions } from './NumberRectangle.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;
@@ -82,7 +82,7 @@ export default class NumberLineIcon extends Node {
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
         fill: NumberPairsColors.numberLineRightAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
-      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, rightAddendValueProperty, numberSquareOptions ) );
+      this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), rightAddendValueProperty, numberSquareOptions ) );
     }
 
     if ( options.showLeftArrow ) {
@@ -96,7 +96,7 @@ export default class NumberLineIcon extends Node {
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
         fill: NumberPairsColors.numberLineLeftAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
-      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, new Property( iconNumberLineValue ), numberSquareOptions ) );
+      this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
 
     }
 
@@ -108,7 +108,7 @@ export default class NumberLineIcon extends Node {
         fill: NumberPairsColors.numberLineLeftAddendColorProperty,
         top: MINOR_TICK_LENGTH / 2 + NUMBER_SQUARE_MARGIN
       }, NUMBER_SQUARE_OPTIONS );
-      this.addChild( new NumberSquare( NUMBER_SQUARE_DIMENSION, new Property( iconNumberLineValue ), numberSquareOptions ) );
+      this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
     }
 
     if ( options.showHighlight ) {

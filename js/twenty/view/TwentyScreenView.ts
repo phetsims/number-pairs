@@ -38,11 +38,6 @@ export default class TwentyScreenView extends DecompositionScreenView {
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
-        numberBondNodeOptions: {
-          totalColorProperty: model.totalColorProperty,
-          leftAddendColorProperty: model.leftAddendColorProperty,
-          rightAddendColorProperty: model.rightAddendColorProperty
-        },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       equationContent: new EquationAccordionBox( model, {

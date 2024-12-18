@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -19,10 +19,7 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import TenModel from '../model/TenModel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to TenScreenView here
-};
-
+type SelfOptions = EmptySelfOptions;
 type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
@@ -38,11 +35,6 @@ export default class TenScreenView extends DecompositionScreenView {
         tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
-        numberBondNodeOptions: {
-          totalColorProperty: model.totalColorProperty,
-          leftAddendColorProperty: model.leftAddendColorProperty,
-          rightAddendColorProperty: model.rightAddendColorProperty
-        },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       equationContent: new EquationAccordionBox( model, {

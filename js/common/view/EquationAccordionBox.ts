@@ -16,8 +16,9 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import { ACCORDION_BOX_WIDTH } from './NumberSentenceAccordionBox.js';
-import NumberSquare from './NumberSquare.js';
+import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -43,7 +44,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       expandedDefaultValue: false
     }, providedOptions );
 
-    const totalSquare = new NumberSquare( SQUARE_DIMENSION, model.totalProperty, {
+    const totalSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.totalProperty, {
       numberVisibleProperty: model.totalVisibleProperty,
       fill: options.totalColorProperty.value,
       stroke: options.totalColorProperty.value.darkerColor()
@@ -53,7 +54,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       totalSquare.stroke = totalColor.darkerColor();
     } );
 
-    const leftAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.leftAddendProperty, {
+    const leftAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.leftAddendProperty, {
       numberVisibleProperty: model.leftAddendVisibleProperty,
       fill: options.leftAddendColorProperty.value,
       stroke: options.leftAddendColorProperty.value.darkerColor()
@@ -63,7 +64,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       leftAddendSquare.stroke = leftAddendColor.darkerColor();
     } );
 
-    const rightAddendSquare = new NumberSquare( SQUARE_DIMENSION, model.rightAddendProperty, {
+    const rightAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.rightAddendProperty, {
       numberVisibleProperty: model.rightAddendVisibleProperty,
       fill: options.rightAddendColorProperty.value,
       stroke: options.rightAddendColorProperty.value.darkerColor()

@@ -7,18 +7,14 @@
  *
  */
 
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Line, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberCircle, { CIRCLE_RADIUS } from './NumberCircle.js';
 
 type SelfOptions = {
-  totalColorProperty: TReadOnlyProperty<TColor>;
-  leftAddendColorProperty: TReadOnlyProperty<TColor>;
-  rightAddendColorProperty: TReadOnlyProperty<TColor>;
   totalOnTop?: boolean;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -39,31 +35,23 @@ export default class NumberBondNode extends Node {
     const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
     const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
-      fill: options.totalColorProperty.value,
+      fill: model.totalColorProperty,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
-    options.totalColorProperty.link( totalColor => {
-      total.fill = totalColor;
-    } );
+
 
     const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
-      fill: options.leftAddendColorProperty.value,
+      fill: model.leftAddendColorProperty,
       centerX: total.centerX - HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
-    options.leftAddendColorProperty.link( leftAddendColor => {
-      leftAddend.fill = leftAddendColor;
-    } );
 
     const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
-      fill: options.rightAddendColorProperty.value,
+      fill: model.rightAddendColorProperty,
       centerX: total.centerX + HORIZONTAL_OFFSET,
       centerY: total.centerY + verticalOffset,
       lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
-    options.rightAddendColorProperty.link( rightAddendColor => {
-      rightAddend.fill = rightAddendColor;
     } );
 
     const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {

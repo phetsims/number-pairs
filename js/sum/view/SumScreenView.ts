@@ -44,9 +44,6 @@ export default class SumScreenView extends NumberPairsScreenView {
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
-          totalColorProperty: model.totalColorProperty,
-          leftAddendColorProperty: model.leftAddendColorProperty,
-          rightAddendColorProperty: model.rightAddendColorProperty,
           totalOnTop: false
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
