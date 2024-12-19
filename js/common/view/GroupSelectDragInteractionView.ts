@@ -8,19 +8,19 @@
  *
  */
 
-import GroupSelectView, { GroupSelectViewOptions } from '../../../../scenery-phet/js/accessibility/group-sort/view/GroupSelectView.js';
-import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
-import CountingObject from '../model/CountingObject.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import numberPairs from '../../numberPairs.js';
-import { KeyboardListener, Node } from '../../../../scenery/js/imports.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
+import GroupSelectView, { GroupSelectViewOptions } from '../../../../scenery-phet/js/accessibility/group-sort/view/GroupSelectView.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import { KeyboardListener, Node } from '../../../../scenery/js/imports.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import numberPairs from '../../numberPairs.js';
+import CountingObject from '../model/CountingObject.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
+import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [
@@ -36,10 +36,8 @@ type SelfOptions = {
   soundKeyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
   getNextSelectedGroupItemFromPressedKeys: ( keysPressed: AvailablePressedKeys, groupItem: CountingObject ) => CountingObject;
 };
-type GroupSelectDragInteractionViewOptions =
-  SelfOptions
-  & StrictOmit<GroupSelectViewOptions<CountingObject, LocationCountingObjectNode>, 'getNodeFromModelItem'>
-  &
+type GroupSelectDragInteractionViewOptions = SelfOptions &
+  StrictOmit<GroupSelectViewOptions<CountingObject, LocationCountingObjectNode>, 'getNodeFromModelItem'> &
   PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class GroupSelectDragInteractionView extends GroupSelectView<CountingObject, LocationCountingObjectNode> {
