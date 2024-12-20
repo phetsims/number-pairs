@@ -32,11 +32,13 @@ import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js'
 import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
 type SelfOptions = {
   sceneRange: Range;
+  sumScreen: boolean;
 };
 
 type BeadsOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -55,6 +57,7 @@ export default class BeadsOnWireNode extends Node {
 
   private beadDragging = false;
   private readonly numberOfSpotsOnWire: number;
+  private readonly beadXRange: Range;
 
   public constructor(
     private readonly model: NumberPairsModel,
@@ -98,6 +101,7 @@ export default class BeadsOnWireNode extends Node {
 
     super( options );
 
+    this.beadXRange = new Range( NumberPairsConstants.LEFTMOST_BEAD_X, numberOfSpotsOnWire - 1 );
     this.modelViewTransform = modelViewTransform;
     this.beadSeparatorCenterXProperty = beadSeparatorCenterXProperty;
     this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
@@ -201,9 +205,15 @@ export default class BeadsOnWireNode extends Node {
       // We also want to make sure that our values are in sync during state or scene changes.
       if ( !this.beadDragging && leftAddend === this.leftAddendCountingObjectsProperty.value.length && rightAddend === this.rightAddendCountingObjectsProperty.value.length ) {
         this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
-        this.updateBeadPositions( leftAddend, rightAddend );
+
+        // We are only adding or removing beads in the sum screen. In other screens "adding" or "removing" a bead is
+        // actually a scene change and bead positions are handled elsewhere.
+        if ( options.sumScreen ) {
+          this.updateBeadPositions( leftAddend, rightAddend );
+        }
       }
     } );
+
   }
 
   private updateBeadXPositions(): void {
@@ -214,27 +224,86 @@ export default class BeadsOnWireNode extends Node {
   private updateBeadPositions( leftAddend: number, rightAddend: number ): void {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
+    const positions = this.model.beadXPositionsProperty.value;
+    const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
 
-    // Match the bead positions to what the model has provided.
-    if ( leftAddendBeads.length + rightAddendBeads.length <= this.model.beadXPositionsProperty.value.length ) {
-      leftAddendBeads.forEach( ( bead, i ) => {
-        bead.beadXPositionProperty.value = this.model.beadXPositionsProperty.value[ i ];
-      } );
-      rightAddendBeads.forEach( ( bead, i ) => {
-        bead.beadXPositionProperty.value = this.model.beadXPositionsProperty.value[ i + leftAddendBeads.length ];
-      } );
+    let leftAddendXPositions = positions.filter( x => x < separatorXPosition ).sort( ( a, b ) => a - b );
+    let rightAddendXPositions = positions.filter( x => x > separatorXPosition ).sort( ( a, b ) => a - b );
+
+    if ( leftAddendBeads.length > leftAddendXPositions.length ) {
+      leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, -1, leftAddend, rightAddend );
+    }
+    else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
+
+      // when a bead is removed we want to take the furthest one to the left
+      leftAddendXPositions.shift();
+    }
+    if ( rightAddendBeads.length > rightAddendXPositions.length ) {
+      rightAddendXPositions = this.addBeadToWire( rightAddendXPositions.reverse(), 1, leftAddend, rightAddend );
+    }
+    else if ( rightAddendBeads.length < rightAddendXPositions.length ) {
+
+      // when a bead is removed we want to take the furthest one to the right
+      rightAddendXPositions.pop();
+    }
+
+    // TODO: do we need both? If so, why?
+    leftAddendBeads.forEach( ( bead, i ) => {
+      bead.beadXPositionProperty.value = leftAddendXPositions[ i ];
+    } );
+    rightAddendBeads.forEach( ( bead, i ) => {
+      bead.beadXPositionProperty.value = rightAddendXPositions[ i ];
+    } );
+    this.model.beadXPositionsProperty.value = [ ...leftAddendXPositions, ...rightAddendXPositions ];
+  }
+
+  /**
+   *
+   * @param existingXPositions - in traversal order ( outside in).
+   * @param direction - a negative direction is adding a bead to the left, a positive direction is adding a bead to the right.
+   * @param leftAddend
+   * @param rightAddend
+   *
+   * We want to add beads from the outside in. This function returns an array of x positions based on adding an
+   * x position to the provided array and handles the logic of updating other x positions to meet the space
+   * requirements along the wire.
+   */
+  private addBeadToWire( existingXPositions: number[], direction: number, leftAddend: number, rightAddend: number ): number[] {
+
+    // we only want the sign, we will traverse by one.
+    direction = Math.sign( direction );
+
+    // If there are no xPositions provided then go to the default.
+    if ( existingXPositions.length === 0 ) {
+      const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( leftAddend, rightAddend );
+      return direction > 0 ? initialBeadPositions.rightAddendXPositions : initialBeadPositions.leftAddendXPositions;
     }
     else {
+      const proposedNewBeadPosition = existingXPositions[ 0 ] + direction;
+      const newBeadInRange = this.beadXRange.contains( proposedNewBeadPosition );
+      if ( newBeadInRange ) {
+        existingXPositions.unshift( proposedNewBeadPosition );
+        return existingXPositions;
+      }
 
-      // TODO: this is temporary. We want to keep beads where they are at as much as possible. and add new beads into
-      //  the empty space.
-      const positions = NumberPairsModel.getInitialBeadPositions( leftAddend, rightAddend );
-      leftAddendBeads.forEach( ( bead, i ) => {
-        bead.beadXPositionProperty.value = positions.leftAddendXPositions[ i ];
-      } );
-      rightAddendBeads.forEach( ( bead, i ) => {
-        bead.beadXPositionProperty.value = positions.rightAddendXPositions[ i ];
-      } );
+        // If the proposed position for the new bead is not within range, we need to constrain the position and
+      // adjust any neighboring beads to make room.
+      else {
+        const newBeadPosition = this.beadXRange.constrainValue( proposedNewBeadPosition );
+        const newXPositions = [ newBeadPosition ];
+
+        existingXPositions.reduce( ( previousX, currentX ) => {
+          const x = direction > 0 ? Math.min( currentX, previousX - direction ) : Math.max( currentX, previousX - direction );
+          newXPositions.push( x );
+          return x;
+        }, newBeadPosition );
+
+        // When adding a bead to the right we were given xPosition values in traversal order (right to left) because we
+        // add beads to the outside. But we want to return values in bead order (left to right) since that is how
+        // we store the beads in the model.
+        direction > 0 && newXPositions.reverse();
+        return newXPositions;
+      }
     }
   }
 

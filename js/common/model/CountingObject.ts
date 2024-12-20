@@ -72,7 +72,7 @@ export default class CountingObject extends PhetioObject {
 
     this.attributePositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,
-      tandem: this.tandem.createTandem( 'positionProperty' )
+      tandem: this.tandem.createTandem( 'attributePositionProperty' )
     } );
     this.locationPositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,

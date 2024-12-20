@@ -288,6 +288,7 @@ export default class NumberPairsScreenView extends ScreenView {
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
       const beadsOnWireNode = new BeadsOnWireNode( model, COUNTING_AREA_BOUNDS, {
         sceneRange: sceneRange,
+        sumScreen: options.sumScreen,
         visibleProperty: beadsVisibleProperty,
         tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );

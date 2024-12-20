@@ -52,7 +52,7 @@ const NumberPairsConstants = {
     baseColor: PhetColorScheme.BUTTON_YELLOW
   },
 
-  LEFTMOST_BEAD_X: 0.5,
+  LEFTMOST_BEAD_X: 1,
 
   NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),

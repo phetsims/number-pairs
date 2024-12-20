@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { VBox } from '../../../../scenery/js/imports.js';
@@ -21,9 +21,7 @@ import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to SumScreenView here
-};
+type SelfOptions = EmptySelfOptions;
 
 type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
