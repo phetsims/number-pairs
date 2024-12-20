@@ -430,7 +430,7 @@ export default class NumberPairsModel implements TModel {
    * on their addend type.
    */
   public static getInitialBeadPositions( leftAddendValue: number, rightAddendValue: number ): { leftAddendXPositions: number[]; rightAddendXPositions: number[] } {
-    const distanceFromSeparator = 1.5;
+    const distanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
 
     return {

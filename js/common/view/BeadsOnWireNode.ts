@@ -227,11 +227,16 @@ export default class BeadsOnWireNode extends Node {
     const positions = this.model.beadXPositionsProperty.value;
     const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
 
+    // TODO: This is relying on the assumption that the separator will never move enough to force a bead
+    //  over the threshold... Is that true? Probably not because of studio... sigh...
     let leftAddendXPositions = positions.filter( x => x < separatorXPosition ).sort( ( a, b ) => a - b );
     let rightAddendXPositions = positions.filter( x => x > separatorXPosition ).sort( ( a, b ) => a - b );
 
+    /**
+     * Handle adding or removing a bead
+     */
     if ( leftAddendBeads.length > leftAddendXPositions.length ) {
-      leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, -1, leftAddend, rightAddend );
+      leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
 
@@ -239,7 +244,8 @@ export default class BeadsOnWireNode extends Node {
       leftAddendXPositions.shift();
     }
     if ( rightAddendBeads.length > rightAddendXPositions.length ) {
-      rightAddendXPositions = this.addBeadToWire( rightAddendXPositions.reverse(), 1, leftAddend, rightAddend );
+      const reversedXPositions = rightAddendXPositions.slice().reverse();
+      rightAddendXPositions = this.addBeadToWire( reversedXPositions, -1, leftAddend, rightAddend );
     }
     else if ( rightAddendBeads.length < rightAddendXPositions.length ) {
 
@@ -247,7 +253,25 @@ export default class BeadsOnWireNode extends Node {
       rightAddendXPositions.pop();
     }
 
-    // TODO: do we need both? If so, why?
+    /**
+     * Handle movement of the separator that may cause overlap with a bead
+     */
+    const beadDistanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
+    const separatorRange = new Range( separatorXPosition - beadDistanceFromSeparator,
+      separatorXPosition + beadDistanceFromSeparator );
+    const leftAddendBeadOverlap = _.some( leftAddendXPositions, x => separatorRange.contains( x ) );
+    const rightAddendBeadOverlap = _.some( rightAddendXPositions, x => separatorRange.contains( x ) );
+    if ( leftAddendBeadOverlap ) {
+      leftAddendXPositions = this.shiftXPositions( leftAddendXPositions.reverse(), -1, separatorXPosition - beadDistanceFromSeparator ).reverse();
+    }
+    if ( rightAddendBeadOverlap ) {
+      rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
+    }
+
+    // TODO: Yes these are both currently needed, because we do not have a listener from the positions[] to the individual
+    //   xPositions of each bead. It might be nice to have that listener so that we're not replicating the below, but
+    //  the only blocker there is how will the listener work with keyboard? I need to answer the alt-input questions
+    //  above first before solidifying this.
     leftAddendBeads.forEach( ( bead, i ) => {
       bead.beadXPositionProperty.value = leftAddendXPositions[ i ];
     } );
@@ -259,8 +283,26 @@ export default class BeadsOnWireNode extends Node {
 
   /**
    *
+   * @param xPositions
+   * @param direction - positive when we want to shift to the right, negative when we want to shift to the left.
+   * @param startingValue
+   */
+  private shiftXPositions( xPositions: number[], direction: number, startingValue: number ): number[] {
+    direction = Math.sign( direction );
+    const shiftedPositions: number[] = [];
+    xPositions.reduce( ( previousX, currentX ) => {
+      const x = direction > 0 ? Math.max( currentX, previousX + direction ) : Math.min( currentX, previousX + direction );
+      shiftedPositions.push( x );
+      return x;
+    }, startingValue - direction ); // we want the first xPosition to be at the starting value.
+    return shiftedPositions;
+  }
+
+  /**
+   *
    * @param existingXPositions - in traversal order ( outside in).
-   * @param direction - a negative direction is adding a bead to the left, a positive direction is adding a bead to the right.
+   * @param direction - a negative direction is adding a bead to the right (since beads will need to shift left),
+   * a positive direction is adding a bead to the left (since beads will need to shift right).
    * @param leftAddend
    * @param rightAddend
    *
@@ -276,34 +318,30 @@ export default class BeadsOnWireNode extends Node {
     // If there are no xPositions provided then go to the default.
     if ( existingXPositions.length === 0 ) {
       const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( leftAddend, rightAddend );
-      return direction > 0 ? initialBeadPositions.rightAddendXPositions : initialBeadPositions.leftAddendXPositions;
+      return direction > 0 ? initialBeadPositions.leftAddendXPositions : initialBeadPositions.rightAddendXPositions;
     }
     else {
-      const proposedNewBeadPosition = existingXPositions[ 0 ] + direction;
+      let newXPositions;
+      const proposedNewBeadPosition = existingXPositions[ 0 ] - direction;
       const newBeadInRange = this.beadXRange.contains( proposedNewBeadPosition );
       if ( newBeadInRange ) {
         existingXPositions.unshift( proposedNewBeadPosition );
-        return existingXPositions;
+        newXPositions = existingXPositions;
       }
 
         // If the proposed position for the new bead is not within range, we need to constrain the position and
       // adjust any neighboring beads to make room.
       else {
-        const newBeadPosition = this.beadXRange.constrainValue( proposedNewBeadPosition );
-        const newXPositions = [ newBeadPosition ];
-
-        existingXPositions.reduce( ( previousX, currentX ) => {
-          const x = direction > 0 ? Math.min( currentX, previousX - direction ) : Math.max( currentX, previousX - direction );
-          newXPositions.push( x );
-          return x;
-        }, newBeadPosition );
-
-        // When adding a bead to the right we were given xPosition values in traversal order (right to left) because we
-        // add beads to the outside. But we want to return values in bead order (left to right) since that is how
-        // we store the beads in the model.
-        direction > 0 && newXPositions.reverse();
-        return newXPositions;
+        const startingValue = direction > 0 ? this.beadXRange.min : this.beadXRange.max;
+        existingXPositions.unshift( proposedNewBeadPosition );
+        newXPositions = this.shiftXPositions( existingXPositions, direction, startingValue );
       }
+
+      // When adding a bead to the right we were given xPosition values in traversal order (right to left) because we
+      // add beads to the outside. But we want to return values in bead order (left to right) since that is how
+      // we store the beads in the model.
+      direction < 0 && newXPositions.reverse();
+      return newXPositions;
     }
   }
 

@@ -53,6 +53,7 @@ const NumberPairsConstants = {
   },
 
   LEFTMOST_BEAD_X: 1,
+  BEAD_DISTANCE_FROM_SEPARATOR: 1.5,
 
   NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
