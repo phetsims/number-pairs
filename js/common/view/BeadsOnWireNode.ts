@@ -236,21 +236,28 @@ export default class BeadsOnWireNode extends Node {
      * Handle adding or removing a bead
      */
     if ( leftAddendBeads.length > leftAddendXPositions.length ) {
-      leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
+      _.times( leftAddendBeads.length - leftAddendXPositions.length, () => {
+        leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
+      } );
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
+      _.times( leftAddendXPositions.length - leftAddendBeads.length, () => {
 
-      // when a bead is removed we want to take the furthest one to the left
-      leftAddendXPositions.shift();
+        // when a bead is removed we want to take the furthest one to the left
+        leftAddendXPositions.shift();
+      } );
     }
     if ( rightAddendBeads.length > rightAddendXPositions.length ) {
       const reversedXPositions = rightAddendXPositions.slice().reverse();
-      rightAddendXPositions = this.addBeadToWire( reversedXPositions, -1, leftAddend, rightAddend );
+      _.times( rightAddendBeads.length - rightAddendXPositions.length, () => {
+        rightAddendXPositions = this.addBeadToWire( reversedXPositions, -1, leftAddend, rightAddend );
+      } );
     }
     else if ( rightAddendBeads.length < rightAddendXPositions.length ) {
-
-      // when a bead is removed we want to take the furthest one to the right
-      rightAddendXPositions.pop();
+      _.times( rightAddendXPositions.length - rightAddendBeads.length, () => {
+        // when a bead is removed we want to take the furthest one to the right
+        rightAddendXPositions.pop();
+      } );
     }
 
     /**
