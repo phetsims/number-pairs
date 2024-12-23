@@ -173,7 +173,8 @@ export default class BeadsOnWireNode extends Node {
           },
           onEndDrag: () => {
             this.beadDragging = false;
-            this.updateBeadXPositions();
+            const sortedBeads = this.getSortedBeadNodes();
+            this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.model.beadXPositionProperty.value );
           }
         } );
 
@@ -216,11 +217,12 @@ export default class BeadsOnWireNode extends Node {
 
   }
 
-  private updateBeadXPositions(): void {
-    const sortedBeads = this.getSortedBeadNodes();
-    this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.model.beadXPositionProperty.value );
-  }
-
+  /**
+   * Update the positions of the beads on the wire based on the addend values. We may have to account for a bead being
+   * added or removed.
+   * @param leftAddend
+   * @param rightAddend
+   */
   private updateBeadPositions( leftAddend: number, rightAddend: number ): void {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
@@ -275,21 +277,10 @@ export default class BeadsOnWireNode extends Node {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
     }
 
-    // TODO: Yes these are both currently needed, because we do not have a listener from the positions[] to the individual
-    //   xPositions of each bead. It might be nice to have that listener so that we're not replicating the below, but
-    //  the only blocker there is how will the listener work with keyboard? I need to answer the alt-input questions
-    //  above first before solidifying this.
-    leftAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = leftAddendXPositions[ i ];
-    } );
-    rightAddendBeads.forEach( ( bead, i ) => {
-      bead.beadXPositionProperty.value = rightAddendXPositions[ i ];
-    } );
-    this.model.beadXPositionsProperty.value = [ ...leftAddendXPositions, ...rightAddendXPositions ];
+    this.model.setBeadXPositions( leftAddendXPositions, rightAddendXPositions );
   }
 
   /**
-   *
    * @param xPositions
    * @param direction - positive when we want to shift to the right, negative when we want to shift to the left.
    * @param startingValue
@@ -306,16 +297,15 @@ export default class BeadsOnWireNode extends Node {
   }
 
   /**
+   * We want to add beads from the outside in. This function returns an array of x positions based on adding an
+   * x position to the provided array and handles the logic of updating other x positions to meet the space
+   * requirements along the wire.
    *
    * @param existingXPositions - in traversal order ( outside in).
    * @param direction - a negative direction is adding a bead to the right (since beads will need to shift left),
    * a positive direction is adding a bead to the left (since beads will need to shift right).
    * @param leftAddend
    * @param rightAddend
-   *
-   * We want to add beads from the outside in. This function returns an array of x positions based on adding an
-   * x position to the provided array and handles the logic of updating other x positions to meet the space
-   * requirements along the wire.
    */
   private addBeadToWire( existingXPositions: number[], direction: number, leftAddend: number, rightAddend: number ): number[] {
 
@@ -496,6 +486,10 @@ export default class BeadsOnWireNode extends Node {
       .sort( ( a, b ) => a.centerX - b.centerX );
   }
 
+  /**
+   * Determine how to traverse via keyboard input.
+   * @param keysPressed
+   */
   private getKeysDelta( keysPressed: string ): number {
     switch( keysPressed ) {
       case 'd':

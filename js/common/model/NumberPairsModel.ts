@@ -354,7 +354,6 @@ export default class NumberPairsModel implements TModel {
 
   /**
    * Set the left addend to the right addend value and update positions as is desired.
-   * //TODO: Update beadXPositionsProperty
    */
   public swapAddends(): void {
     const countingAreaWidth = NumberPairsConstants.COUNTING_AREA_BOUNDS.width;
@@ -375,7 +374,7 @@ export default class NumberPairsModel implements TModel {
 
     // All attribute counting objects should appear to not have moved, and every object's color was simply swapped.
     // This is not how the model handles movement between addends so we must do that artificially here.
-    this.updateAttributePositions( rightAttributePositions, leftAttributePositions );
+    this.setAttributePositions( rightAttributePositions, leftAttributePositions );
 
     // All location counting objects should be a translation across the counting area of their previous position.
     const xTranslation = countingAreaWidth / 2;
@@ -383,7 +382,7 @@ export default class NumberPairsModel implements TModel {
       new Vector2( position.x + xTranslation, position.y ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
       new Vector2( position.x - xTranslation, position.y ) );
-    this.updateLocationPositions( newLeftLocationPositions, newRightLocationPositions );
+    this.setLocationPositions( newLeftLocationPositions, newRightLocationPositions );
 
     // Bead positions should be a translation across the separator.
     const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
@@ -391,21 +390,15 @@ export default class NumberPairsModel implements TModel {
     const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
     const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
     const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-    this.rightAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
-      countingObject.beadXPositionProperty.value = newRightBeadXPositions[ index ];
-    } );
-    this.leftAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
-      countingObject.beadXPositionProperty.value = newLeftBeadXPositions[ index ];
-    } );
-    this.beadXPositionsProperty.value = newLeftBeadXPositions.concat( newRightBeadXPositions );
+    this.setBeadXPositions( newLeftBeadXPositions, newRightBeadXPositions );
   }
 
   /**
-   * Update the location positions of the counting objects based on the provided left and right location positions.
+   * Set the location positions of the counting objects based on the provided left and right location positions.
    * @param leftLocationPositions
    * @param rightLocationPositions
    */
-  public updateLocationPositions( leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
+  public setLocationPositions( leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 
@@ -421,11 +414,11 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
-   * Update the attribute positions of the counting objects based on the provided left and right addend positions.
+   * Set the attribute positions of the counting objects based on the provided left and right addend positions.
    * @param leftAttributePositions
    * @param rightAttributePositions
    */
-  public updateAttributePositions( leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
+  public setAttributePositions( leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 
@@ -438,6 +431,21 @@ export default class NumberPairsModel implements TModel {
     rightAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
     } );
+  }
+
+  /**
+   * Set the bead x positions of the counting objects based on the provided left and right x positions.
+   * @param leftXPositions
+   * @param rightXPositions
+   */
+  public setBeadXPositions( leftXPositions: number[], rightXPositions: number[] ): void {
+    this.leftAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+      countingObject.beadXPositionProperty.value = leftXPositions[ index ];
+    } );
+    this.rightAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+      countingObject.beadXPositionProperty.value = rightXPositions[ index ];
+    } );
+    this.beadXPositionsProperty.value = leftXPositions.concat( rightXPositions );
   }
 
   /**
@@ -458,8 +466,6 @@ export default class NumberPairsModel implements TModel {
   /**
    * Snap the beads to their organized positions on the wire based on the addend values. When organized the beads are
    * arranged in groups of 5 with a separator between the two addends.
-   *
-   * // TODO: Use the beadXPositionsProperty to update the bead positions instead of the beads themselves.
    */
   public organizeInGroupsOfFive(): void {
     const leftAddend = this.leftAddendProperty.value;
@@ -470,22 +476,24 @@ export default class NumberPairsModel implements TModel {
     // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
     const leftAddendRemainder = leftAddendBeads.length % 5;
-    leftAddendBeads.forEach( ( bead, i ) => {
+    const leftXPositions = leftAddendBeads.map( ( bead, i ) => {
 
       // TODO: I don't like this solution but it's working... There's got to be a better way.
       //  the negative numbers from subtracting the remainder is what gets me here. But I'm having
       //  hard time finding a way to deal with it because of situations where the remainder can also be zero.
       const numerator = leftAddendRemainder === 0 ? i - 5 : i - leftAddendRemainder;
       const groupingIndex = Math.floor( numerator / 5 ) + 1;
-      bead.beadXPositionProperty.value = beadSeparatorXPosition - groupingIndex - i - distanceFromSeparator;
+      return beadSeparatorXPosition - groupingIndex - i - distanceFromSeparator;
     } );
 
     const rightAddendRemainder = rightAddendBeads.length % 5;
-    rightAddendBeads.forEach( ( bead, i ) => {
+    const rightXPositions = rightAddendBeads.map( ( bead, i ) => {
       const numerator = rightAddendRemainder === 0 ? i - 5 : i - rightAddendRemainder;
       const groupingIndex = Math.floor( numerator / 5 ) + 1;
-      bead.beadXPositionProperty.value = groupingIndex + i + beadSeparatorXPosition + distanceFromSeparator;
+      return groupingIndex + i + beadSeparatorXPosition + distanceFromSeparator;
     } );
+
+    this.setBeadXPositions( leftXPositions, rightXPositions );
   }
 
   /**
@@ -576,20 +584,6 @@ export default class NumberPairsModel implements TModel {
   public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
     return this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
-  }
-
-  /**
-   * Returns a nested array of counting objects based on the provided bounds.
-   * the counting objects are sorted by row and column.
-   *
-   */
-  public getCountingObjectsInGridFormation( bounds: Bounds2 ): CountingObject[][] {
-    const grid: CountingObject[][] = [];
-    const numberOfRows = 5;
-    const rowHeight = bounds.height / numberOfRows;
-    _.times( numberOfRows, i => grid.push( this.getRowAt( bounds.minY + rowHeight / 2 + rowHeight * i, rowHeight ) ) );
-
-    return grid;
   }
 
   public getRowAt( centerY: number, rowHeight: number ): CountingObject[] {
