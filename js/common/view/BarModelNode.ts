@@ -68,8 +68,12 @@ export default class BarModelNode extends VBox {
       rightAddendRectangleProxy.left = leftAddendRectangleProxy.right - LINE_WIDTH;
     } );
     Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
-      leftAddendRectangle.rectWidth = leftAddend / total * TOTAL_WIDTH;
-      rightAddendRectangle.rectWidth = rightAddend / total * TOTAL_WIDTH;
+
+      // We need to handle the case where the total is 0, because we can't divide by 0
+      if ( total !== 0 ) {
+        leftAddendRectangle.rectWidth = leftAddend / total * TOTAL_WIDTH;
+        rightAddendRectangle.rectWidth = rightAddend / total * TOTAL_WIDTH;
+      }
     } );
 
     options.children = [ totalRectangle, addendsNode ];

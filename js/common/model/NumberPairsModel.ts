@@ -365,9 +365,8 @@ export default class NumberPairsModel implements TModel {
     const rightAttributePositions = rightAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
     const leftLocationPositions = leftAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
     const rightLocationPositions = rightAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
-    const separatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
-    const leftBeadXPositions = this.beadXPositionsProperty.value.filter( x => x <= separatorPosition );
-    const rightBeadXPositions = this.beadXPositionsProperty.value.filter( x => x > separatorPosition );
+    const leftBeadXPositions = this.leftAddendCountingObjectsProperty.value.map( countingObject => countingObject.beadXPositionProperty.value );
+    const rightBeadXPositions = this.rightAddendCountingObjectsProperty.value.map( countingObject => countingObject.beadXPositionProperty.value );
 
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
