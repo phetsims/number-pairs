@@ -74,6 +74,12 @@ export default class BarModelNode extends VBox {
         leftAddendRectangle.rectWidth = leftAddend / total * TOTAL_WIDTH;
         rightAddendRectangle.rectWidth = rightAddend / total * TOTAL_WIDTH;
       }
+      else {
+
+        //TODO: @CC how do we want this to look?
+        leftAddendRectangle.rectWidth = 0;
+        rightAddendRectangle.rectWidth = 0;
+      }
     } );
 
     options.children = [ totalRectangle, addendsNode ];
