@@ -31,7 +31,6 @@ import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode
 import NumberLineIcon from './NumberLineIcon.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
-import OrganizeBeadsButton from './OrganizeBeadsButton.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
@@ -147,21 +146,23 @@ export default class NumberPairsScreenView extends ScreenView {
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const tenFrameButton = new TenFrameButton( {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
-      listener: () => model.organizeIntoTenFrame.bind( model )( tenFrameBounds ),
+      listener: () => {
+        if ( model.representationTypeProperty.value === RepresentationType.CUBES ) {
+          model.organizeInGroupsOfFive.bind( model );
+        }
+        else {
+          model.organizeIntoTenFrame.bind( model )( tenFrameBounds );
+        }
+      },
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 
-    const organizeButtonVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
-    const organizeBeadsButton = new OrganizeBeadsButton( model.organizeInGroupsOfFive.bind( model ), {
-      tandem: options.tandem.createTandem( 'organizeBeadsButton' ),
-      visibleProperty: organizeButtonVisibleProperty
-    } );
     const commutativeButton = new CommutativeButton( {
       listener: model.swapAddends.bind( model ),
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
     const countingAreaButtonsVBox = new VBox( {
-      children: [ tenFrameButton, organizeBeadsButton, commutativeButton ],
+      children: [ tenFrameButton, commutativeButton ],
       spacing: 10,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: COUNTING_AREA_BOUNDS.minY
