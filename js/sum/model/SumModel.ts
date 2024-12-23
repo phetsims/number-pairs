@@ -47,7 +47,7 @@ export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialRepresentationType: RepresentationType.CUBES
+      initialRepresentationType: RepresentationType.BEADS
     }, providedOptions );
 
     const leftAddendProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {

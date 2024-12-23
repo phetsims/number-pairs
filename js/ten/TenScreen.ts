@@ -37,7 +37,7 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
     super(
       () => new TenModel( {
         representationTypeValidValues: [
-          RepresentationType.CUBES,
+          RepresentationType.BEADS,
           RepresentationType.KITTENS,
           RepresentationType.NUMBER_LINE
         ],

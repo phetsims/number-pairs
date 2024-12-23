@@ -106,7 +106,7 @@ export default class CountingObjectControl extends VBox {
 
     const images = options.addendNumberProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
     countingRepresentationTypeProperty.link( countingRepresentationType => {
-      images.bead.visible = countingRepresentationType === RepresentationType.CUBES;
+      images.bead.visible = countingRepresentationType === RepresentationType.BEADS;
       images.kitten.visible = countingRepresentationType === RepresentationType.KITTENS;
       images.numberSquare.visible = countingRepresentationType === RepresentationType.NUMBER_LINE;
     } );

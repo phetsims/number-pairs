@@ -39,7 +39,7 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
         representationTypeValidValues: [
           RepresentationType.APPLES,
           RepresentationType.ONE_CARDS,
-          RepresentationType.CUBES,
+          RepresentationType.BEADS,
           RepresentationType.KITTENS,
           RepresentationType.NUMBER_LINE
         ],

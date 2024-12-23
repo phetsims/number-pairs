@@ -138,7 +138,8 @@ export default class NumberPairsScreenView extends ScreenView {
                                 countingRepresentation === RepresentationType.ONE_CARDS ||
                                 countingRepresentation === RepresentationType.BUTTERFLIES ||
                                 countingRepresentation === RepresentationType.SOCCER_BALLS ||
-                                countingRepresentation === RepresentationType.KITTENS );
+                                countingRepresentation === RepresentationType.KITTENS ||
+                                countingRepresentation === RepresentationType.BEADS );
 
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
@@ -147,7 +148,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const tenFrameButton = new TenFrameButton( {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
-        if ( model.representationTypeProperty.value === RepresentationType.CUBES ) {
+        if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
           model.organizeInGroupsOfFive.bind( model );
         }
         else {
@@ -173,7 +174,7 @@ export default class NumberPairsScreenView extends ScreenView {
      * Create the counting area and accompanying features.
      */
     const countingAreaBackgroundColorProperty = new DerivedProperty( [ model.representationTypeProperty, model.totalColorProperty ], ( countingRepresentationType, totalColor ) => {
-      if ( countingRepresentationType === RepresentationType.CUBES || countingRepresentationType === RepresentationType.NUMBER_LINE ) {
+      if ( countingRepresentationType === RepresentationType.BEADS || countingRepresentationType === RepresentationType.NUMBER_LINE ) {
         return NumberPairsColors.numberLineBackgroundColorProperty;
       }
       else {
@@ -284,8 +285,8 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Create the cubes on wire representation and accompanying features.
      */
-    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.CUBES ) ) {
-      const beadsVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.CUBES );
+    if ( model.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
+      const beadsVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.BEADS );
       const sceneRange = options.sceneRange || NumberPairsConstants.TWENTY_TOTAL_RANGE;
       const beadsOnWireNode = new BeadsOnWireNode( model, COUNTING_AREA_BOUNDS, {
         sceneRange: sceneRange,

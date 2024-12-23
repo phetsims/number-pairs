@@ -28,7 +28,7 @@ export default class TenModel extends DecompositionModel {
     const options = optionize<TenModelOptions, SelfOptions, DecompositionModelOptions>()( {
       sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
       initialTotalValue: NumberPairsConstants.TEN_INITIAL_SUM_VALUE,
-      initialRepresentationType: RepresentationType.CUBES
+      initialRepresentationType: RepresentationType.BEADS
     }, providedOptions );
     super( options );
   }

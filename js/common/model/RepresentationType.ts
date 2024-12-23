@@ -65,8 +65,8 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.attributeRightAddendColorProperty,
     new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
-  public static readonly CUBES = new RepresentationType(
-    'cubes',
+  public static readonly BEADS = new RepresentationType(
+    'beads',
     NumberPairsColors.numberLineSumColorProperty,
     NumberPairsColors.numberLineLeftAddendColorProperty,
     NumberPairsColors.numberLineRightAddendColorProperty,

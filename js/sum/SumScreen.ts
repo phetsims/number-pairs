@@ -37,7 +37,7 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
     super(
       () => new SumModel( {
         representationTypeValidValues: [
-          RepresentationType.CUBES,
+          RepresentationType.BEADS,
           RepresentationType.KITTENS,
           RepresentationType.NUMBER_LINE
         ],
