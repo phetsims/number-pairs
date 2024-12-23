@@ -366,6 +366,9 @@ export default class NumberPairsModel implements TModel {
     const rightAttributePositions = rightAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
     const leftLocationPositions = leftAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
     const rightLocationPositions = rightAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
+    const separatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
+    const leftBeadXPositions = this.beadXPositionsProperty.value.filter( x => x <= separatorPosition );
+    const rightBeadXPositions = this.beadXPositionsProperty.value.filter( x => x > separatorPosition );
 
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
@@ -382,6 +385,19 @@ export default class NumberPairsModel implements TModel {
       new Vector2( position.x - xTranslation, position.y ) );
     this.updateLocationPositions( newLeftLocationPositions, newRightLocationPositions );
 
+    // Bead positions should be a translation across the separator.
+    const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
+    const rightXTranslation = _.max( rightBeadXPositions )! - ( updatedSeparatorPosition - NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR );
+    const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
+    const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
+    const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
+    this.rightAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+      countingObject.beadXPositionProperty.value = newRightBeadXPositions[ index ];
+    } );
+    this.leftAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+      countingObject.beadXPositionProperty.value = newLeftBeadXPositions[ index ];
+    } );
+    this.beadXPositionsProperty.value = newLeftBeadXPositions.concat( newRightBeadXPositions );
   }
 
   /**
