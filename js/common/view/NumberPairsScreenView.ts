@@ -149,7 +149,7 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
-          model.organizeInGroupsOfFive.bind( model );
+          model.organizeInGroupsOfFive.bind( model )();
         }
         else {
           model.organizeIntoTenFrame.bind( model )( tenFrameBounds );
