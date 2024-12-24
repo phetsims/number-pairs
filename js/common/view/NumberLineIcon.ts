@@ -53,7 +53,8 @@ export default class NumberLineIcon extends Node {
       showRightArrow: false,
       showLeftArrow: false,
       showHighlight: false,
-      excludeInvisibleChildrenFromBounds: true
+      excludeInvisibleChildrenFromBounds: true,
+      pickable: false // This is an icon so it should not be pickable
     }, providedOptions );
 
     const valueProperty = new NumberProperty( iconNumberLineValue, {
