@@ -196,15 +196,17 @@ export default class BeadsOnWireNode extends Node {
       this.addChild( beadNode );
     } );
 
-    // TODO: Should we also listen to the observable array length Properties here?
     Multilink.multilink( [
       model.leftAddendProperty,
-      model.rightAddendProperty
-    ], ( leftAddend, rightAddend ) => {
+      model.leftAddendCountingObjectsLengthProperty,
+      model.rightAddendProperty,
+      model.rightAddendCountingObjectsLengthProperty,
+      model.totalProperty
+    ], ( leftAddend, leftAddendLength, rightAddend, rightAddendLength ) => {
 
       // If we are not dragging a bead was added or removed from the wire.
       // We also want to make sure that our values are in sync during state or scene changes.
-      if ( !this.beadDragging && leftAddend === this.leftAddendCountingObjectsProperty.value.length && rightAddend === this.rightAddendCountingObjectsProperty.value.length ) {
+      if ( !this.beadDragging && leftAddend === leftAddendLength && rightAddend === rightAddendLength ) {
         this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
 
         // We are only adding or removing beads in the sum screen. In other screens "adding" or "removing" a bead is
@@ -244,7 +246,6 @@ export default class BeadsOnWireNode extends Node {
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
       _.times( leftAddendXPositions.length - leftAddendBeads.length, () => {
-
         // when a bead is removed we want to take the furthest one to the left
         leftAddendXPositions.shift();
       } );

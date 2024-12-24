@@ -12,7 +12,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
@@ -24,9 +24,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to SumModel here
-};
+type SelfOptions = EmptySelfOptions;
 
 type SumModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
@@ -122,21 +120,15 @@ export default class SumModel extends NumberPairsModel {
     this.countingObjects.forEach( countingObject => {
       this.inactiveCountingObjects.push( countingObject );
     } );
-    _.times( leftAddendProperty.value, () => {
-      const countingObject = this.inactiveCountingObjects.shift();
-      assert && assert( countingObject, 'no more inactive counting objects' );
-      leftAddendObjects.push( countingObject! );
-    } );
-    _.times( rightAddendProperty.value, () => {
-      const countingObject = this.inactiveCountingObjects.shift();
-      assert && assert( countingObject, 'no more inactive counting objects' );
-      rightAddendObjects.push( countingObject! );
-    } );
+    this.setCountingObjectsToInitialValues();
     assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
 
     // Listen to the rightAddendProperty since it is derived and will therefore be updated last.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
+      if ( isResettingAllProperty.value ) {
+        return;
+      }
       const leftAddendDelta = this.leftAddendProperty.value - leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - rightAddendObjects.length;
 
@@ -194,6 +186,24 @@ export default class SumModel extends NumberPairsModel {
     } );
   }
 
+  private setCountingObjectsToInitialValues(): void {
+    this.inactiveCountingObjects.push( ...this.leftAddendCountingObjectsProperty.value );
+    this.leftAddendCountingObjectsProperty.value.clear();
+    this.inactiveCountingObjects.push( ...this.rightAddendCountingObjectsProperty.value );
+    this.rightAddendCountingObjectsProperty.value.clear();
+
+    _.times( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, () => {
+      const countingObject = this.inactiveCountingObjects.shift();
+      assert && assert( countingObject, 'no more inactive counting objects' );
+      this.leftAddendCountingObjectsProperty.value.push( countingObject! );
+    } );
+    _.times( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, () => {
+      const countingObject = this.inactiveCountingObjects.shift();
+      assert && assert( countingObject, 'no more inactive counting objects' );
+      this.rightAddendCountingObjectsProperty.value.push( countingObject! );
+    } );
+  }
+
   /**
    * Resets the model.
    */
@@ -201,6 +211,11 @@ export default class SumModel extends NumberPairsModel {
     super.reset();
     this.leftAddendProperty.reset();
     this.totalProperty.reset();
+    this.setCountingObjectsToInitialValues();
+
+    const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( this.leftAddendProperty.value, this.totalProperty.value );
+    this.setBeadXPositions( initialBeadPositions.leftAddendXPositions, initialBeadPositions.rightAddendXPositions );
+    this.beadXPositionsProperty.value = [ ...initialBeadPositions.leftAddendXPositions, ...initialBeadPositions.rightAddendXPositions ];
   }
 }
 

@@ -78,6 +78,11 @@ export default class NumberPairsModel implements TModel {
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
 
+  // These are convenience Properties for listeners that are concerned about intermediate values between the arrays
+  // and addend/total value Properties.
+  public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
+  public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
+
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
@@ -163,6 +168,13 @@ export default class NumberPairsModel implements TModel {
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
       },
       tandem: options.tandem.createTandem( 'groupSelectBeadsModel' )
+    } );
+
+    this.leftAddendCountingObjectsLengthProperty = new DynamicProperty( this.leftAddendCountingObjectsProperty, {
+      derive: 'lengthProperty'
+    } );
+    this.rightAddendCountingObjectsLengthProperty = new DynamicProperty( this.rightAddendCountingObjectsProperty, {
+      derive: 'lengthProperty'
     } );
   }
 
@@ -323,6 +335,9 @@ export default class NumberPairsModel implements TModel {
       } );
       this.dropAnimation.start();
     }
+
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   /**
@@ -365,8 +380,8 @@ export default class NumberPairsModel implements TModel {
     const rightAttributePositions = rightAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
     const leftLocationPositions = leftAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
     const rightLocationPositions = rightAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
-    const leftBeadXPositions = this.leftAddendCountingObjectsProperty.value.map( countingObject => countingObject.beadXPositionProperty.value );
-    const rightBeadXPositions = this.rightAddendCountingObjectsProperty.value.map( countingObject => countingObject.beadXPositionProperty.value );
+    const leftBeadXPositions = leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
+    const rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
 
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
@@ -390,6 +405,9 @@ export default class NumberPairsModel implements TModel {
     const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
     const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
     this.setBeadXPositions( newLeftBeadXPositions, newRightBeadXPositions );
+
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   /**
@@ -548,6 +566,9 @@ export default class NumberPairsModel implements TModel {
       this.tenFrameAnimation = null;
     } );
     this.tenFrameAnimation.start();
+
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   /**
@@ -569,7 +590,6 @@ export default class NumberPairsModel implements TModel {
 
     const cellCenterCoordinates: Vector2[] = [];
 
-    //
     for ( let i = 0; i < rowNumber; i++ ) {
       for ( let j = 0; j < columnNumber; j++ ) {
         const x = bounds.minX + j * columnWidth + columnWidth / 2;
@@ -583,14 +603,6 @@ export default class NumberPairsModel implements TModel {
   public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
     return this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
-  }
-
-  public getRowAt( centerY: number, rowHeight: number ): CountingObject[] {
-    return this.countingObjects.filter( countingObject =>
-      countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
-      countingObject.locationPositionProperty.value.y <= centerY + rowHeight / 2 &&
-      countingObject.locationPositionProperty.value.y >= centerY - rowHeight / 2 ).sort( ( a, b ) =>
-      a.locationPositionProperty.value.x - b.locationPositionProperty.value.x );
   }
 
   public reset(): void {
@@ -608,6 +620,9 @@ export default class NumberPairsModel implements TModel {
     this.showTotalJumpProperty.reset();
     this.leftAddendLabelPlacementProperty.reset();
     this.numberLineSliderEnabledRangeProperty.reset();
+
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   public static calculateBeadSeparatorXPosition( leftAddendValue: number ): number {
