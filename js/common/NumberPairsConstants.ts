@@ -57,6 +57,7 @@ const NumberPairsConstants = {
 
   NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
+    phetioFeatured: true,
     phetioValueType: StringIO,
     validValues: [ 'numberBondModel', 'barModel' ]
   } ),

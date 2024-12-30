@@ -98,7 +98,8 @@ export default class NumberPairsModel implements TModel {
     const options = providedOptions;
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
-      tandem: options.tandem.createTandem( 'representationTypeProperty' )
+      tandem: options.tandem.createTandem( 'representationTypeProperty' ),
+      phetioFeatured: true
     } );
 
     this.totalColorProperty = new DynamicProperty( this.representationTypeProperty, {

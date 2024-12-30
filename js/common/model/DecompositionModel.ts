@@ -57,7 +57,8 @@ export default class DecompositionModel extends NumberPairsModel {
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
       phetioValueType: NumberPairsScene.NumberPairsSceneIO,
-      tandem: options.tandem.createTandem( 'selectedSceneModelProperty' )
+      tandem: options.tandem.createTandem( 'selectedSceneModelProperty' ),
+      phetioFeatured: true
     } );
 
     const totalProperty = new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total );
