@@ -56,6 +56,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
+      hasListenerOrderDependencies: true,
       phetioValueType: NumberPairsScene.NumberPairsSceneIO,
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' ),
       phetioFeatured: true
@@ -67,6 +68,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const rightAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
       sceneModel => sceneModel.rightAddendObjects );
     const leftAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
+      hasListenerOrderDependencies: true,
       derive: 'leftAddendProperty',
       bidirectional: true // This Property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );

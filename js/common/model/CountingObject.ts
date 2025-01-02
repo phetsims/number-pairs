@@ -86,6 +86,7 @@ export default class CountingObject extends PhetioObject {
 
     // This Property should not reset. It is managed by the addend array when added or removed.O
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
+      hasListenerOrderDependencies: true,
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
       phetioReadOnly: true,
       phetioFeatured: false

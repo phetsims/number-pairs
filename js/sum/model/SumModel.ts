@@ -51,6 +51,7 @@ export default class SumModel extends NumberPairsModel {
     const leftAddendProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
       numberType: 'Integer',
       range: SCENE_RANGE,
+      hasListenerOrderDependencies: true,
       tandem: options.tandem.createTandem( 'leftAddendProperty' )
     } );
 
@@ -58,6 +59,7 @@ export default class SumModel extends NumberPairsModel {
       NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
         tandem: options.tandem.createTandem( 'totalProperty' ),
         numberType: 'Integer',
+        hasListenerOrderDependencies: true,
         range: SCENE_RANGE
       } );
 
@@ -214,7 +216,7 @@ export default class SumModel extends NumberPairsModel {
     this.setCountingObjectsToInitialValues();
 
     const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( this.leftAddendProperty.value, this.totalProperty.value );
-    this.setBeadXPositions( initialBeadPositions.leftAddendXPositions, initialBeadPositions.rightAddendXPositions );
+    this.setBeadXPositions( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, initialBeadPositions.leftAddendXPositions, initialBeadPositions.rightAddendXPositions );
     this.beadXPositionsProperty.value = [ ...initialBeadPositions.leftAddendXPositions, ...initialBeadPositions.rightAddendXPositions ];
   }
 }

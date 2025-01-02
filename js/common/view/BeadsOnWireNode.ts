@@ -278,7 +278,7 @@ export default class BeadsOnWireNode extends Node {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
     }
 
-    this.model.setBeadXPositions( leftAddendXPositions, rightAddendXPositions );
+    this.model.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftAddendXPositions, rightAddendXPositions );
   }
 
   /**

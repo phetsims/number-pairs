@@ -45,6 +45,13 @@ export default class NumberLineSlider extends HSlider {
     const numberLineRange = providedOptions.numberLineRange;
     const thumbNode = new ThumbNode( providedOptions.tandem );
 
+    leftAddendNumberProperty.link( leftAddendNumber => {
+      console.log( 'leftAddend', leftAddendNumber );
+    } );
+    enabledRangeProperty.link( enabledRange => {
+      console.log( 'enabledRange', enabledRange );
+    } );
+
     const sliderTickParent = new Node();
     const trackNode = new NumberLineSliderTrack(
       leftAddendNumberProperty,

@@ -152,6 +152,7 @@ export default class NumberPairsModel implements TModel {
     // The range will update after all addends have stabilized their values during construction.
     this.numberLineSliderEnabledRangeProperty = new Property(
       new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
+        hasListenerOrderDependencies: true,
         phetioValueType: Range.RangeIO,
         tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
       } );
@@ -172,9 +173,11 @@ export default class NumberPairsModel implements TModel {
     } );
 
     this.leftAddendCountingObjectsLengthProperty = new DynamicProperty( this.leftAddendCountingObjectsProperty, {
+      hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
     } );
     this.rightAddendCountingObjectsLengthProperty = new DynamicProperty( this.rightAddendCountingObjectsProperty, {
+      hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
     } );
   }
@@ -397,7 +400,7 @@ export default class NumberPairsModel implements TModel {
       new Vector2( position.x + xTranslation, position.y ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
       new Vector2( position.x - xTranslation, position.y ) );
-    this.setLocationPositions( newLeftLocationPositions, newRightLocationPositions );
+    this.setLocationPositions( leftAddendObjects, rightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     // Bead positions should be a translation across the separator.
     const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
@@ -405,7 +408,7 @@ export default class NumberPairsModel implements TModel {
     const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
     const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
     const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-    this.setBeadXPositions( newLeftBeadXPositions, newRightBeadXPositions );
+    this.setBeadXPositions( leftAddendObjects, rightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -415,10 +418,10 @@ export default class NumberPairsModel implements TModel {
    * Set the location positions of the counting objects based on the provided left and right location positions.
    * @param leftLocationPositions
    * @param rightLocationPositions
+   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightAddendObjects
    */
-  public setLocationPositions( leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
-    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
-    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
 
     assert && assert( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions now that they have been swapped.' );
     assert && assert( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions now that they have been swapped.' );
@@ -455,12 +458,14 @@ export default class NumberPairsModel implements TModel {
    * Set the bead x positions of the counting objects based on the provided left and right x positions.
    * @param leftXPositions
    * @param rightXPositions
+   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightAddendObjects
    */
-  public setBeadXPositions( leftXPositions: number[], rightXPositions: number[] ): void {
-    this.leftAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+  public setBeadXPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftXPositions: number[], rightXPositions: number[] ): void {
+    leftAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = leftXPositions[ index ];
     } );
-    this.rightAddendCountingObjectsProperty.value.forEach( ( countingObject, index ) => {
+    rightAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = rightXPositions[ index ];
     } );
     this.beadXPositionsProperty.value = leftXPositions.concat( rightXPositions );
@@ -511,7 +516,7 @@ export default class NumberPairsModel implements TModel {
       return groupingIndex + i + beadSeparatorXPosition + distanceFromSeparator;
     } );
 
-    this.setBeadXPositions( leftXPositions, rightXPositions );
+    this.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftXPositions, rightXPositions );
   }
 
   /**

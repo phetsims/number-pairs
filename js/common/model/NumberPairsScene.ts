@@ -53,6 +53,7 @@ export default class NumberPairsScene {
     } );
     this.leftAddendProperty = new NumberProperty( initialLeftAddendValue, {
       range: sceneRange,
+      hasListenerOrderDependencies: true,
       numberType: 'Integer',
       tandem: tandem.createTandem( 'leftAddendProperty' )
     } );
