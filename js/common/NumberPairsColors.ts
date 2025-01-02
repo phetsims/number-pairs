@@ -47,6 +47,9 @@ const NumberPairsColors = {
   numberLineLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLeftAddend', {
     default: '#F8BDDD'
   } ),
+  numberLineThumbNodeColorProperty: new ProfileColorProperty( numberPairs, 'numberLineThumbNode', {
+    default: '#F8BDDD'
+  } ),
   numberLineRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineRightAddend', {
     default: '#A7CFFE'
   } ),

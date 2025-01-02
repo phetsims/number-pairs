@@ -26,8 +26,9 @@ export default class ThumbNode extends Node {
       stroke: 'black',
       top: trackPoint.bottom
     } );
-    const handleKnob = new ShadedSphereNode( NUMBER_LINE_POINT_RADIUS * 2, {
-      mainColor: NumberPairsColors.numberLineLeftAddendColorProperty,
+    const handleKnob = new ShadedSphereNode( NUMBER_LINE_POINT_RADIUS * 3, {
+      highlightColor: NumberPairsColors.numberLineThumbNodeColorProperty.value.brighterColor( 0.8 ),
+      mainColor: NumberPairsColors.numberLineThumbNodeColorProperty,
       top: handleLine.bottom
     } );
     super( {
