@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * Beads are arranged in two groups, one for each addend. All the beads are lined up on a "wire" and can be dragged
