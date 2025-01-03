@@ -8,8 +8,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,31 +16,25 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import { COUNTING_AREA_MARGIN } from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import Utils from '../../../../dot/js/Utils.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
 
 export default class LocationCountingObjectsLayerNode extends Node {
-
-  private readonly leftCountingAreaBounds: Bounds2;
-  private readonly rightCountingAreaBounds: Bounds2;
   private readonly countingObjectModelToNodeMap = new Map<CountingObject, LocationCountingObjectNode>();
 
-  public constructor( private readonly model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
+  public constructor( private readonly model: NumberPairsModel, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleName: 'Location Counting Objects'
     }, providedOptions );
 
     super( options );
-
-    this.leftCountingAreaBounds = countingAreaBounds.withOffsets( 0, 0, -countingAreaBounds.width / 2, 0 );
-    this.rightCountingAreaBounds = countingAreaBounds.withOffsets( -countingAreaBounds.width / 2, 0, 0, 0 );
 
     /**
      * Implement keyboard navigation for the counting objects using GroupSortInteraction.
@@ -97,43 +89,13 @@ export default class LocationCountingObjectsLayerNode extends Node {
       },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
-    groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( countingAreaBounds );
+    groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
 
     /**
-     * Create the LocationCountingObjectNodes for each countingObject in the model, and attach necessary listeners.
+     * Create the LocationCountingObjectNodes for each countingObject in the model.
      */
     model.countingObjects.forEach( countingObject => {
-
-      // Update the location of the countingObject when the addendType changes as long as it is not being dragged or it
-      // is not being manipulated by keyboard navigation.
-      countingObject.addendTypeProperty.link( addendType => {
-        if ( !countingObject.draggingProperty.value &&
-             ( groupSelectModel.selectedGroupItemProperty.value !== countingObject || !groupSelectModel.isGroupItemKeyboardGrabbedProperty ) ) {
-          const addendBounds = addendType === AddendType.LEFT ? this.leftCountingAreaBounds : this.rightCountingAreaBounds;
-          const dilatedAddendBounds = addendBounds.dilated( -20 );
-
-          if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-
-            // we do not want to rely on listener order, therefore we find the counting objects based on our addend
-            // value rather than other Properties
-            const leftAddendCountingObjects = model.countingObjects.filter(
-              countingObject => countingObject.addendTypeProperty.value === AddendType.LEFT );
-            const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
-            countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-          }
-          else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-
-            // we do not want to rely on listener order, therefore we find the counting objects based on our addend
-            // value rather than other Properties
-            const rightAddendCountingObjects = model.countingObjects.filter(
-              countingObject => countingObject.addendTypeProperty.value === AddendType.RIGHT );
-            const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
-            countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-          }
-
-        }
-      } );
-      const countingObjectNode = new LocationCountingObjectNode( countingObject, countingAreaBounds, model.representationTypeProperty, {
+      const countingObjectNode = new LocationCountingObjectNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
         onEndDrag: model.dropCountingObject.bind( model ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
@@ -145,14 +107,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       this.addChild( countingObjectNode );
       this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
     } );
-  }
-
-
-  private getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
-    const gridCoordinates = this.model.getGridCoordinates( addendBounds, COUNTING_AREA_MARGIN, COUNTING_AREA_MARGIN, 6 );
-    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
-      countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
-      countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
   }
 
   /**
@@ -168,7 +122,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
     // left addend area and vice versa.
     // This function will no-op if the countingObject is not in the left or right addend area, or if it is already in
     // the correct countingObject array.
-    if ( this.leftCountingAreaBounds.containsPoint( newPosition ) &&
+    if ( NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.containsPoint( newPosition ) &&
          !leftAddendCountingObjects.includes( countingObject ) &&
          rightAddendCountingObjects.includes( countingObject ) ) {
       countingObject.traverseInactiveObjects = false;
@@ -176,7 +130,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       leftAddendCountingObjects.add( countingObject );
       countingObject.traverseInactiveObjects = true;
     }
-    else if ( this.rightCountingAreaBounds.containsPoint( newPosition ) &&
+    else if ( NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.containsPoint( newPosition ) &&
               !rightAddendCountingObjects.includes( countingObject ) &&
               leftAddendCountingObjects.includes( countingObject ) ) {
 

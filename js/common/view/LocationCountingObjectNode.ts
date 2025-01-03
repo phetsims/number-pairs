@@ -69,6 +69,10 @@ export default class LocationCountingObjectNode extends Node {
     }, providedOptions );
     super( options );
 
+    model.locationOpacityProperty.link( opacity => {
+        this.opacity = opacity;
+      } );
+
     apple.center = this.center;
     oneCard.center = this.center;
     soccerBall.center = this.center;

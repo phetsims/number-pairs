@@ -49,7 +49,7 @@ type SelfOptions = {
 export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'> &
   StrictOmit<ScreenViewOptions, 'children'>;
 
-const COUNTING_AREA_Y_MARGIN = 15; // empirically determined
+const COUNTING_AREA_Y_MARGIN = NumberPairsConstants.COUNTING_AREA_Y_MARGIN;
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 export default class NumberPairsScreenView extends ScreenView {
 
@@ -197,7 +197,7 @@ export default class NumberPairsScreenView extends ScreenView {
           countingRepresentationType === RepresentationType.ONE_CARDS ||
           countingRepresentationType === RepresentationType.BUTTERFLIES ||
           countingRepresentationType === RepresentationType.SOCCER_BALLS );
-      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, COUNTING_AREA_BOUNDS, {
+      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );

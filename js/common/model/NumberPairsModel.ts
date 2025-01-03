@@ -30,6 +30,8 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -73,7 +75,10 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   private dropAnimation: Animation | null = null;
-  private tenFrameAnimation: Animation | null = null;
+  private attributeAnimation: Animation | null = null;
+  public locationAnimation: Animation | null = null;
+  public fadeOutAnimation: Animation | null = null;
+  private fadeInAnimation: Animation | null = null;
 
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
@@ -82,6 +87,8 @@ export default class NumberPairsModel implements TModel {
   // and addend/total value Properties.
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
+
+  protected changingScenes = false;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -236,7 +243,30 @@ export default class NumberPairsModel implements TModel {
         leftAddendCountingObjects.remove( countingObject );
         countingObject.traverseInactiveObjects = true;
       }
+
+      // Update the location of the countingObject when the addendType changes during reset and scene changes.
+      if ( isResettingAllProperty.value || this.changingScenes ) {
+        const addendBounds = addendType === AddendType.LEFT ? NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS : NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
+        const dilatedAddendBounds = addendBounds.dilated( -20 );
+
+        if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
+          const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
+          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+        }
+        else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
+          const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
+          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+        }
+      }
     } );
+  }
+
+  protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
+    const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
+    const gridCoordinates = this.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
+    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
+      countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
+      countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
   }
 
   private getValidDropPoint( invalidBounds: Bounds2, proposedPoint: Vector2, allowedDirection: 'upLeft' | 'upRight' ): Vector2 {
@@ -392,7 +422,7 @@ export default class NumberPairsModel implements TModel {
 
     // All attribute counting objects should appear to not have moved, and every object's color was simply swapped.
     // This is not how the model handles movement between addends so we must do that artificially here.
-    this.setAttributePositions( rightAttributePositions, leftAttributePositions );
+    this.setAttributePositions( leftAddendObjects, rightAddendObjects, rightAttributePositions, leftAttributePositions );
 
     // All location counting objects should be a translation across the counting area of their previous position.
     const xTranslation = countingAreaWidth / 2;
@@ -415,43 +445,125 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
+   * Returns animation targets based on the provided position Properties and target positions.
+   * @param positionProperties
+   * @param targetPositions
+   */
+  private getAnimationTargets( positionProperties: Property<Vector2>[], targetPositions: Vector2[] ): AnimationTarget[] {
+    return positionProperties.map( ( positionProperty, index ) => {
+      return {
+        property: positionProperty,
+        to: targetPositions[ index ]
+      };
+    } );
+  }
+
+  /**
    * Set the location positions of the counting objects based on the provided left and right location positions.
    * @param leftLocationPositions
    * @param rightLocationPositions
    * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
    * @param rightAddendObjects
+   * @param animate - whether to animate the movement of the counting objects. If we are not animating the movement
+   *  we are fading the counting objects in and out to their new spots to prevent a jarring UX.
    */
-  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
+  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate = false ): void {
 
-    assert && assert( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions now that they have been swapped.' );
-    assert && assert( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions now that they have been swapped.' );
+    assert && assert( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
+    assert && assert( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
 
-    leftAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
-    } );
-    rightAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
-    } );
+    if ( animate ) {
+      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
+                                 ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
+      this.locationAnimation?.stop();
+
+      this.locationAnimation = new Animation( {
+        duration: 0.4,
+        targets: animationTargets
+      } );
+      this.locationAnimation.endedEmitter.addListener( () => {
+        this.locationAnimation = null;
+      } );
+      this.locationAnimation.start();
+    }
+    else {
+      const fadeOutTargets = [ ...leftAddendObjects, ...rightAddendObjects ].map( countingObject => {
+        return {
+          property: countingObject.locationOpacityProperty,
+          to: 0
+        };
+      } );
+      const fadeInTargets = [ ...leftAddendObjects, ...rightAddendObjects ].map( countingObject => {
+        return {
+          property: countingObject.locationOpacityProperty,
+          to: 1
+        };
+      } );
+
+      this.fadeOutAnimation?.stop();
+      this.fadeInAnimation?.stop();
+
+      this.fadeOutAnimation = new Animation( {
+        duration: 0.3,
+        targets: fadeOutTargets
+      } );
+      this.fadeInAnimation = new Animation( {
+        duration: 0.3,
+        targets: fadeInTargets
+      } );
+      this.fadeOutAnimation.then( this.fadeInAnimation.start() );
+
+      this.fadeOutAnimation.endedEmitter.addListener( () => {
+        leftAddendObjects.forEach( ( countingObject, index ) => {
+          countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
+        } );
+        rightAddendObjects.forEach( ( countingObject, index ) => {
+          countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
+        } );
+        this.fadeOutAnimation = null;
+      } );
+      this.fadeInAnimation.endedEmitter.addListener( () => {
+        this.fadeOutAnimation = null;
+      } );
+
+      this.fadeOutAnimation.start();
+    }
   }
 
   /**
    * Set the attribute positions of the counting objects based on the provided left and right addend positions.
+   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightAddendObjects
    * @param leftAttributePositions
    * @param rightAttributePositions
+   * @param animate - whether to animate the movement of the counting objects.
    */
-  public setAttributePositions( leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
-    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
-    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+  public setAttributePositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
+    assert && assert( leftAddendObjects.length === leftAttributePositions.length, 'leftAddendObjects should be the same length as the leftAttributePositions.' );
+    assert && assert( rightAddendObjects.length === rightAttributePositions.length, 'rightAddendObjects should be the same length as the rightAttributePositions.' );
 
-    assert && assert( leftAddendObjects.length === leftAttributePositions.length, 'leftAddendObjects should be the same length as the rightAttributePositions now that they have been swapped.' );
-    assert && assert( rightAddendObjects.length === rightAttributePositions.length, 'rightAddendObjects should be the same length as the leftAttributePositions now that they have been swapped.' );
+    if ( animate ) {
+      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
+        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
 
-    leftAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
-    } );
-    rightAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
-    } );
+      this.attributeAnimation?.stop();
+      this.attributeAnimation = new Animation( {
+        duration: 0.4,
+        targets: animationTargets
+      } );
+      this.attributeAnimation.endedEmitter.addListener( () => {
+        this.attributeAnimation = null;
+      } );
+      this.attributeAnimation.start();
+    }
+    else {
+      leftAddendObjects.forEach( ( countingObject, index ) => {
+        countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
+      } );
+      rightAddendObjects.forEach( ( countingObject, index ) => {
+        countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
+      } );
+    }
   }
 
   /**
@@ -528,50 +640,22 @@ export default class NumberPairsModel implements TModel {
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 
-    // If we are only provided one ten frame bound, we will organize the objects within that single ten frame bounds.
+    // If we are only provided one ten frame bound, we are in the unified counting area where Counting Objects are split by attribute.
+    // If we have two ten frame bounds, we are in a split counting area where Counting Objects are split by location.
     let leftGridCoordinates: Vector2[];
     let rightGridCoordinates: Vector2[];
     if ( tenFrameBounds.length === 1 ) {
       const gridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
       leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length );
+      rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
     }
     else {
-      leftGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 );
-      rightGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 );
+      leftGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 ).slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 ).slice( 0, rightAddendObjects.length );
     }
+    this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
+    this.setLocationPositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
 
-
-    const tenFrameAnimationTargets: AnimationTarget[] = [];
-    leftAddendObjects.forEach( ( countingObject, index ) => {
-      tenFrameAnimationTargets.push( {
-        property: countingObject.attributePositionProperty,
-        to: leftGridCoordinates[ index ]
-      } );
-      tenFrameAnimationTargets.push( {
-        property: countingObject.locationPositionProperty,
-        to: leftGridCoordinates[ index ]
-      } );
-    } );
-    rightAddendObjects.forEach( ( countingObject, index ) => {
-      tenFrameAnimationTargets.push( {
-        property: countingObject.attributePositionProperty,
-        to: rightGridCoordinates[ index ]
-      } );
-      tenFrameAnimationTargets.push( {
-        property: countingObject.locationPositionProperty,
-        to: rightGridCoordinates[ index ]
-      } );
-    } );
-
-    this.tenFrameAnimation = new Animation( {
-      duration: 0.4,
-      targets: tenFrameAnimationTargets
-    } );
-    this.tenFrameAnimation.endedEmitter.addListener( () => {
-      this.tenFrameAnimation = null;
-    } );
-    this.tenFrameAnimation.start();
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -615,7 +699,10 @@ export default class NumberPairsModel implements TModel {
 
     // Stop any animations that may be in progress.
     this.dropAnimation?.stop();
-    this.tenFrameAnimation?.stop();
+    this.attributeAnimation?.stop();
+    this.locationAnimation?.stop();
+    this.fadeOutAnimation?.stop();
+    this.fadeInAnimation?.stop();
 
     this.representationTypeProperty.reset();
     this.leftAddendVisibleProperty.reset();

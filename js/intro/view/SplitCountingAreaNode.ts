@@ -18,13 +18,14 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { COUNTING_AREA_LINE_WIDTH, COUNTING_AREA_MARGIN } from '../../common/view/CountingAreaNode.js';
+import { COUNTING_AREA_LINE_WIDTH } from '../../common/view/CountingAreaNode.js';
 import NumberPairsScreenView from '../../common/view/NumberPairsScreenView.js';
 import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import numberPairs from '../../numberPairs.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
+const COUNTING_AREA_MARGIN = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
 
 type SplitCountingAreaNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class SplitCountingAreaNode extends Node {

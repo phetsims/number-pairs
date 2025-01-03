@@ -16,6 +16,8 @@ import numberPairs from '../../numberPairs.js';
 import { AddendType } from './CountingObject.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 
 type SelfOptions = {
@@ -119,6 +121,7 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     selectedSceneModelProperty.link( sceneModel => {
+      this.changingScenes = true;
 
       // Set all the counting objects to inactive so that the objects in each observable array
       // get set to the proper state below.
@@ -136,6 +139,22 @@ export default class DecompositionModel extends NumberPairsModel {
       sceneModel.getAllCountingObjects().forEach( ( countingObject, i ) => {
         countingObject.beadXPositionProperty.value = sceneModel.beadXPositionsProperty.value[ i ];
       } );
+
+      this.changingScenes = false;
+    } );
+
+    // Set the initial positions for location based counting objects.
+    this.countingObjects.forEach( countingObject => {
+      if ( countingObject.addendTypeProperty.value === AddendType.LEFT &&
+           !NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.containsPoint( countingObject.locationPositionProperty.value ) ) {
+        const gridCoordinates = this.getAvailableGridCoordinates( this.leftAddendCountingObjectsProperty.value, NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.dilated( -20 ) );
+        countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+      }
+      else if ( countingObject.addendTypeProperty.value === AddendType.RIGHT &&
+                !NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.containsPoint( countingObject.locationPositionProperty.value ) ) {
+        const gridCoordinates = this.getAvailableGridCoordinates( this.rightAddendCountingObjectsProperty.value, NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.dilated( -20 ) );
+        countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
+      }
     } );
 
     this.createNumberLineEnabledRangeLinks();

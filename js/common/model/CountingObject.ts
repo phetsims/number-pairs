@@ -17,6 +17,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import numberPairs from '../../numberPairs.js';
+import Range from '../../../../dot/js/Range.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -48,6 +49,7 @@ export default class CountingObject extends PhetioObject {
   // The position Property of Counting Objects when they are in location based representations
   // (APPLES, ONE_CARDS, SOCCER_BALLS, BUTTERFLIES)
   public readonly locationPositionProperty: Property<Vector2>;
+  public readonly locationOpacityProperty: Property<number>;
 
   public readonly beadXPositionProperty: Property<number>;
 
@@ -79,12 +81,18 @@ export default class CountingObject extends PhetioObject {
       tandem: this.tandem.createTandem( 'locationPositionProperty' )
     } );
 
+    // This Property does not need to be instrumented since it is only used for animation and we do not instrument
+    // animations for PhET-iO
+    this.locationOpacityProperty = new NumberProperty( 1, {
+      range: new Range( 0, 1 )
+    } );
+
     // This Property should not reset. It will be managed by the NumberPairsModel.beadXPositionsProperty.
     this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
       tandem: this.tandem.createTandem( 'beadXPositionProperty' )
     } );
 
-    // This Property should not reset. It is managed by the addend array when added or removed.O
+    // This Property should not reset. It is managed by the addend array when added or removed.
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       hasListenerOrderDependencies: true,
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
@@ -106,6 +114,7 @@ export default class CountingObject extends PhetioObject {
   public reset(): void {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
+    this.locationOpacityProperty.reset();
     this.kittenSelectedProperty.reset();
     this.draggingProperty.reset();
   }
