@@ -50,6 +50,7 @@ NUMBER_TO_WORD_MAP.set( 18, NumberSuiteCommonStrings.eighteenStringProperty );
 NUMBER_TO_WORD_MAP.set( 19, NumberSuiteCommonStrings.nineteenStringProperty );
 NUMBER_TO_WORD_MAP.set( 20, NumberSuiteCommonStrings.twentyStringProperty );
 NUMBER_TO_WORD_MAP.set( 'aNumber', NumberPairsStrings.aNumberStringProperty );
+NUMBER_TO_WORD_MAP.set( 'someNumber', NumberPairsStrings.someNumberStringProperty );
 NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringProperty );
 
 type SelfOptions = {
@@ -84,14 +85,18 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     const isPrimaryLocaleProperty = numberPairsPreferences.isPrimaryLocaleProperty;
     const secondLocaleStringsProperty = numberPairsPreferences.secondLocaleStringsProperty;
 
-    const createNumberStringProperty = ( numberProperty: TReadOnlyProperty<number>, visibleProperty: TReadOnlyProperty<boolean>, shellProperty: Property<string> ) => {
+    const createNumberStringProperty = (
+      numberProperty: TReadOnlyProperty<number>,
+      visibleProperty: TReadOnlyProperty<boolean>,
+      shellProperty: Property<string>,
+      hiddenNumberKey: 'aNumber' | 'someNumber' | 'anotherNumber' ) => {
 
       // We want to grab the right string based on the number, visibility, primary vs. secondary locale, second locale strings.
       // and the primary locale strings. It is easier to listen to the global localeProperty than to pass in every possible
       // stringProperty in the NUMBER_TO_WORD_MAP above.
       return new DerivedProperty( [ numberProperty, visibleProperty, isPrimaryLocaleProperty, secondLocaleStringsProperty, localeProperty ],
-        ( total, visible, isPrimaryLocale, secondLocaleStrings ) => {
-          const key = visible ? total : 'aNumber';
+        ( number, visible, isPrimaryLocale, secondLocaleStrings ) => {
+          const key = visible ? number : hiddenNumberKey;
           const primaryStringProperty = NUMBER_TO_WORD_MAP.get( key );
           if ( isPrimaryLocale ) {
             return primaryStringProperty;
@@ -109,9 +114,9 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     const secondLocaleLeftAddendStringProperty = new Property( '' );
     const secondLocaleRightAddendStringProperty = new Property( '' );
 
-    const totalStringProperty = createNumberStringProperty( model.totalProperty, model.totalVisibleProperty, secondLocaleTotalStringProperty );
-    const leftAddendStringProperty = createNumberStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, secondLocaleLeftAddendStringProperty );
-    const rightAddendStringProperty = createNumberStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, secondLocaleRightAddendStringProperty );
+    const totalStringProperty = createNumberStringProperty( model.totalProperty, model.totalVisibleProperty, secondLocaleTotalStringProperty, 'someNumber' );
+    const leftAddendStringProperty = createNumberStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, secondLocaleLeftAddendStringProperty, 'aNumber' );
+    const rightAddendStringProperty = createNumberStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, secondLocaleRightAddendStringProperty, 'anotherNumber' );
 
     // Nest these in a DynamicProperty to abstract any additional listeners needed to account for translation.
     const totalDynamicProperty = new DynamicProperty( totalStringProperty );

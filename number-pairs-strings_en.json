@@ -41,6 +41,9 @@
   "aNumber": {
     "value": "a number"
   },
+  "someNumber": {
+    "value": "some number"
+  },
   "anotherNumber": {
     "value": "another number"
   },

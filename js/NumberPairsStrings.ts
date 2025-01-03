@@ -30,6 +30,7 @@ type StringsType = {
   'sumNumberSentencePatternStringProperty': LocalizedStringProperty;
   'sumNumberPhraseSpeechPatternStringProperty': LocalizedStringProperty;
   'aNumberStringProperty': LocalizedStringProperty;
+  'someNumberStringProperty': LocalizedStringProperty;
   'anotherNumberStringProperty': LocalizedStringProperty;
   'addendsStringProperty': LocalizedStringProperty;
   'tickNumbersStringProperty': LocalizedStringProperty;
