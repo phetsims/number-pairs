@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 /**
  * The base class for the model in the Number Pairs simulation.
  * This class keeps track of the total and both addends.
