@@ -122,7 +122,7 @@ export default class BeadsOnWireNode extends Node {
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         keyboardDragDirection: 'leftRight',
-        positionProperty: selectedBeadPositionProperty,
+        positionProperty: selectedBeadPositionProperty, // TODO: part of the reentrancy problem.
         transform: modelViewTransform
       },
       getGroupItemToSelect: () => {
@@ -178,10 +178,8 @@ export default class BeadsOnWireNode extends Node {
           }
         } );
 
-      // TODO: Is it odd that we are using handleBeadMove here only for keyboard?
-      //  If we want to put it here for mouse as well we need to create Properties about whether it is mouse grabbed and
-      //  track which one is dragging.
-      //  Additional complications... this is reentrant... duh. I want to get the proposed value from keyboard before
+      // TODO:
+      //  this is reentrant... duh. I want to get the proposed value from keyboard before
       //  deciding to set it there, but I don't see support for that in the KeyboardDragListener. Consult with CM
       countingObject.beadXPositionProperty.link( x => {
         if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value && groupSelectModel.selectedGroupItemProperty.value === countingObject ) {
