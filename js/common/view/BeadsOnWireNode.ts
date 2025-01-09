@@ -31,8 +31,8 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -109,20 +109,38 @@ export default class BeadsOnWireNode extends Node {
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
     this.numberOfSpotsOnWire = numberOfSpotsOnWire;
 
-    /**
-     * GroupSelectView is used to handle keyboard interactions for selecting and dragging beads.
-     */
+    // The proposed bead position when dragging with the keyboard, in model coordinates.
+    const keyboardProposedBeadPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
+
+    // GroupSelectView is used to handle keyboard interactions for selecting and dragging beads. When the selection
+    // changes, update keyboardProposedBeadPositionProperty to the selected bead's current position.
     const groupSelectModel = model.groupSelectBeadsModel;
-    const selectedBeadPositionProperty = new DynamicProperty<Vector2, number, CountingObject>( groupSelectModel.selectedGroupItemProperty, {
-      derive: countingObject => countingObject.beadXPositionProperty,
-      bidirectional: true,
-      map: ( beadXPosition: number ) => new Vector2( beadXPosition, 0 ),
-      inverseMap: ( position: Vector2 ) => position.x
+    groupSelectModel.selectedGroupItemProperty.link( countingObject => {
+      if ( countingObject ) {
+        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
+      }
     } );
+
+    // When the proposed bead position is being changed by dragging with the keyboard, handle that proposed position
+    // using a process similar to mouse/touch dragging - that is, via handleBeadMove.
+    keyboardProposedBeadPositionProperty.lazyLink( proposedBeadPosition => {
+      const countingObject = groupSelectModel.selectedGroupItemProperty.value!;
+      assert && assert( countingObject, 'Expected to have a countingObject when dragging with keyboard.' );
+      const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject )!;
+      assert && assert( grabbedBeadNode, 'Expected to have a grabbedBeadNode when dragging with keyboard.' );
+
+
+      // This complicated transform is unfortunate, but we want to handle all varieties of dragging via handleBeadMove.
+      // HandleBeadMove expects the proposed position to be in the global view coordinate frame, because that is
+      // what the DragListener (internal to BeadNode) provides.
+      const viewPosition = grabbedBeadNode.parentToGlobalPoint( modelViewTransform.modelToViewPosition( proposedBeadPosition ) );
+      this.handleBeadMove( viewPosition, grabbedBeadNode );
+    } );
+
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         keyboardDragDirection: 'leftRight',
-        positionProperty: selectedBeadPositionProperty, // TODO: part of the reentrancy problem.
+        positionProperty: keyboardProposedBeadPositionProperty,
         transform: modelViewTransform
       },
       getGroupItemToSelect: () => {
@@ -178,16 +196,8 @@ export default class BeadsOnWireNode extends Node {
           }
         } );
 
-      // TODO:
-      //  this is reentrant... duh. I want to get the proposed value from keyboard before
-      //  deciding to set it there, but I don't see support for that in the KeyboardDragListener. Consult with CM
       countingObject.beadXPositionProperty.link( x => {
-        if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value && groupSelectModel.selectedGroupItemProperty.value === countingObject ) {
-          // this.handleBeadMove( new Vector2( this.modelViewTransform.modelToViewX( x ), 0 ), beadNode );
-        }
-        else {
-          beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
-        }
+        beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
       } );
 
       this.beadModelToNodeMap.set( countingObject, beadNode );
@@ -343,7 +353,7 @@ export default class BeadsOnWireNode extends Node {
 
   /**
    * Handle the movement of a bead and its neighbors when it is dragged.
-   * @param newPosition
+   * @param newPosition - the proposed new position, in the global view coordinate frame.
    * @param grabbedBeadNode
    */
   private handleBeadMove( newPosition: Vector2, grabbedBeadNode: BeadNode ): void {
