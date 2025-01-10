@@ -45,6 +45,8 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     } );
 
     this.addChild( totalSelectorAlignBox );
+
+    this.numberPairsSetPDOMOrder( sceneSelectionRadioButtonGroup );
   }
 }
 

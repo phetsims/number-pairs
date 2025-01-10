@@ -81,15 +81,9 @@ export default class SumScreenView extends NumberPairsScreenView {
       centerY: COUNTING_AREA_BOUNDS.centerY,
       right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN
     } );
-    this.addChild( addendSpinners );
-  }
 
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
+    this.addChild( addendSpinners );
+    this.numberPairsSetPDOMOrder( addendSpinners );
   }
 }
 

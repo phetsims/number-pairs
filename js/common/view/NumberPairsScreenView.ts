@@ -54,6 +54,11 @@ const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly resetAllButton: Node;
+  private readonly countingAreaButtonsVBox: Node;
+
+  // For pdom order.
+  private readonly countingAreaNodes: Node[] = [];
+  private readonly controlNodes: Node[];
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -162,13 +167,23 @@ export default class NumberPairsScreenView extends ScreenView {
       listener: model.swapAddends.bind( model ),
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
-    const countingAreaButtonsVBox = new VBox( {
+    this.countingAreaButtonsVBox = new VBox( {
       children: [ tenFrameButton, commutativeButton ],
       spacing: 10,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: COUNTING_AREA_BOUNDS.minY
     } );
-    this.addChild( countingAreaButtonsVBox );
+    this.addChild( this.countingAreaButtonsVBox );
+
+    // Set the initial order of control nodes. Depending on the counting representations on the screen,
+    // more control nodes may be added to this array later during construction.
+    this.controlNodes = [
+      countingRepresentationRadioButtonGroup,
+      speechSynthesisControl,
+      numberSentenceVBox,
+      options.numberBondContent,
+      ...( options.equationContent ? [ options.equationContent ] : [] )
+    ];
 
     /**
      * Create the counting area and accompanying features.
@@ -202,6 +217,7 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
       this.addChild( locationCountingObjectsLayerNode );
+      this.countingAreaNodes.push( locationCountingObjectsLayerNode );
     }
 
     // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
@@ -221,6 +237,7 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
       countingRepresentationsLayer.addChild( kittensLayerNode );
+      this.countingAreaNodes.push( kittensLayerNode );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
       this.addInputListener( new PressListener( {
@@ -253,6 +270,7 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       countingRepresentationsLayer.addChild( numberLineNode );
+      this.countingAreaNodes.push( numberLineNode );
 
       // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
       //  is added to the scene graph.
@@ -263,6 +281,7 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
       this.addChild( numberLineCheckboxGroup );
+      this.controlNodes.push( numberLineCheckboxGroup );
 
       const iconWidth = 35;
       const iconValue = 1;
@@ -280,6 +299,7 @@ export default class NumberPairsScreenView extends ScreenView {
           tandem: options.tandem.createTandem( 'leftAddendLabelPlacementSwitch' )
         } );
       this.addChild( leftAddendLabelPlacementSwitch );
+      this.controlNodes.push( leftAddendLabelPlacementSwitch );
     }
 
     /**
@@ -295,9 +315,12 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );
       countingRepresentationsLayer.addChild( beadsOnWireNode );
+      this.countingAreaNodes.push( beadsOnWireNode );
 
       beadsOnWireNode.center = COUNTING_AREA_BOUNDS.center;
     }
+
+    this.countingAreaNodes.push( countingAreaNode );
 
     // Position the counting representation radio buttons below the counting area.
     countingRepresentationRadioButtonGroup.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
@@ -319,6 +342,23 @@ export default class NumberPairsScreenView extends ScreenView {
       new Bounds2( bounds.minX, bounds.minY, bounds.centerX, bounds.maxY ),
       new Bounds2( bounds.centerX, bounds.minY, bounds.maxX, bounds.maxY )
     ];
+  }
+
+  /**
+   * Set the traversal order for the screen.
+   * @param totalInteractionNode
+   */
+  protected numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
+    this.pdomPlayAreaNode.setPDOMOrder( [
+      ...this.countingAreaNodes,
+      this.countingAreaButtonsVBox,
+      totalInteractionNode
+    ] );
+
+    this.pdomControlAreaNode.setPDOMOrder( [
+      ...this.controlNodes,
+      this.resetAllButton
+    ] );
   }
 }
 
