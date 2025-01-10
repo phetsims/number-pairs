@@ -66,8 +66,8 @@ export default class BeadsOnWireNode extends Node {
   ) {
     const numberOfSpotsOnWire = Math.floor( countingAreaBounds.width / BEAD_WIDTH );
 
-    // TODO: add documentation for the modelViewTransform
-    //  Perhaps use a LinearFunction instead.
+    // Although this model view transform is essentially used as a linear function, it is needed as the transform
+    // for the keyboard drag listener.
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
       Vector2.ZERO,
       Vector2.ZERO,
@@ -118,6 +118,11 @@ export default class BeadsOnWireNode extends Node {
     groupSelectModel.selectedGroupItemProperty.link( countingObject => {
       if ( countingObject ) {
         keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
+      }
+    } );
+    groupSelectModel.isGroupItemKeyboardGrabbedProperty.lazyLink( ( isGrabbed, wasGrabbed ) => {
+      if ( !isGrabbed && wasGrabbed ) {
+        this.handleBeadDrop( this.beadModelToNodeMap.get( groupSelectModel.selectedGroupItemProperty.value! )! );
       }
     } );
 
@@ -191,6 +196,7 @@ export default class BeadsOnWireNode extends Node {
           },
           onEndDrag: () => {
             this.beadDragging = false;
+            this.handleBeadDrop( beadNode );
             const sortedBeads = this.getSortedBeadNodes();
             this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.model.beadXPositionProperty.value );
           }
@@ -227,6 +233,12 @@ export default class BeadsOnWireNode extends Node {
 
   }
 
+  private handleBeadDrop( beadNode: BeadNode ): void {
+    if ( Utils.equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
+      const proposedPosition = beadNode.centerX > this.beadSeparatorCenterXProperty.value ? this.beadSeparatorCenterXProperty.value + BEAD_WIDTH : this.beadSeparatorCenterXProperty.value - BEAD_WIDTH;
+      this.handleBeadMove( this.localToGlobalPoint( new Vector2( proposedPosition, 0 ) ), beadNode );
+    }
+  }
   /**
    * Update the positions of the beads on the wire based on the addend values. We may have to account for a bead being
    * added or removed.
