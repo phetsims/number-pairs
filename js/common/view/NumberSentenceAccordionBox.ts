@@ -25,7 +25,6 @@ import numberPairsPreferences from '../model/NumberPairsPreferences.js';
 import Property from '../../../../axon/js/Property.js';
 import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberSuiteCommonStrings.zeroStringProperty );
@@ -92,10 +91,16 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       hiddenNumberKey: 'aNumber' | 'someNumber' | 'anotherNumber' ) => {
 
       // We want to grab the right string based on the number, visibility, primary vs. secondary locale, second locale strings.
-      // and the primary locale strings. It is easier to listen to the global localeProperty than to pass in every possible
-      // stringProperty in the NUMBER_TO_WORD_MAP above.
-      return new DerivedProperty( [ numberProperty, visibleProperty, isPrimaryLocaleProperty, secondLocaleStringsProperty, localeProperty ],
-        ( number, visible, isPrimaryLocale, secondLocaleStrings ) => {
+      // and the primary locale strings. We need to listen to each individual StringProperty to make sure our
+      // listeners are acting on reliable information.
+      const stringPropertyDependencies = NUMBER_TO_WORD_MAP.values();
+      return DerivedProperty.deriveAny( [ numberProperty, visibleProperty, isPrimaryLocaleProperty, secondLocaleStringsProperty, ...stringPropertyDependencies ],
+        () => {
+          const number = numberProperty.value;
+          const visible = visibleProperty.value;
+          const isPrimaryLocale = isPrimaryLocaleProperty.value;
+          const secondLocaleStrings = secondLocaleStringsProperty.value;
+
           const key = visible ? number : hiddenNumberKey;
           const primaryStringProperty = NUMBER_TO_WORD_MAP.get( key );
           if ( isPrimaryLocale ) {
