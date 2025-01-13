@@ -237,7 +237,10 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
       countingRepresentationsLayer.addChild( kittensLayerNode );
-      this.countingAreaNodes.push( kittensLayerNode );
+
+      // We need to specify the kitten node pdom order so that it remains consistent as kittenNodes move to front during
+      // interactions.
+      this.countingAreaNodes.push( ...kittensLayerNode.kittenNodes );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
       this.addInputListener( new PressListener( {
