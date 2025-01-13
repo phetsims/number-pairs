@@ -157,7 +157,8 @@ export default class NumberPairsScreenView extends ScreenView {
           model.organizeInGroupsOfFive.bind( model )();
         }
         else {
-          model.organizeIntoTenFrame.bind( model )( tenFrameBounds );
+          const positionPropertyType = model.representationTypeProperty.value === RepresentationType.KITTENS ? 'attribute' : 'location';
+          model.organizeIntoTenFrame.bind( model )( tenFrameBounds, positionPropertyType );
         }
       },
       visibleProperty: tenFrameButtonVisibleProperty

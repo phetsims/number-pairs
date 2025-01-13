@@ -1,4 +1,13 @@
 // Copyright 2024-2025, University of Colorado Boulder
+/**
+ * NumberPairsModel is the base model for the Number Pairs simulation. It contains the properties that control the
+ * addends, total, and counting objects in the sim. The model also contains properties that control the visibility of
+ * the addends and total, as well as the representation type of the counting objects.
+ *
+ * @author Marla Schulz (PhET Interactive Simulations)
+ *
+ */
+
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
@@ -10,14 +19,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-/**
- * NumberPairsModel is the base model for the Number Pairs simulation. It contains the properties that control the
- * addends, total, and counting objects in the sim. The model also contains properties that control the visibility of
- * the addends and total, as well as the representation type of the counting objects.
- *
- * @author Marla Schulz (PhET Interactive Simulations)
- *
- */
 import TModel from '../../../../joist/js/TModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
@@ -74,11 +75,7 @@ export default class NumberPairsModel implements TModel {
   public readonly showTotalJumpProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
-  private dropAnimation: Animation | null = null;
-  private attributeAnimation: Animation | null = null;
-  public locationAnimation: Animation | null = null;
-  public fadeOutAnimation: Animation | null = null;
-  private fadeInAnimation: Animation | null = null;
+  private countingObjectsAnimation: Animation | null = null;
 
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
@@ -359,15 +356,16 @@ export default class NumberPairsModel implements TModel {
           to: dropZoneBounds.closestBoundaryPointTo( positionProperty.value )
         };
       } );
-      this.dropAnimation = new Animation( {
+      this.countingObjectsAnimation?.stop();
+      this.countingObjectsAnimation = new Animation( {
         duration: 0.4,
         targets: animationTargets
       } );
-      this.dropAnimation.endedEmitter.addListener( () => {
+      this.countingObjectsAnimation.endedEmitter.addListener( () => {
         // TODO: Do I need to dispose?
-        this.dropAnimation = null;
+        this.countingObjectsAnimation = null;
       } );
-      this.dropAnimation.start();
+      this.countingObjectsAnimation.start();
     }
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
@@ -420,9 +418,16 @@ export default class NumberPairsModel implements TModel {
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
 
+    // Make a copy of the counting object observable arrays so that each representation is working with a consistent
+    // set of counting objects. Otherwise, changes may occur to the observable arrays during animation that other
+    // representations do not need to be tracking.
+    const copyOfLeftAddendObjects = leftAddendObjects.slice();
+    const copyOfRightAddendObjects = rightAddendObjects.slice();
+
+
     // All attribute counting objects should appear to not have moved, and every object's color was simply swapped.
     // This is not how the model handles movement between addends so we must do that artificially here.
-    this.setAttributePositions( leftAddendObjects, rightAddendObjects, rightAttributePositions, leftAttributePositions );
+    this.setAttributePositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, rightAttributePositions, leftAttributePositions );
 
     // All location counting objects should be a translation across the counting area of their previous position.
     const xTranslation = countingAreaWidth / 2;
@@ -430,7 +435,7 @@ export default class NumberPairsModel implements TModel {
       new Vector2( position.x + xTranslation, position.y ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
       new Vector2( position.x - xTranslation, position.y ) );
-    this.setLocationPositions( leftAddendObjects, rightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
+    this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     // Bead positions should be a translation across the separator.
     const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
@@ -438,7 +443,7 @@ export default class NumberPairsModel implements TModel {
     const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
     const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
     const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-    this.setBeadXPositions( leftAddendObjects, rightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
+    this.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -475,16 +480,16 @@ export default class NumberPairsModel implements TModel {
     if ( animate ) {
       const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
                                  ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
-      this.locationAnimation?.stop();
+      this.countingObjectsAnimation?.stop();
 
-      this.locationAnimation = new Animation( {
+      this.countingObjectsAnimation = new Animation( {
         duration: 0.4,
         targets: animationTargets
       } );
-      this.locationAnimation.endedEmitter.addListener( () => {
-        this.locationAnimation = null;
+      this.countingObjectsAnimation.endedEmitter.addListener( () => {
+        this.countingObjectsAnimation = null;
       } );
-      this.locationAnimation.start();
+      this.countingObjectsAnimation.start();
     }
     else {
       const fadeOutTargets = [ ...leftAddendObjects, ...rightAddendObjects ].map( countingObject => {
@@ -500,33 +505,44 @@ export default class NumberPairsModel implements TModel {
         };
       } );
 
-      this.fadeOutAnimation?.stop();
-      this.fadeInAnimation?.stop();
-
-      this.fadeOutAnimation = new Animation( {
+      this.countingObjectsAnimation?.stop();
+      this.countingObjectsAnimation = new Animation( {
         duration: 0.3,
         targets: fadeOutTargets
       } );
-      this.fadeInAnimation = new Animation( {
-        duration: 0.3,
-        targets: fadeInTargets
-      } );
-      this.fadeOutAnimation.then( this.fadeInAnimation.start() );
 
-      this.fadeOutAnimation.endedEmitter.addListener( () => {
-        leftAddendObjects.forEach( ( countingObject, index ) => {
+      // Save a copy of the counting objects observable array so that we do not iterate over a different array
+      // once the animation has ended.
+      const copyOfLeftAddendObjects = leftAddendObjects.slice();
+      const copyOfRightAddendObjects = rightAddendObjects.slice();
+      this.countingObjectsAnimation.endedEmitter.addListener( () => {
+        copyOfLeftAddendObjects.forEach( ( countingObject, index ) => {
           countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
         } );
-        rightAddendObjects.forEach( ( countingObject, index ) => {
+        copyOfRightAddendObjects.forEach( ( countingObject, index ) => {
           countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
         } );
-        this.fadeOutAnimation = null;
-      } );
-      this.fadeInAnimation.endedEmitter.addListener( () => {
-        this.fadeOutAnimation = null;
       } );
 
-      this.fadeOutAnimation.start();
+      // If the fade out animation is manually stopped we do not want to start the fade in animation, instead we want
+      // to immediately set the target Properties to the fade in target "to" values.
+      this.countingObjectsAnimation.stopEmitter.addListener( () => {
+        fadeInTargets.forEach( target => {
+          target.property.value = target.to;
+        } );
+      } );
+      this.countingObjectsAnimation.finishEmitter.addListener( () => {
+        this.countingObjectsAnimation = new Animation( {
+          duration: 0.3,
+          targets: fadeInTargets
+        } );
+        this.countingObjectsAnimation.endedEmitter.addListener( () => {
+          this.countingObjectsAnimation = null;
+        } );
+        this.countingObjectsAnimation.start();
+      } );
+
+      this.countingObjectsAnimation.start();
     }
   }
 
@@ -546,15 +562,15 @@ export default class NumberPairsModel implements TModel {
       const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
         ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
 
-      this.attributeAnimation?.stop();
-      this.attributeAnimation = new Animation( {
+      this.countingObjectsAnimation?.stop();
+      this.countingObjectsAnimation = new Animation( {
         duration: 0.4,
         targets: animationTargets
       } );
-      this.attributeAnimation.endedEmitter.addListener( () => {
-        this.attributeAnimation = null;
+      this.countingObjectsAnimation.endedEmitter.addListener( () => {
+        this.countingObjectsAnimation = null;
       } );
-      this.attributeAnimation.start();
+      this.countingObjectsAnimation.start();
     }
     else {
       leftAddendObjects.forEach( ( countingObject, index ) => {
@@ -634,8 +650,9 @@ export default class NumberPairsModel implements TModel {
   /**
    * Organizes the counting objects into a ten frame based on the provided bounds.
    * @param tenFrameBounds
+   * @param positionType
    */
-  public organizeIntoTenFrame( tenFrameBounds: Bounds2[] ): void {
+  public organizeIntoTenFrame( tenFrameBounds: Bounds2[], positionType: 'attribute' | 'location' ): void {
     assert && assert( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
@@ -653,8 +670,12 @@ export default class NumberPairsModel implements TModel {
       leftGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 ).slice( 0, leftAddendObjects.length );
       rightGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 ).slice( 0, rightAddendObjects.length );
     }
-    this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
-    this.setLocationPositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
+    if ( positionType === 'attribute' ) {
+      this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
+    }
+    else {
+      this.setLocationPositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
+    }
 
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
@@ -697,12 +718,8 @@ export default class NumberPairsModel implements TModel {
 
   public reset(): void {
 
-    // Stop any animations that may be in progress.
-    this.dropAnimation?.stop();
-    this.attributeAnimation?.stop();
-    this.locationAnimation?.stop();
-    this.fadeOutAnimation?.stop();
-    this.fadeInAnimation?.stop();
+    // Stop any animation that may be in progress.
+    this.countingObjectsAnimation?.stop();
 
     this.representationTypeProperty.reset();
     this.leftAddendVisibleProperty.reset();
