@@ -158,6 +158,7 @@ export default class NumberPairsModel implements TModel {
       new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
         hasListenerOrderDependencies: true,
         phetioValueType: Range.RangeIO,
+        phetioReadOnly: true,
         tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
       } );
 

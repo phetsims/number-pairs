@@ -74,11 +74,13 @@ export default class CountingObject extends PhetioObject {
 
     this.attributePositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,
-      tandem: this.tandem.createTandem( 'attributePositionProperty' )
+      tandem: this.tandem.createTandem( 'attributePositionProperty' ),
+      phetioReadOnly: true
     } );
     this.locationPositionProperty = new Property( new Vector2( 0, 0 ), {
       phetioValueType: Vector2.Vector2IO,
-      tandem: this.tandem.createTandem( 'locationPositionProperty' )
+      tandem: this.tandem.createTandem( 'locationPositionProperty' ),
+      phetioReadOnly: true
     } );
 
     // This Property does not need to be instrumented since it is only used for animation and we do not instrument
@@ -89,7 +91,8 @@ export default class CountingObject extends PhetioObject {
 
     // This Property should not reset. It will be managed by the NumberPairsModel.beadXPositionsProperty.
     this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
-      tandem: this.tandem.createTandem( 'beadXPositionProperty' )
+      tandem: this.tandem.createTandem( 'beadXPositionProperty' ),
+      phetioReadOnly: true
     } );
 
     // This Property should not reset. It is managed by the addend array when added or removed.

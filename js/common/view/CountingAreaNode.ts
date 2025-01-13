@@ -39,7 +39,9 @@ export default class CountingAreaNode extends Node {
     countingAreaBounds: Bounds2,
     providedOptions: CountingAreaNodeOptions ) {
 
-    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
+      phetioVisiblePropertyInstrumented: false
+    }, providedOptions );
     super( options );
 
     // The split counting area is only visible when we are in a location based counting representation.
