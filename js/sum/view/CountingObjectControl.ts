@@ -16,7 +16,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBoxOptions, Image, Node, Rectangle, TColor, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HighlightFromNode, Image, InteractiveHighlightingNode, InteractiveHighlightingNodeOptions, KeyboardListener, Node, Rectangle, TColor, Text, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadPink_svg from '../../../images/beadPink_svg.js';
@@ -30,7 +30,7 @@ import numberPairs from '../../numberPairs.js';
 type SelfOptions = {
   addendNumberProperty?: Property<number> | null;
 };
-type AddendObjectControlOptions = WithRequired<HBoxOptions, 'tandem'> & SelfOptions;
+type AddendObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
 
 const MAX_ICON_HEIGHT = 38; // Empirically determined
 const MAX_ICON_WIDTH = 28; // Empirically determined
@@ -59,7 +59,7 @@ const RIGHT_ADDEND_ICONS = {
 };
 
 const ARROW_HEIGHT = 12;
-export default class CountingObjectControl extends VBox {
+export default class CountingObjectControl extends InteractiveHighlightingNode {
 
   public constructor(
     totalNumberProperty: Property<number>,
@@ -69,38 +69,44 @@ export default class CountingObjectControl extends VBox {
     providedOptions: AddendObjectControlOptions
   ) {
 
-    const options = optionize<AddendObjectControlOptions, SelfOptions, HBoxOptions>()( {
-      addendNumberProperty: null
+    const options = optionize<AddendObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
+      addendNumberProperty: null,
+      focusable: true,
+      tagName: 'input',
+      inputType: 'range'
     }, providedOptions );
 
     const incrementEnabledProperty = new DerivedProperty( [ inactiveCountingObjects.lengthProperty ],
       ( inactiveCountingObjectsLength: number ) => inactiveCountingObjectsLength > 0 );
-    const incrementButton = new ArrowButton( 'up', () => {
-
+    const handleIncrement = () => {
       // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
       // into a negative value when moving up from 0.
       totalNumberProperty.value += 1;
       options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value + 1 );
-    }, {
+    };
+    const incrementButton = new ArrowButton( 'up', handleIncrement, {
       arrowHeight: ARROW_HEIGHT,
       arrowWidth: ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
       xMargin: 4,
       yMargin: 4,
       enabledProperty: incrementEnabledProperty,
+      focusable: true,
       tandem: options.tandem.createTandem( 'incrementButton' )
     } );
 
     const decrementEnabledProperty = new DerivedProperty( [ addendCountingObjects.lengthProperty ],
       ( addendCountingObjectsLength: number ) => addendCountingObjectsLength > 0 );
-    const decrementButton = new ArrowButton( 'down', () => {
+    const handleDecrement = () => {
       options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value - 1 );
       totalNumberProperty.value -= 1;
-    }, {
+    };
+    const decrementButton = new ArrowButton( 'down', handleDecrement, {
       arrowHeight: ARROW_HEIGHT,
       arrowWidth: ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
       xMargin: 4,
       yMargin: 4,
       enabledProperty: decrementEnabledProperty,
+      focusable: true,
       tandem: options.tandem.createTandem( 'decrementButton' )
     } );
 
@@ -122,13 +128,38 @@ export default class CountingObjectControl extends VBox {
       }
     } );
 
-    const superOptions = combineOptions<HBoxOptions>( {
+    const vBox = new VBox( {
       children: [ incrementButton, objectImageNode, decrementButton ],
       spacing: 5,
       align: 'center',
       justify: 'center'
+    } );
+
+    const superOptions = combineOptions<InteractiveHighlightingNodeOptions>( {
+      children: [ vBox ]
     }, options );
     super( superOptions );
+
+    const keyboardInputListener = new KeyboardListener( {
+      keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
+      fire: ( event, keysPressed ) => {
+        if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
+          handleIncrement();
+        }
+        else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
+          handleDecrement();
+        }
+        else if ( keysPressed.includes( 'home' ) ) {
+          //TODO: add the max amount of objects.
+        }
+        else if ( keysPressed.includes( 'end' ) ) {
+          //TODO: subtract the max amount of objects.
+        }
+      }
+    } );
+    this.addInputListener( keyboardInputListener );
+
+    this.setInteractiveHighlight( new HighlightFromNode( this ) );
   }
 }
 
