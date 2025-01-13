@@ -1,4 +1,11 @@
 // Copyright 2024-2025, University of Colorado Boulder
+/**
+ * NumberPairsScene is the model for the scene in the Number Pairs simulation.
+ *
+ * @author Marla Schulz (PhET Interactive Simulations)
+ *
+ */
+
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -10,23 +17,25 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
-/**
- * NumberPairsScene is the model for the scene in the Number Pairs simulation.
- *
- * @author Marla Schulz (PhET Interactive Simulations)
- *
- */
 import numberPairs from '../../numberPairs.js';
 import CountingObject from './CountingObject.js';
 import NumberPairsModel from './NumberPairsModel.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 
 const STATE_SCHEMA = {
   leftAddendNumber: NumberIO,
-  rightAddendNumber: NumberIO
+  rightAddendNumber: NumberIO,
+  includesBeadRepresentation: BooleanIO
 };
 
 type NumberPairsSceneStateObject = StateObject<typeof STATE_SCHEMA>;
 
+type SelfOptions = {
+  includesBeadRepresentation: boolean;
+};
+type NumberPairsSceneOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 export default class NumberPairsScene {
 
   // The total as initialized by the values provided to the constructor. This is a constant.
@@ -43,23 +52,26 @@ export default class NumberPairsScene {
 
   public readonly beadXPositionsProperty: Property<number[]>;
 
-  public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, tandem: Tandem ) {
+  private readonly includesBeadRepresentation: boolean;
 
+  public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, providedOptions: NumberPairsSceneOptions ) {
+    const options = providedOptions;
+    this.includesBeadRepresentation = options.includesBeadRepresentation;
     this.total = initialLeftAddendValue + initialRightAddendValue;
     const sceneRange = new Range( 0, this.total );
     this.inactiveCountingObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: tandem.createTandem( 'inactiveCountingObjects' )
+      tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
     this.leftAddendProperty = new NumberProperty( initialLeftAddendValue, {
       range: sceneRange,
       hasListenerOrderDependencies: true,
       numberType: 'Integer',
-      tandem: tandem.createTandem( 'leftAddendProperty' )
+      tandem: options.tandem.createTandem( 'leftAddendProperty' )
     } );
     this.leftAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: tandem.createTandem( 'leftAddendObjects' )
+      tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
 
     this.rightAddendProperty = new DerivedProperty( [ this.leftAddendProperty ], leftAddendValue => {
@@ -67,12 +79,12 @@ export default class NumberPairsScene {
     } );
     this.rightAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: tandem.createTandem( 'rightAddendObjects' )
+      tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
     const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( initialLeftAddendValue, initialRightAddendValue );
     this.beadXPositionsProperty = new Property( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
-      tandem: tandem.createTandem( 'beadXPositionsProperty' ),
+      tandem: this.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
       phetioValueType: ArrayIO( NumberIO )
     } );
 
@@ -130,7 +142,8 @@ export default class NumberPairsScene {
   public toStateObject(): NumberPairsSceneStateObject {
     return {
       leftAddendNumber: this.leftAddendProperty.value,
-      rightAddendNumber: this.rightAddendProperty.value
+      rightAddendNumber: this.rightAddendProperty.value,
+      includesBeadRepresentation: this.includesBeadRepresentation
     };
   }
 
@@ -143,7 +156,10 @@ export default class NumberPairsScene {
     stateSchema: STATE_SCHEMA,
     toStateObject: ( model: NumberPairsScene ) => model.toStateObject(),
     fromStateObject: ( stateObject: NumberPairsSceneStateObject ) => {
-      return new NumberPairsScene( stateObject.leftAddendNumber, stateObject.rightAddendNumber, Tandem.REQUIRED );
+      return new NumberPairsScene( stateObject.leftAddendNumber, stateObject.rightAddendNumber, {
+        tandem: Tandem.REQUIRED,
+        includesBeadRepresentation: stateObject.includesBeadRepresentation
+      } );
     }
   } );
 }

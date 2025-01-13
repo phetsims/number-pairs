@@ -21,10 +21,12 @@ import numberPairs from '../../numberPairs.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ShowHideAddendButton from './ShowHideAddendButton.js';
+import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
-  countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>;
+  countingRepresentationTypeProperty: Property<RepresentationType>;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
@@ -86,7 +88,8 @@ export default class CountingAreaNode extends Node {
     const splitCountingAreaBackground = new SplitCountingAreaNode(
       countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
         visibleProperty: splitCountingAreaVisibleProperty,
-        tandem: options.tandem.createTandem( 'splitCountingAreaBackground' )
+        tandem: options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ?
+                options.tandem.createTandem( 'splitCountingAreaBackground' ) : Tandem.OPT_OUT
       } );
 
     this.addChild( splitCountingAreaBackground );

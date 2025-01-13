@@ -18,6 +18,7 @@ import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js
 import NumberPairsScene from './NumberPairsScene.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import RepresentationType from './RepresentationType.js';
 
 
 type SelfOptions = {
@@ -40,17 +41,26 @@ export default class DecompositionModel extends NumberPairsModel {
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
     const sceneModels = [];
+    const scenesTandem = options.tandem.createTandem( 'scenes' );
     for ( let total = options.sceneRange.min; total <= options.sceneRange.max; total++ ) {
       let sceneModel: NumberPairsScene;
+      const tandem = scenesTandem.createTandem( `sceneModel${total}` );
+      const includesBeadRepresentation = options.representationTypeValidValues.includes( RepresentationType.BEADS );
       if ( total === 0 ) {
-        sceneModel = new NumberPairsScene( 0, 0, options.tandem.createTandem( `sceneModel${total}` ) );
+        sceneModel = new NumberPairsScene( 0, 0, {
+          tandem: tandem,
+          includesBeadRepresentation: includesBeadRepresentation
+        } );
       }
       else {
 
         // The initial left addend value for each scene is n - 1.
         const leftAddendValue = total - 1;
         const rightAddendValue = 1;
-        sceneModel = new NumberPairsScene( leftAddendValue, rightAddendValue, options.tandem.createTandem( `sceneModel${total}` ) );
+        sceneModel = new NumberPairsScene( leftAddendValue, rightAddendValue, {
+          tandem: tandem,
+          includesBeadRepresentation: includesBeadRepresentation
+        } );
       }
       sceneModels.push( sceneModel );
     }

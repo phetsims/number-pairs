@@ -33,6 +33,7 @@ import RepresentationType from './RepresentationType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -127,20 +128,24 @@ export default class NumberPairsModel implements TModel {
     } );
 
     this.showNumberLineAddendValuesProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showNumberLineAddendValuesProperty' ),
+      tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
+              options.tandem.createTandem( 'showNumberLineAddendValuesProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
     this.showTickValuesProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'showTickValuesProperty' ),
+      tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
+              options.tandem.createTandem( 'showTickValuesProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
     this.showTotalJumpProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showTotalJumpProperty' ),
+      tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
+              options.tandem.createTandem( 'showTotalJumpProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
     this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {
       phetioValueType: StringIO,
-      tandem: options.tandem.createTandem( 'leftAddendLabelPlacementProperty' )
+      tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
+              options.tandem.createTandem( 'leftAddendLabelPlacementProperty' ) : Tandem.OPT_OUT
     } );
 
     _.times( numberOfCountingObjects, i => {
@@ -159,7 +164,8 @@ export default class NumberPairsModel implements TModel {
         hasListenerOrderDependencies: true,
         phetioValueType: Range.RangeIO,
         phetioReadOnly: true,
-        tandem: options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' )
+        tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
+                options.tandem.createTandem( 'numberLineSliderEnabledRangeProperty' ) : Tandem.OPT_OUT
       } );
 
     this.groupSelectLocationObjectsModel = new GroupSelectModel( {
