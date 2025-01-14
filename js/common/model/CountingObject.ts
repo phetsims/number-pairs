@@ -18,6 +18,8 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import IOType from '../../../../tandem/js/types/IOType.js';
 import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -29,6 +31,11 @@ export class AddendType extends EnumerationValue {
   public constructor() {super();}
 }
 
+const STATE_SCHEMA = {
+  id: NumberIO,
+  initialBeadXPosition: NumberIO
+};
+type CountingObjectStateObject = StateObject<typeof STATE_SCHEMA>;
 type SelfOptions = {
   id: number;
   initialBeadXPosition: number;
@@ -68,7 +75,7 @@ export default class CountingObject extends PhetioObject {
 
     const options = optionize<CountingObjectOptions, SelfOptions, PhetioObjectOptions>()( {
       phetioType: CountingObject.CountingObjectIO,
-      phetioState: false // TODO, this needs to be set to true
+      phetioState: true
     }, providedOptions );
     super( options );
 
@@ -114,6 +121,13 @@ export default class CountingObject extends PhetioObject {
     this.id = options.id;
   }
 
+  public toStateObject(): CountingObjectStateObject {
+    return {
+      id: this.id,
+      initialBeadXPosition: this.beadXPositionProperty.value
+    };
+  }
+
   public reset(): void {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
@@ -123,7 +137,13 @@ export default class CountingObject extends PhetioObject {
   }
 
   public static CountingObjectIO = new IOType( 'CountingObjectIO', {
-    valueType: CountingObject
+    valueType: CountingObject,
+    stateSchema: STATE_SCHEMA,
+    toStateObject: ( countingObject: CountingObject ) => countingObject.toStateObject(),
+    fromStateObject: ( stateObject: CountingObjectStateObject ) => new CountingObject( {
+      id: stateObject.id,
+      initialBeadXPosition: stateObject.initialBeadXPosition
+    } )
   } );
 }
 
