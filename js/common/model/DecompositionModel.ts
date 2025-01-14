@@ -19,6 +19,8 @@ import NumberPairsScene from './NumberPairsScene.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import RepresentationType from './RepresentationType.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 
 
 type SelfOptions = {
@@ -68,8 +70,9 @@ export default class DecompositionModel extends NumberPairsModel {
     const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
+      validValues: sceneModels,
       hasListenerOrderDependencies: true,
-      phetioValueType: NumberPairsScene.NumberPairsSceneIO,
+      phetioValueType: ReferenceIO( IOType.ObjectIO ),
       tandem: options.tandem.createTandem( 'selectedSceneModelProperty' ),
       phetioFeatured: true
     } );

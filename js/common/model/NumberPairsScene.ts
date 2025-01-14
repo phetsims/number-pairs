@@ -14,29 +14,19 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from './CountingObject.js';
 import NumberPairsModel from './NumberPairsModel.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-
-const STATE_SCHEMA = {
-  leftAddendNumber: NumberIO,
-  rightAddendNumber: NumberIO,
-  includesBeadRepresentation: BooleanIO
-};
-
-type NumberPairsSceneStateObject = StateObject<typeof STATE_SCHEMA>;
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
 };
-type NumberPairsSceneOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
-export default class NumberPairsScene {
+type NumberPairsSceneOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
+export default class NumberPairsScene extends PhetioObject {
 
   // The total as initialized by the values provided to the constructor. This is a constant.
   public readonly total: number;
@@ -52,11 +42,11 @@ export default class NumberPairsScene {
 
   public readonly beadXPositionsProperty: Property<number[]>;
 
-  private readonly includesBeadRepresentation: boolean;
-
   public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, providedOptions: NumberPairsSceneOptions ) {
-    const options = providedOptions;
-    this.includesBeadRepresentation = options.includesBeadRepresentation;
+    const options = optionize<NumberPairsSceneOptions, SelfOptions, PhetioObjectOptions>()( {
+      phetioState: false
+    }, providedOptions );
+    super( options );
     this.total = initialLeftAddendValue + initialRightAddendValue;
     const sceneRange = new Range( 0, this.total );
     this.inactiveCountingObjects = createObservableArray( {
@@ -84,7 +74,7 @@ export default class NumberPairsScene {
 
     const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( initialLeftAddendValue, initialRightAddendValue );
     this.beadXPositionsProperty = new Property( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
-      tandem: this.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
+      tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
       phetioValueType: ArrayIO( NumberIO )
     } );
 
@@ -139,29 +129,9 @@ export default class NumberPairsScene {
     return [ ...this.leftAddendObjects, ...this.rightAddendObjects ];
   }
 
-  public toStateObject(): NumberPairsSceneStateObject {
-    return {
-      leftAddendNumber: this.leftAddendProperty.value,
-      rightAddendNumber: this.rightAddendProperty.value,
-      includesBeadRepresentation: this.includesBeadRepresentation
-    };
-  }
-
   public reset(): void {
     this.leftAddendProperty.reset();
   }
-
-  public static NumberPairsSceneIO = new IOType( 'NumberPairsSceneIO', {
-    valueType: NumberPairsScene,
-    stateSchema: STATE_SCHEMA,
-    toStateObject: ( model: NumberPairsScene ) => model.toStateObject(),
-    fromStateObject: ( stateObject: NumberPairsSceneStateObject ) => {
-      return new NumberPairsScene( stateObject.leftAddendNumber, stateObject.rightAddendNumber, {
-        tandem: Tandem.REQUIRED,
-        includesBeadRepresentation: stateObject.includesBeadRepresentation
-      } );
-    }
-  } );
 }
 
 numberPairs.register( 'NumberPairsScene', NumberPairsScene );
