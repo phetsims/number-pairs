@@ -99,7 +99,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
         handleLocationChange: this.handleLocationChange.bind( this ),
         onEndDrag: model.dropCountingObject.bind( model ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
-            model.rightAddendVisibleProperty, countingObject.draggingProperty ],
+            model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
           ( addendType, leftVisible, rightVisible, dragging ) =>
             dragging || ( addendType !== AddendType.INACTIVE && ( addendType === AddendType.LEFT ? leftVisible : rightVisible ) ) ),
         tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )

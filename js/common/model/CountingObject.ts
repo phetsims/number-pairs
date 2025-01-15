@@ -20,6 +20,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -38,11 +39,7 @@ type SelfOptions = {
   initialAttributePosition: Vector2;
   initialLocationPosition: Vector2;
 };
-type CountingObjectOptions = SelfOptions & PhetioObjectOptions;
-
-export const KITTEN_PANEL_WIDTH = 56;
-export const KITTEN_PANEL_HEIGHT = 82;
-export const KITTEN_PANEL_MARGIN = 3;
+type CountingObjectOptions = SelfOptions & StrictOmit<PhetioObjectOptions, 'phetioState'>;
 
 // We will probably need this to be a PhET-iO CountingObject for Group Sort later on.
 export default class CountingObject extends PhetioObject {
@@ -62,11 +59,14 @@ export default class CountingObject extends PhetioObject {
   public readonly kittenSelectedProperty: Property<boolean>;
   public readonly id: number;
 
-  public readonly draggingProperty: Property<boolean>;
+  public readonly isDraggingProperty: Property<boolean>;
 
   // This Property determines whether the object should move through the inactiveCountingObjects array when it
   // is removed from a left or right addend array. Used in BeadsOnWireNode, LocationCountingObjectsLayerNode,
-  // and KittensLayerNode.
+  // and KittensLayerNode. When a counting object moves through the inactiveCountingObjects array it's addendType
+  // is updated to INACTIVE which toggles visibility and participation in the model. We do not want this to happen
+  // when a user is actively interacting with that object and just moving it from one addend side to another. In those
+  // scenarios we want the counting object to switch directly between the left or right addend arrays.
   public traverseInactiveObjects = true;
 
   public constructor( providedOptions: CountingObjectOptions ) {
@@ -109,7 +109,7 @@ export default class CountingObject extends PhetioObject {
       tandem: this.tandem.createTandem( 'focusedProperty' ),
       phetioReadOnly: true
     } );
-    this.draggingProperty = new BooleanProperty( false, {
+    this.isDraggingProperty = new BooleanProperty( false, {
       tandem: this.tandem.createTandem( 'isDraggingProperty' ),
       phetioReadOnly: true
     } );
@@ -123,10 +123,10 @@ export default class CountingObject extends PhetioObject {
     this.beadXPositionProperty.reset();
     this.locationOpacityProperty.reset();
     this.kittenSelectedProperty.reset();
-    this.draggingProperty.reset();
+    this.isDraggingProperty.reset();
   }
 
-  public static CountingObjectIO = new IOType<CountingObject, CountingObjectStateObject>( 'CountingObjectIO', {
+  public static readonly CountingObjectIO = new IOType<CountingObject, CountingObjectStateObject>( 'CountingObjectIO', {
     valueType: CountingObject,
     supertype: ReferenceIO( IOType.ObjectIO )
   } );

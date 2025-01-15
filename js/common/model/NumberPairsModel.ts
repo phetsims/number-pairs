@@ -27,7 +27,7 @@ import StringIO from '../../../../tandem/js/types/StringIO.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from './CountingObject.js';
+import CountingObject, { AddendType } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -49,7 +49,7 @@ type SelfOptions = {
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type PositionPropertyType = 'attribute' | 'location';
-const DROP_ZONE_MARGIN = KITTEN_PANEL_WIDTH / 1.75;
+const DROP_ZONE_MARGIN = NumberPairsConstants.KITTEN_PANEL_WIDTH / 1.75;
 
 export default class NumberPairsModel implements TModel {
 
@@ -735,9 +735,10 @@ export default class NumberPairsModel implements TModel {
     const leftCountingAreaBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
     const rightCountingAreaBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
     const countingAreaInnerMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
+    const kittenPanelWidth = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 
     // Get the possible positions for each representation.
-    const availableAttributeGridPositions = NumberPairsModel.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
+    const availableAttributeGridPositions = NumberPairsModel.getGridCoordinates( countingAreaBounds, kittenPanelWidth, kittenPanelWidth, 8 );
     const availableLeftLocationGridPositions = NumberPairsModel.getGridCoordinates( leftCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
     const availableRightLocationGridPositions = NumberPairsModel.getGridCoordinates( rightCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
     const beadXPositions = NumberPairsModel.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );

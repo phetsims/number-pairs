@@ -25,9 +25,10 @@ import Panel from '../../../../sun/js/Panel.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import numberPairs from '../../numberPairs.js';
-import CountingObject, { AddendType, KITTEN_PANEL_HEIGHT, KITTEN_PANEL_MARGIN, KITTEN_PANEL_WIDTH } from '../model/CountingObject.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -36,6 +37,9 @@ type SelfOptions = {
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | keyof NodeTranslationOptions>;
 
+const KITTEN_PANEL_WIDTH = NumberPairsConstants.KITTEN_PANEL_WIDTH;
+const KITTEN_PANEL_HEIGHT = NumberPairsConstants.KITTEN_PANEL_HEIGHT;
+const KITTEN_PANEL_MARGIN = NumberPairsConstants.KITTEN_PANEL_MARGIN;
 const ICON_RADIUS = 5;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
 export default class KittenNode extends InteractiveHighlightingNode {

@@ -487,7 +487,7 @@ export default class BeadsOnWireNode extends Node {
     // Once all the beads are moved confirm that any active beads on the wire are each the required minimum distance
     // apart to avoid overlap.
     activeBeadNodes.forEach( ( beadNode, i ) => {
-      if ( i > 0 && !beadNode.model.draggingProperty.value ) {
+      if ( i > 0 && !beadNode.model.isDraggingProperty.value ) {
         const previousBeadNode = activeBeadNodes[ i - 1 ];
         const distance = Math.abs( beadNode.centerX - previousBeadNode.centerX );
         if ( distance < BEAD_WIDTH ) {

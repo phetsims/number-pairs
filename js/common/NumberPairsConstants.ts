@@ -59,6 +59,10 @@ const NumberPairsConstants = {
   LEFTMOST_BEAD_X: 1,
   BEAD_DISTANCE_FROM_SEPARATOR: 1.5,
 
+  KITTEN_PANEL_WIDTH: 56,
+  KITTEN_PANEL_HEIGHT: 82,
+  KITTEN_PANEL_MARGIN: 3,
+
   NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
     phetioFeatured: true,

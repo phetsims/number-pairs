@@ -80,11 +80,11 @@ export default class LocationCountingObjectNode extends Node {
 
     const dragListener = new SoundDragListener( {
       start: () => {
-        model.draggingProperty.value = true;
+        model.isDraggingProperty.value = true;
         this.moveToFront();
       },
       end: () => {
-        model.draggingProperty.value = false;
+        model.isDraggingProperty.value = false;
         options.onEndDrag( model, 'location' );
       },
       dragBoundsProperty: new Property( dilatedDragBounds, {} ),
