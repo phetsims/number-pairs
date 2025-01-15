@@ -23,6 +23,7 @@ import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -128,7 +129,10 @@ export default class SumModel extends NumberPairsModel {
 
     // Listen to the rightAddendProperty since it is derived and will therefore be updated last.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
-      if ( isResettingAllProperty.value ) {
+      if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
+        // No_op. We can rely on our observable arrays and Properties to have the correct state. This link fires before
+        // counting objects have been distributed to observable arrays properly in both state setting and reset
+        // scenarios.
         return;
       }
       const leftAddendDelta = this.leftAddendProperty.value - leftAddendObjects.length;

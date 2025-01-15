@@ -5,7 +5,6 @@
  * the addends and total, as well as the representation type of the counting objects.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -34,6 +33,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -202,22 +202,28 @@ export default class NumberPairsModel implements TModel {
    * @param inactiveCountingObjects
    */
   public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject>, inactiveCountingObjects: ObservableArray<CountingObject> ): void {
+
+    // In general, We want to rely on the observable arrays and instrumented Properties to manage the state of the counting objects.
     leftAddendObjects.addItemAddedListener( countingObject => {
-      inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-      countingObject.addendTypeProperty.value = AddendType.LEFT;
+      if ( !isSettingPhetioStateProperty.value ) {
+        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
+        countingObject.addendTypeProperty.value = AddendType.LEFT;
+      }
     } );
     leftAddendObjects.addItemRemovedListener( countingObject => {
-      if ( countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+      if ( !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
         inactiveCountingObjects.unshift( countingObject );
       }
     } );
 
     rightAddendObjects.addItemAddedListener( countingObject => {
-      inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-      countingObject.addendTypeProperty.value = AddendType.RIGHT;
+      if ( !isSettingPhetioStateProperty.value ) {
+        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
+        countingObject.addendTypeProperty.value = AddendType.RIGHT;
+      }
     } );
     rightAddendObjects.addItemRemovedListener( countingObject => {
-      if ( countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+      if ( !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
         inactiveCountingObjects.unshift( countingObject );
       }
     } );

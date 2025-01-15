@@ -21,6 +21,7 @@ import NumberPairsModel from './NumberPairsModel.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
@@ -81,6 +82,11 @@ export default class NumberPairsScene extends PhetioObject {
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
     // We manually handle counting object distribution during construction.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
+      if ( isSettingPhetioStateProperty.value ) {
+        // No_op. We can rely on our observable arrays and Properties to have the correct state. This link fires before
+        // counting objects have been distributed to observable arrays properly.
+        return;
+      }
       const leftAddendDelta = this.leftAddendProperty.value - this.leftAddendObjects.length;
       const rightAddendDelta = rightAddendValue - this.rightAddendObjects.length;
 

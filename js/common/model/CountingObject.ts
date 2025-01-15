@@ -1,4 +1,12 @@
 // Copyright 2024-2025, University of Colorado Boulder
+/**
+ * CountingObject is the model for the individual objects users can interact with to explore the decomposition of
+ * a number.
+ *
+ * @author Marla Schulz (PhET Interactive Simulations)
+ *
+ */
+
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -7,19 +15,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-/**
- * CountingObject is the model for the individual objects users can interact with to explore the decomposition of
- * a number.
- *
- * @author Marla Schulz (PhET Interactive Simulations)
- *
- */
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import { StateObject } from '../../../../tandem/js/types/StateSchema.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -31,11 +31,7 @@ export class AddendType extends EnumerationValue {
   public constructor() {super();}
 }
 
-const STATE_SCHEMA = {
-  id: NumberIO,
-  initialBeadXPosition: NumberIO
-};
-type CountingObjectStateObject = StateObject<typeof STATE_SCHEMA>;
+type CountingObjectStateObject = ReferenceIOState;
 type SelfOptions = {
   id: number;
   initialBeadXPosition: number;
@@ -74,8 +70,7 @@ export default class CountingObject extends PhetioObject {
   public constructor( providedOptions: CountingObjectOptions ) {
 
     const options = optionize<CountingObjectOptions, SelfOptions, PhetioObjectOptions>()( {
-      phetioType: CountingObject.CountingObjectIO,
-      phetioState: true
+      phetioState: false
     }, providedOptions );
     super( options );
 
@@ -121,13 +116,6 @@ export default class CountingObject extends PhetioObject {
     this.id = options.id;
   }
 
-  public toStateObject(): CountingObjectStateObject {
-    return {
-      id: this.id,
-      initialBeadXPosition: this.beadXPositionProperty.value
-    };
-  }
-
   public reset(): void {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
@@ -136,14 +124,9 @@ export default class CountingObject extends PhetioObject {
     this.draggingProperty.reset();
   }
 
-  public static CountingObjectIO = new IOType( 'CountingObjectIO', {
+  public static CountingObjectIO = new IOType<CountingObject, CountingObjectStateObject>( 'CountingObjectIO', {
     valueType: CountingObject,
-    stateSchema: STATE_SCHEMA,
-    toStateObject: ( countingObject: CountingObject ) => countingObject.toStateObject(),
-    fromStateObject: ( stateObject: CountingObjectStateObject ) => new CountingObject( {
-      id: stateObject.id,
-      initialBeadXPosition: stateObject.initialBeadXPosition
-    } )
+    supertype: ReferenceIO( IOType.ObjectIO )
   } );
 }
 
