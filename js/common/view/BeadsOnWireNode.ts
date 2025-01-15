@@ -33,6 +33,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import BeadNode from './BeadNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -225,7 +226,10 @@ export default class BeadsOnWireNode extends Node {
 
         // We are only adding or removing beads in the sum screen. In other screens "adding" or "removing" a bead is
         // actually a scene change and bead positions are handled elsewhere.
-        if ( options.sumScreen ) {
+        // Reset may also give the impression that we are adding or removing beads, but we want to position the beads
+        // differently than when interacting with the CountingObjectSpinners. In a reset situation we will rely
+        // on the initial values of the position Properties.
+        if ( !isResettingAllProperty.value && options.sumScreen ) {
           this.updateBeadPositions( leftAddend, rightAddend );
         }
       }
@@ -260,27 +264,26 @@ export default class BeadsOnWireNode extends Node {
      * Handle adding or removing a bead
      */
     if ( leftAddendBeads.length > leftAddendXPositions.length ) {
-      _.times( leftAddendBeads.length - leftAddendXPositions.length, () => {
-        leftAddendXPositions = this.addBeadToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
-      } );
+      while ( leftAddendBeads.length > leftAddendXPositions.length ) {
+        leftAddendXPositions = this.addBeadPositionToWire( leftAddendXPositions, -1, leftAddend, rightAddend );
+      }
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
-      _.times( leftAddendXPositions.length - leftAddendBeads.length, () => {
+      while ( leftAddendBeads.length < leftAddendXPositions.length ) {
         // when a bead is removed we want to take the furthest one to the left
         leftAddendXPositions.shift();
-      } );
+      }
     }
     if ( rightAddendBeads.length > rightAddendXPositions.length ) {
-      const reversedXPositions = rightAddendXPositions.slice().reverse();
-      _.times( rightAddendBeads.length - rightAddendXPositions.length, () => {
-        rightAddendXPositions = this.addBeadToWire( reversedXPositions, -1, leftAddend, rightAddend );
-      } );
+      while ( rightAddendBeads.length > rightAddendXPositions.length ) {
+        rightAddendXPositions = this.addBeadPositionToWire( rightAddendXPositions.slice().reverse(), -1, leftAddend, rightAddend );
+      }
     }
     else if ( rightAddendBeads.length < rightAddendXPositions.length ) {
-      _.times( rightAddendXPositions.length - rightAddendBeads.length, () => {
+      while ( rightAddendBeads.length < rightAddendXPositions.length ) {
         // when a bead is removed we want to take the furthest one to the right
         rightAddendXPositions.pop();
-      } );
+      }
     }
 
     /**
@@ -328,15 +331,15 @@ export default class BeadsOnWireNode extends Node {
    * @param leftAddend
    * @param rightAddend
    */
-  private addBeadToWire( existingXPositions: number[], direction: number, leftAddend: number, rightAddend: number ): number[] {
+  private addBeadPositionToWire( existingXPositions: number[], direction: number, leftAddend: number, rightAddend: number ): number[] {
 
     // we only want the sign, we will traverse by one.
     direction = Math.sign( direction );
 
     // If there are no xPositions provided then go to the default.
     if ( existingXPositions.length === 0 ) {
-      const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( leftAddend, rightAddend );
-      return direction > 0 ? initialBeadPositions.leftAddendXPositions : initialBeadPositions.rightAddendXPositions;
+      const defaultBeadPositions = NumberPairsModel.getDefaultBeadPositions( leftAddend, rightAddend );
+      return direction > 0 ? defaultBeadPositions.leftAddendXPositions : defaultBeadPositions.rightAddendXPositions;
     }
     else {
       let newXPositions;

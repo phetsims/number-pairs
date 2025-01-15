@@ -17,11 +17,12 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from './CountingObject.js';
-import NumberPairsModel from './NumberPairsModel.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import NumberPairsModel from './NumberPairsModel.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
@@ -43,24 +44,26 @@ export default class NumberPairsScene extends PhetioObject {
 
   public readonly beadXPositionsProperty: Property<number[]>;
 
-  public constructor( initialLeftAddendValue: number, initialRightAddendValue: number, providedOptions: NumberPairsSceneOptions ) {
+  public constructor( inactiveCountingObjects: CountingObject[], leftAddendCountingObjects: CountingObject[], rightAddendCountingObjects: CountingObject[], providedOptions: NumberPairsSceneOptions ) {
     const options = optionize<NumberPairsSceneOptions, SelfOptions, PhetioObjectOptions>()( {
       phetioState: false
     }, providedOptions );
     super( options );
-    this.total = initialLeftAddendValue + initialRightAddendValue;
+    this.total = leftAddendCountingObjects.length + rightAddendCountingObjects.length;
     const sceneRange = new Range( 0, this.total );
     this.inactiveCountingObjects = createObservableArray( {
+      elements: inactiveCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
-    this.leftAddendProperty = new NumberProperty( initialLeftAddendValue, {
+    this.leftAddendProperty = new NumberProperty( leftAddendCountingObjects.length, {
       range: sceneRange,
       hasListenerOrderDependencies: true,
       numberType: 'Integer',
       tandem: options.tandem.createTandem( 'leftAddendProperty' )
     } );
     this.leftAddendObjects = createObservableArray( {
+      elements: leftAddendCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
@@ -69,11 +72,12 @@ export default class NumberPairsScene extends PhetioObject {
       return this.total - leftAddendValue;
     } );
     this.rightAddendObjects = createObservableArray( {
+      elements: rightAddendCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( initialLeftAddendValue, initialRightAddendValue );
+    const initialBeadXPositions = NumberPairsModel.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
     this.beadXPositionsProperty = new Property( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
       phetioValueType: ArrayIO( NumberIO )
@@ -82,7 +86,7 @@ export default class NumberPairsScene extends PhetioObject {
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
     // We manually handle counting object distribution during construction.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
-      if ( isSettingPhetioStateProperty.value ) {
+      if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
         // No_op. We can rely on our observable arrays and Properties to have the correct state. This link fires before
         // counting objects have been distributed to observable arrays properly.
         return;
@@ -137,6 +141,9 @@ export default class NumberPairsScene extends PhetioObject {
 
   public reset(): void {
     this.leftAddendProperty.reset();
+    this.inactiveCountingObjects.reset();
+    this.leftAddendObjects.reset();
+    this.rightAddendObjects.reset();
   }
 }
 

@@ -43,6 +43,7 @@ type leftAddendLabelPlacement = 'handle' | 'arrow';
 type SelfOptions = {
   initialRepresentationType: RepresentationType;
   representationTypeValidValues: RepresentationType[];
+  numberOfCountingObjects: number;
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -51,8 +52,6 @@ export type PositionPropertyType = 'attribute' | 'location';
 const DROP_ZONE_MARGIN = KITTEN_PANEL_WIDTH / 1.75;
 
 export default class NumberPairsModel implements TModel {
-
-  public readonly countingObjects: CountingObject[] = [];
 
   // The counting representation type determines the colors of the total and addends,
   // as well as the image assets used to represent each counting object.
@@ -97,7 +96,7 @@ export default class NumberPairsModel implements TModel {
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly beadXPositionsProperty: PhetioProperty<number[]>,
-    private readonly numberOfCountingObjects: number,
+    public readonly countingObjects: CountingObject[],
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -148,19 +147,9 @@ export default class NumberPairsModel implements TModel {
               options.tandem.createTandem( 'leftAddendLabelPlacementProperty' ) : Tandem.OPT_OUT
     } );
 
-    _.times( numberOfCountingObjects, i => {
-      const countingObjectID = i + 1;
-      const initialBeadXPosition = this.beadXPositionsProperty.value[ i ] || 0;
-      this.countingObjects.push( new CountingObject( {
-        id: countingObjectID,
-        initialBeadXPosition: initialBeadXPosition,
-        tandem: options.tandem.createTandem( `CountingObject${countingObjectID}` )
-      } ) );
-    } );
-
     // The range will update after all addends have stabilized their values during construction.
     this.numberLineSliderEnabledRangeProperty = new Property(
-      new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, numberOfCountingObjects ), {
+      new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, options.numberOfCountingObjects ), {
         hasListenerOrderDependencies: true,
         phetioValueType: Range.RangeIO,
         phetioReadOnly: true,
@@ -205,25 +194,25 @@ export default class NumberPairsModel implements TModel {
 
     // In general, We want to rely on the observable arrays and instrumented Properties to manage the state of the counting objects.
     leftAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isSettingPhetioStateProperty.value ) {
+      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
         inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
         countingObject.addendTypeProperty.value = AddendType.LEFT;
       }
     } );
     leftAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
         inactiveCountingObjects.unshift( countingObject );
       }
     } );
 
     rightAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isSettingPhetioStateProperty.value ) {
+      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
         inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
         countingObject.addendTypeProperty.value = AddendType.RIGHT;
       }
     } );
     rightAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
+      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
         inactiveCountingObjects.unshift( countingObject );
       }
     } );
@@ -273,7 +262,7 @@ export default class NumberPairsModel implements TModel {
 
   protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-    const gridCoordinates = this.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
+    const gridCoordinates = NumberPairsModel.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
     return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
       countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
       countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
@@ -404,10 +393,10 @@ export default class NumberPairsModel implements TModel {
   protected createNumberLineEnabledRangeLinks(): void {
 
     // TODO: Kind of weird that we're using the twenty number line range min here always... right now both the ten and twenty are 0... but what if that changes?
+    // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
+    // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
+    // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
     Multilink.multilink( [ this.leftAddendProperty, this.rightAddendProperty ], ( leftAddend, rightAddend ) => {
-      // We do not want to use the total in case the left or right addend numbers have not fully updated. This may
-      // change the range multiple times in the course of a firing cycle, but we know the rightAddend value gets updated
-      // last, therefore we can feel confident that the left addend value will at least not be affected by the range change.
       this.numberLineSliderEnabledRangeProperty.value = new Range( NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE.min, leftAddend + rightAddend );
     } );
   }
@@ -492,7 +481,7 @@ export default class NumberPairsModel implements TModel {
 
     if ( animate ) {
       const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
-                                 ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
+        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
       this.countingObjectsAnimation?.stop();
 
       this.countingObjectsAnimation = new Animation( {
@@ -617,7 +606,10 @@ export default class NumberPairsModel implements TModel {
    * in their default starting positions, all grouped together on either the left or right side of the wire depending
    * on their addend type.
    */
-  public static getInitialBeadPositions( leftAddendValue: number, rightAddendValue: number ): { leftAddendXPositions: number[]; rightAddendXPositions: number[] } {
+  public static getDefaultBeadPositions( leftAddendValue: number, rightAddendValue: number ): {
+    leftAddendXPositions: number[];
+    rightAddendXPositions: number[];
+  } {
     const distanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
 
@@ -675,13 +667,13 @@ export default class NumberPairsModel implements TModel {
     let leftGridCoordinates: Vector2[];
     let rightGridCoordinates: Vector2[];
     if ( tenFrameBounds.length === 1 ) {
-      const gridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
+      const gridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
       leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
       rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
     }
     else {
-      leftGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = this.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 ).slice( 0, rightAddendObjects.length );
+      leftGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 ).slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 ).slice( 0, rightAddendObjects.length );
     }
     if ( positionType === 'attribute' ) {
       this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
@@ -703,11 +695,11 @@ export default class NumberPairsModel implements TModel {
    * @param rightMargin
    * @param columnNumber
    */
-  public getGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] {
+  public static getGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] {
     const rowNumber = 4;
     const topMargin = 9;
     const bottomMargin = 58;
-    assert && assert( columnNumber * rowNumber >= this.numberOfCountingObjects, 'There are not enough cells for the possible amount of counting objects.' );
+    assert && assert( columnNumber * rowNumber >= NumberPairsConstants.TWENTY_TOTAL_RANGE.max, 'There are not enough cells for the possible amount of counting objects.' );
 
     const columnWidth = ( bounds.width - rightMargin - leftMargin ) / columnNumber;
     const rowHeight = ( bounds.height - bottomMargin - topMargin ) / rowNumber;
@@ -729,10 +721,75 @@ export default class NumberPairsModel implements TModel {
       .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
   }
 
+  /**
+   * Creates and places the counting objects for the screen based on the provided paramters
+   * @param numberOfCountingObjects
+   * @param initialLeftAddend
+   * @param initialRightAddend
+   * @param tandem
+   */
+  protected static createCountingObjects( numberOfCountingObjects: number, initialLeftAddend: number, initialRightAddend: number, tandem: Tandem ): CountingObject[] {
+
+    // Constants
+    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
+    const leftCountingAreaBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
+    const rightCountingAreaBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
+    const countingAreaInnerMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
+
+    // Get the possible positions for each representation.
+    const availableAttributeGridPositions = NumberPairsModel.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
+    const availableLeftLocationGridPositions = NumberPairsModel.getGridCoordinates( leftCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
+    const availableRightLocationGridPositions = NumberPairsModel.getGridCoordinates( rightCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
+    const beadXPositions = NumberPairsModel.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );
+    const beadXPositionsArray = beadXPositions.leftAddendXPositions.concat( beadXPositions.rightAddendXPositions );
+
+    // Find and set the initial positions for each counting object.
+    const countingObjects: CountingObject[] = [];
+    _.times( numberOfCountingObjects, i => {
+      const countingObjectID = i + 1;
+      const initialAttributePosition = dotRandom.sample( availableAttributeGridPositions );
+      availableAttributeGridPositions.splice( availableAttributeGridPositions.indexOf( initialAttributePosition ), 1 );
+
+      let initialBeadXPosition;
+      let initialLocationPosition;
+      if ( i < initialLeftAddend ) {
+        initialBeadXPosition = beadXPositionsArray[ i ];
+        initialLocationPosition = dotRandom.sample( availableLeftLocationGridPositions );
+        availableLeftLocationGridPositions.splice( availableLeftLocationGridPositions.indexOf( initialLocationPosition ), 1 );
+      }
+      else if ( numberOfCountingObjects - i <= initialRightAddend ) {
+        initialBeadXPosition = beadXPositionsArray[ beadXPositionsArray.length - ( numberOfCountingObjects - i ) ];
+        initialLocationPosition = dotRandom.sample( availableRightLocationGridPositions );
+        availableRightLocationGridPositions.splice( availableRightLocationGridPositions.indexOf( initialLocationPosition ), 1 );
+      }
+      else {
+        initialBeadXPosition = 0;
+        initialLocationPosition = new Vector2( 0, 0 );
+      }
+      countingObjects.push( new CountingObject( {
+        id: countingObjectID,
+        initialBeadXPosition: initialBeadXPosition,
+        initialAttributePosition: initialAttributePosition,
+        initialLocationPosition: initialLocationPosition,
+        tandem: tandem.createTandem( `CountingObject${countingObjectID}` )
+      } ) );
+    } );
+
+    return countingObjects;
+  }
+
+  public static setAddendType( leftCountingObjects: CountingObject[], rightCountingObjects: CountingObject[], inactiveCountingObjects: CountingObject[] ): void {
+    leftCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.LEFT; } );
+    rightCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.RIGHT; } );
+    inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
+  }
+
   public reset(): void {
 
     // Stop any animation that may be in progress.
     this.countingObjectsAnimation?.stop();
+
+    this.countingObjects.forEach( countingObject => countingObject.reset() );
 
     this.representationTypeProperty.reset();
     this.leftAddendVisibleProperty.reset();

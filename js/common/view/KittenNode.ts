@@ -13,7 +13,6 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -32,7 +31,6 @@ import NumberPairsColors from '../NumberPairsColors.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
-  initialPosition: Vector2;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -168,8 +166,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     newKittenSelectedEmitter.addListener( focusedKitten => {
       model.kittenSelectedProperty.value = model === focusedKitten;
     } );
-
-    model.attributePositionProperty.value = options.initialPosition;
     model.attributePositionProperty.link( position => {
       this.center = position;
     } );

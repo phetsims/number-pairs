@@ -29,7 +29,7 @@ type SelfOptions = EmptySelfOptions;
 
 type SumModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'initialRepresentationType'>;
+  & StrictOmit<NumberPairsModelOptions, 'initialRepresentationType' | 'numberOfCountingObjects'>;
 
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
@@ -44,9 +44,12 @@ export default class SumModel extends NumberPairsModel {
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
+  public override readonly beadXPositionsProperty: Property<number[]>;
+
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      initialRepresentationType: RepresentationType.BEADS
+      initialRepresentationType: RepresentationType.BEADS,
+      numberOfCountingObjects: SCENE_RANGE.max
     }, providedOptions );
 
     const leftAddendProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
@@ -82,17 +85,35 @@ export default class SumModel extends NumberPairsModel {
         tandem: options.tandem.createTandem( 'rightAddendProperty' )
       } );
 
+    const countingObjects = NumberPairsModel.createCountingObjects( SCENE_RANGE.max, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
+    const inactiveCountingObjects = countingObjects.slice();
+    const initialLeftAddendObjects: CountingObject[] = [];
+    const initialRightAddendObjects: CountingObject[] = [];
+    _.times( leftAddendProperty.value, () => {
+      const countingObject = inactiveCountingObjects.shift();
+      initialLeftAddendObjects.push( countingObject! );
+    } );
+    _.times( rightAddendProperty.value, () => {
+
+      // We want to pull from the end of the inactiveCountingObjects array to keep as much consistency as possible
+      // between which countingObjects belong to which addend in the initial state.
+      const countingObject = inactiveCountingObjects.pop();
+      initialRightAddendObjects.push( countingObject! );
+    } );
+
     const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+      elements: initialLeftAddendObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
     const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+      elements: initialRightAddendObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    const initialBeadXPositions = NumberPairsModel.getInitialBeadPositions( leftAddendProperty.value, rightAddendProperty.value );
-    const beadXPositionsProperty = new Property<number[]>( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
+    const beadXPositionsProperty = new Property<number[]>( [ ...leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
+      ...rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ) ], {
       tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
       phetioValueType: ArrayIO( NumberIO )
     } );
@@ -105,25 +126,23 @@ export default class SumModel extends NumberPairsModel {
       new Property( leftAddendObjects ),
       new Property( rightAddendObjects ),
       beadXPositionsProperty,
-      SCENE_RANGE.max,
+      countingObjects,
       options
     );
 
     this.leftAddendProperty = leftAddendProperty;
     this.rightAddendProperty = rightAddendProperty;
     this.totalProperty = totalProperty;
+    this.beadXPositionsProperty = beadXPositionsProperty;
 
     this.inactiveCountingObjects = createObservableArray( {
+      elements: inactiveCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
 
+    NumberPairsModel.setAddendType( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
     this.registerObservableArrays( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
-
-    this.countingObjects.forEach( countingObject => {
-      this.inactiveCountingObjects.push( countingObject );
-    } );
-    this.setCountingObjectsToInitialValues();
     assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
 
@@ -192,24 +211,6 @@ export default class SumModel extends NumberPairsModel {
     } );
   }
 
-  private setCountingObjectsToInitialValues(): void {
-    this.inactiveCountingObjects.push( ...this.leftAddendCountingObjectsProperty.value );
-    this.leftAddendCountingObjectsProperty.value.clear();
-    this.inactiveCountingObjects.push( ...this.rightAddendCountingObjectsProperty.value );
-    this.rightAddendCountingObjectsProperty.value.clear();
-
-    _.times( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, () => {
-      const countingObject = this.inactiveCountingObjects.shift();
-      assert && assert( countingObject, 'no more inactive counting objects' );
-      this.leftAddendCountingObjectsProperty.value.push( countingObject! );
-    } );
-    _.times( NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, () => {
-      const countingObject = this.inactiveCountingObjects.shift();
-      assert && assert( countingObject, 'no more inactive counting objects' );
-      this.rightAddendCountingObjectsProperty.value.push( countingObject! );
-    } );
-  }
-
   /**
    * Resets the model.
    */
@@ -217,11 +218,13 @@ export default class SumModel extends NumberPairsModel {
     super.reset();
     this.leftAddendProperty.reset();
     this.totalProperty.reset();
-    this.setCountingObjectsToInitialValues();
+    this.leftAddendCountingObjectsProperty.value.reset();
+    this.rightAddendCountingObjectsProperty.value.reset();
+    this.inactiveCountingObjects.reset();
+    this.beadXPositionsProperty.reset();
 
-    const initialBeadPositions = NumberPairsModel.getInitialBeadPositions( this.leftAddendProperty.value, this.totalProperty.value );
-    this.setBeadXPositions( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, initialBeadPositions.leftAddendXPositions, initialBeadPositions.rightAddendXPositions );
-    this.beadXPositionsProperty.value = [ ...initialBeadPositions.leftAddendXPositions, ...initialBeadPositions.rightAddendXPositions ];
+    // Once all the observable arrays have been reset we can set the addendType for each counting object.
+    NumberPairsModel.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
   }
 }
 

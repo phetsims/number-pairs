@@ -10,30 +10,25 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import CountingObject, { AddendType, KITTEN_PANEL_WIDTH } from '../model/CountingObject.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import KittenNode from './KittenNode.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
+
   public constructor( model: NumberPairsModel, countingObjects: CountingObject[], countingAreaBounds: Bounds2, providedOptions: KittensLayerNodeOptions ) {
-    const newKittenSelectedEmitter = new Emitter<[CountingObject]>( { parameters: [ { valueType: CountingObject } ] } );
+    const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
 
-    const availableGridPositions = model.getGridCoordinates( countingAreaBounds, KITTEN_PANEL_WIDTH, KITTEN_PANEL_WIDTH, 8 );
     countingObjects.forEach( ( countingObject, i ) => {
-      const initialPosition = dotRandom.sample( availableGridPositions );
-      availableGridPositions.splice( availableGridPositions.indexOf( initialPosition ), 1 );
-
       kittenNodes.push( new KittenNode( countingObject, countingAreaBounds, newKittenSelectedEmitter, {
-        initialPosition: initialPosition,
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onEndDrag: model.dropCountingObject.bind( model ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )

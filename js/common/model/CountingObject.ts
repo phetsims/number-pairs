@@ -35,6 +35,8 @@ type CountingObjectStateObject = ReferenceIOState;
 type SelfOptions = {
   id: number;
   initialBeadXPosition: number;
+  initialAttributePosition: Vector2;
+  initialLocationPosition: Vector2;
 };
 type CountingObjectOptions = SelfOptions & PhetioObjectOptions;
 
@@ -74,12 +76,12 @@ export default class CountingObject extends PhetioObject {
     }, providedOptions );
     super( options );
 
-    this.attributePositionProperty = new Property( new Vector2( 0, 0 ), {
+    this.attributePositionProperty = new Property( options.initialAttributePosition, {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'attributePositionProperty' ),
       phetioReadOnly: true
     } );
-    this.locationPositionProperty = new Property( new Vector2( 0, 0 ), {
+    this.locationPositionProperty = new Property( options.initialLocationPosition, {
       phetioValueType: Vector2.Vector2IO,
       tandem: this.tandem.createTandem( 'locationPositionProperty' ),
       phetioReadOnly: true
@@ -91,13 +93,12 @@ export default class CountingObject extends PhetioObject {
       range: new Range( 0, 1 )
     } );
 
-    // This Property should not reset. It will be managed by the NumberPairsModel.beadXPositionsProperty.
     this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
       tandem: this.tandem.createTandem( 'beadXPositionProperty' ),
       phetioReadOnly: true
     } );
 
-    // This Property should not reset. It is managed by the addend array when added or removed.
+    // This Property should not reset. It is managed by the addend array and manually set at the end of the reset call.
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       hasListenerOrderDependencies: true,
       tandem: this.tandem.createTandem( 'addendTypeProperty' ),
@@ -119,6 +120,7 @@ export default class CountingObject extends PhetioObject {
   public reset(): void {
     this.attributePositionProperty.reset();
     this.locationPositionProperty.reset();
+    this.beadXPositionProperty.reset();
     this.locationOpacityProperty.reset();
     this.kittenSelectedProperty.reset();
     this.draggingProperty.reset();
