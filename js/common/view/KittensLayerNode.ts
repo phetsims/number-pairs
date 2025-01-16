@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * KittensLayerNode is a Node that contains all the KittenNodes for the counting objects in the model.

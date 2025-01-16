@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * KittenNode displays a kitten who's color and coat pattern changes depending on the addend it is associated with.

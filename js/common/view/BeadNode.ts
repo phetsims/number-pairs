@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * BeadNode uses an svg to create the visual representation of the bead. It also handles drag interactions through
