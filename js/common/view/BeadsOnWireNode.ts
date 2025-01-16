@@ -150,7 +150,7 @@ export default class BeadsOnWireNode extends Node {
         transform: modelViewTransform
       },
       getGroupItemToSelect: () => {
-        return this.getSortedBeadNodes()[ 0 ].model;
+        return this.getSortedBeadNodes()[ 0 ].countingObject;
       },
       getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
         const sortedBeadNodes = this.getSortedBeadNodes();
@@ -162,7 +162,7 @@ export default class BeadsOnWireNode extends Node {
         // Determine the delta based on the keys pressed, then use this delta to find the appropriate bead to select.
         const delta = this.getKeysDelta( keysPressed );
         const selectedGroupItemIndex = Utils.clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
-        return sortedBeadNodes[ selectedGroupItemIndex ].model;
+        return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
       },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
@@ -199,7 +199,7 @@ export default class BeadsOnWireNode extends Node {
             this.beadDragging = false;
             this.handleBeadDrop( beadNode );
             const sortedBeads = this.getSortedBeadNodes();
-            this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.model.beadXPositionProperty.value );
+            this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value );
           }
         } );
 
@@ -391,7 +391,7 @@ export default class BeadsOnWireNode extends Node {
     const slicedBeadNodes = sortedBeadNode.slice( grabbedBeadIndex, sortedBeadNode.length + 1 );
     const beadNodesToMove = slicedBeadNodes.filter(
       ( beadNode, i ) => {
-        const addendMatch: boolean = beadNode.model.addendTypeProperty.value === grabbedBeadNode.model.addendTypeProperty.value;
+        const addendMatch: boolean = beadNode.countingObject.addendTypeProperty.value === grabbedBeadNode.countingObject.addendTypeProperty.value;
         const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
@@ -416,7 +416,7 @@ export default class BeadsOnWireNode extends Node {
 
     // Constrain the new position to the drag bounds and set the grabbed bead's updated position.
     const newCenterX = dragBoundsWithMovingBeads.closestPointTo( proposedParentPosition ).x;
-    grabbedBeadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
+    grabbedBeadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
 
     // Since beadNodesToMove was created above by slicing the sortedBeadNodeArray at the grabbedBead, we can
     // be confident that the first beadNode in the beadNodesToMove array is the grabbedBeadNode, and rely
@@ -427,7 +427,7 @@ export default class BeadsOnWireNode extends Node {
       if ( beadNode !== grabbedBeadNode ) {
 
         // Move the beads in the drag direction and base their positions on the grabbed bead.
-        beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+        beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
           grabbedBeadNode.centerX + i * ( draggingRight ? BEAD_WIDTH : -BEAD_WIDTH ) );
       }
 
@@ -442,7 +442,7 @@ export default class BeadsOnWireNode extends Node {
            ( draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
 
         // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
-        if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
+        if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
 
           // Since a bead is moving to the right, the separator should adjust one position to the left.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
@@ -450,13 +450,13 @@ export default class BeadsOnWireNode extends Node {
 
           // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
-          beadNode.model.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.add( beadNode.model );
-          this.leftAddendCountingObjectsProperty.value.remove( beadNode.model );
-          beadNode.model.traverseInactiveObjects = true;
+          beadNode.countingObject.traverseInactiveObjects = false;
+          this.rightAddendCountingObjectsProperty.value.add( beadNode.countingObject );
+          this.leftAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
+          beadNode.countingObject.traverseInactiveObjects = true;
 
           // Immediately move the beads past the separator
-          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
             Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
         }
       }
@@ -464,7 +464,7 @@ export default class BeadsOnWireNode extends Node {
                 ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
 
         // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
-        if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.model ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.model ) ) {
+        if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
 
           // Since a bead is moving to the left, the separator should adjust one position to the right.
           this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
@@ -472,13 +472,13 @@ export default class BeadsOnWireNode extends Node {
 
           // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
           // updated in the ObservableArray.lengthProperty listener.
-          beadNode.model.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.remove( beadNode.model );
-          this.leftAddendCountingObjectsProperty.value.add( beadNode.model );
-          beadNode.model.traverseInactiveObjects = true;
+          beadNode.countingObject.traverseInactiveObjects = false;
+          this.rightAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
+          this.leftAddendCountingObjectsProperty.value.add( beadNode.countingObject );
+          beadNode.countingObject.traverseInactiveObjects = true;
 
           // Immediately move the beads past the separator
-          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
             Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
         }
       }
@@ -487,12 +487,12 @@ export default class BeadsOnWireNode extends Node {
     // Once all the beads are moved confirm that any active beads on the wire are each the required minimum distance
     // apart to avoid overlap.
     activeBeadNodes.forEach( ( beadNode, i ) => {
-      if ( i > 0 && !beadNode.model.isDraggingProperty.value ) {
+      if ( i > 0 && !beadNode.countingObject.isDraggingProperty.value ) {
         const previousBeadNode = activeBeadNodes[ i - 1 ];
         const distance = Math.abs( beadNode.centerX - previousBeadNode.centerX );
         if ( distance < BEAD_WIDTH ) {
           const newPosition = draggingRight ? previousBeadNode.centerX + BEAD_WIDTH : previousBeadNode.centerX - BEAD_WIDTH;
-          beadNode.model.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newPosition );
+          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newPosition );
         }
       }
     } );
@@ -506,7 +506,7 @@ export default class BeadsOnWireNode extends Node {
    */
   private getSortedBeadNodes(): BeadNode[] {
     return [ ...this.beadModelToNodeMap.values() ]
-      .filter( beadNode => beadNode.model.addendTypeProperty.value !== AddendType.INACTIVE )
+      .filter( beadNode => beadNode.countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
   }
 

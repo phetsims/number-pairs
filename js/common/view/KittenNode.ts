@@ -46,7 +46,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
   public constructor(
-    model: CountingObject,
+    countingObject: CountingObject,
     dragBounds: Bounds2,
     newKittenSelectedEmitter: Emitter<[CountingObject]>,
     providedOptions: KittenNodeOptions
@@ -60,16 +60,16 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
     // a Property that allows us to toggle between the left and right addend while also still respecting the
     // INACTIVE options that addendTypeProperty supports.
-    const isLeftAddendProperty = new BooleanProperty( model.addendTypeProperty.value === AddendType.LEFT, {} );
+    const isLeftAddendProperty = new BooleanProperty( countingObject.addendTypeProperty.value === AddendType.LEFT, {} );
     isLeftAddendProperty.link( isLeftAddend => {
 
       // Only update the addendTypeProperty if it is not inactive. We should not be changing the state of an
       // inactive counting object.
-      if ( model.addendTypeProperty.value !== AddendType.INACTIVE ) {
-        model.addendTypeProperty.value = isLeftAddend ? AddendType.LEFT : AddendType.RIGHT;
+      if ( countingObject.addendTypeProperty.value !== AddendType.INACTIVE ) {
+        countingObject.addendTypeProperty.value = isLeftAddend ? AddendType.LEFT : AddendType.RIGHT;
       }
     } );
-    model.addendTypeProperty.link( addendType => {
+    countingObject.addendTypeProperty.link( addendType => {
       isLeftAddendProperty.value = addendType === AddendType.LEFT;
     } );
 
@@ -91,7 +91,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       setLabelEnabled: _.noop // We do not want the labels to change opacity
     } );
 
-    // When a kitten is focused the panel with a switch is visible
+    // When a countingObject is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
     const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
       alignBounds: panelBounds,
@@ -99,7 +99,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       xAlign: 'center'
     } );
     const focusPanel = new Panel( panelAlignBox, {
-      visibleProperty: model.kittenSelectedProperty,
+      visibleProperty: countingObject.kittenSelectedProperty,
       focusable: false,
       fill: NumberPairsColors.kittenPanelBackgroundColorProperty,
       stroke: null
@@ -109,13 +109,13 @@ export default class KittenNode extends InteractiveHighlightingNode {
       centerX: focusPanel.centerX + KITTEN_OFFSET,
       bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
-      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.LEFT )
     } );
     const rightAddendKittenImage = new Image( kittenBlue_svg, {
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
       bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
       centerX: focusPanel.centerX + KITTEN_OFFSET,
-      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
 
     // Dilate by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
@@ -132,14 +132,14 @@ export default class KittenNode extends InteractiveHighlightingNode {
     focusPanel.center = this.center;
 
     const dragListener = new SoundRichDragListener( {
-      positionProperty: model.attributePositionProperty,
+      positionProperty: countingObject.attributePositionProperty,
       start: () => {
-        newKittenSelectedEmitter.emit( model );
-        model.kittenSelectedProperty.value = true;
+        newKittenSelectedEmitter.emit( countingObject );
+        countingObject.kittenSelectedProperty.value = true;
         this.moveToFront();
       },
       end: () => {
-        options.onEndDrag( model, 'attribute' );
+        options.onEndDrag( countingObject, 'attribute' );
       },
       dragBoundsProperty: new Property( dilatedDragBounds, {} ),
       dragListenerOptions: {
@@ -149,11 +149,11 @@ export default class KittenNode extends InteractiveHighlightingNode {
       },
       keyboardDragListenerOptions: {
         focus: () => {
-          newKittenSelectedEmitter.emit( model );
-          model.kittenSelectedProperty.value = true;
+          newKittenSelectedEmitter.emit( countingObject );
+          countingObject.kittenSelectedProperty.value = true;
           this.moveToFront();
         },
-        blur: () => { model.kittenSelectedProperty.value = false; },
+        blur: () => { countingObject.kittenSelectedProperty.value = false; },
         dragSpeed: 200,
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
       }
@@ -168,14 +168,14 @@ export default class KittenNode extends InteractiveHighlightingNode {
     this.addInputListener( toggleAddendKeyboardListener );
     this.addInputListener( dragListener );
     newKittenSelectedEmitter.addListener( focusedKitten => {
-      model.kittenSelectedProperty.value = model === focusedKitten;
+      countingObject.kittenSelectedProperty.value = countingObject === focusedKitten;
     } );
-    model.attributePositionProperty.link( position => {
+    countingObject.attributePositionProperty.link( position => {
       this.center = position;
     } );
 
     if ( phet.chipper.queryParameters.dev ) {
-      this.addCountingObjectID( model.id );
+      this.addCountingObjectID( countingObject.id );
     }
   }
 

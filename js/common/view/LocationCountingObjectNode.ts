@@ -37,27 +37,27 @@ export const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public constructor(
-    model: CountingObject,
+    countingObject: CountingObject,
     dragBounds: Bounds2,
     countingRepresentationTypeProperty: Property<RepresentationType>,
     providedOptions: LocationCountingObjectNodeOptions
   ) {
 
-    const apple = new Image( apple_svg, {
+    const appleNode = new Image( apple_svg, {
       maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.APPLES )
     } );
 
     // Create the one card.
-    const oneCard = new OneCard( IMAGE_WIDTH, ONE_CARD_HEIGHT, 40, {
+    const oneCardNode = new OneCard( IMAGE_WIDTH, ONE_CARD_HEIGHT, 40, {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.ONE_CARDS )
     } );
 
-    const soccerBall = new Image( soccerball_svg, {
+    const soccerBallNode = new Image( soccerball_svg, {
       maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.SOCCER_BALLS )
     } );
-    const butterfly = new Image( butterfly_svg, {
+    const butterflyNode = new Image( butterfly_svg, {
       maxWidth: IMAGE_WIDTH,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.BUTTERFLIES )
     } );
@@ -65,38 +65,38 @@ export default class LocationCountingObjectNode extends Node {
     const dilatedDragBounds = dragBounds.dilatedXY( -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN, -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN );
 
     const options = optionize<LocationCountingObjectNodeOptions, SelfOptions, NodeOptions>()( {
-      children: [ apple, oneCard, soccerBall, butterfly ]
+      children: [ appleNode, oneCardNode, soccerBallNode, butterflyNode ]
     }, providedOptions );
     super( options );
 
-    model.locationOpacityProperty.link( opacity => {
+    countingObject.locationOpacityProperty.link( opacity => {
         this.opacity = opacity;
       } );
 
-    apple.center = this.center;
-    oneCard.center = this.center;
-    soccerBall.center = this.center;
-    butterfly.center = this.center;
+    appleNode.center = this.center;
+    oneCardNode.center = this.center;
+    soccerBallNode.center = this.center;
+    butterflyNode.center = this.center;
 
     const dragListener = new SoundDragListener( {
       start: () => {
-        model.isDraggingProperty.value = true;
+        countingObject.isDraggingProperty.value = true;
         this.moveToFront();
       },
       end: () => {
-        model.isDraggingProperty.value = false;
-        options.onEndDrag( model, 'location' );
+        countingObject.isDraggingProperty.value = false;
+        options.onEndDrag( countingObject, 'location' );
       },
       dragBoundsProperty: new Property( dilatedDragBounds, {} ),
-      positionProperty: model.locationPositionProperty,
+      positionProperty: countingObject.locationPositionProperty,
       tandem: providedOptions.tandem.createTandem( 'dragListener' ),
       useParentOffset: true
     } );
     this.addInputListener( dragListener );
 
-    model.locationPositionProperty.link( position => {
+    countingObject.locationPositionProperty.link( position => {
       this.center = position;
-      providedOptions.handleLocationChange( model, position );
+      providedOptions.handleLocationChange( countingObject, position );
     } );
   }
 }

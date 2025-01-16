@@ -38,7 +38,7 @@ export default class BeadNode extends Node {
   public static readonly BEAD_HEIGHT = 80;
 
   public constructor(
-    public readonly model: CountingObject,
+    public readonly countingObject: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
     // giving the bead image an extra 0.5 width allows the outlines to line up cleanly when next to each other.
@@ -46,18 +46,18 @@ export default class BeadNode extends Node {
     const beadMaxWidth = BeadNode.BEAD_WIDTH + 0.5;
     const blueBead = new Image( beadBlue_svg, {
       maxWidth: beadMaxWidth,
-      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.RIGHT )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
     const pinkBead = new Image( beadPink_svg, {
       maxWidth: beadMaxWidth,
-      visibleProperty: DerivedProperty.valueEqualsConstant( model.addendTypeProperty, AddendType.LEFT )
+      visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.LEFT )
     } );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
       opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
       cursor: 'pointer',
       children: [ blueBead, pinkBead ],
-      visibleProperty: new DerivedProperty( [ model.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
+      visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
 
     super( options );
@@ -74,7 +74,7 @@ export default class BeadNode extends Node {
     this.addInputListener( dragListener );
 
     if ( phet.chipper.queryParameters.dev ) {
-      this.addCountingObjectID( model.id );
+      this.addCountingObjectID( countingObject.id );
     }
   }
 
