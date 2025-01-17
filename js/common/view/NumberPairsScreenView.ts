@@ -153,6 +153,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const tenFrameButton = new TenFrameButton( {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
+        this.interruptSubtreeInput();
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
           model.organizeInGroupsOfFive.bind( model )();
         }
@@ -165,7 +166,10 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      listener: model.swapAddends.bind( model ),
+      listener: () => {
+        this.interruptSubtreeInput();
+        model.swapAddends.bind( model )();
+      },
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );
     this.countingAreaButtonsVBox = new VBox( {
