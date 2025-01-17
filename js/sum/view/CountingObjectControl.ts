@@ -28,9 +28,13 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
+  interruptPointers: () => void;
+
+  // If this Property is null we are controlling the right addend which is a derived Property. This prevents
+  // reentrant behavior as we interact with all the numbers throughout the different representations in the sim.
   addendNumberProperty?: Property<number> | null;
 };
-type AddendObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
+export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
 
 const MAX_ICON_HEIGHT = 38; // Empirically determined
 const MAX_ICON_WIDTH = 28; // Empirically determined
@@ -66,10 +70,10 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
     countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
-    providedOptions: AddendObjectControlOptions
+    providedOptions: CountingObjectControlOptions
   ) {
 
-    const options = optionize<AddendObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
+    const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
       addendNumberProperty: null,
       focusable: true,
       tagName: 'input',
@@ -79,6 +83,8 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const incrementEnabledProperty = new DerivedProperty( [ inactiveCountingObjects.lengthProperty ],
       ( inactiveCountingObjectsLength: number ) => inactiveCountingObjectsLength > 0 );
     const handleIncrement = () => {
+      options.interruptPointers();
+
       // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
       // into a negative value when moving up from 0.
       totalNumberProperty.value += 1;
@@ -97,6 +103,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const decrementEnabledProperty = new DerivedProperty( [ addendCountingObjects.lengthProperty ],
       ( addendCountingObjectsLength: number ) => addendCountingObjectsLength > 0 );
     const handleDecrement = () => {
+      options.interruptPointers();
       options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value - 1 );
       totalNumberProperty.value -= 1;
     };
@@ -144,10 +151,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
       fire: ( event, keysPressed ) => {
         if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
-          handleIncrement();
+          options.interruptPointers();
+          inactiveCountingObjects.lengthProperty.value > 0 && handleIncrement();
         }
         else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
-          handleDecrement();
+          options.interruptPointers();
+          addendCountingObjects.lengthProperty.value > 0 && handleDecrement();
         }
         else if ( keysPressed.includes( 'home' ) ) {
           //TODO: add the max amount of objects.
