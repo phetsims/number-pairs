@@ -14,6 +14,7 @@ import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -33,6 +34,14 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
         baseColor: model.totalColorProperty
       },
       tandem: providedOptions.tandem.createTandem( 'sceneSelectionRadioButtonGroup' )
+    } );
+    sceneSelectionRadioButtonGroup.addInputListener( this.interruptSubtreeInput() );
+
+    model.selectedSceneProperty.link( scene => {
+      const separatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( scene.leftAddendProperty.value );
+      const leftPositions = scene.beadXPositionsProperty.value.filter( x => x <= separatorPosition );
+      const rightPositions = scene.beadXPositionsProperty.value.filter( x => x > separatorPosition );
+      model.setBeadXPositions( scene.leftAddendObjects, scene.rightAddendObjects, leftPositions, rightPositions );
     } );
 
     // Sum radio buttons should be center aligned vertically above the reset all button.
