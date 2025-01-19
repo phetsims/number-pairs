@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 /**
  * SceneSelectionRadioButtonGroup is a RectangularRadioButtonGroup that displays the total values that can be selected by the user.
  * The total values are displayed in descending order and are each associated with a scene that tracks its own state.
