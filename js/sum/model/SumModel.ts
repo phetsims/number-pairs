@@ -15,15 +15,15 @@ import Range from '../../../../dot/js/Range.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
-import NumberPairsModel, { NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
+import NumberPairsModel, { BeadXPositionsTypes, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -44,7 +44,7 @@ export default class SumModel extends NumberPairsModel {
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
-  public override readonly beadXPositionsProperty: Property<number[]>;
+  public override readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -112,10 +112,13 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    const beadXPositionsProperty = new Property<number[]>( [ ...leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
-      ...rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ) ], {
+    const beadXPositionsProperty = new Property<BeadXPositionsTypes>( {
+      leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
+      rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value )
+    }, {
+      phetioReadOnly: true,
       tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
-      phetioValueType: ArrayIO( NumberIO )
+      phetioValueType: ObjectLiteralIO
     } );
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.

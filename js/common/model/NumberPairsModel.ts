@@ -49,6 +49,10 @@ type SelfOptions = {
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type PositionPropertyType = 'attribute' | 'location';
+export type BeadXPositionsTypes = {
+  leftAddendXPositions: number[];
+  rightAddendXPositions: number[];
+};
 const DROP_ZONE_MARGIN = NumberPairsConstants.KITTEN_PANEL_WIDTH / 1.75;
 
 export default class NumberPairsModel implements TModel {
@@ -85,7 +89,7 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
-  protected changingScenes = false;
+  public changingScenes = false;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -95,7 +99,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly beadXPositionsProperty: PhetioProperty<number[]>,
+    public readonly beadXPositionsProperty: PhetioProperty<BeadXPositionsTypes>,
     public readonly countingObjects: CountingObject[],
     providedOptions: NumberPairsModelOptions ) {
 
@@ -243,8 +247,10 @@ export default class NumberPairsModel implements TModel {
         countingObject.traverseInactiveObjects = true;
       }
 
-      // Update the location of the countingObject when the addendType changes during reset and scene changes.
-      if ( isResettingAllProperty.value || this.changingScenes ) {
+      // Update the location of the countingObject when the addendType changes during reset, scene changes, or if we are
+      // changing the addend value in a different representation.
+      const locationRepresentationTypes = [ RepresentationType.APPLES, RepresentationType.ONE_CARDS, RepresentationType.SOCCER_BALLS, RepresentationType.BUTTERFLIES ];
+      if ( isResettingAllProperty.value || this.changingScenes || !locationRepresentationTypes.includes( this.representationTypeProperty.value ) ) {
         const addendBounds = addendType === AddendType.LEFT ? NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS : NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
         const dilatedAddendBounds = addendBounds.dilated( -20 );
 
@@ -260,6 +266,11 @@ export default class NumberPairsModel implements TModel {
     } );
   }
 
+  /**
+   * Returns the grid coordinates that are available for a counting object to be placed in the counting area.
+   * @param countingObjects
+   * @param addendBounds
+   */
   protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const gridCoordinates = NumberPairsModel.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
@@ -598,7 +609,7 @@ export default class NumberPairsModel implements TModel {
     rightAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = rightXPositions[ index ];
     } );
-    this.beadXPositionsProperty.value = leftXPositions.concat( rightXPositions );
+    this.beadXPositionsProperty.value = { leftAddendXPositions: leftXPositions, rightAddendXPositions: rightXPositions };
   }
 
   /**
@@ -606,10 +617,7 @@ export default class NumberPairsModel implements TModel {
    * in their default starting positions, all grouped together on either the left or right side of the wire depending
    * on their addend type.
    */
-  public static getDefaultBeadPositions( leftAddendValue: number, rightAddendValue: number ): {
-    leftAddendXPositions: number[];
-    rightAddendXPositions: number[];
-  } {
+  public static getDefaultBeadPositions( leftAddendValue: number, rightAddendValue: number ): BeadXPositionsTypes {
     const distanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
     const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
 
@@ -742,7 +750,6 @@ export default class NumberPairsModel implements TModel {
     const availableLeftLocationGridPositions = NumberPairsModel.getGridCoordinates( leftCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
     const availableRightLocationGridPositions = NumberPairsModel.getGridCoordinates( rightCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
     const beadXPositions = NumberPairsModel.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );
-    const beadXPositionsArray = beadXPositions.leftAddendXPositions.concat( beadXPositions.rightAddendXPositions );
 
     // Find and set the initial positions for each counting object.
     const countingObjects: CountingObject[] = [];
@@ -754,12 +761,12 @@ export default class NumberPairsModel implements TModel {
       let initialBeadXPosition;
       let initialLocationPosition;
       if ( i < initialLeftAddend ) {
-        initialBeadXPosition = beadXPositionsArray[ i ];
+        initialBeadXPosition = beadXPositions.leftAddendXPositions[ i ];
         initialLocationPosition = dotRandom.sample( availableLeftLocationGridPositions );
         availableLeftLocationGridPositions.splice( availableLeftLocationGridPositions.indexOf( initialLocationPosition ), 1 );
       }
       else if ( numberOfCountingObjects - i <= initialRightAddend ) {
-        initialBeadXPosition = beadXPositionsArray[ beadXPositionsArray.length - ( numberOfCountingObjects - i ) ];
+        initialBeadXPosition = beadXPositions.rightAddendXPositions[ numberOfCountingObjects - i - 1 ];
         initialLocationPosition = dotRandom.sample( availableRightLocationGridPositions );
         availableRightLocationGridPositions.splice( availableRightLocationGridPositions.indexOf( initialLocationPosition ), 1 );
       }

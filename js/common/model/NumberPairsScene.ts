@@ -13,8 +13,6 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from './CountingObject.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -22,7 +20,8 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import NumberPairsModel from './NumberPairsModel.js';
+import NumberPairsModel, { BeadXPositionsTypes } from './NumberPairsModel.js';
+import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
@@ -42,7 +41,7 @@ export default class NumberPairsScene extends PhetioObject {
   public readonly rightAddendObjects: ObservableArray<CountingObject>;
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
-  public readonly beadXPositionsProperty: Property<number[]>;
+  public readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
   public constructor( inactiveCountingObjects: CountingObject[], leftAddendCountingObjects: CountingObject[], rightAddendCountingObjects: CountingObject[], providedOptions: NumberPairsSceneOptions ) {
     const options = optionize<NumberPairsSceneOptions, SelfOptions, PhetioObjectOptions>()( {
@@ -78,9 +77,12 @@ export default class NumberPairsScene extends PhetioObject {
     } );
 
     const initialBeadXPositions = NumberPairsModel.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
-    this.beadXPositionsProperty = new Property( [ ...initialBeadXPositions.leftAddendXPositions, ...initialBeadXPositions.rightAddendXPositions ], {
+    this.beadXPositionsProperty = new Property( initialBeadXPositions, {
+      // isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
+      validationMessage: 'beadXPositionsProperty must have the same length as the addend objects',
+      phetioReadOnly: true,
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
-      phetioValueType: ArrayIO( NumberIO )
+      phetioValueType: ObjectLiteralIO
     } );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
@@ -144,6 +146,7 @@ export default class NumberPairsScene extends PhetioObject {
     this.inactiveCountingObjects.reset();
     this.leftAddendObjects.reset();
     this.rightAddendObjects.reset();
+    this.beadXPositionsProperty.reset();
   }
 }
 

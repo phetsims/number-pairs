@@ -14,7 +14,7 @@ import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from './CountingObject.js';
-import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
+import NumberPairsModel, { BeadXPositionsTypes, NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import RepresentationType from './RepresentationType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
@@ -111,7 +111,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const rightAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'rightAddendProperty'
     } );
-    const beadXPositionsProperty = new DynamicProperty<number[], number[], NumberPairsScene>( selectedSceneModelProperty, {
+    const beadXPositionsProperty = new DynamicProperty<BeadXPositionsTypes, BeadXPositionsTypes, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'beadXPositionsProperty',
       bidirectional: true // This Property needs to be bidirectional because it is set by BeadsOnWireNode whenever a bead is dropped.
     } );
@@ -159,8 +159,11 @@ export default class DecompositionModel extends NumberPairsModel {
       } );
 
       // Update beadXPositionsProperty to reflect the saved state in the scene.
-      sceneModel.getAllCountingObjects().forEach( ( countingObject, i ) => {
-        countingObject.beadXPositionProperty.value = sceneModel.beadXPositionsProperty.value[ i ];
+      sceneModel.leftAddendObjects.forEach( ( countingObject, i ) => {
+        countingObject.beadXPositionProperty.value = sceneModel.beadXPositionsProperty.value.leftAddendXPositions[ i ];
+      } );
+      sceneModel.rightAddendObjects.forEach( ( countingObject, i ) => {
+        countingObject.beadXPositionProperty.value = sceneModel.beadXPositionsProperty.value.rightAddendXPositions[ i ];
       } );
 
       this.changingScenes = false;

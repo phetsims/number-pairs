@@ -198,8 +198,16 @@ export default class BeadsOnWireNode extends Node {
           onEndDrag: () => {
             this.beadDragging = false;
             this.handleBeadDrop( beadNode );
-            const sortedBeads = this.getSortedBeadNodes();
-            this.model.beadXPositionsProperty.value = sortedBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value );
+            const sortedLeftBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT );
+            const sortedRightBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT );
+            this.model.beadXPositionsProperty.value = {
+              leftAddendXPositions: sortedLeftBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value ),
+              rightAddendXPositions: sortedRightBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value )
+            };
+            assert && assert( sortedLeftBeads.length === this.model.beadXPositionsProperty.value.leftAddendXPositions.length,
+              'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
+            assert && assert( sortedRightBeads.length === this.model.beadXPositionsProperty.value.rightAddendXPositions.length,
+              'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
           }
         } );
 
@@ -232,6 +240,9 @@ export default class BeadsOnWireNode extends Node {
         if ( !isResettingAllProperty.value && options.sumScreen ) {
           this.updateBeadPositions( leftAddend, rightAddend );
         }
+        else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenes ) {
+          this.updateBeadPositions( leftAddend, rightAddend );
+        }
       }
     } );
 
@@ -255,10 +266,13 @@ export default class BeadsOnWireNode extends Node {
     const positions = this.model.beadXPositionsProperty.value;
     const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
 
-    // TODO: This is relying on the assumption that the separator will never move enough to force a bead
-    //  over the threshold... Is that true? Probably not because of studio... sigh...
-    let leftAddendXPositions = positions.filter( x => x < separatorXPosition ).sort( ( a, b ) => a - b );
-    let rightAddendXPositions = positions.filter( x => x > separatorXPosition ).sort( ( a, b ) => a - b );
+    let leftAddendXPositions = positions.leftAddendXPositions.sort( ( a, b ) => a - b );
+    let rightAddendXPositions = positions.rightAddendXPositions.sort( ( a, b ) => a - b );
+
+    // No-op if the bead counts match the x positions.
+    if ( leftAddendBeads.length === leftAddendXPositions.length && rightAddendBeads.length === rightAddendXPositions.length ) {
+      return;
+    }
 
     /**
      * Handle adding or removing a bead
@@ -301,6 +315,8 @@ export default class BeadsOnWireNode extends Node {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
     }
 
+    assert && assert( leftAddendBeads.length === leftAddendXPositions.length, 'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
+    assert && assert( rightAddendBeads.length === rightAddendXPositions.length, 'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
     this.model.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftAddendXPositions, rightAddendXPositions );
   }
 
@@ -362,6 +378,7 @@ export default class BeadsOnWireNode extends Node {
       // add beads to the outside. But we want to return values in bead order (left to right) since that is how
       // we store the beads in the model.
       direction < 0 && newXPositions.reverse();
+      console.log( 'newXPositions', newXPositions );
       return newXPositions;
     }
   }
