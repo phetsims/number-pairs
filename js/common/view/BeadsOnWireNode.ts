@@ -226,7 +226,7 @@ export default class BeadsOnWireNode extends Node {
       model.rightAddendProperty,
       model.rightAddendCountingObjectsLengthProperty,
       model.totalProperty
-    ], ( leftAddend, leftAddendLength, rightAddend, rightAddendLength ) => {
+    ], ( leftAddend, leftAddendLength, rightAddend, rightAddendLength, total ) => {
 
       // If we are not dragging a bead was added or removed from the wire.
       // We also want to make sure that our values are in sync during state or scene changes.
@@ -282,7 +282,7 @@ export default class BeadsOnWireNode extends Node {
      */
     if ( leftAddendBeads.length > leftAddendXPositions.length ) {
       while ( leftAddendBeads.length > leftAddendXPositions.length ) {
-        leftAddendXPositions = this.addBeadPositionToWire( leftAddendXPositions, -1, leftAddend, rightAddend );
+        leftAddendXPositions = this.addBeadPositionToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
       }
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
@@ -357,7 +357,10 @@ export default class BeadsOnWireNode extends Node {
 
     // If there are no xPositions provided then go to the default.
     if ( existingXPositions.length === 0 ) {
+      console.log( 'add bead' );
+      console.log( leftAddend, rightAddend );
       const defaultBeadPositions = NumberPairsModel.getDefaultBeadPositions( leftAddend, rightAddend );
+      console.log( defaultBeadPositions );
       return direction > 0 ? defaultBeadPositions.leftAddendXPositions : defaultBeadPositions.rightAddendXPositions;
     }
     else {
