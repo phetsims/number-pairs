@@ -34,6 +34,7 @@ import BeadNode from './BeadNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 const BEAD_WIDTH = BeadNode.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -240,7 +241,7 @@ export default class BeadsOnWireNode extends Node {
         if ( !isResettingAllProperty.value && options.sumScreen ) {
           this.updateBeadPositions( leftAddend, rightAddend );
         }
-        else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenes ) {
+        else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenesProperty.value && !isSettingPhetioStateProperty.value ) {
           this.updateBeadPositions( leftAddend, rightAddend );
         }
       }
@@ -254,6 +255,7 @@ export default class BeadsOnWireNode extends Node {
       this.handleBeadMove( this.localToGlobalPoint( new Vector2( proposedPosition, 0 ) ), beadNode );
     }
   }
+
   /**
    * Update the positions of the beads on the wire based on the addend values. We may have to account for a bead being
    * added or removed.
@@ -266,8 +268,9 @@ export default class BeadsOnWireNode extends Node {
     const positions = this.model.beadXPositionsProperty.value;
     const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
 
-    let leftAddendXPositions = positions.leftAddendXPositions.sort( ( a, b ) => a - b );
-    let rightAddendXPositions = positions.rightAddendXPositions.sort( ( a, b ) => a - b );
+    // Make a copy of the array to not modify the original.
+    let leftAddendXPositions = positions.leftAddendXPositions.slice().sort( ( a, b ) => a - b );
+    let rightAddendXPositions = positions.rightAddendXPositions.slice().sort( ( a, b ) => a - b );
 
     // No-op if the bead counts match the x positions.
     if ( leftAddendBeads.length === leftAddendXPositions.length && rightAddendBeads.length === rightAddendXPositions.length ) {
@@ -378,7 +381,6 @@ export default class BeadsOnWireNode extends Node {
       // add beads to the outside. But we want to return values in bead order (left to right) since that is how
       // we store the beads in the model.
       direction < 0 && newXPositions.reverse();
-      console.log( 'newXPositions', newXPositions );
       return newXPositions;
     }
   }

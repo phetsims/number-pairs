@@ -8,7 +8,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import { AlignBox, FireListener } from '../../../../scenery/js/imports.js';
+import { AlignBox } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -34,15 +34,9 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
       },
       tandem: providedOptions.tandem.createTandem( 'sceneSelectionRadioButtonGroup' )
     } );
-
-    const sceneSelectionInputListener = new FireListener( {
-      fire: () => {
-        this.interruptSubtreeInput();
-        model.changingScenes = true;
-      },
-      tandem: providedOptions.tandem.createTandem( 'sceneSelectionInputListener' )
+    model.changingScenesProperty.link( changingScenes => {
+      changingScenes && this.interruptSubtreeInput();
     } );
-    sceneSelectionRadioButtonGroup.addInputListener( sceneSelectionInputListener );
 
     // Sum radio buttons should be center aligned vertically above the reset all button.
     const totalSelectorAlignBox = new AlignBox( sceneSelectionRadioButtonGroup, {

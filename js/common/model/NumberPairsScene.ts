@@ -78,7 +78,7 @@ export default class NumberPairsScene extends PhetioObject {
 
     const initialBeadXPositions = NumberPairsModel.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
     this.beadXPositionsProperty = new Property( initialBeadXPositions, {
-      // isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
+      isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
       validationMessage: 'beadXPositionsProperty must have the same length as the addend objects',
       phetioReadOnly: true,
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
@@ -135,10 +135,6 @@ export default class NumberPairsScene extends PhetioObject {
       assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
-  }
-
-  public getAllCountingObjects(): CountingObject[] {
-    return [ ...this.leftAddendObjects, ...this.rightAddendObjects ];
   }
 
   public reset(): void {

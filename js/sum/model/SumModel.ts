@@ -24,6 +24,7 @@ import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -130,6 +131,7 @@ export default class SumModel extends NumberPairsModel {
       new Property( rightAddendObjects ),
       beadXPositionsProperty,
       countingObjects,
+      new BooleanProperty( false ),
       options
     );
 

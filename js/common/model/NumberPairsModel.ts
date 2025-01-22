@@ -89,8 +89,6 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
-  public changingScenes = false;
-
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
@@ -101,6 +99,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly beadXPositionsProperty: PhetioProperty<BeadXPositionsTypes>,
     public readonly countingObjects: CountingObject[],
+    public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = providedOptions;
@@ -250,7 +249,7 @@ export default class NumberPairsModel implements TModel {
       // Update the location of the countingObject when the addendType changes during reset, scene changes, or if we are
       // changing the addend value in a different representation.
       const locationRepresentationTypes = [ RepresentationType.APPLES, RepresentationType.ONE_CARDS, RepresentationType.SOCCER_BALLS, RepresentationType.BUTTERFLIES ];
-      if ( isResettingAllProperty.value || this.changingScenes || !locationRepresentationTypes.includes( this.representationTypeProperty.value ) ) {
+      if ( isResettingAllProperty.value || this.changingScenesProperty.value || !locationRepresentationTypes.includes( this.representationTypeProperty.value ) ) {
         const addendBounds = addendType === AddendType.LEFT ? NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS : NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
         const dilatedAddendBounds = addendBounds.dilated( -20 );
 
