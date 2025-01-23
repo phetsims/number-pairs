@@ -78,7 +78,7 @@ export default class NumberPairsScene extends PhetioObject {
 
     const initialBeadXPositions = NumberPairsModel.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
     this.beadXPositionsProperty = new Property( initialBeadXPositions, {
-      isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
+      // isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
       validationMessage: 'beadXPositionsProperty must have the same length as the addend objects',
       phetioReadOnly: true,
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,

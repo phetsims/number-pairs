@@ -201,6 +201,8 @@ export default class BeadsOnWireNode extends Node {
             this.handleBeadDrop( beadNode );
             const sortedLeftBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT );
             const sortedRightBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT );
+
+            // Save the bead x positions to the scene's state.
             this.model.beadXPositionsProperty.value = {
               leftAddendXPositions: sortedLeftBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value ),
               rightAddendXPositions: sortedRightBeads.map( beadNode => beadNode.countingObject.beadXPositionProperty.value )
@@ -282,7 +284,7 @@ export default class BeadsOnWireNode extends Node {
      */
     if ( leftAddendBeads.length > leftAddendXPositions.length ) {
       while ( leftAddendBeads.length > leftAddendXPositions.length ) {
-        leftAddendXPositions = this.addBeadPositionToWire( leftAddendXPositions, 1, leftAddend, rightAddend );
+        leftAddendXPositions = this.addBeadPositionToWire( leftAddendXPositions, 1, leftAddendBeads.length, rightAddendBeads.length );
       }
     }
     else if ( leftAddendBeads.length < leftAddendXPositions.length ) {
@@ -293,7 +295,7 @@ export default class BeadsOnWireNode extends Node {
     }
     if ( rightAddendBeads.length > rightAddendXPositions.length ) {
       while ( rightAddendBeads.length > rightAddendXPositions.length ) {
-        rightAddendXPositions = this.addBeadPositionToWire( rightAddendXPositions.slice().reverse(), -1, leftAddend, rightAddend );
+        rightAddendXPositions = this.addBeadPositionToWire( rightAddendXPositions.slice().reverse(), -1, leftAddendBeads.length, rightAddendBeads.length );
       }
     }
     else if ( rightAddendBeads.length < rightAddendXPositions.length ) {
@@ -357,10 +359,7 @@ export default class BeadsOnWireNode extends Node {
 
     // If there are no xPositions provided then go to the default.
     if ( existingXPositions.length === 0 ) {
-      console.log( 'add bead' );
-      console.log( leftAddend, rightAddend );
       const defaultBeadPositions = NumberPairsModel.getDefaultBeadPositions( leftAddend, rightAddend );
-      console.log( defaultBeadPositions );
       return direction > 0 ? defaultBeadPositions.leftAddendXPositions : defaultBeadPositions.rightAddendXPositions;
     }
     else {
