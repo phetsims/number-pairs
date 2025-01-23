@@ -169,10 +169,14 @@ export default class DecompositionModel extends NumberPairsModel {
           countingObject.addendTypeProperty.value = AddendType.RIGHT;
         } );
 
-        // Update beadXPositionsProperty to reflect the saved state in the scene.
-        this.setBeadXPositions( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects,
-          sceneModel.beadXPositionsProperty.value.leftAddendXPositions, sceneModel.beadXPositionsProperty.value.rightAddendXPositions );
-        this.changingScenesProperty.value = false;
+        if ( options.representationTypeValidValues.includes( RepresentationType.BEADS ) ) {
+
+          // Update beadXPositionsProperty to reflect the saved state in the scene.
+          this.setBeadXPositions( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects,
+            sceneModel.beadXPositionsProperty.value.leftAddendXPositions, sceneModel.beadXPositionsProperty.value.rightAddendXPositions );
+          this.changingScenesProperty.value = false;
+        }
+
       }
     } );
 
