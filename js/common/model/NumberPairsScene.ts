@@ -20,8 +20,9 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import NumberPairsModel, { BeadXPositionsTypes } from './NumberPairsModel.js';
+import { BeadXPositionsTypes } from './NumberPairsModel.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
+import BeadManager from './BeadManager.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
@@ -43,7 +44,11 @@ export default class NumberPairsScene extends PhetioObject {
 
   public readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
-  public constructor( inactiveCountingObjects: CountingObject[], leftAddendCountingObjects: CountingObject[], rightAddendCountingObjects: CountingObject[], providedOptions: NumberPairsSceneOptions ) {
+  public constructor(
+    inactiveCountingObjects: CountingObject[],
+    leftAddendCountingObjects: CountingObject[],
+    rightAddendCountingObjects: CountingObject[],
+    providedOptions: NumberPairsSceneOptions ) {
     const options = optionize<NumberPairsSceneOptions, SelfOptions, PhetioObjectOptions>()( {
       phetioState: false
     }, providedOptions );
@@ -76,10 +81,8 @@ export default class NumberPairsScene extends PhetioObject {
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
-    const initialBeadXPositions = NumberPairsModel.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
+    const initialBeadXPositions = BeadManager.getDefaultBeadPositions( this.leftAddendObjects.length, this.rightAddendObjects.length );
     this.beadXPositionsProperty = new Property( initialBeadXPositions, {
-      // isValidValue: value => this.rightAddendObjects.length === value.rightAddendXPositions.length && this.leftAddendObjects.length === value.leftAddendXPositions.length,
-      validationMessage: 'beadXPositionsProperty must have the same length as the addend objects',
       phetioReadOnly: true,
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
       phetioValueType: ObjectLiteralIO

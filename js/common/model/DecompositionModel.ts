@@ -22,6 +22,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 const INITIAL_VALUES_DIFFERENCE = 1;
 type SelfOptions = {
@@ -101,7 +102,12 @@ export default class DecompositionModel extends NumberPairsModel {
     } );
 
     // This must be the first listener added to the selectedSceneModelProperty.
-    selectedSceneModelProperty.link( () => {
+    selectedSceneModelProperty.link( ( newScene, oldScene ) => {
+      if ( oldScene && !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
+
+        // Save the state when we switch scenes.
+        this.beadManager.saveBeadPositions( oldScene );
+      }
       changingScenesProperty.value = true;
     } );
 
@@ -121,8 +127,7 @@ export default class DecompositionModel extends NumberPairsModel {
       derive: 'rightAddendProperty'
     } );
     const beadXPositionsProperty = new DynamicProperty<BeadXPositionsTypes, BeadXPositionsTypes, NumberPairsScene>( selectedSceneModelProperty, {
-      derive: 'beadXPositionsProperty',
-      bidirectional: true // This Property needs to be bidirectional because it is set by BeadsOnWireNode whenever a bead is dropped.
+      derive: 'beadXPositionsProperty'
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {
@@ -171,8 +176,8 @@ export default class DecompositionModel extends NumberPairsModel {
 
         if ( options.representationTypeValidValues.includes( RepresentationType.BEADS ) ) {
 
-          // Update beadXPositionsProperty to reflect the saved state in the scene.
-          this.setBeadXPositions( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects,
+          // Update each beads x position based on the scene model's beadXPositionsProperty.
+          this.beadManager.setBeadXPositions( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects,
             sceneModel.beadXPositionsProperty.value.leftAddendXPositions, sceneModel.beadXPositionsProperty.value.rightAddendXPositions );
           this.changingScenesProperty.value = false;
         }
@@ -211,7 +216,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const inactiveCountingObjects = this.selectedSceneProperty.value.inactiveCountingObjects;
     const beadXPositions = this.selectedSceneProperty.value.beadXPositionsProperty.value;
     NumberPairsModel.setAddendType( leftAddendObjects, rightAddendObjects, inactiveCountingObjects );
-    this.setBeadXPositions( leftAddendObjects, rightAddendObjects,
+    this.beadManager.setBeadXPositions( leftAddendObjects, rightAddendObjects,
       beadXPositions.leftAddendXPositions, beadXPositions.rightAddendXPositions );
   }
 }

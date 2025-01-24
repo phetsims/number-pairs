@@ -34,6 +34,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import BeadManager from './BeadManager.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -80,6 +81,7 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   private countingObjectsAnimation: Animation | null = null;
+  public beadManager: BeadManager;
 
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
@@ -97,7 +99,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly beadXPositionsProperty: PhetioProperty<BeadXPositionsTypes>,
+    beadXPositionsProperty: TReadOnlyProperty<BeadXPositionsTypes>,
     public readonly countingObjects: CountingObject[],
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
@@ -183,6 +185,7 @@ export default class NumberPairsModel implements TModel {
       hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
     } );
+    this.beadManager = new BeadManager( this, beadXPositionsProperty );
   }
 
   /**
@@ -455,7 +458,7 @@ export default class NumberPairsModel implements TModel {
     const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
     const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
     const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-    this.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
+    this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -595,38 +598,6 @@ export default class NumberPairsModel implements TModel {
   }
 
   /**
-   * Set the bead x positions of the counting objects based on the provided left and right x positions.
-   * @param leftXPositions
-   * @param rightXPositions
-   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
-   * @param rightAddendObjects
-   */
-  public setBeadXPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftXPositions: number[], rightXPositions: number[] ): void {
-    leftAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.beadXPositionProperty.value = leftXPositions[ index ];
-    } );
-    rightAddendObjects.forEach( ( countingObject, index ) => {
-      countingObject.beadXPositionProperty.value = rightXPositions[ index ];
-    } );
-    this.beadXPositionsProperty.value = { leftAddendXPositions: leftXPositions, rightAddendXPositions: rightXPositions };
-  }
-
-  /**
-   * Position the beads on the wire according to the left and right addend values. This function puts beads
-   * in their default starting positions, all grouped together on either the left or right side of the wire depending
-   * on their addend type.
-   */
-  public static getDefaultBeadPositions( leftAddendValue: number, rightAddendValue: number ): BeadXPositionsTypes {
-    const distanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
-    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
-
-    return {
-      leftAddendXPositions: _.times( leftAddendValue, i => beadSeparatorXPosition - i - distanceFromSeparator ),
-      rightAddendXPositions: _.times( rightAddendValue, i => i + beadSeparatorXPosition + distanceFromSeparator )
-    };
-  }
-
-  /**
    * Snap the beads to their organized positions on the wire based on the addend values. When organized the beads are
    * arranged in groups of 5 with a separator between the two addends.
    */
@@ -656,7 +627,7 @@ export default class NumberPairsModel implements TModel {
       return groupingIndex + i + beadSeparatorXPosition + distanceFromSeparator;
     } );
 
-    this.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftXPositions, rightXPositions );
+    this.beadManager.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftXPositions, rightXPositions );
   }
 
   /**
@@ -748,7 +719,7 @@ export default class NumberPairsModel implements TModel {
     const availableAttributeGridPositions = NumberPairsModel.getGridCoordinates( countingAreaBounds, kittenPanelWidth, kittenPanelWidth, 8 );
     const availableLeftLocationGridPositions = NumberPairsModel.getGridCoordinates( leftCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
     const availableRightLocationGridPositions = NumberPairsModel.getGridCoordinates( rightCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
-    const beadXPositions = NumberPairsModel.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );
+    const beadXPositions = BeadManager.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );
 
     // Find and set the initial positions for each counting object.
     const countingObjects: CountingObject[] = [];

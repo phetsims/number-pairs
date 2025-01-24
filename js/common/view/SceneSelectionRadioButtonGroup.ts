@@ -22,8 +22,6 @@ type SelfOptions = {
 };
 type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButtonGroupOptions;
 
-// TODO: SceneSelectionRadioButtonGroup, listens to sceneProperty and each group item's value is connected to
-//   a specific scene rather than the total. or change the options name to match class.
 export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
 
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {

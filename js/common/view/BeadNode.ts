@@ -20,6 +20,7 @@ import beadPink_svg from '../../../images/beadPink_svg.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
+import BeadManager from '../model/BeadManager.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -31,19 +32,13 @@ type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
 
 export default class BeadNode extends Node {
-
-  // BEAD_WIDTH is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
-  // of this writing will cause spacing issues along the wire if other adjustments are not made.
-  public static readonly BEAD_WIDTH = 21.5;
-  public static readonly BEAD_HEIGHT = 80;
-
   public constructor(
     public readonly countingObject: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
     // giving the bead image an extra 0.5 width allows the outlines to line up cleanly when next to each other.
     // This prevents odd gaps now and then as well as graphical artifacts.
-    const beadMaxWidth = BeadNode.BEAD_WIDTH + 0.5;
+    const beadMaxWidth = BeadManager.BEAD_WIDTH + 0.5;
     const blueBead = new Image( beadBlue_svg, {
       maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )

@@ -23,7 +23,6 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -44,8 +43,6 @@ export default class SumModel extends NumberPairsModel {
   public override readonly totalProperty: Property<number>;
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
-
-  public override readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -113,13 +110,10 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
+    // TODO: what do I want to do with this Property? Right now its only satisfying the NumberPairsModel type.
     const beadXPositionsProperty = new Property<BeadXPositionsTypes>( {
       leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
       rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value )
-    }, {
-      phetioReadOnly: true,
-      tandem: options.tandem.createTandem( 'beadXPositionsProperty' ),
-      phetioValueType: ObjectLiteralIO
     } );
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
@@ -138,7 +132,6 @@ export default class SumModel extends NumberPairsModel {
     this.leftAddendProperty = leftAddendProperty;
     this.rightAddendProperty = rightAddendProperty;
     this.totalProperty = totalProperty;
-    this.beadXPositionsProperty = beadXPositionsProperty;
 
     this.inactiveCountingObjects = createObservableArray( {
       elements: inactiveCountingObjects,
@@ -226,7 +219,7 @@ export default class SumModel extends NumberPairsModel {
     this.leftAddendCountingObjectsProperty.value.reset();
     this.rightAddendCountingObjectsProperty.value.reset();
     this.inactiveCountingObjects.reset();
-    this.beadXPositionsProperty.reset();
+    this.beadManager.reset();
 
     // Once all the observable arrays have been reset we can set the addendType for each counting object.
     NumberPairsModel.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
