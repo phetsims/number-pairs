@@ -136,7 +136,7 @@ export default class NumberPairsModel implements TModel {
               options.tandem.createTandem( 'showNumberLineAddendValuesProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.showTickValuesProperty = new BooleanProperty( false, {
+    this.showTickValuesProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
               options.tandem.createTandem( 'showTickValuesProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
