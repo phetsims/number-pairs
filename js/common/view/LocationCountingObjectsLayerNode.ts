@@ -98,10 +98,12 @@ export default class LocationCountingObjectsLayerNode extends Node {
       const countingObjectNode = new LocationCountingObjectNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
         onEndDrag: model.dropCountingObject.bind( model ),
-        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, model.leftAddendVisibleProperty,
+        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,
             model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
-          ( addendType, leftVisible, rightVisible, dragging ) =>
-            dragging || ( addendType !== AddendType.INACTIVE && ( addendType === AddendType.LEFT ? leftVisible : rightVisible ) ) ),
+          ( addendType, locationPosition, leftVisible, rightVisible, dragging ) => {
+            const leftBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
+            return dragging || ( addendType !== AddendType.INACTIVE && ( leftBounds.containsPoint( locationPosition ) ? leftVisible : rightVisible ) );
+          } ),
         tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )
       } );
       this.addChild( countingObjectNode );
