@@ -81,7 +81,6 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   private countingObjectsAnimation: Animation | null = null;
-  public beadManager: BeadManager;
 
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
@@ -92,6 +91,7 @@ export default class NumberPairsModel implements TModel {
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
   protected constructor(
+
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
     public readonly totalProperty: TReadOnlyProperty<number>,
@@ -99,7 +99,7 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    beadXPositionsProperty: TReadOnlyProperty<BeadXPositionsTypes>,
+    public readonly beadManager: BeadManager,
     public readonly countingObjects: CountingObject[],
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
@@ -185,7 +185,6 @@ export default class NumberPairsModel implements TModel {
       hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
     } );
-    this.beadManager = new BeadManager( this, beadXPositionsProperty );
   }
 
   /**
@@ -225,6 +224,7 @@ export default class NumberPairsModel implements TModel {
 
     inactiveCountingObjects.addItemAddedListener( countingObject => {
       countingObject.addendTypeProperty.value = AddendType.INACTIVE;
+      countingObject.beadXPositionProperty.value = null;
     } );
   }
 
@@ -427,8 +427,17 @@ export default class NumberPairsModel implements TModel {
     const rightAttributePositions = rightAddendObjects.map( countingObject => countingObject.attributePositionProperty.value );
     const leftLocationPositions = leftAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
     const rightLocationPositions = rightAddendObjects.map( countingObject => countingObject.locationPositionProperty.value );
-    const leftBeadXPositions = leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
-    const rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
+
+    let leftBeadXPositions: number[] = [];
+    let rightBeadXPositions: number[] = [];
+    if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
+      // All bead positions should be defined by this point.
+      assert && assert( _.every( leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
+      assert && assert( _.every( rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
+      leftBeadXPositions = leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! );
+      rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! );
+    }
+
 
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
@@ -452,13 +461,15 @@ export default class NumberPairsModel implements TModel {
       new Vector2( position.x - xTranslation, position.y ) );
     this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
-    // Bead positions should be a translation across the separator.
-    const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
-    const rightXTranslation = _.max( rightBeadXPositions )! - ( updatedSeparatorPosition - NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR );
-    const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
-    const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
-    const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-    this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
+    if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
+      // Bead positions should be a translation across the separator.
+      const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
+      const rightXTranslation = _.max( rightBeadXPositions )! - ( updatedSeparatorPosition - NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR );
+      const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
+      const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
+      const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
+      this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
+    }
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -741,7 +752,7 @@ export default class NumberPairsModel implements TModel {
         availableRightLocationGridPositions.splice( availableRightLocationGridPositions.indexOf( initialLocationPosition ), 1 );
       }
       else {
-        initialBeadXPosition = 0;
+        initialBeadXPosition = null;
         initialLocationPosition = new Vector2( 0, 0 );
       }
       countingObjects.push( new CountingObject( {

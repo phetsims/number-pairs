@@ -21,6 +21,8 @@ import numberPairs from '../../numberPairs.js';
 import Range from '../../../../dot/js/Range.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import NullableIO from '../../../../tandem/js/types/NullableIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -35,7 +37,7 @@ export class AddendType extends EnumerationValue {
 type CountingObjectStateObject = ReferenceIOState;
 type SelfOptions = {
   id: number;
-  initialBeadXPosition: number;
+  initialBeadXPosition: number | null;
   initialAttributePosition: Vector2;
   initialLocationPosition: Vector2;
 };
@@ -53,7 +55,8 @@ export default class CountingObject extends PhetioObject {
   public readonly locationPositionProperty: Property<Vector2>;
   public readonly locationOpacityProperty: Property<number>;
 
-  public readonly beadXPositionProperty: Property<number>;
+  // Null if the bead hasn't been positioned yet (most used in the Sum Screen where beads can be added and removed)
+  public readonly beadXPositionProperty: Property<number | null>;
 
   public readonly addendTypeProperty: Property<AddendType>;
   public readonly kittenSelectedProperty: Property<boolean>;
@@ -93,7 +96,8 @@ export default class CountingObject extends PhetioObject {
       range: new Range( 0, 1 )
     } );
 
-    this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
+    this.beadXPositionProperty = new Property<number | null>( options.initialBeadXPosition, {
+      phetioValueType: NullableIO( NumberIO ),
       tandem: this.tandem.createTandem( 'beadXPositionProperty' ),
       phetioReadOnly: true
     } );

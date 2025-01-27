@@ -114,7 +114,9 @@ export default class BeadsOnWireNode extends Node {
     const groupSelectModel = model.groupSelectBeadsModel;
     groupSelectModel.selectedGroupItemProperty.link( countingObject => {
       if ( countingObject ) {
-        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
+
+        assert && assert( countingObject.beadXPositionProperty.value !== null, 'A selected group item must have a valid position value' );
+        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value!, 0 );
       }
     } );
     groupSelectModel.isGroupItemKeyboardGrabbedProperty.lazyLink( ( isGrabbed, wasGrabbed ) => {
@@ -198,7 +200,9 @@ export default class BeadsOnWireNode extends Node {
         } );
 
       countingObject.beadXPositionProperty.link( x => {
-        beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
+        if ( x !== null ) {
+          beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
+        }
       } );
 
       this.beadModelToNodeMap.set( countingObject, beadNode );

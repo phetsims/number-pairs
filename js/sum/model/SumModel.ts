@@ -24,6 +24,7 @@ import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import BeadManager from '../../common/model/BeadManager.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -43,6 +44,9 @@ export default class SumModel extends NumberPairsModel {
   public override readonly totalProperty: Property<number>;
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
+
+  // We need to be able to set
+  public readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
@@ -104,26 +108,30 @@ export default class SumModel extends NumberPairsModel {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
+    const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
     const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
       elements: initialRightAddendObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
+    const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
-    // TODO: what do I want to do with this Property? Right now its only satisfying the NumberPairsModel type.
+    assert && assert( _.every( leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
+    assert && assert( _.every( rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
     const beadXPositionsProperty = new Property<BeadXPositionsTypes>( {
-      leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
-      rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value )
+      leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! ),
+      rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! )
     } );
+    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, beadXPositionsProperty, true );
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(
       totalProperty,
       leftAddendProperty,
       rightAddendProperty,
-      new Property( leftAddendObjects ),
-      new Property( rightAddendObjects ),
-      beadXPositionsProperty,
+      leftAddendCountingObjectsProperty,
+      rightAddendCountingObjectsProperty,
+      beadManager,
       countingObjects,
       new BooleanProperty( false ),
       options
@@ -132,6 +140,7 @@ export default class SumModel extends NumberPairsModel {
     this.leftAddendProperty = leftAddendProperty;
     this.rightAddendProperty = rightAddendProperty;
     this.totalProperty = totalProperty;
+    this.beadXPositionsProperty = beadXPositionsProperty;
 
     this.inactiveCountingObjects = createObservableArray( {
       elements: inactiveCountingObjects,
@@ -219,7 +228,7 @@ export default class SumModel extends NumberPairsModel {
     this.leftAddendCountingObjectsProperty.value.reset();
     this.rightAddendCountingObjectsProperty.value.reset();
     this.inactiveCountingObjects.reset();
-    this.beadManager.reset();
+
 
     // Once all the observable arrays have been reset we can set the addendType for each counting object.
     NumberPairsModel.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
