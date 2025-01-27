@@ -221,7 +221,7 @@ export default class BeadsOnWireNode extends Node {
         // Reset may also give the impression that we are adding or removing beads, but we want to position the beads
         // differently than when interacting with the CountingObjectSpinners. In a reset situation we will rely
         // on the initial values of the position Properties.
-        if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty && options.sumScreen ) {
+        if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && options.sumScreen ) {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
 
