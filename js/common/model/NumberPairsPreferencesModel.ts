@@ -50,9 +50,7 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
               tandem: tandem.createTandem( 'autoHearControl' )
             } )
         } ],
-
-        // speech synthesis is the only sound used in this sim, no general sim sounds
-        supportsSound: false
+        supportsSound: true
       },
 
       // Preferences > Localization
