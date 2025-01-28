@@ -58,25 +58,26 @@ export default class BarModelNode extends VBox {
       numberVisibleProperty: model.rightAddendVisibleProperty
     } );
     const addendsNode = new Node( {
-      children: [ leftAddendRectangle, rightAddendRectangle ]
+      children: [ leftAddendRectangle, rightAddendRectangle ],
+      excludeInvisibleChildrenFromBounds: true
     } );
 
     /**
      * Hook up the rectangles to listeners so that they update accordingly
      */
     ManualConstraint.create( addendsNode, [ leftAddendRectangle, rightAddendRectangle ], ( leftAddendRectangleProxy, rightAddendRectangleProxy ) => {
-      rightAddendRectangleProxy.left = leftAddendRectangleProxy.right - LINE_WIDTH;
+      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.right - LINE_WIDTH : totalRectangle.left;
     } );
     Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
 
       // We need to handle the case where the total is 0, because we can't divide by 0
       if ( total !== 0 ) {
         leftAddendRectangle.rectWidth = leftAddend / total * TOTAL_WIDTH;
+        leftAddendRectangle.visible = leftAddend > 0;
         rightAddendRectangle.rectWidth = rightAddend / total * TOTAL_WIDTH;
+        rightAddendRectangle.visible = rightAddend > 0;
       }
       else {
-
-        //TODO: @CC how do we want this to look?
         leftAddendRectangle.rectWidth = 0;
         rightAddendRectangle.rectWidth = 0;
       }
