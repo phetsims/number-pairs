@@ -191,6 +191,8 @@ export default class BeadManager {
    * @param rightAddendObjects
    */
   public setBeadXPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftXPositions: number[], rightXPositions: number[] ): void {
+    assert && assert( leftAddendObjects.length === leftXPositions.length, `leftAddendObjects.length (${leftAddendObjects.length}) should match leftXPositions.length (${leftXPositions.length}).` );
+    assert && assert( rightAddendObjects.length === rightXPositions.length, `rightAddendObjects.length (${rightAddendObjects.length}) should match rightXPositions.length (${rightXPositions.length}).` );
     leftAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = leftXPositions[ index ];
     } );
