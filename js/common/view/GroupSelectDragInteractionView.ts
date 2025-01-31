@@ -19,7 +19,6 @@ import { KeyboardListener, Node } from '../../../../scenery/js/imports.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
@@ -44,7 +43,6 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
 
   public constructor(
     groupSelectModel: GroupSelectModel<CountingObject>,
-    model: NumberPairsModel,
     primaryFocusedNode: Node,
     modelToNodeMap: Map<CountingObject, Node>,
     providedOptions: GroupSelectDragInteractionViewOptions

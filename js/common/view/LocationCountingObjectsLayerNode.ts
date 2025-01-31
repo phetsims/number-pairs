@@ -45,7 +45,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       derive: countingObject => countingObject.locationPositionProperty,
       bidirectional: true
     } );
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.countingObjectModelToNodeMap, {
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         positionProperty: selectedItemPositionProperty
       },
@@ -85,6 +85,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+    groupSelectView.grabReleaseCueNode.centerBottom = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plus( new Vector2( 0, 10 ) );
 
     /**
      * Create the LocationCountingObjectNodes for each countingObject in the model.

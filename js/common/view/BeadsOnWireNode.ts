@@ -141,7 +141,7 @@ export default class BeadsOnWireNode extends Node {
       this.handleBeadMove( viewPosition, grabbedBeadNode );
     } );
 
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, model, this, this.beadModelToNodeMap, {
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         keyboardDragDirection: 'leftRight',
         positionProperty: keyboardProposedBeadPositionProperty,
