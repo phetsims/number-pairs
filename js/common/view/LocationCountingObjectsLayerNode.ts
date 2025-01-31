@@ -58,19 +58,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
         }
       },
       getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
-        /**
-         * Algorithm to search for the next group item to select.
-         *
-         * 1. Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
-         * delta created by the arrow keys (1, 0) for right, (-1, 0), etc. The use the slope to calculate the angle.
-         * 2. Return all counting objects in the above calculated direction. (if none stay where we are)
-         * 3. Filter to objects within the 90-degree angle of the direction.
-         * 4. If the 90 degree filter is empty return to step 2 and find the next closest object.
-         * 5. If the 90 degree filter is not empty, find the closest object in the 90-degree filter.
-         */
 
-          // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
-          // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
+        // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
+        // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
         const startingPoint = groupItem.locationPositionProperty.value;
         const delta = this.getKeysDelta( keysPressed );
         const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
@@ -78,6 +68,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
           countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta ) );
 
         let selectedGroupItem = groupItem;
+
+        // Return all counting objects in the above calculated direction. (if none stay where we are)
+        // TODO: Refine to only include counting objects within the 90 degree angle of the direction. Currently
+        //  is defaulting to 180 degrees.
         if ( countingObjectsInDirection.length > 0 ) {
           countingObjectsInDirection.sort( ( a, b ) =>
             a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
@@ -159,18 +153,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       case 's':
       case 'arrowDown':
         return new Vector2( 0, 1 );
-      case 'shift+d':
-      case 'shift+arrowRight':
-        return new Vector2( 2, 0 );
-      case 'shift+a':
-      case 'shift+arrowLeft':
-        return new Vector2( -2, 0 );
-      case 'shift+w':
-      case 'shift+arrowUp':
-        return new Vector2( 0, -2 );
-      case 'shift+s':
-      case 'shift+arrowDown':
-        return new Vector2( 0, 2 );
       default:
         return new Vector2( 0, 0 );
     }
