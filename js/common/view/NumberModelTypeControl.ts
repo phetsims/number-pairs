@@ -14,6 +14,7 @@ import { Text } from '../../../../scenery/js/imports.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
@@ -50,6 +51,8 @@ export default class NumberModelTypeControl extends PreferencesControl {
 export class NumberModelType extends EnumerationValue {
   public static readonly NUMBER_BOND_MODEL = new NumberModelType();
   public static readonly BAR_MODEL = new NumberModelType();
+
+  public static readonly enumeration = new Enumeration( NumberModelType );
 }
 
 numberPairs.register( 'NumberModelTypeControl', NumberModelTypeControl );
