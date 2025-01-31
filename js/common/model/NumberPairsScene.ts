@@ -26,6 +26,7 @@ import BeadManager from './BeadManager.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
+  changingScenesProperty: Property<boolean>;
 };
 type NumberPairsSceneOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 export default class NumberPairsScene extends PhetioObject {
@@ -85,7 +86,8 @@ export default class NumberPairsScene extends PhetioObject {
     this.beadXPositionsProperty = new Property( initialBeadXPositions, {
       phetioReadOnly: true,
       tandem: options.includesBeadRepresentation ? options.tandem.createTandem( 'beadXPositionsProperty' ) : Tandem.OPT_OUT,
-      phetioValueType: ObjectLiteralIO
+      phetioValueType: ObjectLiteralIO,
+      valueComparisonStrategy: 'lodashDeep' // We want to compare the actual object literal contents and not the instance.
     } );
 
     // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.

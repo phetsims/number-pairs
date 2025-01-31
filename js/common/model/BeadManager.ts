@@ -25,7 +25,6 @@ export default class BeadManager {
   public constructor(
     private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
     private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
-    public readonly beadXPositionsProperty: TReadOnlyProperty<BeadXPositionsTypes>,
     private readonly isSumScreen: boolean ) {
     const numberOfSpotsOnWire = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH );
     this.beadXRange = new Range( NumberPairsConstants.LEFTMOST_BEAD_X, numberOfSpotsOnWire - 1 );

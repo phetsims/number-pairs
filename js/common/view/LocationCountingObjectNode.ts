@@ -25,6 +25,8 @@ import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js'
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -96,7 +98,7 @@ export default class LocationCountingObjectNode extends Node {
 
     countingObject.locationPositionProperty.link( position => {
       this.center = position;
-      providedOptions.handleLocationChange( countingObject, position );
+      !isSettingPhetioStateProperty.value && !isResettingAllProperty.value && providedOptions.handleLocationChange( countingObject, position );
     } );
   }
 }

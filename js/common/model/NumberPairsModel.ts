@@ -236,17 +236,20 @@ export default class NumberPairsModel implements TModel {
     countingObject.addendTypeProperty.lazyLink( addendType => {
       const leftAddendCountingObjects = this.leftAddendCountingObjectsProperty.value;
       const rightAddendCountingObjects = this.rightAddendCountingObjectsProperty.value;
-      if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) && rightAddendCountingObjects.includes( countingObject ) ) {
-        countingObject.traverseInactiveObjects = false;
-        rightAddendCountingObjects.remove( countingObject );
-        leftAddendCountingObjects.add( countingObject );
-        countingObject.traverseInactiveObjects = true;
-      }
-      else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) && leftAddendCountingObjects.includes( countingObject ) ) {
-        countingObject.traverseInactiveObjects = false;
-        rightAddendCountingObjects.add( countingObject );
-        leftAddendCountingObjects.remove( countingObject );
-        countingObject.traverseInactiveObjects = true;
+
+      if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
+        if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) && rightAddendCountingObjects.includes( countingObject ) ) {
+          countingObject.traverseInactiveObjects = false;
+          rightAddendCountingObjects.remove( countingObject );
+          leftAddendCountingObjects.add( countingObject );
+          countingObject.traverseInactiveObjects = true;
+        }
+        else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) && leftAddendCountingObjects.includes( countingObject ) ) {
+          countingObject.traverseInactiveObjects = false;
+          rightAddendCountingObjects.add( countingObject );
+          leftAddendCountingObjects.remove( countingObject );
+          countingObject.traverseInactiveObjects = true;
+        }
       }
 
       // Update the location of the countingObject when the addendType changes during reset, scene changes, or if we are
@@ -431,6 +434,7 @@ export default class NumberPairsModel implements TModel {
     let leftBeadXPositions: number[] = [];
     let rightBeadXPositions: number[] = [];
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
+
       // All bead positions should be defined by this point.
       assert && assert( _.every( leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
       assert && assert( _.every( rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );

@@ -122,7 +122,7 @@ export default class SumModel extends NumberPairsModel {
       leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! ),
       rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! )
     } );
-    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, beadXPositionsProperty, true );
+    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, true );
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(

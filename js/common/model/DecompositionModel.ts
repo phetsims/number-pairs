@@ -14,7 +14,7 @@ import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from './CountingObject.js';
-import NumberPairsModel, { BeadXPositionsTypes, NumberPairsModelOptions } from './NumberPairsModel.js';
+import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import RepresentationType from './RepresentationType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
@@ -45,6 +45,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const options = optionize<DecompositionModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       numberOfCountingObjects: providedOptions.sceneRange.max
     }, providedOptions );
+    const changingScenesProperty = new BooleanProperty( false ); // does not need to be instrumented.
 
     const countingObjects = NumberPairsModel.createCountingObjects(
       options.sceneRange.max, options.initialTotalValue - INITIAL_VALUES_DIFFERENCE, INITIAL_VALUES_DIFFERENCE, options.tandem );
@@ -59,6 +60,7 @@ export default class DecompositionModel extends NumberPairsModel {
       const includesBeadRepresentation = options.representationTypeValidValues.includes( RepresentationType.BEADS );
       if ( total === 0 ) {
         sceneModel = new NumberPairsScene( countingObjects, [], [], {
+          changingScenesProperty: changingScenesProperty,
           tandem: tandem,
           includesBeadRepresentation: includesBeadRepresentation
         } );
@@ -84,6 +86,7 @@ export default class DecompositionModel extends NumberPairsModel {
           rightAddendObjects.push( countingObject! );
         } );
         sceneModel = new NumberPairsScene( inactiveCountingObjects, leftAddendObjects, rightAddendObjects, {
+          changingScenesProperty: changingScenesProperty,
           tandem: tandem,
           includesBeadRepresentation: includesBeadRepresentation
         } );
@@ -93,7 +96,6 @@ export default class DecompositionModel extends NumberPairsModel {
 
     const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
     assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
-    const changingScenesProperty = new BooleanProperty( false ); // does not need to be isntrumented.
     const selectedSceneModelProperty = new Property( initialSceneModel!, {
       validValues: sceneModels,
       hasListenerOrderDependencies: true, // we need to set the changing scenes flags at the right times.
@@ -104,6 +106,7 @@ export default class DecompositionModel extends NumberPairsModel {
 
     // This must be the first listener added to the selectedSceneModelProperty.
     selectedSceneModelProperty.link( ( newScene, oldScene ) => {
+      changingScenesProperty.value = true;
       if ( options.representationTypeValidValues.includes( RepresentationType.BEADS ) && oldScene
            && !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
 
@@ -123,7 +126,6 @@ export default class DecompositionModel extends NumberPairsModel {
         // Save the state when we switch scenes.
         this.beadManager.saveBeadPositions( oldScene );
       }
-      changingScenesProperty.value = true;
     } );
 
     NumberPairsModel.setAddendType( initialSceneModel!.leftAddendObjects, initialSceneModel!.rightAddendObjects, initialSceneModel!.inactiveCountingObjects );
@@ -141,10 +143,8 @@ export default class DecompositionModel extends NumberPairsModel {
     const rightAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       derive: 'rightAddendProperty'
     } );
-    const beadXPositionsProperty = new DynamicProperty<BeadXPositionsTypes, BeadXPositionsTypes, NumberPairsScene>( selectedSceneModelProperty, {
-      derive: 'beadXPositionsProperty'
-    } );
-    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, beadXPositionsProperty, false );
+
+    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, false );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {
       numberOfCountingObjects: options.sceneRange.max
@@ -161,7 +161,7 @@ export default class DecompositionModel extends NumberPairsModel {
       superOptions
     );
 
-    // Register the observable arrays in each scene to properly update Counting Object state as necesssary.
+    // Register the observable arrays in each scene to properly update Counting Object state as necessary.
     sceneModels.forEach( sceneModel => {
       this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects, sceneModel.inactiveCountingObjects );
 
@@ -170,12 +170,14 @@ export default class DecompositionModel extends NumberPairsModel {
       // We only need to update the leftAddendProperty since the rightAddend is derived.
       // This link must be registered after the observable arrays are populated.
       sceneModel.leftAddendObjects.lengthProperty.lazyLink( length => {
-        sceneModel.leftAddendProperty.value = length;
+        if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
+          sceneModel.leftAddendProperty.value = length;
+        }
       } );
     } );
 
     selectedSceneModelProperty.link( sceneModel => {
-      if ( !isResettingAllProperty.value ) {
+      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
         this.changingScenesProperty.value = true;
 
         // Set all the counting objects to inactive so that the objects in each observable array
