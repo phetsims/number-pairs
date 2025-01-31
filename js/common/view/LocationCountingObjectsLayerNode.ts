@@ -21,6 +21,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import CountingAreaNode from './CountingAreaNode.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -28,7 +29,7 @@ type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem
 export default class LocationCountingObjectsLayerNode extends Node {
   private readonly countingObjectModelToNodeMap = new Map<CountingObject, LocationCountingObjectNode>();
 
-  public constructor( private readonly model: NumberPairsModel, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
+  public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleName: 'Location Counting Objects'
@@ -91,7 +92,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
     model.countingObjects.forEach( countingObject => {
       const countingObjectNode = new LocationCountingObjectNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
-        onEndDrag: model.dropCountingObject.bind( model ),
+        onEndDrag: countingAreaNode.dropCountingObject.bind( countingAreaNode ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,
             model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
           ( addendType, locationPosition, leftVisible, rightVisible, dragging ) => {

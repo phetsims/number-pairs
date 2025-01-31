@@ -19,9 +19,9 @@ import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scen
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { COUNTING_AREA_LINE_WIDTH } from '../../common/view/CountingAreaNode.js';
-import NumberPairsScreenView from '../../common/view/NumberPairsScreenView.js';
 import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import numberPairs from '../../numberPairs.js';
+import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
@@ -38,7 +38,7 @@ export default class SplitCountingAreaNode extends Node {
   ) {
 
     // Create the counting area background.
-    const splitBounds = NumberPairsScreenView.splitBoundsInHalf( countingAreaBounds );
+    const splitBounds = NumberPairsUtils.splitBoundsInHalf( countingAreaBounds );
     const leftBounds = splitBounds[ 0 ];
     const rightBounds = splitBounds[ 1 ];
     const leftCountingAreaShape = Shape.roundedRectangleWithRadii(

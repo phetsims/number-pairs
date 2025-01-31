@@ -29,7 +29,6 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -54,7 +53,6 @@ export type BeadXPositionsTypes = {
   leftAddendXPositions: number[];
   rightAddendXPositions: number[];
 };
-const DROP_ZONE_MARGIN = NumberPairsConstants.KITTEN_PANEL_WIDTH / 1.75;
 
 export default class NumberPairsModel implements TModel {
 
@@ -80,7 +78,7 @@ export default class NumberPairsModel implements TModel {
   public readonly showTotalJumpProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
-  private countingObjectsAnimation: Animation | null = null;
+  public countingObjectsAnimation: Animation | null = null;
 
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
@@ -91,7 +89,6 @@ export default class NumberPairsModel implements TModel {
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
   protected constructor(
-
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
     public readonly totalProperty: TReadOnlyProperty<number>,
@@ -285,125 +282,6 @@ export default class NumberPairsModel implements TModel {
     return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
       countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
       countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
-  }
-
-  private getValidDropPoint( invalidBounds: Bounds2, proposedPoint: Vector2, allowedDirection: 'upLeft' | 'upRight' ): Vector2 {
-
-    if ( invalidBounds.containsPoint( proposedPoint ) ) {
-      const closestXEdge = allowedDirection === 'upLeft' ? invalidBounds.minX : invalidBounds.maxX;
-      const closestYEdge = invalidBounds.minY;
-
-      if ( Math.abs( closestXEdge - proposedPoint.x ) < Math.abs( closestYEdge - proposedPoint.y ) ) {
-        return new Vector2( closestXEdge, proposedPoint.y );
-      }
-      else {
-        return new Vector2( proposedPoint.x, closestYEdge );
-      }
-    }
-    else {
-      return proposedPoint;
-    }
-  }
-
-  private sendToValidDropPoint( countingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): Vector2 {
-    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
-    const positionProperty = positionPropertyType === 'attribute' ? countingObject.attributePositionProperty :
-                             countingObject.locationPositionProperty;
-
-    const addendVisibleButtonDimension = new Dimension2(
-      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN,
-      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.height + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN
-    );
-    const leftAddendVisibleButtonBounds = new Bounds2(
-      countingAreaBounds.minX,
-      countingAreaBounds.maxY - addendVisibleButtonDimension.height,
-      countingAreaBounds.minX + addendVisibleButtonDimension.width,
-      countingAreaBounds.maxY );
-    const invalidDropBounds = positionPropertyType === 'attribute' ? [ leftAddendVisibleButtonBounds ] :
-      [
-        leftAddendVisibleButtonBounds,
-        leftAddendVisibleButtonBounds.shiftedX( countingAreaBounds.width - addendVisibleButtonDimension.width )
-      ];
-
-    let validDropPoint = positionProperty.value;
-    invalidDropBounds.forEach( ( bounds, i ) => {
-
-      // The first bounds is on the left side of the counting area
-      const direction = i === 0 ? 'upRight' : 'upLeft';
-      validDropPoint = this.getValidDropPoint( bounds, validDropPoint, direction );
-    } );
-
-    const animation = new Animation( {
-      duration: 0.4,
-      targets: [ {
-        property: positionProperty,
-        to: validDropPoint
-      } ]
-    } );
-    animation.start();
-    return validDropPoint;
-  }
-
-
-  /**
-   * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
-   * @param droppedCountingObject
-   * @param positionPropertyType
-   *
-   * // TODO: We still need to handle when a point is calculated to be outside of the Counting Area bounds.
-   */
-  public dropCountingObject( droppedCountingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): void {
-
-    const countingObjectValidDropPoint = this.sendToValidDropPoint( droppedCountingObject, positionPropertyType );
-    const dropZoneBounds = this.getDropZoneBounds( countingObjectValidDropPoint );
-    const activeCountingObjects = this.countingObjects.filter( countingObject =>
-      countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
-
-    // Find all the active counting objects that are half a panel width away from the dropped counting object.
-    const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject => {
-      const positionProperty = positionPropertyType === 'attribute' ?
-                               countingObject.attributePositionProperty : countingObject.locationPositionProperty;
-      return dropZoneBounds.containsPoint( positionProperty.value );
-    } );
-
-    if ( countingObjectsInsideDropZone.length !== 0 ) {
-
-      // Animate the object to the closest boundary point of the drop zone.
-      const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
-        const positionProperty = positionPropertyType === 'attribute' ?
-                                 countingObject.attributePositionProperty : countingObject.locationPositionProperty;
-        return {
-          property: positionProperty,
-          to: dropZoneBounds.closestBoundaryPointTo( positionProperty.value )
-        };
-      } );
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        // TODO: Do I need to dispose?
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
-  }
-
-  /**
-   * Returns the bounds of the drop zone based on the provided drop zone center.
-   * @param dropZoneCenter
-   */
-  private getDropZoneBounds( dropZoneCenter: Vector2 ): Bounds2 {
-    return new Bounds2(
-      dropZoneCenter.x - DROP_ZONE_MARGIN,
-      dropZoneCenter.y - DROP_ZONE_MARGIN,
-      dropZoneCenter.x + DROP_ZONE_MARGIN,
-      dropZoneCenter.y + DROP_ZONE_MARGIN
-    );
   }
 
   /**

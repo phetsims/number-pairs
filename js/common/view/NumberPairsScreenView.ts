@@ -7,7 +7,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -38,6 +37,7 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
+import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 
 type SelfOptions = {
   numberSentenceContent: Node;
@@ -149,7 +149,7 @@ export default class NumberPairsScreenView extends ScreenView {
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
-    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsScreenView.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
+    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const tenFrameButton = new TenFrameButton( {
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
@@ -201,12 +201,11 @@ export default class NumberPairsScreenView extends ScreenView {
         return totalColor;
       }
     } );
-    const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty,
-      COUNTING_AREA_BOUNDS, {
-        countingRepresentationTypeProperty: model.representationTypeProperty,
-        backgroundColorProperty: countingAreaBackgroundColorProperty,
-        tandem: options.tandem.createTandem( 'countingAreaNode' )
-      } );
+    const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, model, {
+      countingRepresentationTypeProperty: model.representationTypeProperty,
+      backgroundColorProperty: countingAreaBackgroundColorProperty,
+      tandem: options.tandem.createTandem( 'countingAreaNode' )
+    } );
     this.addChild( countingAreaNode );
 
     // All the location representations at least include One Cards
@@ -217,7 +216,7 @@ export default class NumberPairsScreenView extends ScreenView {
           countingRepresentationType === RepresentationType.ONE_CARDS ||
           countingRepresentationType === RepresentationType.BUTTERFLIES ||
           countingRepresentationType === RepresentationType.SOCCER_BALLS );
-      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, {
+      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, countingAreaNode, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
@@ -237,7 +236,7 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.KITTENS );
-      const kittensLayerNode = new KittensLayerNode( model, model.countingObjects, COUNTING_AREA_BOUNDS, {
+      const kittensLayerNode = new KittensLayerNode( model.countingObjects, countingAreaNode, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
@@ -341,16 +340,6 @@ export default class NumberPairsScreenView extends ScreenView {
     //TODO
   }
 
-  /**
-   * Splits the bounds in half along the y-axis and returns an array of the two new bounds.
-   * @param bounds
-   */
-  public static splitBoundsInHalf( bounds: Bounds2 ): Bounds2[] {
-    return [
-      new Bounds2( bounds.minX, bounds.minY, bounds.centerX, bounds.maxY ),
-      new Bounds2( bounds.centerX, bounds.minY, bounds.maxX, bounds.maxY )
-    ];
-  }
 
   /**
    * Set the traversal order for the screen.
