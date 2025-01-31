@@ -9,7 +9,7 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
@@ -90,6 +90,24 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     this.addChild( addendSpinners );
     this.numberPairsSetPDOMOrder( addendSpinners );
+  }
+
+  /**
+   * Set the traversal order for the screen.
+   * @param totalInteractionNode
+   */
+  private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
+    this.pdomPlayAreaNode.setPDOMOrder( [
+      ...this.representationNodes,
+      totalInteractionNode,
+      this.countingAreaButtonsVBox,
+      this.countingAreaNode
+    ] );
+
+    this.pdomControlAreaNode.setPDOMOrder( [
+      ...this.controlNodes,
+      this.resetAllButton
+    ] );
   }
 }
 

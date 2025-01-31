@@ -8,7 +8,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import { AlignBox } from '../../../../scenery/js/imports.js';
+import { AlignBox, Node } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -50,6 +50,25 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     this.addChild( totalSelectorAlignBox );
 
     this.numberPairsSetPDOMOrder( sceneSelectionRadioButtonGroup );
+  }
+
+  /**
+   * Set the traversal order for the screen.
+   * @param totalInteractionNode
+   */
+  private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
+    this.pdomPlayAreaNode.setPDOMOrder( [
+        ...this.representationNodes,
+        this.countingAreaButtonsVBox,
+        this.countingAreaNode
+      ]
+    );
+
+    this.pdomControlAreaNode.setPDOMOrder( [
+      ...this.controlNodes,
+      totalInteractionNode,
+      this.resetAllButton
+    ] );
   }
 }
 

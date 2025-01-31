@@ -55,11 +55,12 @@ const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly resetAllButton: Node;
-  private readonly countingAreaButtonsVBox: Node;
+  protected readonly countingAreaButtonsVBox: Node;
 
   // For pdom order.
-  private readonly countingAreaNodes: Node[] = [];
-  private readonly controlNodes: Node[];
+  protected readonly representationNodes: Node[] = [];
+  protected readonly countingAreaNode: CountingAreaNode;
+  protected readonly controlNodes: Node[] = [];
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -187,16 +188,6 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( this.countingAreaButtonsVBox );
 
-    // Set the initial order of control nodes. Depending on the counting representations on the screen,
-    // more control nodes may be added to this array later during construction.
-    this.controlNodes = [
-      countingRepresentationRadioButtonGroup,
-      speechSynthesisControl,
-      numberSentenceVBox,
-      options.numberBondContent,
-      ...( options.equationContent ? [ options.equationContent ] : [] )
-    ];
-
     /**
      * Create the counting area and accompanying features.
      */
@@ -208,12 +199,12 @@ export default class NumberPairsScreenView extends ScreenView {
         return totalColor;
       }
     } );
-    const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, model, {
+    this.countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, model, {
       countingRepresentationTypeProperty: model.representationTypeProperty,
       backgroundColorProperty: countingAreaBackgroundColorProperty,
       tandem: options.tandem.createTandem( 'countingAreaNode' )
     } );
-    this.addChild( countingAreaNode );
+    this.addChild( this.countingAreaNode );
 
     // All the location representations at least include One Cards
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
@@ -223,12 +214,12 @@ export default class NumberPairsScreenView extends ScreenView {
           countingRepresentationType === RepresentationType.ONE_CARDS ||
           countingRepresentationType === RepresentationType.BUTTERFLIES ||
           countingRepresentationType === RepresentationType.SOCCER_BALLS );
-      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, countingAreaNode, {
+      const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, this.countingAreaNode, {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
       this.addChild( locationCountingObjectsLayerNode );
-      this.countingAreaNodes.push( locationCountingObjectsLayerNode );
+      this.representationNodes.push( locationCountingObjectsLayerNode );
     }
 
     // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
@@ -243,7 +234,7 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.KITTENS );
-      const kittensLayerNode = new KittensLayerNode( model.countingObjects, countingAreaNode, {
+      const kittensLayerNode = new KittensLayerNode( model.countingObjects, this.countingAreaNode, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
@@ -251,7 +242,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
       // We need to specify the kitten node pdom order so that it remains consistent as kittenNodes move to front during
       // interactions.
-      this.countingAreaNodes.push( ...kittensLayerNode.kittenNodes );
+      this.representationNodes.push( ...kittensLayerNode.kittenNodes );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
       this.addInputListener( new PressListener( {
@@ -284,7 +275,7 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       countingRepresentationsLayer.addChild( numberLineNode );
-      this.countingAreaNodes.push( numberLineNode );
+      this.representationNodes.push( numberLineNode );
 
       // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
       //  is added to the scene graph.
@@ -295,7 +286,6 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
       this.addChild( numberLineCheckboxGroup );
-      this.controlNodes.push( numberLineCheckboxGroup );
 
       const iconWidth = 35;
       const iconValue = 1;
@@ -315,7 +305,12 @@ export default class NumberPairsScreenView extends ScreenView {
           tandem: options.tandem.createTandem( 'leftAddendLabelPlacementSwitch' )
         } );
       this.addChild( leftAddendLabelPlacementSwitch );
+
+      // The desired pdom order is that the control area starts with the leftAddendLabelPlacementSwitch, followed by the
+      // speechSynthesisControl, followed by the numberLineCheckboxGroup.
       this.controlNodes.push( leftAddendLabelPlacementSwitch );
+      this.controlNodes.push( speechSynthesisControl );
+      this.controlNodes.push( numberLineCheckboxGroup );
     }
 
     /**
@@ -331,12 +326,19 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );
       countingRepresentationsLayer.addChild( beadsOnWireNode );
-      this.countingAreaNodes.push( beadsOnWireNode );
+      this.representationNodes.push( beadsOnWireNode );
 
       beadsOnWireNode.center = COUNTING_AREA_BOUNDS.center;
     }
 
-    this.countingAreaNodes.push( countingAreaNode );
+    /**
+     * Add in the rest of the nodes as part of the control area
+     */
+    !model.representationTypeProperty.validValues?.includes( RepresentationType.NUMBER_LINE ) && this.controlNodes.push( speechSynthesisControl );
+    this.controlNodes.push( numberSentenceVBox );
+    this.controlNodes.push( options.numberBondContent );
+    options.equationContent && this.controlNodes.push( options.equationContent );
+    this.controlNodes.push( countingRepresentationRadioButtonGroup );
 
     // Position the counting representation radio buttons below the counting area.
     countingRepresentationRadioButtonGroup.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
@@ -347,24 +349,6 @@ export default class NumberPairsScreenView extends ScreenView {
    */
   public reset(): void {
     //TODO
-  }
-
-
-  /**
-   * Set the traversal order for the screen.
-   * @param totalInteractionNode
-   */
-  protected numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
-    this.pdomPlayAreaNode.setPDOMOrder( [
-      ...this.countingAreaNodes,
-      this.countingAreaButtonsVBox,
-      totalInteractionNode
-    ] );
-
-    this.pdomControlAreaNode.setPDOMOrder( [
-      ...this.controlNodes,
-      this.resetAllButton
-    ] );
   }
 }
 
