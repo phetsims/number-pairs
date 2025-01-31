@@ -273,6 +273,9 @@ export default class NumberPairsModel implements TModel {
 
   /**
    * Returns the grid coordinates that are available for a counting object to be placed in the counting area.
+   * This function will first retrieve all the grid coordinates according to the provided bounds, and then
+   * filter out the grid coordinates that are already occupied by counting objects.
+   * //TODO: make this more rigorous so that we filter out any positions inside the "drop zone" of the counting object.
    * @param countingObjects
    * @param addendBounds
    */

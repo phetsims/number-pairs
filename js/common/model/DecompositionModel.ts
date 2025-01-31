@@ -25,6 +25,8 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import BeadManager from './BeadManager.js';
 
+// The difference between the initial left addend value and the total value for each scene, which therefore determines
+// the initial right addend value.
 const INITIAL_VALUES_DIFFERENCE = 1;
 type SelfOptions = {
   initialTotalValue: number;
