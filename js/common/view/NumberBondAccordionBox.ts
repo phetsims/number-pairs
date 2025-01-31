@@ -19,6 +19,7 @@ import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import BarModelNode from './BarModelNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { NumberModelType } from './NumberModelTypeControl.js';
 
 type SelfOptions = {
   numberBondNodeOptions?: NumberBondNodeOptions;
@@ -43,11 +44,11 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     }, providedOptions );
 
     const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
-      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, 'numberBondModel' )
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, NumberModelType.NUMBER_BOND_MODEL )
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondNode( model, numberBondOptions );
     const barModelNode = new BarModelNode( model, {
-      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, 'barModel' )
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, NumberModelType.BAR_MODEL )
     } );
     const contentNode = new Node( {
       children: [ numberBondNode, barModelNode ],
