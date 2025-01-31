@@ -37,6 +37,24 @@ type StringsType = {
   'totalJumpStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseDescriptionStringProperty': LocalizedStringProperty;
+  'hearNumberSentenceStringProperty': LocalizedStringProperty;
+  'organizeObjectsStringProperty': LocalizedStringProperty;
+  'organizeObjectsHelpTextStringProperty': LocalizedStringProperty;
+  'swapAddendsStringProperty': LocalizedStringProperty;
+  'makesAreaVisibleStringProperty': LocalizedStringProperty;
+  'firstAddendNoJumpStringProperty': LocalizedStringProperty;
+  'firstAddendJumpStringProperty': LocalizedStringProperty;
+  'sceneSelectionRadioButtonGroupStringProperty': LocalizedStringProperty;
+  'applesStringProperty': LocalizedStringProperty;
+  'soccerBallsStringProperty': LocalizedStringProperty;
+  'butterfliesStringProperty': LocalizedStringProperty;
+  'oneCardsStringProperty': LocalizedStringProperty;
+  'kittensStringProperty': LocalizedStringProperty;
+  'beadsStringProperty': LocalizedStringProperty;
+  'numberLineStringProperty': LocalizedStringProperty;
+  'representationTypeStringProperty': LocalizedStringProperty;
+  'locationCountingObjectsStringProperty': LocalizedStringProperty;
+  'numberLineSliderStringProperty': LocalizedStringProperty;
 };
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;

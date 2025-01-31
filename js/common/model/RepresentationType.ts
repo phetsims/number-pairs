@@ -23,6 +23,8 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberLineIcon from '../view/NumberLineIcon.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import OneCard from '../view/OneCard.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 
 const ICON_MAX_WIDTH = 25;
@@ -32,6 +34,7 @@ export default class RepresentationType extends EnumerationValue {
 
   public static readonly APPLES = new RepresentationType(
     'apples',
+    NumberPairsStrings.applesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -39,6 +42,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly SOCCER_BALLS = new RepresentationType(
     'soccerBalls',
+    NumberPairsStrings.soccerBallsStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -46,6 +50,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BUTTERFLIES = new RepresentationType(
     'butterflies',
+    NumberPairsStrings.butterfliesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -53,6 +58,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly ONE_CARDS = new RepresentationType(
     'oneCards',
+    NumberPairsStrings.oneCardsStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -60,6 +66,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
+    NumberPairsStrings.kittensStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
@@ -67,6 +74,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
+    NumberPairsStrings.beadsStringProperty,
     NumberPairsColors.numberLineSumColorProperty,
     NumberPairsColors.numberLineLeftAddendColorProperty,
     NumberPairsColors.numberLineRightAddendColorProperty,
@@ -74,6 +82,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
+    NumberPairsStrings.numberLineStringProperty,
     NumberPairsColors.numberLineSumColorProperty,
     NumberPairsColors.numberLineLeftAddendColorProperty,
     NumberPairsColors.numberLineRightAddendColorProperty,
@@ -83,6 +92,7 @@ export default class RepresentationType extends EnumerationValue {
 
   public constructor(
     public readonly label: string,
+    public readonly accessibleName: TProperty<string>,
     public readonly totalColorProperty: Property<Color>,
     public readonly leftAddendColorProperty: Property<Color>,
     public readonly rightAddendColorProperty: Property<Color>,

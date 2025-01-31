@@ -19,6 +19,7 @@ import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js'
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
@@ -30,6 +31,7 @@ export default class ShowHideAddendButton extends RectangularPushButton {
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: ShowHideAddendButtonOptions ) {
 
     const initialOptions = optionize<ShowHideAddendButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
+      accessibleName: NumberPairsStrings.makesAreaVisibleStringProperty,
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, 40 ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE

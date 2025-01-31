@@ -38,6 +38,7 @@ import SpeechSynthesisControl from '../../../../number-suite-common/js/common/vi
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   numberSentenceContent: Node;
@@ -128,6 +129,9 @@ export default class NumberPairsScreenView extends ScreenView {
      * Create the buttons along the left edge of each screen
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
+      speechSynthesisButtonOptions: {
+        accessibleName: NumberPairsStrings.hearNumberSentenceStringProperty
+      },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: options.tandem.createTandem( 'speechSynthesisControl' )
@@ -151,6 +155,8 @@ export default class NumberPairsScreenView extends ScreenView {
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const tenFrameButton = new TenFrameButton( {
+      accessibleName: NumberPairsStrings.organizeObjectsStringProperty,
+      helpText: NumberPairsStrings.organizeObjectsHelpTextStringProperty,
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
         this.interruptSubtreeInput();
@@ -166,6 +172,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
+      accessibleName: NumberPairsStrings.swapAddendsStringProperty,
       listener: () => {
         this.interruptSubtreeInput();
         model.swapAddends.bind( model )();
@@ -300,6 +307,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineVisibleProperty,
+          valueAAccessibleName: NumberPairsStrings.firstAddendNoJumpStringProperty,
+          valueBAccessibleName: NumberPairsStrings.firstAddendJumpStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 )
           },

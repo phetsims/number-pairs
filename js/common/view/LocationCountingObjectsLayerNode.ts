@@ -22,6 +22,7 @@ import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -32,7 +33,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleName: 'Location Counting Objects'
+      accessibleName: NumberPairsStrings.locationCountingObjectsStringProperty
     }, providedOptions );
 
     super( options );

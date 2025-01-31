@@ -16,6 +16,7 @@ import { Text } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsScene from '../model/NumberPairsScene.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -26,6 +27,7 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
 
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
+      accessibleName: NumberPairsStrings.sceneSelectionRadioButtonGroupStringProperty,
       radioButtonOptions: {
         size: new Dimension2( 40, 40 )
       }

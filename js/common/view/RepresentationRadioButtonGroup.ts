@@ -16,6 +16,7 @@ import { Color, Node } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import RepresentationType, { ICON_MAX_HEIGHT } from '../model/RepresentationType.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type CountingRepresentationRadioButtonGroupOptions = SelfOptions & PickRequired<RectangularRadioButtonGroupOptions, 'tandem'> &
@@ -29,12 +30,16 @@ export default class RepresentationRadioButtonGroup extends RectangularRadioButt
       return {
         value: countingRepresentationType,
         createNode: () => new Node( { children: [ countingRepresentationType.icon ] } ),
-        tandemName: countingRepresentationType.label + 'RadioButton'
+        tandemName: countingRepresentationType.label + 'RadioButton',
+        options: {
+          accessibleName: countingRepresentationType.accessibleName
+        }
       };
     } ) || [];
 
     const buttonMargin = 3;
     const options = optionize<CountingRepresentationRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
+      accessibleName: NumberPairsStrings.representationTypeStringProperty,
       orientation: 'horizontal',
       radioButtonOptions: {
         baseColor: Color.WHITE,

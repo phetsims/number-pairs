@@ -22,6 +22,7 @@ import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberLineSlider from './NumberLineSlider.js';
 import NumberRectangle from './NumberRectangle.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   numberLineRange: Range;
@@ -56,6 +57,7 @@ export default class NumberLineNode extends Node {
       trackModelViewTransform,
       model.showTickValuesProperty,
       {
+        accessibleName: NumberPairsStrings.numberLineSliderStringProperty,
         numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
         tandem: options.tandem.createTandem( 'slider' )
