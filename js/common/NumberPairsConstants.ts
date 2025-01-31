@@ -13,9 +13,9 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPairs from '../numberPairs.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
-import Property from '../../../axon/js/Property.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import StringIO from '../../../tandem/js/types/StringIO.js';
+import { NumberModelType } from './view/NumberModelTypeControl.js';
+import EnumerationProperty from '../../../axon/js/EnumerationProperty.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );
@@ -63,11 +63,9 @@ const NumberPairsConstants = {
   KITTEN_PANEL_HEIGHT: 82,
   KITTEN_PANEL_MARGIN: 3,
 
-  NUMBER_MODEL_TYPE_PROPERTY: new Property( 'numberBondModel', {
+  NUMBER_MODEL_TYPE_PROPERTY: new EnumerationProperty( NumberModelType.NUMBER_BOND_MODEL, {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
-    phetioFeatured: true,
-    phetioValueType: StringIO,
-    validValues: [ 'numberBondModel', 'barModel' ]
+    phetioFeatured: true
   } ),
 
   // URL to the {REPO}_all.html file for this simulation.
