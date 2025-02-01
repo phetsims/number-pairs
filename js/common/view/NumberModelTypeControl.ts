@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 /**
  * NumberModelTypeControl is a radio button group that allows the user to select the type of number model.
  *

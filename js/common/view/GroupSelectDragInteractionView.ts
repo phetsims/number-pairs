@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * GroupSelectDragInteractionView is a GroupSelectView that listens to keyboard events to move the selected group item

@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 /**
  * RepresentationRadioButtonGroup is a group of radio buttons that allow users to select between
  * different counting representations. Each representation allows the user to think about the number pairs in a

@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 /**
  * The RepresentationType Enumeration defines the types of representations that users can interact with
  * in the Counting Area. Each representation type has a unique set of colors and icons.
