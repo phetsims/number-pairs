@@ -19,9 +19,9 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import { Node } from '../../../../scenery/js/imports.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import numberPairs from '../../numberPairs.js';
-import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import ThumbNode from './ThumbNode.js';
+import NumberLineNode from './NumberLineNode.js';
 
 type SelfOptions = {
   numberLineWidth: number;
@@ -62,7 +62,7 @@ export default class NumberLineSlider extends HSlider {
     const options = optionize<NumberLineSliderOptions, SelfOptions, HSliderOptions>()( {
       thumbNode: thumbNode,
       trackNode: trackNode,
-      thumbYOffset: thumbNode.height / 2 - NUMBER_LINE_POINT_RADIUS,
+      thumbYOffset: thumbNode.height / 2 - NumberLineNode.POINT_RADIUS,
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       enabledRangeProperty: enabledRangeProperty,
       keyboardStep: 1,

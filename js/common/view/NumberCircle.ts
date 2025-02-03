@@ -17,8 +17,9 @@ import numberPairs from '../../numberPairs.js';
 
 type NumberCircleOptions = StrictOmit<CircleOptions, 'children' | 'radius'>;
 
-export const CIRCLE_RADIUS = 30;
+const RADIUS = 30;
 export default class NumberCircle extends Circle {
+  public static readonly RADIUS = RADIUS;
   public constructor(
     numberProperty: TReadOnlyProperty<number>,
     numberVisibleProperty: TReadOnlyProperty<boolean>,
@@ -28,7 +29,7 @@ export default class NumberCircle extends Circle {
       stroke: 'black',
       excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
-    super( CIRCLE_RADIUS, options );
+    super( RADIUS, options );
 
     const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
     const numberText = new Text( numberStringProperty, {

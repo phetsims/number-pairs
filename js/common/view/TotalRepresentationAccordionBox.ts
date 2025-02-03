@@ -16,11 +16,14 @@ import NumberPairsColors from '../NumberPairsColors.js';
 
 export type TotalRepresentationAccordionBoxOptions = WithRequired<AccordionBoxOptions, 'titleNode' | 'tandem'>;
 
-export const EXPAND_COLLAPSE_SIDE_LENGTH = 20;
-export const CONTENT_X_MARGIN = 10;
-export const BUTTON_X_MARGIN = 8;
+const EXPAND_COLLAPSE_SIDE_LENGTH = 20;
+const CONTENT_X_MARGIN = 10;
+const BUTTON_X_MARGIN = 8;
 
 export default class TotalRepresentationAccordionBox extends AccordionBox {
+  public static readonly EXPAND_COLLAPSE_SIDE_LENGTH = EXPAND_COLLAPSE_SIDE_LENGTH;
+  public static readonly CONTENT_X_MARGIN = CONTENT_X_MARGIN;
+  public static readonly BUTTON_X_MARGIN = BUTTON_X_MARGIN;
 
   protected constructor( contentNode: Node, providedOptions: TotalRepresentationAccordionBoxOptions ) {
     const options = optionize<TotalRepresentationAccordionBoxOptions, EmptySelfOptions, AccordionBoxOptions>()( {
@@ -38,7 +41,7 @@ export default class TotalRepresentationAccordionBox extends AccordionBox {
         sideLength: EXPAND_COLLAPSE_SIDE_LENGTH
       }
     }, providedOptions );
-   super( contentNode, options );
+    super( contentNode, options );
   }
 }
 

@@ -29,12 +29,14 @@ type SelfOptions = {
 };
 type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
-export const NUMBER_LINE_POINT_RADIUS = 8;
+const NUMBER_LINE_POINT_RADIUS = 8;
 const LABEL_DIMENSION = 28;
 const LABEL_MARGIN = 5; // distance between the label and the arrow
 
 
 export default class NumberLineNode extends Node {
+  public static readonly POINT_RADIUS = NUMBER_LINE_POINT_RADIUS;
+
   public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
     const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
@@ -173,7 +175,7 @@ export default class NumberLineNode extends Node {
     // otherwise place the label above the arrow.
     ManualConstraint.create( this, [ rightAddendArrow, rightAddendLabel ], ( arrowProxy, labelProxy ) => {
       if ( rightAddendArrow.pointsToItself ) {
-      labelProxy.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), arrowProxy.top - LABEL_MARGIN );
+        labelProxy.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), arrowProxy.top - LABEL_MARGIN );
       }
       else {
         labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -LABEL_MARGIN );

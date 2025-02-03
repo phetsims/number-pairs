@@ -36,13 +36,12 @@ type SelfOptions = {
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
-export const COUNTING_AREA_LINE_WIDTH = 1.5;
+const COUNTING_AREA_LINE_WIDTH = 1.5;
 const COUNTING_AREA_MARGIN = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
 const DROP_ZONE_MARGIN = NumberPairsConstants.KITTEN_PANEL_WIDTH / 1.75;
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 
 export default class CountingAreaNode extends Node {
-
   public constructor(
     leftAddendVisibleProperty: BooleanProperty,
     rightAddendVisibleProperty: BooleanProperty,

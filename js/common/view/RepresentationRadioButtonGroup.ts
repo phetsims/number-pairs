@@ -15,7 +15,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { Color, Node } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import RepresentationType, { ICON_MAX_HEIGHT } from '../model/RepresentationType.js';
+import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -45,8 +45,8 @@ export default class RepresentationRadioButtonGroup extends RectangularRadioButt
         baseColor: Color.WHITE,
         xMargin: buttonMargin,
         yMargin: buttonMargin,
-        minWidth: ICON_MAX_HEIGHT + 2 * buttonMargin, // the buttons should be square, and the ICON_MAX_HEIGHT is larger than the ICON_MAX_WIDTH
-        minHeight: ICON_MAX_HEIGHT + 2 * buttonMargin
+        minWidth: RepresentationType.ICON_MAX_HEIGHT + 2 * buttonMargin, // the buttons should be square, and the ICON_MAX_HEIGHT is larger than the ICON_MAX_WIDTH
+        minHeight: RepresentationType.ICON_MAX_HEIGHT + 2 * buttonMargin
       }
     }, providedOptions );
     super( countingRepresentationTypeProperty, groupItems, options );

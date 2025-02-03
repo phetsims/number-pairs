@@ -34,8 +34,8 @@ type SelfOptions = {
 };
 type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
-export const IMAGE_WIDTH = 40;
-export const ONE_CARD_HEIGHT = 55;
+const IMAGE_WIDTH = 40;
+const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public constructor(

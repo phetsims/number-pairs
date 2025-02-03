@@ -28,10 +28,10 @@ import TProperty from '../../../../axon/js/TProperty.js';
 
 
 const ICON_MAX_WIDTH = 25;
-export const ICON_MAX_HEIGHT = 32;
+const ICON_MAX_HEIGHT = 32;
 
 export default class RepresentationType extends EnumerationValue {
-
+  public static readonly ICON_MAX_HEIGHT = ICON_MAX_HEIGHT;
   public static readonly APPLES = new RepresentationType(
     'apples',
     NumberPairsStrings.applesStringProperty,

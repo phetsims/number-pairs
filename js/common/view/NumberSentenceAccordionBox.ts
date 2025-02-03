@@ -18,7 +18,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import TotalRepresentationAccordionBox, { BUTTON_X_MARGIN, CONTENT_X_MARGIN, EXPAND_COLLAPSE_SIDE_LENGTH, TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import numberPairsPreferences from '../model/NumberPairsPreferences.js';
@@ -60,13 +60,12 @@ type SelfOptions = {
 type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
 const LINE_WRAP = 240;
-
-// We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
-// width should stay the same. In order to do this we must define and control all options that contribute
-// to the width of the accordion box.
-export const ACCORDION_BOX_WIDTH = LINE_WRAP + 2 * CONTENT_X_MARGIN + EXPAND_COLLAPSE_SIDE_LENGTH + BUTTON_X_MARGIN;
-
 export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
+
+  // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
+  // width should stay the same. In order to do this we must define and control all options that contribute
+  // to the width of the accordion box.
+  public static readonly MIN_WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
 
@@ -74,7 +73,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       contentXMargin: 20,
       contentYMargin: 20,
       contentAlign: 'left',
-      minWidth: ACCORDION_BOX_WIDTH,
+      minWidth: NumberSentenceAccordionBox.MIN_WIDTH,
       expandedDefaultValue: false
     }, providedOptions );
 
@@ -136,11 +135,11 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     } );
     const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberSentenceStringProperty ],
       ( secondLocaleStrings, numberSentenceString ) => {
-      const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+        const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
 
-      // If the secondLocaleString is not defined, default to the primary locale string.
-      return secondLocaleString ? secondLocaleString : numberSentenceString;
-    } );
+        // If the secondLocaleString is not defined, default to the primary locale string.
+        return secondLocaleString ? secondLocaleString : numberSentenceString;
+      } );
     const secondaryLocalePatternStringProperty = new PatternStringProperty( secondaryLocaleStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
@@ -213,11 +212,11 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     } );
     const secondaryLocaleSpeechStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberPhraseSpeechStringProperty ],
       ( secondLocaleStrings, numberPhraseSpeechString ) => {
-      const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+        const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
 
-      // If the secondLocaleString is not defined, default to the primary locale string.
-      return secondLocaleString ? secondLocaleString : numberPhraseSpeechString;
-    } );
+        // If the secondLocaleString is not defined, default to the primary locale string.
+        return secondLocaleString ? secondLocaleString : numberPhraseSpeechString;
+      } );
     const secondaryLocaleSpeechPatternStringProperty = new PatternStringProperty( secondaryLocaleSpeechStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
@@ -225,8 +224,8 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     } );
     Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty ],
       ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern ) => {
-      options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
-    } );
+        options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+      } );
 
     /**
      * Update the highlight colors as the counting representation changes.

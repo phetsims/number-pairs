@@ -12,15 +12,15 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import NumberCircle, { CIRCLE_RADIUS } from './NumberCircle.js';
+import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
   totalOnTop?: boolean;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
-const HORIZONTAL_OFFSET = 1.4 * CIRCLE_RADIUS;
-const VERTICAL_OFFSET = 2.25 * CIRCLE_RADIUS;
+const HORIZONTAL_OFFSET = 1.4 * NumberCircle.RADIUS;
+const VERTICAL_OFFSET = 2.25 * NumberCircle.RADIUS;
 const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export default class NumberBondNode extends Node {

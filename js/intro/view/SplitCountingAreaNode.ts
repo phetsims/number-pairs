@@ -18,7 +18,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Line, Node, NodeOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { COUNTING_AREA_LINE_WIDTH } from '../../common/view/CountingAreaNode.js';
 import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import numberPairs from '../../numberPairs.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
@@ -42,7 +41,7 @@ export default class SplitCountingAreaNode extends Node {
     const leftBounds = splitBounds[ 0 ];
     const rightBounds = splitBounds[ 1 ];
     const leftCountingAreaShape = Shape.roundedRectangleWithRadii(
-      leftBounds.minX - COUNTING_AREA_LINE_WIDTH / 2,
+      leftBounds.minX - NumberPairsConstants.COUNTING_AREA_LINE_WIDTH / 2,
       leftBounds.minY,
       leftBounds.width,
       leftBounds.height, {
@@ -53,7 +52,7 @@ export default class SplitCountingAreaNode extends Node {
       fill: LEFT_ADDEND_COLOR_PROPERTY
     } );
     const rightCountingAreaShape = Shape.roundedRectangleWithRadii(
-      rightBounds.minX - COUNTING_AREA_LINE_WIDTH / 2,
+      rightBounds.minX - NumberPairsConstants.COUNTING_AREA_LINE_WIDTH / 2,
       rightBounds.minY,
       rightBounds.width,
       rightBounds.height, {
@@ -64,12 +63,12 @@ export default class SplitCountingAreaNode extends Node {
       fill: RIGHT_ADDEND_COLOR_PROPERTY
     } );
     const locationSeparator = new Line(
-      countingAreaBounds.centerX - COUNTING_AREA_LINE_WIDTH / 2,
+      countingAreaBounds.centerX - NumberPairsConstants.COUNTING_AREA_LINE_WIDTH / 2,
       countingAreaBounds.minY,
-      countingAreaBounds.centerX - COUNTING_AREA_LINE_WIDTH / 2,
+      countingAreaBounds.centerX - NumberPairsConstants.COUNTING_AREA_LINE_WIDTH / 2,
       countingAreaBounds.maxY, {
         stroke: 'black',
-        lineWidth: COUNTING_AREA_LINE_WIDTH,
+        lineWidth: NumberPairsConstants.COUNTING_AREA_LINE_WIDTH,
         lineDash: [ 14, 10 ]
       } );
     const countingAreaOutline = new Rectangle( countingAreaBounds, {

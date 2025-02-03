@@ -17,7 +17,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Node, NodeOptions, NodeTransformOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
-import { NUMBER_LINE_POINT_RADIUS } from './NumberLineNode.js';
+import NumberLineNode from './NumberLineNode.js';
 
 type SelfOptions = {
   fill: TColor;
@@ -56,7 +56,7 @@ export default class CurvedArrowNode extends Node {
       belowNumberLine: false,
       curveYRadius: 55,
       arrowTailLineWidth: ARROW_TAIL_LINE_WIDTH,
-      pointRadius: NUMBER_LINE_POINT_RADIUS,
+      pointRadius: NumberLineNode.POINT_RADIUS,
       arrowHeadHeight: ARROW_HEAD_HEIGHT,
       arrowHeadBaseWidth: ARROW_HEAD_BASE_WIDTH
     }, providedOptions );
@@ -178,8 +178,8 @@ export default class CurvedArrowNode extends Node {
     if ( pointsToItself ) {
       const cubicYDirection = this.antiClockwise ? -1 : 1;
       const cubicHeight = this.ellipseYRadius * cubicYDirection;
-      const controlPoint1 = new Vector2( curveCenter.x - NUMBER_LINE_POINT_RADIUS * 2, curveCenter.y - cubicHeight );
-      const controlPoint2 = new Vector2( curveCenter.x + NUMBER_LINE_POINT_RADIUS * 2, curveCenter.y - cubicHeight );
+      const controlPoint1 = new Vector2( curveCenter.x - NumberLineNode.POINT_RADIUS * 2, curveCenter.y - cubicHeight );
+      const controlPoint2 = new Vector2( curveCenter.x + NumberLineNode.POINT_RADIUS * 2, curveCenter.y - cubicHeight );
       tailShape = new Shape().moveToPoint( curveCenter ).cubicCurveToPoint( controlPoint1, controlPoint2, curveEndPoint );
     }
     else {

@@ -15,10 +15,10 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import { ACCORDION_BOX_WIDTH } from './NumberSentenceAccordionBox.js';
 import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import NumberSentenceAccordionBox from './NumberSentenceAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -40,7 +40,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       addendsOnRight: true,
       titleNode: titleNode,
       contentYMargin: 18,
-      minWidth: ACCORDION_BOX_WIDTH,
+      minWidth: NumberSentenceAccordionBox.MIN_WIDTH, // Match the minWidth of the NumberSentenceAccordionBox
       expandedDefaultValue: false
     }, providedOptions );
 
