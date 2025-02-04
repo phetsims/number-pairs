@@ -163,7 +163,16 @@ export default class BeadsOnWireNode extends Node {
         return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
       },
       handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
-        // TODO: Implement bead behavior
+        const separatorXPosition = this.beadSeparatorCenterXProperty.value;
+        const currentBeadXPosition = groupItem.beadXPositionProperty.value!;
+        assert && assert( currentBeadXPosition !== null, 'Expected the bead to have a valid position' );
+
+        if ( keysPressed.includes( 'home' ) && currentBeadXPosition > separatorXPosition ) {
+          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
+        }
+        else if ( keysPressed.includes( 'end' ) && currentBeadXPosition < separatorXPosition ) {
+          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition + BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
+        }
       },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
