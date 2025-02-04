@@ -15,7 +15,7 @@ import './common/NumberPairsQueryParameters.js';
 import SumScreen from './sum/SumScreen.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
-import { Display } from '../../scenery/js/imports.js';
+import { DisplayGlobals } from '../../scenery/js/imports.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
@@ -57,7 +57,7 @@ simLauncher.launch( () => {
 
   // Initialize the speech synthesis feature. This was adapted from number-play-main.ts.
   if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
-    numberPairsSpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, {
+    numberPairsSpeechSynthesisAnnouncer.initialize( DisplayGlobals.userGestureEmitter, {
 
       // Properties that control whether output is allowed with speech synthesis.
       speechAllowedProperty: new DerivedProperty(
