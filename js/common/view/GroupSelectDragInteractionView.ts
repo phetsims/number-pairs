@@ -34,6 +34,9 @@ type AvailablePressedKeys = typeof KEYBOARD_INTERACTION_KEYS[number];
 type SelfOptions = {
   soundKeyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
   getNextSelectedGroupItemFromPressedKeys: ( keysPressed: AvailablePressedKeys, groupItem: CountingObject ) => CountingObject;
+
+  // We use home and end keys to facilitate movement of the selected group item during drag
+  handleHomeEndKeysDuringDrag: ( keysPressed: AvailablePressedKeys, groupItem: CountingObject ) => void;
 };
 type GroupSelectDragInteractionViewOptions = SelfOptions &
   StrictOmit<GroupSelectViewOptions<CountingObject, LocationCountingObjectNode>, 'getNodeFromModelItem'> &
@@ -62,8 +65,8 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     }, options.soundKeyboardDragListenerOptions );
     const keyboardDragListener = new SoundKeyboardDragListener( keyboardListenerOptions );
 
-    const keyboardListener = new KeyboardListener( {
-      fireOnHold: true,
+    const selectItemKeyboardListener = new KeyboardListener( {
+      fireOnHold: false,
       keys: KEYBOARD_INTERACTION_KEYS,
       enabledProperty: DerivedProperty.not( groupSelectModel.isGroupItemKeyboardGrabbedProperty ),
       fire: ( event, keysPressed ) => {
@@ -76,8 +79,17 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
       }
     } );
 
-    primaryFocusedNode.addInputListener( keyboardListener );
+    const homeEndKeyboardListener = new KeyboardListener( { keys: [ 'home', 'end' ],
+      enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
+      fire: ( event, keysPressed ) => {
+        const groupItem = groupSelectModel.selectedGroupItemProperty.value;
+        assert && assert( groupItem !== null, 'selectedGroupItem should not be null' );
+        options.handleHomeEndKeysDuringDrag( keysPressed, groupItem! );
+      } } );
+
+    primaryFocusedNode.addInputListener( selectItemKeyboardListener );
     primaryFocusedNode.addInputListener( keyboardDragListener );
+    primaryFocusedNode.addInputListener( homeEndKeyboardListener );
   }
 }
 

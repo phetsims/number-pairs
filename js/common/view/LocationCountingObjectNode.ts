@@ -38,6 +38,7 @@ const IMAGE_WIDTH = 40;
 const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
+  public static readonly WIDTH = IMAGE_WIDTH;
   public constructor(
     countingObject: CountingObject,
     dragBounds: Bounds2,

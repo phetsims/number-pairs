@@ -162,6 +162,9 @@ export default class BeadsOnWireNode extends Node {
         const selectedGroupItemIndex = Utils.clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
         return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
       },
+      handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
+        // TODO: Implement bead behavior
+      },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
 
