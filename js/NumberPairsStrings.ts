@@ -35,6 +35,7 @@ type StringsType = {
   'addendsStringProperty': LocalizedStringProperty;
   'tickNumbersStringProperty': LocalizedStringProperty;
   'totalJumpStringProperty': LocalizedStringProperty;
+  'totalStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseDescriptionStringProperty': LocalizedStringProperty;
   'hearNumberSentenceStringProperty': LocalizedStringProperty;

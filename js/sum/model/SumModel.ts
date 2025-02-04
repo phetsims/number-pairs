@@ -50,6 +50,7 @@ export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+      totalInitiallyVisible: false,
       initialRepresentationType: RepresentationType.BEADS,
       numberOfCountingObjects: SCENE_RANGE.max
     }, providedOptions );

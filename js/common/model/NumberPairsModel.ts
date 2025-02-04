@@ -34,6 +34,7 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import Tandem from '../../../../tandem/js/Tandem.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import BeadManager from './BeadManager.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -44,6 +45,7 @@ type SelfOptions = {
   initialRepresentationType: RepresentationType;
   representationTypeValidValues: RepresentationType[];
   numberOfCountingObjects: number;
+  totalInitiallyVisible?: boolean;
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -101,7 +103,9 @@ export default class NumberPairsModel implements TModel {
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
-    const options = providedOptions;
+    const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {
+      totalInitiallyVisible: true
+    }, providedOptions );
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
       tandem: options.tandem.createTandem( 'representationTypeProperty' ),
@@ -124,8 +128,9 @@ export default class NumberPairsModel implements TModel {
     this.rightAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'rightAddendVisibleProperty' )
     } );
-    this.totalVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'totalVisibleProperty' )
+    this.totalVisibleProperty = new BooleanProperty( options.totalInitiallyVisible, {
+      tandem: options.tandem.createTandem( 'totalVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.showNumberLineAddendValuesProperty = new BooleanProperty( true, {

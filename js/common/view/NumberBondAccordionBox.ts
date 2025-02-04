@@ -30,9 +30,7 @@ type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentatio
 export default class NumberBondAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
-    const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, {
-      font: NumberPairsConstants.TITLE_FONT
-    } );
+    const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
       titleNode: titleNode,

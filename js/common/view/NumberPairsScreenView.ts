@@ -284,6 +284,8 @@ export default class NumberPairsScreenView extends ScreenView {
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
       const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, COUNTING_AREA_BOUNDS, {
+        bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
+        right: COUNTING_AREA_BOUNDS.right,
         visibleProperty: numberLineVisibleProperty,
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );

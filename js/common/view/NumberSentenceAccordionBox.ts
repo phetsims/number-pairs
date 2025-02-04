@@ -240,9 +240,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       rightAddendHighlight.fill = color;
     } );
 
-    options.titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, {
-      font: NumberPairsConstants.TITLE_FONT
-    } );
+    options.titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
 
     super( richText, options );
   }

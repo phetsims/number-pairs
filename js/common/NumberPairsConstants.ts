@@ -29,7 +29,10 @@ const NumberPairsConstants = {
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
 
-  TITLE_FONT: new PhetFont( 16 ),
+  ACCORDION_BOX_TITLE_OPTIONS: {
+    font: new PhetFont( 16 ),
+    maxWidth: 200
+  },
 
   // Initial values:
   INTRO_INITIAL_SUM_VALUE: 3,
@@ -50,6 +53,7 @@ const NumberPairsConstants = {
   RIGHT_COUNTING_AREA_BOUNDS: COUNTING_AREA_BOUNDS.withOffsets( -COUNTING_AREA_BOUNDS.width / 2, 0, 0, 0 ),
   COUNTING_AREA_Y_MARGIN: 15,
   COUNTING_AREA_INNER_MARGIN: 5,
+  COUNTING_AREA_CHECKBOX_MARGIN: 8,
 
   // Ranges:
   TEN_TOTAL_RANGE: TEN_TOTAL_RANGE,
@@ -60,6 +64,10 @@ const NumberPairsConstants = {
   RECTANGULAR_PUSH_BUTTON_OPTIONS: {
     size: new Dimension2( 50, 50 ),
     baseColor: PhetColorScheme.BUTTON_YELLOW
+  },
+  CHECKBOX_LABEL_OPTIONS: {
+    font: new PhetFont( 16 ),
+    maxWidth: 130
   },
 
   // Bead specific values:

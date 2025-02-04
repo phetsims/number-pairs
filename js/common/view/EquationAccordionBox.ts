@@ -33,9 +33,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
 
   public constructor( model: NumberPairsModel, providedOptions: EquationAccordionBoxOptions ) {
 
-    const titleNode = new Text( NumberPairsStrings.equationStringProperty, {
-      font: NumberPairsConstants.TITLE_FONT
-    } );
+    const titleNode = new Text( NumberPairsStrings.equationStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
     const options = optionize<EquationAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       addendsOnRight: true,
       titleNode: titleNode,

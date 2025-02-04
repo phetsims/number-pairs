@@ -9,7 +9,7 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node, VBox, Text } from '../../../../scenery/js/imports.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
@@ -20,6 +20,7 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -29,6 +30,9 @@ type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOption
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 
 export default class SumScreenView extends NumberPairsScreenView {
+
+  // For pdom order setting.
+  private readonly totalCheckbox: Node;
 
   public constructor( model: SumModel, providedOptions: SumScreenViewOptions ) {
 
@@ -58,6 +62,14 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     super( model, options );
 
+    const horizontalCheckboxSpacing = 35;
+    this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
+      new Text( NumberPairsStrings.totalStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ), {
+      bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
+      left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
+      tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
+    } );
+    this.addChild( this.totalCheckbox );
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.leftAddendCountingObjectsProperty.value,
@@ -106,6 +118,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     ] );
 
     this.pdomControlAreaNode.setPDOMOrder( [
+      this.totalCheckbox,
       ...this.controlNodes,
       this.resetAllButton
     ] );
