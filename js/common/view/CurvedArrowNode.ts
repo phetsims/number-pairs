@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * Creates an arrow node with a curved tail. The arc of the tail can be adjusted so that the arrow

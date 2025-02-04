@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * This is a base class for accordion boxes that contain a representation of a total decomposed into two addends.
