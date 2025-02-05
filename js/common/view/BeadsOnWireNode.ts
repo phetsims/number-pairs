@@ -376,8 +376,10 @@ export default class BeadsOnWireNode extends Node {
     } );
 
     // Update the proposed bead position if it does not match the grabbed bead's position.
-    this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
-    this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
+    if ( this.model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value ) {
+      this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
+      this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
+    }
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
