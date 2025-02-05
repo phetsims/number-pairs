@@ -375,6 +375,7 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
+    // Update the proposed bead position if it does not match the grabbed bead's position.
     this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
     this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
 
@@ -398,6 +399,9 @@ export default class BeadsOnWireNode extends Node {
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
         }
+
+        // If the bead is moving to the right, check if the proposed position plus the number of beads to move will go
+        // past the bead that is being considered. If it does, add the bead to the list of beads to move.
         const newPositionPastBead = movingRight ?
                                     proposedXPosition + proposedBeadsToMove.length * BEAD_WIDTH >= beadNode.centerX :
                                     proposedXPosition - proposedBeadsToMove.length * BEAD_WIDTH <= beadNode.centerX;
