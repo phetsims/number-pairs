@@ -58,8 +58,6 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     super( groupSelectModel, primaryFocusedNode, options );
 
     const keyboardListenerOptions = combineOptions<SoundKeyboardDragListenerOptions>( {
-      dragSpeed: 180,
-      shiftDragSpeed: 90,
       enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     }, options.soundKeyboardDragListenerOptions );

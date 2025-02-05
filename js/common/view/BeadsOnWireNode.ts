@@ -266,30 +266,11 @@ export default class BeadsOnWireNode extends Node {
 
     // Reverse the sorted and active beads if we are dragging towards the left.
     const activeBeadNodes = this.getSortedBeadNodes();
-    const sortedBeadNode = draggingRight ? activeBeadNodes : activeBeadNodes.reverse();
+    const sortedBeadNodes = draggingRight ? activeBeadNodes : activeBeadNodes.reverse();
 
     // Now that the beads are sorted in the proper direction we can determine which beads need to be moved based
     // on the index of the grabbed beads and their proximity to each other.
-    const grabbedBeadIndex = sortedBeadNode.indexOf( grabbedBeadNode );
-
-    // Find the beads that are touching the grabbed bead and have the same addend type. Any beads that are touching the
-    // grabbed bead should move with it. If a space is found between beads, stop moving beads in that direction.
-    let beadSpaceFound = false;
-    const slicedBeadNodes = sortedBeadNode.slice( grabbedBeadIndex, sortedBeadNode.length + 1 );
-    const beadNodesToMove = slicedBeadNodes.filter(
-      ( beadNode, i ) => {
-        const addendMatch: boolean = beadNode.countingObject.addendTypeProperty.value === grabbedBeadNode.countingObject.addendTypeProperty.value;
-        const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
-        if ( !touchingPreviousBead ) {
-          beadSpaceFound = true;
-        }
-        const newPositionPastBead = draggingRight ? proposedParentPosition.x >= beadNode.centerX : proposedParentPosition.x <= beadNode.centerX;
-
-        // We want to only return beads that are the same addend type as the grabbed bead, and are touching the
-        // grabbed bead without space in between, OR the grabbed bead is proposing to move past a bead no matter
-        // what it's addend type is.
-        return ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead;
-      } );
+    const beadNodesToMove = this.getBeadsToMove( grabbedBeadNode, proposedParentPosition.x, draggingRight, sortedBeadNodes );
 
     /**
      * Calculate the distance the grabbed bead has moved and constrain the movement so that it does not exit
@@ -297,8 +278,8 @@ export default class BeadsOnWireNode extends Node {
      *
      * We should only adjust the bounds in the direction the bead is being dragged.
      */
-    const minXOffset = draggingRight ? 0 : -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH;
-    const maxXOffset = draggingRight ? -( slicedBeadNodes.length - 1 ) * BEAD_WIDTH : 0;
+    const minXOffset = draggingRight ? 0 : -( beadNodesToMove.length - 1 ) * BEAD_WIDTH;
+    const maxXOffset = draggingRight ? -( beadNodesToMove.length - 1 ) * BEAD_WIDTH : 0;
     const dragBoundsWithMovingBeads = this.beadDragBounds.withOffsets( minXOffset, 0, maxXOffset, 0 );
 
     // Constrain the new position to the drag bounds and set the grabbed bead's updated position.
@@ -342,9 +323,12 @@ export default class BeadsOnWireNode extends Node {
           this.leftAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
           beadNode.countingObject.traverseInactiveObjects = true;
 
-          // Immediately move the beads past the separator
-          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+          // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
+          const xPosition = this.modelViewTransform.viewToModelX(
             Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
+          this.getBeadsToMove( beadNode, xPosition, true, sortedBeadNodes ).forEach( ( beadNode, i ) => {
+            beadNode.countingObject.beadXPositionProperty.value = xPosition + i;
+          } );
         }
       }
       else if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ||
@@ -364,9 +348,12 @@ export default class BeadsOnWireNode extends Node {
           this.leftAddendCountingObjectsProperty.value.add( beadNode.countingObject );
           beadNode.countingObject.traverseInactiveObjects = true;
 
-          // Immediately move the beads past the separator
-          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+          // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
+          const xPosition = this.modelViewTransform.viewToModelX(
             Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
+          this.getBeadsToMove( beadNode, xPosition, false, sortedBeadNodes ).forEach( ( beadNode, i ) => {
+            beadNode.countingObject.beadXPositionProperty.value = xPosition - i;
+          } );
         }
       }
     } );
@@ -386,6 +373,30 @@ export default class BeadsOnWireNode extends Node {
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
+  }
+
+  private getBeadsToMove( startingBeadNode: BeadNode, proposedXPosition: number, movingRight: boolean, sortedBeadNodes: BeadNode[] ): BeadNode[] {
+    const grabbedBeadIndex = sortedBeadNodes.indexOf( startingBeadNode );
+    const slicedBeadNodes = sortedBeadNodes.slice( grabbedBeadIndex, sortedBeadNodes.length + 1 );
+
+    // Find the beads that are touching the affected and have the same addend type. Any beads that are touching the
+    // grabbed bead should move with it. If a space is found between beads, stop moving beads in that direction.
+    let beadSpaceFound = false;
+
+    return slicedBeadNodes.filter(
+      ( beadNode, i ) => {
+        const addendMatch: boolean = beadNode.countingObject.addendTypeProperty.value === startingBeadNode.countingObject.addendTypeProperty.value;
+        const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
+        if ( !touchingPreviousBead ) {
+          beadSpaceFound = true;
+        }
+        const newPositionPastBead = movingRight ? proposedXPosition >= beadNode.centerX : proposedXPosition <= beadNode.centerX;
+
+        // We want to only return beads that are the same addend type as the grabbed bead, and are touching the
+        // grabbed bead without space in between, OR the grabbed bead is proposing to move past a bead no matter
+        // what it's addend type is.
+        return ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead;
+      } );
   }
 
   /**
