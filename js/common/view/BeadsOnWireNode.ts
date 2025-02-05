@@ -58,6 +58,7 @@ export default class BeadsOnWireNode extends Node {
   private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
   private beadDragging = false;
+  private readonly keyboardProposedBeadPositionProperty: Vector2Property;
 
   public constructor(
     private readonly model: NumberPairsModel,
@@ -107,14 +108,16 @@ export default class BeadsOnWireNode extends Node {
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 
     // The proposed bead position when dragging with the keyboard, in model coordinates.
-    const keyboardProposedBeadPositionProperty = new Vector2Property( new Vector2( 0, 0 ) );
+    this.keyboardProposedBeadPositionProperty = new Vector2Property( new Vector2( 0, 0 ), {
+      reentrant: true // We need to be able to set this Property in handleBeadMove if it is not matching the bead's position.
+    } );
 
     // GroupSelectView is used to handle keyboard interactions for selecting and dragging beads. When the selection
     // changes, update keyboardProposedBeadPositionProperty to the selected bead's current position.
     const groupSelectModel = model.groupSelectBeadsModel;
     groupSelectModel.selectedGroupItemProperty.link( countingObject => {
       if ( countingObject ) {
-        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
+        this.keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
       }
     } );
     groupSelectModel.isGroupItemKeyboardGrabbedProperty.lazyLink( ( isGrabbed, wasGrabbed ) => {
@@ -125,7 +128,7 @@ export default class BeadsOnWireNode extends Node {
 
     // When the proposed bead position is being changed by dragging with the keyboard, handle that proposed position
     // using a process similar to mouse/touch dragging - that is, via handleBeadMove.
-    keyboardProposedBeadPositionProperty.lazyLink( proposedBeadPosition => {
+    this.keyboardProposedBeadPositionProperty.lazyLink( proposedBeadPosition => {
       const countingObject = groupSelectModel.selectedGroupItemProperty.value!;
       assert && assert( countingObject, 'Expected to have a countingObject when dragging with keyboard.' );
       const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject )!;
@@ -142,7 +145,7 @@ export default class BeadsOnWireNode extends Node {
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         keyboardDragDirection: 'leftRight',
-        positionProperty: keyboardProposedBeadPositionProperty,
+        positionProperty: this.keyboardProposedBeadPositionProperty,
         transform: modelViewTransform
       },
       getGroupItemToSelect: () => {
@@ -164,10 +167,10 @@ export default class BeadsOnWireNode extends Node {
         const separatorXPosition = this.beadSeparatorCenterXProperty.value;
         const currentBeadXPosition = groupItem.beadXPositionProperty.value;
 
-        if ( keysPressed.includes( 'home' ) && currentBeadXPosition > separatorXPosition ) {
+        if ( keysPressed.includes( 'home' ) && this.modelViewTransform.modelToViewX( currentBeadXPosition ) > separatorXPosition ) {
           this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
         }
-        else if ( keysPressed.includes( 'end' ) && currentBeadXPosition < separatorXPosition ) {
+        else if ( keysPressed.includes( 'end' ) && this.modelViewTransform.modelToViewX( currentBeadXPosition ) < separatorXPosition ) {
           this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition + BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
         }
       },
@@ -236,9 +239,10 @@ export default class BeadsOnWireNode extends Node {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
 
-          // In our non sum screens "adding" or "removing" a bead during a scene change positions are handled elsewhere.
-        // This should only fire when we are in a representation type that is not RepresentationType.BEAD
-        else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenesProperty.value && !isSettingPhetioStateProperty.value ) {
+        // In our non sum screens "adding" or "removing" a bead during a scene change positions are handled elsewhere.
+        // In theory this should only fire when our representation is not RepresentationType.BEADS.
+        else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenesProperty.value
+                  && !isSettingPhetioStateProperty.value && !model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value ) {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
       }
@@ -371,6 +375,9 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
+    this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
+    this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
+
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
   }
@@ -383,20 +390,24 @@ export default class BeadsOnWireNode extends Node {
     // grabbed bead should move with it. If a space is found between beads, stop moving beads in that direction.
     let beadSpaceFound = false;
 
-    return slicedBeadNodes.filter(
+    const proposedBeadsToMove: BeadNode[] = [];
+    slicedBeadNodes.forEach(
       ( beadNode, i ) => {
         const addendMatch: boolean = beadNode.countingObject.addendTypeProperty.value === startingBeadNode.countingObject.addendTypeProperty.value;
         const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
         }
-        const newPositionPastBead = movingRight ? proposedXPosition >= beadNode.centerX : proposedXPosition <= beadNode.centerX;
+        const newPositionPastBead = movingRight ?
+                                    proposedXPosition + proposedBeadsToMove.length * BEAD_WIDTH >= beadNode.centerX :
+                                    proposedXPosition - proposedBeadsToMove.length * BEAD_WIDTH <= beadNode.centerX;
 
         // We want to only return beads that are the same addend type as the grabbed bead, and are touching the
-        // grabbed bead without space in between, OR the grabbed bead is proposing to move past a bead no matter
+        // grabbed bead without space in between, OR any moving bead is proposing to move past another bead no matter
         // what it's addend type is.
-        return ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead;
+        ( ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead ) && proposedBeadsToMove.push( beadNode );
       } );
+    return proposedBeadsToMove;
   }
 
   /**

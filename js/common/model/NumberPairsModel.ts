@@ -107,7 +107,7 @@ export default class NumberPairsModel implements TModel {
     const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {
     }, providedOptions );
 
-    this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects, options.isSumScreen );
+    this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
       tandem: options.tandem.createTandem( 'representationTypeProperty' ),
