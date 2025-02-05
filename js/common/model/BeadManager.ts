@@ -77,7 +77,7 @@ export default class BeadManager {
     }
     if ( _.some( rightAddendXPositions, x => x <= separatorXPosition ) ) {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
-      }
+    }
 
     /**
      * Handle adding or removing a bead
@@ -122,6 +122,14 @@ export default class BeadManager {
     assert && assert( leftAddendBeads.length === leftAddendXPositions.length, 'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
     assert && assert( rightAddendBeads.length === rightAddendXPositions.length, 'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
     this.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftAddendXPositions, rightAddendXPositions );
+
+    // Now we can set any beads that are not part of the left or right addend arrays to have a position of -1
+    // to indicate they are no longer placed on the wire. We use the array values here instead of the countingObjects
+    // addendTypeProperty values to maintain consistency with the main source of information this function relies on.
+    this.countingObjects.forEach( countingObject => {
+      !leftAddendBeads.includes( countingObject ) && !rightAddendBeads.includes( countingObject )
+      && countingObject.beadXPositionProperty.set( -1 );
+    } );
   }
 
   /**
