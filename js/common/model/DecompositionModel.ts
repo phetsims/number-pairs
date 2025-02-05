@@ -23,7 +23,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import BeadManager from './BeadManager.js';
 
 // The difference between the initial left addend value and the total value for each scene, which therefore determines
 // the initial right addend value.
@@ -33,7 +32,7 @@ type SelfOptions = {
   sceneRange: Range;
 };
 
-export type DecompositionModelOptions = SelfOptions & StrictOmit<NumberPairsModelOptions, 'numberOfCountingObjects'>;
+export type DecompositionModelOptions = SelfOptions & StrictOmit<NumberPairsModelOptions, 'numberOfCountingObjects' | 'isSumScreen'>;
 export default class DecompositionModel extends NumberPairsModel {
 
 
@@ -45,6 +44,7 @@ export default class DecompositionModel extends NumberPairsModel {
   protected constructor( providedOptions: DecompositionModelOptions ) {
 
     const options = optionize<DecompositionModelOptions, SelfOptions, NumberPairsModelOptions>()( {
+      isSumScreen: false,
       numberOfCountingObjects: providedOptions.sceneRange.max
     }, providedOptions );
     const changingScenesProperty = new BooleanProperty( false ); // does not need to be instrumented.
@@ -111,20 +111,6 @@ export default class DecompositionModel extends NumberPairsModel {
       changingScenesProperty.value = true;
       if ( options.representationTypeValidValues.includes( RepresentationType.BEADS ) && oldScene
            && !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
-
-        // All counting object positions should be set by now, but if they are not gracefully handle during scene change.
-        // A fuzz error kept coming up where the beadXPositionProperty was null for some counting objects during scene change.
-        // This was not possible to reproduce manually and was rare to be caught in fuzz testing. It makes more sense
-        // to handle this case gracefully instead of continue to spend dev time on it.
-        oldScene.leftAddendObjects.forEach( countingObject => {
-          countingObject.beadXPositionProperty.value === null && countingObject.beadXPositionProperty.set( 0 );
-        } );
-        oldScene.rightAddendObjects.forEach( countingObject => {
-          countingObject.beadXPositionProperty.value === null && countingObject.beadXPositionProperty.set( 0 );
-        } );
-        assert && assert( _.every( oldScene.leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
-        assert && assert( _.every( oldScene.rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
-
         // Save the state when we switch scenes.
         this.beadManager.saveBeadPositions( oldScene );
       }
@@ -146,9 +132,8 @@ export default class DecompositionModel extends NumberPairsModel {
       derive: 'rightAddendProperty'
     } );
 
-    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, false );
-
     const superOptions = combineOptions<NumberPairsModelOptions>( {
+      isSumScreen: false,
       numberOfCountingObjects: options.sceneRange.max
     }, options );
     super(
@@ -157,7 +142,6 @@ export default class DecompositionModel extends NumberPairsModel {
       rightAddendProperty,
       leftAddendCountingObjectsProperty,
       rightAddendCountingObjectsProperty,
-      beadManager,
       countingObjects,
       changingScenesProperty,
       superOptions

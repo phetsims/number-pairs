@@ -45,7 +45,7 @@ type SelfOptions = {
   initialRepresentationType: RepresentationType;
   representationTypeValidValues: RepresentationType[];
   numberOfCountingObjects: number;
-  totalInitiallyVisible?: boolean;
+  isSumScreen: boolean;
 };
 
 export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -57,6 +57,8 @@ export type BeadXPositionsTypes = {
 };
 
 export default class NumberPairsModel implements TModel {
+
+  public readonly beadManager: BeadManager;
 
   // The counting representation type determines the colors of the total and addends,
   // as well as the image assets used to represent each counting object.
@@ -98,14 +100,14 @@ export default class NumberPairsModel implements TModel {
     public readonly rightAddendProperty: TReadOnlyProperty<number>,
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly beadManager: BeadManager,
     public readonly countingObjects: CountingObject[],
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
     const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {
-      totalInitiallyVisible: true
     }, providedOptions );
+
+    this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects, options.isSumScreen );
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
       tandem: options.tandem.createTandem( 'representationTypeProperty' ),
@@ -128,7 +130,7 @@ export default class NumberPairsModel implements TModel {
     this.rightAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'rightAddendVisibleProperty' )
     } );
-    this.totalVisibleProperty = new BooleanProperty( options.totalInitiallyVisible, {
+    this.totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
       tandem: options.tandem.createTandem( 'totalVisibleProperty' ),
       phetioFeatured: true
     } );
@@ -226,7 +228,6 @@ export default class NumberPairsModel implements TModel {
 
     inactiveCountingObjects.addItemAddedListener( countingObject => {
       countingObject.addendTypeProperty.value = AddendType.INACTIVE;
-      countingObject.beadXPositionProperty.value = null;
     } );
   }
 
@@ -320,12 +321,8 @@ export default class NumberPairsModel implements TModel {
     let leftBeadXPositions: number[] = [];
     let rightBeadXPositions: number[] = [];
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
-
-      // All bead positions should be defined by this point.
-      assert && assert( _.every( leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
-      assert && assert( _.every( rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
-      leftBeadXPositions = leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! );
-      rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! );
+      leftBeadXPositions = leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
+      rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
     }
 
 
@@ -650,7 +647,7 @@ export default class NumberPairsModel implements TModel {
         availableRightLocationGridPositions.splice( availableRightLocationGridPositions.indexOf( initialLocationPosition ), 1 );
       }
       else {
-        initialBeadXPosition = null;
+        initialBeadXPosition = -1; // negative value indicates that the bead should not be placed.
         initialLocationPosition = new Vector2( 0, 0 );
       }
       countingObjects.push( new CountingObject( {

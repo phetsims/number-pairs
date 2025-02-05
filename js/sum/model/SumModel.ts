@@ -24,13 +24,12 @@ import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import BeadManager from '../../common/model/BeadManager.js';
 
 type SelfOptions = EmptySelfOptions;
 
 type SumModelOptions = SelfOptions &
   PickRequired<NumberPairsModelOptions, 'tandem'>
-  & StrictOmit<NumberPairsModelOptions, 'initialRepresentationType' | 'numberOfCountingObjects'>;
+  & StrictOmit<NumberPairsModelOptions, 'initialRepresentationType' | 'numberOfCountingObjects' | 'isSumScreen'>;
 
 const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberPairsConstants.TWENTY_TOTAL_RANGE.max );
 
@@ -50,9 +49,9 @@ export default class SumModel extends NumberPairsModel {
 
   public constructor( providedOptions: SumModelOptions ) {
     const options = optionize<SumModelOptions, SelfOptions, NumberPairsModelOptions>()( {
-      totalInitiallyVisible: false,
       initialRepresentationType: RepresentationType.BEADS,
-      numberOfCountingObjects: SCENE_RANGE.max
+      numberOfCountingObjects: SCENE_RANGE.max,
+      isSumScreen: true
     }, providedOptions );
 
     const leftAddendProperty = new NumberProperty( NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE, {
@@ -117,13 +116,11 @@ export default class SumModel extends NumberPairsModel {
     } );
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
-    assert && assert( _.every( leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
-    assert && assert( _.every( rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
     const beadXPositionsProperty = new Property<BeadXPositionsTypes>( {
-      leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! ),
-      rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value! )
+      leftAddendXPositions: leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
+      rightAddendXPositions: rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value )
     } );
-    const beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, true );
+
 
     // The sumModel does not have scenes, and therefore only has one set of observableArray for each addend.
     super(
@@ -132,7 +129,6 @@ export default class SumModel extends NumberPairsModel {
       rightAddendProperty,
       leftAddendCountingObjectsProperty,
       rightAddendCountingObjectsProperty,
-      beadManager,
       countingObjects,
       new BooleanProperty( false ),
       options

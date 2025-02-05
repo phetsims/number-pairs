@@ -9,7 +9,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsModel, { BeadXPositionsTypes } from './NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
-import CountingObject from './CountingObject.js';
+import CountingObject, { AddendType } from './CountingObject.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
@@ -25,6 +25,7 @@ export default class BeadManager {
   public constructor(
     private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
     private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
+    private readonly countingObjects: CountingObject[],
     private readonly isSumScreen: boolean ) {
     const numberOfSpotsOnWire = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH );
     this.beadXRange = new Range( NumberPairsConstants.LEFTMOST_BEAD_X, numberOfSpotsOnWire - 1 );
@@ -32,15 +33,9 @@ export default class BeadManager {
 
   public saveBeadPositions( scene: NumberPairsScene ): void {
     scene.beadXPositionsProperty.value = {
-      leftAddendXPositions: scene.leftAddendObjects.filter( countingObject => countingObject.beadXPositionProperty.value !== null )
-        .map( countingObject => countingObject.beadXPositionProperty.value! ),
-      rightAddendXPositions: scene.rightAddendObjects.filter( countingObject => countingObject.beadXPositionProperty.value !== null )
-        .map( countingObject => countingObject.beadXPositionProperty.value! )
+      leftAddendXPositions: scene.leftAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value ),
+      rightAddendXPositions: scene.rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value )
     };
-
-    // We are gracefully handling a null value above, and we want to make sure that none were able to sneak through.
-    assert && assert( _.every( scene.leftAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All left addend beads should have an x position' );
-    assert && assert( _.every( scene.rightAddendObjects, countingObject => countingObject.beadXPositionProperty.value !== null ), 'All right addend beads should have an x position' );
   }
 
   /**
@@ -51,19 +46,30 @@ export default class BeadManager {
   public updateBeadPositions( leftAddend: number ): void {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
-    const positions = {
-      leftAddendXPositions: leftAddendBeads.filter( countingObject => countingObject.beadXPositionProperty.value !== null )
-        .map( countingObject => countingObject.beadXPositionProperty.value! ),
-      rightAddendXPositions: rightAddendBeads.filter( countingObject => countingObject.beadXPositionProperty.value !== null )
-        .map( countingObject => countingObject.beadXPositionProperty.value! )
-    };
-    assert && assert( _.every( positions.leftAddendXPositions, x => x !== null ), 'All left addend positions should be a number' );
-    assert && assert( _.every( positions.rightAddendXPositions, x => x !== null ), 'All right addend positions should be a number' );
-    let leftAddendXPositions = positions.leftAddendXPositions.sort( ( a, b ) => a - b );
-    let rightAddendXPositions = positions.rightAddendXPositions.sort( ( a, b ) => a - b );
-
     const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
     const beadDistanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
+
+    // Sort the bead x positions by addend type. If the bead is inactive it means it was removed, but we still
+    // need to track its position in order to maintain the correct spacing along the wire.
+    let leftAddendXPositions: number[] = [];
+    let rightAddendXPositions: number[] = [];
+    this.countingObjects.forEach( countingObject => {
+      if ( countingObject.addendTypeProperty.value === AddendType.LEFT ) {
+        leftAddendXPositions.push( countingObject.beadXPositionProperty.value );
+      }
+      else if ( countingObject.addendTypeProperty.value === AddendType.RIGHT ) {
+        rightAddendXPositions.push( countingObject.beadXPositionProperty.value );
+      }
+      else {
+        countingObject.beadXPositionProperty.value <= separatorXPosition ?
+        leftAddendXPositions.push( countingObject.beadXPositionProperty.value ) :
+        rightAddendXPositions.push( countingObject.beadXPositionProperty.value );
+      }
+    } );
+
+    // Any x positions that are less than zero are placeholder positions and should be removed.
+    leftAddendXPositions = leftAddendXPositions.filter( x => x > 0 ).sort( ( a, b ) => a - b );
+    rightAddendXPositions = rightAddendXPositions.filter( x => x > 0 ).sort( ( a, b ) => a - b );
 
     // Adjust any beads that may be on the wrong side due to the separator's new position
     if ( _.some( leftAddendXPositions, x => x >= separatorXPosition ) ) {
@@ -71,7 +77,7 @@ export default class BeadManager {
     }
     if ( _.some( rightAddendXPositions, x => x <= separatorXPosition ) ) {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
-    }
+      }
 
     /**
      * Handle adding or removing a bead
@@ -116,8 +122,6 @@ export default class BeadManager {
     assert && assert( leftAddendBeads.length === leftAddendXPositions.length, 'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
     assert && assert( rightAddendBeads.length === rightAddendXPositions.length, 'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
     this.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftAddendXPositions, rightAddendXPositions );
-    assert && assert( _.every( leftAddendBeads, bead => bead.beadXPositionProperty.value !== null ), 'All left addend objects should have a bead X Position' );
-    assert && assert( _.every( rightAddendBeads, bead => bead.beadXPositionProperty.value !== null ), 'All right addend objects should have a bead X Position' );
   }
 
   /**

@@ -114,9 +114,7 @@ export default class BeadsOnWireNode extends Node {
     const groupSelectModel = model.groupSelectBeadsModel;
     groupSelectModel.selectedGroupItemProperty.link( countingObject => {
       if ( countingObject ) {
-
-        assert && assert( countingObject.beadXPositionProperty.value !== null, 'A selected group item must have a valid position value' );
-        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value!, 0 );
+        keyboardProposedBeadPositionProperty.value = new Vector2( countingObject.beadXPositionProperty.value, 0 );
       }
     } );
     groupSelectModel.isGroupItemKeyboardGrabbedProperty.lazyLink( ( isGrabbed, wasGrabbed ) => {
@@ -164,8 +162,7 @@ export default class BeadsOnWireNode extends Node {
       },
       handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
         const separatorXPosition = this.beadSeparatorCenterXProperty.value;
-        const currentBeadXPosition = groupItem.beadXPositionProperty.value!;
-        assert && assert( currentBeadXPosition !== null, 'Expected the bead to have a valid position' );
+        const currentBeadXPosition = groupItem.beadXPositionProperty.value;
 
         if ( keysPressed.includes( 'home' ) && currentBeadXPosition > separatorXPosition ) {
           this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
@@ -212,9 +209,7 @@ export default class BeadsOnWireNode extends Node {
         } );
 
       countingObject.beadXPositionProperty.link( x => {
-        if ( x !== null ) {
-          beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
-        }
+        beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
       } );
 
       this.beadModelToNodeMap.set( countingObject, beadNode );
