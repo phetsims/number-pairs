@@ -35,6 +35,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import BeadManager from '../model/BeadManager.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -96,7 +97,7 @@ export default class BeadsOnWireNode extends Node {
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-      accessibleName: 'Beads On a Wire'
+      accessibleName: NumberPairsStrings.beadsOnAWireStringProperty
     }, providedOptions );
 
     super( options );

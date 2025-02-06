@@ -18,7 +18,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberSentenceAccordionBox from './NumberSentenceAccordionBox.js';
+import NumberPhraseAccordionBox from './NumberPhraseAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -38,7 +38,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       addendsOnRight: true,
       titleNode: titleNode,
       contentYMargin: 18,
-      minWidth: NumberSentenceAccordionBox.MIN_WIDTH, // Match the minWidth of the NumberSentenceAccordionBox
+      minWidth: NumberPhraseAccordionBox.MIN_WIDTH, // Match the minWidth of the NumberPhraseAccordionBox
       expandedDefaultValue: false
     }, providedOptions );
 

@@ -58,7 +58,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly ONE_CARDS = new RepresentationType(
     'oneCards',
-    NumberPairsStrings.oneCardsStringProperty,
+    NumberPairsStrings.onesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,

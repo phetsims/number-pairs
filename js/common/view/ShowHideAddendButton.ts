@@ -7,65 +7,59 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Color, Node, Path } from '../../../../scenery/js/imports.js';
-import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
-import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
-import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { Color } from '../../../../scenery/js/imports.js';
+import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phet/js/buttons/EyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
 };
-type ShowHideAddendButtonOptions = SelfOptions & PickRequired<RectangularPushButtonOptions, 'tandem'> &
-  StrictOmit<RectangularPushButtonOptions, 'content' | 'listener'>;
-export default class ShowHideAddendButton extends RectangularPushButton {
+type ShowHideAddendButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
+export default class ShowHideAddendButton extends EyeToggleButton {
 
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: ShowHideAddendButtonOptions ) {
 
-    const initialOptions = optionize<ShowHideAddendButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {
-      accessibleName: NumberPairsStrings.makesAreaVisibleStringProperty,
+    const options = optionize<ShowHideAddendButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, 40 ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE
     }, providedOptions );
 
-    let addendToggleVisibleProperty: TReadOnlyProperty<boolean> = addendVisibleProperty;
-    if ( initialOptions.secondAddendVisibleProperty ) {
-      addendToggleVisibleProperty = DerivedProperty.and( [ addendVisibleProperty, initialOptions.secondAddendVisibleProperty ] );
-    }
+    let addendToggleVisibleProperty = addendVisibleProperty;
+    if ( options.secondAddendVisibleProperty ) {
+      addendToggleVisibleProperty = new BooleanProperty( addendVisibleProperty.value && options.secondAddendVisibleProperty.value, {
+        reentrant: true,
+        tandem: options.tandem.createTandem( 'doubleVisibleProperty' )
+      } );
 
-    const options = combineOptions<RectangularPushButtonOptions>( {
-      listener: () => {
-        if ( !addendToggleVisibleProperty.value && initialOptions.secondAddendVisibleProperty ) {
-          addendVisibleProperty.value = false;
-          initialOptions.secondAddendVisibleProperty.value = false;
+      // Track if our addend visible properties are updating to avoid circular updates.
+      let updatingAddendVisibleProperties = false;
+      addendToggleVisibleProperty.link( value => {
+        if ( !updatingAddendVisibleProperties ) {
+          updatingAddendVisibleProperties = true;
+
+          // No matter what the addendToggleVisibleProperty is set to, the other Properties must follow suit.
+          addendVisibleProperty.value = value;
+          options.secondAddendVisibleProperty!.value = value;
+          updatingAddendVisibleProperties = false;
         }
-        addendVisibleProperty.toggle();
-        initialOptions.secondAddendVisibleProperty && initialOptions.secondAddendVisibleProperty.toggle();
-      }
-    }, initialOptions );
-    const eye = new Path( eyeSolidShape, {
-      fill: Color.BLACK,
-      visibleProperty: addendToggleVisibleProperty
-    } );
-    const eyeSlash = new Path( eyeSlashSolidShape, {
-      fill: Color.BLACK,
-      visibleProperty: DerivedProperty.not( addendToggleVisibleProperty )
-    } );
-    options.content = new Node( {
-      children: [ eye, eyeSlash ],
-      excludeInvisibleChildrenFromBounds: true // so that the parent respects centering of each icon when visible.
-    } );
+      } );
 
-    super( options );
+      // If either addendVisibleProperty or secondAddendVisibleProperty changes, update the addendToggleVisibleProperty.
+      Multilink.multilink( [ addendVisibleProperty, options.secondAddendVisibleProperty ], ( addendVisible, secondAddendVisible ) => {
+        if ( !updatingAddendVisibleProperties ) {
+          updatingAddendVisibleProperties = true;
+          addendToggleVisibleProperty.set( addendVisible && secondAddendVisible );
+          updatingAddendVisibleProperties = false;
+        }
+      } );
+    }
+    super( addendToggleVisibleProperty, options );
   }
 }
 

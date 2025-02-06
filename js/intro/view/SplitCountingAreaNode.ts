@@ -21,6 +21,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
 import numberPairs from '../../numberPairs.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
@@ -96,11 +97,13 @@ export default class SplitCountingAreaNode extends Node {
     super( options );
 
     const leftShowHideAddendButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+      accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       tandem: options.tandem.createTandem( 'leftShowHideAddendButton' )
     } );
     const rightShowHideAddendButton = new ShowHideAddendButton( rightAddendVisibleProperty, {
+      accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       tandem: options.tandem.createTandem( 'rightShowHideAddendButton' )

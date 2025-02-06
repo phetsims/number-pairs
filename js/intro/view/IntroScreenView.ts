@@ -12,7 +12,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import IntroModel from '../model/IntroModel.js';
@@ -22,7 +22,7 @@ type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
 };
 
-type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
+type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberPhraseContent' | 'numberBondContent' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 
@@ -31,11 +31,11 @@ export default class IntroScreenView extends DecompositionScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
 
     const options = optionize<IntroScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      numberSentenceContent: new NumberSentenceAccordionBox( model, {
-        numberSentenceStringProperty: NumberPairsStrings.decompositionNumberSentencePatternStringProperty,
+      numberPhraseContent: new NumberPhraseAccordionBox( model, {
+        numberPhraseStringProperty: NumberPairsStrings.decompositionNumberPhrasePatternStringProperty,
         numberPhraseSpeechStringProperty: NumberPairsStrings.decompositionNumberPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.introScreenSpeechDataProperty,
-        tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
+        tandem: providedOptions.tandem.createTandem( 'numberPhraseAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )

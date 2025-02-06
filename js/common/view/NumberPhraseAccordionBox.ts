@@ -53,27 +53,27 @@ NUMBER_TO_WORD_MAP.set( 'someNumber', NumberPairsStrings.someNumberStringPropert
 NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringProperty );
 
 type SelfOptions = {
-  numberSentenceStringProperty: LocalizedStringProperty;
+  numberPhraseStringProperty: LocalizedStringProperty;
   numberPhraseSpeechStringProperty: LocalizedStringProperty;
   speechDataProperty: TProperty<string>;
 };
-type NumberSentenceAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
+type NumberPhraseAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
 const LINE_WRAP = 240;
-export default class NumberSentenceAccordionBox extends TotalRepresentationAccordionBox {
+export default class NumberPhraseAccordionBox extends TotalRepresentationAccordionBox {
 
   // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
   // width should stay the same. In order to do this we must define and control all options that contribute
   // to the width of the accordion box.
   public static readonly MIN_WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN;
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberSentenceAccordionBoxOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberPhraseAccordionBoxOptions ) {
 
-    const options = optionize<NumberSentenceAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
+    const options = optionize<NumberPhraseAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
       contentXMargin: 20,
       contentYMargin: 20,
       contentAlign: 'left',
-      minWidth: NumberSentenceAccordionBox.MIN_WIDTH,
+      minWidth: NumberPhraseAccordionBox.MIN_WIDTH,
       expandedDefaultValue: false
     }, providedOptions );
 
@@ -128,17 +128,17 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     const rightAddendDynamicProperty = new DynamicProperty( rightAddendStringProperty );
 
     // Create the PatternStringProperties for primary and secondary locales.
-    const primaryLocalePatternStringProperty = new PatternStringProperty( options.numberSentenceStringProperty, {
+    const primaryLocalePatternStringProperty = new PatternStringProperty( options.numberPhraseStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberSentenceStringProperty ],
-      ( secondLocaleStrings, numberSentenceString ) => {
+    const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberPhraseStringProperty ],
+      ( secondLocaleStrings, numberPhraseString ) => {
         const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
 
         // If the secondLocaleString is not defined, default to the primary locale string.
-        return secondLocaleString ? secondLocaleString : numberSentenceString;
+        return secondLocaleString ? secondLocaleString : numberPhraseString;
       } );
     const secondaryLocalePatternStringProperty = new PatternStringProperty( secondaryLocaleStringProperty, {
       total: totalDynamicProperty,
@@ -148,7 +148,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
 
     // This is the final Property that the RichText will listen to. At this point all decisions about what locale
     // to display based on translation have been filtered down.
-    const numberSentenceStringProperty = new DerivedProperty( [
+    const numberPhraseStringProperty = new DerivedProperty( [
       isPrimaryLocaleProperty,
       primaryLocalePatternStringProperty,
       secondaryLocalePatternStringProperty
@@ -159,7 +159,7 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
     let totalHighlight: Rectangle;
     let leftAddendHighlight: Rectangle;
     let rightAddendHighlight: Rectangle;
-    const richText = new RichText( numberSentenceStringProperty, {
+    const richText = new RichText( numberPhraseStringProperty, {
       lineWrap: LINE_WRAP,
       leading: 10,
       tags: {
@@ -240,10 +240,10 @@ export default class NumberSentenceAccordionBox extends TotalRepresentationAccor
       rightAddendHighlight.fill = color;
     } );
 
-    options.titleNode = new Text( NumberPairsStrings.numberSentenceStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+    options.titleNode = new Text( NumberPairsStrings.numberPhraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
 
     super( richText, options );
   }
 }
 
-numberPairs.register( 'NumberSentenceAccordionBox', NumberSentenceAccordionBox );
+numberPairs.register( 'NumberPhraseAccordionBox', NumberPhraseAccordionBox );

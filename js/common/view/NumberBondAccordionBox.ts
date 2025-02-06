@@ -9,7 +9,7 @@
 
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Text, Node } from '../../../../scenery/js/imports.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -30,7 +30,11 @@ type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentatio
 export default class NumberBondAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
-    const titleNode = new Text( NumberPairsStrings.numberBondStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+    const accordionBoxTitleStringProperty = new DerivedProperty( [ NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY, NumberPairsStrings.numberBondStringProperty, NumberPairsStrings.barModelStringProperty ],
+      ( numberModelType, numberBondString, barModelString ) => {
+        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
+      } );
+    const titleNode = new Text( accordionBoxTitleStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
       titleNode: titleNode,

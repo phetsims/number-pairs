@@ -28,6 +28,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -83,6 +84,7 @@ export default class CountingAreaNode extends Node {
     } );
 
     const showHideBothAddendsButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+      accessibleName: NumberPairsStrings.showOrHideAddendsStringProperty,
       left: COUNTING_AREA_BOUNDS.minX + COUNTING_AREA_MARGIN,
       bottom: COUNTING_AREA_BOUNDS.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,

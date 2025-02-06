@@ -17,6 +17,7 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from 
 import numberPairs from '../../numberPairs.js';
 import NumberPairsScene from '../model/NumberPairsScene.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -26,8 +27,12 @@ type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButto
 export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
 
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
+    const totalNumberPatternStringProperty = new PatternStringProperty( NumberPairsStrings.totalNumberPatternStringProperty, {
+      value: selectedSceneModelProperty.value.total
+    } );
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
-      accessibleName: NumberPairsStrings.sceneSelectionRadioButtonGroupStringProperty,
+      accessibleName: totalNumberPatternStringProperty,
+      helpText: NumberPairsStrings.chooseTotalHelpTextStringProperty,
       radioButtonOptions: {
         size: new Dimension2( 40, 40 )
       }

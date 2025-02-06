@@ -39,9 +39,10 @@ import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleS
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
-  numberSentenceContent: Node;
+  numberPhraseContent: Node;
   numberBondContent: Node;
   equationContent?: Node | null;
   sceneRange?: Range | null;
@@ -82,12 +83,12 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Set the layout of the accordion boxes along the top of each screen.
      */
-    const numberSentenceVBox = new VBox( {
-      children: [ options.numberSentenceContent ],
+    const numberPhraseVBox = new VBox( {
+      children: [ options.numberPhraseContent ],
       spacing: 5,
       align: 'left'
     } );
-    const numberSentenceAlignBox = new AlignBox( numberSentenceVBox, {
+    const numberPhraseAlignBox = new AlignBox( numberPhraseVBox, {
       alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
@@ -101,7 +102,7 @@ export default class NumberPairsScreenView extends ScreenView {
       yAlign: 'top',
       xAlign: 'center'
     } );
-    this.addChild( numberSentenceAlignBox );
+    this.addChild( numberPhraseAlignBox );
     this.addChild( numberBondAlignBox );
 
     if ( options.equationContent ) {
@@ -132,7 +133,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsStrings.hearNumberSentenceStringProperty
+        accessibleName: NumberPairsStrings.hearNumberPhraseStringProperty,
+        helpText: NumberPairsStrings.numberPhraseHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -142,7 +144,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const localeSwitch = new LocaleSwitch( NumberPairsPreferences, numberPairsUtteranceQueue, 300, {
       tandem: options.tandem.createTandem( 'localeSwitch' )
     } );
-    numberSentenceVBox.addChild( localeSwitch );
+    numberPhraseVBox.addChild( localeSwitch );
 
     const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
@@ -156,9 +158,15 @@ export default class NumberPairsScreenView extends ScreenView {
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
+    const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsPatternStringProperty, {
+      representation: model.representationTypeProperty.value.accessibleName
+    } );
+    const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsHelpTextPatternStringProperty, {
+      representation: model.representationTypeProperty.value.accessibleName
+    } );
     const tenFrameButton = new TenFrameButton( {
-      accessibleName: NumberPairsStrings.organizeObjectsStringProperty,
-      helpText: NumberPairsStrings.organizeObjectsHelpTextStringProperty,
+      accessibleName: organizeObjectsPatternStringProperty,
+      helpText: organizeObjectsHelpTextPatternStringProperty,
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
         this.interruptSubtreeInput();
@@ -301,8 +309,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineVisibleProperty,
-          valueAAccessibleName: NumberPairsStrings.firstAddendNoJumpStringProperty,
-          valueBAccessibleName: NumberPairsStrings.firstAddendJumpStringProperty,
+          valueAAccessibleName: NumberPairsStrings.countOnStringProperty,
+          valueBAccessibleName: NumberPairsStrings.countFromZeroStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 )
           },
@@ -338,7 +346,7 @@ export default class NumberPairsScreenView extends ScreenView {
      * Add in the rest of the nodes as part of the control area
      */
     this.controlNodes.push( speechSynthesisControl );
-    this.controlNodes.push( numberSentenceVBox );
+    this.controlNodes.push( numberPhraseVBox );
     this.controlNodes.push( options.numberBondContent );
     options.equationContent && this.controlNodes.push( options.equationContent );
 

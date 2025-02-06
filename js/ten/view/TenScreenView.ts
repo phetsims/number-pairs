@@ -13,14 +13,14 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import TenModel from '../model/TenModel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
 type SelfOptions = EmptySelfOptions;
-type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberSentenceContent' | 'numberBondContent' | 'sceneRange'>
+type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberPhraseContent' | 'numberBondContent' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TenScreenView extends DecompositionScreenView {
@@ -28,11 +28,11 @@ export default class TenScreenView extends DecompositionScreenView {
   public constructor( model: TenModel, providedOptions: TenScreenViewOptions ) {
 
     const options = optionize<TenScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      numberSentenceContent: new NumberSentenceAccordionBox( model, {
-        numberSentenceStringProperty: NumberPairsStrings.decompositionNumberSentencePatternStringProperty,
+      numberPhraseContent: new NumberPhraseAccordionBox( model, {
+        numberPhraseStringProperty: NumberPairsStrings.decompositionNumberPhrasePatternStringProperty,
         numberPhraseSpeechStringProperty: NumberPairsStrings.decompositionNumberPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.tenScreenSpeechDataProperty,
-        tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
+        tandem: providedOptions.tandem.createTandem( 'numberPhraseAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )

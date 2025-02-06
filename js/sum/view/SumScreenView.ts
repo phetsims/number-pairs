@@ -14,7 +14,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
-import NumberSentenceAccordionBox from '../../common/view/NumberSentenceAccordionBox.js';
+import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
@@ -24,7 +24,7 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberSentenceContent' | 'numberBondContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberPhraseContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
@@ -38,11 +38,11 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
       sumScreen: true,
-      numberSentenceContent: new NumberSentenceAccordionBox( model, {
-        numberSentenceStringProperty: NumberPairsStrings.sumNumberSentencePatternStringProperty,
+      numberPhraseContent: new NumberPhraseAccordionBox( model, {
+        numberPhraseStringProperty: NumberPairsStrings.sumNumberPhrasePatternStringProperty,
         numberPhraseSpeechStringProperty: NumberPairsStrings.sumNumberPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.sumScreenSpeechDataProperty,
-        tandem: providedOptions.tandem.createTandem( 'numberSentenceAccordionBox' )
+        tandem: providedOptions.tandem.createTandem( 'numberPhraseAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
@@ -65,6 +65,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     const horizontalCheckboxSpacing = 35;
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsStrings.totalStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ), {
+      helpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
       bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
       left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
       tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
