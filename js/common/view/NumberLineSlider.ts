@@ -66,7 +66,8 @@ export default class NumberLineSlider extends HSlider {
       constrainValue: n => Utils.toFixedNumber( n, 0 ),
       enabledRangeProperty: enabledRangeProperty,
       keyboardStep: 1,
-      shiftKeyboardStep: 2
+      shiftKeyboardStep: 2,
+      pageKeyboardStep: 3
     }, providedOptions );
     super( leftAddendNumberProperty, numberLineRange, options );
 
