@@ -1,16 +1,18 @@
 // Copyright 2024, University of Colorado Boulder
 
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 /**
  * TODO: describe file
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
-import { Node, NodeOptions, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = EmptySelfOptions;
 type OneCardOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;

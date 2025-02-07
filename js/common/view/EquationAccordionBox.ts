@@ -7,18 +7,20 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Text } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPhraseAccordionBox from './NumberPhraseAccordionBox.js';
 import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberPhraseAccordionBox from './NumberPhraseAccordionBox.js';
 
 type SelfOptions = {
   addendsOnRight?: boolean;

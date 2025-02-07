@@ -14,13 +14,15 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Image, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadPink_svg from '../../../images/beadPink_svg.js';
-import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import numberPairs from '../../numberPairs.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
 import BeadManager from '../model/BeadManager.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;

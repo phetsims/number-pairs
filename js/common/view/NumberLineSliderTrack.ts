@@ -16,7 +16,9 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Line, Node, Text } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import numberPairs from '../../numberPairs.js';
 

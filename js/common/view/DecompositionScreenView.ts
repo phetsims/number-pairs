@@ -8,7 +8,8 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import { AlignBox, Node } from '../../../../scenery/js/imports.js';
+import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';

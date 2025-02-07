@@ -7,7 +7,9 @@
  */
 
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import { Circle, Line, Node } from '../../../../scenery/js/imports.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';

@@ -7,14 +7,14 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phet/js/buttons/EyeToggleButton.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;

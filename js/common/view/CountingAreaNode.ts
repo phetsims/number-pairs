@@ -9,26 +9,29 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Animation from '../../../../twixt/js/Animation.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
+import NumberPairsModel from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import ShowHideAddendButton from './ShowHideAddendButton.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
-import Animation from '../../../../twixt/js/Animation.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;

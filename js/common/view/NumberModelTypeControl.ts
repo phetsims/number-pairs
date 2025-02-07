@@ -7,15 +7,15 @@
  */
 
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
-import numberPairs from '../../numberPairs.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import { Text } from '../../../../scenery/js/imports.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelTypeControl extends PreferencesControl {

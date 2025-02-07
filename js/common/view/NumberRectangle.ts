@@ -14,7 +14,8 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Rectangle, RectangleOptions, Text } from '../../../../scenery/js/imports.js';
+import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {

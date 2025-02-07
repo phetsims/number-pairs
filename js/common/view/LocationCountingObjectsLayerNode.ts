@@ -8,21 +8,21 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
-import Utils from '../../../../dot/js/Utils.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 

@@ -8,21 +8,24 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, Line, ManualConstraint, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberLineSlider from './NumberLineSlider.js';
 import NumberRectangle from './NumberRectangle.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   numberLineRange: Range;

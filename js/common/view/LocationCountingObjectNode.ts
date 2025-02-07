@@ -13,20 +13,21 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import apple_svg from '../../../images/apple_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
-import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;

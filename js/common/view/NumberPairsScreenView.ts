@@ -7,18 +7,27 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
+import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { AlignBox, Node, PressListener, VBox } from '../../../../scenery/js/imports.js';
+import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import PressListener from '../../../../scenery/js/listeners/PressListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
+import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -30,16 +39,10 @@ import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode
 import NumberLineIcon from './NumberLineIcon.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js';
-import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
-import TenFrameButton from './TenFrameButton.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
-import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
-import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
-import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
-import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
+import TenFrameButton from './TenFrameButton.js';
 
 type SelfOptions = {
   numberPhraseContent: Node;

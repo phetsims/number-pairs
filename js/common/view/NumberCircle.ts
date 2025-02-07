@@ -12,7 +12,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Circle, CircleOptions, Text } from '../../../../scenery/js/imports.js';
+import Circle, { CircleOptions } from '../../../../scenery/js/nodes/Circle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 
 type NumberCircleOptions = StrictOmit<CircleOptions, 'children' | 'radius'>;

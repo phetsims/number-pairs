@@ -7,19 +7,20 @@
  *
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
-import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 import BarModelNode from './BarModelNode.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberBondNode, { NumberBondNodeOptions } from './NumberBondNode.js';
 import { NumberModelType } from './NumberModelTypeControl.js';
+import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
 type SelfOptions = {
   numberBondNodeOptions?: NumberBondNodeOptions;

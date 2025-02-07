@@ -9,7 +9,8 @@
 
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberCircle from './NumberCircle.js';

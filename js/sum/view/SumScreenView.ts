@@ -9,18 +9,20 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Node, VBox, Text } from '../../../../scenery/js/imports.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
+import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
-import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
 
 type SelfOptions = EmptySelfOptions;
 

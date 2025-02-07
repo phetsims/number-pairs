@@ -8,23 +8,25 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import { Color, Image, Node } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import apple_svg from '../../../images/apple_svg.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberLineIcon from '../view/NumberLineIcon.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import OneCard from '../view/OneCard.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 
 
 const ICON_MAX_WIDTH = 25;

@@ -12,12 +12,12 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import KittenNode from './KittenNode.js';
-import CountingAreaNode from './CountingAreaNode.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import CountingAreaNode from './CountingAreaNode.js';
+import KittenNode from './KittenNode.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {

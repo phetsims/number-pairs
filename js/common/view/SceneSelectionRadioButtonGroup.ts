@@ -7,17 +7,17 @@
  *
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsScene from '../model/NumberPairsScene.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import NumberPairsScene from '../model/NumberPairsScene.js';
 
 type SelfOptions = {
   sceneRange: Range;
