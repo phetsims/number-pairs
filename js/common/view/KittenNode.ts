@@ -29,9 +29,12 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import Hotkey from '../../../../scenery/js/input/Hotkey.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
+  switchFocusToLastKitten: () => void;
+  switchFocusToFirstKitten: () => void;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -46,7 +49,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
   public constructor(
-    countingObject: CountingObject,
+    public readonly countingObject: CountingObject,
     dragBounds: Bounds2,
     newKittenSelectedEmitter: Emitter<[CountingObject]>,
     providedOptions: KittenNodeOptions
@@ -165,6 +168,22 @@ export default class KittenNode extends InteractiveHighlightingNode {
         isLeftAddendProperty.toggle();
       }
     } );
+    this.addInputListener( {
+      hotkeys: [
+        new Hotkey( {
+          keyStringProperty: new Property( 'home' ),
+          fire: () => {
+            options.switchFocusToFirstKitten();
+          }
+        } ),
+        new Hotkey( {
+          keyStringProperty: new Property( 'end' ),
+          fire: () => {
+            options.switchFocusToLastKitten();
+          }
+        } )
+      ]
+    } );
     this.addInputListener( toggleAddendKeyboardListener );
     this.addInputListener( dragListener );
     newKittenSelectedEmitter.addListener( focusedKitten => {
@@ -177,6 +196,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     if ( phet.chipper.queryParameters.dev ) {
       this.addCountingObjectID( countingObject.id );
     }
+    this.countingObject = countingObject;
   }
 
   /**

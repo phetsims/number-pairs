@@ -29,6 +29,16 @@ export default class KittensLayerNode extends Node {
 
     countingObjects.forEach( ( countingObject, i ) => {
       kittenNodes.push( new KittenNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, newKittenSelectedEmitter, {
+        switchFocusToFirstKitten: () => {
+          const firstKitten = kittenNodes[ 0 ];
+          assert && assert( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );
+          firstKitten.focus();
+        },
+        switchFocusToLastKitten: () => {
+          const activeKittens = kittenNodes.filter( kittenNode => kittenNode.countingObject.addendTypeProperty.value !== AddendType.INACTIVE );
+          const lastActiveKitten = activeKittens[ activeKittens.length - 1 ];
+          lastActiveKitten.focus();
+        },
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
         onEndDrag: countingAreNode.dropCountingObject.bind( countingAreNode ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
