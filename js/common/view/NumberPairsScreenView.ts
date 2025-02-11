@@ -161,11 +161,21 @@ export default class NumberPairsScreenView extends ScreenView {
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
+    const representationTypeAccessibleNameProperty = new DerivedProperty( [ model.representationTypeProperty ],
+        representationType => representationType.accessibleName );
     const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsPatternStringProperty, {
-      representation: model.representationTypeProperty.value.accessibleName
+      representation: representationTypeAccessibleNameProperty
+    }, {
+      maps: {
+        representation: stringProperty => stringProperty.value
+      }
     } );
     const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsHelpTextPatternStringProperty, {
-      representation: model.representationTypeProperty.value.accessibleName
+      representation: representationTypeAccessibleNameProperty
+    }, {
+      maps: {
+        representation: stringProperty => stringProperty.value
+      }
     } );
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
