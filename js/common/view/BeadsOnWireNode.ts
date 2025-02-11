@@ -24,7 +24,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
@@ -53,7 +52,6 @@ type BeadsOnWireNodeOptions = StrictOmit<NodeOptions, 'children'> & SelfOptions 
 export default class BeadsOnWireNode extends Node {
 
   private readonly beadModelToNodeMap = new Map<CountingObject, BeadNode>();
-  private readonly modelViewTransform: ModelViewTransform2;
 
   // Convenience Property
   private readonly beadSeparatorCenterXProperty: Property<number>;
@@ -70,14 +68,6 @@ export default class BeadsOnWireNode extends Node {
     countingAreaBounds: Bounds2,
     providedOptions: BeadsOnWireNodeOptions
   ) {
-
-    // Although this model view transform is essentially used as a linear function, it is needed as the transform
-    // for the keyboard drag listener.
-    const modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping(
-      Vector2.ZERO,
-      Vector2.ZERO,
-      BEAD_WIDTH
-    );
 
     const wireGradient = new LinearGradient( 0, -WIRE_HEIGHT / 2, 0, WIRE_HEIGHT / 2 )
       .addColorStop( 0, NumberPairsColors.wireHighlightColorProperty )
@@ -106,7 +96,6 @@ export default class BeadsOnWireNode extends Node {
 
     super( options );
 
-    this.modelViewTransform = modelViewTransform;
     this.beadSeparatorCenterXProperty = beadSeparatorCenterXProperty;
     this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
@@ -143,7 +132,7 @@ export default class BeadsOnWireNode extends Node {
       // This complicated transform is unfortunate, but we want to handle all varieties of dragging via handleBeadMove.
       // HandleBeadMove expects the proposed position to be in the global view coordinate frame, because that is
       // what the DragListener (internal to BeadNode) provides.
-      const viewPosition = grabbedBeadNode.parentToGlobalPoint( modelViewTransform.modelToViewPosition( proposedBeadPosition ) );
+      const viewPosition = grabbedBeadNode.parentToGlobalPoint( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition ) );
       this.handleBeadMove( viewPosition, grabbedBeadNode );
     } );
 
@@ -151,7 +140,7 @@ export default class BeadsOnWireNode extends Node {
       soundKeyboardDragListenerOptions: {
         keyboardDragDirection: 'leftRight',
         positionProperty: this.keyboardProposedBeadPositionProperty,
-        transform: modelViewTransform
+        transform: BeadManager.BEAD_MODEL_VIEW_TRANSFORM
       },
       getGroupItemToSelect: () => {
         return this.getSortedBeadNodes()[ 0 ].countingObject;
@@ -172,10 +161,10 @@ export default class BeadsOnWireNode extends Node {
         const separatorXPosition = this.beadSeparatorCenterXProperty.value;
         const currentBeadXPosition = groupItem.beadXPositionProperty.value;
 
-        if ( keysPressed.includes( 'home' ) && this.modelViewTransform.modelToViewX( currentBeadXPosition ) > separatorXPosition ) {
+        if ( keysPressed.includes( 'home' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) > separatorXPosition ) {
           this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
         }
-        else if ( keysPressed.includes( 'end' ) && this.modelViewTransform.modelToViewX( currentBeadXPosition ) < separatorXPosition ) {
+        else if ( keysPressed.includes( 'end' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) < separatorXPosition ) {
           this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition + BEAD_WIDTH, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
         }
       },
@@ -217,7 +206,7 @@ export default class BeadsOnWireNode extends Node {
         } );
 
       countingObject.beadXPositionProperty.link( x => {
-        beadNode.center = new Vector2( modelViewTransform.modelToViewX( x ), 0 );
+        beadNode.center = new Vector2( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( x ), 0 );
       } );
 
       this.beadModelToNodeMap.set( countingObject, beadNode );
@@ -234,7 +223,7 @@ export default class BeadsOnWireNode extends Node {
       // If we are not dragging a bead was added or removed from the wire.
       // We also want to make sure that our values are in sync during state or scene changes.
       if ( !this.beadDragging && leftAddend === leftAddendLength && rightAddend === rightAddendLength ) {
-        this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
+        this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend ) );
 
         // We are only adding or removing beads in the sum screen.
         // Reset may also give the impression that we are adding or removing beads, but we want to position the beads
@@ -244,7 +233,7 @@ export default class BeadsOnWireNode extends Node {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
 
-        // In our non sum screens "adding" or "removing" a bead during a scene change positions are handled elsewhere.
+          // In our non sum screens "adding" or "removing" a bead during a scene change positions are handled elsewhere.
         // In theory this should only fire when our representation is not RepresentationType.BEADS.
         else if ( !options.sumScreen && !isResettingAllProperty.value && !model.changingScenesProperty.value
                   && !isSettingPhetioStateProperty.value && !model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value ) {
@@ -293,7 +282,7 @@ export default class BeadsOnWireNode extends Node {
 
     // Constrain the new position to the drag bounds and set the grabbed bead's updated position.
     const newCenterX = dragBoundsWithMovingBeads.closestPointTo( proposedParentPosition ).x;
-    grabbedBeadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newCenterX );
+    grabbedBeadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( newCenterX );
 
     // Since beadNodesToMove was created above by slicing the sortedBeadNodeArray at the grabbedBead, we can
     // be confident that the first beadNode in the beadNodesToMove array is the grabbedBeadNode, and rely
@@ -304,7 +293,7 @@ export default class BeadsOnWireNode extends Node {
       if ( beadNode !== grabbedBeadNode ) {
 
         // Move the beads in the drag direction and base their positions on the grabbed bead.
-        beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX(
+        beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX(
           grabbedBeadNode.centerX + i * ( draggingRight ? BEAD_WIDTH : -BEAD_WIDTH ) );
       }
 
@@ -322,7 +311,7 @@ export default class BeadsOnWireNode extends Node {
         if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
 
           // Since a bead is moving to the right, the separator should adjust one position to the left.
-          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
+          this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
             NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value - 1 ) );
 
           // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
@@ -333,7 +322,7 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.traverseInactiveObjects = true;
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = this.modelViewTransform.viewToModelX(
+          const xPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX(
             Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
           this.getBeadsToMove( beadNode, xPosition, true, sortedBeadNodes ).forEach( ( beadNode, i ) => {
             beadNode.countingObject.beadXPositionProperty.value = xPosition + i;
@@ -347,7 +336,7 @@ export default class BeadsOnWireNode extends Node {
         if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
 
           // Since a bead is moving to the left, the separator should adjust one position to the right.
-          this.beadSeparatorCenterXProperty.value = this.modelViewTransform.modelToViewX(
+          this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
             NumberPairsModel.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value + 1 ) );
 
           // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
@@ -358,7 +347,7 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.traverseInactiveObjects = true;
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = this.modelViewTransform.viewToModelX(
+          const xPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX(
             Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
           this.getBeadsToMove( beadNode, xPosition, false, sortedBeadNodes ).forEach( ( beadNode, i ) => {
             beadNode.countingObject.beadXPositionProperty.value = xPosition - i;
@@ -375,7 +364,7 @@ export default class BeadsOnWireNode extends Node {
         const distance = Math.abs( beadNode.centerX - previousBeadNode.centerX );
         if ( distance < BEAD_WIDTH ) {
           const newPosition = draggingRight ? previousBeadNode.centerX + BEAD_WIDTH : previousBeadNode.centerX - BEAD_WIDTH;
-          beadNode.countingObject.beadXPositionProperty.value = this.modelViewTransform.viewToModelX( newPosition );
+          beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( newPosition );
         }
       }
     } );

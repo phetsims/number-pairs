@@ -5,13 +5,15 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
-import numberPairs from '../../numberPairs.js';
 import NumberPairsModel, { BeadXPositionsTypes } from './NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import numberPairs from '../../numberPairs.js';
 
 
 export default class BeadManager {
@@ -21,6 +23,16 @@ export default class BeadManager {
   // of this writing will cause spacing issues along the wire if other adjustments are not made.
   public static readonly BEAD_WIDTH = 21.5;
   public static readonly BEAD_HEIGHT = 80;
+  public static readonly LEFTMOST_BEAD_X = 1;
+  public static readonly RIGHTMOST_BEAD_X = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH );
+
+  // Although this model view transform is essentially used as a linear function, it is needed as the transform
+  // for the keyboard drag listener.
+  public static readonly BEAD_MODEL_VIEW_TRANSFORM = ModelViewTransform2.createSinglePointScaleMapping(
+    Vector2.ZERO,
+    Vector2.ZERO,
+    BeadManager.BEAD_WIDTH
+  );
 
   public constructor(
     private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
@@ -209,6 +221,33 @@ export default class BeadManager {
     rightAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = rightXPositions[ index ];
     } );
+  }
+
+  /**
+   * Shift the bead positions of the provided bead nodes to remove any overlap.
+   * @param xPositions - the x positions of the beads to shift.
+   * @param shiftRight - shift right if true, shift left if false.
+   */
+  public shiftOverlappingBeadPositions( xPositions: number[], shiftRight: boolean ): number[] {
+    const shiftedXPositions: number[] = [];
+    const direction = shiftRight ? 1 : -1;
+
+    let proposedXPositions: number[] = xPositions.slice();
+    for ( let i = 0; i < xPositions.length; i++ ) {
+      const currentX = proposedXPositions.shift()!;
+      let newPosition = currentX;
+      if ( i > 0 ) {
+        const previousX = shiftedXPositions[ shiftedXPositions.length - 1 ];
+        const distance = currentX - previousX;
+        if ( Math.abs( distance ) < 1 ) {
+          newPosition = currentX + direction;
+          proposedXPositions = this.shiftXPositions( proposedXPositions, direction, currentX + direction );
+        }
+      }
+      shiftedXPositions.push( newPosition );
+    }
+
+    return shiftedXPositions;
   }
 
   /**

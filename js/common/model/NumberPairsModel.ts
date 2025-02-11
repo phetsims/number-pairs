@@ -359,13 +359,17 @@ export default class NumberPairsModel implements TModel {
     this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
-      // Bead positions should be a translation across the separator.
+
+      // Bead positions should be a mirrored translation across the separator.
+      // TODO: more work needs to be done here. https://github.com/phetsims/number-pairs/issues/23
+      const previousSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.rightAddendProperty.value );
       const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
-      const rightXTranslation = _.max( rightBeadXPositions )! - ( updatedSeparatorPosition - NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR );
-      const leftXTranslation = updatedSeparatorPosition + NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR - _.min( leftBeadXPositions )!;
-      const newLeftBeadXPositions = rightBeadXPositions.map( x => x - rightXTranslation );
-      const newRightBeadXPositions = leftBeadXPositions.map( x => x + leftXTranslation );
-      this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftBeadXPositions, newRightBeadXPositions );
+      const distanceBetweenSeparators = updatedSeparatorPosition - previousSeparatorPosition;
+      const newLeftBeadXPositions = rightBeadXPositions.map( x => Math.max( x - ( Math.abs( x - previousSeparatorPosition ) * 2 - distanceBetweenSeparators ), BeadManager.LEFTMOST_BEAD_X ) );
+      const newRightBeadXPositions = leftBeadXPositions.map( x => Math.min( x + ( Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators ), BeadManager.RIGHTMOST_BEAD_X ) );
+      this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects,
+        this.beadManager.shiftOverlappingBeadPositions( newLeftBeadXPositions, true ),
+        this.beadManager.shiftOverlappingBeadPositions( newRightBeadXPositions, false ) );
     }
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
