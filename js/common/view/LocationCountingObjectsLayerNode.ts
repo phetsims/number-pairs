@@ -119,6 +119,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
     } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerBottom = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plus( new Vector2( 0, 10 ) );
+    model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
+      if ( !isGrabbed && model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value ) {
+        countingAreaNode.dropCountingObject( model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value, 'location' );
+      }
+    } );
 
     /**
      * Create the LocationCountingObjectNodes for each countingObject in the model.
@@ -137,6 +142,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
       this.addChild( countingObjectNode );
       this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
+    } );
+    model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {
+      selectedGroupItem && this.countingObjectModelToNodeMap.get( selectedGroupItem )?.moveToFront();
     } );
   }
 
