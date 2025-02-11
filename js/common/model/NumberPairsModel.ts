@@ -308,7 +308,13 @@ export default class NumberPairsModel implements TModel {
    * Set the left addend to the right addend value and update positions as is desired.
    */
   public swapAddends(): void {
-    const countingAreaWidth = NumberPairsConstants.COUNTING_AREA_BOUNDS.width;
+
+    // Due to observable array turmoil during swap hide all location counting objects that are not part of the
+    // original addend arrays. The opacity value will be further handled in animations triggered in this function.
+    this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE ).forEach( countingObject => {
+      countingObject.locationOpacityProperty.value = 0;
+    } );
+
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 
@@ -325,7 +331,6 @@ export default class NumberPairsModel implements TModel {
       rightBeadXPositions = rightAddendObjects.map( countingObject => countingObject.beadXPositionProperty.value );
     }
 
-
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
     assert && assert( leftAddendObjects.length === this.leftAddendProperty.value,
@@ -339,19 +344,18 @@ export default class NumberPairsModel implements TModel {
     const copyOfLeftAddendObjects = leftAddendObjects.getArrayCopy();
     const copyOfRightAddendObjects = rightAddendObjects.getArrayCopy();
 
-
     // All attribute counting objects should appear to not have moved, and every object's color was simply swapped.
     // This is not how the model handles movement between addends so we must do that artificially here.
     // The last two arguments are flip-flopped. rightAttributePositions is assigned to leftAttributePositions in the
     // function and vice versa.
     this.setAttributePositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, rightAttributePositions, leftAttributePositions );
 
-    // All location counting objects should be a translation across the counting area of their previous position.
-    const xTranslation = countingAreaWidth / 2;
+    // All location counting objects should be a mirrored translation across the counting area of their previous position.
+    const countingAreaCenterX = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerX;
     const newRightLocationPositions = leftLocationPositions.map( position =>
-      new Vector2( position.x + xTranslation, position.y ) );
+      new Vector2( position.x + Math.abs( position.x - countingAreaCenterX ) * 2, position.y ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
-      new Vector2( position.x - xTranslation, position.y ) );
+      new Vector2( position.x - Math.abs( position.x - countingAreaCenterX ) * 2, position.y ) );
     this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
@@ -411,13 +415,13 @@ export default class NumberPairsModel implements TModel {
       this.countingObjectsAnimation.start();
     }
     else {
-      const fadeOutTargets = [ ...leftAddendObjects, ...rightAddendObjects ].map( countingObject => {
+      const fadeOutTargets = this.countingObjects.map( countingObject => {
         return {
           property: countingObject.locationOpacityProperty,
           to: 0
         };
       } );
-      const fadeInTargets = [ ...leftAddendObjects, ...rightAddendObjects ].map( countingObject => {
+      const fadeInTargets = this.countingObjects.map( countingObject => {
         return {
           property: countingObject.locationOpacityProperty,
           to: 1
