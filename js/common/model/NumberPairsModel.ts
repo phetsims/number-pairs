@@ -434,7 +434,7 @@ export default class NumberPairsModel implements TModel {
 
       this.countingObjectsAnimation?.stop();
       this.countingObjectsAnimation = new Animation( {
-        duration: 0.3,
+        duration: 0.15,
         targets: fadeOutTargets
       } );
 
