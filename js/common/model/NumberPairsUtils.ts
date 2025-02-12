@@ -9,6 +9,8 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import numberPairs from '../../numberPairs.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 
 export const NumberPairsUtils = {
@@ -22,6 +24,18 @@ export const NumberPairsUtils = {
       new Bounds2( bounds.minX, bounds.minY, bounds.centerX, bounds.maxY ),
       new Bounds2( bounds.centerX, bounds.minY, bounds.maxX, bounds.maxY )
     ];
+  },
+
+  /**
+   * We will make sure that the direction is always -1 or 1, so we can just multiply by the direction to get the
+   * correct side of the counting area.
+   * @param position
+   * @param direction - 1 for right to left, 1 for left to right
+   */
+  mirrorPositionAcrossCountingArea: ( position: Vector2, direction: number ): Vector2 => {
+    direction = Math.sign( direction );
+    const countingAreaCenterX = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerX;
+    return new Vector2( position.x + direction * ( Math.abs( position.x - countingAreaCenterX ) * 2 ), position.y );
   }
 };
 

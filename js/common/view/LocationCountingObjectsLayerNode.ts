@@ -23,6 +23,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -90,28 +91,16 @@ export default class LocationCountingObjectsLayerNode extends Node {
         const currentPosition = groupItem.locationPositionProperty.value;
         if ( keysPressed.includes( 'home' ) ) {
 
-          // If we're already in the left addend area move to the furthest edge.
-          if ( LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-            const newXValue = LEFT_COUNTING_AREA_BOUNDS.left + LocationCountingObjectNode.WIDTH;
-            groupItem.locationPositionProperty.value = new Vector2( newXValue, currentPosition.y );
-          }
-          else {
-            // move to the left addend area.
-            const newXValue = LEFT_COUNTING_AREA_BOUNDS.right - LocationCountingObjectNode.WIDTH;
-            groupItem.locationPositionProperty.value = new Vector2( newXValue, currentPosition.y );
+          // move to the left addend area.
+          if ( !LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
+            groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, -1 );
           }
         }
         else if ( keysPressed.includes( 'end' ) ) {
 
-          // If we're already in the right addend area move to the furthest edge.
-          if ( RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-            const newXValue = RIGHT_COUNTING_AREA_BOUNDS.right - LocationCountingObjectNode.WIDTH;
-            groupItem.locationPositionProperty.value = new Vector2( newXValue, currentPosition.y );
-          }
-          else {
-            // move to the right addend area.
-            const newXValue = RIGHT_COUNTING_AREA_BOUNDS.left + LocationCountingObjectNode.WIDTH;
-            groupItem.locationPositionProperty.value = new Vector2( newXValue, currentPosition.y );
+          // move to the right addend area.
+          if ( !RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
+            groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, 1 );
           }
         }
       },

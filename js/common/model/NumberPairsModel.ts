@@ -35,6 +35,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
+import { NumberPairsUtils } from './NumberPairsUtils.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -352,11 +353,10 @@ export default class NumberPairsModel implements TModel {
     this.setAttributePositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, rightAttributePositions, leftAttributePositions );
 
     // All location counting objects should be a mirrored translation across the counting area of their previous position.
-    const countingAreaCenterX = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerX;
     const newRightLocationPositions = leftLocationPositions.map( position =>
-      new Vector2( position.x + Math.abs( position.x - countingAreaCenterX ) * 2, position.y ) );
+      NumberPairsUtils.mirrorPositionAcrossCountingArea( position, 1 ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
-      new Vector2( position.x - Math.abs( position.x - countingAreaCenterX ) * 2, position.y ) );
+      NumberPairsUtils.mirrorPositionAcrossCountingArea( position, -1 ) );
     this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
