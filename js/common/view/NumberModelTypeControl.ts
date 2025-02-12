@@ -8,20 +8,18 @@
 
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelTypeControl extends PreferencesControl {
 
   public constructor( providedOptions: NumberModelTypeControlOptions ) {
-    const numberModelTypeRadioButtonGroup = new RectangularRadioButtonGroup( NumberPairsConstants.NUMBER_MODEL_TYPE_PROPERTY,
+    const numberModelTypeRadioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.numberModelTypeProperty,
       [
         {
           createNode: () => new Text( 'Number Bond', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
@@ -41,18 +39,11 @@ export default class NumberModelTypeControl extends PreferencesControl {
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
       } );
-   super( combineOptions<PreferencesControlOptions>( {
-     labelNode: new Text( 'Number Model Type', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-     controlNode: numberModelTypeRadioButtonGroup
-   }, providedOptions ) );
+    super( combineOptions<PreferencesControlOptions>( {
+      labelNode: new Text( 'Number Model Type', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+      controlNode: numberModelTypeRadioButtonGroup
+    }, providedOptions ) );
   }
-}
-
-export class NumberModelType extends EnumerationValue {
-  public static readonly NUMBER_BOND_MODEL = new NumberModelType();
-  public static readonly BAR_MODEL = new NumberModelType();
-
-  public static readonly enumeration = new Enumeration( NumberModelType );
 }
 
 numberPairs.register( 'NumberModelTypeControl', NumberModelTypeControl );

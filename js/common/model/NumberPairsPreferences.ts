@@ -14,6 +14,9 @@ import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // As with the primary locale, use initialize-globals checkAndRemapLocale() to check validity of the second locale.
 // This potentially either falls back to 'en', or remaps from 3-character locales to PhET locales.
@@ -27,6 +30,14 @@ const secondLocaleProperty = new LocaleProperty( secondLocale as Locale || local
   tandem: Tandem.PREFERENCES.createTandem( 'secondLocaleProperty' ),
   phetioFeatured: true
 } );
+
+
+export class NumberModelType extends EnumerationValue {
+  public static readonly NUMBER_BOND_MODEL = new NumberModelType();
+  public static readonly BAR_MODEL = new NumberModelType();
+
+  public static readonly enumeration = new Enumeration( NumberModelType );
+}
 
 const NumberPairsPreferences = {
 
@@ -61,6 +72,11 @@ const NumberPairsPreferences = {
   isPrimaryLocaleProperty: new BooleanProperty( true, {
     tandem: Tandem.PREFERENCES.createTandem( 'isPrimaryLocaleProperty' ),
     phetioReadOnly: true
+  } ),
+
+  numberModelTypeProperty: new EnumerationProperty( NumberModelType.NUMBER_BOND_MODEL, {
+    tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
+    phetioFeatured: true
   } )
 };
 
