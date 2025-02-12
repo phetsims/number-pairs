@@ -39,6 +39,7 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import BeadNode from './BeadNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -171,11 +172,8 @@ export default class BeadsOnWireNode extends Node {
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
 
-    // TODO: Why is this.getGlobalToLocalMatrix() telling me that we are in the same coordinate frame as global when we are obviously not?
-    //  The counting are bounds are being rendered as if there is a local coordinate frame they are worrying about.
-    //  The origin (0,0) is set at the center left edge of the counting area. Does a different origin not
-    //   automatically create a new coordinate frame?
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
+    groupSelectView.grabReleaseCueNode.centerBottom = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 + 10 );
 
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
