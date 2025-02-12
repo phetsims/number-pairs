@@ -308,6 +308,7 @@ export default class NumberPairsModel implements TModel {
    * Set the left addend to the right addend value and update positions as is desired.
    */
   public swapAddends(): void {
+    this.countingObjectsAnimation?.stop();
 
     // Due to observable array turmoil during swap hide all location counting objects that are not part of the
     // original addend arrays. The opacity value will be further handled in animations triggered in this function.
@@ -364,8 +365,8 @@ export default class NumberPairsModel implements TModel {
       const previousSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.rightAddendProperty.value );
       const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
       const distanceBetweenSeparators = updatedSeparatorPosition - previousSeparatorPosition;
-      const newLeftBeadXPositions = rightBeadXPositions.map( x => Math.max( x - ( Math.abs( x - previousSeparatorPosition ) * 2 - distanceBetweenSeparators ), BeadManager.LEFTMOST_BEAD_X ) );
-      const newRightBeadXPositions = leftBeadXPositions.map( x => Math.min( x + ( Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators ), BeadManager.RIGHTMOST_BEAD_X ) );
+      const newLeftBeadXPositions = rightBeadXPositions.map( x => Math.max( x - Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.LEFTMOST_BEAD_X ) );
+      const newRightBeadXPositions = leftBeadXPositions.map( x => Math.min( x + Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.RIGHTMOST_BEAD_X ) );
       this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects,
         this.beadManager.shiftOverlappingBeadPositions( newLeftBeadXPositions, true ),
         this.beadManager.shiftOverlappingBeadPositions( newRightBeadXPositions, false ) );
@@ -456,7 +457,10 @@ export default class NumberPairsModel implements TModel {
         fadeInTargets.forEach( target => {
           target.property.value = target.to;
         } );
+        this.countingObjectsAnimation = null;
       } );
+
+      // If the fade out animation is finished we want to start the fade in animation.
       this.countingObjectsAnimation.finishEmitter.addListener( () => {
         this.countingObjectsAnimation = new Animation( {
           duration: 0.3,

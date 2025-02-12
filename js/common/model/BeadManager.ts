@@ -241,13 +241,12 @@ export default class BeadManager {
         const previousX = shiftedXPositions[ shiftedXPositions.length - 1 ];
         const distance = currentX - previousX;
         if ( Math.abs( distance ) < 1 ) {
-          newPosition = currentX + direction;
-          proposedXPositions = this.shiftXPositions( proposedXPositions, direction, currentX + direction );
+          newPosition = previousX + direction;
+          proposedXPositions = this.shiftXPositions( proposedXPositions, direction, newPosition + direction );
         }
       }
       shiftedXPositions.push( newPosition );
     }
-
     return shiftedXPositions;
   }
 
