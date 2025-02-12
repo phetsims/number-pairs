@@ -9,7 +9,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
@@ -18,7 +18,10 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  totalOnTop?: boolean;
+};
+
 type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
 
 const TOTAL_WIDTH = 200;
@@ -31,6 +34,7 @@ export default class BarModelNode extends VBox {
     providedOptions?: BarModelNodeOptions ) {
 
     const options = optionize<BarModelNodeOptions, SelfOptions, VBoxOptions>()( {
+      totalOnTop: true,
       resize: false,
       spacing: 5
     }, providedOptions );
@@ -91,7 +95,7 @@ export default class BarModelNode extends VBox {
       }
     } );
 
-    options.children = [ totalRectangle, addendsNode ];
+    options.children = options.totalOnTop ? [ totalRectangle, addendsNode ] : [ addendsNode, totalRectangle ];
     super( options );
   }
 }

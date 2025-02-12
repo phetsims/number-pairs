@@ -51,6 +51,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondNode( model, numberBondOptions );
     const barModelNode = new BarModelNode( model, {
+      totalOnTop: options.numberBondNodeOptions.totalOnTop, // It should match the number bond
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL )
     } );
     const contentNode = new Node( {
