@@ -87,7 +87,7 @@ export default class NumberLineNode extends Node {
       visibleProperty: model.showTotalJumpProperty
     } );
     const totalLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.totalProperty, {
-      fill: NumberPairsColors.numberLineSumColorProperty,
+      fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showTotalJumpProperty,
       numberFontSize: 20
@@ -106,7 +106,7 @@ export default class NumberLineNode extends Node {
       visibleProperty: DerivedProperty.valueEqualsConstant( model.leftAddendLabelPlacementProperty, 'arrow' )
     } );
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
-      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,
       numberFontSize: 20
@@ -124,11 +124,24 @@ export default class NumberLineNode extends Node {
       fill: NumberPairsColors.numberLineRightAddendColorProperty
     } );
     const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {
-      fill: NumberPairsColors.numberLineRightAddendColorProperty,
+      fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
       visibleProperty: model.showNumberLineAddendValuesProperty,
       numberFontSize: 20
     } );
+
+    // slider.thumbDragListener.isUserControlledProperty.link( isUserControlled => {
+    //   if ( isUserControlled ) {
+    //     totalLabel.fill = NumberPairsColors.numberLineSumColorProperty;
+    //     leftAddendLabel.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
+    //     rightAddendLabel.fill = NumberPairsColors.numberLineRightAddendColorProperty;
+    //   }
+    //   else {
+    //     totalLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
+    //     leftAddendLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
+    //     rightAddendLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
+    //   }
+    // } );
 
     Multilink.multilink( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
       ( leftAddend, rightAddend, total ) => {
