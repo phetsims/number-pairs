@@ -361,7 +361,6 @@ export default class NumberPairsModel implements TModel {
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
 
       // Bead positions should be a mirrored translation across the separator.
-      // TODO: more work needs to be done here. https://github.com/phetsims/number-pairs/issues/23
       const previousSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.rightAddendProperty.value );
       const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
       const distanceBetweenSeparators = updatedSeparatorPosition - previousSeparatorPosition;

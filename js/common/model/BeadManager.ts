@@ -229,6 +229,7 @@ export default class BeadManager {
    * @param shiftRight - shift right if true, shift left if false.
    */
   public shiftOverlappingBeadPositions( xPositions: number[], shiftRight: boolean ): number[] {
+    xPositions.sort( ( a, b ) => a - b );
     const shiftedXPositions: number[] = [];
     const direction = shiftRight ? 1 : -1;
 
