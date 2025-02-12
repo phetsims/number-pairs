@@ -74,14 +74,20 @@ export default class BarModelNode extends VBox {
 
       // We need to handle the case where the total is 0, because we can't divide by 0
       if ( total !== 0 ) {
+        totalRectangle.fill = model.totalColorProperty;
         leftAddendRectangle.rectWidth = leftAddend / total * TOTAL_WIDTH;
+        leftAddendRectangle.fill = model.leftAddendColorProperty;
         leftAddendRectangle.visible = leftAddend > 0;
         rightAddendRectangle.rectWidth = rightAddend / total * TOTAL_WIDTH;
         rightAddendRectangle.visible = rightAddend > 0;
       }
       else {
-        leftAddendRectangle.rectWidth = 0;
+        totalRectangle.fill = null;
+        leftAddendRectangle.rectWidth = TOTAL_WIDTH;
+        leftAddendRectangle.fill = null;
+        leftAddendRectangle.visible = true;
         rightAddendRectangle.rectWidth = 0;
+        rightAddendRectangle.visible = false;
       }
     } );
 
