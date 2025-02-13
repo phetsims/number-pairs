@@ -36,7 +36,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import hand_png from '../../../../scenery-phet/images/hand_png.js';
+import dragIndicatorHand_png from '../../../../scenery-phet/images/dragIndicatorHand_png.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -58,7 +58,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
   public constructor(
     public readonly countingObject: CountingObject,
     dragBounds: Bounds2,
-    newKittenSelectedEmitter: Emitter<[CountingObject]>,
+    newKittenSelectedEmitter: Emitter<[ CountingObject ]>,
     hasAttributeBeenSwitchedProperty: Property<boolean>,
     providedOptions: KittenNodeOptions
   ) {
@@ -118,10 +118,11 @@ export default class KittenNode extends InteractiveHighlightingNode {
       stroke: null
     } );
 
-    const handIcon = new Image( hand_png, {
+    const handIcon = new Image( dragIndicatorHand_png, {
       maxWidth: 24,
-      centerX: focusPanel.centerX + 6,
-      y: 13,
+      left: focusPanel.centerX - 8,
+      top: 6,
+      rotation: Math.PI * 1.85,
       visibleProperty: handIconVisibleProperty
     } );
 
