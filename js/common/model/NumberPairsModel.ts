@@ -78,7 +78,7 @@ export default class NumberPairsModel implements TModel {
   public readonly numberLineSliderEnabledRangeProperty: Property<Range>;
 
   // The following Properties control the visibility of decorators on the number line.
-  public readonly showNumberLineAddendValuesProperty: Property<boolean>;
+  public readonly showAddendValuesProperty: Property<boolean>;
   public readonly showTickValuesProperty: Property<boolean>;
   public readonly showTotalJumpProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
@@ -138,9 +138,9 @@ export default class NumberPairsModel implements TModel {
       phetioFeatured: true
     } );
 
-    this.showNumberLineAddendValuesProperty = new BooleanProperty( true, {
+    this.showAddendValuesProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'showNumberLineAddendValuesProperty' ) : Tandem.OPT_OUT,
+              options.tandem.createTandem( 'showAddendValuesProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
     this.showTickValuesProperty = new BooleanProperty( true, {
@@ -696,7 +696,7 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendVisibleProperty.reset();
     this.rightAddendVisibleProperty.reset();
     this.totalVisibleProperty.reset();
-    this.showNumberLineAddendValuesProperty.reset();
+    this.showAddendValuesProperty.reset();
     this.showTickValuesProperty.reset();
     this.showTotalJumpProperty.reset();
     this.leftAddendLabelPlacementProperty.reset();

@@ -26,7 +26,8 @@ export default class ThumbNode extends Node {
     } );
     const handleLine = new Line( 0, 0, 0, HANDLE_LINE_LENGTH, {
       stroke: 'black',
-      top: trackPoint.bottom
+      top: trackPoint.bottom,
+      lineWidth: 1.5
     } );
     const handleKnob = new ShadedSphereNode( NumberLineNode.POINT_RADIUS * 3, {
       highlightColor: NumberPairsColors.numberLineThumbNodeColorProperty.value.brighterColor( 0.8 ),

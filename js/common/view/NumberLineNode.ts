@@ -33,7 +33,7 @@ type SelfOptions = {
 type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
 const NUMBER_LINE_POINT_RADIUS = 8;
-const LABEL_DIMENSION = 28;
+const LABEL_DIMENSION = 21;
 const LABEL_MARGIN = 5; // distance between the label and the arrow
 
 
@@ -108,7 +108,7 @@ export default class NumberLineNode extends Node {
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showNumberLineAddendValuesProperty,
+      visibleProperty: model.showAddendValuesProperty,
       numberFontSize: 20
     } );
 
@@ -126,22 +126,9 @@ export default class NumberLineNode extends Node {
     const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showNumberLineAddendValuesProperty,
+      visibleProperty: model.showAddendValuesProperty,
       numberFontSize: 20
     } );
-
-    // slider.thumbDragListener.isUserControlledProperty.link( isUserControlled => {
-    //   if ( isUserControlled ) {
-    //     totalLabel.fill = NumberPairsColors.numberLineSumColorProperty;
-    //     leftAddendLabel.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
-    //     rightAddendLabel.fill = NumberPairsColors.numberLineRightAddendColorProperty;
-    //   }
-    //   else {
-    //     totalLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
-    //     leftAddendLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
-    //     rightAddendLabel.fill = NumberPairsColors.numberLineLabelBackgroundColorProperty;
-    //   }
-    // } );
 
     Multilink.multilink( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
       ( leftAddend, rightAddend, total ) => {
@@ -180,7 +167,7 @@ export default class NumberLineNode extends Node {
       ( leftAddend, placement, bounds ) => {
         if ( placement === 'handle' ) {
           leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
-          leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 4;
+          leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 6;
         }
         else {
           leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -LABEL_MARGIN );
