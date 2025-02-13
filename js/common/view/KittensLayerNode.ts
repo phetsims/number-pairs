@@ -18,17 +18,18 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
+import Property from '../../../../axon/js/Property.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
 
-  public constructor( countingObjects: CountingObject[], countingAreNode: CountingAreaNode, providedOptions: KittensLayerNodeOptions ) {
+  public constructor( countingObjects: CountingObject[], countingAreNode: CountingAreaNode, hasAttributeBeenSwitchedProperty: Property<boolean>, providedOptions: KittensLayerNodeOptions ) {
     const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
 
     countingObjects.forEach( ( countingObject, i ) => {
-      kittenNodes.push( new KittenNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, newKittenSelectedEmitter, {
+      kittenNodes.push( new KittenNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, newKittenSelectedEmitter, hasAttributeBeenSwitchedProperty, {
         switchFocusToFirstKitten: () => {
           const firstKitten = kittenNodes[ 0 ];
           assert && assert( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );

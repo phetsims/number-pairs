@@ -93,6 +93,8 @@ export default class NumberPairsModel implements TModel {
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
+  public readonly hasAttributeBeenSwitchedProperty: Property<boolean>;
+
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
@@ -189,6 +191,10 @@ export default class NumberPairsModel implements TModel {
     this.rightAddendCountingObjectsLengthProperty = new DynamicProperty( this.rightAddendCountingObjectsProperty, {
       hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
+    } );
+    this.hasAttributeBeenSwitchedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'hasAttributeBeenSwitchedProperty' ),
+      phetioState: false
     } );
   }
 

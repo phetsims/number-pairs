@@ -36,6 +36,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import hand_png from '../../../../scenery-phet/images/hand_png.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -58,6 +59,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     public readonly countingObject: CountingObject,
     dragBounds: Bounds2,
     newKittenSelectedEmitter: Emitter<[CountingObject]>,
+    hasAttributeBeenSwitchedProperty: Property<boolean>,
     providedOptions: KittenNodeOptions
   ) {
 
@@ -70,8 +72,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // a Property that allows us to toggle between the left and right addend while also still respecting the
     // INACTIVE options that addendTypeProperty supports.
     const isLeftAddendProperty = new BooleanProperty( countingObject.addendTypeProperty.value === AddendType.LEFT, {} );
-    isLeftAddendProperty.link( isLeftAddend => {
-
+    isLeftAddendProperty.lazyLink( isLeftAddend => {
+      hasAttributeBeenSwitchedProperty.value = true;
       // Only update the addendTypeProperty if it is not inactive. We should not be changing the state of an
       // inactive counting object.
       if ( countingObject.addendTypeProperty.value !== AddendType.INACTIVE ) {
@@ -99,6 +101,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
       setLabelEnabled: _.noop // We do not want the labels to change opacity
     } );
+    const handIconVisibleProperty = new DerivedProperty( [ hasAttributeBeenSwitchedProperty, countingObject.kittenSelectedProperty ],
+      ( hasAttributeBeenSwitched, selected ) => !hasAttributeBeenSwitched && selected );
 
     // When a countingObject is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
@@ -112,6 +116,13 @@ export default class KittenNode extends InteractiveHighlightingNode {
       focusable: false,
       fill: NumberPairsColors.kittenPanelBackgroundColorProperty,
       stroke: null
+    } );
+
+    const handIcon = new Image( hand_png, {
+      maxWidth: 24,
+      centerX: focusPanel.centerX + 6,
+      y: 13,
+      visibleProperty: handIconVisibleProperty
     } );
 
     const leftAddendKittenImage = new Image( kittenYellow_svg, {
@@ -133,7 +144,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     // TODO: use options.children = instead, etc.
     const superOptions = combineOptions<NodeOptions>( {
-      children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ],
+      children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage, handIcon ],
       focusHighlight: Shape.bounds( focusPanel.bounds )
     }, options );
     super( superOptions );
