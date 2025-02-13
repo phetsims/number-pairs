@@ -67,7 +67,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     const horizontalCheckboxSpacing = 35;
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsStrings.totalStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ), {
-      helpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
+      accessibleHelpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
       bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
       left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
       tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )

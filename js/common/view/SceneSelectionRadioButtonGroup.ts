@@ -36,7 +36,7 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
     } );
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       accessibleName: totalNumberPatternStringProperty,
-      helpText: NumberPairsStrings.chooseTotalHelpTextStringProperty,
+      accessibleHelpText: NumberPairsStrings.chooseTotalHelpTextStringProperty,
       radioButtonOptions: {
         size: new Dimension2( 40, 40 )
       }

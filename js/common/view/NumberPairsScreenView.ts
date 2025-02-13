@@ -137,7 +137,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
         accessibleName: NumberPairsStrings.hearNumberPhraseStringProperty,
-        helpText: NumberPairsStrings.numberPhraseHelpTextStringProperty
+        accessibleHelpText: NumberPairsStrings.numberPhraseHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -179,7 +179,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
-      helpText: organizeObjectsHelpTextPatternStringProperty,
+      accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
       tandem: options.tandem.createTandem( 'tenFrameButton' ),
       listener: () => {
         this.interruptSubtreeInput();
