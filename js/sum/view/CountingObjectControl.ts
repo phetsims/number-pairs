@@ -34,6 +34,7 @@ import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -88,6 +89,8 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       inputType: 'range'
     }, providedOptions );
 
+    const arrowButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
+
     const incrementEnabledProperty = new DerivedProperty( [ inactiveCountingObjects.lengthProperty ],
       ( inactiveCountingObjectsLength: number ) => inactiveCountingObjectsLength > 0 );
     const handleIncrement = () => {
@@ -96,6 +99,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
       // into a negative value when moving up from 0.
       totalNumberProperty.value += 1;
+      arrowButtonSoundPlayer.play();
       options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value + 1 );
     };
     const incrementButton = new ArrowButton( 'up', handleIncrement, {
@@ -112,6 +116,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       ( addendCountingObjectsLength: number ) => addendCountingObjectsLength > 0 );
     const handleDecrement = () => {
       options.interruptPointers();
+      arrowButtonSoundPlayer.play();
       options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value - 1 );
       totalNumberProperty.value -= 1;
     };

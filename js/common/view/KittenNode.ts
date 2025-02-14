@@ -37,6 +37,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import dragIndicatorHand_png from '../../../../scenery-phet/images/dragIndicatorHand_png.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -180,10 +181,13 @@ export default class KittenNode extends InteractiveHighlightingNode {
       }
     } );
 
+    const switchToLeftSoundPlayer = sharedSoundPlayers.get( 'switchToLeft' );
+    const switchToRightSoundPlayer = sharedSoundPlayers.get( 'switchToRight' );
     const toggleAddendKeyboardListener = new KeyboardListener( {
       keys: [ 'space' ],
       press: () => {
         isLeftAddendProperty.toggle();
+        isLeftAddendProperty.value ? switchToLeftSoundPlayer.play() : switchToRightSoundPlayer.play();
       }
     } );
     this.addInputListener( {
