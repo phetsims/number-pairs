@@ -8,7 +8,6 @@
  *
  */
 
-import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -21,6 +20,8 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import numberPairs from '../../numberPairs.js';
+import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 type TrackSelfOptions = {
   numberLineRange: Range;
@@ -52,6 +53,9 @@ export default class NumberLineSliderTrack extends SliderTrack {
       stroke: 'black'
     } );
     super( valueProperty, trackNode, options.numberLineRange, providedOptions );
+
+    const tickMarksTandem = options.tandem.createTandem( 'tickMarks' );
+    this.sliderTickParent.visibleProperty = new GatedVisibleProperty( this.visibleProperty, tickMarksTandem );
 
     this.majorTickLength = options.majorTickLength;
     this.minorTickLength = options.minorTickLength;

@@ -142,8 +142,6 @@ export default class NumberLineIcon extends Node {
       } );
       this.addChild( valuePoint );
     }
-
-
   }
 }
 

@@ -67,7 +67,8 @@ export default class NumberLineSlider extends HSlider {
       enabledRangeProperty: enabledRangeProperty,
       keyboardStep: 1,
       shiftKeyboardStep: 2,
-      pageKeyboardStep: 3
+      pageKeyboardStep: 3,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
     super( leftAddendNumberProperty, numberLineRange, options );
 
