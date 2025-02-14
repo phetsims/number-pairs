@@ -107,7 +107,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
-    groupSelectView.grabReleaseCueNode.centerBottom = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plus( new Vector2( 0, 10 ) );
+    groupSelectView.grabReleaseCueNode.centerBottom = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerBottom;
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
       if ( !isGrabbed && model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value ) {
         countingAreaNode.dropCountingObject( model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value, 'location' );

@@ -702,6 +702,8 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendLabelPlacementProperty.reset();
     this.numberLineSliderEnabledRangeProperty.reset();
     this.changingScenesProperty.reset();
+    this.groupSelectBeadsModel.reset();
+    this.groupSelectLocationObjectsModel.reset();
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
