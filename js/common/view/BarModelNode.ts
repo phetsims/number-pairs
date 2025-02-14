@@ -72,7 +72,9 @@ export default class BarModelNode extends VBox {
      * Hook up the rectangles to listeners so that they update accordingly
      */
     ManualConstraint.create( addendsNode, [ leftAddendRectangle, rightAddendRectangle ], ( leftAddendRectangleProxy, rightAddendRectangleProxy ) => {
-      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.right - LINE_WIDTH : totalRectangle.left;
+
+      // Use the rectWidth to calculate because the text bounds may protrude from the rectangle.
+      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.left + leftAddendRectangle.rectWidth : totalRectangle.left;
     } );
     Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
 
