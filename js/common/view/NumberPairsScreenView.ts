@@ -43,6 +43,7 @@ import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnn
 import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 type SelfOptions = {
   numberPhraseContent: Node;
@@ -161,22 +162,16 @@ export default class NumberPairsScreenView extends ScreenView {
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
-    const representationTypeAccessibleNameProperty = new DerivedProperty( [ model.representationTypeProperty ],
-        representationType => representationType.accessibleName );
+    const representationTypeAccessibleNameProperty = new DynamicProperty( model.representationTypeProperty, {
+      derive: 'accessibleName'
+    } );
     const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsPatternStringProperty, {
       representation: representationTypeAccessibleNameProperty
-    }, {
-      maps: {
-        representation: stringProperty => stringProperty.value
-      }
     } );
     const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsHelpTextPatternStringProperty, {
       representation: representationTypeAccessibleNameProperty
-    }, {
-      maps: {
-        representation: stringProperty => stringProperty.value
-      }
     } );
+
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
       accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
