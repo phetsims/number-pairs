@@ -146,7 +146,8 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( speechSynthesisControl );
     const localeSwitch = new LocaleSwitch( NumberPairsPreferences, numberPairsUtteranceQueue, 300, {
-      tandem: options.tandem.createTandem( 'localeSwitch' )
+      tandem: options.tandem.createTandem( 'localeSwitch' ),
+      phetioDocumentation: 'This control is only accessible when a second language is active.'
     } );
     numberPhraseVBox.addChild( localeSwitch );
 
