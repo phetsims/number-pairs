@@ -60,7 +60,7 @@ export default class NumberLineNode extends Node {
       model.leftAddendProperty,
       model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
-      model.showTickValuesProperty,
+      model.tickValuesVisibleProperty,
       {
         accessibleName: NumberPairsStrings.numberLineSliderStringProperty,
         numberLineRange: options.numberLineRange,
@@ -84,12 +84,12 @@ export default class NumberLineNode extends Node {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
       curveYRadius: 80,
-      visibleProperty: model.showTotalJumpProperty
+      visibleProperty: model.totalVisibleProperty
     } );
     const totalLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.totalProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showTotalJumpProperty,
+      visibleProperty: model.totalJumpVisibleProperty,
       numberFontSize: 20
     } );
 
@@ -108,7 +108,7 @@ export default class NumberLineNode extends Node {
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showAddendValuesProperty,
+      visibleProperty: model.numberLineAddendValuesVisibleProperty,
       numberFontSize: 20
     } );
 
@@ -126,7 +126,7 @@ export default class NumberLineNode extends Node {
     const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
       cornerRadius: 5,
-      visibleProperty: model.showAddendValuesProperty,
+      visibleProperty: model.numberLineAddendValuesVisibleProperty,
       numberFontSize: 20
     } );
 

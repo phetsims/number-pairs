@@ -78,9 +78,9 @@ export default class NumberPairsModel implements TModel {
   public readonly numberLineSliderEnabledRangeProperty: Property<Range>;
 
   // The following Properties control the visibility of decorators on the number line.
-  public readonly showAddendValuesProperty: Property<boolean>;
-  public readonly showTickValuesProperty: Property<boolean>;
-  public readonly showTotalJumpProperty: Property<boolean>;
+  public readonly numberLineAddendValuesVisibleProperty: Property<boolean>;
+  public readonly tickValuesVisibleProperty: Property<boolean>;
+  public readonly totalJumpVisibleProperty: Property<boolean>;
   public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
 
   public countingObjectsAnimation: Animation | null = null;
@@ -127,30 +127,32 @@ export default class NumberPairsModel implements TModel {
       derive: 'rightAddendColorProperty'
     } );
 
+    // Visible Properties tandem
+    const visiblePropertiesTandem = options.tandem.createTandem( 'visibleProperties' );
     this.leftAddendVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'leftAddendVisibleProperty' )
+      tandem: visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' )
     } );
     this.rightAddendVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'rightAddendVisibleProperty' )
+      tandem: visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' )
     } );
     this.totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
-      tandem: options.tandem.createTandem( 'totalVisibleProperty' ),
+      tandem: visiblePropertiesTandem.createTandem( 'totalVisibleProperty' ),
       phetioFeatured: true
     } );
 
-    this.showAddendValuesProperty = new BooleanProperty( true, {
+    this.numberLineAddendValuesVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'showAddendValuesProperty' ) : Tandem.OPT_OUT,
+              visiblePropertiesTandem.createTandem( 'numberLineAddendValuesVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.showTickValuesProperty = new BooleanProperty( true, {
+    this.tickValuesVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'showTickValuesProperty' ) : Tandem.OPT_OUT,
+              visiblePropertiesTandem.createTandem( 'tickValuesVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.showTotalJumpProperty = new BooleanProperty( true, {
+    this.totalJumpVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'showTotalJumpProperty' ) : Tandem.OPT_OUT,
+              visiblePropertiesTandem.createTandem( 'totalJumpVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
     this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {
@@ -646,6 +648,7 @@ export default class NumberPairsModel implements TModel {
 
     // Find and set the initial positions for each counting object.
     const countingObjects: CountingObject[] = [];
+    const countingObjectsTandem = tandem.createTandem( 'countingObjects' );
     _.times( numberOfCountingObjects, i => {
       const countingObjectID = i + 1;
       const initialAttributePosition = dotRandom.sample( availableAttributeGridPositions );
@@ -672,7 +675,7 @@ export default class NumberPairsModel implements TModel {
         initialBeadXPosition: initialBeadXPosition,
         initialAttributePosition: initialAttributePosition,
         initialLocationPosition: initialLocationPosition,
-        tandem: tandem.createTandem( `CountingObject${countingObjectID}` )
+        tandem: countingObjectsTandem.createTandem( `countingObject${countingObjectID}` )
       } ) );
     } );
 
@@ -696,9 +699,9 @@ export default class NumberPairsModel implements TModel {
     this.leftAddendVisibleProperty.reset();
     this.rightAddendVisibleProperty.reset();
     this.totalVisibleProperty.reset();
-    this.showAddendValuesProperty.reset();
-    this.showTickValuesProperty.reset();
-    this.showTotalJumpProperty.reset();
+    this.numberLineAddendValuesVisibleProperty.reset();
+    this.tickValuesVisibleProperty.reset();
+    this.totalJumpVisibleProperty.reset();
     this.leftAddendLabelPlacementProperty.reset();
     this.numberLineSliderEnabledRangeProperty.reset();
     this.changingScenesProperty.reset();

@@ -7,7 +7,6 @@
  *
  */
 
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -20,23 +19,22 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 type NumberLineOptionsCheckboxGroupOptions = WithRequired<VerticalCheckboxGroupOptions, 'tandem'>;
 export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGroup {
 
-  public constructor( model: NumberPairsModel, countingAreaBounds: Bounds2, providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
-    const options = optionize<NumberLineOptionsCheckboxGroupOptions, EmptySelfOptions, VerticalCheckboxGroupOptions>()( {
-    }, providedOptions );
+  public constructor( model: NumberPairsModel, providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
+    const options = optionize<NumberLineOptionsCheckboxGroupOptions, EmptySelfOptions, VerticalCheckboxGroupOptions>()( {}, providedOptions );
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
         createNode: () => new Text( NumberPairsStrings.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
-        property: model.showAddendValuesProperty,
+        property: model.numberLineAddendValuesVisibleProperty,
         tandemName: 'addendsCheckbox'
       },
       {
         createNode: () => new Text( NumberPairsStrings.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
-        property: model.showTickValuesProperty,
+        property: model.tickValuesVisibleProperty,
         tandemName: 'tickValuesCheckbox'
       },
       {
         createNode: () => new Text( NumberPairsStrings.totalJumpStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
-        property: model.showTotalJumpProperty,
+        property: model.totalJumpVisibleProperty,
         tandemName: 'totalJumpCheckbox'
       }
     ];

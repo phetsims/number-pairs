@@ -299,7 +299,7 @@ export default class NumberPairsScreenView extends ScreenView {
       //  is added to the scene graph.
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
-      const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, COUNTING_AREA_BOUNDS, {
+      const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
         right: COUNTING_AREA_BOUNDS.right,
         visibleProperty: numberLineVisibleProperty,

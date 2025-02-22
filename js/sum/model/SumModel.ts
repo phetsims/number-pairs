@@ -44,7 +44,8 @@ export default class SumModel extends NumberPairsModel {
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
-  // We need to be able to set
+  // This Property is only created in the sumModel to satisfy requirements for NumberPairsModel. It does not
+  // need to be instrumented for PhET-iO.
   public readonly beadXPositionsProperty: Property<BeadXPositionsTypes>;
 
   public constructor( providedOptions: SumModelOptions ) {
