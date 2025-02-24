@@ -68,6 +68,9 @@ export default class NumberLineSlider extends HSlider {
       keyboardStep: 1,
       shiftKeyboardStep: 2,
       pageKeyboardStep: 3,
+      valueChangeSoundGeneratorOptions: {
+        numberOfMiddleThresholds: numberLineRange.getLength()
+      },
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
     super( leftAddendNumberProperty, numberLineRange, options );
