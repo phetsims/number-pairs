@@ -62,7 +62,7 @@ type SelfOptions = {
 };
 type NumberPhraseAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
-const LINE_WRAP = 240;
+const LINE_WRAP = 240; // empirically determined
 export default class NumberPhraseAccordionBox extends TotalRepresentationAccordionBox {
 
   // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
@@ -77,6 +77,7 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
       contentYMargin: 20,
       contentAlign: 'left',
       minWidth: NumberPhraseAccordionBox.MIN_WIDTH,
+      maxWidth: NumberPhraseAccordionBox.MIN_WIDTH + 10,
       expandedDefaultValue: false
     }, providedOptions );
 
@@ -164,6 +165,7 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
     let rightAddendHighlight: Rectangle;
     const richText = new RichText( numberPhraseStringProperty, {
       lineWrap: LINE_WRAP,
+      maxHeight: 125,
       leading: 10,
       tags: {
         total: node => {
