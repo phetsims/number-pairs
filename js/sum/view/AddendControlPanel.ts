@@ -7,7 +7,6 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -16,6 +15,7 @@ import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObjectControl, { CountingObjectControlOptions } from './CountingObjectControl.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 type SelfOptions = {
   countingObjectControlOptions: CountingObjectControlOptions;
@@ -24,7 +24,7 @@ type AddendSpinnerPanelOptions = PanelOptions & SelfOptions;
 export default class AddendControlPanel extends Panel {
 
   public constructor(
-    totalNumberProperty: Property<number>,
+    totalNumberProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
     countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,

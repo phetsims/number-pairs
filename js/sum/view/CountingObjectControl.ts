@@ -35,6 +35,8 @@ import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -75,7 +77,7 @@ const ARROW_HEIGHT = 12;
 export default class CountingObjectControl extends InteractiveHighlightingNode {
 
   public constructor(
-    totalNumberProperty: Property<number>,
+    totalNumberProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
     countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
@@ -96,11 +98,20 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const handleIncrement = () => {
       options.interruptPointers();
 
-      // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
-      // into a negative value when moving up from 0.
-      totalNumberProperty.value += 1;
+      if ( options.addendNumberProperty ) {
+
+        // If we have options.addendNumberProperty, then we need to adjust totalNumberProperty's value and range
+        // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
+        // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
+        // into a negative value when moving up from 0.
+        const newAddendValue = options.addendNumberProperty.value + 1;
+        totalNumberProperty.setValueAndRange( totalNumberProperty.value + 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
+        options.addendNumberProperty.set( newAddendValue );
+      }
+      else {
+        totalNumberProperty.value += 1;
+      }
       arrowButtonSoundPlayer.play();
-      options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value + 1 );
     };
     const incrementButton = new ArrowButton( 'up', handleIncrement, {
       arrowHeight: ARROW_HEIGHT,
@@ -117,8 +128,23 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const handleDecrement = () => {
       options.interruptPointers();
       arrowButtonSoundPlayer.play();
-      options.addendNumberProperty && options.addendNumberProperty.set( options.addendNumberProperty.value - 1 );
-      totalNumberProperty.value -= 1;
+
+      if ( options.addendNumberProperty ) {
+
+        // If we have options.addendNumberProperty, then we need to adjust totalNumberProperty's value and range
+        // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
+        const newAddendValue = options.addendNumberProperty.value - 1;
+        options.addendNumberProperty.set( newAddendValue );
+        totalNumberProperty.setValueAndRange( totalNumberProperty.value - 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
+      }
+      else {
+        const newTotal = totalNumberProperty.value - 1;
+        // Workaround: Check the range before setting because fuzz testing indicates that it's possible to press the
+        // decrement button before incrementEnabledProperty has changed.
+        if ( totalNumberProperty.range.contains( newTotal ) ) {
+          totalNumberProperty.value = newTotal;
+        }
+      }
     };
     const decrementButton = new ArrowButton( 'down', handleDecrement, {
       arrowHeight: ARROW_HEIGHT,

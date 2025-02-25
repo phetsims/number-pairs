@@ -40,7 +40,7 @@ export default class SumModel extends NumberPairsModel {
   // The right addend is derived due to competing user interactions in the Sum Screen.
   // You can find more information in this issue: https://github.com/phetsims/number-pairs/issues/17
   public override readonly rightAddendProperty: TReadOnlyProperty<number>;
-  public override readonly totalProperty: Property<number>;
+  public override readonly totalProperty: NumberProperty; // NumberProperty because we need setValueAndRange.
 
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
 
@@ -67,7 +67,7 @@ export default class SumModel extends NumberPairsModel {
         tandem: options.tandem.createTandem( 'totalProperty' ),
         numberType: 'Integer',
         hasListenerOrderDependencies: true,
-        range: SCENE_RANGE
+        range: new Range( leftAddendProperty.value, SCENE_RANGE.max )
       } );
 
     const rightAddendProperty: TReadOnlyProperty<number> = new DerivedProperty( [ leftAddendProperty, totalProperty ], ( leftAddend, total ) => {
