@@ -34,7 +34,7 @@ export default class NumberLineSlider extends HSlider {
   public readonly sliderTickParent: Node;
 
   public constructor(
-    leftAddendNumberProperty: PhetioProperty<number>,
+    leftAddendProperty: PhetioProperty<number>,
     enabledRangeProperty: TReadOnlyProperty<Range>,
     trackModelViewTransform: ModelViewTransform2,
     tickValuesVisibleProperty: Property<boolean>,
@@ -47,7 +47,7 @@ export default class NumberLineSlider extends HSlider {
 
     const sliderTickParent = new Node();
     const trackNode = new NumberLineSliderTrack(
-      leftAddendNumberProperty,
+      leftAddendProperty,
       sliderTickParent,
       trackModelViewTransform,
       tickValuesVisibleProperty,
@@ -73,7 +73,7 @@ export default class NumberLineSlider extends HSlider {
       },
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
-    super( leftAddendNumberProperty, numberLineRange, options );
+    super( leftAddendProperty, numberLineRange, options );
 
     this.sliderTickParent = sliderTickParent;
   }

@@ -373,8 +373,8 @@ export default class BeadsOnWireNode extends Node {
       this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
     }
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendNumberProperty' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendNumberProperty' );
+    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendProperty' );
+    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendProperty' );
   }
 
   private getBeadsToMove( startingBeadNode: BeadNode, proposedXPosition: number, movingRight: boolean, sortedBeadNodes: BeadNode[] ): BeadNode[] {

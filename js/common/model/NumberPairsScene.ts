@@ -90,7 +90,7 @@ export default class NumberPairsScene extends PhetioObject {
       valueComparisonStrategy: 'lodashDeep' // We want to compare the actual object literal contents and not the instance.
     } );
 
-    // Listen to the rightAddendNumberProperty since it is derived and will therefore be updated last.
+    // Listen to the rightAddendProperty since it is derived and will therefore be updated last.
     // We manually handle counting object distribution during construction.
     this.rightAddendProperty.lazyLink( rightAddendValue => {
       if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
@@ -136,8 +136,8 @@ export default class NumberPairsScene extends PhetioObject {
         }
       }
 
-      assert && assert( this.leftAddendProperty.value === this.leftAddendObjects.length, 'leftAddendNumberProperty should match leftAddendObjects length' );
-      assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendNumberProperty should match rightAddendObjects length' );
+      assert && assert( this.leftAddendProperty.value === this.leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
+      assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
       assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
   }

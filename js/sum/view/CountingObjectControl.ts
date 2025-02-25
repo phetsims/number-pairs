@@ -3,7 +3,7 @@
 /**
  * The CountingObjectControl adds and removes counting objects from the provided addend array.
  * This also increases or decreases the total amount of counting objects in the counting area
- * affecting the totalNumberProperty accordingly.
+ * affecting the totalProperty accordingly.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -77,7 +77,7 @@ const ARROW_HEIGHT = 12;
 export default class CountingObjectControl extends InteractiveHighlightingNode {
 
   public constructor(
-    totalNumberProperty: NumberProperty,
+    totalProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
     countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
@@ -100,16 +100,16 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
       if ( options.leftAddendProperty ) {
 
-        // If we have options.leftAddendProperty, then we need to adjust totalNumberProperty's value and range
+        // If we have options.leftAddendProperty, then we need to adjust totalProperty's value and range
         // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
-        // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
-        // into a negative value when moving up from 0.
+        // Set the totalProperty value first so that we don't force the rightAddendProperty into a negative value
+        // when moving up from 0.
         const newAddendValue = options.leftAddendProperty.value + 1;
-        totalNumberProperty.setValueAndRange( totalNumberProperty.value + 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
+        totalProperty.setValueAndRange( totalProperty.value + 1, new Range( newAddendValue, totalProperty.range.max ) );
         options.leftAddendProperty.set( newAddendValue );
       }
       else {
-        totalNumberProperty.value += 1;
+        totalProperty.value += 1;
       }
       arrowButtonSoundPlayer.play();
     };
@@ -131,18 +131,18 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
       if ( options.leftAddendProperty ) {
 
-        // If we have options.leftAddendProperty, then we need to adjust totalNumberProperty's value and range
+        // If we have options.leftAddendProperty, then we need to adjust totalProperty's value and range
         // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
         const newAddendValue = options.leftAddendProperty.value - 1;
         options.leftAddendProperty.set( newAddendValue );
-        totalNumberProperty.setValueAndRange( totalNumberProperty.value - 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
+        totalProperty.setValueAndRange( totalProperty.value - 1, new Range( newAddendValue, totalProperty.range.max ) );
       }
       else {
-        const newTotal = totalNumberProperty.value - 1;
+        const newTotal = totalProperty.value - 1;
         // Workaround: Check the range before setting because fuzz testing indicates that it's possible to press the
         // decrement button before incrementEnabledProperty has changed.
-        if ( totalNumberProperty.range.contains( newTotal ) ) {
-          totalNumberProperty.value = newTotal;
+        if ( totalProperty.range.contains( newTotal ) ) {
+          totalProperty.value = newTotal;
         }
       }
     };

@@ -24,7 +24,7 @@ type AddendSpinnerPanelOptions = PanelOptions & SelfOptions;
 export default class AddendControlPanel extends Panel {
 
   public constructor(
-    totalNumberProperty: NumberProperty,
+    totalProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,
     inactiveCountingObjects: ObservableArray<CountingObject>,
     countingRepresentationTypeProperty: TReadOnlyProperty<RepresentationType>,
@@ -37,7 +37,7 @@ export default class AddendControlPanel extends Panel {
     }, providedOptions );
 
     const countingObjectControl = new CountingObjectControl(
-      totalNumberProperty,
+      totalProperty,
       addendCountingObjects,
       inactiveCountingObjects,
       countingRepresentationTypeProperty, options.countingObjectControlOptions );
