@@ -22,6 +22,9 @@ import NumberPhraseAccordionBox from './NumberPhraseAccordionBox.js';
 import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
+// Font for the '=' and '+' symbols.
+const SYMBOL_FONT = new PhetFont( 20 );
+
 type SelfOptions = {
   addendsOnRight?: boolean;
   totalColorProperty: TReadOnlyProperty<Color>;
@@ -74,8 +77,8 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       rightAddendSquare.stroke = rightAddendColor.darkerColor();
     } );
 
-    const equalSign = new Text( '=', { font: new PhetFont( 20 ) } );
-    const plusSign = new Text( '+', { font: new PhetFont( 20 ) } );
+    const equalSign = new Text( '=', { font: SYMBOL_FONT } );
+    const plusSign = new Text( '+', { font: SYMBOL_FONT } );
 
     const contentChildren = options.addendsOnRight ? [ totalSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
