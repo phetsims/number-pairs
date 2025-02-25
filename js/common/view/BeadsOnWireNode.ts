@@ -17,7 +17,6 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -40,6 +39,8 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import BeadNode from './BeadNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import { equalsEpsilon } from '../../../../dot/js/util/equalsEpsilon.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const WIRE_HEIGHT = 4;
@@ -155,7 +156,7 @@ export default class BeadsOnWireNode extends Node {
 
         // Determine the delta based on the keys pressed, then use this delta to find the appropriate bead to select.
         const delta = this.getKeysDelta( keysPressed );
-        const selectedGroupItemIndex = Utils.clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
+        const selectedGroupItemIndex = clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
         return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
       },
       handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
@@ -243,7 +244,7 @@ export default class BeadsOnWireNode extends Node {
   }
 
   private handleBeadDrop( beadNode: BeadNode ): void {
-    if ( Utils.equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
+    if ( equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
       const proposedPosition = beadNode.centerX > this.beadSeparatorCenterXProperty.value ? this.beadSeparatorCenterXProperty.value + BEAD_WIDTH : this.beadSeparatorCenterXProperty.value - BEAD_WIDTH;
       this.handleBeadMove( this.localToGlobalPoint( new Vector2( proposedPosition, 0 ) ), beadNode );
     }
@@ -320,10 +321,9 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.traverseInactiveObjects = true;
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX(
-            Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 ) );
+          const xPosition = Math.max( newCenterX, this.beadSeparatorCenterXProperty.value + BEAD_WIDTH * 1.5 );
           this.getBeadsToMove( beadNode, xPosition, true, sortedBeadNodes ).forEach( ( beadNode, i ) => {
-            beadNode.countingObject.beadXPositionProperty.value = xPosition + i;
+            beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition + i * BEAD_WIDTH );
           } );
         }
       }
@@ -345,10 +345,9 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.traverseInactiveObjects = true;
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX(
-            Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 ) );
+          const xPosition = Math.min( newCenterX, this.beadSeparatorCenterXProperty.value - BEAD_WIDTH * 1.5 );
           this.getBeadsToMove( beadNode, xPosition, false, sortedBeadNodes ).forEach( ( beadNode, i ) => {
-            beadNode.countingObject.beadXPositionProperty.value = xPosition - i;
+            beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition - i * BEAD_WIDTH );
           } );
         }
       }
