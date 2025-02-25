@@ -43,7 +43,7 @@ type SelfOptions = {
 
   // If this Property is null we are controlling the right addend which is a derived Property. This prevents
   // reentrant behavior as we interact with all the numbers throughout the different representations in the sim.
-  addendNumberProperty?: Property<number> | null;
+  leftAddendProperty?: Property<number> | null;
 };
 export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
 
@@ -85,7 +85,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
   ) {
 
     const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
-      addendNumberProperty: null,
+      leftAddendProperty: null,
       focusable: true,
       tagName: 'input',
       inputType: 'range'
@@ -98,15 +98,15 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const handleIncrement = () => {
       options.interruptPointers();
 
-      if ( options.addendNumberProperty ) {
+      if ( options.leftAddendProperty ) {
 
-        // If we have options.addendNumberProperty, then we need to adjust totalNumberProperty's value and range
+        // If we have options.leftAddendProperty, then we need to adjust totalNumberProperty's value and range
         // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
         // Set the totalNumberProperty value first so that we don't force the rightAddendNumberProperty
         // into a negative value when moving up from 0.
-        const newAddendValue = options.addendNumberProperty.value + 1;
+        const newAddendValue = options.leftAddendProperty.value + 1;
         totalNumberProperty.setValueAndRange( totalNumberProperty.value + 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
-        options.addendNumberProperty.set( newAddendValue );
+        options.leftAddendProperty.set( newAddendValue );
       }
       else {
         totalNumberProperty.value += 1;
@@ -129,12 +129,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       options.interruptPointers();
       arrowButtonSoundPlayer.play();
 
-      if ( options.addendNumberProperty ) {
+      if ( options.leftAddendProperty ) {
 
-        // If we have options.addendNumberProperty, then we need to adjust totalNumberProperty's value and range
+        // If we have options.leftAddendProperty, then we need to adjust totalNumberProperty's value and range
         // at the same time, to avoid validation failure that would occur when the current value is outside the new range.
-        const newAddendValue = options.addendNumberProperty.value - 1;
-        options.addendNumberProperty.set( newAddendValue );
+        const newAddendValue = options.leftAddendProperty.value - 1;
+        options.leftAddendProperty.set( newAddendValue );
         totalNumberProperty.setValueAndRange( totalNumberProperty.value - 1, new Range( newAddendValue, totalNumberProperty.range.max ) );
       }
       else {
@@ -156,7 +156,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       tandem: options.tandem.createTandem( 'decrementButton' )
     } );
 
-    const images = options.addendNumberProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
+    const images = options.leftAddendProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;
     countingRepresentationTypeProperty.link( countingRepresentationType => {
       images.bead.visible = countingRepresentationType === RepresentationType.BEADS;
       images.kitten.visible = countingRepresentationType === RepresentationType.KITTENS;

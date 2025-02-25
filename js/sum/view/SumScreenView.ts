@@ -80,7 +80,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.representationTypeProperty,
       {
         countingObjectControlOptions: {
-          addendNumberProperty: model.leftAddendProperty,
+          leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this ),
           tandem: providedOptions.tandem.createTandem( 'leftAddendCountingObjectControl' )
         }
