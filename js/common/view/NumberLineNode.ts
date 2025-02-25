@@ -84,7 +84,7 @@ export default class NumberLineNode extends Node {
       fill: NumberPairsColors.numberLineSumColorProperty,
       belowNumberLine: true,
       curveYRadius: 80,
-      visibleProperty: model.totalVisibleProperty
+      visibleProperty: model.totalJumpVisibleProperty
     } );
     const totalLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.totalProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
