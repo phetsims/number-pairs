@@ -21,55 +21,55 @@ const NumberPairsColors = {
 
   // Background color for screens in this sim
   introScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'introBackground', {
-    default: '#FFFFFF'
+    default: '#FFFAF1'
   } ),
   tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'tenBackground', {
-    default: '#FFF7E8'
+    default: '#FFFAF1'
   } ),
   twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'twentyBackground', {
-    default: '#FFF7E8'
+    default: '#FFFAF1'
   } ),
   sumScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'sumBackground', {
-    default: '#FFF7E8'
+    default: '#FFFAF1'
   } ),
   locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
-    default: '#7bffa0'
+    default: '#74E2AB'
   } ),
   locationLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationLeftAddend', {
-    default: '#ffffc0'
+    default: '#F9FFA8'
   } ),
   locationRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationRightAddend', {
-    default: '#76e1ff'
+    default: '#A8D4FF'
   } ),
   numberLineSumColorProperty: new ProfileColorProperty( numberPairs, 'numberLineSum', {
-    default: '#D0BDFB'
+    default: '#9E9EFF'
   } ),
   numberLineLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLeftAddend', {
-    default: '#F8BDDD'
+    default: '#EFCCF0'
   } ),
   numberLineThumbNodeColorProperty: new ProfileColorProperty( numberPairs, 'numberLineThumbNode', {
-    default: '#F8BDDD'
+    default: '#FD8FFF'
   } ),
   numberLineRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineRightAddend', {
-    default: '#A7CFFE'
+    default: '#83B8EC'
   } ),
   numberLineLabelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLabelBackground', {
     default: 'rgba( 255, 255, 255, 1 )'
   } ),
   attributeSumColorProperty: new ProfileColorProperty( numberPairs, 'attributeSum', {
-    default: '#AFDDC6'
+    default: '#87D9B0'
   } ),
   attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
-    default: '#ffee8c'
+    default: '#FFEE8C'
   } ),
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
-    default: '#A3ADDD'
+    default: '#A5B3EE'
   } ),
   numberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineBackground', {
-    default: 'white'
+    default: '#FFFFFF'
   } ),
   accordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'accordionBoxBackground', {
-    default: '#F9E5CE'
+    default: '#EBEBEA'
   } ),
   numberBondAccordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberBondAccordionBoxBackground', {
     default: '#F8F8FD'
@@ -78,7 +78,7 @@ const NumberPairsColors = {
     default: 'rgba( 255, 255, 255, 0.5 )'
   } ),
   wireBaseColorProperty: new ProfileColorProperty( numberPairs, 'wireBaseColor', {
-    default: '#B3B3B3'
+    default: '#C7C7C7'
   } ),
   wireHighlightColorProperty: new ProfileColorProperty( numberPairs, 'wireHighlightColor', {
     default: '#F2F2F2'
