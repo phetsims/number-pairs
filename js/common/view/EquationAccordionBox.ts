@@ -23,7 +23,7 @@ import NumberRectangle from './NumberRectangle.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
 // Font for the '=' and '+' symbols.
-const SYMBOL_FONT = new PhetFont( 20 );
+const SYMBOL_FONT = new PhetFont( 28 );
 
 type SelfOptions = {
   addendsOnRight?: boolean;
@@ -50,7 +50,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     const totalSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.totalProperty, {
       numberVisibleProperty: model.totalVisibleProperty,
       fill: options.totalColorProperty.value,
-      stroke: options.totalColorProperty.value.darkerColor()
+      stroke: null//options.totalColorProperty.value.darkerColor()
     } );
     options.totalColorProperty.link( totalColor => {
       totalSquare.fill = totalColor;
@@ -84,7 +84,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
     const contentNode = new HBox( {
       children: contentChildren,
-      spacing: 5
+      spacing: 10
     } );
 
     super( contentNode, options );
