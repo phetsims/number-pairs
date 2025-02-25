@@ -575,8 +575,8 @@ export default class NumberPairsModel implements TModel {
       rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
     }
     else {
-      leftGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 20, 50 ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 1 ], 50, 20 ).slice( 0, rightAddendObjects.length );
+      leftGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35 ).slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35 ).slice( 0, rightAddendObjects.length );
     }
     if ( positionType === 'attribute' ) {
       this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
