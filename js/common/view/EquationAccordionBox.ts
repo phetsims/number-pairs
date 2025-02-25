@@ -48,9 +48,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     }, providedOptions );
 
     const totalSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.totalProperty, {
-      numberVisibleProperty: model.totalVisibleProperty,
-      fill: options.totalColorProperty.value,
-      stroke: null//options.totalColorProperty.value.darkerColor()
+      numberVisibleProperty: model.totalVisibleProperty
     } );
     options.totalColorProperty.link( totalColor => {
       totalSquare.fill = totalColor;
@@ -58,9 +56,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     } );
 
     const leftAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.leftAddendProperty, {
-      numberVisibleProperty: model.leftAddendVisibleProperty,
-      fill: options.leftAddendColorProperty.value,
-      stroke: options.leftAddendColorProperty.value.darkerColor()
+      numberVisibleProperty: model.leftAddendVisibleProperty
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddendSquare.fill = leftAddendColor;
@@ -68,9 +64,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     } );
 
     const rightAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.rightAddendProperty, {
-      numberVisibleProperty: model.rightAddendVisibleProperty,
-      fill: options.rightAddendColorProperty.value,
-      stroke: options.rightAddendColorProperty.value.darkerColor()
+      numberVisibleProperty: model.rightAddendVisibleProperty
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddendSquare.fill = rightAddendColor;
