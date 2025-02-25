@@ -9,7 +9,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -75,15 +74,12 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
         let selectedGroupItem = groupItem;
 
-        // Return all counting objects in the above calculated direction. (if none stay where we are)
-        // TODO: Refine to only include counting objects within the 90 degree angle of the direction. Currently
-        //  is defaulting to 180 degrees.
+        // Return the closest counting object in the above calculated direction. (if none stay where we are)
         if ( countingObjectsInDirection.length > 0 ) {
           countingObjectsInDirection.sort( ( a, b ) =>
             a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
 
-          const coordinate = Utils.clamp( delta.x === 0 ? Math.abs( delta.y ) : Math.abs( delta.x ), 0, countingObjectsInDirection.length );
-          selectedGroupItem = countingObjectsInDirection[ coordinate - 1 ];
+          selectedGroupItem = countingObjectsInDirection[ 0 ];
         }
         return selectedGroupItem;
       },
