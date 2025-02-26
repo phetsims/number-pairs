@@ -54,7 +54,7 @@ const NumberPairsColors = {
     default: '#83B8EC'
   } ),
   numberLineLabelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLabelBackground', {
-    default: 'rgba( 255, 255, 255, 1 )'
+    default: 'rgba( 255, 255, 255, 0.25 )'
   } ),
   attributeSumColorProperty: new ProfileColorProperty( numberPairs, 'attributeSum', {
     default: '#87D9B0'

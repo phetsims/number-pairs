@@ -11,7 +11,6 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -22,6 +21,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import ThumbNode from './ThumbNode.js';
+import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 
 type SelfOptions = {
   numberLineWidth: number;
@@ -52,7 +52,7 @@ export default class NumberLineSlider extends HSlider {
       trackModelViewTransform,
       tickValuesVisibleProperty,
       {
-        constrainValue: n => Utils.toFixedNumber( n, 0 ),
+        constrainValue: n => toFixedNumber( n, 0 ),
         size: trackDimension,
         enabledRangeProperty: enabledRangeProperty,
         numberLineRange: numberLineRange,
@@ -63,7 +63,7 @@ export default class NumberLineSlider extends HSlider {
       thumbNode: thumbNode,
       trackNode: trackNode,
       thumbYOffset: thumbNode.height / 2 - NumberLineNode.POINT_RADIUS,
-      constrainValue: n => Utils.toFixedNumber( n, 0 ),
+      constrainValue: n => toFixedNumber( n, 0 ),
       enabledRangeProperty: enabledRangeProperty,
       keyboardStep: 1,
       shiftKeyboardStep: 2,

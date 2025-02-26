@@ -15,7 +15,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberLineNode from './NumberLineNode.js';
 
-const HANDLE_LINE_LENGTH = 34;
+const HANDLE_LINE_LENGTH = 30;
 
 export default class ThumbNode extends Node {
   public constructor( tandem: Tandem ) {
@@ -27,7 +27,7 @@ export default class ThumbNode extends Node {
     const handleLine = new Line( 0, 0, 0, HANDLE_LINE_LENGTH, {
       stroke: 'black',
       top: trackPoint.bottom,
-      lineWidth: 1.5
+      lineWidth: 1
     } );
     const handleKnob = new ShadedSphereNode( NumberLineNode.POINT_RADIUS * 3, {
       highlightColor: NumberPairsColors.numberLineThumbNodeColorProperty.value.brighterColor( 0.8 ),

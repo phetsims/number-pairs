@@ -167,7 +167,7 @@ export default class NumberLineNode extends Node {
       ( leftAddend, placement, bounds ) => {
         if ( placement === 'handle' ) {
           leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
-          leftAddendLabel.top = NUMBER_LINE_POINT_RADIUS + 6;
+          leftAddendLabel.bottom = -NUMBER_LINE_POINT_RADIUS - 8;
         }
         else {
           leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -LABEL_MARGIN );
