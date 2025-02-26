@@ -5,7 +5,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
-import NumberPairsModel, { BeadXPositionsTypes } from './NumberPairsModel.js';
+import { BeadXPositionsTypes } from './NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Range from '../../../../dot/js/Range.js';
 import CountingObject, { AddendType } from './CountingObject.js';
@@ -24,7 +24,7 @@ export default class BeadManager {
   public static readonly BEAD_WIDTH = 21.5;
   public static readonly BEAD_HEIGHT = 80;
   public static readonly LEFTMOST_BEAD_X = 1;
-  public static readonly RIGHTMOST_BEAD_X = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH );
+  public static readonly RIGHTMOST_BEAD_X = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH ) - 1;
 
   // Although this model view transform is essentially used as a linear function, it is needed as the transform
   // for the keyboard drag listener.
@@ -57,7 +57,7 @@ export default class BeadManager {
   public updateBeadPositions( leftAddend: number ): void {
     const leftAddendBeads = this.leftAddendCountingObjectsProperty.value;
     const rightAddendBeads = this.rightAddendCountingObjectsProperty.value;
-    const separatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
+    const separatorXPosition = BeadManager.calculateBeadSeparatorXPosition( leftAddend );
     const beadDistanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
 
     // Sort the bead x positions by addend type. If the bead is inactive it means it was removed, but we still
@@ -190,11 +190,11 @@ export default class BeadManager {
   }
 
   /**
-   * @param xPositions
+   * @param xPositions - in model coordinates
    * @param direction - positive when we want to shift to the right, negative when we want to shift to the left.
    * @param startingValue
    */
-  private shiftXPositions( xPositions: number[], direction: number, startingValue: number ): number[] {
+  public shiftXPositions( xPositions: number[], direction: number, startingValue: number ): number[] {
     direction = Math.sign( direction );
     const shiftedPositions: number[] = [];
     xPositions.reduce( ( previousX, currentX ) => {
@@ -257,12 +257,20 @@ export default class BeadManager {
    */
   public static getDefaultBeadPositions( leftAddendValue: number, rightAddendValue: number ): BeadXPositionsTypes {
     const distanceFromSeparator = NumberPairsConstants.BEAD_DISTANCE_FROM_SEPARATOR;
-    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddendValue );
+    const beadSeparatorXPosition = BeadManager.calculateBeadSeparatorXPosition( leftAddendValue );
 
     return {
       leftAddendXPositions: _.times( leftAddendValue, i => beadSeparatorXPosition - i - distanceFromSeparator ),
       rightAddendXPositions: _.times( rightAddendValue, i => i + beadSeparatorXPosition + distanceFromSeparator )
     };
+  }
+
+  public static calculateBeadSeparatorXPosition( leftAddendValue: number ): number {
+
+    // empirically determined. This starting position is closely intertwined with the
+    // both the width of the bead, and the denominator in the calculation below.
+    const startingPosition = 15;
+    return leftAddendValue / 2.2 + startingPosition;
   }
 
   public reset(): void {

@@ -370,8 +370,8 @@ export default class NumberPairsModel implements TModel {
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
 
       // Bead positions should be a mirrored translation across the separator.
-      const previousSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.rightAddendProperty.value );
-      const updatedSeparatorPosition = NumberPairsModel.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
+      const previousSeparatorPosition = BeadManager.calculateBeadSeparatorXPosition( this.rightAddendProperty.value );
+      const updatedSeparatorPosition = BeadManager.calculateBeadSeparatorXPosition( this.leftAddendProperty.value );
       const distanceBetweenSeparators = updatedSeparatorPosition - previousSeparatorPosition;
       const newLeftBeadXPositions = rightBeadXPositions.map( x => Math.max( x - Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.LEFTMOST_BEAD_X ) );
       const newRightBeadXPositions = leftBeadXPositions.map( x => Math.min( x + Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.RIGHTMOST_BEAD_X ) );
@@ -533,7 +533,7 @@ export default class NumberPairsModel implements TModel {
     const distanceFromSeparator = 1.5;
 
     // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
-    const beadSeparatorXPosition = NumberPairsModel.calculateBeadSeparatorXPosition( leftAddend );
+    const beadSeparatorXPosition = BeadManager.calculateBeadSeparatorXPosition( leftAddend );
     const leftAddendRemainder = leftAddendBeads.length % 5;
     const leftXPositions = leftAddendBeads.map( ( bead, i ) => {
 
@@ -710,14 +710,6 @@ export default class NumberPairsModel implements TModel {
 
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
-  }
-
-  public static calculateBeadSeparatorXPosition( leftAddendValue: number ): number {
-
-    // empirically determined. This starting position is closely intertwined with the
-    // both the width of the bead, and the denominator in the calculation below.
-    const startingPosition = 15;
-    return leftAddendValue / 2.2 + startingPosition;
   }
 }
 
