@@ -174,7 +174,7 @@ export default class BeadsOnWireNode extends Node {
     } );
 
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
-    groupSelectView.grabReleaseCueNode.centerBottom = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 );
+    groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
 
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
