@@ -61,6 +61,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
   protected readonly resetAllButton: Node;
   protected readonly countingAreaButtonsVBox: Node;
+  protected readonly numberLineCheckboxGroup: Node | undefined;
 
   // For pdom order.
   protected readonly representationNodes: Node[] = [];
@@ -300,13 +301,13 @@ export default class NumberPairsScreenView extends ScreenView {
       //  is added to the scene graph.
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
-      const numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
+      this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
         right: COUNTING_AREA_BOUNDS.right,
         visibleProperty: numberLineVisibleProperty,
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
-      this.addChild( numberLineCheckboxGroup );
+      this.addChild( this.numberLineCheckboxGroup );
 
       const iconWidth = 35;
       const iconValue = 1;
@@ -330,7 +331,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
       // The desired pdom order is to start with the numberLineCheckboxGroup in the control area when applicable.
       // All other control area nodes are defined below.
-      this.controlNodes.push( numberLineCheckboxGroup );
+      this.controlNodes.push( this.numberLineCheckboxGroup );
     }
 
     /**
