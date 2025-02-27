@@ -14,7 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -38,6 +38,8 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import dragIndicatorHand_png from '../../../../scenery-phet/images/dragIndicatorHand_png.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -75,6 +77,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const isLeftAddendProperty = new BooleanProperty( countingObject.addendTypeProperty.value === AddendType.LEFT, {} );
     isLeftAddendProperty.lazyLink( isLeftAddend => {
       hasAttributeBeenSwitchedProperty.value = true;
+
       // Only update the addendTypeProperty if it is not inactive. We should not be changing the state of an
       // inactive counting object.
       if ( countingObject.addendTypeProperty.value !== AddendType.INACTIVE ) {
@@ -102,13 +105,16 @@ export default class KittenNode extends InteractiveHighlightingNode {
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
       setLabelEnabled: _.noop // We do not want the labels to change opacity
     } );
-    const handIconVisibleProperty = new DerivedProperty( [ hasAttributeBeenSwitchedProperty, countingObject.kittenSelectedProperty ],
-      ( hasAttributeBeenSwitched, selected ) => !hasAttributeBeenSwitched && selected );
+
+    // The hand icon is only visible when the kitten is selected and the kittenAttributeSwitch is visible
+    const handIconVisibleProperty = new DerivedProperty( [ hasAttributeBeenSwitchedProperty, countingObject.kittenSelectedProperty, kittenAttributeSwitch.visibleProperty ],
+      ( hasAttributeBeenSwitched, selected, switchVisible ) => !hasAttributeBeenSwitched && selected && switchVisible );
 
     // When a countingObject is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
+    const panelBoundsProperty = new Property( panelBounds );
     const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
-      alignBounds: panelBounds,
+      alignBoundsProperty: panelBoundsProperty,
       yAlign: 'top',
       xAlign: 'center'
     } );
@@ -128,15 +134,11 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
 
     const leftAddendKittenImage = new Image( kittenYellow_svg, {
-      centerX: focusPanel.centerX + KITTEN_OFFSET,
-      bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.LEFT )
     } );
     const rightAddendKittenImage = new Image( kittenBlue_svg, {
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
-      bottom: focusPanel.bottom - KITTEN_PANEL_MARGIN,
-      centerX: focusPanel.centerX + KITTEN_OFFSET,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
 
@@ -144,15 +146,31 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // the dragged object and the counting area boundary.
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
 
-    // TODO: use options.children = instead, etc.
-    const superOptions = combineOptions<NodeOptions>( {
-      children: [ focusPanel, leftAddendKittenImage, rightAddendKittenImage, handIcon ],
-      focusHighlight: Shape.bounds( focusPanel.bounds )
-    }, options );
-    super( superOptions );
+    options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage, handIcon ];
+    options.focusHighlight = Shape.bounds( focusPanel.bounds );
+    super( options );
+
     this.focusPanel = focusPanel;
+    this.countingObject = countingObject;
+
     focusPanel.center = this.center;
 
+    // Panel bounds will change if the kittenAttributeSwitch is set to visible = false in PhET-iO. In that situation
+    // we also want to update the position of the kitten images.
+    Multilink.multilink( [ countingObject.kittenSelectedProperty, kittenAttributeSwitch.visibleProperty ], ( selected, visible ) => {
+      if ( selected && !visible ) {
+        panelBoundsProperty.value = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - kittenAttributeSwitch.height - KITTEN_PANEL_MARGIN );
+      }
+      else if ( selected ) {
+        panelBoundsProperty.value = panelBounds;
+      }
+    } );
+    ManualConstraint.create( this, [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ], ( focusPanel, leftAddendKittenImage, rightAddendKittenImage ) => {
+      leftAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
+      rightAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
+    } );
+
+    // Create input listeners:
     const dragListener = new SoundRichDragListener( {
       positionProperty: countingObject.attributePositionProperty,
       start: () => {
@@ -215,10 +233,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
       this.center = position;
     } );
 
+    // For debugging, show the kitten's id (object number) when ?dev is in the query parameters.
     if ( phet.chipper.queryParameters.dev ) {
       this.addCountingObjectID( countingObject.id );
     }
-    this.countingObject = countingObject;
   }
 
   /**
