@@ -124,13 +124,18 @@ export default class NumberPairsModel implements TModel {
       derive: 'rightAddendColorProperty'
     } );
 
-    // Visible Properties tandem
+    // Define Visible Properties
     const visiblePropertiesTandem = options.tandem.createTandem( 'visibleProperties' );
+
+    // As of this writing the leftAddendVisibleProperty and rightAddendVisibleProperty are only used in the
+    // location representations. Every screen with a location representation at least has the RepresentationType.ONE_CARDS
     this.leftAddendVisibleProperty = new BooleanProperty( true, {
-      tandem: visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' )
+      tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
+              visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' ) : Tandem.OPT_OUT
     } );
     this.rightAddendVisibleProperty = new BooleanProperty( true, {
-      tandem: visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' )
+      tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
+              visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' ) : Tandem.OPT_OUT
     } );
     this.totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
       tandem: visiblePropertiesTandem.createTandem( 'totalVisibleProperty' ),
