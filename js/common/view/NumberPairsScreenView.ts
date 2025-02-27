@@ -44,6 +44,7 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 
 type SelfOptions = {
   phraseContent: Node;
@@ -152,13 +153,14 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     phraseVBox.addChild( localeSwitch );
 
-    const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
+    const tenFrameButtonTandem = options.tandem.createTandem( 'tenFrameButton' );
+    const tenFrameButtonVisibleProperty = new GatedVisibleProperty( new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
                                 countingRepresentation === RepresentationType.ONE_CARDS ||
                                 countingRepresentation === RepresentationType.BUTTERFLIES ||
                                 countingRepresentation === RepresentationType.SOCCER_BALLS ||
                                 countingRepresentation === RepresentationType.KITTENS ||
-                                countingRepresentation === RepresentationType.BEADS );
+                                countingRepresentation === RepresentationType.BEADS ), tenFrameButtonTandem );
 
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
@@ -177,7 +179,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
       accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
-      tandem: options.tandem.createTandem( 'tenFrameButton' ),
+      tandem: tenFrameButtonTandem,
       listener: () => {
         this.interruptSubtreeInput();
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
