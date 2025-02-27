@@ -313,23 +313,27 @@ export default class NumberPairsScreenView extends ScreenView {
 
       const iconWidth = 35;
       const iconValue = 1;
-      const leftAddendLabelPlacementSwitch = new ABSwitch(
-        model.leftAddendLabelPlacementProperty,
-        'handle', new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
-        'arrow', new NumberLineIcon( iconWidth, iconValue, { showLeftArrow: true, showRightArrow: true } ),
+      const numberLineCountFromZeroSwitchTandem = options.tandem.createTandem( 'numberLineCountFromZeroSwitch' );
+      const numberLineCountFromZeroSwitchVisibleProperty = new GatedVisibleProperty( numberLineVisibleProperty,
+        numberLineCountFromZeroSwitchTandem );
+      const numberLineCountFromZeroSwitch = new ABSwitch(
+        model.numberLineCountFromZeroProperty,
+        false, new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
+        true, new NumberLineIcon( iconWidth, iconValue, { showLeftArrow: true, showRightArrow: true } ),
         {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
-          visibleProperty: numberLineVisibleProperty,
+          visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
           valueAAccessibleName: NumberPairsStrings.countOnStringProperty,
           valueBAccessibleName: NumberPairsStrings.countFromZeroStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 )
           },
-          tandem: options.tandem.createTandem( 'leftAddendLabelPlacementSwitch' )
+          phetioDocumentation: 'This switch is only accessible in number line representations.',
+          tandem: numberLineCountFromZeroSwitchTandem
         } );
-      this.addChild( leftAddendLabelPlacementSwitch );
-      this.countingAreaNodes.push( leftAddendLabelPlacementSwitch );
+      this.addChild( numberLineCountFromZeroSwitch );
+      this.countingAreaNodes.push( numberLineCountFromZeroSwitch );
 
       // The desired pdom order is to start with the numberLineCheckboxGroup in the control area when applicable.
       // All other control area nodes are defined below.

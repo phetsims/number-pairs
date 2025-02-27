@@ -103,7 +103,7 @@ export default class NumberLineNode extends Node {
       } );
     const leftAddendArrow = new CurvedArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
-      visibleProperty: DerivedProperty.valueEqualsConstant( model.leftAddendLabelPlacementProperty, 'arrow' )
+      visibleProperty: DerivedProperty.not( model.numberLineCountFromZeroProperty )
     } );
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,
@@ -163,9 +163,9 @@ export default class NumberLineNode extends Node {
     ManualConstraint.create( this, [ totalArrow, totalLabel ], ( arrowProxy, labelProxy ) => {
       labelProxy.centerTop = arrowProxy.centerBottom.plusXY( 0, LABEL_MARGIN );
     } );
-    Multilink.multilink( [ model.leftAddendProperty, model.leftAddendLabelPlacementProperty, leftAddendArrow.boundsProperty ],
-      ( leftAddend, placement, bounds ) => {
-        if ( placement === 'handle' ) {
+    Multilink.multilink( [ model.leftAddendProperty, model.numberLineCountFromZeroProperty, leftAddendArrow.boundsProperty ],
+      ( leftAddend, countFromZero, bounds ) => {
+        if ( !countFromZero ) {
           leftAddendLabel.centerX = trackModelViewTransform.modelToViewX( leftAddend );
           leftAddendLabel.bottom = -NUMBER_LINE_POINT_RADIUS - 8;
         }

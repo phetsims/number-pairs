@@ -28,7 +28,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import StringIO from '../../../../tandem/js/types/StringIO.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -41,7 +40,6 @@ type AnimationTarget = {
   property: Property<Vector2>;
   to: Vector2;
 };
-type leftAddendLabelPlacement = 'handle' | 'arrow';
 type SelfOptions = {
   initialRepresentationType: RepresentationType;
   representationTypeValidValues: RepresentationType[];
@@ -81,7 +79,7 @@ export default class NumberPairsModel implements TModel {
   public readonly numberLineAddendValuesVisibleProperty: Property<boolean>;
   public readonly tickValuesVisibleProperty: Property<boolean>;
   public readonly totalJumpVisibleProperty: Property<boolean>;
-  public readonly leftAddendLabelPlacementProperty: Property<leftAddendLabelPlacement>;
+  public readonly numberLineCountFromZeroProperty: Property<boolean>;
 
   public countingObjectsAnimation: Animation | null = null;
 
@@ -107,8 +105,7 @@ export default class NumberPairsModel implements TModel {
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
-    const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {
-    }, providedOptions );
+    const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {}, providedOptions );
 
     this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
@@ -155,10 +152,10 @@ export default class NumberPairsModel implements TModel {
               visiblePropertiesTandem.createTandem( 'totalJumpVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.leftAddendLabelPlacementProperty = new Property<leftAddendLabelPlacement>( 'handle', {
-      phetioValueType: StringIO,
+    this.numberLineCountFromZeroProperty = new BooleanProperty( false, {
+      phetioDocumentation: 'This Property is only applicable in number line representations',
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'leftAddendLabelPlacementProperty' ) : Tandem.OPT_OUT
+              options.tandem.createTandem( 'numberLineCountFromZeroProperty' ) : Tandem.OPT_OUT
     } );
 
     // The range will update after all addends have stabilized their values during construction.
@@ -702,7 +699,7 @@ export default class NumberPairsModel implements TModel {
     this.numberLineAddendValuesVisibleProperty.reset();
     this.tickValuesVisibleProperty.reset();
     this.totalJumpVisibleProperty.reset();
-    this.leftAddendLabelPlacementProperty.reset();
+    this.numberLineCountFromZeroProperty.reset();
     this.numberLineSliderEnabledRangeProperty.reset();
     this.changingScenesProperty.reset();
     this.groupSelectBeadsModel.reset();
