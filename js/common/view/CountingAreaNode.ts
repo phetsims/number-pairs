@@ -31,7 +31,8 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import ShowHideAddendButton from './ShowHideAddendButton.js';
+import AddendEyeToggleButton from './AddendEyeToggleButton.js';
+import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -86,16 +87,19 @@ export default class CountingAreaNode extends Node {
       backgroundRectangle.fill = backgroundColor;
     } );
 
-    const showHideBothAddendsButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+    const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ?
+                                            options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
+    const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
+    const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsStrings.showOrHideAddendsStringProperty,
       left: COUNTING_AREA_BOUNDS.minX + COUNTING_AREA_MARGIN,
       bottom: COUNTING_AREA_BOUNDS.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,
-      visibleProperty: DerivedProperty.not( splitCountingAreaVisibleProperty ),
-      tandem: options.tandem.createTandem( 'showHideBothAddendsButton' )
+      visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
+      tandem: bothAddendsEyeToggleButtonTandem
     } );
     this.addChild( backgroundRectangle );
-    this.addChild( showHideBothAddendsButton );
+    this.addChild( bothAddendsEyeToggleButton );
 
     const splitCountingAreaBackground = new SplitCountingAreaNode(
       COUNTING_AREA_BOUNDS, leftAddendVisibleProperty, rightAddendVisibleProperty, {

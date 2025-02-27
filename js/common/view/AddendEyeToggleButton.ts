@@ -19,12 +19,12 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
 };
-type ShowHideAddendButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
-export default class ShowHideAddendButton extends EyeToggleButton {
+type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
+export default class AddendEyeToggleButton extends EyeToggleButton {
 
-  public constructor( addendVisibleProperty: BooleanProperty, providedOptions: ShowHideAddendButtonOptions ) {
+  public constructor( addendVisibleProperty: BooleanProperty, providedOptions: AddendEyeToggleButtonOptions ) {
 
-    const options = optionize<ShowHideAddendButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
+    const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, 40 ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE
@@ -63,4 +63,4 @@ export default class ShowHideAddendButton extends EyeToggleButton {
   }
 }
 
-numberPairs.register( 'ShowHideAddendButton', ShowHideAddendButton );
+numberPairs.register( 'AddendEyeToggleButton', AddendEyeToggleButton );

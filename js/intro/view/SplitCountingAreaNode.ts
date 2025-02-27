@@ -23,7 +23,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import ShowHideAddendButton from '../../common/view/ShowHideAddendButton.js';
+import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 
@@ -100,20 +100,20 @@ export default class SplitCountingAreaNode extends Node {
     }, providedOptions );
     super( options );
 
-    const leftShowHideAddendButton = new ShowHideAddendButton( leftAddendVisibleProperty, {
+    const leftAddendEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      tandem: options.tandem.createTandem( 'leftShowHideAddendButton' )
+      tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
     } );
-    const rightShowHideAddendButton = new ShowHideAddendButton( rightAddendVisibleProperty, {
+    const rightAddendEyeToggleButton = new AddendEyeToggleButton( rightAddendVisibleProperty, {
       accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      tandem: options.tandem.createTandem( 'rightShowHideAddendButton' )
+      tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )
     } );
-    this.addChild( leftShowHideAddendButton );
-    this.addChild( rightShowHideAddendButton );
+    this.addChild( leftAddendEyeToggleButton );
+    this.addChild( rightAddendEyeToggleButton );
 
   }
 }
