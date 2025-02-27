@@ -174,6 +174,7 @@ export default class NumberPairsModel implements TModel {
       } );
 
     this.groupSelectLocationObjectsModel = new GroupSelectModel( {
+      phetioMouseSortCueInstrumented: false,
       getGroupItemValue: ( countingObject: CountingObject ) => {
         assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
@@ -181,6 +182,7 @@ export default class NumberPairsModel implements TModel {
       tandem: options.tandem.createTandem( 'groupSelectLocationObjectsModel' )
     } );
     this.groupSelectBeadsModel = new GroupSelectModel( {
+      phetioMouseSortCueInstrumented: false,
       getGroupItemValue: ( countingObject: CountingObject ) => {
         assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
