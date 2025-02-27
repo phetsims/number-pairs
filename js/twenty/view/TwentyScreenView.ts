@@ -13,7 +13,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
+import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import TwentyModel from '../model/TwentyModel.js';
@@ -23,7 +23,7 @@ type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
 };
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'numberPhraseContent' | 'numberBondContent' | 'sceneRange'>
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseContent' | 'numberBondContent' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TwentyScreenView extends DecompositionScreenView {
@@ -31,11 +31,11 @@ export default class TwentyScreenView extends DecompositionScreenView {
   public constructor( model: TwentyModel, providedOptions: TwentyScreenViewOptions ) {
 
     const options = optionize<TwentyScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      numberPhraseContent: new NumberPhraseAccordionBox( model, {
-        numberPhraseStringProperty: NumberPairsStrings.decompositionNumberPhrasePatternStringProperty,
-        numberPhraseSpeechStringProperty: NumberPairsStrings.decompositionNumberPhraseSpeechPatternStringProperty,
+      phraseContent: new PhraseAccordionBox( model, {
+        phraseStringProperty: NumberPairsStrings.decompositionPhrasePatternStringProperty,
+        phraseSpeechStringProperty: NumberPairsStrings.decompositionPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.twentyScreenSpeechDataProperty,
-        tandem: providedOptions.tandem.createTandem( 'numberPhraseAccordionBox' )
+        tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )

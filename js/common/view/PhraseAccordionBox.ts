@@ -1,6 +1,6 @@
 // Copyright 2024-2025, University of Colorado Boulder
 /**
- * This accordion box contains a number sentence that describes the decomposition of a total into two addends.
+ * This accordion box contains a phrase that describes the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -56,28 +56,28 @@ NUMBER_TO_WORD_MAP.set( 'someNumber', NumberPairsStrings.someNumberStringPropert
 NUMBER_TO_WORD_MAP.set( 'anotherNumber', NumberPairsStrings.anotherNumberStringProperty );
 
 type SelfOptions = {
-  numberPhraseStringProperty: LocalizedStringProperty;
-  numberPhraseSpeechStringProperty: LocalizedStringProperty;
+  phraseStringProperty: LocalizedStringProperty;
+  phraseSpeechStringProperty: LocalizedStringProperty;
   speechDataProperty: TProperty<string>;
 };
-type NumberPhraseAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
+type PhraseAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
 const LINE_WRAP = 240; // empirically determined
-export default class NumberPhraseAccordionBox extends TotalRepresentationAccordionBox {
+export default class PhraseAccordionBox extends TotalRepresentationAccordionBox {
 
   // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
   // width should stay the same. In order to do this we must define and control all options that contribute
   // to the width of the accordion box.
   public static readonly MIN_WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN;
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberPhraseAccordionBoxOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: PhraseAccordionBoxOptions ) {
 
-    const options = optionize<NumberPhraseAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
+    const options = optionize<PhraseAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
       contentXMargin: 20,
       contentYMargin: 20,
       contentAlign: 'left',
-      minWidth: NumberPhraseAccordionBox.MIN_WIDTH,
-      maxWidth: NumberPhraseAccordionBox.MIN_WIDTH + 10,
+      minWidth: PhraseAccordionBox.MIN_WIDTH,
+      maxWidth: PhraseAccordionBox.MIN_WIDTH + 10,
       expandedDefaultValue: false
     }, providedOptions );
 
@@ -132,17 +132,17 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
     const rightAddendDynamicProperty = new DynamicProperty( rightAddendStringProperty );
 
     // Create the PatternStringProperties for primary and secondary locales.
-    const primaryLocalePatternStringProperty = new PatternStringProperty( options.numberPhraseStringProperty, {
+    const primaryLocalePatternStringProperty = new PatternStringProperty( options.phraseStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberPhraseStringProperty ],
-      ( secondLocaleStrings, numberPhraseString ) => {
-        const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+    const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.phraseStringProperty ],
+      ( secondLocaleStrings, phraseString ) => {
+        const secondLocaleString = secondLocaleStrings[ options.phraseSpeechStringProperty.localizedString.stringKey ];
 
         // If the secondLocaleString is not defined, default to the primary locale string.
-        return secondLocaleString ? secondLocaleString : numberPhraseString;
+        return secondLocaleString ? secondLocaleString : phraseString;
       } );
     const secondaryLocalePatternStringProperty = new PatternStringProperty( secondaryLocaleStringProperty, {
       total: totalDynamicProperty,
@@ -152,7 +152,7 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
 
     // This is the final Property that the RichText will listen to. At this point all decisions about what locale
     // to display based on translation have been filtered down.
-    const numberPhraseStringProperty = new DerivedProperty( [
+    const phraseStringProperty = new DerivedProperty( [
       isPrimaryLocaleProperty,
       primaryLocalePatternStringProperty,
       secondaryLocalePatternStringProperty
@@ -163,7 +163,7 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
     let totalHighlight: Rectangle;
     let leftAddendHighlight: Rectangle;
     let rightAddendHighlight: Rectangle;
-    const richText = new RichText( numberPhraseStringProperty, {
+    const richText = new RichText( phraseStringProperty, {
       lineWrap: LINE_WRAP,
       maxHeight: 125,
       leading: 10,
@@ -210,17 +210,17 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
     /**
      * Update the speech data
      */
-    const primaryLocaleSpeechPatternStringProperty = new PatternStringProperty( options.numberPhraseSpeechStringProperty, {
+    const primaryLocaleSpeechPatternStringProperty = new PatternStringProperty( options.phraseSpeechStringProperty, {
       total: totalDynamicProperty,
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    const secondaryLocaleSpeechStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.numberPhraseSpeechStringProperty ],
-      ( secondLocaleStrings, numberPhraseSpeechString ) => {
-        const secondLocaleString = secondLocaleStrings[ options.numberPhraseSpeechStringProperty.localizedString.stringKey ];
+    const secondaryLocaleSpeechStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.phraseSpeechStringProperty ],
+      ( secondLocaleStrings, phraseSpeechString ) => {
+        const secondLocaleString = secondLocaleStrings[ options.phraseSpeechStringProperty.localizedString.stringKey ];
 
         // If the secondLocaleString is not defined, default to the primary locale string.
-        return secondLocaleString ? secondLocaleString : numberPhraseSpeechString;
+        return secondLocaleString ? secondLocaleString : phraseSpeechString;
       } );
     const secondaryLocaleSpeechPatternStringProperty = new PatternStringProperty( secondaryLocaleSpeechStringProperty, {
       total: totalDynamicProperty,
@@ -245,10 +245,10 @@ export default class NumberPhraseAccordionBox extends TotalRepresentationAccordi
       rightAddendHighlight.fill = color;
     } );
 
-    options.titleNode = new Text( NumberPairsStrings.numberPhraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+    options.titleNode = new Text( NumberPairsStrings.phraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
 
     super( richText, options );
   }
 }
 
-numberPairs.register( 'NumberPhraseAccordionBox', NumberPhraseAccordionBox );
+numberPairs.register( 'PhraseAccordionBox', PhraseAccordionBox );

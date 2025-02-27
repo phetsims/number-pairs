@@ -18,7 +18,7 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
-import NumberPhraseAccordionBox from '../../common/view/NumberPhraseAccordionBox.js';
+import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
@@ -26,7 +26,7 @@ import AddendControlPanel from './AddendControlPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'numberPhraseContent' | 'numberBondContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'phraseContent' | 'numberBondContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
@@ -40,11 +40,11 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
       sumScreen: true,
-      numberPhraseContent: new NumberPhraseAccordionBox( model, {
-        numberPhraseStringProperty: NumberPairsStrings.sumNumberPhrasePatternStringProperty,
-        numberPhraseSpeechStringProperty: NumberPairsStrings.sumNumberPhraseSpeechPatternStringProperty,
+      phraseContent: new PhraseAccordionBox( model, {
+        phraseStringProperty: NumberPairsStrings.sumPhrasePatternStringProperty,
+        phraseSpeechStringProperty: NumberPairsStrings.sumPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.sumScreenSpeechDataProperty,
-        tandem: providedOptions.tandem.createTandem( 'numberPhraseAccordionBox' )
+        tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {

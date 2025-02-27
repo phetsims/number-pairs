@@ -46,7 +46,7 @@ import TenFrameButton from './TenFrameButton.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 type SelfOptions = {
-  numberPhraseContent: Node;
+  phraseContent: Node;
   numberBondContent: Node;
   equationContent?: Node | null;
   sceneRange?: Range | null;
@@ -88,12 +88,12 @@ export default class NumberPairsScreenView extends ScreenView {
     /**
      * Set the layout of the accordion boxes along the top of each screen.
      */
-    const numberPhraseVBox = new VBox( {
-      children: [ options.numberPhraseContent ],
+    const phraseVBox = new VBox( {
+      children: [ options.phraseContent ],
       spacing: 5,
       align: 'left'
     } );
-    const numberPhraseAlignBox = new AlignBox( numberPhraseVBox, {
+    const phraseAlignBox = new AlignBox( phraseVBox, {
       alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
@@ -107,7 +107,7 @@ export default class NumberPairsScreenView extends ScreenView {
       yAlign: 'top',
       xAlign: 'center'
     } );
-    this.addChild( numberPhraseAlignBox );
+    this.addChild( phraseAlignBox );
     this.addChild( numberBondAlignBox );
 
     if ( options.equationContent ) {
@@ -138,8 +138,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsStrings.hearNumberPhraseStringProperty,
-        accessibleHelpText: NumberPairsStrings.numberPhraseHelpTextStringProperty
+        accessibleName: NumberPairsStrings.hearPhraseStringProperty,
+        accessibleHelpText: NumberPairsStrings.phraseHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -150,7 +150,7 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'localeSwitch' ),
       phetioDocumentation: 'This control is only accessible when a second language is active.'
     } );
-    numberPhraseVBox.addChild( localeSwitch );
+    phraseVBox.addChild( localeSwitch );
 
     const tenFrameButtonVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
@@ -356,7 +356,7 @@ export default class NumberPairsScreenView extends ScreenView {
      * Add in the rest of the nodes as part of the control area
      */
     this.controlNodes.push( speechSynthesisControl );
-    this.controlNodes.push( numberPhraseVBox );
+    this.controlNodes.push( phraseVBox );
     this.controlNodes.push( options.numberBondContent );
     options.equationContent && this.controlNodes.push( options.equationContent );
 
