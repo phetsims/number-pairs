@@ -188,7 +188,8 @@ export default class CountingAreaNode extends Node {
   }
 
   private sendToValidDropPoint( positionProperty: Property<Vector2>, dragBounds: Bounds2 ): void {
-    const dropPoint = dragBounds.closestBoundaryPointTo( positionProperty.value );
+    const dropPoint = dragBounds.containsPoint( positionProperty.value ) ?
+                      positionProperty.value : dragBounds.closestBoundaryPointTo( positionProperty.value );
 
     const animation = new Animation( {
       duration: 0.4,
