@@ -23,11 +23,9 @@ import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/vo
 import Hotkey from '../../../../scenery/js/input/Hotkey.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import Panel from '../../../../sun/js/Panel.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
@@ -36,10 +34,10 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import dragIndicatorHand_png from '../../../../scenery-phet/images/dragIndicatorHand_png.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -53,7 +51,6 @@ type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
 const KITTEN_PANEL_WIDTH = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 const KITTEN_PANEL_HEIGHT = NumberPairsConstants.KITTEN_PANEL_HEIGHT;
 const KITTEN_PANEL_MARGIN = NumberPairsConstants.KITTEN_PANEL_MARGIN;
-const ICON_RADIUS = 5;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
 export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
@@ -88,27 +85,19 @@ export default class KittenNode extends InteractiveHighlightingNode {
       isLeftAddendProperty.value = addendType === AddendType.LEFT;
     } );
 
-    const switchLeftIcon = new Circle( ICON_RADIUS, {
-      stroke: NumberPairsColors.attributeLeftAddendColorProperty.value.darkerColor(),
-      fill: NumberPairsColors.attributeLeftAddendColorProperty
-    } );
-    const switchRightIcon = new Circle( ICON_RADIUS, {
-      stroke: NumberPairsColors.attributeRightAddendColorProperty.value.darkerColor(),
-      fill: NumberPairsColors.attributeRightAddendColorProperty
-    } );
-    const kittenAttributeSwitch = new ABSwitch( isLeftAddendProperty, true, switchLeftIcon, false, switchRightIcon, {
-      toggleSwitchOptions: {
-        size: new Dimension2( 20, 10 ),
-        focusable: false
-      },
-      spacing: 4,
+    const kittenAttributeSwitch = new ToggleSwitch( isLeftAddendProperty, true, false, {
+      size: new Dimension2( 28, 14 ),
+      focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
-      setLabelEnabled: _.noop // We do not want the labels to change opacity
+      thumbFill: new DerivedProperty( [
+          countingObject.addendTypeProperty,
+          NumberPairsColors.attributeLeftAddendColorProperty,
+          NumberPairsColors.attributeRightAddendColorProperty
+        ],
+        ( addendType, attributeLeftAddendColor, attributeRightAddendColor ) =>
+          addendType === AddendType.LEFT ? attributeLeftAddendColor : attributeRightAddendColor
+      )
     } );
-
-    // The hand icon is only visible when the kitten is selected and the kittenAttributeSwitch is visible
-    const handIconVisibleProperty = new DerivedProperty( [ hasAttributeBeenSwitchedProperty, countingObject.kittenSelectedProperty, kittenAttributeSwitch.visibleProperty ],
-      ( hasAttributeBeenSwitched, selected, switchVisible ) => !hasAttributeBeenSwitched && selected && switchVisible );
 
     // When a countingObject is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
@@ -125,14 +114,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
       stroke: null
     } );
 
-    const handIcon = new Image( dragIndicatorHand_png, {
-      maxWidth: 24,
-      left: focusPanel.centerX - 8,
-      top: 6,
-      rotation: Math.PI * 1.85,
-      visibleProperty: handIconVisibleProperty
-    } );
-
     const leftAddendKittenImage = new Image( kittenYellow_svg, {
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.LEFT )
@@ -146,7 +127,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // the dragged object and the counting area boundary.
     const dilatedDragBounds = dragBounds.dilatedXY( -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN, -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN );
 
-    options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage, handIcon ];
+    options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
     options.focusHighlight = Shape.bounds( focusPanel.bounds );
     super( options );
 

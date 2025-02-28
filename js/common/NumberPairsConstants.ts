@@ -73,7 +73,7 @@ const NumberPairsConstants = {
 
   // Kitten specific values:
   KITTEN_PANEL_WIDTH: 56,
-  KITTEN_PANEL_HEIGHT: 82,
+  KITTEN_PANEL_HEIGHT: 86,
   KITTEN_PANEL_MARGIN: 3,
 
   // URL to the {REPO}_all.html file for this simulation.
