@@ -58,13 +58,16 @@ export default class BeadNode extends Node {
     }, providedOptions );
 
     super( options );
-
+    let startDragOffset: Vector2;
     const dragListener = new SoundDragListener( {
-
-      // TODO: Ask CC if we want to use an offset here. See ShoppingItemDragListener for example. There's a weird scenario where it can make other beads jump
-      // too sometimes I think we should handle the offset.
-      start: () => options.onStartDrag( this ),
-      drag: event => options.onDrag( event.pointer.point, this ),
+      start: event => {
+        options.onStartDrag( this );
+        startDragOffset = this.globalToParentPoint( event.pointer.point ).minus( this.center );
+      },
+      drag: event => {
+        const point = this.globalToParentPoint( event.pointer.point ).minus( startDragOffset );
+        options.onDrag( point, this );
+      },
       end: options.onEndDrag,
       tandem: options.tandem.createTandem( 'dragListener' )
     } );

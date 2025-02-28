@@ -135,11 +135,7 @@ export default class BeadsOnWireNode extends Node {
       const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject )!;
       assert && assert( grabbedBeadNode, 'Expected to have a grabbedBeadNode when dragging with keyboard.' );
 
-
-      // This complicated transform is unfortunate, but we want to handle all varieties of dragging via handleBeadMove.
-      // HandleBeadMove expects the proposed position to be in the global view coordinate frame, because that is
-      // what the DragListener (internal to BeadNode) provides.
-      const viewPosition = grabbedBeadNode.parentToGlobalPoint( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition ) );
+      const viewPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition );
       this.handleBeadMove( viewPosition, grabbedBeadNode );
     } );
 
@@ -170,7 +166,7 @@ export default class BeadsOnWireNode extends Node {
 
         if ( keysPressed.includes( 'home' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) > separatorXPosition ) {
           this.ignoreBeadBounds = true;
-          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - SEPARATOR_BUFFER, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
+          this.handleBeadMove( new Vector2( separatorXPosition - SEPARATOR_BUFFER, 0 ), this.beadModelToNodeMap.get( groupItem )! );
           this.ignoreBeadBounds = false;
 
           const leftAddendSortedBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT );
@@ -179,7 +175,7 @@ export default class BeadsOnWireNode extends Node {
         }
         else if ( keysPressed.includes( 'end' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) < separatorXPosition ) {
           this.ignoreBeadBounds = true;
-          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition + SEPARATOR_BUFFER, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
+          this.handleBeadMove( new Vector2( separatorXPosition + SEPARATOR_BUFFER, 0 ), this.beadModelToNodeMap.get( groupItem )! );
           this.ignoreBeadBounds = false;
 
           const rightAddendSortedBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT ).reverse();
@@ -262,7 +258,7 @@ export default class BeadsOnWireNode extends Node {
   private handleBeadDrop( beadNode: BeadNode ): void {
     if ( equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
       const proposedPosition = beadNode.centerX > this.beadSeparatorCenterXProperty.value ? this.beadSeparatorCenterXProperty.value + BEAD_WIDTH : this.beadSeparatorCenterXProperty.value - BEAD_WIDTH;
-      this.handleBeadMove( this.localToGlobalPoint( new Vector2( proposedPosition, 0 ) ), beadNode );
+      this.handleBeadMove( new Vector2( proposedPosition, 0 ), beadNode );
     }
   }
 
@@ -286,14 +282,14 @@ export default class BeadsOnWireNode extends Node {
 
   /**
    * Handle the movement of a bead and its neighbors when it is dragged.
-   * @param newPosition - the proposed new position, in the global view coordinate frame.
+   * @param newPosition - the proposed new position, in the local coordinate frame.
    * @param grabbedBeadNode
    */
   private handleBeadMove( newPosition: Vector2, grabbedBeadNode: BeadNode ): void {
-    let proposedParentPosition = grabbedBeadNode.globalToParentPoint( newPosition );
+    let proposedParentPosition = newPosition;
 
     // Determine whether we are dragging the bead to the right or left along the wire.
-    const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.parentToGlobalPoint( grabbedBeadNode.bounds.center ).x ) > 0;
+    const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.bounds.center.x ) > 0;
 
     // Reverse the sorted and active beads if we are dragging towards the left.
     const activeBeadNodes = this.getSortedBeadNodes();
