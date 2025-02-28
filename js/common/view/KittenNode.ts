@@ -56,9 +56,18 @@ const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's r
 export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
+  // Erode by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
+  // the dragged object and the counting area boundary. We also want to make sure that the kitten cannot be dragged
+  // below the boundary that would cause interference with the eye toggle button.
+  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.withOffsets(
+    -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
+    -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN,
+    -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
+    -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN - AddendEyeToggleButton.HEIGHT
+  );
+
   public constructor(
     public readonly countingObject: CountingObject,
-    dragBounds: Bounds2,
     newKittenSelectedEmitter: Emitter<[ CountingObject ]>,
     hasAttributeBeenSwitchedProperty: Property<boolean>,
     providedOptions: KittenNodeOptions
@@ -124,16 +133,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
 
-    // Dilate by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
-    // the dragged object and the counting area boundary. We also want to make sure that the kitten cannot be dragged
-    // below the boundary that would cause interference with the eye toggle button.
-    const dilatedDragBounds = dragBounds.withOffsets(
-      -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
-      -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN,
-      -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
-      -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN - AddendEyeToggleButton.HEIGHT
-    );
-
     options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
     options.focusHighlight = Shape.bounds( focusPanel.bounds );
     super( options );
@@ -169,7 +168,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       end: () => {
         options.onEndDrag( countingObject, 'attribute' );
       },
-      dragBoundsProperty: new Property( dilatedDragBounds, {} ),
+      dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
       dragListenerOptions: {
         useParentOffset: true,
         tandem: providedOptions.tandem.createTandem( 'dragListener' )

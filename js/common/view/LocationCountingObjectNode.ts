@@ -10,7 +10,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -29,6 +28,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -41,9 +41,17 @@ const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public static readonly WIDTH = IMAGE_WIDTH;
+
+  // We do not want the node to cross below the boundary that would cause interference with the eye toggle button.
+  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.withOffsets(
+    -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
+    -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN,
+    -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
+    -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN - AddendEyeToggleButton.HEIGHT
+  );
+
   public constructor(
     countingObject: CountingObject,
-    dragBounds: Bounds2,
     countingRepresentationTypeProperty: Property<RepresentationType>,
     providedOptions: LocationCountingObjectNodeOptions
   ) {
@@ -67,13 +75,6 @@ export default class LocationCountingObjectNode extends Node {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.BUTTERFLIES )
     } );
 
-    // We do not want the node to cross below the boundary that would cause interference with the eye toggle button.
-    const dilatedDragBounds = dragBounds.withOffsets(
-      -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
-      -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN,
-      -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
-      -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN - AddendEyeToggleButton.HEIGHT
-      );
 
     const options = optionize<LocationCountingObjectNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ appleNode, oneCardNode, soccerBallNode, butterflyNode ]
@@ -98,7 +99,7 @@ export default class LocationCountingObjectNode extends Node {
         countingObject.isDraggingProperty.value = false;
         options.onEndDrag( countingObject, 'location' );
       },
-      dragBoundsProperty: new Property( dilatedDragBounds, {} ),
+      dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS, {} ),
       positionProperty: countingObject.locationPositionProperty,
       tandem: providedOptions.tandem.createTandem( 'dragListener' ),
       useParentOffset: true

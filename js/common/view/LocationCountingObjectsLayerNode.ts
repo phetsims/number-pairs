@@ -114,7 +114,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
      * Create the LocationCountingObjectNodes for each countingObject in the model.
      */
     model.countingObjects.forEach( countingObject => {
-      const countingObjectNode = new LocationCountingObjectNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, model.representationTypeProperty, {
+      const countingObjectNode = new LocationCountingObjectNode( countingObject, model.representationTypeProperty, {
         handleLocationChange: this.handleLocationChange.bind( this ),
         onEndDrag: countingAreaNode.dropCountingObject.bind( countingAreaNode ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,

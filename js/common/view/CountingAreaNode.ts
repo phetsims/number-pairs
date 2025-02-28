@@ -12,7 +12,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -33,6 +32,9 @@ import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
+import KittenNode from './KittenNode.js';
+import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -88,7 +90,7 @@ export default class CountingAreaNode extends Node {
     } );
 
     const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ?
-                                            options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
+                                             options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsStrings.showOrHideAddendsStringProperty,
@@ -115,17 +117,17 @@ export default class CountingAreaNode extends Node {
    * Animates the dropped counting object and any overlapping objects to the closest boundary point of the drop zone.
    * @param droppedCountingObject
    * @param positionPropertyType
-   *
-   * // TODO: We still need to handle when a point is calculated to be outside of the Counting Area bounds.
    */
   public dropCountingObject( droppedCountingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): void {
-
-    const countingObjectValidDropPoint = this.sendToValidDropPoint( droppedCountingObject, positionPropertyType );
-    const dropZoneBounds = this.getDropZoneBounds( countingObjectValidDropPoint );
-    const activeCountingObjects = this.model.countingObjects.filter( countingObject =>
-      countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
+    const dragBounds = positionPropertyType === 'attribute' ? KittenNode.DRAG_BOUNDS : LocationCountingObjectNode.DRAG_BOUNDS;
+    const positionProperty = positionPropertyType === 'attribute' ? droppedCountingObject.attributePositionProperty :
+                             droppedCountingObject.locationPositionProperty;
+    this.sendToValidDropPoint( positionProperty, dragBounds );
+    const dropZoneBounds = this.getDropZoneBounds( positionProperty.value );
 
     // Find all the active counting objects that are half a panel width away from the dropped counting object.
+    const activeCountingObjects = this.model.countingObjects.filter( countingObject =>
+      countingObject.addendTypeProperty.value !== AddendType.INACTIVE && countingObject !== droppedCountingObject );
     const countingObjectsInsideDropZone = activeCountingObjects.filter( countingObject => {
       const positionProperty = positionPropertyType === 'attribute' ?
                                countingObject.attributePositionProperty : countingObject.locationPositionProperty;
@@ -133,14 +135,28 @@ export default class CountingAreaNode extends Node {
     } );
 
     if ( countingObjectsInsideDropZone.length !== 0 ) {
-
       // Animate the object to the closest boundary point of the drop zone.
       const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
         const positionProperty = positionPropertyType === 'attribute' ?
                                  countingObject.attributePositionProperty : countingObject.locationPositionProperty;
+
+        // Find 4 points that are half a panel width away from the drop zone.
+        const points = [
+          positionProperty.value.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, 0 ),
+          positionProperty.value.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, 0 ),
+          positionProperty.value.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 ),
+          positionProperty.value.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 )
+        ];
+
+        // Eliminate any points that are outside the countingAreaBounds.
+        const pointsInBounds = points.filter( point => dragBounds.containsPoint( point ) );
+
+        // Randomly select one of the remaining points.
+        const destination = dotRandom.sample( pointsInBounds );
+
         return {
           property: positionProperty,
-          to: dropZoneBounds.closestBoundaryPointTo( positionProperty.value )
+          to: destination
         };
       } );
       this.model.countingObjectsAnimation?.stop();
@@ -149,7 +165,6 @@ export default class CountingAreaNode extends Node {
         targets: animationTargets
       } );
       this.model.countingObjectsAnimation.endedEmitter.addListener( () => {
-        // TODO: Do I need to dispose?
         this.model.countingObjectsAnimation = null;
       } );
       this.model.countingObjectsAnimation.start();
@@ -172,61 +187,17 @@ export default class CountingAreaNode extends Node {
     );
   }
 
-  private sendToValidDropPoint( countingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): Vector2 {
-    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
-    const positionProperty = positionPropertyType === 'attribute' ? countingObject.attributePositionProperty :
-                             countingObject.locationPositionProperty;
-
-    const addendVisibleButtonDimension = new Dimension2(
-      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN,
-      NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.height + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN + DROP_ZONE_MARGIN
-    );
-    const leftAddendVisibleButtonBounds = new Bounds2(
-      countingAreaBounds.minX,
-      countingAreaBounds.maxY - addendVisibleButtonDimension.height,
-      countingAreaBounds.minX + addendVisibleButtonDimension.width,
-      countingAreaBounds.maxY );
-    const invalidDropBounds = positionPropertyType === 'attribute' ? [ leftAddendVisibleButtonBounds ] :
-      [
-        leftAddendVisibleButtonBounds,
-        leftAddendVisibleButtonBounds.shiftedX( countingAreaBounds.width - addendVisibleButtonDimension.width )
-      ];
-
-    let validDropPoint = positionProperty.value;
-    invalidDropBounds.forEach( ( bounds, i ) => {
-
-      // The first bounds is on the left side of the counting area
-      const direction = i === 0 ? 'upRight' : 'upLeft';
-      validDropPoint = this.getValidDropPoint( bounds, validDropPoint, direction );
-    } );
+  private sendToValidDropPoint( positionProperty: Property<Vector2>, dragBounds: Bounds2 ): void {
+    const dropPoint = dragBounds.closestBoundaryPointTo( positionProperty.value );
 
     const animation = new Animation( {
       duration: 0.4,
       targets: [ {
         property: positionProperty,
-        to: validDropPoint
+        to: dropPoint
       } ]
     } );
     animation.start();
-    return validDropPoint;
-  }
-
-  private getValidDropPoint( invalidBounds: Bounds2, proposedPoint: Vector2, allowedDirection: 'upLeft' | 'upRight' ): Vector2 {
-
-    if ( invalidBounds.containsPoint( proposedPoint ) ) {
-      const closestXEdge = allowedDirection === 'upLeft' ? invalidBounds.minX : invalidBounds.maxX;
-      const closestYEdge = invalidBounds.minY;
-
-      if ( Math.abs( closestXEdge - proposedPoint.x ) < Math.abs( closestYEdge - proposedPoint.y ) ) {
-        return new Vector2( closestXEdge, proposedPoint.y );
-      }
-      else {
-        return new Vector2( proposedPoint.x, closestYEdge );
-      }
-    }
-    else {
-      return proposedPoint;
-    }
   }
 }
 

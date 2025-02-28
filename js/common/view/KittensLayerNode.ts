@@ -15,7 +15,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
 import Property from '../../../../axon/js/Property.js';
@@ -29,7 +28,7 @@ export default class KittensLayerNode extends Node {
     const kittenNodes: KittenNode[] = [];
 
     countingObjects.forEach( ( countingObject, i ) => {
-      kittenNodes.push( new KittenNode( countingObject, NumberPairsConstants.COUNTING_AREA_BOUNDS, newKittenSelectedEmitter, hasAttributeBeenSwitchedProperty, {
+      kittenNodes.push( new KittenNode( countingObject, newKittenSelectedEmitter, hasAttributeBeenSwitchedProperty, {
         switchFocusToFirstKitten: () => {
           const firstKitten = kittenNodes[ 0 ];
           assert && assert( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );
