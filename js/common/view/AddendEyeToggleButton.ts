@@ -21,11 +21,11 @@ type SelfOptions = {
 };
 type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
 export default class AddendEyeToggleButton extends EyeToggleButton {
-
+  public static readonly HEIGHT = 40;
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: AddendEyeToggleButtonOptions ) {
 
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
-      size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, 40 ),
+      size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, AddendEyeToggleButton.HEIGHT ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE
     }, providedOptions );

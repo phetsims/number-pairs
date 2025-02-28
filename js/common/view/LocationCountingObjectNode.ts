@@ -28,6 +28,7 @@ import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
+import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -66,7 +67,13 @@ export default class LocationCountingObjectNode extends Node {
       visibleProperty: DerivedProperty.valueEqualsConstant( countingRepresentationTypeProperty, RepresentationType.BUTTERFLIES )
     } );
 
-    const dilatedDragBounds = dragBounds.dilatedXY( -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN, -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN );
+    // We do not want the node to cross below the boundary that would cause interference with the eye toggle button.
+    const dilatedDragBounds = dragBounds.withOffsets(
+      -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
+      -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN,
+      -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
+      -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN - AddendEyeToggleButton.HEIGHT
+      );
 
     const options = optionize<LocationCountingObjectNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ appleNode, oneCardNode, soccerBallNode, butterflyNode ]
