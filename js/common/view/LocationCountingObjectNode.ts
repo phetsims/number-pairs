@@ -27,7 +27,6 @@ import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
-import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = {
@@ -42,12 +41,9 @@ const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public static readonly WIDTH = IMAGE_WIDTH;
 
-  // We do not want the node to cross below the boundary that would cause interference with the eye toggle button.
-  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.withOffsets(
-    -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
-    -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN,
-    -IMAGE_WIDTH / 2 - DRAG_BOUNDS_MARGIN,
-    -ONE_CARD_HEIGHT / 2 - DRAG_BOUNDS_MARGIN - AddendEyeToggleButton.HEIGHT
+  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
+    IMAGE_WIDTH / 2 + DRAG_BOUNDS_MARGIN,
+    ONE_CARD_HEIGHT / 2 + DRAG_BOUNDS_MARGIN
   );
 
   public constructor(

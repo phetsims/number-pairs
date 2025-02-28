@@ -20,12 +20,14 @@ type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
 };
 type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
+
+const HEIGHT = 40; // empirically determined
 export default class AddendEyeToggleButton extends EyeToggleButton {
-  public static readonly HEIGHT = 40;
+
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: AddendEyeToggleButtonOptions ) {
 
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
-      size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, AddendEyeToggleButton.HEIGHT ),
+      size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, HEIGHT ),
       secondAddendVisibleProperty: null,
       baseColor: Color.WHITE
     }, providedOptions );

@@ -38,7 +38,6 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
-import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -57,13 +56,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
   // Erode by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
-  // the dragged object and the counting area boundary. We also want to make sure that the kitten cannot be dragged
-  // below the boundary that would cause interference with the eye toggle button.
-  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.withOffsets(
-    -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
-    -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN,
-    -KITTEN_PANEL_WIDTH / 2 - KITTEN_PANEL_MARGIN,
-    -KITTEN_PANEL_HEIGHT / 2 - KITTEN_PANEL_MARGIN - AddendEyeToggleButton.HEIGHT
+  // the dragged object and the counting area boundary.
+  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
+    KITTEN_PANEL_WIDTH / 2 + KITTEN_PANEL_MARGIN,
+    KITTEN_PANEL_HEIGHT / 2 + KITTEN_PANEL_MARGIN
   );
 
   public constructor(
