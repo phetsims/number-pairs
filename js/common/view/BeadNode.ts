@@ -58,6 +58,9 @@ export default class BeadNode extends Node {
     }, providedOptions );
 
     super( options );
+
+    // We have to manually calculate the offset due to bead drag handling being a manual process done in `handleBeadMove`.
+    // The position the drag event provides, is not necessarily the position the bead will end up in.
     let startDragOffset: Vector2;
     const dragListener = new SoundDragListener( {
       start: event => {
