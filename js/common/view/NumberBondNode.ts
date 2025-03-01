@@ -14,9 +14,10 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberCircle from './NumberCircle.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
-  totalOnTop?: boolean;
+  totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -29,11 +30,8 @@ export default class NumberBondNode extends Node {
   public constructor( model: NumberPairsModel, providedOptions: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-      totalOnTop: true
+      totalOnTopProperty: null
     }, providedOptions );
-
-    // If the total is on the bottom we want to flip the vertical offset
-    const verticalOffset = options.totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
 
     const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
       fill: model.totalColorProperty,
@@ -44,14 +42,12 @@ export default class NumberBondNode extends Node {
     const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
       fill: model.leftAddendColorProperty,
       centerX: total.centerX - HORIZONTAL_OFFSET,
-      centerY: total.centerY + verticalOffset,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
     const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
       fill: model.rightAddendColorProperty,
       centerX: total.centerX + HORIZONTAL_OFFSET,
-      centerY: total.centerY + verticalOffset,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
@@ -63,6 +59,23 @@ export default class NumberBondNode extends Node {
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
+
+    // If the total is on the bottom we want to flip the vertical offset
+    if ( options.totalOnTopProperty ) {
+      options.totalOnTopProperty.link( totalOnTop => {
+        const verticalOffset = totalOnTop ? VERTICAL_OFFSET : -VERTICAL_OFFSET;
+        leftAddend.centerY = total.centerY + verticalOffset;
+        rightAddend.centerY = total.centerY + verticalOffset;
+        leftLine.setLine( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY );
+        rightLine.setLine( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY );
+      } );
+    }
+    else {
+      leftAddend.centerY = total.centerY + VERTICAL_OFFSET;
+      rightAddend.centerY = total.centerY + VERTICAL_OFFSET;
+      leftLine.setLine( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY );
+      rightLine.setLine( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY );
+    }
 
     options.children = [ leftLine, rightLine, total, leftAddend, rightAddend ];
     super( options );

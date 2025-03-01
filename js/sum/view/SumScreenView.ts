@@ -23,6 +23,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -48,7 +49,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       } ),
       numberBondContent: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
-          totalOnTop: false
+          totalOnTopProperty: NumberPairsPreferences.sumScreenTotalOnTopProperty
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
@@ -67,11 +68,11 @@ export default class SumScreenView extends NumberPairsScreenView {
     const horizontalCheckboxSpacing = 35;
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsStrings.totalStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ), {
-      accessibleHelpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
-      top: this.numberLineCheckboxGroup?.top,
-      left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
-      tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
-    } );
+        accessibleHelpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
+        top: this.numberLineCheckboxGroup?.top,
+        left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
+        tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
+      } );
     this.addChild( this.totalCheckbox );
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,

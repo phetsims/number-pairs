@@ -77,6 +77,11 @@ const NumberPairsPreferences = {
   numberModelTypeProperty: new EnumerationProperty( NumberModelType.NUMBER_BOND_MODEL, {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
     phetioFeatured: true
+  } ),
+
+  sumScreenTotalOnTopProperty: new BooleanProperty( false, {
+    tandem: Tandem.PREFERENCES.createTandem( 'sumScreenTotalOnTopProperty' ),
+    phetioFeatured: true
   } )
 };
 

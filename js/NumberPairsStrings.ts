@@ -63,6 +63,10 @@ type StringsType = {
   'countOnStringProperty': LocalizedStringProperty;
   'countFromZeroStringProperty': LocalizedStringProperty;
   'totalCheckboxHelpTextStringProperty': LocalizedStringProperty;
+  'numberModelTypeStringProperty': LocalizedStringProperty;
+  'numberModelTypeDescriptionStringProperty': LocalizedStringProperty;
+  'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
+  'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
 };
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;

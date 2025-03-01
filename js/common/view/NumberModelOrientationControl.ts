@@ -1,6 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 /**
- * NumberModelTypeControl is a radio button group that allows the user to select the type of number model.
+ * NumberModelOrientationControl is a radio button group that allows the user to select the orientation of the number
+ * model on the sum screen.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -13,24 +14,24 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
-export default class NumberModelTypeControl extends PreferencesControl {
+export default class NumberModelOrientationControl extends PreferencesControl {
 
   public constructor( providedOptions: NumberModelTypeControlOptions ) {
-    const radioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.numberModelTypeProperty,
+    const radioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.sumScreenTotalOnTopProperty,
       [
         {
-          createNode: () => new Text( 'Number Bond', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-          value: NumberModelType.NUMBER_BOND_MODEL,
-          tandemName: 'numberBondModelRadioButton'
+          createNode: () => new Text( 'Bottom', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+          value: false,
+          tandemName: 'totalOnBottomRadioButton'
         },
         {
-          createNode: () => new Text( 'Bar Model', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-          value: NumberModelType.BAR_MODEL,
-          tandemName: 'barModelRadioButton'
+          createNode: () => new Text( 'Top', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+          value: true,
+          tandemName: 'totalOnTopRadioButton'
         }
       ], {
         orientation: 'horizontal',
@@ -40,13 +41,12 @@ export default class NumberModelTypeControl extends PreferencesControl {
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
       } );
-
     super( combineOptions<PreferencesControlOptions>( {
-      labelNode: new Text( NumberPairsStrings.numberModelTypeStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-      descriptionNode: new Text( NumberPairsStrings.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
+      labelNode: new Text( NumberPairsStrings.sumScreenNumberModelOrientationStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+      descriptionNode: new Text( NumberPairsStrings.sumScreenNumberModelOrientationDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
       controlNode: radioButtonGroup
     }, providedOptions ) );
   }
 }
 
-numberPairs.register( 'NumberModelTypeControl', NumberModelTypeControl );
+numberPairs.register( 'NumberModelOrientationControl', NumberModelOrientationControl );

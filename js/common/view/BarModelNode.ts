@@ -17,9 +17,10 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
-  totalOnTop?: boolean;
+  totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
 };
 
 type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
@@ -34,7 +35,7 @@ export default class BarModelNode extends VBox {
     providedOptions?: BarModelNodeOptions ) {
 
     const options = optionize<BarModelNodeOptions, SelfOptions, VBoxOptions>()( {
-      totalOnTop: true,
+      totalOnTopProperty: null,
       resize: false,
       spacing: 5
     }, providedOptions );
@@ -96,9 +97,24 @@ export default class BarModelNode extends VBox {
         rightAddendRectangle.visible = false;
       }
     } );
-
-    options.children = options.totalOnTop ? [ totalRectangle, addendsNode ] : [ addendsNode, totalRectangle ];
+    options.children = [ totalRectangle, addendsNode ];
     super( options );
+
+    if ( options.totalOnTopProperty ) {
+      options.totalOnTopProperty.link( totalOnTop => {
+        if ( totalOnTop ) {
+          this.children = [ totalRectangle, addendsNode ];
+
+        }
+        else {
+          this.children = [ addendsNode, totalRectangle ];
+        }
+
+        // This VBox needs to be resize:false so that it does not resize as the rectangle sizes change with user interaction.
+        // However, we still need to be able to manually update the layout when the totalOnTopProperty changes.
+        this.updateLayout();
+      } );
+    }
   }
 }
 

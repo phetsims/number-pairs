@@ -18,6 +18,7 @@ import PreferencesPanelContentNode, { PreferencesPanelContentNodeOptions } from 
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import NumberModelTypeControl from './NumberModelTypeControl.js';
+import NumberModelOrientationControl from './NumberModelOrientationControl.js';
 
 type SelfOptions = {
   secondLanguageControlVisible?: boolean; // should the 'Second Language' control be visible?
@@ -42,6 +43,7 @@ export default class NumberPairsPreferencesNode extends PreferencesPanelContentN
     }, providedOptions );
 
     const numberModelTypeControl = new NumberModelTypeControl( { tandem: options.tandem.createTandem( 'numberModelTypeControl' ) } );
+    const sumScreenNumberModelOrientationControl = new NumberModelOrientationControl( { tandem: options.tandem.createTandem( 'sumScreenNumberModelOrientationControl' ) } );
     const secondLanguageControl = new SecondLanguageControl(
       NumberPairsPreferences.secondLocaleProperty,
       NumberPairsPreferences.secondVoiceProperty,
@@ -53,7 +55,7 @@ export default class NumberPairsPreferencesNode extends PreferencesPanelContentN
         tandem: options.tandem.createTandem( 'secondLanguageControl' )
       } );
 
-    options.content = [ numberModelTypeControl, secondLanguageControl ];
+    options.content = [ numberModelTypeControl, sumScreenNumberModelOrientationControl, secondLanguageControl ];
 
     super( options );
   }
