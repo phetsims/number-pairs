@@ -92,7 +92,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
 
     const kittenAttributeSwitch = new ToggleSwitch( isLeftAddendProperty, true, false, {
-      size: new Dimension2( 28, 14 ),
+      size: new Dimension2( 26, 13 ),
       focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
       thumbFill: new DerivedProperty( [
