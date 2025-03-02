@@ -36,8 +36,12 @@ export default class ThumbNode extends Node {
     } );
     super( {
       children: [ trackPoint, handleLine, handleKnob ],
+      cursor: 'pointer',
       tandem: tandem.createTandem( 'thumbNode' )
     } );
+
+    this.mouseArea = this.bounds.dilated( 2 );
+    this.touchArea = this.bounds.dilated( 10 );
   }
 }
 

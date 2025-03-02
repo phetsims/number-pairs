@@ -176,10 +176,13 @@ export default class NumberPairsScreenView extends ScreenView {
       representation: representationTypeAccessibleNameProperty
     } );
 
+    const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
       accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
       tandem: tenFrameButtonTandem,
+      touchAreaXDilation: buttonVBoxSpacing / 2,
+      touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
         this.interruptSubtreeInput();
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
@@ -195,6 +198,8 @@ export default class NumberPairsScreenView extends ScreenView {
 
     const commutativeButton = new CommutativeButton( {
       accessibleName: NumberPairsStrings.swapAddendsStringProperty,
+      touchAreaXDilation: buttonVBoxSpacing / 2,
+      touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
         this.interruptSubtreeInput();
         model.swapAddends.bind( model )();
@@ -203,7 +208,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.countingAreaButtonsVBox = new VBox( {
       children: [ tenFrameButton, commutativeButton ],
-      spacing: 10,
+      spacing: buttonVBoxSpacing,
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: COUNTING_AREA_BOUNDS.minY
     } );

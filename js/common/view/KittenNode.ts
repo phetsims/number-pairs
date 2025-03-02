@@ -71,6 +71,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
+      cursor: 'pointer',
       focusable: true
     }, providedOptions );
 

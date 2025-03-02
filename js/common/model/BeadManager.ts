@@ -22,7 +22,6 @@ export default class BeadManager {
   // BEAD_WIDTH is closely intertwined with the placement of the bead separator. Anything greater than 21.5 at the time
   // of this writing will cause spacing issues along the wire if other adjustments are not made.
   public static readonly BEAD_WIDTH = 21.5;
-  public static readonly BEAD_HEIGHT = 80;
   public static readonly LEFTMOST_BEAD_X = 1;
   public static readonly RIGHTMOST_BEAD_X = Math.floor( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / BeadManager.BEAD_WIDTH ) - 1;
 

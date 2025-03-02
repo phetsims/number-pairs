@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -103,7 +102,7 @@ export default class NumberLineNode extends Node {
       } );
     const leftAddendArrow = new CurvedArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
       fill: NumberPairsColors.numberLineLeftAddendColorProperty,
-      visibleProperty: DerivedProperty.not( model.numberLineCountFromZeroProperty )
+      visibleProperty: model.numberLineCountFromZeroProperty
     } );
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,

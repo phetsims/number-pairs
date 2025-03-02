@@ -28,6 +28,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -73,7 +74,9 @@ export default class LocationCountingObjectNode extends Node {
 
 
     const options = optionize<LocationCountingObjectNodeOptions, SelfOptions, NodeOptions>()( {
-      children: [ appleNode, oneCardNode, soccerBallNode, butterflyNode ]
+      children: [ appleNode, oneCardNode, soccerBallNode, butterflyNode ],
+      cursor: 'pointer',
+      touchArea: new Bounds2( 0, 0, IMAGE_WIDTH, ONE_CARD_HEIGHT ).dilate( 5 )
     }, providedOptions );
     super( options );
 

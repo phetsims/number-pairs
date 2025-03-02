@@ -29,7 +29,9 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, HEIGHT ),
       secondAddendVisibleProperty: null,
-      baseColor: Color.WHITE
+      baseColor: Color.WHITE,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5
     }, providedOptions );
 
     let addendToggleVisibleProperty = addendVisibleProperty;
