@@ -14,6 +14,7 @@ import numberPairs from '../numberPairs.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
+import IntroScreenKeyboardHelpNode from './view/IntroScreenKeyboardHelpNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to IntroScreen here
@@ -27,10 +28,7 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
 
     const options = optionize<IntroScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.introStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
+      createKeyboardHelpNode: () => new IntroScreenKeyboardHelpNode(),
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 

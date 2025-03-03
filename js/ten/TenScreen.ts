@@ -14,6 +14,7 @@ import numberPairs from '../numberPairs.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
 import TenModel from './model/TenModel.js';
 import TenScreenView from './view/TenScreenView.js';
+import TenScreenKeyboardHelpNode from './view/TenScreenKeyboardHelpNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TenScreen here
@@ -27,10 +28,7 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
 
     const options = optionize<TenScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.tenStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
+      createKeyboardHelpNode: () => new TenScreenKeyboardHelpNode(),
       backgroundColorProperty: NumberPairsColors.tenScreenBackgroundColorProperty
     }, providedOptions );
 

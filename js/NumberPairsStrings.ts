@@ -22,6 +22,37 @@ type StringsType = {
     'sumStringProperty': LocalizedStringProperty;
     'gameStringProperty': LocalizedStringProperty;
   };
+  'keyboardHelpDialog': {
+    'countingObjectHeadingStringProperty': LocalizedStringProperty;
+    'countingObjectStringProperty': LocalizedStringProperty;
+    'beadHeadingStringProperty': LocalizedStringProperty;
+    'beadStringProperty': LocalizedStringProperty;
+    'countingObjectOrBeadHeadingStringProperty': LocalizedStringProperty;
+    'countingObjectOrBeadStringProperty': LocalizedStringProperty;
+    'introScreen': {
+      'moveGrabbableItemHeadingStringProperty': LocalizedStringProperty;
+    };
+    'tenScreen': {
+      'moveGrabbableItemHeadingStringProperty': LocalizedStringProperty;
+    };
+    'twentyScreen': {
+      'moveGrabbableItemHeadingStringProperty': LocalizedStringProperty;
+    };
+    'sumScreen': {
+      'moveGrabbableItemHeadingStringProperty': LocalizedStringProperty;
+    };
+    'jumpToLastKittenStringProperty': LocalizedStringProperty;
+    'jumpToFirstKittenStringProperty': LocalizedStringProperty;
+    'toggleKittenColorStringProperty': LocalizedStringProperty;
+    'kittenSectionHeadingStringProperty': LocalizedStringProperty;
+    'moveToRightPatternStringPropertyStringProperty': LocalizedStringProperty;
+    'moveToLeftPatternStringPropertyStringProperty': LocalizedStringProperty;
+    'countingAreaStringProperty': LocalizedStringProperty;
+    'wireStringProperty': LocalizedStringProperty;
+    'countingAreaHeadingStringProperty': LocalizedStringProperty;
+    'wireHeadingStringProperty': LocalizedStringProperty;
+    'moveAcrossAreaPatternStringProperty': LocalizedStringProperty;
+  };
   'phraseStringProperty': LocalizedStringProperty;
   'phraseHelpTextStringProperty': LocalizedStringProperty;
   'numberBondStringProperty': LocalizedStringProperty;

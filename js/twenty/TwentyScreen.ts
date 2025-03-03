@@ -14,6 +14,7 @@ import numberPairs from '../numberPairs.js';
 import NumberPairsStrings from '../NumberPairsStrings.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
+import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js';
 
 type SelfOptions = {
   //TODO add options that are specific to TwentyScreen here
@@ -27,10 +28,7 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
 
     const options = optionize<TwentyScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.twentyStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
+      createKeyboardHelpNode: () => new TwentyScreenKeyboardHelpNode(),
       backgroundColorProperty: NumberPairsColors.twentyScreenBackgroundColorProperty
     }, providedOptions );
 
