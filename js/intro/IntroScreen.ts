@@ -7,7 +7,7 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
@@ -15,10 +15,9 @@ import NumberPairsStrings from '../NumberPairsStrings.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import IntroScreenKeyboardHelpNode from './view/IntroScreenKeyboardHelpNode.js';
+import IntroScreenIcon from './view/IntroScreenIcon.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to IntroScreen here
-};
+type SelfOptions = EmptySelfOptions;
 
 type IntroScreenOptions = SelfOptions & ScreenOptions;
 
@@ -29,6 +28,8 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
     const options = optionize<IntroScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.introStringProperty,
       createKeyboardHelpNode: () => new IntroScreenKeyboardHelpNode(),
+      homeScreenIcon: new IntroScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
+      navigationBarIcon: new IntroScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 
