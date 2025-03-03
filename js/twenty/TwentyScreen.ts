@@ -7,7 +7,7 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
@@ -15,11 +15,9 @@ import NumberPairsStrings from '../NumberPairsStrings.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
 import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js';
+import TwentyScreenIcon from './view/TwentyScreenIcon.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to TwentyScreen here
-};
-
+type SelfOptions = EmptySelfOptions;
 type TwentyScreenOptions = SelfOptions & ScreenOptions;
 
 export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> {
@@ -29,6 +27,8 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
     const options = optionize<TwentyScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.twentyStringProperty,
       createKeyboardHelpNode: () => new TwentyScreenKeyboardHelpNode(),
+      homeScreenIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
+      navigationBarIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),
       backgroundColorProperty: NumberPairsColors.twentyScreenBackgroundColorProperty
     }, providedOptions );
 

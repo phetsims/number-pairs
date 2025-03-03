@@ -7,7 +7,7 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
@@ -17,9 +17,7 @@ import TenScreenView from './view/TenScreenView.js';
 import TenScreenKeyboardHelpNode from './view/TenScreenKeyboardHelpNode.js';
 import TenScreenIcon from './view/TenScreenIcon.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to TenScreen here
-};
+type SelfOptions = EmptySelfOptions;
 
 type TenScreenOptions = SelfOptions & ScreenOptions;
 
