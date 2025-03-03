@@ -15,6 +15,7 @@ import NumberPairsStrings from '../NumberPairsStrings.js';
 import SumModel from './model/SumModel.js';
 import SumScreenView from './view/SumScreenView.js';
 import SumScreenKeyboardHelpNode from './view/SumScreenKeyboardHelpNode.js';
+import SumScreenIcon from './view/SumScreenIcon.js';
 
 type SelfOptions = {
   //TODO add options that are specific to SumScreen here
@@ -29,6 +30,8 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
     const options = optionize<SumScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsStrings.screen.sumStringProperty,
       createKeyboardHelpNode: () => new SumScreenKeyboardHelpNode(),
+      homeScreenIcon: new SumScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
+      navigationBarIcon: new SumScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),
       backgroundColorProperty: NumberPairsColors.sumScreenBackgroundColorProperty
     }, providedOptions );
 

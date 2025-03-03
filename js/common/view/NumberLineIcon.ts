@@ -25,11 +25,16 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import NumberRectangle, { NumberSquareOptions } from './NumberRectangle.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;
   showLeftArrow?: boolean;
   showHighlight?: boolean;
+  showPoint?: boolean;
+  showLabels?: boolean;
+  pointFillColor?: TColor;
+  trackLineWidth?: number;
 };
 type NumberLineIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'excludeInvisibleChildrenFromBounds'>;
 const ICON_RANGE = new Range( 0, 3 );
@@ -56,6 +61,10 @@ export default class NumberLineIcon extends Node {
       showRightArrow: false,
       showLeftArrow: false,
       showHighlight: false,
+      showPoint: providedOptions.showHighlight || false,
+      showLabels: true,
+      pointFillColor: NumberPairsColors.numberLineSumColorProperty,
+      trackLineWidth: 1,
       excludeInvisibleChildrenFromBounds: true,
       pickable: false // This is an icon so it should not be pickable
     }, providedOptions );
@@ -86,6 +95,7 @@ export default class NumberLineIcon extends Node {
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
         fill: NumberPairsColors.numberLineRightAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
+      options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), rightAddendValueProperty, numberSquareOptions ) );
     }
 
@@ -100,6 +110,7 @@ export default class NumberLineIcon extends Node {
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
         fill: NumberPairsColors.numberLineLeftAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
+      options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
 
     }
@@ -112,6 +123,7 @@ export default class NumberLineIcon extends Node {
         fill: NumberPairsColors.numberLineLeftAddendColorProperty,
         top: MINOR_TICK_LENGTH / 2 + NUMBER_SQUARE_MARGIN
       }, NUMBER_SQUARE_OPTIONS );
+      options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
     }
 
@@ -129,13 +141,14 @@ export default class NumberLineIcon extends Node {
       numberLineRange: ICON_RANGE,
       majorTickLength: MAJOR_TICK_LENGTH,
       minorTickLength: MINOR_TICK_LENGTH,
+      trackLineWidth: options.trackLineWidth,
       tandem: Tandem.OPT_OUT
     } );
     this.addChild( numberLine );
 
-    if ( options.showHighlight ) {
+    if ( options.showPoint ) {
       const valuePoint = new Circle( 3, {
-        fill: NumberPairsColors.numberLineSumColorProperty,
+        fill: options.pointFillColor,
         stroke: Color.BLACK,
         lineWidth: 0.5,
         centerX: modelViewTransform.modelToViewX( iconNumberLineValue )

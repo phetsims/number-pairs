@@ -10,7 +10,6 @@
 
 import TProperty from '../../../../axon/js/TProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -22,11 +21,13 @@ import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.
 import numberPairs from '../../numberPairs.js';
 import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 
 type TrackSelfOptions = {
   numberLineRange: Range;
   majorTickLength?: number;
   minorTickLength?: number;
+  trackLineWidth?: number;
 };
 type NumberLineSliderTrackOptions = WithRequired<SliderTrackOptions, 'size'> & TrackSelfOptions;
 
@@ -36,6 +37,7 @@ const MAJOR_TICK_LENGTH = 24;
 export default class NumberLineSliderTrack extends SliderTrack {
   private readonly majorTickLength: number;
   private readonly minorTickLength: number;
+  private readonly trackLineWidth: number;
 
   public constructor(
     valueProperty: TProperty<number>,
@@ -45,12 +47,14 @@ export default class NumberLineSliderTrack extends SliderTrack {
     providedOptions: NumberLineSliderTrackOptions ) {
 
     const options = optionize<NumberLineSliderTrackOptions, TrackSelfOptions, SliderTrackOptions>()( {
-      constrainValue: n => Utils.toFixedNumber( n, 0 ),
+      constrainValue: n => toFixedNumber( n, 0 ),
       majorTickLength: MAJOR_TICK_LENGTH,
-      minorTickLength: MINOR_TICK_LENGTH
+      minorTickLength: MINOR_TICK_LENGTH,
+      trackLineWidth: 1
     }, providedOptions );
     const trackNode = new Line( 0, 0, options.size.width, 0, {
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: options.trackLineWidth
     } );
     super( valueProperty, trackNode, options.numberLineRange, providedOptions );
 
@@ -59,6 +63,7 @@ export default class NumberLineSliderTrack extends SliderTrack {
 
     this.majorTickLength = options.majorTickLength;
     this.minorTickLength = options.minorTickLength;
+    this.trackLineWidth = options.trackLineWidth;
 
     const numberLineRangeLength = options.numberLineRange.getLength();
     _.times( numberLineRangeLength + 1, i => {
@@ -69,7 +74,8 @@ export default class NumberLineSliderTrack extends SliderTrack {
   private addMajorTick( i: number ): void {
     const xPosition = this.trackModelViewTransform.modelToViewX( i );
     this.sliderTickParent.addChild( new Line( xPosition, -this.majorTickLength / 2, xPosition, this.majorTickLength / 2, {
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: this.trackLineWidth
     } ) );
     this.sliderTickParent.addChild( new Text( i, {
       font: new PhetFont( 16 ),
@@ -82,7 +88,8 @@ export default class NumberLineSliderTrack extends SliderTrack {
   private addMinorTick( i: number ): void {
     const xPosition = this.trackModelViewTransform.modelToViewX( i );
     this.sliderTickParent.addChild( new Line( xPosition, -this.minorTickLength / 2, xPosition, this.minorTickLength / 2, {
-      stroke: 'black'
+      stroke: 'black',
+      lineWidth: this.trackLineWidth
     } ) );
     this.sliderTickParent.addChild( new Text( i, {
       font: new PhetFont( 16 ),
