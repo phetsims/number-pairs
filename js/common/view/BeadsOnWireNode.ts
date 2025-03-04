@@ -56,7 +56,7 @@ export default class BeadsOnWireNode extends Node {
 
   private readonly beadModelToNodeMap = new Map<CountingObject, BeadNode>();
 
-  // Convenience Property
+  // In view coordinates.
   private readonly beadSeparatorCenterXProperty: Property<number>;
   private readonly beadDragBounds: Bounds2;
 
@@ -135,7 +135,11 @@ export default class BeadsOnWireNode extends Node {
       const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject )!;
       assert && assert( grabbedBeadNode, 'Expected to have a grabbedBeadNode when dragging with keyboard.' );
 
-      const viewPosition = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition );
+
+      // This complicated transform is unfortunate, but we want to handle all varieties of dragging via handleBeadMove.
+      // HandleBeadMove expects the proposed position to be in the global view coordinate frame, because that is
+      // what the DragListener (internal to BeadNode) provides.
+      const viewPosition = grabbedBeadNode.parentToGlobalPoint( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition ) );
       this.handleBeadMove( viewPosition, grabbedBeadNode );
     } );
 
@@ -166,16 +170,16 @@ export default class BeadsOnWireNode extends Node {
 
         if ( keysPressed.includes( 'home' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) > separatorXPosition ) {
           this.ignoreBeadBounds = true;
-          this.handleBeadMove( new Vector2( separatorXPosition - SEPARATOR_BUFFER, 0 ), this.beadModelToNodeMap.get( groupItem )! );
+          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition - SEPARATOR_BUFFER, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
           this.ignoreBeadBounds = false;
 
           const leftAddendSortedBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT );
-          this.handleBeadsOutsideOfBounds( leftAddendSortedBeads, true );
+          this.handleBeadsOutsideOfBounds( leftAddendSortedBeads, false );
 
         }
         else if ( keysPressed.includes( 'end' ) && BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( currentBeadXPosition ) < separatorXPosition ) {
           this.ignoreBeadBounds = true;
-          this.handleBeadMove( new Vector2( separatorXPosition + SEPARATOR_BUFFER, 0 ), this.beadModelToNodeMap.get( groupItem )! );
+          this.handleBeadMove( this.localToGlobalPoint( new Vector2( separatorXPosition + SEPARATOR_BUFFER, 0 ) ), this.beadModelToNodeMap.get( groupItem )! );
           this.ignoreBeadBounds = false;
 
           const rightAddendSortedBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT ).reverse();
@@ -240,7 +244,8 @@ export default class BeadsOnWireNode extends Node {
         // Reset may also give the impression that we are adding or removing beads, but we want to position the beads
         // differently than when interacting with the CountingObjectSpinners. In a reset situation we will rely
         // on the initial values of the position Properties.
-        if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && options.sumScreen ) {
+        if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && options.sumScreen &&
+             !model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value && !this.beadDragging ) {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
 
@@ -256,24 +261,43 @@ export default class BeadsOnWireNode extends Node {
   }
 
   private handleBeadDrop( beadNode: BeadNode ): void {
+
     if ( equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
-      const proposedPosition = beadNode.centerX > this.beadSeparatorCenterXProperty.value ? this.beadSeparatorCenterXProperty.value + BEAD_WIDTH : this.beadSeparatorCenterXProperty.value - BEAD_WIDTH;
-      this.handleBeadMove( new Vector2( proposedPosition, 0 ), beadNode );
+      this.handleSeparatorOverlap( beadNode );
     }
+    else {
+      const sortedBeads = this.getSortedBeadNodes();
+      for ( let i = 0; i < sortedBeads.length; i++ ) {
+        const beadNode = sortedBeads[ i ];
+        if ( equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, BEAD_WIDTH / 1.5 ) ) {
+          this.handleSeparatorOverlap( beadNode );
+          break;
+        }
+      }
+    }
+  }
+
+  private handleSeparatorOverlap( beadNode: BeadNode ): void {
+    const proposedPosition = beadNode.centerX > this.beadSeparatorCenterXProperty.value ? this.beadSeparatorCenterXProperty.value + BEAD_WIDTH : this.beadSeparatorCenterXProperty.value - BEAD_WIDTH;
+    this.handleBeadMove( this.localToGlobalPoint( new Vector2( proposedPosition, 0 ) ), beadNode );
   }
 
   /**
    * If a bead is outside the bounds of the drag area, shift all the beads of that addend type over to accommodate.
-   * @param movingRight
+   * @param movingRight - Whether the beads were moving to the right or left of the wire.
    * @param beadNodes
    */
   private handleBeadsOutsideOfBounds( beadNodes: BeadNode[], movingRight: boolean ): void {
-    const direction = movingRight ? 1 : -1;
+
+    // If we are moving to the right and beads are out of bounds we want to shift the beads to the left.
+    const shiftDirection = movingRight ? -1 : 1;
+
+    // If beads are out of bounds that means we need to start from the outside in.
     const extremePosition = movingRight ? BeadManager.RIGHTMOST_BEAD_X : BeadManager.LEFTMOST_BEAD_X;
 
     if ( _.some( beadNodes, beadNode => !this.beadDragBounds.containsPoint( beadNode.center ) ) ) {
       const beadXPositions = beadNodes.map( beadNode => beadNode.countingObject.beadXPositionProperty.value );
-      const shiftedXPositions = this.model.beadManager.shiftXPositions( beadXPositions, direction, extremePosition );
+      const shiftedXPositions = this.model.beadManager.shiftXPositions( beadXPositions, shiftDirection, extremePosition );
       beadNodes.forEach( ( beadNode, i ) => {
         beadNode.countingObject.beadXPositionProperty.value = shiftedXPositions[ i ];
       } );
@@ -282,14 +306,14 @@ export default class BeadsOnWireNode extends Node {
 
   /**
    * Handle the movement of a bead and its neighbors when it is dragged.
-   * @param newPosition - the proposed new position, in the local coordinate frame.
+   * @param newPosition - the proposed new position, in the global view coordinate frame.
    * @param grabbedBeadNode
    */
   private handleBeadMove( newPosition: Vector2, grabbedBeadNode: BeadNode ): void {
-    let proposedParentPosition = newPosition;
+    let proposedParentPosition = grabbedBeadNode.globalToParentPoint( newPosition );
 
     // Determine whether we are dragging the bead to the right or left along the wire.
-    const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.bounds.center.x ) > 0;
+    const draggingRight = Math.sign( newPosition.x - grabbedBeadNode.parentToGlobalPoint( grabbedBeadNode.bounds.center ).x ) > 0;
 
     // Reverse the sorted and active beads if we are dragging towards the left.
     const activeBeadNodes = this.getSortedBeadNodes();
@@ -409,6 +433,16 @@ export default class BeadsOnWireNode extends Node {
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendProperty' );
   }
 
+  /**
+   *
+   * @param startingBeadNode - The bead that is being dragged.
+   * @param proposedXPosition - The proposed x position of the bead.
+   * @param movingRight - Whether the beads are moving to the right or left.
+   * @param sortedBeadNodes - Should be sorted in the order we want to traverse the beads in the function. This is most
+   * likely related to whether the beads are movingRight or not
+   *
+   * This function will return all the beads that are touching the startingBeadNode.
+   */
   private getBeadsToMove( startingBeadNode: BeadNode, proposedXPosition: number, movingRight: boolean, sortedBeadNodes: BeadNode[] ): BeadNode[] {
     const grabbedBeadIndex = sortedBeadNodes.indexOf( startingBeadNode );
     const slicedBeadNodes = sortedBeadNodes.slice( grabbedBeadIndex, sortedBeadNodes.length + 1 );

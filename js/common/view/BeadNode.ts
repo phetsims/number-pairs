@@ -54,23 +54,18 @@ export default class BeadNode extends Node {
       opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
       cursor: 'pointer',
       children: [ blueBead, pinkBead ],
-      touchArea: blueBead.bounds.dilatedY( 20 ),
-      mouseArea: blueBead.bounds.dilatedY( 5 ),
       visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
 
     super( options );
-
-    // We have to manually calculate the offset due to bead drag handling being a manual process done in `handleBeadMove`.
-    // The position the drag event provides, is not necessarily the position the bead will end up in.
     let startDragOffset: Vector2;
     const dragListener = new SoundDragListener( {
       start: event => {
         options.onStartDrag( this );
-        startDragOffset = this.globalToParentPoint( event.pointer.point ).minus( this.center );
+        startDragOffset = event.pointer.point.minus( this.parentToGlobalPoint( this.center ) );
       },
       drag: event => {
-        const point = this.globalToParentPoint( event.pointer.point ).minus( startDragOffset );
+        const point = event.pointer.point.minus( startDragOffset );
         options.onDrag( point, this );
       },
       end: options.onEndDrag,
