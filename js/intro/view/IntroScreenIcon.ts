@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * IntroScreenIcon is the icon for the 'Intro' screen. It consists of two rectangles, one for each addend,

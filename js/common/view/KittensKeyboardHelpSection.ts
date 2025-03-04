@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 /**
  * Keyboard help section to use home/end hotkeys and toggle kitten color
  *
