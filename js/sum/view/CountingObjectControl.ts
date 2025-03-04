@@ -37,6 +37,7 @@ import numberPairs from '../../numberPairs.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -119,6 +120,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       xMargin: 4,
       yMargin: 4,
       enabledProperty: incrementEnabledProperty,
+      soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: true,
       tandem: options.tandem.createTandem( 'incrementButton' )
     } );
@@ -152,6 +154,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       xMargin: 4,
       yMargin: 4,
       enabledProperty: decrementEnabledProperty,
+      soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: true,
       tandem: options.tandem.createTandem( 'decrementButton' )
     } );
