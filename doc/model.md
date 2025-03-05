@@ -28,7 +28,7 @@ The counting area is the main space where students can interact with the decompo
 
 There are various controls outside of the counting area that can affect, or decorate the objects inside the counting area. One such control is the "organize button." This button will organize objects into rows five (or groups of five where appropriate).
 
-Additionally students can also "swap" the addends by using the Commutative Button. This allows students to see the commutative property being modeled in real time by switching the addends.
+Additionally, students can also "swap" the addends by using the Commutative Button. This allows students to see the commutative property being modeled in real time by switching the addends.
 
 In both cases the objects will also follow the decomposition or sum, always matching the number bond or bar model.
 
