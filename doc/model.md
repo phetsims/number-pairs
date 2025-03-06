@@ -1,6 +1,7 @@
 # Number Pairs - Model Description
 
 @author Marla Schulz (PhET Interactive Simulations)
+
 @author Catherine Carter (PhET Interactive Simulations)
 
 This document is a high-level description of the model used in PhET's *Number Pairs* simulation.
