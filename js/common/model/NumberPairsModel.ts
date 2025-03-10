@@ -158,7 +158,9 @@ export default class NumberPairsModel implements TModel {
       phetioFeatured: true
     } );
     this.numberLineCountFromZeroProperty = new BooleanProperty( false, {
-      phetioDocumentation: 'This Property is only applicable in number line representations',
+      phetioDocumentation: 'This Property is only applicable in number line representations and controls the toggle under the Counting Area.' +
+                           'When false, the toggle is to the left and represents a Counting On strategy.' +
+                           'When true, this toggle is to the right and represents a Counting from Zero strategy.',
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
               options.tandem.createTandem( 'numberLineCountFromZeroProperty' ) : Tandem.OPT_OUT
     } );
