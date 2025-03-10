@@ -54,6 +54,8 @@ export default class BeadNode extends Node {
       opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
       cursor: 'pointer',
       children: [ blueBead, pinkBead ],
+      touchArea: blueBead.bounds.dilatedY( 20 ),
+      mouseArea: blueBead.bounds.dilatedY( 5 ),
       visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE )
     }, providedOptions );
 
