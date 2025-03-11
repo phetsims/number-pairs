@@ -45,8 +45,8 @@ type StringsType = {
     'jumpToFirstKittenStringProperty': LocalizedStringProperty;
     'toggleKittenColorStringProperty': LocalizedStringProperty;
     'kittenSectionHeadingStringProperty': LocalizedStringProperty;
-    'moveToRightPatternStringPropertyStringProperty': LocalizedStringProperty;
-    'moveToLeftPatternStringPropertyStringProperty': LocalizedStringProperty;
+    'moveToRightPatternStringProperty': LocalizedStringProperty;
+    'moveToLeftPatternStringProperty': LocalizedStringProperty;
     'countingAreaStringProperty': LocalizedStringProperty;
     'wireStringProperty': LocalizedStringProperty;
     'countingAreaHeadingStringProperty': LocalizedStringProperty;

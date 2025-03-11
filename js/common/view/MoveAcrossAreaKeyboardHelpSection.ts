@@ -21,10 +21,10 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     itemHeadingStringProperty: TReadOnlyProperty<string>,
     areaHeadingStringProperty: TReadOnlyProperty<string>,
     areaStringProperty: TReadOnlyProperty<string> ) {
-    const moveToRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightPatternStringPropertyStringProperty, {
+    const moveToRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightPatternStringProperty, {
       area: areaStringProperty
     } );
-    const moveToLeftPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToLeftPatternStringPropertyStringProperty, {
+    const moveToLeftPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToLeftPatternStringProperty, {
       area: areaStringProperty
     } );
     const moveAcrossAreaHeadingStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveAcrossAreaPatternStringProperty, {
