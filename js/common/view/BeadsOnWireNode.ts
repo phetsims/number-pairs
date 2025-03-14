@@ -277,6 +277,10 @@ export default class BeadsOnWireNode extends Node {
         }
       }
     }
+
+    if ( this.model.groupSelectBeadsModel.selectedGroupItemProperty.value ) {
+      this.keyboardProposedBeadPositionProperty.value = new Vector2( this.model.groupSelectBeadsModel.selectedGroupItemProperty.value.beadXPositionProperty.value, 0 );
+    }
   }
 
   private handleSeparatorOverlap( beadNode: BeadNode ): void {
