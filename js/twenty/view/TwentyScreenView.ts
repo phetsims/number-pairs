@@ -23,7 +23,7 @@ type SelfOptions = {
   //TODO add options that are specific to TwentyScreenView here
 };
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseContent' | 'numberBondContent' | 'sceneRange'>
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TwentyScreenView extends DecompositionScreenView {
@@ -31,16 +31,16 @@ export default class TwentyScreenView extends DecompositionScreenView {
   public constructor( model: TwentyModel, providedOptions: TwentyScreenViewOptions ) {
 
     const options = optionize<TwentyScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      phraseContent: new PhraseAccordionBox( model, {
+      phraseAccordionBox: new PhraseAccordionBox( model, {
         phraseStringProperty: NumberPairsStrings.decompositionPhrasePatternStringProperty,
         phraseSpeechStringProperty: NumberPairsStrings.decompositionPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.twentyScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
-      numberBondContent: new NumberBondAccordionBox( model, {
+      numberBondAccordionBox: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      equationContent: new EquationAccordionBox( model, {
+      equationAccordionBox: new EquationAccordionBox( model, {
         totalColorProperty: model.totalColorProperty,
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,

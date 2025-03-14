@@ -27,7 +27,7 @@ import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js
 
 type SelfOptions = EmptySelfOptions;
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'phraseContent' | 'numberBondContent'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
@@ -41,19 +41,19 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
       sumScreen: true,
-      phraseContent: new PhraseAccordionBox( model, {
+      phraseAccordionBox: new PhraseAccordionBox( model, {
         phraseStringProperty: NumberPairsStrings.sumPhrasePatternStringProperty,
         phraseSpeechStringProperty: NumberPairsStrings.sumPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.sumScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
-      numberBondContent: new NumberBondAccordionBox( model, {
+      numberBondAccordionBox: new NumberBondAccordionBox( model, {
         numberBondNodeOptions: {
           totalOnTopProperty: NumberPairsPreferences.sumScreenTotalOnTopProperty
         },
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      equationContent: new EquationAccordionBox( model, {
+      equationAccordionBox: new EquationAccordionBox( model, {
         totalColorProperty: model.totalColorProperty,
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,

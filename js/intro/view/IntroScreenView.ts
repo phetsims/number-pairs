@@ -22,7 +22,7 @@ type SelfOptions = {
   //TODO add options that are specific to IntroScreenView here
 };
 
-type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseContent' | 'numberBondContent' | 'sceneRange'>
+type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 
@@ -31,13 +31,13 @@ export default class IntroScreenView extends DecompositionScreenView {
   public constructor( model: IntroModel, providedOptions: IntroScreenViewOptions ) {
 
     const options = optionize<IntroScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      phraseContent: new PhraseAccordionBox( model, {
+      phraseAccordionBox: new PhraseAccordionBox( model, {
         phraseStringProperty: NumberPairsStrings.decompositionPhrasePatternStringProperty,
         phraseSpeechStringProperty: NumberPairsStrings.decompositionPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.introScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
-      numberBondContent: new NumberBondAccordionBox( model, {
+      numberBondAccordionBox: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
       sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE

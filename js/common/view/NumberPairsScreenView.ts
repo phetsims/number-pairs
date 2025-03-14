@@ -45,11 +45,12 @@ import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js'
 import TenFrameButton from './TenFrameButton.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
+import AccordionBox from '../../../../sun/js/AccordionBox.js';
 
 type SelfOptions = {
-  phraseContent: Node;
-  numberBondContent: Node;
-  equationContent?: Node | null;
+  phraseAccordionBox: AccordionBox;
+  numberBondAccordionBox: AccordionBox;
+  equationAccordionBox?: AccordionBox | null;
   sceneRange?: Range | null;
   sumScreen?: boolean;
 };
@@ -63,6 +64,7 @@ export default class NumberPairsScreenView extends ScreenView {
   protected readonly resetAllButton: Node;
   protected readonly countingAreaButtonsVBox: Node;
   protected readonly numberLineCheckboxGroup: Node | undefined;
+  private readonly resetAccordionBoxes: () => void;
 
   // For pdom order.
   protected readonly representationNodes: Node[] = [];
@@ -78,7 +80,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const options = optionize<NumberPairsScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      equationContent: null,
+      equationAccordionBox: null,
       sceneRange: null,
       sumScreen: false,
       children: [ representationRadioButtonGroup ]
@@ -90,7 +92,7 @@ export default class NumberPairsScreenView extends ScreenView {
      * Set the layout of the accordion boxes along the top of each screen.
      */
     const phraseVBox = new VBox( {
-      children: [ options.phraseContent ],
+      children: [ options.phraseAccordionBox ],
       spacing: 5,
       align: 'left'
     } );
@@ -101,7 +103,7 @@ export default class NumberPairsScreenView extends ScreenView {
       yAlign: 'top',
       xAlign: 'left'
     } );
-    const numberBondAlignBox = new AlignBox( options.numberBondContent, {
+    const numberBondAlignBox = new AlignBox( options.numberBondAccordionBox, {
       alignBounds: this.layoutBounds,
       yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
       xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
@@ -111,8 +113,8 @@ export default class NumberPairsScreenView extends ScreenView {
     this.addChild( phraseAlignBox );
     this.addChild( numberBondAlignBox );
 
-    if ( options.equationContent ) {
-      const equationAlignBox = new AlignBox( options.equationContent, {
+    if ( options.equationAccordionBox ) {
+      const equationAlignBox = new AlignBox( options.equationAccordionBox, {
         alignBounds: this.layoutBounds,
         yMargin: NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
         xMargin: NumberPairsConstants.COUNTING_AREA_X_MARGIN,
@@ -120,6 +122,17 @@ export default class NumberPairsScreenView extends ScreenView {
         xAlign: 'right'
       } );
       this.addChild( equationAlignBox );
+      this.resetAccordionBoxes = () => {
+        options.phraseAccordionBox.reset();
+        options.numberBondAccordionBox.reset();
+        options.equationAccordionBox!.reset();
+      };
+    }
+    else {
+      this.resetAccordionBoxes = () => {
+        options.phraseAccordionBox.reset();
+        options.numberBondAccordionBox.reset();
+      };
     }
 
     this.resetAllButton = new ResetAllButton( {
@@ -368,8 +381,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     this.controlNodes.push( speechSynthesisControl );
     this.controlNodes.push( phraseVBox );
-    this.controlNodes.push( options.numberBondContent );
-    options.equationContent && this.controlNodes.push( options.equationContent );
+    this.controlNodes.push( options.numberBondAccordionBox );
+    options.equationAccordionBox && this.controlNodes.push( options.equationAccordionBox );
 
     // Position the counting representation radio buttons below the counting area.
     representationRadioButtonGroup.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
@@ -379,7 +392,7 @@ export default class NumberPairsScreenView extends ScreenView {
    * Resets the view.
    */
   public reset(): void {
-    //TODO
+    this.resetAccordionBoxes();
   }
 }
 

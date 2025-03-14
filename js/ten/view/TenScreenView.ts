@@ -20,7 +20,7 @@ import TenModel from '../model/TenModel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
 type SelfOptions = EmptySelfOptions;
-type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseContent' | 'numberBondContent' | 'sceneRange'>
+type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TenScreenView extends DecompositionScreenView {
@@ -28,16 +28,16 @@ export default class TenScreenView extends DecompositionScreenView {
   public constructor( model: TenModel, providedOptions: TenScreenViewOptions ) {
 
     const options = optionize<TenScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
-      phraseContent: new PhraseAccordionBox( model, {
+      phraseAccordionBox: new PhraseAccordionBox( model, {
         phraseStringProperty: NumberPairsStrings.decompositionPhrasePatternStringProperty,
         phraseSpeechStringProperty: NumberPairsStrings.decompositionPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.tenScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
-      numberBondContent: new NumberBondAccordionBox( model, {
+      numberBondAccordionBox: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      equationContent: new EquationAccordionBox( model, {
+      equationAccordionBox: new EquationAccordionBox( model, {
         totalColorProperty: model.totalColorProperty,
         leftAddendColorProperty: model.leftAddendColorProperty,
         rightAddendColorProperty: model.rightAddendColorProperty,
