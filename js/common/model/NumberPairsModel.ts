@@ -293,16 +293,16 @@ export default class NumberPairsModel implements TModel {
    * Returns the grid coordinates that are available for a counting object to be placed in the counting area.
    * This function will first retrieve all the grid coordinates according to the provided bounds, and then
    * filter out the grid coordinates that are already occupied by counting objects.
-   * //TODO: make this more rigorous so that we filter out any positions inside the "drop zone" of the counting object.
    * @param countingObjects
    * @param addendBounds
    */
   protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const gridCoordinates = NumberPairsModel.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
-    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject =>
-      countingObject.locationPositionProperty.value.x !== gridCoordinate.x ||
-      countingObject.locationPositionProperty.value.y !== gridCoordinate.y ) );
+    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
+      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.locationPositionProperty.value );
+      return !dropZoneBounds.containsPoint( gridCoordinate );
+    } ) );
   }
 
   /**

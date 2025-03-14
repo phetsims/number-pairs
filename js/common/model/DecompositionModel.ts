@@ -185,7 +185,6 @@ export default class DecompositionModel extends NumberPairsModel {
             sceneModel.beadXPositionsProperty.value.leftAddendXPositions, sceneModel.beadXPositionsProperty.value.rightAddendXPositions );
           this.changingScenesProperty.value = false;
         }
-
       }
     } );
 

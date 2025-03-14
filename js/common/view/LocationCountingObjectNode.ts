@@ -41,7 +41,7 @@ const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
 export default class LocationCountingObjectNode extends Node {
   public static readonly WIDTH = IMAGE_WIDTH;
-
+  public static readonly HEIGHT = ONE_CARD_HEIGHT;
   public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
     IMAGE_WIDTH / 2 + DRAG_BOUNDS_MARGIN,
     ONE_CARD_HEIGHT / 2 + DRAG_BOUNDS_MARGIN

@@ -13,6 +13,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPairs from '../numberPairs.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
+import Vector2 from '../../../dot/js/Vector2.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
 const TWENTY_TOTAL_RANGE = new Range( 11, 20 );
@@ -20,6 +21,8 @@ const COUNTING_AREA_X_MARGIN = 80;
 const COUNTING_AREA_MIN_Y = ScreenView.DEFAULT_LAYOUT_BOUNDS.minY + 200;
 const COUNTING_AREA_BOUNDS = new Bounds2( ScreenView.DEFAULT_LAYOUT_BOUNDS.minX + COUNTING_AREA_X_MARGIN,
   COUNTING_AREA_MIN_Y, ScreenView.DEFAULT_LAYOUT_BOUNDS.maxX - COUNTING_AREA_X_MARGIN, COUNTING_AREA_MIN_Y + 340 );
+
+const KITTEN_PANEL_WIDTH = 56;
 
 const NumberPairsConstants = {
 
@@ -72,9 +75,19 @@ const NumberPairsConstants = {
   BEAD_DISTANCE_FROM_SEPARATOR: 1.5,
 
   // Kitten specific values:
-  KITTEN_PANEL_WIDTH: 56,
+  KITTEN_PANEL_WIDTH: KITTEN_PANEL_WIDTH,
   KITTEN_PANEL_HEIGHT: 86,
   KITTEN_PANEL_MARGIN: 3,
+
+  GET_DROP_ZONE_BOUNDS: ( zoneCenter: Vector2 ): Bounds2 => {
+    const margin = KITTEN_PANEL_WIDTH / 2;
+    return new Bounds2(
+      zoneCenter.x - margin,
+      zoneCenter.y - margin,
+      zoneCenter.x + margin,
+      zoneCenter.y + margin
+    );
+  },
 
   // URL to the {REPO}_all.html file for this simulation.
   ALL_URL: 'https://phet.colorado.edu/sims/html/number-pairs/latest/number-pairs_all.html'

@@ -45,7 +45,6 @@ type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>
 
 const COUNTING_AREA_LINE_WIDTH = 1.5;
 const COUNTING_AREA_MARGIN = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-const DROP_ZONE_MARGIN = NumberPairsConstants.KITTEN_PANEL_WIDTH / 1.75;
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 
 export default class CountingAreaNode extends Node {
@@ -124,7 +123,7 @@ export default class CountingAreaNode extends Node {
                              droppedCountingObject.locationPositionProperty;
     this.sendToValidDropPoint( positionProperty, dragBounds );
     const dropPoint = positionProperty.value;
-    const dropZoneBounds = this.getDropZoneBounds( dropPoint );
+    const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( dropPoint );
 
     // Find all the active counting objects that are half a panel width away from the dropped counting object.
     const activeCountingObjects = this.model.countingObjects.filter( countingObject =>
@@ -140,22 +139,7 @@ export default class CountingAreaNode extends Node {
       const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
         const positionProperty = positionPropertyType === 'attribute' ?
                                  countingObject.attributePositionProperty : countingObject.locationPositionProperty;
-
-        // Find 4 points that are between a panel width or half a panel width away from the current position.
-        const panelWidthRatio = dotRandom.nextDoubleBetween( 0.5, 1 );
-        const points = [
-          positionProperty.value.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
-          positionProperty.value.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
-          positionProperty.value.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio ),
-          positionProperty.value.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio )
-        ];
-
-        // Eliminate any points that are outside the countingAreaBounds.
-        const pointsInBounds = points.filter( point => dragBounds.containsPoint( point ) );
-
-        // Randomly select one of the remaining points and use it as the destination if it is further away from the drop point than the current position.
-        const randomPoint = dotRandom.sample( pointsInBounds );
-        const destination = positionProperty.value.distance( dropPoint ) >= randomPoint.distance( dropPoint ) ? positionProperty.value : randomPoint;
+        const destination = CountingAreaNode.getEmptyPoint( dropPoint, positionProperty.value, dragBounds );
 
         return {
           property: positionProperty,
@@ -178,16 +162,28 @@ export default class CountingAreaNode extends Node {
   }
 
   /**
-   * Returns the bounds of the drop zone based on the provided drop zone center.
-   * @param dropZoneCenter
+   * Returns a point that is no longer overlapping the occupied point.
+   * @param occupiedPoint
+   * @param currentPoint
+   * @param validBounds
    */
-  private getDropZoneBounds( dropZoneCenter: Vector2 ): Bounds2 {
-    return new Bounds2(
-      dropZoneCenter.x - DROP_ZONE_MARGIN,
-      dropZoneCenter.y - DROP_ZONE_MARGIN,
-      dropZoneCenter.x + DROP_ZONE_MARGIN,
-      dropZoneCenter.y + DROP_ZONE_MARGIN
-    );
+  public static getEmptyPoint( occupiedPoint: Vector2, currentPoint: Vector2, validBounds: Bounds2 ): Vector2 {
+
+    // Find 4 points that are between a panel width or half a panel width away from the current position.
+    const panelWidthRatio = dotRandom.nextDoubleBetween( 0.5, 1 );
+    const points = [
+      currentPoint.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
+      currentPoint.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
+      currentPoint.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio ),
+      currentPoint.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio )
+    ];
+
+    // Eliminate any points that are outside the countingAreaBounds.
+    const pointsInBounds = points.filter( point => validBounds.containsPoint( point ) );
+
+    // Randomly select one of the remaining points and use it as the destination if it is further away from the drop point than the current position.
+    const randomPoint = dotRandom.sample( pointsInBounds );
+    return currentPoint.distance( occupiedPoint ) >= randomPoint.distance( occupiedPoint ) ? currentPoint : randomPoint;
   }
 
   private sendToValidDropPoint( positionProperty: Property<Vector2>, dragBounds: Bounds2 ): void {
