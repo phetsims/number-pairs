@@ -25,7 +25,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import numberPairsPreferences from '../model/NumberPairsPreferences.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
@@ -84,8 +84,8 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     /**
      * Create the string Properties that drive the display of the number sentence as well as the speech data.
      */
-    const isPrimaryLocaleProperty = numberPairsPreferences.isPrimaryLocaleProperty;
-    const secondLocaleStringsProperty = numberPairsPreferences.secondLocaleStringsProperty;
+    const isPrimaryLocaleProperty = NumberPairsPreferences.isPrimaryLocaleProperty;
+    const secondLocaleStringsProperty = NumberPairsPreferences.secondLocaleStringsProperty;
 
     const createNumberStringProperty = (
       numberProperty: TReadOnlyProperty<number>,
