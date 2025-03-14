@@ -123,7 +123,8 @@ export default class CountingAreaNode extends Node {
     const positionProperty = positionPropertyType === 'attribute' ? droppedCountingObject.attributePositionProperty :
                              droppedCountingObject.locationPositionProperty;
     this.sendToValidDropPoint( positionProperty, dragBounds );
-    const dropZoneBounds = this.getDropZoneBounds( positionProperty.value );
+    const dropPoint = positionProperty.value;
+    const dropZoneBounds = this.getDropZoneBounds( dropPoint );
 
     // Find all the active counting objects that are half a panel width away from the dropped counting object.
     const activeCountingObjects = this.model.countingObjects.filter( countingObject =>
@@ -140,19 +141,21 @@ export default class CountingAreaNode extends Node {
         const positionProperty = positionPropertyType === 'attribute' ?
                                  countingObject.attributePositionProperty : countingObject.locationPositionProperty;
 
-        // Find 4 points that are half a panel width away from the drop zone.
+        // Find 4 points that are between a panel width or half a panel width away from the current position.
+        const panelWidthRatio = dotRandom.nextDoubleBetween( 0.5, 1 );
         const points = [
-          positionProperty.value.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, 0 ),
-          positionProperty.value.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, 0 ),
-          positionProperty.value.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 ),
-          positionProperty.value.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 )
+          positionProperty.value.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
+          positionProperty.value.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
+          positionProperty.value.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio ),
+          positionProperty.value.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio )
         ];
 
         // Eliminate any points that are outside the countingAreaBounds.
         const pointsInBounds = points.filter( point => dragBounds.containsPoint( point ) );
 
-        // Randomly select one of the remaining points.
-        const destination = dotRandom.sample( pointsInBounds );
+        // Randomly select one of the remaining points and use it as the destination if it is further away from the drop point than the current position.
+        const randomPoint = dotRandom.sample( pointsInBounds );
+        const destination = positionProperty.value.distance( dropPoint ) >= randomPoint.distance( dropPoint ) ? positionProperty.value : randomPoint;
 
         return {
           property: positionProperty,
