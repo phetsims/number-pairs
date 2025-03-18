@@ -12,12 +12,14 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberCircle from './NumberCircle.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
+  iconOnly?: boolean;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -27,29 +29,52 @@ const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export default class NumberBondNode extends Node {
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberBondNodeOptions ) {
+  public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-      totalOnTopProperty: null
+      totalOnTopProperty: null,
+      iconOnly: false
     }, providedOptions );
 
-    const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
-      fill: model.totalColorProperty,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
+    let total: Node;
+    let leftAddend: Node;
+    let rightAddend: Node;
 
-
-    const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
-      fill: model.leftAddendColorProperty,
-      centerX: total.centerX - HORIZONTAL_OFFSET,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
-
-    const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
-      fill: model.rightAddendColorProperty,
-      centerX: total.centerX + HORIZONTAL_OFFSET,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
+    if ( options.iconOnly ) {
+      total = new Circle( NumberCircle.RADIUS, {
+        fill: model.totalColorProperty,
+        stroke: 'black',
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+      leftAddend = new Circle( NumberCircle.RADIUS, {
+        fill: model.leftAddendColorProperty,
+        stroke: 'black',
+        centerX: total.centerX - HORIZONTAL_OFFSET,
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+      rightAddend = new Circle( NumberCircle.RADIUS, {
+        fill: model.rightAddendColorProperty,
+        stroke: 'black',
+        centerX: total.centerX + HORIZONTAL_OFFSET,
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+    }
+    else {
+      total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
+        fill: model.totalColorProperty,
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+      leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
+        fill: model.leftAddendColorProperty,
+        centerX: total.centerX - HORIZONTAL_OFFSET,
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+      rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
+        fill: model.rightAddendColorProperty,
+        centerX: total.centerX + HORIZONTAL_OFFSET,
+        lineWidth: NUMBER_BOND_LINE_WIDTH
+      } );
+    }
 
     const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {
       stroke: 'black',

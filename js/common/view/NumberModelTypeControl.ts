@@ -15,20 +15,38 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import BarModelNode from './BarModelNode.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import NumberPairsColors from '../NumberPairsColors.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberBondNode from './NumberBondNode.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelTypeControl extends PreferencesControl {
 
   public constructor( providedOptions: NumberModelTypeControlOptions ) {
+
+    const syntheticNumberPairsModel = {
+      totalProperty: new NumberProperty( 10 ),
+      totalColorProperty: NumberPairsColors.attributeSumColorProperty,
+      totalVisibleProperty: new BooleanProperty( false ),
+      leftAddendProperty: new NumberProperty( 7 ),
+      leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
+      leftAddendVisibleProperty: new BooleanProperty( false ),
+      rightAddendProperty: new NumberProperty( 3 ),
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      rightAddendVisibleProperty: new BooleanProperty( false )
+    };
     const radioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.numberModelTypeProperty,
       [
         {
-          createNode: () => new Text( 'Number Bond', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+          createNode: () => new NumberBondNode( syntheticNumberPairsModel, { iconOnly: true } ),
           value: NumberModelType.NUMBER_BOND_MODEL,
           tandemName: 'numberBondModelRadioButton'
         },
         {
-          createNode: () => new Text( 'Bar Model', PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+          createNode: () => new BarModelNode( syntheticNumberPairsModel, { iconOnly: true } ),
           value: NumberModelType.BAR_MODEL,
           tandemName: 'barModelRadioButton'
         }
@@ -36,6 +54,11 @@ export default class NumberModelTypeControl extends PreferencesControl {
         orientation: 'horizontal',
         tandem: providedOptions.tandem.createTandem( 'radioButtonGroup' ),
         isDisposable: false,
+        radioButtonOptions: {
+          maxWidth: 100,
+          xMargin: 15,
+          baseColor: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
+        },
 
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
@@ -43,7 +66,7 @@ export default class NumberModelTypeControl extends PreferencesControl {
 
     super( combineOptions<PreferencesControlOptions>( {
       labelNode: new Text( NumberPairsStrings.numberModelTypeStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-      descriptionNode: new Text( NumberPairsStrings.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
+      descriptionNode: new RichText( NumberPairsStrings.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
       controlNode: radioButtonGroup
     }, providedOptions ) );
   }

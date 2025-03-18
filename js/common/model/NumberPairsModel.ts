@@ -35,6 +35,7 @@ import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
+import TGenericNumberPairsModel from './TGenericNumberPairsModel.js';
 
 type AnimationTarget = {
   property: Property<Vector2>;
@@ -55,7 +56,8 @@ export type BeadXPositionsTypes = {
   rightAddendXPositions: number[];
 };
 
-export default class NumberPairsModel implements TModel {
+type TNumberPairsModel = TGenericNumberPairsModel & TModel;
+export default class NumberPairsModel implements TNumberPairsModel {
 
   public readonly beadManager: BeadManager;
 
