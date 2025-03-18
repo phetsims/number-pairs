@@ -26,7 +26,7 @@ type SelfOptions = {
 
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
 export default class DecompositionScreenView extends NumberPairsScreenView {
-
+  private recursionDepth = 0;
   protected constructor( model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );
 
@@ -73,21 +73,38 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
    * @param validBounds
    */
   private handleLocationOverlap( countingObjects: CountingObject[], validBounds: Bounds2 ): CountingObject[] {
+    this.recursionDepth += 1;
+    assert && assert( this.recursionDepth < 1000, 'infinite recursion detected' );
+
+    // Our base case is when there is only one or zero counting objects left.
     if ( countingObjects.length <= 1 ) {
+      this.recursionDepth = 0;
       return [];
     }
     else {
+
+      // keep track of the counting object we are currently on and it's position.
+      const currentCountingObject = countingObjects[ 0 ];
       const currentPosition = countingObjects[ 0 ].locationPositionProperty.value;
       const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( currentPosition );
+
+      // Find any counting objects that may be overlapping and move them to a new position.
       const overlappingObjects = countingObjects.filter( countingObject => dropZoneBounds.containsPoint( countingObject.locationPositionProperty.value ) );
       overlappingObjects.length > 1 && overlappingObjects.forEach( overlappingObject => {
-        overlappingObject.locationPositionProperty.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingObject.locationPositionProperty.value, validBounds );
+        overlappingObject.locationPositionProperty.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingObject.locationPositionProperty.value, validBounds, 0.75 );
       } );
-      if ( overlappingObjects.length > 0 ) {
-        return overlappingObjects;
+
+      // If there was only one overlapping object, we can move on to the next counting object.
+      if ( overlappingObjects.length <= 1 ) {
+        return this.handleLocationOverlap( countingObjects.slice( 1 ), validBounds );
       }
       else {
-        return this.handleLocationOverlap( countingObjects.slice( 1 ), validBounds );
+
+        // If there were multiple overlapping objects, we need to move the first counting object to the back of the array
+        // So that we can check for future overlaps again.
+        countingObjects.shift();
+        countingObjects.push( currentCountingObject );
+        return this.handleLocationOverlap( countingObjects, validBounds );
       }
     }
   }

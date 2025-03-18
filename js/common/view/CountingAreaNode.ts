@@ -166,11 +166,12 @@ export default class CountingAreaNode extends Node {
    * @param occupiedPoint
    * @param currentPoint
    * @param validBounds
+   * @param minRatio - The minimum ratio of the panel width to use when finding a new point.
    */
-  public static getEmptyPoint( occupiedPoint: Vector2, currentPoint: Vector2, validBounds: Bounds2 ): Vector2 {
+  public static getEmptyPoint( occupiedPoint: Vector2, currentPoint: Vector2, validBounds: Bounds2, minRatio = 0.5 ): Vector2 {
 
     // Find 4 points that are between a panel width or half a panel width away from the current position.
-    const panelWidthRatio = dotRandom.nextDoubleBetween( 0.5, 1 );
+    const panelWidthRatio = dotRandom.nextDoubleBetween( minRatio, 1 );
     const points = [
       currentPoint.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
       currentPoint.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
