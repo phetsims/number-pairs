@@ -74,12 +74,12 @@ const NumberPairsPreferences = {
     phetioReadOnly: true
   } ),
 
-  numberModelTypeProperty: new EnumerationProperty( NumberModelType.NUMBER_BOND_MODEL, {
+  numberModelTypeProperty: new EnumerationProperty( NumberPairsQueryParameters.numberModelType === 'numberBond' ? NumberModelType.NUMBER_BOND_MODEL : NumberModelType.BAR_MODEL, {
     tandem: Tandem.PREFERENCES.createTandem( 'numberModelTypeProperty' ),
     phetioFeatured: true
   } ),
 
-  sumScreenTotalOnTopProperty: new BooleanProperty( false, {
+  sumScreenTotalOnTopProperty: new BooleanProperty( NumberPairsQueryParameters.sumScreenNumberModelOrientation === 'top', {
     tandem: Tandem.PREFERENCES.createTandem( 'sumScreenTotalOnTopProperty' ),
     phetioFeatured: true
   } )

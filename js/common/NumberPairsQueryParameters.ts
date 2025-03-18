@@ -12,6 +12,23 @@ import numberPairs from '../numberPairs.js';
 
 const SCHEMA_MAP = {
 
+  // Choose between a traditional number bond representation or a proportional bar model.
+  numberModelType: {
+    public: true,
+    type: 'string',
+    validValues: [ 'numberBond', 'barModel' ],
+    defaultValue: 'numberBond'
+  },
+
+  // Only affects the number model on the sum screen.
+  // Determine the orientation of the total in the number decomposition model.
+  sumScreenNumberModelOrientation: {
+    public: true,
+    type: 'string',
+    validValues: [ 'top', 'bottom' ],
+    defaultValue: 'bottom'
+  },
+
   // Specifies a second locale for the speech synthesis feature.
   // Values are a locale code, e.g. "en" or "zh_CN". null means no second locale.
   secondLocale: {
