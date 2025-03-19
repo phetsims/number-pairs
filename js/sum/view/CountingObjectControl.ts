@@ -121,7 +121,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       yMargin: 4,
       enabledProperty: incrementEnabledProperty,
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
-      focusable: true,
+      focusable: false,
       tandem: options.tandem.createTandem( 'incrementButton' )
     } );
 
@@ -155,7 +155,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       yMargin: 4,
       enabledProperty: decrementEnabledProperty,
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
-      focusable: true,
+      focusable: false,
       tandem: options.tandem.createTandem( 'decrementButton' )
     } );
 
