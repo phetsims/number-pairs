@@ -19,6 +19,8 @@ import CountingObject from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -27,6 +29,7 @@ type SelfOptions = {
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
 export default class DecompositionScreenView extends NumberPairsScreenView {
   private recursionDepth = 0;
+
   protected constructor( model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );
 
@@ -57,9 +60,19 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     model.selectedSceneProperty.link( sceneModel => {
       const leftAddendBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
       const rightAddendBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
-      this.handleLocationOverlap( sceneModel.leftAddendObjects, leftAddendBounds );
-      this.handleLocationOverlap( sceneModel.rightAddendObjects, rightAddendBounds );
-      this.handleKittenOverlap( [ ...sceneModel.leftAddendObjects, ...sceneModel.rightAddendObjects ] );
+
+      // Make a copy of the arrays so that we are not modifying the original arrays while iterating over them.
+      const leftAddendLocationPositionProperties = sceneModel.leftAddendObjects.map( countingObject => countingObject.locationPositionProperty );
+      const rightAddendLocationPositionProperties = sceneModel.rightAddendObjects.map( countingObject => countingObject.locationPositionProperty );
+      this.handlePositionOverlap( leftAddendLocationPositionProperties, leftAddendBounds, 0.75 );
+      this.handlePositionOverlap( rightAddendLocationPositionProperties, rightAddendBounds, 0.75 );
+
+      const attributePositionProperties = [
+        ...sceneModel.leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ),
+        ...sceneModel.rightAddendObjects.map( countingObject => countingObject.attributePositionProperty )
+      ];
+      const kittenBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, NumberPairsConstants.KITTEN_PANEL_HEIGHT / 2 );
+      this.handlePositionOverlap( attributePositionProperties, kittenBounds, 0.5 );
     } );
 
     this.addChild( totalSelectorAlignBox );
@@ -69,63 +82,43 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
 
   /**
    * A recursive function that ensures that no two counting objects overlap in the location representation.
-   * @param countingObjects
-   * @param validBounds
+   * @param positionProperties - An array of position properties that we want to check for overlaps.
+   * @param validBounds - The bounds in which a position must stay within.
+   * @param minWidthRatio - Define the minimum panel width ratio that we want positions to potentially move over.
    */
-  private handleLocationOverlap( countingObjects: CountingObject[], validBounds: Bounds2 ): CountingObject[] {
+  private handlePositionOverlap( positionProperties: Property<Vector2>[], validBounds: Bounds2, minWidthRatio: number ): CountingObject[] {
     this.recursionDepth += 1;
     assert && assert( this.recursionDepth < 1000, 'infinite recursion detected' );
 
     // Our base case is when there is only one or zero counting objects left.
-    if ( countingObjects.length <= 1 ) {
+    if ( positionProperties.length <= 1 ) {
       this.recursionDepth = 0;
       return [];
     }
     else {
 
       // keep track of the counting object we are currently on and it's position.
-      const currentCountingObject = countingObjects[ 0 ];
-      const currentPosition = countingObjects[ 0 ].locationPositionProperty.value;
+      const currentPositionProperty = positionProperties[ 0 ];
+      const currentPosition = currentPositionProperty.value;
       const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( currentPosition );
 
       // Find any counting objects that may be overlapping and move them to a new position.
-      const overlappingObjects = countingObjects.filter( countingObject => dropZoneBounds.containsPoint( countingObject.locationPositionProperty.value ) );
-      overlappingObjects.length > 1 && overlappingObjects.forEach( overlappingObject => {
-        overlappingObject.locationPositionProperty.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingObject.locationPositionProperty.value, validBounds, 0.75 );
+      const overlappingPositions = positionProperties.filter( positionProperty => dropZoneBounds.containsPoint( positionProperty.value ) );
+      overlappingPositions.length > 1 && overlappingPositions.forEach( overlappingPosition => {
+        overlappingPosition.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingPosition.value, validBounds, minWidthRatio );
       } );
 
       // If there was only one overlapping object, we can move on to the next counting object.
-      if ( overlappingObjects.length <= 1 ) {
-        return this.handleLocationOverlap( countingObjects.slice( 1 ), validBounds );
+      if ( overlappingPositions.length <= 1 ) {
+        return this.handlePositionOverlap( overlappingPositions.slice( 1 ), validBounds, minWidthRatio );
       }
       else {
 
         // If there were multiple overlapping objects, we need to move the first counting object to the back of the array
         // So that we can check for future overlaps again.
-        countingObjects.shift();
-        countingObjects.push( currentCountingObject );
-        return this.handleLocationOverlap( countingObjects, validBounds );
-      }
-    }
-  }
-
-  private handleKittenOverlap( countingObjects: CountingObject[] ): CountingObject[] {
-    const kittenBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, NumberPairsConstants.KITTEN_PANEL_HEIGHT / 2 );
-    if ( countingObjects.length <= 1 ) {
-      return [];
-    }
-    else {
-      const currentPosition = countingObjects[ 0 ].attributePositionProperty.value;
-      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( currentPosition );
-      const overlappingObjects = countingObjects.filter( countingObject => dropZoneBounds.containsPoint( countingObject.attributePositionProperty.value ) );
-      overlappingObjects.length > 1 && overlappingObjects.forEach( overlappingObject => {
-        overlappingObject.attributePositionProperty.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingObject.attributePositionProperty.value, kittenBounds );
-      } );
-      if ( overlappingObjects.length > 0 ) {
-        return overlappingObjects;
-      }
-      else {
-        return this.handleLocationOverlap( countingObjects.slice( 1 ), kittenBounds );
+        overlappingPositions.shift();
+        overlappingPositions.push( currentPositionProperty );
+        return this.handlePositionOverlap( overlappingPositions, validBounds, minWidthRatio );
       }
     }
   }

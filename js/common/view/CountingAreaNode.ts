@@ -172,18 +172,26 @@ export default class CountingAreaNode extends Node {
 
     // Find 4 points that are between a panel width or half a panel width away from the current position.
     const panelWidthRatio = dotRandom.nextDoubleBetween( minRatio, 1 );
+    const distanceDirectionChange = NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio;
+
     const points = [
-      currentPoint.plusXY( -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
-      currentPoint.plusXY( NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio, 0 ),
-      currentPoint.plusXY( 0, -NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio ),
-      currentPoint.plusXY( 0, NumberPairsConstants.KITTEN_PANEL_WIDTH * panelWidthRatio )
+      currentPoint.plusXY( -distanceDirectionChange, 0 ),
+      currentPoint.plusXY( distanceDirectionChange, 0 ),
+      currentPoint.plusXY( 0, -distanceDirectionChange ),
+      currentPoint.plusXY( 0, distanceDirectionChange ),
+      currentPoint.plusXY( distanceDirectionChange, distanceDirectionChange ),
+      currentPoint.plusXY( -distanceDirectionChange, distanceDirectionChange ),
+      currentPoint.plusXY( distanceDirectionChange, -distanceDirectionChange ),
+      currentPoint.plusXY( -distanceDirectionChange, -distanceDirectionChange )
     ];
 
     // Eliminate any points that are outside the countingAreaBounds.
     const pointsInBounds = points.filter( point => validBounds.containsPoint( point ) );
 
-    // Randomly select one of the remaining points and use it as the destination if it is further away from the drop point than the current position.
-    const randomPoint = dotRandom.sample( pointsInBounds );
+    // Randomly select one of the remaining points and use it as the destination if it is further away from the drop
+    // point than the current position. If we had no valid points a panel width ratio away, then find any random
+    // point inside the valid bounds.
+    const randomPoint = pointsInBounds.length === 0 ? dotRandom.nextPointInBounds( validBounds ) : dotRandom.sample( pointsInBounds );
     return currentPoint.distance( occupiedPoint ) >= randomPoint.distance( occupiedPoint ) ? currentPoint : randomPoint;
   }
 
