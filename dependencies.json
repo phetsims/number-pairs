@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-dev.7 Wed Mar 19 2025 11:35:05 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-pairs 1.0.0-dev.8 Thu Mar 20 2025 12:13:06 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "main"
@@ -13,7 +13,7 @@
     "branch": "main"
   },
   "chipper": {
-    "sha": "f3915571ecbc8bad0d5925f6299b153172d50b39",
+    "sha": "9c175d0984068c4d43d2c7427253609605858f8c",
     "branch": "main"
   },
   "counting-common": {
@@ -33,7 +33,7 @@
     "branch": "main"
   },
   "number-pairs": {
-    "sha": "f6611c087ed28dc7844e2136be5c9bf69e638cd7",
+    "sha": "dcd6ebb0f8be62d906528d4940b032a1355e3135",
     "branch": "main"
   },
   "number-suite-common": {
@@ -41,7 +41,7 @@
     "branch": "main"
   },
   "perennial-alias": {
-    "sha": "ea88b414b7f0175d4e42b83753141811d870c236",
+    "sha": "8530504f4f2912f6853e34b76b8d1e00373b9d72",
     "branch": "main"
   },
   "phet-core": {
@@ -53,7 +53,7 @@
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "58a0933eb8d3bd884a43649b5ca65802b71731ca",
+    "sha": "b150482f778999d2ebc6457adb6c4efc353c9671",
     "branch": "main"
   },
   "phet-io-wrappers": {
@@ -65,15 +65,15 @@
     "branch": "main"
   },
   "phetmarks": {
-    "sha": "470ae12d8090b7f0983274331aa2a7674303746e",
+    "sha": "655c37bd52d7100f5ff8e6add2a5e757732c3378",
     "branch": "main"
   },
   "query-string-machine": {
-    "sha": "877dfcc279b016c971820d722e6f39e46de336f9",
+    "sha": "6f5669c242298009ce64f01bd7ccd4b4bb53eee6",
     "branch": "main"
   },
   "scenery": {
-    "sha": "1b4971e34109206eda1526a02d03f882588337b3",
+    "sha": "45be85bc2bd8358d155ddace2db4a64d2d23061d",
     "branch": "main"
   },
   "scenery-phet": {
@@ -89,7 +89,7 @@
     "branch": "main"
   },
   "sun": {
-    "sha": "18068d93b36a0b7da057b81836f7a4a4b79f4c39",
+    "sha": "b5fba9b9ed7564d156690d665cd3880b8242d174",
     "branch": "main"
   },
   "tambo": {
@@ -97,7 +97,7 @@
     "branch": "main"
   },
   "tandem": {
-    "sha": "959223e2a11ef44c416ccd1cf9cecbb15763a175",
+    "sha": "0c22f593d333ee2b061a591da5f0e72228817e40",
     "branch": "main"
   },
   "twixt": {
