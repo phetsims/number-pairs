@@ -317,8 +317,6 @@ export default class NumberPairsScreenView extends ScreenView {
       countingRepresentationsLayer.addChild( numberLineNode );
       this.representationNodes.push( numberLineNode );
 
-      // TODO: I'm having a hard time finding the offset I need to apply for this to be correct before the numberLineNode
-      //  is added to the scene graph.
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {

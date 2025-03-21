@@ -200,12 +200,6 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
           options.interruptPointers();
           addendCountingObjects.lengthProperty.value > 0 && handleDecrement();
         }
-        else if ( keysPressed.includes( 'home' ) ) {
-          //TODO: add the max amount of objects.
-        }
-        else if ( keysPressed.includes( 'end' ) ) {
-          //TODO: subtract the max amount of objects.
-        }
       }
     } );
     this.addInputListener( keyboardInputListener );

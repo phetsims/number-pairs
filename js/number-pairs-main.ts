@@ -40,12 +40,12 @@ simLauncher.launch( () => {
 
     //TODO https://github.com/phetsims/number-pairs/issues/3 fill in credits
     credits: {
-      leadDesign: '',
-      softwareDevelopment: '',
+      leadDesign: 'Cathy Carter',
+      softwareDevelopment: 'Chris Malley, Marla Schulz',
       team: '',
       contributors: '',
       qualityAssurance: '',
-      graphicArts: '',
+      graphicArts: 'Cathy Carter, Amanda McGarry',
       soundDesign: '',
       thanks: ''
     },

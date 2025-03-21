@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -18,9 +18,7 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import IntroModel from '../model/IntroModel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to IntroScreenView here
-};
+type SelfOptions = EmptySelfOptions;
 
 type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
@@ -44,14 +42,6 @@ export default class IntroScreenView extends DecompositionScreenView {
     }, providedOptions );
 
     super( model, options );
-  }
-
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
   }
 }
 

@@ -1,7 +1,7 @@
 // Copyright 2024-2025, University of Colorado Boulder
 
 /**
- * TODO: describe file
+ * This checkbox group contains options to turn on decorators that are only applicable to the number line representation.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *

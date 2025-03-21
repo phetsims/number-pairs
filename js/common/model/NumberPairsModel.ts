@@ -543,12 +543,13 @@ export default class NumberPairsModel implements TNumberPairsModel {
     // Beads should be lined up on the wire in groups of 5, with the remainder closest to the bead separator.
     const beadSeparatorXPosition = BeadManager.calculateBeadSeparatorXPosition( leftAddend );
     const leftAddendRemainder = leftAddendBeads.length % 5;
+
     const leftXPositions = leftAddendBeads.map( ( bead, i ) => {
 
-      // TODO: I don't like this solution but it's working... There's got to be a better way.
-      //  the negative numbers from subtracting the remainder is what gets me here. But I'm having
-      //  hard time finding a way to deal with it because of situations where the remainder can also be zero.
+      // If the remainder is zero, no beads need to be in a non-five group next to the separator
       const numerator = leftAddendRemainder === 0 ? i - 5 : i - leftAddendRemainder;
+
+      // Find which group the bead belongs to
       const groupingIndex = Math.floor( numerator / 5 ) + 1;
       return beadSeparatorXPosition - groupingIndex - i - distanceFromSeparator;
     } );

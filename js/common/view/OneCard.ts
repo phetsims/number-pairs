@@ -1,14 +1,14 @@
 // Copyright 2024-2025, University of Colorado Boulder
-
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 /**
- * TODO: describe file
+ * A OneCard is a rectangle with rounded corners and the number one in the center.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
+
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';

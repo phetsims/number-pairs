@@ -48,14 +48,6 @@ export default class TenScreenView extends DecompositionScreenView {
 
     super( model, options );
   }
-
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
-  }
 }
 
 numberPairs.register( 'TenScreenView', TenScreenView );
