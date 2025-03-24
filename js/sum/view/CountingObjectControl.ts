@@ -27,7 +27,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
-import beadPink_svg from '../../../images/beadPink_svg.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import CountingObject from '../../common/model/CountingObject.js';
@@ -38,6 +37,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
+import beadYellow_svg from '../../../images/beadYellow_svg.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -64,7 +64,7 @@ const createNumberLineIcon = ( fill: TColor ) => {
   return icon;
 };
 const LEFT_ADDEND_ICONS = {
-  bead: new Image( beadPink_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
+  bead: new Image( beadYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
   kitten: new Image( kittenYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
   numberSquare: createNumberLineIcon( NumberPairsColors.numberLineLeftAddendColorProperty )
 };

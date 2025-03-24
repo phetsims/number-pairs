@@ -19,10 +19,10 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
-import beadPink_svg from '../../../images/beadPink_svg.js';
 import numberPairs from '../../numberPairs.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
+import beadYellow_svg from '../../../images/beadYellow_svg.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -45,10 +45,13 @@ export default class BeadNode extends Node {
       maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
-    const pinkBead = new Image( beadPink_svg, {
+    const pinkBead = new Image( beadYellow_svg, {
       maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.LEFT )
     } );
+    const beadScale = beadMaxWidth / Math.max( blueBead.width, pinkBead.width );
+    blueBead.scale( beadScale );
+    pinkBead.scale( beadScale );
 
     const options = optionize<BeadNodeOptions, SelfOptions, NodeOptions>()( {
       opacity: phet.chipper.queryParameters.dev ? 0.8 : 1,
