@@ -51,7 +51,8 @@ type StringsType = {
     'wireStringProperty': LocalizedStringProperty;
     'countingAreaHeadingStringProperty': LocalizedStringProperty;
     'wireHeadingStringProperty': LocalizedStringProperty;
-    'moveAcrossAreaPatternStringProperty': LocalizedStringProperty;
+    'moveCountingObjectInCountingAreaStringProperty': LocalizedStringProperty;
+    'moveBeadAlongWireStringProperty': LocalizedStringProperty;
   };
   'phraseStringProperty': LocalizedStringProperty;
   'phraseHelpTextStringProperty': LocalizedStringProperty;

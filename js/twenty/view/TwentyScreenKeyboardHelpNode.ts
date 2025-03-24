@@ -24,11 +24,9 @@ export default class TwentyScreenKeyboardHelpNode extends NumberPairsKeyboardHel
         new MoveDraggableItemsKeyboardHelpSection( {
           headingStringProperty: NumberPairsStrings.keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty
         } ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.countingObjectHeadingStringProperty,
-          NumberPairsStrings.keyboardHelpDialog.countingAreaHeadingStringProperty,
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveCountingObjectInCountingAreaStringProperty,
           NumberPairsStrings.keyboardHelpDialog.countingAreaStringProperty ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.beadHeadingStringProperty,
-          NumberPairsStrings.keyboardHelpDialog.wireHeadingStringProperty,
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadAlongWireStringProperty,
           NumberPairsStrings.keyboardHelpDialog.wireStringProperty ),
         new KittensKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );

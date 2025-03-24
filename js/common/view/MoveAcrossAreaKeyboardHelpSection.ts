@@ -18,8 +18,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor(
-    itemHeadingStringProperty: TReadOnlyProperty<string>,
-    areaHeadingStringProperty: TReadOnlyProperty<string>,
+    headingStringProperty: TReadOnlyProperty<string>,
     areaStringProperty: TReadOnlyProperty<string> ) {
     const moveToRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightPatternStringProperty, {
       area: areaStringProperty
@@ -27,15 +26,11 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     const moveToLeftPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToLeftPatternStringProperty, {
       area: areaStringProperty
     } );
-    const moveAcrossAreaHeadingStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveAcrossAreaPatternStringProperty, {
-      item: itemHeadingStringProperty,
-      area: areaHeadingStringProperty
-    } );
+
     const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveToLeftPatternStringProperty, TextKeyNode.home() );
     const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( moveToRightPatternStringProperty, TextKeyNode.end() );
 
-    super( moveAcrossAreaHeadingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
-
+    super( headingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
   }
 }
 
