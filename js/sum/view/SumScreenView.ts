@@ -82,9 +82,10 @@ export default class SumScreenView extends NumberPairsScreenView {
       {
         countingObjectControlOptions: {
           leftAddendProperty: model.leftAddendProperty,
-          interruptPointers: this.interruptSubtreeInput.bind( this ),
-          tandem: providedOptions.tandem.createTandem( 'leftAddendCountingObjectControl' )
-        }
+          interruptPointers: this.interruptSubtreeInput.bind( this )
+        },
+        phetioVisiblePropertyInstrumented: true,
+        tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
     const rightAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
@@ -93,9 +94,10 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.representationTypeProperty,
       {
         countingObjectControlOptions: {
-          interruptPointers: this.interruptSubtreeInput.bind( this ),
-          tandem: providedOptions.tandem.createTandem( 'rightAddendCountingObjectControl' )
-        }
+          interruptPointers: this.interruptSubtreeInput.bind( this )
+        },
+        phetioVisiblePropertyInstrumented: true,
+        tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );
     const addendSpinners = new VBox( {
       children: [ leftAddendControlPanel, rightAddendControlPanel ],

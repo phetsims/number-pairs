@@ -89,7 +89,8 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       leftAddendProperty: null,
       focusable: true,
       tagName: 'input',
-      inputType: 'range'
+      inputType: 'range',
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     const arrowButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
