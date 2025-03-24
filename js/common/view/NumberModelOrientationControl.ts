@@ -23,6 +23,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import BarModelNode from './BarModelNode.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelOrientationControl extends PreferencesControl {
@@ -82,7 +83,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
         }
       ], {
         radioButtonOptions: {
-          maxWidth: 100,
+          maxWidth: NumberPairsConstants.PREFERENCES_ICON_MAX_WIDTH,
           xMargin: 15,
           baseColor: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
         },

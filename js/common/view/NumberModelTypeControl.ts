@@ -21,6 +21,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberBondNode from './NumberBondNode.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelTypeControl extends PreferencesControl {
@@ -55,7 +56,7 @@ export default class NumberModelTypeControl extends PreferencesControl {
         tandem: providedOptions.tandem.createTandem( 'radioButtonGroup' ),
         isDisposable: false,
         radioButtonOptions: {
-          maxWidth: 100,
+          maxWidth: NumberPairsConstants.PREFERENCES_ICON_MAX_WIDTH,
           xMargin: 15,
           baseColor: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
         },

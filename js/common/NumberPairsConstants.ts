@@ -33,6 +33,16 @@ const NumberPairsConstants = {
     font: new PhetFont( 16 ),
     maxWidth: 200
   },
+  RECTANGULAR_PUSH_BUTTON_OPTIONS: {
+    size: new Dimension2( 50, 50 ),
+    baseColor: PhetColorScheme.BUTTON_YELLOW
+  },
+  CHECKBOX_LABEL_OPTIONS: {
+    font: new PhetFont( 16 ),
+    maxWidth: 124
+  },
+
+  PREFERENCES_ICON_MAX_WIDTH: 70,
 
   // Initial values:
   INTRO_INITIAL_SUM_VALUE: 3,
@@ -60,15 +70,6 @@ const NumberPairsConstants = {
   TEN_NUMBER_LINE_RANGE: new Range( 0, TEN_TOTAL_RANGE.max ),
   TWENTY_TOTAL_RANGE: TWENTY_TOTAL_RANGE,
   TWENTY_NUMBER_LINE_RANGE: new Range( 0, TWENTY_TOTAL_RANGE.max ),
-
-  RECTANGULAR_PUSH_BUTTON_OPTIONS: {
-    size: new Dimension2( 50, 50 ),
-    baseColor: PhetColorScheme.BUTTON_YELLOW
-  },
-  CHECKBOX_LABEL_OPTIONS: {
-    font: new PhetFont( 16 ),
-    maxWidth: 124
-  },
 
   // Bead specific values:
   LEFTMOST_BEAD_X: 1,
