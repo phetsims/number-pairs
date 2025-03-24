@@ -67,7 +67,7 @@ const NumberPairsConstants = {
   },
   CHECKBOX_LABEL_OPTIONS: {
     font: new PhetFont( 16 ),
-    maxWidth: 127
+    maxWidth: 124
   },
 
   // Bead specific values:

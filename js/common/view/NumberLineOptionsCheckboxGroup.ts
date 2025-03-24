@@ -19,8 +19,17 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 type NumberLineOptionsCheckboxGroupOptions = WithRequired<VerticalCheckboxGroupOptions, 'tandem'>;
 export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGroup {
 
+  // We want to explicitly state the width and spacing (even if they are default values), so that we can
+  // rely on these sizes elsewhere for layout.
+  public static readonly CHECKBOX_OPTIONS = {
+    boxWidth: 21,
+    spacing: 5
+  };
+
   public constructor( model: NumberPairsModel, providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
-    const options = optionize<NumberLineOptionsCheckboxGroupOptions, EmptySelfOptions, VerticalCheckboxGroupOptions>()( {}, providedOptions );
+    const options = optionize<NumberLineOptionsCheckboxGroupOptions, EmptySelfOptions, VerticalCheckboxGroupOptions>()( {
+      checkboxOptions: NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS
+    }, providedOptions );
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
         createNode: () => new Text( NumberPairsStrings.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),

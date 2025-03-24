@@ -46,6 +46,7 @@ import TenFrameButton from './TenFrameButton.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -319,9 +320,14 @@ export default class NumberPairsScreenView extends ScreenView {
 
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
+      // The x position of the numberline checkbox group is a combination of the maxwidth of the checkbox label, the dimension
+      // of the radio buttons, and the size of the checkbox itself.
+      const checkboxGroupMargin = SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION + NumberPairsConstants.SCREEN_VIEW_X_MARGIN;
+      const checkboxMaxWidth = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing + 5;
+
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
-        right: COUNTING_AREA_BOUNDS.right,
+        left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
         visibleProperty: numberLineVisibleProperty,
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );

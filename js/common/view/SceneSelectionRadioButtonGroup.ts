@@ -25,7 +25,7 @@ type SelfOptions = {
 type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButtonGroupOptions;
 
 export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
-
+  public static readonly RADIO_BUTTON_DIMENSION = 40;
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const totalNumberPatternStringProperty = new PatternStringProperty( NumberPairsStrings.totalNumberPatternStringProperty, {
       value: selectedSceneModelProperty
@@ -38,7 +38,7 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
       accessibleName: totalNumberPatternStringProperty,
       accessibleHelpText: NumberPairsStrings.chooseTotalHelpTextStringProperty,
       radioButtonOptions: {
-        size: new Dimension2( 40, 40 )
+        size: new Dimension2( SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION, SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION )
       }
     }, providedOptions );
 
