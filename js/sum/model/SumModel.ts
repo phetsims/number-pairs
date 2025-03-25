@@ -206,6 +206,10 @@ export default class SumModel extends NumberPairsModel {
     leftAddendObjects.lengthProperty.link( leftAddend => {
       this.leftAddendProperty.value = leftAddend;
     } );
+    this.leftAddendProperty.link( leftAddend => {
+      const newRange = new Range( leftAddend, totalProperty.range.max );
+      newRange.contains( this.totalProperty.value ) ? this.totalProperty.rangeProperty.value = newRange : this.totalProperty.setValueAndRange( leftAddend, newRange );
+    } );
 
     this.createNumberLineEnabledRangeLinks();
 
@@ -222,7 +226,7 @@ export default class SumModel extends NumberPairsModel {
   public override reset(): void {
     super.reset();
     this.leftAddendProperty.reset();
-    this.totalProperty.reset();
+    this.totalProperty.resetValueAndRange();
     this.leftAddendCountingObjectsProperty.value.reset();
     this.rightAddendCountingObjectsProperty.value.reset();
     this.inactiveCountingObjects.reset();

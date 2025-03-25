@@ -142,6 +142,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       }
       else {
         const newTotal = totalProperty.value - 1;
+
         // Workaround: Check the range before setting because fuzz testing indicates that it's possible to press the
         // decrement button before incrementEnabledProperty has changed.
         if ( totalProperty.range.contains( newTotal ) ) {
