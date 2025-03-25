@@ -40,7 +40,27 @@ export default class LocationCountingObjectsLayerNode extends Node {
     super( options );
 
     /**
-     * Implement keyboard navigation for the counting objects using GroupSortInteraction.
+     * Create the LocationCountingObjectNodes for each countingObject in the model.
+     */
+    model.countingObjects.forEach( countingObject => {
+      const countingObjectNode = new LocationCountingObjectNode( countingObject, model.representationTypeProperty, {
+        handleLocationChange: this.handleLocationChange.bind( this ),
+        onEndDrag: countingAreaNode.dropCountingObject.bind( countingAreaNode ),
+        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,
+            model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
+          ( addendType, locationPosition, leftVisible, rightVisible, dragging ) => {
+            const leftBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
+            return dragging || ( addendType !== AddendType.INACTIVE && ( leftBounds.containsPoint( locationPosition ) ? leftVisible : rightVisible ) );
+          } ),
+        tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )
+      } );
+      this.addChild( countingObjectNode );
+      this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
+    } );
+
+    /**
+     * Implement keyboard navigation for the counting objects using GroupSortInteraction. Implement this after creating
+     * the counting object nodes so that we have access to them within the GroupSelectView.
      */
     const groupSelectModel = model.groupSelectLocationObjectsModel;
     const selectedItemPositionProperty = new DynamicProperty<Vector2, Vector2, CountingObject>( groupSelectModel.selectedGroupItemProperty, {
@@ -54,7 +74,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
         positionProperty: selectedItemPositionProperty
       },
       getGroupItemToSelect: () => {
-        const countingObjects = model.getCountingObjectsSortedByLocationPosition();
+        const countingObjects = model.getCountingObjectsSortedByLocationPosition().filter( countingObject =>
+          this.countingObjectModelToNodeMap.get( countingObject )!.visible
+        );
         if ( countingObjects.length === 0 ) {
           return null;
         }
@@ -70,7 +92,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
         const delta = this.getKeysDelta( keysPressed );
         const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
           countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
-          countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta ) );
+          countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta )
+          && this.countingObjectModelToNodeMap.get( countingObject )!.visible );
 
         let selectedGroupItem = groupItem;
 
@@ -104,30 +127,17 @@ export default class LocationCountingObjectsLayerNode extends Node {
     } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
+
+    // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
+    // corresponding node. When we are no longer grabbed we want to go through the drop logic.
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
-      if ( !isGrabbed && model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value ) {
-        countingAreaNode.dropCountingObject( model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value, 'location' );
+      const selectedGroupItem = model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value;
+      selectedGroupItem && selectedGroupItem.isDraggingProperty.set( isGrabbed );
+      if ( !isGrabbed && selectedGroupItem ) {
+        countingAreaNode.dropCountingObject( selectedGroupItem, 'location' );
       }
     } );
 
-    /**
-     * Create the LocationCountingObjectNodes for each countingObject in the model.
-     */
-    model.countingObjects.forEach( countingObject => {
-      const countingObjectNode = new LocationCountingObjectNode( countingObject, model.representationTypeProperty, {
-        handleLocationChange: this.handleLocationChange.bind( this ),
-        onEndDrag: countingAreaNode.dropCountingObject.bind( countingAreaNode ),
-        visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,
-            model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
-          ( addendType, locationPosition, leftVisible, rightVisible, dragging ) => {
-            const leftBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
-            return dragging || ( addendType !== AddendType.INACTIVE && ( leftBounds.containsPoint( locationPosition ) ? leftVisible : rightVisible ) );
-          } ),
-        tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )
-      } );
-      this.addChild( countingObjectNode );
-      this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
-    } );
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {
       selectedGroupItem && this.countingObjectModelToNodeMap.get( selectedGroupItem )?.moveToFront();
     } );

@@ -21,6 +21,8 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [
@@ -78,13 +80,30 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
       }
     } );
 
-    const homeEndKeyboardListener = new KeyboardListener( { keys: [ 'home', 'end' ],
+    const homeEndKeyboardListener = new KeyboardListener( {
+      keys: [ 'home', 'end' ],
       enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
       fire: ( event, keysPressed ) => {
         const groupItem = groupSelectModel.selectedGroupItemProperty.value;
         assert && assert( groupItem !== null, 'selectedGroupItem should not be null' );
         options.handleHomeEndKeysDuringDrag( keysPressed, groupItem! );
-      } } );
+      }
+    } );
+
+    // In this interaction nodes may become invisible but still be active. In this case we do not want to be able
+    // to select or drag them even though they will still contribute to values in the model.
+    const visibleProperties: TReadOnlyProperty<boolean>[] = [];
+    modelToNodeMap.forEach( ( value, key ) => {
+      visibleProperties.push( value.visibleProperty );
+    } );
+    Multilink.multilinkAny( visibleProperties, () => {
+      if ( groupSelectModel.selectedGroupItemProperty.value ) {
+        const selectedGroupItemNode = modelToNodeMap.get( groupSelectModel.selectedGroupItemProperty.value )!;
+        if ( !selectedGroupItemNode.visible ) {
+          groupSelectModel.selectedGroupItemProperty.value = options.getGroupItemToSelect();
+        }
+      }
+    } );
 
     primaryFocusedNode.addInputListener( selectItemKeyboardListener );
     primaryFocusedNode.addInputListener( keyboardDragListener );
