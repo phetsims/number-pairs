@@ -234,15 +234,22 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
 
     /**
      * Update the highlight colors as the counting representation changes.
+     * Ensure that the highlights exist in scenarios where translations or string changes remove the appropriate tags.
      */
     model.totalColorProperty.link( color => {
-      totalHighlight.fill = color;
+      if ( totalHighlight ) {
+        totalHighlight.fill = color;
+      }
     } );
     model.leftAddendColorProperty.link( color => {
-      leftAddendHighlight.fill = color;
+      if ( leftAddendHighlight ) {
+        leftAddendHighlight.fill = color;
+      }
     } );
     model.rightAddendColorProperty.link( color => {
-      rightAddendHighlight.fill = color;
+      if ( rightAddendHighlight ) {
+        rightAddendHighlight.fill = color;
+      }
     } );
 
     options.titleNode = new Text( NumberPairsStrings.phraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
