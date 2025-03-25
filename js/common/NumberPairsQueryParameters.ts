@@ -29,6 +29,11 @@ const SCHEMA_MAP = {
     defaultValue: 'bottom'
   },
 
+  autoHear: {
+    public: true,
+    type: 'flag'
+  },
+
   // Specifies a second locale for the speech synthesis feature.
   // Values are a locale code, e.g. "en" or "zh_CN". null means no second locale.
   secondLocale: {
