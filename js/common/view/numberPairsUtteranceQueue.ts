@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * A singleton UtteranceQueue for speech synthesis in the Number Pairs sim, adapted from numberPlayUtteranceQueue.
