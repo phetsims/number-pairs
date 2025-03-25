@@ -29,6 +29,7 @@ const SCHEMA_MAP = {
     defaultValue: 'bottom'
   },
 
+  // Automatically reads the number phrase aloud when a decomposition is changed or when a new total is chosen.
   autoHear: {
     public: true,
     type: 'flag'
