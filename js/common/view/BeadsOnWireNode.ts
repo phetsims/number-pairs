@@ -108,6 +108,47 @@ export default class BeadsOnWireNode extends Node {
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 
+    model.countingObjects.forEach( ( countingObject, i ) => {
+      const beadNode = new BeadNode(
+        countingObject,
+        {
+          tandem: options.tandem.createTandem( `beadNode${i}` ),
+          onStartDrag: draggedBeadNode => {
+
+            // Interrupt the drag that's in progress. Multitouch support is too difficult and unnecessary.
+            if ( this.beadDragging ) {
+              this.beadModelToNodeMap.forEach( ( beadNode, countingObject ) => {
+                if ( beadNode !== draggedBeadNode ) {
+                  beadNode.interruptSubtreeInput();
+                }
+              } );
+            }
+            else {
+              this.beadDragging = true;
+            }
+          },
+          onDrag: ( pointerPoint: Vector2, beadNode: BeadNode ) => {
+            this.handleBeadMove( pointerPoint, beadNode );
+          },
+          onEndDrag: () => {
+            this.beadDragging = false;
+            this.handleBeadDrop( beadNode );
+          }
+        } );
+
+      countingObject.beadXPositionProperty.link( x => {
+        beadNode.center = new Vector2( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( x ), 0 );
+      } );
+
+      this.beadModelToNodeMap.set( countingObject, beadNode );
+      this.addChild( beadNode );
+    } );
+
+    /**
+     * Keyboard interaction for dragging beads.
+     * Bead nodes need to be created before the groupSelectView is created so that the beadModelToNodeMap is populated.
+     */
+
     // The proposed bead position when dragging with the keyboard, in model coordinates.
     this.keyboardProposedBeadPositionProperty = new Vector2Property( new Vector2( 0, 0 ), {
       reentrant: true // We need to be able to set this Property in handleBeadMove if it is not matching the bead's position.
@@ -152,7 +193,8 @@ export default class BeadsOnWireNode extends Node {
         transform: BeadManager.BEAD_MODEL_VIEW_TRANSFORM
       },
       getGroupItemToSelect: () => {
-        return this.getSortedBeadNodes()[ 0 ].countingObject;
+        const sortedBeadNodes = this.getSortedBeadNodes();
+        return sortedBeadNodes.length > 0 ? sortedBeadNodes[ 0 ].countingObject : null;
       },
       getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
         const sortedBeadNodes = this.getSortedBeadNodes();
@@ -194,41 +236,6 @@ export default class BeadsOnWireNode extends Node {
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
     groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
 
-    model.countingObjects.forEach( ( countingObject, i ) => {
-      const beadNode = new BeadNode(
-        countingObject,
-        {
-          tandem: options.tandem.createTandem( `beadNode${i}` ),
-          onStartDrag: draggedBeadNode => {
-
-            // Interrupt the drag that's in progress. Multitouch support is too difficult and unnecessary.
-            if ( this.beadDragging ) {
-              this.beadModelToNodeMap.forEach( ( beadNode, countingObject ) => {
-                if ( beadNode !== draggedBeadNode ) {
-                  beadNode.interruptSubtreeInput();
-                }
-              } );
-            }
-            else {
-              this.beadDragging = true;
-            }
-          },
-          onDrag: ( pointerPoint: Vector2, beadNode: BeadNode ) => {
-            this.handleBeadMove( pointerPoint, beadNode );
-          },
-          onEndDrag: () => {
-            this.beadDragging = false;
-            this.handleBeadDrop( beadNode );
-          }
-        } );
-
-      countingObject.beadXPositionProperty.link( x => {
-        beadNode.center = new Vector2( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( x ), 0 );
-      } );
-
-      this.beadModelToNodeMap.set( countingObject, beadNode );
-      this.addChild( beadNode );
-    } );
 
     Multilink.multilink( [
       model.leftAddendProperty,
