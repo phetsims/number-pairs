@@ -23,8 +23,8 @@ type StringsType = {
     'gameStringProperty': LocalizedStringProperty;
   };
   'keyboardHelpDialog': {
-    'countingObjectHeadingStringProperty': LocalizedStringProperty;
-    'countingObjectStringProperty': LocalizedStringProperty;
+    'objectHeadingStringProperty': LocalizedStringProperty;
+    'objectStringProperty': LocalizedStringProperty;
     'beadHeadingStringProperty': LocalizedStringProperty;
     'beadStringProperty': LocalizedStringProperty;
     'countingObjectOrBeadHeadingStringProperty': LocalizedStringProperty;
@@ -45,14 +45,14 @@ type StringsType = {
     'jumpToFirstKittenStringProperty': LocalizedStringProperty;
     'toggleKittenColorStringProperty': LocalizedStringProperty;
     'kittenSectionHeadingStringProperty': LocalizedStringProperty;
-    'moveToRightPatternStringProperty': LocalizedStringProperty;
-    'moveToLeftPatternStringProperty': LocalizedStringProperty;
+    'moveToRightSideStringProperty': LocalizedStringProperty;
+    'moveToLeftSideStringProperty': LocalizedStringProperty;
     'countingAreaStringProperty': LocalizedStringProperty;
     'wireStringProperty': LocalizedStringProperty;
     'countingAreaHeadingStringProperty': LocalizedStringProperty;
     'wireHeadingStringProperty': LocalizedStringProperty;
-    'moveCountingObjectInCountingAreaStringProperty': LocalizedStringProperty;
-    'moveBeadAlongWireStringProperty': LocalizedStringProperty;
+    'moveGrabbedObjectToOppositeSideStringProperty': LocalizedStringProperty;
+    'moveBeadsToOppositeSideStringProperty': LocalizedStringProperty;
   };
   'phraseStringProperty': LocalizedStringProperty;
   'phraseHelpTextStringProperty': LocalizedStringProperty;

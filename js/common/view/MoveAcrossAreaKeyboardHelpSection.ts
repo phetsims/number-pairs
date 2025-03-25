@@ -7,7 +7,6 @@
  */
 
 import numberPairs from '../../numberPairs.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
@@ -17,18 +16,10 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSection {
 
-  public constructor(
-    headingStringProperty: TReadOnlyProperty<string>,
-    areaStringProperty: TReadOnlyProperty<string> ) {
-    const moveToRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightPatternStringProperty, {
-      area: areaStringProperty
-    } );
-    const moveToLeftPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToLeftPatternStringProperty, {
-      area: areaStringProperty
-    } );
+  public constructor( headingStringProperty: TReadOnlyProperty<string> ) {
 
-    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveToLeftPatternStringProperty, TextKeyNode.home() );
-    const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( moveToRightPatternStringProperty, TextKeyNode.end() );
+    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.moveToLeftSideStringProperty, TextKeyNode.home() );
+    const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.moveToRightSideStringProperty, TextKeyNode.end() );
 
     super( headingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
   }

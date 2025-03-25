@@ -18,14 +18,12 @@ export default class IntroScreenKeyboardHelpNode extends NumberPairsKeyboardHelp
 
   public constructor() {
     super( [
-      new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.countingObjectHeadingStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.countingObjectStringProperty ),
+      new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.objectHeadingStringProperty,
+        NumberPairsStrings.keyboardHelpDialog.objectStringProperty ),
       new MoveDraggableItemsKeyboardHelpSection( {
         headingStringProperty: NumberPairsStrings.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
       } ),
-      new MoveAcrossAreaKeyboardHelpSection(
-        NumberPairsStrings.keyboardHelpDialog.moveCountingObjectInCountingAreaStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.countingAreaStringProperty )
+      new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty )
     ] );
   }
 }
