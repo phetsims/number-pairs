@@ -51,7 +51,7 @@ const NumberPairsPreferences = {
   secondVoiceProperty: new Property<SpeechSynthesisVoice | null>( null ),
 
   // When true, the phrase will automatically be spoken whenever it changes.
-  autoHearEnabledProperty: new BooleanProperty( false, {
+  autoHearEnabledProperty: new BooleanProperty( NumberPairsQueryParameters.autoHear, {
     tandem: Tandem.PREFERENCES.createTandem( 'autoHearEnabledProperty' ),
     phetioFeatured: true
   } ),
