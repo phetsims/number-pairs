@@ -39,9 +39,9 @@ export default class BeadNode extends InteractiveHighlightingNode {
     public readonly countingObject: CountingObject,
     providedOptions: BeadNodeOptions ) {
 
-    // giving the bead image an extra 0.5 width allows the outlines to line up cleanly when next to each other.
-    // This prevents odd gaps now and then as well as graphical artifacts.
-    const beadMaxWidth = BeadManager.BEAD_WIDTH + 0.5;
+    // giving the bead image an extra 1 width allows the outlines to line up cleanly when next to each other.
+    // This prevents the stroke from appearing doubled when two beads are next to each other on the wire.
+    const beadMaxWidth = BeadManager.BEAD_WIDTH + 1;
     const blueBead = new Image( beadBlue_svg, {
       maxWidth: beadMaxWidth,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
