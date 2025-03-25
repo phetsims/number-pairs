@@ -18,15 +18,15 @@ Before reading this document, please read:
 ### Terminology
 
 This sim uses different representations referred to as `RepresentationType` in the code. Each representation allows
-users to interact with the decomposition of a total in different ways. The different representations are: location
-based ( apples, soccer balls, butterflies, and one cards ), attribute based ( kittens ), beads, and number line. These
+users to interact with the decomposition of a total in different ways. The different representations are: location-based
+( apples, soccer balls, butterflies, and one cards ), attribute-based ( kittens ), beads, and number line. These
 representations are all contained within a rectangle called the "counting area." Inside the counting area users can
 interact which each representation by moving or changing "counting objects". Each counting object can become a different
-representation but any data for that representation is still held within the central counting object model.
+representation, but any data for that representation is still held within the central counting object model.
 
 ### Model-View Transform
 
-A model-view transform is used for the beads and number line representations. Both model view transforms are merely a
+A model-view transform is used for the beads and number line representations. Both model-view transforms are merely a
 linear function mapping integer values to the required width of view elements. It was necessary to use the more
 heavyweight model-view transform in order to satisfy the API of keyboard and drag listeners, as well as slider in the
 case of the number line.
@@ -62,8 +62,8 @@ avoiding overlapping counting objects.
   [DecompositionScreenView](https://github.com/phetsims/number-pairs/blob/main/js/intro/view/DecompositionScreenView.ts),
   `SceneSelectionRadioButtonGroup`
   defines the different totals that a user can explore in a sim and allows users to switch between each total
-  exploration.
-- The `SplitCountingArea` is only found in the decomposition screens as part of the location representation. The
+  exploration. Each of these totals is what we refer to as a "scene".
+- The `SplitCountingArea` is only found in the decomposition screens as part of the location-based representation. The
   `SplitCountingArea` is divided into two regions (left and right), and as counting objects are moved across the central
   barrier the addend values update accordingly.
 
@@ -75,7 +75,7 @@ See [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md)
 
 `SumModel` is the central model for the "Sum" screen. It does not have any scenes, and unlike the Decomposition Screens
 both the `leftAddendProperty` and `totalProperty` are mutable. The `rightAddendProperty` remains derived. There were
-many reasons for having the `rightAddendProperty` be derived instead of the `totalProperty`. More detail about that
+many reasons for having the `rightAddendProperty` be derived instead of the `totalProperty`. More details about that
 decision can be found in this [issue](https://github.com/phetsims/number-pairs/issues/17).
 
 Due to the intertwined nature of the addends and the total, as well as the fact that now two of the three number
