@@ -19,7 +19,7 @@ Before reading this document, please read:
 
 This sim uses different representations referred to as `RepresentationType` in the code. Each representation allows
 users to interact with the decomposition of a total in different ways. The different representations are: location
-based ( apples, one cards, soccer balls, and butterflies ), attribute based ( kittens ), beads, and number line. These
+based ( apples, soccer balls, butterflies, and one cards ), attribute based ( kittens ), beads, and number line. These
 representations are all contained within a rectangle called the "counting area." Inside the counting area users can
 interact which each representation by moving or changing "counting objects". Each counting object can become a different
 representation but any data for that representation is still held within the central counting object model.
