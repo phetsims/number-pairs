@@ -77,9 +77,9 @@ export default class RepresentationType extends EnumerationValue {
   public static readonly BEADS = new RepresentationType(
     'beads',
     NumberPairsStrings.beadsStringProperty,
-    NumberPairsColors.numberLineSumColorProperty,
-    NumberPairsColors.numberLineLeftAddendColorProperty,
-    NumberPairsColors.numberLineRightAddendColorProperty,
+    NumberPairsColors.attributeSumColorProperty,
+    NumberPairsColors.attributeLeftAddendColorProperty,
+    NumberPairsColors.attributeRightAddendColorProperty,
     new Image( beadBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly NUMBER_LINE = new RepresentationType(
