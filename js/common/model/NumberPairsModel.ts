@@ -383,6 +383,10 @@ export default class NumberPairsModel implements TNumberPairsModel {
       const distanceBetweenSeparators = updatedSeparatorPosition - previousSeparatorPosition;
       const newLeftBeadXPositions = rightBeadXPositions.map( x => Math.max( x - Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.LEFTMOST_BEAD_X ) );
       const newRightBeadXPositions = leftBeadXPositions.map( x => Math.min( x + Math.abs( x - previousSeparatorPosition ) * 2 + distanceBetweenSeparators, BeadManager.RIGHTMOST_BEAD_X ) );
+
+      // We can confidently shift overlapping beads to the right if we are on the left, because any overlaps
+      // should be on the left most edge of the bead boundary from the above Math.max calculation.
+      // Same with the right side, but in the opposite direction.
       this.beadManager.setBeadXPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects,
         this.beadManager.shiftOverlappingBeadPositions( newLeftBeadXPositions, true ),
         this.beadManager.shiftOverlappingBeadPositions( newRightBeadXPositions, false ) );
