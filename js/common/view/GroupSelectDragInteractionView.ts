@@ -20,7 +20,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
@@ -42,10 +41,10 @@ type SelfOptions = {
   handleHomeEndKeysDuringDrag: ( keysPressed: AvailablePressedKeys, groupItem: CountingObject ) => void;
 };
 type GroupSelectDragInteractionViewOptions = SelfOptions &
-  StrictOmit<GroupSelectViewOptions<CountingObject, LocationCountingObjectNode>, 'getNodeFromModelItem'> &
+  StrictOmit<GroupSelectViewOptions<CountingObject, Node>, 'getNodeFromModelItem'> &
   PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class GroupSelectDragInteractionView extends GroupSelectView<CountingObject, LocationCountingObjectNode> {
+export default class GroupSelectDragInteractionView extends GroupSelectView<CountingObject, Node> {
 
   public constructor(
     groupSelectModel: GroupSelectModel<CountingObject>,
@@ -54,7 +53,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     providedOptions: GroupSelectDragInteractionViewOptions
   ) {
 
-    const options = optionize<GroupSelectDragInteractionViewOptions, SelfOptions, GroupSelectViewOptions<CountingObject, LocationCountingObjectNode>>()( {
+    const options = optionize<GroupSelectDragInteractionViewOptions, SelfOptions, GroupSelectViewOptions<CountingObject, Node>>()( {
       getNodeFromModelItem: countingObject => modelToNodeMap.get( countingObject )!,
       soundKeyboardDragListenerOptions: {}
     }, providedOptions );

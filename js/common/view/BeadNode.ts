@@ -16,13 +16,14 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import numberPairs from '../../numberPairs.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import beadYellow_svg from '../../../images/beadYellow_svg.js';
+import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -33,7 +34,7 @@ type SelfOptions = {
 type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
   StrictOmit<NodeOptions, 'children' | 'visibleProperty'>;
 
-export default class BeadNode extends Node {
+export default class BeadNode extends InteractiveHighlightingNode {
   public constructor(
     public readonly countingObject: CountingObject,
     providedOptions: BeadNodeOptions ) {

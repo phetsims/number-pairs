@@ -17,7 +17,7 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import apple_svg from '../../../images/apple_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
@@ -29,6 +29,7 @@ import RepresentationType from '../model/RepresentationType.js';
 import OneCard from './OneCard.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -39,7 +40,7 @@ type LocationCountingObjectNodeOptions = SelfOptions & WithRequired<NodeOptions,
 const IMAGE_WIDTH = 40;
 const ONE_CARD_HEIGHT = 55;
 const DRAG_BOUNDS_MARGIN = 2;
-export default class LocationCountingObjectNode extends Node {
+export default class LocationCountingObjectNode extends InteractiveHighlightingNode {
   public static readonly WIDTH = IMAGE_WIDTH;
   public static readonly HEIGHT = ONE_CARD_HEIGHT;
   public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
