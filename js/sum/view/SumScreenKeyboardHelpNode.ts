@@ -24,7 +24,8 @@ export default class SumScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNo
         new MoveDraggableItemsKeyboardHelpSection( {
           headingStringProperty: NumberPairsStrings.keyboardHelpDialog.sumScreen.moveGrabbableItemHeadingStringProperty
         } ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty ),
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
+          NumberPairsStrings.keyboardHelpDialog.beadsStringProperty ),
         new KittensKeyboardHelpSection(), new CountingObjectSpinnersKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }

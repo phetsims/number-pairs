@@ -24,7 +24,8 @@ export default class TenScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNo
       new MoveDraggableItemsKeyboardHelpSection( {
         headingStringProperty: NumberPairsStrings.keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty
       } ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty ),
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
+          NumberPairsStrings.keyboardHelpDialog.beadsStringProperty ),
         new KittensKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }

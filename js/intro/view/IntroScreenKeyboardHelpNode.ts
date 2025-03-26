@@ -23,7 +23,8 @@ export default class IntroScreenKeyboardHelpNode extends NumberPairsKeyboardHelp
       new MoveDraggableItemsKeyboardHelpSection( {
         headingStringProperty: NumberPairsStrings.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
       } ),
-      new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty )
+      new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
+        NumberPairsStrings.keyboardHelpDialog.objectsStringProperty )
     ] );
   }
 }

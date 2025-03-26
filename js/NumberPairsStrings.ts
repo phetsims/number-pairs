@@ -25,8 +25,10 @@ type StringsType = {
   'keyboardHelpDialog': {
     'objectHeadingStringProperty': LocalizedStringProperty;
     'objectStringProperty': LocalizedStringProperty;
+    'objectsStringProperty': LocalizedStringProperty;
     'beadHeadingStringProperty': LocalizedStringProperty;
     'beadStringProperty': LocalizedStringProperty;
+    'beadsStringProperty': LocalizedStringProperty;
     'countingObjectOrBeadHeadingStringProperty': LocalizedStringProperty;
     'countingObjectOrBeadStringProperty': LocalizedStringProperty;
     'introScreen': {
@@ -45,12 +47,8 @@ type StringsType = {
     'jumpToFirstKittenStringProperty': LocalizedStringProperty;
     'toggleKittenColorStringProperty': LocalizedStringProperty;
     'kittenSectionHeadingStringProperty': LocalizedStringProperty;
-    'moveToRightSideStringProperty': LocalizedStringProperty;
-    'moveToLeftSideStringProperty': LocalizedStringProperty;
-    'countingAreaStringProperty': LocalizedStringProperty;
-    'wireStringProperty': LocalizedStringProperty;
-    'countingAreaHeadingStringProperty': LocalizedStringProperty;
-    'wireHeadingStringProperty': LocalizedStringProperty;
+    'moveToRightSidePatternStringProperty': LocalizedStringProperty;
+    'moveToLeftSidePatternStringProperty': LocalizedStringProperty;
     'moveGrabbedObjectToOppositeSideStringProperty': LocalizedStringProperty;
     'moveBeadsToOppositeSideStringProperty': LocalizedStringProperty;
   };
