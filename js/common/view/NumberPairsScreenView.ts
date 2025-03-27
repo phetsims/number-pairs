@@ -323,7 +323,7 @@ export default class NumberPairsScreenView extends ScreenView {
       // The x position of the numberline checkbox group is a combination of the maxwidth of the checkbox label, the dimension
       // of the radio buttons, and the size of the checkbox itself.
       const checkboxGroupMargin = SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION + NumberPairsConstants.SCREEN_VIEW_X_MARGIN;
-      const checkboxMaxWidth = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing + 5;
+      const checkboxMaxWidth = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing + 7;
 
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,

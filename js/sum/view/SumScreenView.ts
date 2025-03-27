@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
@@ -67,8 +67,13 @@ export default class SumScreenView extends NumberPairsScreenView {
     super( model, options );
 
     const horizontalCheckboxSpacing = 40; // empirically determined
+    const totalCheckboxLabelOptions = combineOptions<TextOptions>( {
+
+      // we want the total maxWidth to be two less than the other labels to make space for padding.
+      maxWidth: NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth - 2
+    }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
-      new Text( NumberPairsStrings.totalStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ), {
+      new Text( NumberPairsStrings.totalStringProperty, totalCheckboxLabelOptions ), {
         accessibleHelpText: NumberPairsStrings.totalCheckboxHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
