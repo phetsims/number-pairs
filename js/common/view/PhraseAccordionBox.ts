@@ -28,6 +28,7 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
+import FlowBox from '../../../../scenery/js/layout/nodes/FlowBox.js';
 
 const NUMBER_TO_WORD_MAP = new Map();
 NUMBER_TO_WORD_MAP.set( 0, NumberSuiteCommonStrings.zeroStringProperty );
@@ -206,6 +207,10 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
         }
       }
     } );
+    const phraseNode = new FlowBox( {
+      children: [ richText ],
+      minContentHeight: 70
+    } );
 
     /**
      * Update the speech data
@@ -254,7 +259,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
 
     options.titleNode = new Text( NumberPairsStrings.phraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
 
-    super( richText, options );
+    super( phraseNode, options );
   }
 }
 
