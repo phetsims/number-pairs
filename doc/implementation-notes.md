@@ -24,6 +24,10 @@ representations are all contained within a rectangle called the "counting area."
 interact which each representation by moving or changing "counting objects". Each counting object can become a different
 representation, but any data for that representation is still held within the central counting object model.
 
+We use the term "inactive" to describe counting objects that are not currently in the left or right addend arrays. This
+term also indicates that the counting objects are not contributing towards data in the model. An array of inactive
+counting objects creates a pool that can be pulled from or returned to as counting objects are added or removed.
+
 ### Model-View Transform
 
 A model-view transform is used for the beads and number line representations. Both model-view transforms are merely a
@@ -41,6 +45,14 @@ case of the number line.
 
 The first three screens ( "Intro", "Ten", and "Twenty" ) all use the `DecompositionModel` and `DecompositionScreenView`.
 Each subclass then defines which representations and total range will be applicable to each screen.
+
+### Scenes
+
+The Decomposition Screens are the only ones that contain "scenes" in the sim. A scene is a specific total that the user
+can explore. Each scene has a unique total, and the left and right addends are mutable. Each scene also tracks which
+counting objects are assigned to it through observable arrays. When a scene is selected the counting objects go through
+a transition that updates them to the correct addend values according to their assigned array. Scenes do not have a
+concept of "inactive" counting objects since the total amount of counting object for the scene never changes.
 
 ### Model
 
@@ -90,6 +102,21 @@ In [SumScreenView](https://github.com/phetsims/number-pairs/blob/main/js/intro/v
 `AddendControlPanel` creates a custom UI component that resembles a Number Spinner. Due to the intertwined nature of the
 addend and total number Properties, we were unable to use a common code Number Spinner. This UI component implements
 its own sound and keyboard input to mimic a Number Spinner while complying with the necessary API for the sim.
+
+## Bead Representation
+
+The Bead Representation is the most complex of all the representations and benefits from more explicit documentation.
+
+The first complication that arises in the Bead Representation is that unlike other representations we save the positions
+of the beads from scene to scene. This was a design request, where not having the bead's positions saved created a
+jarring experience for the user that we did not find in other representations. One way that we simplified saving the
+positions is by only doing so during a scene change. This reduced the amount of calls being made as beads were dragged,
+and also reduced the possibility of reentrancy issues.
+
+The second complication is the nature of the bead behavior. The beads need to be draggable individually, but also
+drag as a group depending on proximity. Most of this logic is contained in `handleBeadMove` in `BeadsOnWireNode`. This
+method ensures that beads do not overlap, stay within the counting area bounds, and update model data as needed
+according to each bead's position.
 
 ## PhET-iO
 

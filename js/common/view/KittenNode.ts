@@ -52,6 +52,7 @@ const KITTEN_PANEL_WIDTH = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 const KITTEN_PANEL_HEIGHT = NumberPairsConstants.KITTEN_PANEL_HEIGHT;
 const KITTEN_PANEL_MARGIN = NumberPairsConstants.KITTEN_PANEL_MARGIN;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
+
 export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
@@ -132,6 +133,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
     options.focusHighlight = Shape.bounds( focusPanel.bounds );
+
+    // TODO: use AccessibleDraggableOptions for this Node.
     super( options );
 
     this.focusPanel = focusPanel;
