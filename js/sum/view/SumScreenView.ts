@@ -24,6 +24,7 @@ import NumberPairsStrings from '../../NumberPairsStrings.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -104,6 +105,9 @@ export default class SumScreenView extends NumberPairsScreenView {
       spacing: 35,
       centerY: COUNTING_AREA_BOUNDS.centerY,
       right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN
+    } );
+    ManualConstraint.create( this, [ addendSpinners ], addendSpinnersProxy => {
+      addendSpinnersProxy.centerY = COUNTING_AREA_BOUNDS.centerY;
     } );
 
     this.addChild( addendSpinners );
