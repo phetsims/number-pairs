@@ -234,7 +234,11 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     } );
     Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty ],
       ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern ) => {
-        options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+
+        // We only want to update the speechDataProperty if the math checks out.
+        if ( model.leftAddendProperty.value + model.rightAddendProperty.value === model.totalProperty.value ) {
+          options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+        }
       } );
 
     /**
