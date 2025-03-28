@@ -206,6 +206,14 @@ export default class NumberPairsModel implements TNumberPairsModel {
       tandem: options.tandem.createTandem( 'hasAttributeBeenSwitchedProperty' ),
       phetioState: false
     } );
+
+    this.representationTypeProperty.link( representation => {
+      const locationRepresentations = [ RepresentationType.ONE_CARDS, RepresentationType.APPLES, RepresentationType.SOCCER_BALLS, RepresentationType.BUTTERFLIES ];
+      if ( !locationRepresentations.includes( representation ) ) {
+        this.leftAddendVisibleProperty.value = this.leftAddendVisibleProperty.value && this.rightAddendVisibleProperty.value;
+        this.rightAddendVisibleProperty.value = this.rightAddendVisibleProperty.value && this.leftAddendVisibleProperty.value;
+      }
+    } );
   }
 
   /**
