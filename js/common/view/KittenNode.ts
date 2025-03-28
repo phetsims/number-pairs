@@ -35,9 +35,9 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -109,9 +109,9 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     // When a countingObject is focused the panel with a switch is visible
     const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
-    const panelBoundsProperty = new Property( panelBounds );
+    const panelAlignBoxBoundsProperty = new Property( panelBounds );
     const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
-      alignBoundsProperty: panelBoundsProperty,
+      alignBoundsProperty: panelAlignBoxBoundsProperty,
       yAlign: 'top',
       xAlign: 'center'
     } );
@@ -144,14 +144,17 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     // Panel bounds will change if the kittenAttributeSwitch is set to visible = false in PhET-iO. In that situation
     // we also want to update the position of the kitten images.
-    Multilink.multilink( [ countingObject.kittenSelectedProperty, kittenAttributeSwitch.visibleProperty ], ( selected, visible ) => {
-      if ( selected && !visible ) {
-        panelBoundsProperty.value = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - kittenAttributeSwitch.height - KITTEN_PANEL_MARGIN );
+    kittenAttributeSwitch.visibleProperty.link( visible => {
+        if ( !visible ) {
+          panelAlignBoxBoundsProperty.value = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - kittenAttributeSwitch.height - KITTEN_PANEL_MARGIN );
+          focusPanel.y = kittenAttributeSwitch.height + KITTEN_PANEL_MARGIN;
+        }
+        else {
+          panelAlignBoxBoundsProperty.value = panelBounds;
+          focusPanel.y = 0;
+        }
       }
-      else if ( selected ) {
-        panelBoundsProperty.value = panelBounds;
-      }
-    } );
+    );
     ManualConstraint.create( this, [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ], ( focusPanel, leftAddendKittenImage, rightAddendKittenImage ) => {
       leftAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
       rightAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
@@ -219,6 +222,15 @@ export default class KittenNode extends InteractiveHighlightingNode {
     countingObject.attributePositionProperty.link( position => {
       this.center = position;
     } );
+
+    // We use this Rectangle to keep the bounds of this Node static so that we can count on positioning to be
+    // consistent no matter what elements are set to visible = false through PhET-iO.
+    const boundsRectangle = new Rectangle( panelBounds.dilated( 5 ), {
+      fill: 'white',
+      opacity: 0,
+      center: focusPanel.center
+    } );
+    this.addChild( boundsRectangle );
 
     // For debugging, show the kitten's id (object number) when ?dev is in the query parameters.
     if ( phet.chipper.queryParameters.dev ) {
