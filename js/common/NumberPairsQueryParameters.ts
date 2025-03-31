@@ -11,7 +11,7 @@ import logGlobal from '../../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import numberPairs from '../numberPairs.js';
 
-const SCHEMA_MAP = {
+const NumberPairsQueryParameters = QueryStringMachine.getAll( {
 
   // Choose between a traditional number bond representation or a proportional bar model.
   numberModelType: {
@@ -43,12 +43,7 @@ const SCHEMA_MAP = {
     type: 'string',
     defaultValue: null
   }
-} as const;
-
-const NumberPairsQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
-
-// The schema map is a read-only part of the public API, in case schema details (e.g. validValues) are needed elsewhere.
-NumberPairsQueryParameters.SCHEMA_MAP = SCHEMA_MAP;
+} );
 
 numberPairs.register( 'NumberPairsQueryParameters', NumberPairsQueryParameters );
 
