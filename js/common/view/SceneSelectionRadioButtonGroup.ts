@@ -27,7 +27,7 @@ type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButto
 export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
   public static readonly RADIO_BUTTON_DIMENSION = 40;
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
-    const totalNumberPatternStringProperty = new PatternStringProperty( NumberPairsStrings.totalNumberPatternStringProperty, {
+    const totalNumberPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.totalNumberPatternStringProperty, {
       value: selectedSceneModelProperty
     }, {
       maps: {

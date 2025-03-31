@@ -55,6 +55,7 @@ type StringsType = {
   'phraseStringProperty': LocalizedStringProperty;
   'a11y': {
     'phraseHelpTextStringProperty': LocalizedStringProperty;
+    'totalNumberPatternStringProperty': LocalizedStringProperty;
     'representationTypeStringProperty': LocalizedStringProperty;
     'hearPhraseStringProperty': LocalizedStringProperty;
     'organizeObjectsPatternStringProperty': LocalizedStringProperty;
@@ -98,7 +99,6 @@ type StringsType = {
   'totalStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseStringProperty': LocalizedStringProperty;
   'automaticallyHearPhraseDescriptionStringProperty': LocalizedStringProperty;
-  'totalNumberPatternStringProperty': LocalizedStringProperty;
   'numberModelTypeStringProperty': LocalizedStringProperty;
   'numberModelTypeDescriptionStringProperty': LocalizedStringProperty;
   'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
