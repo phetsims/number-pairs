@@ -34,7 +34,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleName: NumberPairsStrings.locationCountingObjectsStringProperty
+      accessibleName: NumberPairsStrings.a11y.locationCountingObjectsStringProperty,
+      accessibleHelpText: NumberPairsStrings.a11y.locationCountingObjectsHelpTextStringProperty
     }, providedOptions );
 
     super( options );

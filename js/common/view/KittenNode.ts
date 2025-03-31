@@ -38,6 +38,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -73,6 +74,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
+      accessibleName: NumberPairsStrings.a11y.kittenStringProperty,
+      accessibleHelpText: NumberPairsStrings.a11y.kittensHelpTextStringProperty,
       focusable: true
     }, providedOptions );
 

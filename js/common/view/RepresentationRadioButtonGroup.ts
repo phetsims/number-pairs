@@ -40,8 +40,8 @@ export default class RepresentationRadioButtonGroup extends RectangularRadioButt
 
     const buttonMargin = 3;
     const options = optionize<CountingRepresentationRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
-      accessibleName: NumberPairsStrings.representationTypeStringProperty,
-      accessibleHelpText: NumberPairsStrings.representationTypeHelpTextStringProperty,
+      accessibleName: NumberPairsStrings.a11y.representationTypeStringProperty,
+      accessibleHelpText: NumberPairsStrings.a11y.representationTypeHelpTextStringProperty,
       orientation: 'horizontal',
       radioButtonOptions: {
         baseColor: Color.WHITE,

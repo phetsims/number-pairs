@@ -153,8 +153,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsStrings.hearPhraseStringProperty,
-        accessibleHelpText: NumberPairsStrings.phraseHelpTextStringProperty
+        accessibleName: NumberPairsStrings.a11y.hearPhraseStringProperty,
+        accessibleHelpText: NumberPairsStrings.a11y.phraseHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -183,10 +183,10 @@ export default class NumberPairsScreenView extends ScreenView {
     const representationTypeAccessibleNameProperty = new DynamicProperty( model.representationTypeProperty, {
       derive: 'accessibleName'
     } );
-    const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsPatternStringProperty, {
+    const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.organizeObjectsPatternStringProperty, {
       representation: representationTypeAccessibleNameProperty
     } );
-    const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.organizeObjectsHelpTextPatternStringProperty, {
+    const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.organizeObjectsHelpTextPatternStringProperty, {
       representation: representationTypeAccessibleNameProperty
     } );
 
@@ -211,7 +211,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      accessibleName: NumberPairsStrings.swapAddendsStringProperty,
+      accessibleName: NumberPairsStrings.a11y.swapAddendsStringProperty,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
@@ -346,8 +346,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
-          valueAAccessibleName: NumberPairsStrings.countOnStringProperty,
-          valueBAccessibleName: NumberPairsStrings.countFromZeroStringProperty,
+          valueAAccessibleName: NumberPairsStrings.a11y.countOnStringProperty,
+          valueBAccessibleName: NumberPairsStrings.a11y.countFromZeroStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 )
           },

@@ -36,7 +36,7 @@ export default class RepresentationType extends EnumerationValue {
   public static readonly ICON_MAX_HEIGHT = ICON_MAX_HEIGHT;
   public static readonly APPLES = new RepresentationType(
     'apples',
-    NumberPairsStrings.applesStringProperty,
+    NumberPairsStrings.a11y.applesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -44,7 +44,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly SOCCER_BALLS = new RepresentationType(
     'soccerBalls',
-    NumberPairsStrings.soccerBallsStringProperty,
+    NumberPairsStrings.a11y.soccerBallsStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -52,7 +52,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BUTTERFLIES = new RepresentationType(
     'butterflies',
-    NumberPairsStrings.butterfliesStringProperty,
+    NumberPairsStrings.a11y.butterfliesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -60,7 +60,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly ONE_CARDS = new RepresentationType(
     'oneCards',
-    NumberPairsStrings.onesStringProperty,
+    NumberPairsStrings.a11y.onesStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
@@ -68,7 +68,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
-    NumberPairsStrings.kittensStringProperty,
+    NumberPairsStrings.a11y.kittensStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
@@ -76,7 +76,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
-    NumberPairsStrings.beadsStringProperty,
+    NumberPairsStrings.a11y.beadsStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
@@ -84,7 +84,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
-    NumberPairsStrings.numberLineStringProperty,
+    NumberPairsStrings.a11y.numberLineStringProperty,
     NumberPairsColors.numberLineSumColorProperty,
     NumberPairsColors.numberLineLeftAddendColorProperty,
     NumberPairsColors.numberLineRightAddendColorProperty,

@@ -98,7 +98,8 @@ export default class BeadsOnWireNode extends Node {
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-      accessibleName: NumberPairsStrings.beadsOnAWireStringProperty
+      accessibleName: NumberPairsStrings.a11y.beadsOnAWireStringProperty,
+      accessibleHelpText: NumberPairsStrings.a11y.beadsHelpTextStringProperty
     }, providedOptions );
 
     super( options );

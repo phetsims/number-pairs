@@ -101,13 +101,13 @@ export default class SplitCountingAreaNode extends Node {
     super( options );
 
     const leftAddendEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
-      accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
+      accessibleName: NumberPairsStrings.a11y.showOrHideAddendStringProperty,
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
     } );
     const rightAddendEyeToggleButton = new AddendEyeToggleButton( rightAddendVisibleProperty, {
-      accessibleName: NumberPairsStrings.showOrHideAddendStringProperty,
+      accessibleName: NumberPairsStrings.a11y.showOrHideAddendStringProperty,
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )
