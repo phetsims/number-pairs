@@ -130,8 +130,14 @@ export default class KittenNode extends InteractiveHighlightingNode {
       maxWidth: KITTEN_PANEL_WIDTH - KITTEN_PANEL_MARGIN * 2,
       visibleProperty: DerivedProperty.valueEqualsConstant( countingObject.addendTypeProperty, AddendType.RIGHT )
     } );
-
-    options.children = [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
+    // We use this Rectangle to keep the bounds of this Node static so that we can count on positioning to be
+    // consistent no matter what elements are set to visible = false through PhET-iO.
+    const boundsRectangle = new Rectangle( panelBounds.dilated( 5 ), {
+      fill: 'white',
+      opacity: 0,
+      center: focusPanel.center
+    } );
+    options.children = [ boundsRectangle, focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
     options.focusHighlight = Shape.bounds( focusPanel.bounds );
 
     // TODO: use AccessibleDraggableOptions for this Node.
@@ -222,15 +228,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     countingObject.attributePositionProperty.link( position => {
       this.center = position;
     } );
-
-    // We use this Rectangle to keep the bounds of this Node static so that we can count on positioning to be
-    // consistent no matter what elements are set to visible = false through PhET-iO.
-    const boundsRectangle = new Rectangle( panelBounds.dilated( 5 ), {
-      fill: 'white',
-      opacity: 0,
-      center: focusPanel.center
-    } );
-    this.addChild( boundsRectangle );
 
     // For debugging, show the kitten's id (object number) when ?dev is in the query parameters.
     if ( phet.chipper.queryParameters.dev ) {
