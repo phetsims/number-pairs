@@ -92,7 +92,6 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       inputType: 'range',
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
-    // TODO: this.ariaValueText = (link to Property and update the ariaValueText)
 
     const arrowButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
 

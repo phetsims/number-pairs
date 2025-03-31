@@ -4,6 +4,7 @@
  * SumScreenView is the top-level view for the 'Sum' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -25,6 +26,7 @@ import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -80,6 +82,11 @@ export default class SumScreenView extends NumberPairsScreenView {
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
       } );
     this.addChild( this.totalCheckbox );
+
+    /**
+     * Create the counting object controls. These look and act like NumberSpinners but due to their implementation needs,
+     * are not NumberSpinners.
+     */
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.leftAddendCountingObjectsProperty.value,
@@ -90,7 +97,6 @@ export default class SumScreenView extends NumberPairsScreenView {
           leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this )
         },
-        phetioVisiblePropertyInstrumented: true,
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
     const rightAddendControlPanel = new AddendControlPanel(
@@ -102,9 +108,17 @@ export default class SumScreenView extends NumberPairsScreenView {
         countingObjectControlOptions: {
           interruptPointers: this.interruptSubtreeInput.bind( this )
         },
-        phetioVisiblePropertyInstrumented: true,
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );
+
+    Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ],
+      ( total, leftAddend, rightAddend ) => {
+        if ( total === leftAddend + rightAddend ) {
+          leftAddendControlPanel.countingObjectControl.ariaValueText = `${leftAddend}`;
+          rightAddendControlPanel.countingObjectControl.ariaValueText = `${rightAddend}`;
+        }
+      } );
+
     const addendSpinners = new VBox( {
       children: [ leftAddendControlPanel, rightAddendControlPanel ],
       spacing: 35,

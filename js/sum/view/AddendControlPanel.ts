@@ -24,7 +24,7 @@ type SelfOptions = {
 };
 type AddendControlPanelOptions = WithRequired<PanelOptions, 'tandem'> & SelfOptions;
 export default class AddendControlPanel extends Panel {
-
+  public readonly countingObjectControl: CountingObjectControl;
   public constructor(
     totalProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,
@@ -35,7 +35,8 @@ export default class AddendControlPanel extends Panel {
     const options = optionize<AddendControlPanelOptions, SelfOptions, PanelOptions>()( {
       yMargin: 4,
       xMargin: 4,
-      cornerRadius: 5
+      cornerRadius: 5,
+      phetioVisiblePropertyInstrumented: true
     }, providedOptions );
 
     const countingObjectControlOptions = combineOptions<CountingObjectControlOptions>( {
@@ -51,7 +52,7 @@ export default class AddendControlPanel extends Panel {
       children: [ countingObjectControl ]
     } );
     super( container, options );
-
+    this.countingObjectControl = countingObjectControl;
 
   }
 }
