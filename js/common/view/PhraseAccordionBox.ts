@@ -69,16 +69,15 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
   // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
   // width should stay the same. In order to do this we must define and control all options that contribute
   // to the width of the accordion box.
-  public static readonly MIN_WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN;
+  public static readonly WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN + 10;
 
   public constructor( model: NumberPairsModel, providedOptions: PhraseAccordionBoxOptions ) {
 
     const options = optionize<PhraseAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
       contentXMargin: 20,
-      contentYMargin: 20,
+      contentYMargin: 10,
       contentAlign: 'left',
-      minWidth: PhraseAccordionBox.MIN_WIDTH,
-      maxWidth: PhraseAccordionBox.MIN_WIDTH + 10,
+      minWidth: PhraseAccordionBox.WIDTH,
       expandedDefaultValue: false
     }, providedOptions );
 

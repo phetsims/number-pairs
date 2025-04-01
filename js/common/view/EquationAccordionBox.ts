@@ -43,7 +43,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       addendsOnRight: true,
       titleNode: titleNode,
       contentYMargin: 18,
-      minWidth: PhraseAccordionBox.MIN_WIDTH, // Match the minWidth of the PhraseAccordionBox
+      minWidth: PhraseAccordionBox.WIDTH, // Match the minWidth of the PhraseAccordionBox
       expandedDefaultValue: false
     }, providedOptions );
 
