@@ -88,10 +88,11 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
    */
   private handlePositionOverlap( positionProperties: Property<Vector2>[], validBounds: Bounds2, minWidthRatio: number ): CountingObject[] {
     this.recursionDepth += 1;
-    assert && assert( this.recursionDepth < 1000, 'infinite recursion detected' );
+    assert && assert( this.recursionDepth < 100, 'infinite recursion detected' );
 
     // Our base case is when there is only one or zero counting objects left.
-    if ( positionProperties.length <= 1 ) {
+    // We also want to gracefully stop trying to handle overlap if we're stuck in an infinite recursion.
+    if ( positionProperties.length <= 1 || this.recursionDepth > 100 ) {
       this.recursionDepth = 0;
       return [];
     }
@@ -110,15 +111,15 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
 
       // If there was only one overlapping object, we can move on to the next counting object.
       if ( overlappingPositions.length <= 1 ) {
-        return this.handlePositionOverlap( overlappingPositions.slice( 1 ), validBounds, minWidthRatio );
+        return this.handlePositionOverlap( positionProperties.slice( 1 ), validBounds, minWidthRatio );
       }
       else {
 
         // If there were multiple overlapping objects, we need to move the first counting object to the back of the array
         // So that we can check for future overlaps again.
-        overlappingPositions.shift();
-        overlappingPositions.push( currentPositionProperty );
-        return this.handlePositionOverlap( overlappingPositions, validBounds, minWidthRatio );
+        positionProperties.shift();
+        positionProperties.push( currentPositionProperty );
+        return this.handlePositionOverlap( positionProperties, validBounds, minWidthRatio );
       }
     }
   }
