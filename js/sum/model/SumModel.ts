@@ -65,6 +65,7 @@ export default class SumModel extends NumberPairsModel {
     const totalProperty = new NumberProperty(
       NumberPairsConstants.SUM_INITIAL_LEFT_ADDEND_VALUE + NumberPairsConstants.SUM_INITIAL_RIGHT_ADDEND_VALUE, {
         tandem: options.tandem.createTandem( 'totalProperty' ),
+        phetioFeatured: true,
         numberType: 'Integer',
         hasListenerOrderDependencies: true,
         range: new Range( leftAddendProperty.value, SCENE_RANGE.max )

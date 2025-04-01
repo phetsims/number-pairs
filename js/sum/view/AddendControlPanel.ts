@@ -36,7 +36,10 @@ export default class AddendControlPanel extends Panel {
       yMargin: 4,
       xMargin: 4,
       cornerRadius: 5,
-      phetioVisiblePropertyInstrumented: true
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions );
 
     const countingObjectControlOptions = combineOptions<CountingObjectControlOptions>( {
