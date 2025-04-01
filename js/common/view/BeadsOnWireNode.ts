@@ -182,7 +182,13 @@ export default class BeadsOnWireNode extends Node {
       // HandleBeadMove expects the proposed position to be in the global view coordinate frame, because that is
       // what the DragListener (internal to BeadNode) provides.
       const viewPosition = grabbedBeadNode.parentToGlobalPoint( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition ) );
-      this.handleBeadMove( viewPosition, grabbedBeadNode );
+
+      // We only need to handle a bead move when our values and array lengths match. Otherwise we are in an intermediary
+      // state when beads are being added or removed.
+      if ( model.leftAddendProperty.value === model.leftAddendCountingObjectsLengthProperty.value &&
+           model.rightAddendProperty.value === model.rightAddendCountingObjectsLengthProperty.value ) {
+        this.handleBeadMove( viewPosition, grabbedBeadNode );
+      }
     } );
 
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.beadModelToNodeMap, {
