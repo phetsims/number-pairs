@@ -23,7 +23,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // The difference between the initial left addend value and the total value for each scene, which therefore determines
 // the initial right addend value.
@@ -127,18 +126,10 @@ export default class DecompositionModel extends NumberPairsModel {
     const leftAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
       hasListenerOrderDependencies: true,
       derive: 'leftAddendProperty',
-      tandem: options.tandem.createTandem( 'leftAddendProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true,
-      phetioFeatured: false,
       bidirectional: true // This Property needs to be bidirectional because it is set by the slider in the NumberLineNode.
     } );
     const rightAddendProperty = new DynamicProperty<number, number, NumberPairsScene>( selectedSceneModelProperty, {
-      derive: 'rightAddendProperty',
-      phetioReadOnly: true,
-      phetioFeatured: false,
-      tandem: options.tandem.createTandem( 'rightAddendProperty' ),
-      phetioValueType: NumberIO
+      derive: 'rightAddendProperty'
     } );
 
     const superOptions = combineOptions<NumberPairsModelOptions>( {
