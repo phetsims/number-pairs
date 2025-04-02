@@ -67,7 +67,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
   public constructor(
     public readonly countingObject: CountingObject,
     newKittenSelectedEmitter: Emitter<[ CountingObject ]>,
-    hasAttributeBeenSwitchedProperty: Property<boolean>,
     providedOptions: KittenNodeOptions
   ) {
 
@@ -84,7 +83,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     // INACTIVE options that addendTypeProperty supports.
     const isLeftAddendProperty = new BooleanProperty( countingObject.addendTypeProperty.value === AddendType.LEFT, {} );
     isLeftAddendProperty.lazyLink( isLeftAddend => {
-      hasAttributeBeenSwitchedProperty.value = true;
 
       // Only update the addendTypeProperty if it is not inactive. We should not be changing the state of an
       // inactive counting object.

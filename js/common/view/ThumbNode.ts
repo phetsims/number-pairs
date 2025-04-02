@@ -37,7 +37,10 @@ export default class ThumbNode extends Node {
     super( {
       children: [ trackPoint, handleLine, handleKnob ],
       cursor: 'pointer',
-      tandem: tandem.createTandem( 'thumbNode' )
+      tandem: tandem.createTandem( 'thumbNode' ),
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
 
     this.mouseArea = this.bounds.dilated( 2 );

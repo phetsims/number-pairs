@@ -123,7 +123,10 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       enabledProperty: incrementEnabledProperty,
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: false,
-      tandem: options.tandem.createTandem( 'incrementButton' )
+      tandem: options.tandem.createTandem( 'incrementButton' ),
+      visiblePropertyOptions: {
+        phetioFeatured: false
+      }
     } );
 
     const decrementEnabledProperty = new DerivedProperty( [ addendCountingObjects.lengthProperty ],
@@ -158,7 +161,10 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       enabledProperty: decrementEnabledProperty,
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: false,
-      tandem: options.tandem.createTandem( 'decrementButton' )
+      tandem: options.tandem.createTandem( 'decrementButton' ),
+      visiblePropertyOptions: {
+        phetioFeatured: false
+      }
     } );
 
     const images = options.leftAddendProperty ? LEFT_ADDEND_ICONS : RIGHT_ADDEND_ICONS;

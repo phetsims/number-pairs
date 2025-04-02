@@ -275,7 +275,7 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ) {
       const kittensLayerVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.KITTENS );
-      const kittensLayerNode = new KittensLayerNode( model.countingObjects, countingAreaNode, model.hasAttributeBeenSwitchedProperty, {
+      const kittensLayerNode = new KittensLayerNode( model.countingObjects, countingAreaNode, {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
@@ -349,7 +349,11 @@ export default class NumberPairsScreenView extends ScreenView {
           valueAAccessibleName: NumberPairsStrings.a11y.countOnStringProperty,
           valueBAccessibleName: NumberPairsStrings.a11y.countFromZeroStringProperty,
           toggleSwitchOptions: {
-            size: new Dimension2( 36, 18 )
+            size: new Dimension2( 36, 18 ),
+            enabledPropertyOptions: {
+              phetioFeatured: true
+            },
+            phetioVisiblePropertyInstrumented: false
           },
           phetioDocumentation: 'This switch is only accessible in number line representations.',
           tandem: numberLineCountFromZeroSwitchTandem

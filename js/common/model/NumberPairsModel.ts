@@ -93,8 +93,6 @@ export default class NumberPairsModel implements TNumberPairsModel {
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
-  public readonly hasAttributeBeenSwitchedProperty: Property<boolean>;
-
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
@@ -133,11 +131,13 @@ export default class NumberPairsModel implements TNumberPairsModel {
     // location representations. Every screen with a location representation at least has the RepresentationType.ONE_CARDS
     this.leftAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
-              visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' ) : Tandem.OPT_OUT
+              visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
     this.rightAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
-              visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' ) : Tandem.OPT_OUT
+              visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
     this.totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
       tandem: visiblePropertiesTandem.createTandem( 'totalVisibleProperty' ),
@@ -164,7 +164,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
                            'When false, the toggle is to the left and represents a Counting On strategy.' +
                            'When true, this toggle is to the right and represents a Counting from Zero strategy.',
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
-              options.tandem.createTandem( 'numberLineCountFromZeroProperty' ) : Tandem.OPT_OUT
+              options.tandem.createTandem( 'numberLineCountFromZeroProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
 
     // The range will update after all addends have stabilized their values during construction.
@@ -201,10 +202,6 @@ export default class NumberPairsModel implements TNumberPairsModel {
     this.rightAddendCountingObjectsLengthProperty = new DynamicProperty( this.rightAddendCountingObjectsProperty, {
       hasListenerOrderDependencies: true,
       derive: 'lengthProperty'
-    } );
-    this.hasAttributeBeenSwitchedProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'hasAttributeBeenSwitchedProperty' ),
-      phetioState: false
     } );
 
     this.representationTypeProperty.link( representation => {

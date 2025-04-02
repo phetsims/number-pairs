@@ -38,7 +38,8 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     if ( options.secondAddendVisibleProperty ) {
       addendToggleVisibleProperty = new BooleanProperty( addendVisibleProperty.value && options.secondAddendVisibleProperty.value, {
         reentrant: true,
-        tandem: options.tandem.createTandem( 'doubleVisibleProperty' )
+        tandem: options.tandem.createTandem( 'doubleVisibleProperty' ),
+        phetioFeatured: true
       } );
 
       // Track if our addend visible properties are updating to avoid circular updates.
