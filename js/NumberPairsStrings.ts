@@ -20,7 +20,6 @@ type StringsType = {
     'tenStringProperty': LocalizedStringProperty;
     'twentyStringProperty': LocalizedStringProperty;
     'sumStringProperty': LocalizedStringProperty;
-    'gameStringProperty': LocalizedStringProperty;
   };
   'keyboardHelpDialog': {
     'objectHeadingStringProperty': LocalizedStringProperty;

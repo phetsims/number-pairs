@@ -10,7 +10,6 @@ import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
 import GameModel from './model/GameModel.js';
 import GameScreenView from './view/GameScreenView.js';
 
@@ -25,7 +24,6 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
   public constructor( providedOptions: GameScreenOptions ) {
 
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: NumberPairsStrings.screen.gameStringProperty,
 
       //TODO add default values for optional SelfOptions here
 
