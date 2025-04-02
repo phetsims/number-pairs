@@ -21,6 +21,8 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -58,21 +60,23 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     // Whenever the selected scene changes we want to go through the location and attribute representations to ensure
     // that no overlaps are occurring.
     model.selectedSceneProperty.link( sceneModel => {
-      const leftAddendBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
-      const rightAddendBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
+      if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
+        const leftAddendBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
+        const rightAddendBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.erodedXY( LocationCountingObjectNode.WIDTH, LocationCountingObjectNode.HEIGHT );
 
-      // Make a copy of the arrays so that we are not modifying the original arrays while iterating over them.
-      const leftAddendLocationPositionProperties = sceneModel.leftAddendObjects.map( countingObject => countingObject.locationPositionProperty );
-      const rightAddendLocationPositionProperties = sceneModel.rightAddendObjects.map( countingObject => countingObject.locationPositionProperty );
-      this.handlePositionOverlap( leftAddendLocationPositionProperties, leftAddendBounds, 0.75 );
-      this.handlePositionOverlap( rightAddendLocationPositionProperties, rightAddendBounds, 0.75 );
+        // Make a copy of the arrays so that we are not modifying the original arrays while iterating over them.
+        const leftAddendLocationPositionProperties = sceneModel.leftAddendObjects.map( countingObject => countingObject.locationPositionProperty );
+        const rightAddendLocationPositionProperties = sceneModel.rightAddendObjects.map( countingObject => countingObject.locationPositionProperty );
+        this.handlePositionOverlap( leftAddendLocationPositionProperties, leftAddendBounds, 0.75 );
+        this.handlePositionOverlap( rightAddendLocationPositionProperties, rightAddendBounds, 0.75 );
 
-      const attributePositionProperties = [
-        ...sceneModel.leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ),
-        ...sceneModel.rightAddendObjects.map( countingObject => countingObject.attributePositionProperty )
-      ];
-      const kittenBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, NumberPairsConstants.KITTEN_PANEL_HEIGHT / 2 );
-      this.handlePositionOverlap( attributePositionProperties, kittenBounds, 0.5 );
+        const attributePositionProperties = [
+          ...sceneModel.leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ),
+          ...sceneModel.rightAddendObjects.map( countingObject => countingObject.attributePositionProperty )
+        ];
+        const kittenBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY( NumberPairsConstants.KITTEN_PANEL_WIDTH / 2, NumberPairsConstants.KITTEN_PANEL_HEIGHT / 2 );
+        this.handlePositionOverlap( attributePositionProperties, kittenBounds, 0.5 );
+      }
     } );
 
     this.addChild( totalSelectorAlignBox );
