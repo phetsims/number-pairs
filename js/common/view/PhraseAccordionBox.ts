@@ -75,7 +75,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
 
     const options = optionize<PhraseAccordionBoxOptions, SelfOptions, WithOptional<TotalRepresentationAccordionBoxOptions, 'titleNode'>>()( {
       contentXMargin: 20,
-      contentYMargin: 10,
+      contentYMargin: 20,
       contentAlign: 'left',
       minWidth: PhraseAccordionBox.WIDTH,
       expandedDefaultValue: false
