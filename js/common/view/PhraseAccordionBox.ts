@@ -208,7 +208,8 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     } );
     const phraseNode = new FlowBox( {
       children: [ richText ],
-      minContentHeight: 70
+      minContentHeight: 70,
+      align: 'top'
     } );
 
     /**
