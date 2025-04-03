@@ -70,8 +70,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
     } );
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
-        dragSpeed: 180,
-        shiftDragSpeed: 90,
+        dragDelta: 15,
+        shiftDragDelta: 8,
         positionProperty: selectedItemPositionProperty
       },
       getGroupItemToSelect: () => {
