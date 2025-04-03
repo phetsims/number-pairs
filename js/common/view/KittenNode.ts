@@ -191,7 +191,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
           this.moveToFront();
         },
         blur: () => { countingObject.kittenSelectedProperty.value = false; },
-        dragSpeed: 200,
+        dragDelta: 15,
+        shiftDragDelta: 8,
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
       }
     } );
