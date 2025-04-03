@@ -85,9 +85,9 @@ export default class RepresentationType extends EnumerationValue {
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
     NumberPairsStrings.a11y.numberLineStringProperty,
-    NumberPairsColors.numberLineSumColorProperty,
-    NumberPairsColors.numberLineLeftAddendColorProperty,
-    NumberPairsColors.numberLineRightAddendColorProperty,
+    NumberPairsColors.attributeSumColorProperty,
+    NumberPairsColors.attributeLeftAddendColorProperty,
+    NumberPairsColors.attributeRightAddendColorProperty,
     new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } )
   );
   public static readonly enumeration = new Enumeration( RepresentationType );

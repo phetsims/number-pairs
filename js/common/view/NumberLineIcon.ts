@@ -63,7 +63,7 @@ export default class NumberLineIcon extends Node {
       showHighlight: false,
       showPoint: providedOptions.showHighlight || false,
       showLabels: true,
-      pointFillColor: NumberPairsColors.numberLineSumColorProperty,
+      pointFillColor: NumberPairsColors.attributeSumColorProperty,
       trackLineWidth: 1,
       excludeInvisibleChildrenFromBounds: true,
       pickable: false // This is an icon so it should not be pickable
@@ -83,7 +83,7 @@ export default class NumberLineIcon extends Node {
      * Create the number line decorators.
      */
     if ( options.showRightArrow ) {
-      ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineRightAddendColorProperty;
+      ARROW_NODE_OPTIONS.fill = NumberPairsColors.attributeRightAddendColorProperty;
       const startingValueProperty = new Property( iconNumberLineValue );
       const rightAddendValueProperty = new Property( ICON_RANGE.max - iconNumberLineValue );
       const arrowNode = new CurvedArrowNode(
@@ -93,14 +93,14 @@ export default class NumberLineIcon extends Node {
       const numberSquareOptions = combineOptions<NumberSquareOptions>( {
         centerX: arrowNode.centerX,
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
-        fill: NumberPairsColors.numberLineRightAddendColorProperty
+        fill: NumberPairsColors.attributeRightAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
       options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), rightAddendValueProperty, numberSquareOptions ) );
     }
 
     if ( options.showLeftArrow ) {
-      ARROW_NODE_OPTIONS.fill = NumberPairsColors.numberLineLeftAddendColorProperty;
+      ARROW_NODE_OPTIONS.fill = NumberPairsColors.attributeLeftAddendColorProperty;
       const arrowNode = new CurvedArrowNode(
         new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, ARROW_NODE_OPTIONS );
       this.addChild( arrowNode );
@@ -108,7 +108,7 @@ export default class NumberLineIcon extends Node {
       const numberSquareOptions = combineOptions<NumberSquareOptions>( {
         centerX: arrowNode.centerX,
         bottom: arrowNode.top - NUMBER_SQUARE_MARGIN,
-        fill: NumberPairsColors.numberLineLeftAddendColorProperty
+        fill: NumberPairsColors.attributeLeftAddendColorProperty
       }, NUMBER_SQUARE_OPTIONS );
       options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
@@ -120,7 +120,7 @@ export default class NumberLineIcon extends Node {
     if ( options.showRightArrow && !options.showLeftArrow ) {
       const numberSquareOptions = combineOptions<NumberSquareOptions>( {
         centerX: modelViewTransform.modelToViewX( iconNumberLineValue ),
-        fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+        fill: NumberPairsColors.attributeLeftAddendColorProperty,
         top: MINOR_TICK_LENGTH / 2 + NUMBER_SQUARE_MARGIN
       }, NUMBER_SQUARE_OPTIONS );
       options.showLabels &&
@@ -131,7 +131,7 @@ export default class NumberLineIcon extends Node {
       const highlightHeight = 4;
       const valueX = modelViewTransform.modelToViewX( iconNumberLineValue );
       const highlightRectangle = new Rectangle( 0, -highlightHeight / 2, valueX, highlightHeight, {
-        fill: NumberPairsColors.numberLineSumColorProperty
+        fill: NumberPairsColors.attributeSumColorProperty
       } );
       this.addChild( highlightRectangle );
     }

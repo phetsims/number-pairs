@@ -66,12 +66,12 @@ const createNumberLineIcon = ( fill: TColor ) => {
 const LEFT_ADDEND_ICONS = {
   bead: new Image( beadYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
   kitten: new Image( kittenYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
-  numberSquare: createNumberLineIcon( NumberPairsColors.numberLineLeftAddendColorProperty )
+  numberSquare: createNumberLineIcon( NumberPairsColors.attributeLeftAddendColorProperty )
 };
 const RIGHT_ADDEND_ICONS = {
   bead: new Image( beadBlue_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
   kitten: new Image( kittenBlue_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
-  numberSquare: createNumberLineIcon( NumberPairsColors.numberLineRightAddendColorProperty )
+  numberSquare: createNumberLineIcon( NumberPairsColors.attributeRightAddendColorProperty )
 };
 
 const ARROW_HEIGHT = 12;

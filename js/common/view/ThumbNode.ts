@@ -21,7 +21,7 @@ export default class ThumbNode extends Node {
   public constructor( tandem: Tandem ) {
 
     const trackPoint = new Circle( NumberLineNode.POINT_RADIUS, {
-      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      fill: NumberPairsColors.attributeLeftAddendColorProperty,
       stroke: 'black'
     } );
     const handleLine = new Line( 0, 0, 0, HANDLE_LINE_LENGTH, {

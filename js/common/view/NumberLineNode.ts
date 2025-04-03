@@ -71,16 +71,16 @@ export default class NumberLineNode extends Node {
      * TOTAL
      */
     const totalCircle = new Circle( NUMBER_LINE_POINT_RADIUS, {
-      fill: NumberPairsColors.numberLineSumColorProperty,
+      fill: NumberPairsColors.attributeSumColorProperty,
       stroke: 'black'
     } );
     const totalHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
       trackModelViewTransform.modelToViewX( model.totalProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.numberLineSumColorProperty,
+        stroke: NumberPairsColors.attributeSumColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
     const totalArrow = new CurvedArrowNode( zeroNumberProperty, model.totalProperty, trackModelViewTransform, {
-      fill: NumberPairsColors.numberLineSumColorProperty,
+      fill: NumberPairsColors.attributeSumColorProperty,
       belowNumberLine: true,
       curveYRadius: 80,
       visibleProperty: model.totalJumpVisibleProperty
@@ -97,11 +97,11 @@ export default class NumberLineNode extends Node {
      */
     const leftAddendHighlight = new Line( 0, -NUMBER_LINE_POINT_RADIUS / 2,
       trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.numberLineLeftAddendColorProperty,
+        stroke: NumberPairsColors.attributeLeftAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
     const leftAddendArrow = new CurvedArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
-      fill: NumberPairsColors.numberLineLeftAddendColorProperty,
+      fill: NumberPairsColors.attributeLeftAddendColorProperty,
       visibleProperty: model.numberLineCountFromZeroProperty
     } );
     const leftAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.leftAddendProperty, {
@@ -116,11 +116,11 @@ export default class NumberLineNode extends Node {
      */
     const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
       trackModelViewTransform.modelToViewX( model.totalProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.numberLineRightAddendColorProperty,
+        stroke: NumberPairsColors.attributeRightAddendColorProperty,
         lineWidth: NUMBER_LINE_POINT_RADIUS
       } );
     const rightAddendArrow = new CurvedArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
-      fill: NumberPairsColors.numberLineRightAddendColorProperty
+      fill: NumberPairsColors.attributeRightAddendColorProperty
     } );
     const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {
       fill: NumberPairsColors.numberLineLabelBackgroundColorProperty,

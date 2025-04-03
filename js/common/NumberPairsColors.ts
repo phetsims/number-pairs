@@ -41,17 +41,8 @@ const NumberPairsColors = {
   locationRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationRightAddend', {
     default: '#A8D4FF'
   } ),
-  numberLineSumColorProperty: new ProfileColorProperty( numberPairs, 'numberLineSum', {
-    default: '#9E9EFF'
-  } ),
-  numberLineLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLeftAddend', {
-    default: '#EFCCF0'
-  } ),
   numberLineThumbNodeColorProperty: new ProfileColorProperty( numberPairs, 'numberLineThumbNode', {
-    default: '#FD8FFF'
-  } ),
-  numberLineRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'numberLineRightAddend', {
-    default: '#83B8EC'
+    default: '#FFE566'
   } ),
   numberLineLabelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLabelBackground', {
     default: 'rgba( 255, 255, 255, 0.25 )'

@@ -27,7 +27,7 @@ export default class SumScreenIcon extends ScreenIcon {
       showRightArrow: true,
       showLabels: false,
       showPoint: true,
-      pointFillColor: NumberPairsColors.numberLineLeftAddendColorProperty,
+      pointFillColor: NumberPairsColors.attributeLeftAddendColorProperty,
       trackLineWidth: 0.7
     } );
     super( numberLineIcon, options );
