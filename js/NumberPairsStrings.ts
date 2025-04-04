@@ -68,10 +68,8 @@ type StringsType = {
     'kittensStringProperty': LocalizedStringProperty;
     'beadsStringProperty': LocalizedStringProperty;
     'numberLineStringProperty': LocalizedStringProperty;
-    'numberLineSliderStringProperty': LocalizedStringProperty;
     'countOnStringProperty': LocalizedStringProperty;
     'countFromZeroStringProperty': LocalizedStringProperty;
-    'beadsOnAWireStringProperty': LocalizedStringProperty;
     'locationCountingObjectsStringProperty': LocalizedStringProperty;
     'totalCheckboxHelpTextStringProperty': LocalizedStringProperty;
     'chooseTotalHelpTextStringProperty': LocalizedStringProperty;
@@ -81,6 +79,13 @@ type StringsType = {
     'beadsHelpTextStringProperty': LocalizedStringProperty;
     'kittenStringProperty': LocalizedStringProperty;
     'kittensHelpTextStringProperty': LocalizedStringProperty;
+    'yellowObjectsStringProperty': LocalizedStringProperty;
+    'blueObjectsStringProperty': LocalizedStringProperty;
+    'countingObjectControlHelpTextPatternStringProperty': LocalizedStringProperty;
+    'leftStringProperty': LocalizedStringProperty;
+    'rightStringProperty': LocalizedStringProperty;
+    'navigateBeadsStringProperty': LocalizedStringProperty;
+    'moveBeadStringProperty': LocalizedStringProperty;
   };
   'numberBondStringProperty': LocalizedStringProperty;
   'barModelStringProperty': LocalizedStringProperty;

@@ -27,6 +27,7 @@ import AddendControlPanel from './AddendControlPanel.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -87,6 +88,9 @@ export default class SumScreenView extends NumberPairsScreenView {
      * Create the counting object controls. These look and act like NumberSpinners but due to their implementation needs,
      * are not NumberSpinners.
      */
+    const leftAddendHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.countingObjectControlHelpTextPatternStringProperty, {
+      addend: NumberPairsStrings.a11y.leftStringProperty
+    } );
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.leftAddendCountingObjectsProperty.value,
@@ -95,10 +99,16 @@ export default class SumScreenView extends NumberPairsScreenView {
       {
         countingObjectControlOptions: {
           leftAddendProperty: model.leftAddendProperty,
-          interruptPointers: this.interruptSubtreeInput.bind( this )
+          interruptPointers: this.interruptSubtreeInput.bind( this ),
+          accessibleName: NumberPairsStrings.a11y.yellowObjectsStringProperty,
+          accessibleHelpText: leftAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
+
+    const rightAddendHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.countingObjectControlHelpTextPatternStringProperty, {
+      addend: NumberPairsStrings.a11y.rightStringProperty
+    } );
     const rightAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.rightAddendCountingObjectsProperty.value,
@@ -106,7 +116,9 @@ export default class SumScreenView extends NumberPairsScreenView {
       model.representationTypeProperty,
       {
         countingObjectControlOptions: {
-          interruptPointers: this.interruptSubtreeInput.bind( this )
+          interruptPointers: this.interruptSubtreeInput.bind( this ),
+          accessibleName: NumberPairsStrings.a11y.blueObjectsStringProperty,
+          accessibleHelpText: rightAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );

@@ -98,7 +98,9 @@ export default class BeadsOnWireNode extends Node {
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-      accessibleName: NumberPairsStrings.a11y.beadsOnAWireStringProperty,
+
+      // TODO: update accessible name based on keyboard state.
+      accessibleName: NumberPairsStrings.a11y.navigateBeadsStringProperty,
       accessibleHelpText: NumberPairsStrings.a11y.beadsHelpTextStringProperty
     }, providedOptions );
 
@@ -242,7 +244,9 @@ export default class BeadsOnWireNode extends Node {
 
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
     groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
-
+    groupSelectModel.isGroupItemKeyboardGrabbedProperty.link( grabbed => {
+      this.accessibleName = grabbed ? NumberPairsStrings.a11y.moveBeadStringProperty : NumberPairsStrings.a11y.navigateBeadsStringProperty;
+    } );
 
     Multilink.multilink( [
       model.leftAddendProperty,
