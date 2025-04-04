@@ -18,12 +18,14 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node, { NodeOptions, NodeTransformOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import TColor from '../../../../scenery/js/util/TColor.js';
 import numberPairs from '../../numberPairs.js';
 import NumberLineNode from './NumberLineNode.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
-  fill: TColor;
+  arrowColorProperty: TReadOnlyProperty<Color> | null;
+  addStrokeToArrow?: boolean;
   belowNumberLine?: boolean;
   curveYRadius?: number;
   arrowTailLineWidth?: number;
@@ -44,6 +46,7 @@ const ARROW_HEAD_OFFSET = 2; // The amount we want the arrow head to overlap the
 export default class CurvedArrowNode extends Node {
 
   private readonly tailNode: Path;
+  private readonly backgroundTailNode: Path;
   private readonly arrowHeadNode: Path;
   private readonly antiClockwise: boolean;
   private readonly ellipseYRadius: number;
@@ -56,6 +59,7 @@ export default class CurvedArrowNode extends Node {
     providedOptions: EllipticalArrowNodeOptions ) {
 
     const options = optionize<EllipticalArrowNodeOptions, SelfOptions, NodeOptions>()( {
+      addStrokeToArrow: false,
       belowNumberLine: false,
       curveYRadius: 55,
       arrowTailLineWidth: ARROW_TAIL_LINE_WIDTH,
@@ -64,22 +68,38 @@ export default class CurvedArrowNode extends Node {
       arrowHeadBaseWidth: ARROW_HEAD_BASE_WIDTH
     }, providedOptions );
 
+
+    options.addStrokeToArrow && assert && assert( options.arrowColorProperty, 'arrowColorProperty is required when addStrokeToArrow is true' );
+
     const tailShape = new Shape();
     const arrowHeadShape = new Shape();
+
+    let strokeProperty: TReadOnlyProperty<Color> | null = null;
+    if ( options.addStrokeToArrow && options.arrowColorProperty ) {
+      strokeProperty = new DerivedProperty( [ options.arrowColorProperty ], ( arrowColor: Color ) => {
+        return arrowColor.darkerColor( 0.85 );
+      } );
+    }
     const arrowHeadNode = new Path( arrowHeadShape, {
-      fill: options.fill,
-      stroke: null
+      fill: options.arrowColorProperty,
+      stroke: strokeProperty
     } );
 
     const tailNode = new Path( tailShape, {
-      stroke: options.fill,
+      stroke: options.arrowColorProperty,
       lineWidth: options.arrowTailLineWidth
     } );
 
-    options.children = [ tailNode, arrowHeadNode ];
+    const backgroundTailNode = new Path( tailShape, {
+      stroke: strokeProperty,
+      lineWidth: options.arrowTailLineWidth + 2
+    } );
+
+    options.children = [ backgroundTailNode, tailNode, arrowHeadNode ];
     super( options );
 
     this.tailNode = tailNode;
+    this.backgroundTailNode = backgroundTailNode;
     this.arrowHeadNode = arrowHeadNode;
     this.ellipseYRadius = options.curveYRadius;
 
@@ -205,6 +225,7 @@ export default class CurvedArrowNode extends Node {
       );
     }
     this.tailNode.setShape( tailShape );
+    this.backgroundTailNode.setShape( tailShape );
   }
 
   private updateArrowHeadShape( arrowHeadPoint: Vector2, arrowHeadBaseMidPoint: Vector2, arrowHeadBaseWidth: number ): void {

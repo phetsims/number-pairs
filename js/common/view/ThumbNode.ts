@@ -32,6 +32,7 @@ export default class ThumbNode extends Node {
     const handleKnob = new ShadedSphereNode( NumberLineNode.POINT_RADIUS * 3, {
       highlightColor: NumberPairsColors.numberLineThumbNodeColorProperty.value.brighterColor( 0.8 ),
       mainColor: NumberPairsColors.numberLineThumbNodeColorProperty,
+      stroke: 'black',
       top: handleLine.bottom
     } );
     super( {

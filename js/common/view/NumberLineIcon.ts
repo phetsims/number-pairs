@@ -43,7 +43,7 @@ const MAJOR_TICK_LENGTH = 14;
 const MINOR_TICK_LENGTH = 9;
 const NUMBER_SQUARE_MARGIN = 2;
 const ARROW_NODE_OPTIONS: EllipticalArrowNodeOptions = {
-  fill: null,
+  arrowColorProperty: null,
   arrowTailLineWidth: 1.5,
   curveYRadius: 10,
   pointRadius: 1,
@@ -83,7 +83,7 @@ export default class NumberLineIcon extends Node {
      * Create the number line decorators.
      */
     if ( options.showRightArrow ) {
-      ARROW_NODE_OPTIONS.fill = NumberPairsColors.attributeRightAddendColorProperty;
+      ARROW_NODE_OPTIONS.arrowColorProperty = NumberPairsColors.attributeRightAddendColorProperty;
       const startingValueProperty = new Property( iconNumberLineValue );
       const rightAddendValueProperty = new Property( ICON_RANGE.max - iconNumberLineValue );
       const arrowNode = new CurvedArrowNode(
@@ -100,7 +100,7 @@ export default class NumberLineIcon extends Node {
     }
 
     if ( options.showLeftArrow ) {
-      ARROW_NODE_OPTIONS.fill = NumberPairsColors.attributeLeftAddendColorProperty;
+      ARROW_NODE_OPTIONS.arrowColorProperty = NumberPairsColors.attributeLeftAddendColorProperty;
       const arrowNode = new CurvedArrowNode(
         new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, ARROW_NODE_OPTIONS );
       this.addChild( arrowNode );

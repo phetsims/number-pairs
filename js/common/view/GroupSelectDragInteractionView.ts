@@ -99,7 +99,10 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
       if ( groupSelectModel.selectedGroupItemProperty.value ) {
         const selectedGroupItemNode = modelToNodeMap.get( groupSelectModel.selectedGroupItemProperty.value )!;
         if ( !selectedGroupItemNode.visible ) {
-          groupSelectModel.selectedGroupItemProperty.value = options.getGroupItemToSelect();
+
+          // We will define the selected group item once the interaction has focus again.
+          groupSelectModel.selectedGroupItemProperty.value = this.model.isKeyboardFocusedProperty.value ?
+                                                             options.getGroupItemToSelect() : null;
         }
       }
     } );
