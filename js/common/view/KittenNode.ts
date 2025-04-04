@@ -14,7 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -39,6 +39,7 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -141,8 +142,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     options.children = [ boundsRectangle, focusPanel, leftAddendKittenImage, rightAddendKittenImage ];
     options.focusHighlight = Shape.bounds( focusPanel.bounds );
 
-    // TODO: use AccessibleDraggableOptions for this Node.
-    super( options );
+    const accessibleDraggableOptions = combineOptions<KittenNodeOptions>( options, AccessibleDraggableOptions );
+    super( accessibleDraggableOptions );
 
     this.focusPanel = focusPanel;
     this.countingObject = countingObject;
