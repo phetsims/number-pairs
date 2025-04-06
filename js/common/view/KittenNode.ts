@@ -201,7 +201,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const switchToLeftSoundPlayer = sharedSoundPlayers.get( 'switchToLeft' );
     const switchToRightSoundPlayer = sharedSoundPlayers.get( 'switchToRight' );
     const toggleAddendKeyboardListener = new KeyboardListener( {
-      keys: [ 'space' ],
+      keys: [ 'space', 'enter' ],
       press: () => {
         isLeftAddendProperty.toggle();
         isLeftAddendProperty.value ? switchToLeftSoundPlayer.play() : switchToRightSoundPlayer.play();
