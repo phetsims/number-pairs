@@ -25,8 +25,22 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveLeftPatternStringProperty, TextKeyNode.home() );
-    const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( moveRightPatternStringProperty, TextKeyNode.end() );
+    const moveLeftDescriptionPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.moveAcrossDescriptionPatternStringProperty, {
+      item: itemStringProperty,
+      addend: NumberPairsStrings.a11y.leftStringProperty,
+      key: NumberPairsStrings.a11y.homeStringProperty
+    } );
+    const moveRightDescriptionPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.moveAcrossDescriptionPatternStringProperty, {
+      item: itemStringProperty,
+      addend: NumberPairsStrings.a11y.rightStringProperty,
+      key: NumberPairsStrings.a11y.endStringProperty
+    } );
+    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveLeftPatternStringProperty, TextKeyNode.home(), {
+      labelInnerContent: moveLeftDescriptionPatternStringProperty
+    } );
+    const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( moveRightPatternStringProperty, TextKeyNode.end(), {
+      labelInnerContent: moveRightDescriptionPatternStringProperty
+    } );
 
     super( headingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
   }

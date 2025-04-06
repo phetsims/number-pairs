@@ -15,9 +15,15 @@ import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor() {
-    const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home() );
-    const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end() );
-    const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.toggleKittenColorStringProperty, TextKeyNode.space() );
+    const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
+      labelInnerContent: NumberPairsStrings.a11y.jumpToFirstKittenStringProperty
+    } );
+    const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
+      labelInnerContent: NumberPairsStrings.a11y.jumpToLastKittenStringProperty
+    } );
+    const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
+      labelInnerContent: NumberPairsStrings.a11y.changeColorStringProperty
+    } );
     super( NumberPairsStrings.keyboardHelpDialog.kittenSectionHeadingStringProperty, [ homeRow, endRow, toggleKittenColorRow ] );
   }
 }

@@ -20,12 +20,12 @@ export default class TenScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNo
 
   public constructor() {
     super( [ new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.beadHeadingStringProperty,
-      NumberPairsStrings.keyboardHelpDialog.beadStringProperty ),
-      new MoveDraggableItemsKeyboardHelpSection( {
-        headingStringProperty: NumberPairsStrings.keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty
-      } ),
+        NumberPairsStrings.keyboardHelpDialog.beadStringProperty ),
+        new MoveDraggableItemsKeyboardHelpSection( {
+          headingStringProperty: NumberPairsStrings.keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty
+        } ),
         new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
-          NumberPairsStrings.keyboardHelpDialog.beadsStringProperty ),
+          NumberPairsStrings.keyboardHelpDialog.beadStringProperty ),
         new KittensKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }

@@ -12,6 +12,7 @@ import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.j
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 
 
 export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardHelpSection {
@@ -23,7 +24,9 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
       slider: SceneryPhetStrings.keyboardHelpDialog.spinnerStringProperty
     } );
     super( SceneryPhetStrings.keyboardHelpDialog.spinnerControlsStringProperty, [
-      KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon() )
+      KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
+        labelInnerContent: NumberPairsStrings.a11y.adjustSpinnerStringProperty
+      } )
     ] );
   }
 }

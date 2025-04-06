@@ -24,7 +24,7 @@ export default class IntroScreenKeyboardHelpNode extends NumberPairsKeyboardHelp
         headingStringProperty: NumberPairsStrings.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
       } ),
       new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.objectsStringProperty )
+        NumberPairsStrings.keyboardHelpDialog.objectStringProperty )
     ] );
   }
 }
