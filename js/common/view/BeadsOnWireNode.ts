@@ -403,7 +403,7 @@ export default class BeadsOnWireNode extends Node {
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
           const xPosition = Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + SEPARATOR_BUFFER );
-          this.getBeadsToMove( beadNode, xPosition, true, sortedBeadNodes ).forEach( ( beadNode, i ) => {
+          this.getBeadsToMove( beadNode, xPosition, true, this.getSortedBeadNodes() ).forEach( ( beadNode, i ) => {
             beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition + i * BEAD_WIDTH );
           } );
         }
@@ -427,7 +427,7 @@ export default class BeadsOnWireNode extends Node {
 
           // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
           const xPosition = Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - SEPARATOR_BUFFER );
-          this.getBeadsToMove( beadNode, xPosition, false, sortedBeadNodes ).forEach( ( beadNode, i ) => {
+          this.getBeadsToMove( beadNode, xPosition, false, this.getSortedBeadNodes().reverse() ).forEach( ( beadNode, i ) => {
             beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition - i * BEAD_WIDTH );
           } );
         }
