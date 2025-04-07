@@ -176,14 +176,13 @@ export default class KittenNode extends InteractiveHighlightingNode {
         countingObject.kittenSelectedProperty.value = true;
         this.moveToFront();
       },
-      end: () => {
-        options.onEndDrag( countingObject, 'attribute' );
-      },
       dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
       dragListenerOptions: {
         useParentOffset: true,
-        tandem: providedOptions.tandem.createTandem( 'dragListener' )
-
+        tandem: providedOptions.tandem.createTandem( 'dragListener' ),
+        end: () => {
+          options.onEndDrag( countingObject, 'attribute' );
+        }
       },
       keyboardDragListenerOptions: {
         focus: () => {
@@ -191,7 +190,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
           countingObject.kittenSelectedProperty.value = true;
           this.moveToFront();
         },
-        blur: () => { countingObject.kittenSelectedProperty.value = false; },
+        blur: () => {
+          countingObject.kittenSelectedProperty.value = false;
+          options.onEndDrag( countingObject, 'attribute' );
+        },
         dragDelta: 15,
         shiftDragDelta: 8,
         tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
