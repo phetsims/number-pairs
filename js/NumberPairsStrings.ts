@@ -50,6 +50,8 @@ type StringsType = {
     'moveToLeftSidePatternStringProperty': LocalizedStringProperty;
     'moveGrabbedObjectToOppositeSideStringProperty': LocalizedStringProperty;
     'moveBeadsToOppositeSideStringProperty': LocalizedStringProperty;
+    'adjustObjectsTitleStringProperty': LocalizedStringProperty;
+    'numberOfObjectsStringProperty': LocalizedStringProperty;
   };
   'phraseStringProperty': LocalizedStringProperty;
   'numberBondStringProperty': LocalizedStringProperty;
@@ -114,7 +116,7 @@ type StringsType = {
     'jumpToFirstKittenStringProperty': LocalizedStringProperty;
     'jumpToLastKittenStringProperty': LocalizedStringProperty;
     'changeColorStringProperty': LocalizedStringProperty;
-    'adjustSpinnerStringProperty': LocalizedStringProperty;
+    'adjustObjectsStringProperty': LocalizedStringProperty;
   }
 };
 

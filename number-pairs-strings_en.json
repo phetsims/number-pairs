@@ -74,6 +74,12 @@
   "keyboardHelpDialog.moveBeadsToOppositeSide": {
     "value": "Move Beads to Opposite Side"
   },
+  "keyboardHelpDialog.adjustObjectsTitle": {
+    "value": "Adjust Number of Colored Objects"
+  },
+  "keyboardHelpDialog.numberOfObjects": {
+    "value": "number of objects"
+  },
   "phrase": {
     "value": "Phrase"
   },
@@ -261,8 +267,8 @@
     "changeColor": {
         "value": "Change color with Space or Enter key."
     },
-    "adjustSpinner": {
-      "value": "Adjust spinner with arrow keys."
+    "adjustObjects": {
+      "value": "Adjust number of objects with arrow keys."
     }
   }
 }

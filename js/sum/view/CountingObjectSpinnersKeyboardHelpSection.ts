@@ -21,11 +21,11 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
 
     const adjustSpinnerStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
       verb: SceneryPhetStrings.keyboardHelpDialog.adjustStringProperty,
-      slider: SceneryPhetStrings.keyboardHelpDialog.spinnerStringProperty
+      slider: NumberPairsStrings.keyboardHelpDialog.numberOfObjectsStringProperty
     } );
-    super( SceneryPhetStrings.keyboardHelpDialog.spinnerControlsStringProperty, [
+    super( NumberPairsStrings.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
       KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
-        labelInnerContent: NumberPairsStrings.a11y.adjustSpinnerStringProperty
+        labelInnerContent: NumberPairsStrings.a11y.adjustObjectsStringProperty
       } )
     ] );
   }
