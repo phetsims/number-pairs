@@ -29,7 +29,7 @@ export default class TwentyScreenIcon extends ScreenIcon {
     const numberProperty = new NumberProperty( 20 );
     const numberVisibleProperty = new BooleanProperty( true );
     const numberCircle = new NumberCircle( numberProperty, numberVisibleProperty, {
-      fill: NumberPairsColors.attributeSumColorProperty,
+      fill: NumberPairsColors.locationRightAddendColorProperty,
       lineWidth: 2
     } );
     super( numberCircle, options );

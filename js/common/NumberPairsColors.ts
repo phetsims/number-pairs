@@ -27,10 +27,10 @@ const NumberPairsColors = {
     default: '#FFFAF1'
   } ),
   twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'twentyBackground', {
-    default: '#FFFAF1'
+    default: '#FFFAFE'
   } ),
   sumScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'sumBackground', {
-    default: '#FFFAF1'
+    default: '#FAFDF6'
   } ),
   locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
     default: '#74E2AB'
