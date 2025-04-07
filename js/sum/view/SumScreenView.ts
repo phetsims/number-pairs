@@ -126,8 +126,8 @@ export default class SumScreenView extends NumberPairsScreenView {
     Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ],
       ( total, leftAddend, rightAddend ) => {
         if ( total === leftAddend + rightAddend ) {
-          leftAddendControlPanel.countingObjectControl.ariaValueText = `${leftAddend}`;
-          rightAddendControlPanel.countingObjectControl.ariaValueText = `${rightAddend}`;
+          leftAddendControlPanel.countingObjectControl.setAriaValues( leftAddend.toString() );
+          rightAddendControlPanel.countingObjectControl.setAriaValues( rightAddend.toString() );
         }
       } );
 

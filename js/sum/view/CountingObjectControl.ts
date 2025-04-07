@@ -90,6 +90,19 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       focusable: true,
       tagName: 'input',
       inputType: 'range',
+      pdomAttributes: [
+        {
+          attribute: 'min',
+          value: 0
+        }, {
+          attribute: 'max',
+          value: 20
+        },
+        {
+          attribute: 'step',
+          value: 'any'
+        }
+      ],
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
@@ -200,6 +213,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     const keyboardInputListener = new KeyboardListener( {
       keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
       fire: ( event, keysPressed ) => {
+        event?.preventDefault();
         if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
           options.interruptPointers();
           inactiveCountingObjects.lengthProperty.value > 0 && handleIncrement();
@@ -213,6 +227,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     this.addInputListener( keyboardInputListener );
 
     this.setInteractiveHighlight( new HighlightFromNode( this ) );
+  }
+
+  public setAriaValues( value: string ): void {
+    this.setInputValue( value );
+    this.ariaValueText = value;
+    this.setPDOMAttribute( 'aria-valuenow', value );
   }
 }
 
