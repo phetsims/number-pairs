@@ -15,9 +15,13 @@ import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phe
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
+  addendStringProperty?: TReadOnlyProperty<string> | null;
 };
 type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
 
@@ -29,12 +33,19 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, HEIGHT ),
       secondAddendVisibleProperty: null,
+      addendStringProperty: null,
       baseColor: Color.WHITE,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5
     }, providedOptions );
 
+    assert && assert( ( options.secondAddendVisibleProperty && options.addendStringProperty === null ) ||
+                      ( options.addendStringProperty || options.secondAddendVisibleProperty === null ),
+      'Either secondAddendVisibleProperty or addendStringProperty must be provided, but not both' );
+
     let addendToggleVisibleProperty = addendVisibleProperty;
+    let hideAddendPatternStringProperty: TReadOnlyProperty<string> | null = null;
+    let showAddendPatternStringProperty: TReadOnlyProperty<string> | null = null;
     if ( options.secondAddendVisibleProperty ) {
       addendToggleVisibleProperty = new BooleanProperty( addendVisibleProperty.value && options.secondAddendVisibleProperty.value, {
         reentrant: true,
@@ -64,7 +75,26 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
         }
       } );
     }
+    else if ( options.addendStringProperty ) {
+      hideAddendPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.hideAddendPatternStringProperty, {
+        addend: options.addendStringProperty
+      } );
+      showAddendPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.showAddendPatternStringProperty, {
+        addend: options.addendStringProperty
+      } );
+    }
+
+    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsStrings.a11y.hideAddendsStringProperty;
     super( addendToggleVisibleProperty, options );
+
+    addendToggleVisibleProperty.link( visible => {
+      if ( options.secondAddendVisibleProperty ) {
+        this.accessibleName = visible ? NumberPairsStrings.a11y.hideAddendsStringProperty : NumberPairsStrings.a11y.showAddendsStringProperty;
+      }
+      else if ( hideAddendPatternStringProperty && showAddendPatternStringProperty ) {
+        this.accessibleName = visible ? hideAddendPatternStringProperty : showAddendPatternStringProperty;
+      }
+    } );
   }
 }
 

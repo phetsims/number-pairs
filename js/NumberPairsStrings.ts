@@ -79,8 +79,10 @@ type StringsType = {
     'hearPhraseStringProperty': LocalizedStringProperty;
     'organizeObjectsPatternStringProperty': LocalizedStringProperty;
     'swapAddendsStringProperty': LocalizedStringProperty;
-    'showOrHideAddendStringProperty': LocalizedStringProperty;
-    'showOrHideAddendsStringProperty': LocalizedStringProperty;
+    'showAddendPatternStringProperty': LocalizedStringProperty;
+    'hideAddendPatternStringProperty': LocalizedStringProperty;
+    'showAddendsStringProperty': LocalizedStringProperty;
+    'hideAddendsStringProperty': LocalizedStringProperty;
     'applesStringProperty': LocalizedStringProperty;
     'soccerBallsStringProperty': LocalizedStringProperty;
     'butterfliesStringProperty': LocalizedStringProperty;

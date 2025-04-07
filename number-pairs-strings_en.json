@@ -156,11 +156,17 @@
     "swapAddends": {
       "value": "Swap Addends"
     },
-    "showOrHideAddend": {
-      "value": "Show or Hide Addend"
+    "showAddendPattern": {
+      "value": "Show {{addend}} addend"
     },
-    "showOrHideAddends": {
-      "value": "Show or Hide Addends"
+    "hideAddendPattern": {
+      "value": "Hide {{addend}} addend"
+    },
+    "showAddends": {
+      "value": "Show addends"
+    },
+    "hideAddends": {
+      "value": "Hide addends"
     },
     "apples": {
       "value": "Apples"
