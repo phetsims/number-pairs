@@ -387,51 +387,11 @@ export default class BeadsOnWireNode extends Node {
        */
       if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ||
            ( draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
-
-        // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
-        if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
-
-          // Since a bead is moving to the right, the separator should adjust one position to the left.
-          this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
-            BeadManager.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value - 1 ) );
-
-          // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
-          // updated in the ObservableArray.lengthProperty listener.
-          beadNode.countingObject.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.add( beadNode.countingObject );
-          this.leftAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
-          beadNode.countingObject.traverseInactiveObjects = true;
-
-          // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + SEPARATOR_BUFFER );
-          this.getBeadsToMove( beadNode, xPosition, true, this.getSortedBeadNodes() ).forEach( ( beadNode, i ) => {
-            beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition + i * BEAD_WIDTH );
-          } );
-        }
+        this.moveBeadToRightAddend( beadNode, grabbedBeadNode );
       }
       else if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ||
                 ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
-
-        // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
-        if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
-
-          // Since a bead is moving to the left, the separator should adjust one position to the right.
-          this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
-            BeadManager.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value + 1 ) );
-
-          // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
-          // updated in the ObservableArray.lengthProperty listener.
-          beadNode.countingObject.traverseInactiveObjects = false;
-          this.rightAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
-          this.leftAddendCountingObjectsProperty.value.add( beadNode.countingObject );
-          beadNode.countingObject.traverseInactiveObjects = true;
-
-          // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
-          const xPosition = Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - SEPARATOR_BUFFER );
-          this.getBeadsToMove( beadNode, xPosition, false, this.getSortedBeadNodes().reverse() ).forEach( ( beadNode, i ) => {
-            beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition - i * BEAD_WIDTH );
-          } );
-        }
+        this.moveBeadToLeftAddend( beadNode, grabbedBeadNode );
       }
     } );
 
@@ -450,6 +410,13 @@ export default class BeadsOnWireNode extends Node {
 
     // Update the proposed bead position if it does not match the grabbed bead's position.
     if ( this.model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value ) {
+      const grabbedBeadAddendType = grabbedBeadNode.countingObject.addendTypeProperty.value;
+      if ( grabbedBeadAddendType === AddendType.LEFT && grabbedBeadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
+        this.moveBeadToRightAddend( grabbedBeadNode, grabbedBeadNode );
+      }
+      else if ( grabbedBeadAddendType === AddendType.RIGHT && grabbedBeadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
+        this.moveBeadToLeftAddend( grabbedBeadNode, grabbedBeadNode );
+      }
       this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
       this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
     }
@@ -497,6 +464,66 @@ export default class BeadsOnWireNode extends Node {
         ( ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead ) && proposedBeadsToMove.push( beadNode );
       } );
     return proposedBeadsToMove;
+  }
+
+  /**
+   * @param beadNode
+   * @param grabbedBeadNode
+   */
+  private moveBeadToRightAddend( beadNode: BeadNode, grabbedBeadNode: BeadNode ): void {
+
+    // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
+    if ( !this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
+
+      // Since a bead is moving to the right, the separator should adjust one position to the left.
+      this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
+        BeadManager.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value - 1 ) );
+
+      // Add the bead to the right addend first to avoid duplicate work being done when the left addend value is
+      // updated in the ObservableArray.lengthProperty listener.
+      beadNode.countingObject.traverseInactiveObjects = false;
+      this.rightAddendCountingObjectsProperty.value.add( beadNode.countingObject );
+      this.leftAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
+      beadNode.countingObject.traverseInactiveObjects = true;
+
+      // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
+      if ( beadNode !== grabbedBeadNode ) {
+        const xPosition = Math.max( beadNode.centerX, this.beadSeparatorCenterXProperty.value + SEPARATOR_BUFFER );
+        this.getBeadsToMove( beadNode, xPosition, true, this.getSortedBeadNodes() ).filter( bead => bead !== grabbedBeadNode ).forEach( ( beadNode, i ) => {
+          beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition + i * BEAD_WIDTH );
+        } );
+      }
+    }
+  }
+
+  /**
+   * @param beadNode
+   * @param grabbedBeadNode
+   */
+  private moveBeadToLeftAddend( beadNode: BeadNode, grabbedBeadNode: BeadNode ): void {
+
+    // Do not adjust the separator or move beads between addends if the bead is already in the proper observable array.
+    if ( !this.leftAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) && this.rightAddendCountingObjectsProperty.value.includes( beadNode.countingObject ) ) {
+
+      // Since a bead is moving to the left, the separator should adjust one position to the right.
+      this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX(
+        BeadManager.calculateBeadSeparatorXPosition( this.model.leftAddendProperty.value + 1 ) );
+
+      // Remove the bead from the right addend first to avoid duplicate work being done when the left addend value is
+      // updated in the ObservableArray.lengthProperty listener.
+      beadNode.countingObject.traverseInactiveObjects = false;
+      this.rightAddendCountingObjectsProperty.value.remove( beadNode.countingObject );
+      this.leftAddendCountingObjectsProperty.value.add( beadNode.countingObject );
+      beadNode.countingObject.traverseInactiveObjects = true;
+
+      // As the bead moves past the separator recalculate if other beads now need to move to accommodate.
+      if ( beadNode !== grabbedBeadNode ) {
+        const xPosition = Math.min( beadNode.centerX, this.beadSeparatorCenterXProperty.value - SEPARATOR_BUFFER );
+        this.getBeadsToMove( beadNode, xPosition, false, this.getSortedBeadNodes().reverse() ).filter( bead => bead !== grabbedBeadNode ).forEach( ( beadNode, i ) => {
+          beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition - i * BEAD_WIDTH );
+        } );
+      }
+    }
   }
 
   /**
