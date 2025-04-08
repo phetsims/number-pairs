@@ -166,7 +166,7 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
     groupSelectModel.isGroupItemKeyboardGrabbedProperty.lazyLink( ( isGrabbed, wasGrabbed ) => {
-      if ( !isGrabbed && wasGrabbed ) {
+      if ( !isGrabbed && wasGrabbed && !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
         this.handleBeadDrop( this.beadModelToNodeMap.get( groupSelectModel.selectedGroupItemProperty.value! )! );
       }
     } );
@@ -185,10 +185,11 @@ export default class BeadsOnWireNode extends Node {
       // what the DragListener (internal to BeadNode) provides.
       const viewPosition = grabbedBeadNode.parentToGlobalPoint( BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewPosition( proposedBeadPosition ) );
 
-      // We only need to handle a bead move when our values and array lengths match. Otherwise we are in an intermediary
+      // We only need to handle a bead move when our values and array lengths match. Otherwise, we are in an intermediary
       // state when beads are being added or removed.
       if ( model.leftAddendProperty.value === model.leftAddendCountingObjectsLengthProperty.value &&
-           model.rightAddendProperty.value === model.rightAddendCountingObjectsLengthProperty.value ) {
+           model.rightAddendProperty.value === model.rightAddendCountingObjectsLengthProperty.value &&
+           !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
         this.handleBeadMove( viewPosition, grabbedBeadNode );
       }
     } );
