@@ -98,8 +98,6 @@ export default class BeadsOnWireNode extends Node {
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-
-      // TODO: update accessible name based on keyboard state.
       accessibleName: NumberPairsStrings.a11y.navigateBeadsStringProperty,
       accessibleHelpText: NumberPairsStrings.a11y.beadsHelpTextStringProperty
     }, providedOptions );
