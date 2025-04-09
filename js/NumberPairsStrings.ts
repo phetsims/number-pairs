@@ -24,10 +24,8 @@ type StringsType = {
   'keyboardHelpDialog': {
     'objectHeadingStringProperty': LocalizedStringProperty;
     'objectStringProperty': LocalizedStringProperty;
-    'objectsStringProperty': LocalizedStringProperty;
     'beadHeadingStringProperty': LocalizedStringProperty;
     'beadStringProperty': LocalizedStringProperty;
-    'beadsStringProperty': LocalizedStringProperty;
     'countingObjectOrBeadHeadingStringProperty': LocalizedStringProperty;
     'countingObjectOrBeadStringProperty': LocalizedStringProperty;
     'introScreen': {
