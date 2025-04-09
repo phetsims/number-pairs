@@ -75,6 +75,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
           if ( !groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {
             groupSelectModel.selectedGroupItemProperty.value = options.getNextSelectedGroupItemFromPressedKeys( keysPressed, groupItem );
           }
+          groupSelectModel.selectedGroupItemProperty.value && this.onGroupItemChange( groupSelectModel.selectedGroupItemProperty.value );
         }
       }
     } );
