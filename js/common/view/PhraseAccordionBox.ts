@@ -139,7 +139,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     } );
     const secondaryLocaleStringProperty = new DerivedProperty( [ secondLocaleStringsProperty, options.phraseStringProperty ],
       ( secondLocaleStrings, phraseString ) => {
-        const secondLocaleString = secondLocaleStrings[ options.phraseSpeechStringProperty.localizedString.stringKey ];
+        const secondLocaleString = secondLocaleStrings[ options.phraseStringProperty.localizedString.stringKey ];
 
         // If the secondLocaleString is not defined, default to the primary locale string.
         return secondLocaleString ? secondLocaleString : phraseString;
