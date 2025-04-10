@@ -11,7 +11,6 @@ import numberPairs from '../../numberPairs.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import localeProperty, { Locale, LocaleProperty } from '../../../../joist/js/i18n/localeProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -60,11 +59,6 @@ const NumberPairsPreferences = {
   secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale, {
     tandem: Tandem.PREFERENCES.createTandem( 'secondLocaleEnabledProperty' ),
     phetioReadOnly: true
-  } ),
-
-  // Strings for the current secondLocale.
-  secondLocaleStringsProperty: new DerivedProperty( [ secondLocaleProperty ], secondLocale => {
-    return phet.chipper.strings[ secondLocale ];
   } ),
 
   // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
