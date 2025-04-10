@@ -393,6 +393,20 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
+    // After the separator has adjusted position with beads crossing over above, we need to also check if any beads
+    // remain on the wrong side of the separator. If so, we need to move them to the correct side.
+    while ( !this.beadsOnCorrectSide() ) {
+      this.getSortedBeadNodes().forEach( beadNode => {
+        const addendType = beadNode.countingObject.addendTypeProperty.value;
+        if ( addendType === AddendType.LEFT && beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
+          this.moveBeadToRightAddend( beadNode, grabbedBeadNode );
+        }
+        else if ( addendType === AddendType.RIGHT && beadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
+          this.moveBeadToLeftAddend( beadNode, grabbedBeadNode );
+        }
+      } );
+    }
+
     // Once all the beads are moved confirm that any active beads on the wire are each the required minimum distance
     // apart to avoid overlap.
     activeBeadNodes.forEach( ( beadNode, i ) => {
@@ -408,13 +422,6 @@ export default class BeadsOnWireNode extends Node {
 
     // Update the proposed bead position if it does not match the grabbed bead's position.
     if ( this.model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value ) {
-      const grabbedBeadAddendType = grabbedBeadNode.countingObject.addendTypeProperty.value;
-      if ( grabbedBeadAddendType === AddendType.LEFT && grabbedBeadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
-        this.moveBeadToRightAddend( grabbedBeadNode, grabbedBeadNode );
-      }
-      else if ( grabbedBeadAddendType === AddendType.RIGHT && grabbedBeadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
-        this.moveBeadToLeftAddend( grabbedBeadNode, grabbedBeadNode );
-      }
       this.keyboardProposedBeadPositionProperty.value.x !== grabbedBeadNode.countingObject.beadXPositionProperty.value &&
       this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
     }
@@ -531,6 +538,18 @@ export default class BeadsOnWireNode extends Node {
     return [ ...this.beadModelToNodeMap.values() ]
       .filter( beadNode => beadNode.countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .sort( ( a, b ) => a.centerX - b.centerX );
+  }
+
+  /**
+   * Check if all beads are on the correct side of the separator according to their addend type.
+   */
+  private beadsOnCorrectSide(): boolean {
+    const separatorXPosition = this.beadSeparatorCenterXProperty.value;
+    return this.getSortedBeadNodes().every( beadNode => {
+      const addendType = beadNode.countingObject.addendTypeProperty.value;
+      assert && assert( addendType !== AddendType.INACTIVE, 'Addend type should not be inactive' );
+      return addendType === AddendType.LEFT ? beadNode.centerX <= separatorXPosition : beadNode.centerX >= separatorXPosition;
+    } );
   }
 
   /**
