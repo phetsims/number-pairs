@@ -62,13 +62,13 @@ type SelfOptions = {
 };
 type PhraseAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentationAccordionBoxOptions, 'titleNode'>;
 
-const LINE_WRAP = 240; // empirically determined
+const LINE_WRAP = 250; // empirically determined
 export default class PhraseAccordionBox extends TotalRepresentationAccordionBox {
 
   // We want the accordion box to resize in the Y direction to accommodate the RichText line wrap, however the
   // width should stay the same. In order to do this we must define and control all options that contribute
   // to the width of the accordion box.
-  public static readonly WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN + 10;
+  public static readonly WIDTH = LINE_WRAP + 2 * TotalRepresentationAccordionBox.CONTENT_X_MARGIN + TotalRepresentationAccordionBox.EXPAND_COLLAPSE_SIDE_LENGTH + TotalRepresentationAccordionBox.BUTTON_X_MARGIN;
 
   public constructor( model: NumberPairsModel, providedOptions: PhraseAccordionBoxOptions ) {
 
@@ -77,6 +77,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       contentYMargin: 20,
       contentAlign: 'left',
       minWidth: PhraseAccordionBox.WIDTH,
+      maxWidth: PhraseAccordionBox.WIDTH,
       expandedDefaultValue: false
     }, providedOptions );
 
@@ -146,7 +147,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     let rightAddendHighlight: Rectangle;
     const richText = new RichText( phraseStringProperty, {
       lineWrap: LINE_WRAP,
-      maxHeight: 125,
+      maxHeight: 115,
       leading: 10,
       tags: {
         total: node => {
