@@ -99,6 +99,10 @@ export default class KittenNode extends InteractiveHighlightingNode {
       size: new Dimension2( 26, 13 ),
       focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
+      accessibleName: NumberPairsStrings.a11y.changeColorStringProperty,
+      leftValueContextResponse: NumberPairsStrings.a11y.yellowStringProperty,
+      rightValueContextResponse: NumberPairsStrings.a11y.blueStringProperty,
+      accessibleSwitch: false, // This switch does not use boolean values. Read accessibleSwitch documentation for more.
       thumbFill: new DerivedProperty( [
           countingObject.addendTypeProperty,
           NumberPairsColors.attributeLeftAddendColorProperty,
