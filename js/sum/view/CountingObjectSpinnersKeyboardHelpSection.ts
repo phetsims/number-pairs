@@ -25,7 +25,7 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
     } );
     super( NumberPairsStrings.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
       KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
-        labelInnerContent: NumberPairsStrings.a11y.adjustObjectsStringProperty
+        labelInnerContent: NumberPairsStrings.a11y.adjustObjectsKeyboardHelpStringProperty
       } )
     ] );
   }

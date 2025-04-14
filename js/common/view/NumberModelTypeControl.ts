@@ -44,12 +44,18 @@ export default class NumberModelTypeControl extends PreferencesControl {
         {
           createNode: () => new NumberBondNode( syntheticNumberPairsModel, { iconOnly: true } ),
           value: NumberModelType.NUMBER_BOND_MODEL,
-          tandemName: 'numberBondModelRadioButton'
+          tandemName: 'numberBondModelRadioButton',
+          options: {
+            accessibleName: NumberPairsStrings.numberBondStringProperty
+          }
         },
         {
           createNode: () => new BarModelNode( syntheticNumberPairsModel, { iconOnly: true } ),
           value: NumberModelType.BAR_MODEL,
-          tandemName: 'barModelRadioButton'
+          tandemName: 'barModelRadioButton',
+          options: {
+            accessibleName: NumberPairsStrings.barModelStringProperty
+          }
         }
       ], {
         orientation: 'horizontal',
@@ -60,6 +66,8 @@ export default class NumberModelTypeControl extends PreferencesControl {
           xMargin: 15,
           baseColor: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
         },
+        accessibleName: NumberPairsStrings.numberModelTypeStringProperty,
+        accessibleHelpText: NumberPairsStrings.numberModelTypeDescriptionStringProperty,
 
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
