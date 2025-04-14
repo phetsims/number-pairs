@@ -138,6 +138,21 @@
     "value": "On the sum screen only, this changes the orientation of the total in the number decomposition model."
   },
   "a11y": {
+    "changeColor": {
+      "value": "Change Color"
+    },
+    "yellow": {
+      "value": "Yellow"
+    },
+    "blue": {
+      "value": "Blue"
+    },
+    "totalOnTop": {
+      "value": "Total on Top"
+    },
+    "totalOnBottom": {
+      "value": "Total on Bottom"
+    },
     "phraseHelpText": {
       "value": "Read phrase aloud."
     },
@@ -247,21 +262,21 @@
       "value": "Home"
     },
     "end": {
-        "value": "End"
+      "value": "End"
     },
     "moveAcrossDescriptionPattern": {
-        "value": "Move grabbed {{item}} to {{addend}} side with {{key}} key."
+      "value": "Move grabbed {{item}} to {{addend}} side with {{key}} key."
     },
-    "jumpToFirstKitten": {
+    "jumpToFirstKittenKeyboardHelp": {
       "value": "Jump to first kitten with Home key."
     },
-    "jumpToLastKitten": {
+    "jumpToLastKittenKeyboardHelp": {
       "value": "Jump to last kitten with End key."
     },
-    "changeColor": {
-        "value": "Change color with Space or Enter key."
+    "changeColorKeyboardHelp": {
+      "value": "Change color with Space or Enter key."
     },
-    "adjustObjects": {
+    "adjustObjectsKeyboardHelp": {
       "value": "Adjust number of objects with arrow keys."
     }
   }

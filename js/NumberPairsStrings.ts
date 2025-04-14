@@ -73,6 +73,11 @@ type StringsType = {
   'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
   'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
   'a11y': {
+    'changeColorStringProperty': LocalizedStringProperty;
+    'yellowStringProperty': LocalizedStringProperty;
+    'blueStringProperty': LocalizedStringProperty;
+    'totalOnTopStringProperty': LocalizedStringProperty;
+    'totalOnBottomStringProperty': LocalizedStringProperty;
     'phraseHelpTextStringProperty': LocalizedStringProperty;
     'totalNumberPatternStringProperty': LocalizedStringProperty;
     'representationTypeStringProperty': LocalizedStringProperty;
@@ -111,10 +116,10 @@ type StringsType = {
     'homeStringProperty': LocalizedStringProperty;
     'endStringProperty': LocalizedStringProperty;
     'moveAcrossDescriptionPatternStringProperty': LocalizedStringProperty;
-    'jumpToFirstKittenStringProperty': LocalizedStringProperty;
-    'jumpToLastKittenStringProperty': LocalizedStringProperty;
-    'changeColorStringProperty': LocalizedStringProperty;
-    'adjustObjectsStringProperty': LocalizedStringProperty;
+    'jumpToFirstKittenKeyboardHelpStringProperty': LocalizedStringProperty;
+    'jumpToLastKittenKeyboardHelpStringProperty': LocalizedStringProperty;
+    'changeColorKeyboardHelpStringProperty': LocalizedStringProperty;
+    'adjustObjectsKeyboardHelpStringProperty': LocalizedStringProperty;
   }
 };
 

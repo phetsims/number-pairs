@@ -61,7 +61,10 @@ export default class NumberModelOrientationControl extends PreferencesControl {
             }
           ] ),
           value: false,
-          tandemName: 'totalOnBottomRadioButton'
+          tandemName: 'totalOnBottomRadioButton',
+          options: {
+            accessibleName: NumberPairsStrings.a11y.totalOnBottomStringProperty
+          }
         },
         {
           createNode: () => new ToggleNode( NumberPairsPreferences.numberModelTypeProperty, [
@@ -79,7 +82,10 @@ export default class NumberModelOrientationControl extends PreferencesControl {
             }
           ] ),
           value: true,
-          tandemName: 'totalOnTopRadioButton'
+          tandemName: 'totalOnTopRadioButton',
+          options: {
+            accessibleName: NumberPairsStrings.a11y.totalOnTopStringProperty
+          }
         }
       ], {
         radioButtonOptions: {
@@ -90,6 +96,8 @@ export default class NumberModelOrientationControl extends PreferencesControl {
         orientation: 'horizontal',
         tandem: providedOptions.tandem.createTandem( 'radioButtonGroup' ),
         isDisposable: false,
+        accessibleName: NumberPairsStrings.sumScreenNumberModelOrientationStringProperty,
+        accessibleHelpText: NumberPairsStrings.sumScreenNumberModelOrientationDescriptionStringProperty,
 
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
