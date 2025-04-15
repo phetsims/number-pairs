@@ -209,7 +209,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const toggleAddendKeyboardListener = new KeyboardListener( {
       keys: [ 'space', 'enter' ],
       press: () => {
-        if ( kittenAttributeSwitch.visible ) {
+        if ( kittenAttributeSwitch.visible && kittenAttributeSwitch.enabled ) {
           isLeftAddendProperty.toggle();
           isLeftAddendProperty.value ? switchToLeftSoundPlayer.play() : switchToRightSoundPlayer.play();
         }
