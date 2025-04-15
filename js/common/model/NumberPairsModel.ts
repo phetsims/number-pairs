@@ -617,8 +617,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
    */
   public static getGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] {
     const rowNumber = 4;
-    const topMargin = 9;
-    const bottomMargin = 58;
+    const topMargin = 11;
+    const bottomMargin = 56;
     assert && assert( columnNumber * rowNumber >= NumberPairsConstants.TWENTY_TOTAL_RANGE.max, 'There are not enough cells for the possible amount of counting objects.' );
 
     const columnWidth = ( bounds.width - rightMargin - leftMargin ) / columnNumber;
