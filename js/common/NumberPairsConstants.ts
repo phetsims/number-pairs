@@ -77,7 +77,7 @@ const NumberPairsConstants = {
 
   // Kitten specific values:
   KITTEN_PANEL_WIDTH: KITTEN_PANEL_WIDTH,
-  KITTEN_PANEL_HEIGHT: 86,
+  KITTEN_PANEL_HEIGHT: 84,
   KITTEN_PANEL_MARGIN: 3,
 
   GET_DROP_ZONE_BOUNDS: ( zoneCenter: Vector2 ): Bounds2 => {
