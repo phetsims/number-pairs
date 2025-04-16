@@ -37,7 +37,7 @@ import RepresentationType from './RepresentationType.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
 import TGenericNumberPairsModel from './TGenericNumberPairsModel.js';
 
-type AnimationTarget = {
+export type AnimationTarget = {
   property: Property<Vector2>;
   to: Vector2;
 };
