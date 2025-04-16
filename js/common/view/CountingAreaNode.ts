@@ -27,7 +27,7 @@ import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsModel, { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
@@ -121,8 +121,9 @@ export default class CountingAreaNode extends Node {
     const dragBounds = positionPropertyType === 'attribute' ? KittenNode.DRAG_BOUNDS : LocationCountingObjectNode.DRAG_BOUNDS;
     const positionProperty = positionPropertyType === 'attribute' ? droppedCountingObject.attributePositionProperty :
                              droppedCountingObject.locationPositionProperty;
-    this.sendToValidDropPoint( positionProperty, dragBounds );
-    const dropPoint = positionProperty.value;
+
+    const animationTargets: AnimationTarget[] = [ this.getValidDropPointTarget( positionProperty, dragBounds ) ];
+    const dropPoint = animationTargets[ 0 ].to;
     const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( dropPoint );
 
     // Find all the active counting objects that are half a panel width away from the dropped counting object.
@@ -136,26 +137,27 @@ export default class CountingAreaNode extends Node {
 
     if ( countingObjectsInsideDropZone.length !== 0 ) {
       // Animate the object to the closest boundary point of the drop zone.
-      const animationTargets = countingObjectsInsideDropZone.map( countingObject => {
+      countingObjectsInsideDropZone.forEach( countingObject => {
         const positionProperty = positionPropertyType === 'attribute' ?
                                  countingObject.attributePositionProperty : countingObject.locationPositionProperty;
         const destination = CountingAreaNode.getEmptyPoint( dropPoint, positionProperty.value, dragBounds );
 
-        return {
+        animationTargets.push( {
           property: positionProperty,
           to: destination
-        };
+        } );
       } );
-      this.model.countingObjectsAnimation?.stop();
-      this.model.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.model.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.model.countingObjectsAnimation = null;
-      } );
-      this.model.countingObjectsAnimation.start();
     }
+
+    this.model.countingObjectsAnimation?.stop();
+    this.model.countingObjectsAnimation = new Animation( {
+      duration: 0.4,
+      targets: animationTargets
+    } );
+    this.model.countingObjectsAnimation.endedEmitter.addListener( () => {
+      this.model.countingObjectsAnimation = null;
+    } );
+    this.model.countingObjectsAnimation.start();
 
     assert && assert( this.model.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.model.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -195,18 +197,19 @@ export default class CountingAreaNode extends Node {
     return currentPoint.distance( occupiedPoint ) >= randomPoint.distance( occupiedPoint ) ? currentPoint : randomPoint;
   }
 
-  private sendToValidDropPoint( positionProperty: Property<Vector2>, dragBounds: Bounds2 ): void {
+  /**
+   * Returns the closest boundary point of the drop zone if the position is outside the drag bounds.
+   * @param positionProperty
+   * @param dragBounds
+   */
+  private getValidDropPointTarget( positionProperty: Property<Vector2>, dragBounds: Bounds2 ): AnimationTarget {
     const dropPoint = dragBounds.containsPoint( positionProperty.value ) ?
                       positionProperty.value : dragBounds.closestBoundaryPointTo( positionProperty.value );
 
-    const animation = new Animation( {
-      duration: 0.4,
-      targets: [ {
-        property: positionProperty,
-        to: dropPoint
-      } ]
-    } );
-    animation.start();
+    return {
+      property: positionProperty,
+      to: dropPoint
+    };
   }
 }
 
