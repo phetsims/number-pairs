@@ -41,6 +41,7 @@ import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js'
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import { equalsEpsilon } from '../../../../dot/js/util/equalsEpsilon.js';
 import { clamp } from '../../../../dot/js/util/clamp.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -63,7 +64,7 @@ export default class BeadsOnWireNode extends Node {
   private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
 
-  private beadDragging = false;
+  private readonly beadDraggingProperty = new BooleanProperty( false );
 
   // This flag is used during `home` and `end` keyboard behavior for the beads. We ignore bounds initially and then
   // shift positions accordingly once all the work is done.
@@ -112,27 +113,17 @@ export default class BeadsOnWireNode extends Node {
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
         countingObject,
+        this.beadDraggingProperty,
         {
           tandem: options.tandem.createTandem( `beadNode${i}` ),
-          onStartDrag: draggedBeadNode => {
-
-            // Interrupt the drag that's in progress. Multitouch support is too difficult and unnecessary.
-            if ( this.beadDragging ) {
-              this.beadModelToNodeMap.forEach( ( beadNode, countingObject ) => {
-                if ( beadNode !== draggedBeadNode ) {
-                  beadNode.interruptSubtreeInput();
-                }
-              } );
-            }
-            else {
-              this.beadDragging = true;
-            }
+          onStartDrag: () => {
+            this.beadDraggingProperty.value = true;
           },
           onDrag: ( pointerPoint: Vector2, beadNode: BeadNode ) => {
             this.handleBeadMove( pointerPoint, beadNode );
           },
           onEndDrag: () => {
-            this.beadDragging = false;
+            this.beadDraggingProperty.value = false;
             this.handleBeadDrop( beadNode );
           }
         } );
@@ -256,7 +247,7 @@ export default class BeadsOnWireNode extends Node {
 
       // If we are not dragging a bead was added or removed from the wire.
       // We also want to make sure that our values are in sync during state or scene changes.
-      if ( !this.beadDragging && leftAddend === leftAddendLength && rightAddend === rightAddendLength ) {
+      if ( !this.beadDraggingProperty.value && leftAddend === leftAddendLength && rightAddend === rightAddendLength ) {
         this.beadSeparatorCenterXProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewX( BeadManager.calculateBeadSeparatorXPosition( leftAddend ) );
 
         // We are only adding or removing beads in the sum screen.
@@ -264,7 +255,7 @@ export default class BeadsOnWireNode extends Node {
         // differently than when interacting with the CountingObjectSpinners. In a reset situation we will rely
         // on the initial values of the position Properties.
         if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && options.sumScreen &&
-             !model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value && !this.beadDragging ) {
+             !model.groupSelectBeadsModel.isGroupItemKeyboardGrabbedProperty.value && !this.beadDraggingProperty.value ) {
           this.model.beadManager.updateBeadPositions( leftAddend );
         }
 
