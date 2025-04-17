@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-rc.1 Thu Apr 17 2025 14:44:04 GMT-0700 (Pacific Daylight Time)",
+  "comment": "# number-pairs 1.0.0-rc.2 Thu Apr 17 2025 15:31:52 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -14,7 +14,7 @@
   },
   "chipper": {
     "sha": "20f42cea7fed8d574992e056507310c0e2b20348",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "counting-common": {
     "sha": "4407de644f620896066975dac1d056b0a15d9fe0",
@@ -33,12 +33,12 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "c4c4a8dd29aeeb50a17b3ef9df178651b2275dbd",
+    "sha": "5a45549dbd3a53733277461c5d2c475c0be9a100",
     "branch": "1.0"
   },
   "number-suite-common": {
     "sha": "5084f9859cad127991b36ddcf6fc4ff37cb85998",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "perennial-alias": {
     "sha": "5b2564349a8779bfcecd896ce8adf112e8be9354",
@@ -54,7 +54,7 @@
   },
   "phet-io-sim-specific": {
     "sha": "724abc08439e9bef2fce325e68e7357255ff4cf2",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "phet-io-wrappers": {
     "sha": "4169c3e77fcbc5a9d59c327b5be2c914e8815170",
@@ -78,7 +78,7 @@
   },
   "scenery-phet": {
     "sha": "00430212fa2634ccdb1db3dda22fa97ce7ea66d3",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "2c352426479cfa454cc08546d08edae8c93ffd13",
@@ -106,6 +106,6 @@
   },
   "utterance-queue": {
     "sha": "449209e8fdce26b0e9e1b1edae50bd0c33107602",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   }
 }
