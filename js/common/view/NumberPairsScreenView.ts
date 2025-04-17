@@ -47,6 +47,7 @@ import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -393,7 +394,9 @@ export default class NumberPairsScreenView extends ScreenView {
     options.equationAccordionBox && this.controlNodes.push( options.equationAccordionBox );
 
     // Position the counting representation radio buttons below the counting area.
-    representationRadioButtonGroup.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
+    ManualConstraint.create( this, [ representationRadioButtonGroup ], radioButtonGroupProxy => {
+      radioButtonGroupProxy.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
+    } );
   }
 
   /**
