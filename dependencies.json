@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-rc.1 Tue Apr 08 2025 11:29:51 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-pairs 1.0.0-rc.1 Thu Apr 17 2025 14:44:04 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -13,8 +13,8 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "00e9d9e7401639ec5ff9f2d062cb1684c6309b3e",
-    "branch": "HEAD"
+    "sha": "20f42cea7fed8d574992e056507310c0e2b20348",
+    "branch": "number-pairs-1.0"
   },
   "counting-common": {
     "sha": "4407de644f620896066975dac1d056b0a15d9fe0",
@@ -33,12 +33,12 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "0f0d57c497d1490e2654f47d7c02d65d8872c50c",
+    "sha": "c4c4a8dd29aeeb50a17b3ef9df178651b2275dbd",
     "branch": "1.0"
   },
   "number-suite-common": {
-    "sha": "d6e1469a1e0635469aa2e46f9147c543d81931df",
-    "branch": "HEAD"
+    "sha": "5084f9859cad127991b36ddcf6fc4ff37cb85998",
+    "branch": "number-pairs-1.0"
   },
   "perennial-alias": {
     "sha": "5b2564349a8779bfcecd896ce8adf112e8be9354",
@@ -53,8 +53,8 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "273a396246aae96e83282d840bf4c95c5d4bb5b7",
-    "branch": "HEAD"
+    "sha": "724abc08439e9bef2fce325e68e7357255ff4cf2",
+    "branch": "number-pairs-1.0"
   },
   "phet-io-wrappers": {
     "sha": "4169c3e77fcbc5a9d59c327b5be2c914e8815170",
@@ -77,8 +77,8 @@
     "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "296e5c032cc20961cc284fbad8320158917f0d44",
-    "branch": "HEAD"
+    "sha": "00430212fa2634ccdb1db3dda22fa97ce7ea66d3",
+    "branch": "number-pairs-1.0"
   },
   "sherpa": {
     "sha": "2c352426479cfa454cc08546d08edae8c93ffd13",
@@ -105,7 +105,7 @@
     "branch": "HEAD"
   },
   "utterance-queue": {
-    "sha": "ed9e7af1006263b58f49749219dc78bd886965bf",
-    "branch": "HEAD"
+    "sha": "449209e8fdce26b0e9e1b1edae50bd0c33107602",
+    "branch": "number-pairs-1.0"
   }
 }
