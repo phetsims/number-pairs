@@ -24,6 +24,7 @@ import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import beadYellow_svg from '../../../images/beadYellow_svg.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;
@@ -37,6 +38,7 @@ type BeadNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
 export default class BeadNode extends InteractiveHighlightingNode {
   public constructor(
     public readonly countingObject: CountingObject,
+    beadDraggingProperty: Property<boolean>,
     providedOptions: BeadNodeOptions ) {
 
     // giving the bead image an extra 1 width allows the outlines to line up cleanly when next to each other.
@@ -66,6 +68,7 @@ export default class BeadNode extends InteractiveHighlightingNode {
     super( options );
     let startDragOffset: Vector2;
     const dragListener = new SoundDragListener( {
+      canStartPress: () => !beadDraggingProperty.value,
       start: event => {
         options.onStartDrag( this );
         startDragOffset = event.pointer.point.minus( this.parentToGlobalPoint( this.center ) );
