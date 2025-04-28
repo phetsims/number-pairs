@@ -181,8 +181,8 @@ export default class SumModel extends NumberPairsModel {
         if ( rightAddendDelta > 0 ) {
           assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
 
-          // We use the immutable `slice` here because removing and item from the inactiveCountingObjects array
-          // should be handled by the addend specific ObservableArray.
+          // We use the immutable `slice` here because removing an item from the inactiveCountingObjects array
+          // should be handled by the addend-specific ObservableArray.
           rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, rightAddendDelta ) );
         }
         else if ( rightAddendDelta < 0 ) {
