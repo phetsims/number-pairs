@@ -109,7 +109,8 @@ type StringsType = {
     'organizeObjectsHelpTextPatternStringProperty': LocalizedStringProperty;
     'locationCountingObjectsHelpTextStringProperty': LocalizedStringProperty;
     'beadsHelpTextStringProperty': LocalizedStringProperty;
-    'kittenStringProperty': LocalizedStringProperty;
+    'blueKittenStringProperty': LocalizedStringProperty;
+    'yellowKittenStringProperty': LocalizedStringProperty;
     'kittensHelpTextStringProperty': LocalizedStringProperty;
     'yellowObjectsStringProperty': LocalizedStringProperty;
     'blueObjectsStringProperty': LocalizedStringProperty;

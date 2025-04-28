@@ -246,11 +246,14 @@
     "beadsHelpText": {
       "value": "Counting area with grabbable and movable beads."
     },
-    "kitten": {
-      "value": "Kitten"
+    "blueKitten": {
+      "value": "Blue Kitten"
+    },
+    "yellowKitten": {
+      "value": "Yellow Kitten"
     },
     "kittensHelpText": {
-      "value": "Movable kitten."
+      "value": "Change kitten color and move kittens around to play."
     },
     "yellowObjects": {
       "value": "Yellow Objects"
