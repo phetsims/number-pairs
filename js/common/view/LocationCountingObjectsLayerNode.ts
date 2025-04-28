@@ -23,6 +23,7 @@ import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
+import Property from '../../../../axon/js/Property.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -72,7 +73,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
       soundKeyboardDragListenerOptions: {
         dragDelta: 15,
         shiftDragDelta: 8,
-        positionProperty: selectedItemPositionProperty
+        positionProperty: selectedItemPositionProperty,
+        dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
       },
       getGroupItemToSelect: () => {
         const countingObjects = model.getCountingObjectsSortedByLocationPosition().filter( countingObject =>
