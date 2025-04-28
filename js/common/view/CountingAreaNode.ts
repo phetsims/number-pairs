@@ -140,7 +140,7 @@ export default class CountingAreaNode extends Node {
       countingObjectsInsideDropZone.forEach( countingObject => {
         const positionProperty = positionPropertyType === 'attribute' ?
                                  countingObject.attributePositionProperty : countingObject.locationPositionProperty;
-        const destination = CountingAreaNode.getEmptyPoint( dropPoint, positionProperty.value, dragBounds );
+        const destination = CountingAreaNode.getNearbyEmptyPoint( dropPoint, positionProperty.value, dragBounds );
 
         animationTargets.push( {
           property: positionProperty,
@@ -164,13 +164,13 @@ export default class CountingAreaNode extends Node {
   }
 
   /**
-   * Returns a point that is no longer overlapping the occupied point.
+   * Returns a point that no longer overlaps the occupied point. Prefers points that are near the current point.
    * @param occupiedPoint
    * @param currentPoint
    * @param validBounds
    * @param minRatio - The minimum ratio of the panel width to use when finding a new point.
    */
-  public static getEmptyPoint( occupiedPoint: Vector2, currentPoint: Vector2, validBounds: Bounds2, minRatio = 0.5 ): Vector2 {
+  public static getNearbyEmptyPoint( occupiedPoint: Vector2, currentPoint: Vector2, validBounds: Bounds2, minRatio = 0.5 ): Vector2 {
 
     // Find 4 points that are between a panel width or half a panel width away from the current position.
     const panelWidthRatio = dotRandom.nextDoubleBetween( minRatio, 1 );
@@ -195,6 +195,31 @@ export default class CountingAreaNode extends Node {
     // point inside the valid bounds.
     const randomPoint = pointsInBounds.length === 0 ? dotRandom.nextPointInBounds( validBounds ) : dotRandom.sample( pointsInBounds );
     return currentPoint.distance( occupiedPoint ) >= randomPoint.distance( occupiedPoint ) ? currentPoint : randomPoint;
+  }
+
+  /**
+   * Returns a random point that does not overlap any of the occupied points.
+   * @param occupiedPoints
+   * @param validBounds
+   * @param minRatio - The minimum ratio of the panel width to use when finding a new point.
+   */
+  public static getRandomEmptyPoint( occupiedPoints: Vector2[], validBounds: Bounds2, minRatio = 0.5 ): Vector2 {
+    let recursionDepth = 0;
+    let point = dotRandom.nextPointInBounds( validBounds );
+    
+    const isPointTooClose = ( point: Vector2 ): boolean => {
+      return occupiedPoints.some( occupiedPoint =>
+        point.distance( occupiedPoint ) < NumberPairsConstants.KITTEN_PANEL_WIDTH * minRatio
+      );
+    };
+
+    while ( isPointTooClose( point ) ) {
+      recursionDepth += 1;
+      assert && assert( recursionDepth <= 100, 'We tried to find an empty point but it took us over 100 tries.' );
+      point = dotRandom.nextPointInBounds( validBounds );
+    }
+    
+    return point;
   }
 
   /**

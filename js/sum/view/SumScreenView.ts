@@ -28,6 +28,10 @@ import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import KittenNode from '../../common/view/KittenNode.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -143,6 +147,24 @@ export default class SumScreenView extends NumberPairsScreenView {
 
     this.addChild( addendSpinners );
     this.numberPairsSetPDOMOrder( addendSpinners );
+
+    model.inactiveCountingObjects.addItemRemovedListener( removedCountingObject => {
+      if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
+
+        // The counting object may have already been added to another observable array before this listener fires,
+        // and we don't want to compare it with itself later.
+        const countingObjects = [ ...model.leftAddendCountingObjectsProperty.value, ...model.rightAddendCountingObjectsProperty.value ]
+          .filter( countingObject => countingObject !== removedCountingObject );
+
+        // We assume that if a counting object is removed from the inactiveCountingObjectsArray it is being added to the
+        // counting area and may need to update its position. Check if the newly active counting object is too close
+        // to any other counting object and find a new point if so.
+        const positions = countingObjects.map( countingObject => countingObject.attributePositionProperty.value );
+        if ( positions.some( position => position.distance( removedCountingObject.attributePositionProperty.value ) < NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 ) ) {
+          removedCountingObject.attributePositionProperty.value = CountingAreaNode.getRandomEmptyPoint( positions, KittenNode.DRAG_BOUNDS );
+        }
+      }
+    } );
   }
 
   /**

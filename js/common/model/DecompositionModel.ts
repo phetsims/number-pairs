@@ -147,7 +147,7 @@ export default class DecompositionModel extends NumberPairsModel {
       superOptions
     );
 
-    // Register the observable arrays in each scene to properly update Counting Object state as necessary.
+    // Register the observable arrays in each scene to properly update the Counting Object state as necessary.
     sceneModels.forEach( sceneModel => {
       this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects, sceneModel.inactiveCountingObjects );
 

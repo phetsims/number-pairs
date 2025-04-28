@@ -15,12 +15,7 @@ import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
-import CountingObject from '../model/CountingObject.js';
-import CountingAreaNode from './CountingAreaNode.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
@@ -30,8 +25,6 @@ type SelfOptions = {
 
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
 export default class DecompositionScreenView extends NumberPairsScreenView {
-  private recursionDepth = 0;
-
   protected constructor( model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );
 
@@ -57,7 +50,7 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
       xAlign: 'right'
     } );
 
-    // Whenever the selected scene changes we want to go through the location and attribute representations to ensure
+    // Whenever the selected scene changes, we want to go through the location and attribute representations to ensure
     // that no overlaps are occurring.
     model.selectedSceneProperty.link( sceneModel => {
       if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
@@ -82,50 +75,6 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     this.addChild( totalSelectorAlignBox );
 
     this.numberPairsSetPDOMOrder( sceneSelectionRadioButtonGroup );
-  }
-
-  /**
-   * A recursive function that ensures that no two counting objects overlap in the location representation.
-   * @param positionProperties - An array of position properties that we want to check for overlaps.
-   * @param validBounds - The bounds in which a position must stay within.
-   * @param minWidthRatio - Define the minimum panel width ratio that we want positions to potentially move over.
-   */
-  private handlePositionOverlap( positionProperties: Property<Vector2>[], validBounds: Bounds2, minWidthRatio: number ): CountingObject[] {
-    this.recursionDepth += 1;
-    assert && assert( this.recursionDepth < 100, 'infinite recursion detected' );
-
-    // Our base case is when there is only one or zero counting objects left.
-    // We also want to gracefully stop trying to handle overlap if we're stuck in an infinite recursion.
-    if ( positionProperties.length <= 1 || this.recursionDepth > 100 ) {
-      this.recursionDepth = 0;
-      return [];
-    }
-    else {
-
-      // keep track of the counting object we are currently on and it's position.
-      const currentPositionProperty = positionProperties[ 0 ];
-      const currentPosition = currentPositionProperty.value;
-      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( currentPosition );
-
-      // Find any counting objects that may be overlapping and move them to a new position.
-      const overlappingPositions = positionProperties.filter( positionProperty => dropZoneBounds.containsPoint( positionProperty.value ) );
-      overlappingPositions.length > 1 && overlappingPositions.forEach( overlappingPosition => {
-        overlappingPosition.value = CountingAreaNode.getEmptyPoint( currentPosition, overlappingPosition.value, validBounds, minWidthRatio );
-      } );
-
-      // If there was only one overlapping object, we can move on to the next counting object.
-      if ( overlappingPositions.length <= 1 ) {
-        return this.handlePositionOverlap( positionProperties.slice( 1 ), validBounds, minWidthRatio );
-      }
-      else {
-
-        // If there were multiple overlapping objects, we need to move the first counting object to the back of the array
-        // So that we can check for future overlaps again.
-        positionProperties.shift();
-        positionProperties.push( currentPositionProperty );
-        return this.handlePositionOverlap( positionProperties, validBounds, minWidthRatio );
-      }
-    }
   }
 
   /**

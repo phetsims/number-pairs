@@ -48,6 +48,9 @@ import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.j
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import CountingObject from '../model/CountingObject.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -62,7 +65,7 @@ export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenView
 const COUNTING_AREA_Y_MARGIN = NumberPairsConstants.COUNTING_AREA_Y_MARGIN;
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 export default class NumberPairsScreenView extends ScreenView {
-
+  private recursionDepth = 0;
   protected readonly resetAllButton: Node;
   protected readonly countingAreaButtonsVBox: Node;
   protected readonly numberLineCheckboxGroup: Node | undefined;
@@ -397,6 +400,50 @@ export default class NumberPairsScreenView extends ScreenView {
     ManualConstraint.create( this, [ representationRadioButtonGroup ], radioButtonGroupProxy => {
       radioButtonGroupProxy.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
     } );
+  }
+
+  /**
+   * A recursive function that ensures that no two counting objects overlap.
+   * @param positionProperties - An array of position properties that we want to check for overlaps.
+   * @param validBounds - The bounds in which a position must stay within.
+   * @param minWidthRatio - Define the minimum panel width ratio that we want positions to potentially move over.
+   */
+  protected handlePositionOverlap( positionProperties: Property<Vector2>[], validBounds: Bounds2, minWidthRatio: number ): CountingObject[] {
+    this.recursionDepth += 1;
+    assert && assert( this.recursionDepth < 100, 'infinite recursion detected' );
+
+    // Our base case is when there is only one or zero counting objects left.
+    // We also want to gracefully stop trying to handle overlap if we're stuck in an infinite recursion.
+    if ( positionProperties.length <= 1 || this.recursionDepth > 100 ) {
+      this.recursionDepth = 0;
+      return [];
+    }
+    else {
+
+      // keep track of the counting object we are currently on and it's position.
+      const currentPositionProperty = positionProperties[ 0 ];
+      const currentPosition = currentPositionProperty.value;
+      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( currentPosition );
+
+      // Find any counting objects that may be overlapping and move them to a new position.
+      const overlappingPositions = positionProperties.filter( positionProperty => dropZoneBounds.containsPoint( positionProperty.value ) );
+      overlappingPositions.length > 1 && overlappingPositions.forEach( overlappingPosition => {
+        overlappingPosition.value = CountingAreaNode.getNearbyEmptyPoint( currentPosition, overlappingPosition.value, validBounds, minWidthRatio );
+      } );
+
+      // If there was only one overlapping object, we can move on to the next counting object.
+      if ( overlappingPositions.length <= 1 ) {
+        return this.handlePositionOverlap( positionProperties.slice( 1 ), validBounds, minWidthRatio );
+      }
+      else {
+
+        // If there were multiple overlapping objects, we need to move the first counting object to the back of the array
+        // So that we can check for future overlaps again.
+        positionProperties.shift();
+        positionProperties.push( currentPositionProperty );
+        return this.handlePositionOverlap( positionProperties, validBounds, minWidthRatio );
+      }
+    }
   }
 
   /**
