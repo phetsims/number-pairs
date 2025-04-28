@@ -24,6 +24,7 @@ import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js'
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import Property from '../../../../axon/js/Property.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -131,14 +132,28 @@ export default class LocationCountingObjectsLayerNode extends Node {
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
 
-    // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
-    // corresponding node. When we are no longer grabbed we want to go through the drop logic.
+    const itemsStringProperty = new DynamicProperty( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+      representation.accessibleName ) );
+    const itemStringProperty = new DynamicProperty( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+    representation.singularAccessibleName ) );
+
+    const navigatePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.navigatePatternStringProperty, {
+      items: itemsStringProperty
+    } );
+    const movePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.movePatternStringProperty, {
+      item: itemStringProperty
+    } );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
+
+      // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
+      // corresponding node. When we are no longer grabbed we want to go through the drop logic.
       const selectedGroupItem = model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value;
       selectedGroupItem && selectedGroupItem.isDraggingProperty.set( isGrabbed );
       if ( !isGrabbed && selectedGroupItem ) {
         countingAreaNode.dropCountingObject( selectedGroupItem, 'location' );
       }
+
+      this.accessibleName = isGrabbed ? movePatternStringProperty : navigatePatternStringProperty;
     } );
 
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {

@@ -89,11 +89,16 @@ type StringsType = {
     'showAddendsStringProperty': LocalizedStringProperty;
     'hideAddendsStringProperty': LocalizedStringProperty;
     'applesStringProperty': LocalizedStringProperty;
+    'appleStringProperty': LocalizedStringProperty;
     'soccerBallsStringProperty': LocalizedStringProperty;
+    'soccerBallStringProperty': LocalizedStringProperty;
     'butterfliesStringProperty': LocalizedStringProperty;
+    'butterflyStringProperty': LocalizedStringProperty;
     'onesStringProperty': LocalizedStringProperty;
+    'oneStringProperty': LocalizedStringProperty;
     'kittensStringProperty': LocalizedStringProperty;
     'beadsStringProperty': LocalizedStringProperty;
+    'beadStringProperty': LocalizedStringProperty;
     'numberLineStringProperty': LocalizedStringProperty;
     'countOnStringProperty': LocalizedStringProperty;
     'countFromZeroStringProperty': LocalizedStringProperty;
@@ -111,8 +116,8 @@ type StringsType = {
     'countingObjectControlHelpTextPatternStringProperty': LocalizedStringProperty;
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
-    'navigateBeadsStringProperty': LocalizedStringProperty;
-    'moveBeadStringProperty': LocalizedStringProperty;
+    'navigatePatternStringProperty': LocalizedStringProperty;
+    'movePatternStringProperty': LocalizedStringProperty;
     'homeStringProperty': LocalizedStringProperty;
     'endStringProperty': LocalizedStringProperty;
     'moveAcrossDescriptionPatternStringProperty': LocalizedStringProperty;

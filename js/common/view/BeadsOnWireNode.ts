@@ -2,9 +2,9 @@
 
 /**
  * Beads are arranged in two groups, one for each addend. All the beads are lined up on a "wire" and can be dragged
- * to either the left or right of the separator. Because the beads are on a wire, when you drag one bead any bead it
- * touches in the direction of the drag will move with it. The number of beads in each group is determined by the
- * addend values. The number of visible beads is determined by the total value.
+ * to either the left or right of the separator. Because the beads are on a wire, when you drag one bead, any bead it
+ * touches in the direction of the drag will move with it. The addend values determine the number of beads in each
+ * group. The total value determines the number of visible beads.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
@@ -42,6 +42,8 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import { equalsEpsilon } from '../../../../dot/js/util/equalsEpsilon.js';
 import { clamp } from '../../../../dot/js/util/clamp.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import RepresentationType from '../model/RepresentationType.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -96,10 +98,18 @@ export default class BeadsOnWireNode extends Node {
     } );
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
+    // Create the responsive accessible names for the beads.
+    const navigatePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.navigatePatternStringProperty, {
+      items: RepresentationType.BEADS.accessibleName
+    } );
+    const movePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.movePatternStringProperty, {
+      item: RepresentationType.BEADS.singularAccessibleName
+    } );
+
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-      accessibleName: NumberPairsStrings.a11y.navigateBeadsStringProperty,
+      accessibleName: navigatePatternStringProperty,
       accessibleHelpText: NumberPairsStrings.a11y.beadsHelpTextStringProperty
     }, providedOptions );
 
@@ -235,7 +245,7 @@ export default class BeadsOnWireNode extends Node {
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
     groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
     groupSelectModel.isGroupItemKeyboardGrabbedProperty.link( grabbed => {
-      this.accessibleName = grabbed ? NumberPairsStrings.a11y.moveBeadStringProperty : NumberPairsStrings.a11y.navigateBeadsStringProperty;
+      this.accessibleName = grabbed ? movePatternStringProperty : navigatePatternStringProperty;
     } );
 
     Multilink.multilink( [
