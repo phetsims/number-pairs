@@ -74,7 +74,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
-      accessibleName: NumberPairsStrings.a11y.kittenStringProperty,
+      accessibleName: NumberPairsStrings.a11y.yellowKittenStringProperty,
       accessibleHelpText: NumberPairsStrings.a11y.kittensHelpTextStringProperty,
       focusable: true
     }, providedOptions );
@@ -151,6 +151,9 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     this.focusPanel = focusPanel;
     this.countingObject = countingObject;
+    isLeftAddendProperty.link( isLeftAddend => {
+      this.accessibleName = isLeftAddend ? NumberPairsStrings.a11y.yellowKittenStringProperty : NumberPairsStrings.a11y.blueKittenStringProperty;
+    } );
 
     focusPanel.center = this.center;
 
