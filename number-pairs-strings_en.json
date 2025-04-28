@@ -186,20 +186,35 @@
     "apples": {
       "value": "Apples"
     },
+    "apple": {
+      "value": "Apple"
+    },
     "soccerBalls": {
       "value": "Soccer Balls"
+    },
+    "soccerBall": {
+      "value": "Soccer Ball"
     },
     "butterflies": {
       "value": "Butterflies"
     },
+    "butterfly": {
+      "value": "Butterfly"
+    },
     "ones": {
       "value": "Ones"
+    },
+    "one": {
+      "value": "One"
     },
     "kittens": {
       "value": "Kittens"
     },
     "beads": {
       "value": "Beads"
+    },
+    "bead": {
+      "value": "Bead"
     },
     "numberLine": {
       "value": "Number Line"
@@ -252,11 +267,11 @@
     "right": {
       "value": "right"
     },
-    "navigateBeads": {
-      "value": "Navigate Beads"
+    "navigatePattern": {
+      "value": "Navigate {{items}}"
     },
-    "moveBead": {
-      "value": "Move Bead"
+    "movePattern": {
+      "value": "Move {{item}}"
     },
     "home": {
       "value": "Home"
