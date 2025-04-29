@@ -22,6 +22,8 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [
@@ -34,7 +36,9 @@ const KEYBOARD_INTERACTION_KEYS = [
 type AvailablePressedKeys = typeof KEYBOARD_INTERACTION_KEYS[number];
 
 type SelfOptions = {
-  soundKeyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
+
+  // The positionProperty must be passed through the constructor instead.
+  soundKeyboardDragListenerOptions?: StrictOmit<SoundKeyboardDragListenerOptions, 'positionProperty'>;
   getNextSelectedGroupItemFromPressedKeys: ( keysPressed: AvailablePressedKeys, groupItem: CountingObject ) => CountingObject;
 
   // We use home and end keys to facilitate movement of the selected group item during drag
@@ -49,6 +53,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
   public constructor(
     groupSelectModel: GroupSelectModel<CountingObject>,
     primaryFocusedNode: Node,
+    positionProperty: TReadOnlyProperty<Vector2>,
     modelToNodeMap: Map<CountingObject, Node>,
     providedOptions: GroupSelectDragInteractionViewOptions
   ) {
@@ -59,11 +64,16 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     }, providedOptions );
     super( groupSelectModel, primaryFocusedNode, options );
 
-    const keyboardListenerOptions = combineOptions<SoundKeyboardDragListenerOptions>( {
+    const keyboardListenerOptions = combineOptions<WithRequired<SoundKeyboardDragListenerOptions, 'positionProperty'>>( {
+      positionProperty: positionProperty,
       enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     }, options.soundKeyboardDragListenerOptions );
     const keyboardDragListener = new SoundKeyboardDragListener( keyboardListenerOptions );
+    positionProperty.link( () => {
+      const selectedItem = groupSelectModel.selectedGroupItemProperty.value;
+      groupSelectModel.isGroupItemKeyboardGrabbedProperty && selectedItem && this.onGroupItemChange( selectedItem );
+    } );
 
     const selectItemKeyboardListener = new KeyboardListener( {
       fireOnHold: false,

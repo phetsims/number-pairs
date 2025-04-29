@@ -193,12 +193,11 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.beadModelToNodeMap, {
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.keyboardProposedBeadPositionProperty, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         dragDelta: 30,
         shiftDragDelta: 15,
         keyboardDragDirection: 'leftRight',
-        positionProperty: this.keyboardProposedBeadPositionProperty,
         transform: BeadManager.BEAD_MODEL_VIEW_TRANSFORM
       },
       getGroupItemToSelect: () => {

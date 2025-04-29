@@ -70,11 +70,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
       derive: countingObject => countingObject.locationPositionProperty,
       bidirectional: true
     } );
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.countingObjectModelToNodeMap, {
+    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, selectedItemPositionProperty,
+      this.countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         dragDelta: 15,
         shiftDragDelta: 8,
-        positionProperty: selectedItemPositionProperty,
         dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
       },
       getGroupItemToSelect: () => {
