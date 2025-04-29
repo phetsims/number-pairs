@@ -76,7 +76,10 @@ export default class NumberModelTypeControl extends PreferencesControl {
     super( combineOptions<PreferencesControlOptions>( {
       labelNode: new Text( NumberPairsStrings.numberModelTypeStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
       descriptionNode: new RichText( NumberPairsStrings.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
-      controlNode: radioButtonGroup
+      controlNode: radioButtonGroup,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions ) );
   }
 }

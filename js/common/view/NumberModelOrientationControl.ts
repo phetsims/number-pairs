@@ -105,7 +105,10 @@ export default class NumberModelOrientationControl extends PreferencesControl {
     super( combineOptions<PreferencesControlOptions>( {
       labelNode: new Text( NumberPairsStrings.sumScreenNumberModelOrientationStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
       descriptionNode: new RichText( NumberPairsStrings.sumScreenNumberModelOrientationDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
-      controlNode: radioButtonGroup
+      controlNode: radioButtonGroup,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions ) );
   }
 }
