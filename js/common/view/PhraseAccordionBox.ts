@@ -14,13 +14,13 @@ import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsStrings from '../../NumberPairsStrings.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -239,7 +239,13 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       }
     } );
 
-    options.titleNode = new Text( NumberPairsStrings.phraseStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+    const titleTextOptions = optionize3<TextOptions, EmptySelfOptions, TextOptions>()( {},
+      NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS, {
+        // The accordion box itself has a maxWidth. Having both defined causes the scaling down to compound. Therefore, we
+        // want to only define the maxWidth of the accordion box.
+        maxWidth: null
+      } );
+    options.titleNode = new Text( NumberPairsStrings.phraseStringProperty, titleTextOptions );
 
     super( phraseNode, options );
   }
