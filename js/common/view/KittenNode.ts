@@ -185,6 +185,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       },
       dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
       dragListenerOptions: {
+        allowTouchSnag: false,
         useParentOffset: true,
         tandem: providedOptions.tandem.createTandem( 'dragListener' ),
         end: () => {
