@@ -451,6 +451,7 @@ export default class NumberPairsScreenView extends ScreenView {
    */
   public reset(): void {
     this.resetAccordionBoxes();
+    numberPairsUtteranceQueue.cancelSpeechDataSpeaking();
   }
 }
 
