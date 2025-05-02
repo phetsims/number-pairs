@@ -63,6 +63,9 @@ class NumberPairsUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
     // screen changes. The DerivedProperty above covers most, but not all, cases when changing screens.
     // See https://github.com/phetsims/number-play/issues/217.
     selectedScreenProperty.lazyLink( () => {
+
+      // Cancel any speech currently in progress when changing screens.
+      this.cancelSpeechDataSpeaking();
       speechDataProperty.value && speechDataProperty.notifyListenersStatic();
     } );
 
