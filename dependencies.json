@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-rc.2 Mon May 05 2025 13:47:06 GMT-0700 (Pacific Daylight Time)",
+  "comment": "# number-pairs 1.0.0-rc.3 Mon May 05 2025 14:10:12 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -33,12 +33,12 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "ce8bb07a0084b933584dbad1403f567244a88581",
+    "sha": "118ae97837b1d4f3175b90f96c6d798b741bf72c",
     "branch": "1.0"
   },
   "number-suite-common": {
     "sha": "fb083d11738d79bb1bcce4b8293f7edc06e454d7",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "perennial-alias": {
     "sha": "5b2564349a8779bfcecd896ce8adf112e8be9354",
@@ -74,7 +74,7 @@
   },
   "scenery": {
     "sha": "70ecf04fc7db62861e3533f5611c14061415a6d4",
-    "branch": "number-pairs-1.0"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "00430212fa2634ccdb1db3dda22fa97ce7ea66d3",
