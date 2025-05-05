@@ -39,8 +39,8 @@ simLauncher.launch( () => {
   const options: SimOptions = {
     credits: {
       leadDesign: 'Cathy Carter',
-      softwareDevelopment: 'Chris Malley, Marla Schulz',
-      team: 'Dom Carorora, Sylvia Celedón-Pattichis, Amanda McGarry, Ariel Paul, Kathy Perkins, Taliesin Smith, Ian Whitacre',
+      softwareDevelopment: 'Marla Schulz',
+      team: 'Dom Carorora, Sylvia Celedón-Pattichis, Chris Malley, Amanda McGarry, Ariel Paul, Kathy Perkins, Taliesin Smith, Ian Whitacre',
       contributors: '',
       qualityAssurance: 'Nancy Salpepi, Matthew Moore, Valentina Pérez, Kathryn Woessner',
       graphicArts: 'Cathy Carter, Amanda McGarry',
