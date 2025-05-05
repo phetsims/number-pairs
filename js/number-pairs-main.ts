@@ -37,14 +37,12 @@ simLauncher.launch( () => {
   ];
 
   const options: SimOptions = {
-
-    //TODO https://github.com/phetsims/number-pairs/issues/3 fill in credits
     credits: {
       leadDesign: 'Cathy Carter',
       softwareDevelopment: 'Chris Malley, Marla Schulz',
-      team: '',
+      team: 'Dom Carorora, Sylvia Celedón-Pattichis, Amanda McGarry, Ariel Paul, Kathy Perkins, Taliesin Smith, Ian Whitacre',
       contributors: '',
-      qualityAssurance: '',
+      qualityAssurance: 'Nancy Salpepi, Matthew Moore, Valentina Pérez, Kathryn Woessner',
       graphicArts: 'Cathy Carter, Amanda McGarry',
       soundDesign: '',
       thanks: ''
