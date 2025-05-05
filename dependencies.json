@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-rc.2 Thu Apr 17 2025 15:31:52 GMT-0700 (Pacific Daylight Time)",
+  "comment": "# number-pairs 1.0.0-rc.2 Mon May 05 2025 13:47:06 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -33,12 +33,12 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "5a45549dbd3a53733277461c5d2c475c0be9a100",
+    "sha": "ce8bb07a0084b933584dbad1403f567244a88581",
     "branch": "1.0"
   },
   "number-suite-common": {
-    "sha": "5084f9859cad127991b36ddcf6fc4ff37cb85998",
-    "branch": "HEAD"
+    "sha": "fb083d11738d79bb1bcce4b8293f7edc06e454d7",
+    "branch": "number-pairs-1.0"
   },
   "perennial-alias": {
     "sha": "5b2564349a8779bfcecd896ce8adf112e8be9354",
@@ -73,8 +73,8 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "2dadc8f087e84d4f5ae85235e6b3c183042473cb",
-    "branch": "HEAD"
+    "sha": "70ecf04fc7db62861e3533f5611c14061415a6d4",
+    "branch": "number-pairs-1.0"
   },
   "scenery-phet": {
     "sha": "00430212fa2634ccdb1db3dda22fa97ce7ea66d3",
