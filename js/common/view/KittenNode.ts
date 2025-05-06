@@ -17,29 +17,29 @@ import Shape from '../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import Hotkey from '../../../../scenery/js/input/Hotkey.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
+import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsStrings from '../../NumberPairsStrings.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
-import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -183,11 +183,11 @@ export default class KittenNode extends InteractiveHighlightingNode {
         countingObject.kittenSelectedProperty.value = true;
         this.moveToFront();
       },
+      tandem: providedOptions.tandem,
       dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
       dragListenerOptions: {
         allowTouchSnag: false,
         useParentOffset: true,
-        tandem: providedOptions.tandem.createTandem( 'dragListener' ),
         end: () => {
           options.onEndDrag( countingObject, 'attribute' );
         }
@@ -203,8 +203,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
           options.onEndDrag( countingObject, 'attribute' );
         },
         dragDelta: 15,
-        shiftDragDelta: 8,
-        tandem: providedOptions.tandem.createTandem( 'keyboardDragListener' )
+        shiftDragDelta: 8
       }
     } );
 
