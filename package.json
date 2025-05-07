@@ -33,6 +33,7 @@
       "NUMBER_PAIRS/screen.twenty",
       "NUMBER_PAIRS/screen.sum",
       "NUMBER_PAIRS/screen.game"
-    ]
+    ],
+    "published": true
   }
 }
