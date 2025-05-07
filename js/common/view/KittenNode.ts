@@ -186,7 +186,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
       tandem: providedOptions.tandem,
       dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
       dragListenerOptions: {
-        allowTouchSnag: false,
         useParentOffset: true,
         end: () => {
           options.onEndDrag( countingObject, 'attribute' );
