@@ -210,11 +210,12 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty ],
-      ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern ) => {
+    Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty,
+        model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
+      ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern, leftAddend, rightAddend, total ) => {
 
         // We only want to update the speechDataProperty if the math checks out.
-        if ( model.leftAddendProperty.value + model.rightAddendProperty.value === model.totalProperty.value ) {
+        if ( leftAddend + rightAddend === total ) {
           options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
         }
       } );
