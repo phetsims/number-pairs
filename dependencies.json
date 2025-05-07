@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.0-rc.3 Mon May 05 2025 14:10:12 GMT-0700 (Pacific Daylight Time)",
+  "comment": "# number-pairs 1.0.0-rc.4 Wed May 07 2025 12:19:53 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "118ae97837b1d4f3175b90f96c6d798b741bf72c",
+    "sha": "2b433cf160f33031ae36f56198305fe1893aa563",
     "branch": "1.0"
   },
   "number-suite-common": {
