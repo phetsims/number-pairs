@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "c6d373d17eb563cd6cac55f5f9fbb515646f7795",
+    "sha": "8fc669c85f92efaf4e049c0bc514304383f685b3",
     "branch": "HEAD"
   },
   "kite": {
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "ad60d2bcec4487f0beae7a9e0a780e15d7954cd3",
+    "sha": "5cb7b4983382d72b8873e450cf8d897dc6ee0330",
     "branch": "1.0"
   },
   "number-suite-common": {
