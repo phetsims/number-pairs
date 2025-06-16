@@ -19,7 +19,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
 import numberPairs from '../../numberPairs.js';
-import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
+import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 

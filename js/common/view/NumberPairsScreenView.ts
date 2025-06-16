@@ -44,7 +44,7 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
+import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
