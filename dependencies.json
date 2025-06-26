@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 1.0.2-rc.1 Tue Jun 17 2025 20:02:01 GMT-0400 (Eastern Daylight Time)",
+  "comment": "# number-pairs 1.0.2 Thu Jun 26 2025 13:28:21 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "f6d41b399ad32df2a00ab4b329981be0c574d77a",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "1bd0ca17ef2e00ff638dee8d0df1d2e6e84115c6",
+    "sha": "1535f61cdb8e5a53632a395d18592fb23c5e6265",
     "branch": "1.0"
   },
   "number-suite-common": {
