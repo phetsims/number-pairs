@@ -231,7 +231,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
   public setAriaValues( value: string ): void {
     this.setInputValue( value );
-    this.ariaValueText = value;
+    this.setPDOMAttribute( 'aria-valuetext', value );
     this.setPDOMAttribute( 'aria-valuenow', value );
   }
 }
