@@ -67,21 +67,16 @@ addToMapIfDefined( 'numberModelType', 'numberModelTypeStringProperty' );
 addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
-addToMapIfDefined( 'a11y_changeColor', 'a11y.changeColorStringProperty' );
 addToMapIfDefined( 'a11y_yellow', 'a11y.yellowStringProperty' );
 addToMapIfDefined( 'a11y_blue', 'a11y.blueStringProperty' );
-addToMapIfDefined( 'a11y_totalOnTop', 'a11y.totalOnTopStringProperty' );
-addToMapIfDefined( 'a11y_totalOnBottom', 'a11y.totalOnBottomStringProperty' );
+addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
+addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
+addToMapIfDefined( 'a11y_home', 'a11y.homeStringProperty' );
+addToMapIfDefined( 'a11y_end', 'a11y.endStringProperty' );
 addToMapIfDefined( 'a11y_phraseHelpText', 'a11y.phraseHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_totalNumberPattern', 'a11y.totalNumberPatternStringProperty' );
-addToMapIfDefined( 'a11y_representationType', 'a11y.representationTypeStringProperty' );
 addToMapIfDefined( 'a11y_hearPhrase', 'a11y.hearPhraseStringProperty' );
-addToMapIfDefined( 'a11y_organizeObjectsPattern', 'a11y.organizeObjectsPatternStringProperty' );
-addToMapIfDefined( 'a11y_swapAddends', 'a11y.swapAddendsStringProperty' );
-addToMapIfDefined( 'a11y_showAddendPattern', 'a11y.showAddendPatternStringProperty' );
-addToMapIfDefined( 'a11y_hideAddendPattern', 'a11y.hideAddendPatternStringProperty' );
-addToMapIfDefined( 'a11y_showAddends', 'a11y.showAddendsStringProperty' );
-addToMapIfDefined( 'a11y_hideAddends', 'a11y.hideAddendsStringProperty' );
+addToMapIfDefined( 'a11y_representationType', 'a11y.representationTypeStringProperty' );
+addToMapIfDefined( 'a11y_representationTypeHelpText', 'a11y.representationTypeHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_apples', 'a11y.applesStringProperty' );
 addToMapIfDefined( 'a11y_apple', 'a11y.appleStringProperty' );
 addToMapIfDefined( 'a11y_soccerBalls', 'a11y.soccerBallsStringProperty' );
@@ -90,36 +85,41 @@ addToMapIfDefined( 'a11y_butterflies', 'a11y.butterfliesStringProperty' );
 addToMapIfDefined( 'a11y_butterfly', 'a11y.butterflyStringProperty' );
 addToMapIfDefined( 'a11y_ones', 'a11y.onesStringProperty' );
 addToMapIfDefined( 'a11y_one', 'a11y.oneStringProperty' );
-addToMapIfDefined( 'a11y_kittens', 'a11y.kittensStringProperty' );
-addToMapIfDefined( 'a11y_beads', 'a11y.beadsStringProperty' );
-addToMapIfDefined( 'a11y_bead', 'a11y.beadStringProperty' );
-addToMapIfDefined( 'a11y_numberLine', 'a11y.numberLineStringProperty' );
-addToMapIfDefined( 'a11y_countOn', 'a11y.countOnStringProperty' );
-addToMapIfDefined( 'a11y_countFromZero', 'a11y.countFromZeroStringProperty' );
 addToMapIfDefined( 'a11y_locationCountingObjects', 'a11y.locationCountingObjectsStringProperty' );
-addToMapIfDefined( 'a11y_totalCheckboxHelpText', 'a11y.totalCheckboxHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_chooseTotalHelpText', 'a11y.chooseTotalHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_representationTypeHelpText', 'a11y.representationTypeHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_organizeObjectsHelpTextPattern', 'a11y.organizeObjectsHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_locationCountingObjectsHelpText', 'a11y.locationCountingObjectsHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_beadsHelpText', 'a11y.beadsHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_blueKitten', 'a11y.blueKittenStringProperty' );
-addToMapIfDefined( 'a11y_yellowKitten', 'a11y.yellowKittenStringProperty' );
-addToMapIfDefined( 'a11y_kittensHelpText', 'a11y.kittensHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_yellowObjects', 'a11y.yellowObjectsStringProperty' );
-addToMapIfDefined( 'a11y_blueObjects', 'a11y.blueObjectsStringProperty' );
-addToMapIfDefined( 'a11y_countingObjectControlHelpTextPattern', 'a11y.countingObjectControlHelpTextPatternStringProperty' );
-addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
-addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
-addToMapIfDefined( 'a11y_navigatePattern', 'a11y.navigatePatternStringProperty' );
-addToMapIfDefined( 'a11y_movePattern', 'a11y.movePatternStringProperty' );
-addToMapIfDefined( 'a11y_home', 'a11y.homeStringProperty' );
-addToMapIfDefined( 'a11y_end', 'a11y.endStringProperty' );
-addToMapIfDefined( 'a11y_moveAcrossDescriptionPattern', 'a11y.moveAcrossDescriptionPatternStringProperty' );
-addToMapIfDefined( 'a11y_jumpToFirstKittenKeyboardHelp', 'a11y.jumpToFirstKittenKeyboardHelpStringProperty' );
-addToMapIfDefined( 'a11y_jumpToLastKittenKeyboardHelp', 'a11y.jumpToLastKittenKeyboardHelpStringProperty' );
-addToMapIfDefined( 'a11y_changeColorKeyboardHelp', 'a11y.changeColorKeyboardHelpStringProperty' );
-addToMapIfDefined( 'a11y_adjustObjectsKeyboardHelp', 'a11y.adjustObjectsKeyboardHelpStringProperty' );
+addToMapIfDefined( 'a11y_kittens_kittens', 'a11y.kittens.kittensStringProperty' );
+addToMapIfDefined( 'a11y_kittens_changeColor', 'a11y.kittens.changeColorStringProperty' );
+addToMapIfDefined( 'a11y_kittens_blueKitten', 'a11y.kittens.blueKittenStringProperty' );
+addToMapIfDefined( 'a11y_kittens_yellowKitten', 'a11y.kittens.yellowKittenStringProperty' );
+addToMapIfDefined( 'a11y_kittens_helpText', 'a11y.kittens.helpTextStringProperty' );
+addToMapIfDefined( 'a11y_kittens_jumpToFirstKeyboardHelp', 'a11y.kittens.jumpToFirstKeyboardHelpStringProperty' );
+addToMapIfDefined( 'a11y_kittens_jumpToLastKeyboardHelp', 'a11y.kittens.jumpToLastKeyboardHelpStringProperty' );
+addToMapIfDefined( 'a11y_kittens_changeColorKeyboardHelp', 'a11y.kittens.changeColorKeyboardHelpStringProperty' );
+addToMapIfDefined( 'a11y_beads_beads', 'a11y.beads.beadsStringProperty' );
+addToMapIfDefined( 'a11y_beads_bead', 'a11y.beads.beadStringProperty' );
+addToMapIfDefined( 'a11y_beads_helpText', 'a11y.beads.helpTextStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_numberLine', 'a11y.numberLine.numberLineStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_countOn', 'a11y.numberLine.countOnStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_countFromZero', 'a11y.numberLine.countFromZeroStringProperty' );
+addToMapIfDefined( 'a11y_total_totalOnTop', 'a11y.total.totalOnTopStringProperty' );
+addToMapIfDefined( 'a11y_total_totalOnBottom', 'a11y.total.totalOnBottomStringProperty' );
+addToMapIfDefined( 'a11y_total_totalNumberPattern', 'a11y.total.totalNumberPatternStringProperty' );
+addToMapIfDefined( 'a11y_total_checkboxHelpText', 'a11y.total.checkboxHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_total_chooseTotalHelpText', 'a11y.total.chooseTotalHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_organizeObjectsPattern', 'a11y.controls.organizeObjectsPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_organizeObjectsHelpTextPattern', 'a11y.controls.organizeObjectsHelpTextPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_swapAddends', 'a11y.controls.swapAddendsStringProperty' );
+addToMapIfDefined( 'a11y_controls_showAddendPattern', 'a11y.controls.showAddendPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_hideAddendPattern', 'a11y.controls.hideAddendPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_showAddends', 'a11y.controls.showAddendsStringProperty' );
+addToMapIfDefined( 'a11y_controls_hideAddends', 'a11y.controls.hideAddendsStringProperty' );
+addToMapIfDefined( 'a11y_controls_yellowObjects', 'a11y.controls.yellowObjectsStringProperty' );
+addToMapIfDefined( 'a11y_controls_blueObjects', 'a11y.controls.blueObjectsStringProperty' );
+addToMapIfDefined( 'a11y_controls_countingObjectControlHelpTextPattern', 'a11y.controls.countingObjectControlHelpTextPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_navigatePattern', 'a11y.controls.navigatePatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_movePattern', 'a11y.controls.movePatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_moveAcrossDescriptionPattern', 'a11y.controls.moveAcrossDescriptionPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_adjustObjectsKeyboardHelp', 'a11y.controls.adjustObjectsKeyboardHelpStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -186,6 +186,7 @@ const NumberPairsFluent = {
   addendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'addends', _.get( NumberPairsStrings, 'addendsStringProperty' ) ),
   tickNumbersStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'tickNumbers', _.get( NumberPairsStrings, 'tickNumbersStringProperty' ) ),
   totalJumpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'totalJump', _.get( NumberPairsStrings, 'totalJumpStringProperty' ) ),
+  _comment_0: new FluentComment( {"comment":"Total/Number model","associatedKey":"total"} ),
   totalStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'total', _.get( NumberPairsStrings, 'totalStringProperty' ) ),
   automaticallyHearPhraseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'automaticallyHearPhrase', _.get( NumberPairsStrings, 'automaticallyHearPhraseStringProperty' ) ),
   automaticallyHearPhraseDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'automaticallyHearPhraseDescription', _.get( NumberPairsStrings, 'automaticallyHearPhraseDescriptionStringProperty' ) ),
@@ -194,21 +195,19 @@ const NumberPairsFluent = {
   sumScreenNumberModelOrientationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'sumScreenNumberModelOrientation', _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ) ),
   sumScreenNumberModelOrientationDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'sumScreenNumberModelOrientationDescription', _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ) ),
   a11y: {
-    changeColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_changeColor', _.get( NumberPairsStrings, 'a11y.changeColorStringProperty' ) ),
+    _comment_0: new FluentComment( {"comment":"Colors and basic terms","associatedKey":"yellow"} ),
     yellowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_yellow', _.get( NumberPairsStrings, 'a11y.yellowStringProperty' ) ),
     blueStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_blue', _.get( NumberPairsStrings, 'a11y.blueStringProperty' ) ),
-    totalOnTopStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalOnTop', _.get( NumberPairsStrings, 'a11y.totalOnTopStringProperty' ) ),
-    totalOnBottomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalOnBottom', _.get( NumberPairsStrings, 'a11y.totalOnBottomStringProperty' ) ),
+    leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),
+    rightStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_right', _.get( NumberPairsStrings, 'a11y.rightStringProperty' ) ),
+    homeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_home', _.get( NumberPairsStrings, 'a11y.homeStringProperty' ) ),
+    endStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_end', _.get( NumberPairsStrings, 'a11y.endStringProperty' ) ),
+    _comment_1: new FluentComment( {"comment":"Phrase and interaction","associatedKey":"phraseHelpText"} ),
     phraseHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_phraseHelpText', _.get( NumberPairsStrings, 'a11y.phraseHelpTextStringProperty' ) ),
-    totalNumberPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.totalNumberPatternStringProperty' ), [{"name":"value"}] ),
-    representationTypeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationType', _.get( NumberPairsStrings, 'a11y.representationTypeStringProperty' ) ),
     hearPhraseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_hearPhrase', _.get( NumberPairsStrings, 'a11y.hearPhraseStringProperty' ) ),
-    organizeObjectsPattern: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_organizeObjectsPattern', _.get( NumberPairsStrings, 'a11y.organizeObjectsPatternStringProperty' ), [{"name":"representation"}] ),
-    swapAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_swapAddends', _.get( NumberPairsStrings, 'a11y.swapAddendsStringProperty' ) ),
-    showAddendPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_showAddendPattern', _.get( NumberPairsStrings, 'a11y.showAddendPatternStringProperty' ), [{"name":"addend"}] ),
-    hideAddendPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_hideAddendPattern', _.get( NumberPairsStrings, 'a11y.hideAddendPatternStringProperty' ), [{"name":"addend"}] ),
-    showAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_showAddends', _.get( NumberPairsStrings, 'a11y.showAddendsStringProperty' ) ),
-    hideAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_hideAddends', _.get( NumberPairsStrings, 'a11y.hideAddendsStringProperty' ) ),
+    _comment_2: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
+    representationTypeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationType', _.get( NumberPairsStrings, 'a11y.representationTypeStringProperty' ) ),
+    representationTypeHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationTypeHelpText', _.get( NumberPairsStrings, 'a11y.representationTypeHelpTextStringProperty' ) ),
     applesStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_apples', _.get( NumberPairsStrings, 'a11y.applesStringProperty' ) ),
     appleStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_apple', _.get( NumberPairsStrings, 'a11y.appleStringProperty' ) ),
     soccerBallsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_soccerBalls', _.get( NumberPairsStrings, 'a11y.soccerBallsStringProperty' ) ),
@@ -217,36 +216,59 @@ const NumberPairsFluent = {
     butterflyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_butterfly', _.get( NumberPairsStrings, 'a11y.butterflyStringProperty' ) ),
     onesStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_ones', _.get( NumberPairsStrings, 'a11y.onesStringProperty' ) ),
     oneStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_one', _.get( NumberPairsStrings, 'a11y.oneStringProperty' ) ),
-    kittensStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens', _.get( NumberPairsStrings, 'a11y.kittensStringProperty' ) ),
-    beadsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads', _.get( NumberPairsStrings, 'a11y.beadsStringProperty' ) ),
-    beadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_bead', _.get( NumberPairsStrings, 'a11y.beadStringProperty' ) ),
-    numberLineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine', _.get( NumberPairsStrings, 'a11y.numberLineStringProperty' ) ),
-    countOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countOn', _.get( NumberPairsStrings, 'a11y.countOnStringProperty' ) ),
-    countFromZeroStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countFromZero', _.get( NumberPairsStrings, 'a11y.countFromZeroStringProperty' ) ),
     locationCountingObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_locationCountingObjects', _.get( NumberPairsStrings, 'a11y.locationCountingObjectsStringProperty' ) ),
-    totalCheckboxHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalCheckboxHelpText', _.get( NumberPairsStrings, 'a11y.totalCheckboxHelpTextStringProperty' ) ),
-    chooseTotalHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_chooseTotalHelpText', _.get( NumberPairsStrings, 'a11y.chooseTotalHelpTextStringProperty' ) ),
-    representationTypeHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationTypeHelpText', _.get( NumberPairsStrings, 'a11y.representationTypeHelpTextStringProperty' ) ),
-    organizeObjectsHelpTextPattern: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_organizeObjectsHelpTextPattern', _.get( NumberPairsStrings, 'a11y.organizeObjectsHelpTextPatternStringProperty' ), [{"name":"representation"}] ),
     locationCountingObjectsHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_locationCountingObjectsHelpText', _.get( NumberPairsStrings, 'a11y.locationCountingObjectsHelpTextStringProperty' ) ),
-    beadsHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beadsHelpText', _.get( NumberPairsStrings, 'a11y.beadsHelpTextStringProperty' ) ),
-    blueKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_blueKitten', _.get( NumberPairsStrings, 'a11y.blueKittenStringProperty' ) ),
-    yellowKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_yellowKitten', _.get( NumberPairsStrings, 'a11y.yellowKittenStringProperty' ) ),
-    kittensHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittensHelpText', _.get( NumberPairsStrings, 'a11y.kittensHelpTextStringProperty' ) ),
-    yellowObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_yellowObjects', _.get( NumberPairsStrings, 'a11y.yellowObjectsStringProperty' ) ),
-    blueObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_blueObjects', _.get( NumberPairsStrings, 'a11y.blueObjectsStringProperty' ) ),
-    countingObjectControlHelpTextPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingObjectControlHelpTextPattern', _.get( NumberPairsStrings, 'a11y.countingObjectControlHelpTextPatternStringProperty' ), [{"name":"addend"}] ),
-    leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),
-    rightStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_right', _.get( NumberPairsStrings, 'a11y.rightStringProperty' ) ),
-    navigatePattern: new FluentPattern<{ items: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_navigatePattern', _.get( NumberPairsStrings, 'a11y.navigatePatternStringProperty' ), [{"name":"items"}] ),
-    movePattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_movePattern', _.get( NumberPairsStrings, 'a11y.movePatternStringProperty' ), [{"name":"item"}] ),
-    homeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_home', _.get( NumberPairsStrings, 'a11y.homeStringProperty' ) ),
-    endStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_end', _.get( NumberPairsStrings, 'a11y.endStringProperty' ) ),
-    moveAcrossDescriptionPattern: new FluentPattern<{ addend: FluentVariable, item: FluentVariable, key: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_moveAcrossDescriptionPattern', _.get( NumberPairsStrings, 'a11y.moveAcrossDescriptionPatternStringProperty' ), [{"name":"addend"},{"name":"item"},{"name":"key"}] ),
-    jumpToFirstKittenKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_jumpToFirstKittenKeyboardHelp', _.get( NumberPairsStrings, 'a11y.jumpToFirstKittenKeyboardHelpStringProperty' ) ),
-    jumpToLastKittenKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_jumpToLastKittenKeyboardHelp', _.get( NumberPairsStrings, 'a11y.jumpToLastKittenKeyboardHelpStringProperty' ) ),
-    changeColorKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_changeColorKeyboardHelp', _.get( NumberPairsStrings, 'a11y.changeColorKeyboardHelpStringProperty' ) ),
-    adjustObjectsKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_adjustObjectsKeyboardHelp', _.get( NumberPairsStrings, 'a11y.adjustObjectsKeyboardHelpStringProperty' ) )
+    _comment_3: new FluentComment( {"comment":"Kittens","associatedKey":"kittens"} ),
+    kittens: {
+      _comment_0: new FluentComment( {"comment":"Kittens","associatedKey":"kittens"} ),
+      kittensStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_kittens', _.get( NumberPairsStrings, 'a11y.kittens.kittensStringProperty' ) ),
+      changeColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColor', _.get( NumberPairsStrings, 'a11y.kittens.changeColorStringProperty' ) ),
+      blueKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_blueKitten', _.get( NumberPairsStrings, 'a11y.kittens.blueKittenStringProperty' ) ),
+      yellowKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_yellowKitten', _.get( NumberPairsStrings, 'a11y.kittens.yellowKittenStringProperty' ) ),
+      helpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_helpText', _.get( NumberPairsStrings, 'a11y.kittens.helpTextStringProperty' ) ),
+      jumpToFirstKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_jumpToFirstKeyboardHelp', _.get( NumberPairsStrings, 'a11y.kittens.jumpToFirstKeyboardHelpStringProperty' ) ),
+      jumpToLastKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_jumpToLastKeyboardHelp', _.get( NumberPairsStrings, 'a11y.kittens.jumpToLastKeyboardHelpStringProperty' ) ),
+      changeColorKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorKeyboardHelp', _.get( NumberPairsStrings, 'a11y.kittens.changeColorKeyboardHelpStringProperty' ) )
+    },
+    _comment_4: new FluentComment( {"comment":"Beads","associatedKey":"beads"} ),
+    beads: {
+      _comment_0: new FluentComment( {"comment":"Beads","associatedKey":"beads"} ),
+      beadsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_beads', _.get( NumberPairsStrings, 'a11y.beads.beadsStringProperty' ) ),
+      beadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_bead', _.get( NumberPairsStrings, 'a11y.beads.beadStringProperty' ) ),
+      helpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_helpText', _.get( NumberPairsStrings, 'a11y.beads.helpTextStringProperty' ) )
+    },
+    _comment_5: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
+    numberLine: {
+      _comment_0: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
+      numberLineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_numberLine', _.get( NumberPairsStrings, 'a11y.numberLine.numberLineStringProperty' ) ),
+      countOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_countOn', _.get( NumberPairsStrings, 'a11y.numberLine.countOnStringProperty' ) ),
+      countFromZeroStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_countFromZero', _.get( NumberPairsStrings, 'a11y.numberLine.countFromZeroStringProperty' ) )
+    },
+    _comment_6: new FluentComment( {"comment":"Total/Number model","associatedKey":"total"} ),
+    total: {
+      totalOnTopStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_total_totalOnTop', _.get( NumberPairsStrings, 'a11y.total.totalOnTopStringProperty' ) ),
+      totalOnBottomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_total_totalOnBottom', _.get( NumberPairsStrings, 'a11y.total.totalOnBottomStringProperty' ) ),
+      totalNumberPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_total_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.total.totalNumberPatternStringProperty' ), [{"name":"value"}] ),
+      checkboxHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_total_checkboxHelpText', _.get( NumberPairsStrings, 'a11y.total.checkboxHelpTextStringProperty' ) ),
+      chooseTotalHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_total_chooseTotalHelpText', _.get( NumberPairsStrings, 'a11y.total.chooseTotalHelpTextStringProperty' ) )
+    },
+    _comment_7: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
+    controls: {
+      organizeObjectsPattern: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_organizeObjectsPattern', _.get( NumberPairsStrings, 'a11y.controls.organizeObjectsPatternStringProperty' ), [{"name":"representation"}] ),
+      organizeObjectsHelpTextPattern: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_organizeObjectsHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.organizeObjectsHelpTextPatternStringProperty' ), [{"name":"representation"}] ),
+      swapAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_swapAddends', _.get( NumberPairsStrings, 'a11y.controls.swapAddendsStringProperty' ) ),
+      showAddendPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_showAddendPattern', _.get( NumberPairsStrings, 'a11y.controls.showAddendPatternStringProperty' ), [{"name":"addend"}] ),
+      hideAddendPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_hideAddendPattern', _.get( NumberPairsStrings, 'a11y.controls.hideAddendPatternStringProperty' ), [{"name":"addend"}] ),
+      showAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_showAddends', _.get( NumberPairsStrings, 'a11y.controls.showAddendsStringProperty' ) ),
+      hideAddendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_hideAddends', _.get( NumberPairsStrings, 'a11y.controls.hideAddendsStringProperty' ) ),
+      yellowObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_yellowObjects', _.get( NumberPairsStrings, 'a11y.controls.yellowObjectsStringProperty' ) ),
+      blueObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_blueObjects', _.get( NumberPairsStrings, 'a11y.controls.blueObjectsStringProperty' ) ),
+      countingObjectControlHelpTextPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControlHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControlHelpTextPatternStringProperty' ), [{"name":"addend"}] ),
+      navigatePattern: new FluentPattern<{ items: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_navigatePattern', _.get( NumberPairsStrings, 'a11y.controls.navigatePatternStringProperty' ), [{"name":"items"}] ),
+      movePattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_movePattern', _.get( NumberPairsStrings, 'a11y.controls.movePatternStringProperty' ), [{"name":"item"}] ),
+      moveAcrossDescriptionPattern: new FluentPattern<{ addend: FluentVariable, item: FluentVariable, key: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_moveAcrossDescriptionPattern', _.get( NumberPairsStrings, 'a11y.controls.moveAcrossDescriptionPatternStringProperty' ), [{"name":"addend"},{"name":"item"},{"name":"key"}] ),
+      adjustObjectsKeyboardHelpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_adjustObjectsKeyboardHelp', _.get( NumberPairsStrings, 'a11y.controls.adjustObjectsKeyboardHelpStringProperty' ) )
+    }
   }
 };
 

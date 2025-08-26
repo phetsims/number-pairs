@@ -189,10 +189,10 @@ export default class NumberPairsScreenView extends ScreenView {
     const representationTypeAccessibleNameProperty = new DynamicProperty<IntentionalAny, unknown, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
     } );
-    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.organizeObjectsPattern.createProperty( {
+    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjectsPattern.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
-    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.organizeObjectsHelpTextPattern.createProperty( {
+    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjectsHelpTextPattern.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
 
@@ -218,7 +218,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      accessibleName: NumberPairsFluent.a11y.swapAddendsStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.swapAddendsStringProperty,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
@@ -354,8 +354,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
-          valueAAccessibleName: NumberPairsFluent.a11y.countOnStringProperty,
-          valueBAccessibleName: NumberPairsFluent.a11y.countFromZeroStringProperty,
+          valueAAccessibleName: NumberPairsFluent.a11y.numberLine.countOnStringProperty,
+          valueBAccessibleName: NumberPairsFluent.a11y.numberLine.countFromZeroStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 ),
             enabledPropertyOptions: {

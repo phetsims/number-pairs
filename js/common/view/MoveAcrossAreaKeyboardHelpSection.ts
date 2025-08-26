@@ -25,12 +25,12 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsFluent.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.moveAcrossDescriptionPattern.createProperty( {
+    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.controls.moveAcrossDescriptionPattern.createProperty( {
       item: itemStringProperty,
       addend: NumberPairsFluent.a11y.leftStringProperty,
       key: NumberPairsFluent.a11y.homeStringProperty
     } );
-    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.moveAcrossDescriptionPattern.createProperty( {
+    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.controls.moveAcrossDescriptionPattern.createProperty( {
       item: itemStringProperty,
       addend: NumberPairsFluent.a11y.rightStringProperty,
       key: NumberPairsFluent.a11y.endStringProperty

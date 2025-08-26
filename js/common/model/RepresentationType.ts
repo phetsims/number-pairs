@@ -70,7 +70,7 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
-    NumberPairsFluent.a11y.kittensStringProperty,
+    NumberPairsFluent.a11y.kittens.kittensStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
@@ -78,16 +78,16 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
-    NumberPairsFluent.a11y.beadsStringProperty,
+    NumberPairsFluent.a11y.beads.beadsStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
     new Image( beadBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.beadStringProperty
+    NumberPairsFluent.a11y.beads.beadStringProperty
   );
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
-    NumberPairsFluent.a11y.numberLineStringProperty,
+    NumberPairsFluent.a11y.numberLine.numberLineStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,

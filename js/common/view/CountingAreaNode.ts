@@ -92,7 +92,7 @@ export default class CountingAreaNode extends Node {
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
-      accessibleName: NumberPairsFluent.a11y.hideAddendsStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.hideAddendsStringProperty,
       left: COUNTING_AREA_BOUNDS.minX + COUNTING_AREA_MARGIN,
       bottom: COUNTING_AREA_BOUNDS.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,

@@ -98,10 +98,10 @@ export default class BeadsOnWireNode extends Node {
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
     // Create the responsive accessible names for the beads.
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.navigatePattern.createProperty( {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.controls.navigatePattern.createProperty( {
       items: RepresentationType.BEADS.accessibleName
     } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.movePattern.createProperty( {
+    const movePatternStringProperty = NumberPairsFluent.a11y.controls.movePattern.createProperty( {
       item: RepresentationType.BEADS.singularAccessibleName!
     } );
 
@@ -109,7 +109,7 @@ export default class BeadsOnWireNode extends Node {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
       accessibleName: navigatePatternStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.beadsHelpTextStringProperty
+      accessibleHelpText: NumberPairsFluent.a11y.beads.helpTextStringProperty
     }, providedOptions );
 
     super( options );

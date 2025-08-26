@@ -61,7 +61,7 @@ export default class NumberLineNode extends Node {
       trackModelViewTransform,
       model.tickValuesVisibleProperty,
       {
-        accessibleName: NumberPairsFluent.a11y.numberLineStringProperty,
+        accessibleName: NumberPairsFluent.a11y.numberLine.numberLineStringProperty,
         numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
         tandem: options.tandem.createTandem( 'slider' )

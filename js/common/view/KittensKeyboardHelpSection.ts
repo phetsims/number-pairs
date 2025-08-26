@@ -16,13 +16,13 @@ export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor() {
     const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
-      labelInnerContent: NumberPairsFluent.a11y.jumpToFirstKittenKeyboardHelpStringProperty
+      labelInnerContent: NumberPairsFluent.a11y.kittens.jumpToFirstKeyboardHelpStringProperty
     } );
     const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
-      labelInnerContent: NumberPairsFluent.a11y.jumpToLastKittenKeyboardHelpStringProperty
+      labelInnerContent: NumberPairsFluent.a11y.kittens.jumpToLastKeyboardHelpStringProperty
     } );
     const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
-      labelInnerContent: NumberPairsFluent.a11y.changeColorKeyboardHelpStringProperty
+      labelInnerContent: NumberPairsFluent.a11y.kittens.changeColorKeyboardHelpStringProperty
     } );
     super( NumberPairsFluent.keyboardHelpDialog.kittenSectionHeadingStringProperty, [ homeRow, endRow, toggleKittenColorRow ] );
   }

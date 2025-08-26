@@ -63,7 +63,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
           value: false,
           tandemName: 'totalOnBottomRadioButton',
           options: {
-            accessibleName: NumberPairsFluent.a11y.totalOnBottomStringProperty
+            accessibleName: NumberPairsFluent.a11y.total.totalOnBottomStringProperty
           }
         },
         {
@@ -84,7 +84,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
           value: true,
           tandemName: 'totalOnTopRadioButton',
           options: {
-            accessibleName: NumberPairsFluent.a11y.totalOnTopStringProperty
+            accessibleName: NumberPairsFluent.a11y.total.totalOnTopStringProperty
           }
         }
       ], {

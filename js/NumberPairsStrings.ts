@@ -73,21 +73,16 @@ type StringsType = {
   'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
   'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
   'a11y': {
-    'changeColorStringProperty': LocalizedStringProperty;
     'yellowStringProperty': LocalizedStringProperty;
     'blueStringProperty': LocalizedStringProperty;
-    'totalOnTopStringProperty': LocalizedStringProperty;
-    'totalOnBottomStringProperty': LocalizedStringProperty;
+    'leftStringProperty': LocalizedStringProperty;
+    'rightStringProperty': LocalizedStringProperty;
+    'homeStringProperty': LocalizedStringProperty;
+    'endStringProperty': LocalizedStringProperty;
     'phraseHelpTextStringProperty': LocalizedStringProperty;
-    'totalNumberPatternStringProperty': LocalizedStringProperty;
-    'representationTypeStringProperty': LocalizedStringProperty;
     'hearPhraseStringProperty': LocalizedStringProperty;
-    'organizeObjectsPatternStringProperty': LocalizedStringProperty;
-    'swapAddendsStringProperty': LocalizedStringProperty;
-    'showAddendPatternStringProperty': LocalizedStringProperty;
-    'hideAddendPatternStringProperty': LocalizedStringProperty;
-    'showAddendsStringProperty': LocalizedStringProperty;
-    'hideAddendsStringProperty': LocalizedStringProperty;
+    'representationTypeStringProperty': LocalizedStringProperty;
+    'representationTypeHelpTextStringProperty': LocalizedStringProperty;
     'applesStringProperty': LocalizedStringProperty;
     'appleStringProperty': LocalizedStringProperty;
     'soccerBallsStringProperty': LocalizedStringProperty;
@@ -96,36 +91,51 @@ type StringsType = {
     'butterflyStringProperty': LocalizedStringProperty;
     'onesStringProperty': LocalizedStringProperty;
     'oneStringProperty': LocalizedStringProperty;
-    'kittensStringProperty': LocalizedStringProperty;
-    'beadsStringProperty': LocalizedStringProperty;
-    'beadStringProperty': LocalizedStringProperty;
-    'numberLineStringProperty': LocalizedStringProperty;
-    'countOnStringProperty': LocalizedStringProperty;
-    'countFromZeroStringProperty': LocalizedStringProperty;
     'locationCountingObjectsStringProperty': LocalizedStringProperty;
-    'totalCheckboxHelpTextStringProperty': LocalizedStringProperty;
-    'chooseTotalHelpTextStringProperty': LocalizedStringProperty;
-    'representationTypeHelpTextStringProperty': LocalizedStringProperty;
-    'organizeObjectsHelpTextPatternStringProperty': LocalizedStringProperty;
     'locationCountingObjectsHelpTextStringProperty': LocalizedStringProperty;
-    'beadsHelpTextStringProperty': LocalizedStringProperty;
-    'blueKittenStringProperty': LocalizedStringProperty;
-    'yellowKittenStringProperty': LocalizedStringProperty;
-    'kittensHelpTextStringProperty': LocalizedStringProperty;
-    'yellowObjectsStringProperty': LocalizedStringProperty;
-    'blueObjectsStringProperty': LocalizedStringProperty;
-    'countingObjectControlHelpTextPatternStringProperty': LocalizedStringProperty;
-    'leftStringProperty': LocalizedStringProperty;
-    'rightStringProperty': LocalizedStringProperty;
-    'navigatePatternStringProperty': LocalizedStringProperty;
-    'movePatternStringProperty': LocalizedStringProperty;
-    'homeStringProperty': LocalizedStringProperty;
-    'endStringProperty': LocalizedStringProperty;
-    'moveAcrossDescriptionPatternStringProperty': LocalizedStringProperty;
-    'jumpToFirstKittenKeyboardHelpStringProperty': LocalizedStringProperty;
-    'jumpToLastKittenKeyboardHelpStringProperty': LocalizedStringProperty;
-    'changeColorKeyboardHelpStringProperty': LocalizedStringProperty;
-    'adjustObjectsKeyboardHelpStringProperty': LocalizedStringProperty;
+    'kittens': {
+      'kittensStringProperty': LocalizedStringProperty;
+      'changeColorStringProperty': LocalizedStringProperty;
+      'blueKittenStringProperty': LocalizedStringProperty;
+      'yellowKittenStringProperty': LocalizedStringProperty;
+      'helpTextStringProperty': LocalizedStringProperty;
+      'jumpToFirstKeyboardHelpStringProperty': LocalizedStringProperty;
+      'jumpToLastKeyboardHelpStringProperty': LocalizedStringProperty;
+      'changeColorKeyboardHelpStringProperty': LocalizedStringProperty;
+    };
+    'beads': {
+      'beadsStringProperty': LocalizedStringProperty;
+      'beadStringProperty': LocalizedStringProperty;
+      'helpTextStringProperty': LocalizedStringProperty;
+    };
+    'numberLine': {
+      'numberLineStringProperty': LocalizedStringProperty;
+      'countOnStringProperty': LocalizedStringProperty;
+      'countFromZeroStringProperty': LocalizedStringProperty;
+    };
+    'total': {
+      'totalOnTopStringProperty': LocalizedStringProperty;
+      'totalOnBottomStringProperty': LocalizedStringProperty;
+      'totalNumberPatternStringProperty': LocalizedStringProperty;
+      'checkboxHelpTextStringProperty': LocalizedStringProperty;
+      'chooseTotalHelpTextStringProperty': LocalizedStringProperty;
+    };
+    'controls': {
+      'organizeObjectsPatternStringProperty': LocalizedStringProperty;
+      'organizeObjectsHelpTextPatternStringProperty': LocalizedStringProperty;
+      'swapAddendsStringProperty': LocalizedStringProperty;
+      'showAddendPatternStringProperty': LocalizedStringProperty;
+      'hideAddendPatternStringProperty': LocalizedStringProperty;
+      'showAddendsStringProperty': LocalizedStringProperty;
+      'hideAddendsStringProperty': LocalizedStringProperty;
+      'yellowObjectsStringProperty': LocalizedStringProperty;
+      'blueObjectsStringProperty': LocalizedStringProperty;
+      'countingObjectControlHelpTextPatternStringProperty': LocalizedStringProperty;
+      'navigatePatternStringProperty': LocalizedStringProperty;
+      'movePatternStringProperty': LocalizedStringProperty;
+      'moveAcrossDescriptionPatternStringProperty': LocalizedStringProperty;
+      'adjustObjectsKeyboardHelpStringProperty': LocalizedStringProperty;
+    }
   }
 };
 
