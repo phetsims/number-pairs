@@ -176,12 +176,12 @@ export default class SumScreenView extends NumberPairsScreenView {
       totalInteractionNode,
       this.representationRadioButtonGroup,
       this.countingAreaButtonsVBox,
-      ...this.countingAreaNodes
+      ...this.countingAreaNodes,
+      this.totalCheckbox,
+      ...this.controlNodes
     ] );
 
     this.pdomControlAreaNode.setPDOMOrder( [
-      this.totalCheckbox,
-      ...this.controlNodes,
       this.resetAllButton
     ] );
   }

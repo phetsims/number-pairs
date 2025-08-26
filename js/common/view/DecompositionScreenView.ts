@@ -8,16 +8,16 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from './NumberPairsScreenView.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
-import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 
 type SelfOptions = {
   sceneRange: Range;
@@ -86,13 +86,13 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
         ...this.representationNodes,
         this.representationRadioButtonGroup,
         this.countingAreaButtonsVBox,
-        ...this.countingAreaNodes
+        ...this.countingAreaNodes,
+        ...this.controlNodes,
+        totalInteractionNode
       ]
     );
 
     this.pdomControlAreaNode.setPDOMOrder( [
-      ...this.controlNodes,
-      totalInteractionNode,
       this.resetAllButton
     ] );
   }
