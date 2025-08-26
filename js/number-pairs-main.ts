@@ -42,7 +42,7 @@ simLauncher.launch( () => {
       softwareDevelopment: 'Marla Schulz',
       team: 'Dom Carorora, Sylvia Celedón-Pattichis, Chris Malley, Amanda McGarry, Ariel Paul, Kathy Perkins, Taliesin Smith, Ian Whitacre',
       contributors: '',
-      qualityAssurance: 'Nancy Salpepi, Matthew Moore, Valentina Pérez, Kathryn Woessner',
+      qualityAssurance: 'Nancy Salpepi, Matthew Moore, Valentina P\u00e9rez, Kathryn Woessner',
       graphicArts: 'Cathy Carter, Amanda McGarry',
       soundDesign: '',
       thanks: ''
