@@ -11,7 +11,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
+import NumberPairsFluent from '../NumberPairsFluent.js';
 import SumModel from './model/SumModel.js';
 import SumScreenView from './view/SumScreenView.js';
 import SumScreenKeyboardHelpNode from './view/SumScreenKeyboardHelpNode.js';
@@ -26,7 +26,7 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
   public constructor( providedOptions: SumScreenOptions ) {
 
     const options = optionize<SumScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: NumberPairsStrings.screen.sumStringProperty,
+      name: NumberPairsFluent.screen.sumStringProperty,
       createKeyboardHelpNode: () => new SumScreenKeyboardHelpNode(),
       homeScreenIcon: new SumScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new SumScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),

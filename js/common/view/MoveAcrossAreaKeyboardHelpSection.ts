@@ -6,34 +6,34 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 
 export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor( headingStringProperty: TReadOnlyProperty<string>, itemStringProperty: TReadOnlyProperty<string> ) {
 
-    const moveLeftPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToLeftSidePatternStringProperty, {
+    const moveLeftPatternStringProperty = new PatternStringProperty( NumberPairsFluent.keyboardHelpDialog.moveToLeftSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsStrings.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
+    const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsFluent.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveLeftDescriptionPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.moveAcrossDescriptionPatternStringProperty, {
+    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.moveAcrossDescriptionPattern.createProperty( {
       item: itemStringProperty,
-      addend: NumberPairsStrings.a11y.leftStringProperty,
-      key: NumberPairsStrings.a11y.homeStringProperty
+      addend: NumberPairsFluent.a11y.leftStringProperty,
+      key: NumberPairsFluent.a11y.homeStringProperty
     } );
-    const moveRightDescriptionPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.moveAcrossDescriptionPatternStringProperty, {
+    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.moveAcrossDescriptionPattern.createProperty( {
       item: itemStringProperty,
-      addend: NumberPairsStrings.a11y.rightStringProperty,
-      key: NumberPairsStrings.a11y.endStringProperty
+      addend: NumberPairsFluent.a11y.rightStringProperty,
+      key: NumberPairsFluent.a11y.endStringProperty
     } );
     const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveLeftPatternStringProperty, TextKeyNode.home(), {
       labelInnerContent: moveLeftDescriptionPatternStringProperty

@@ -7,7 +7,7 @@
  *
  */
 
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -16,7 +16,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsScene from '../model/NumberPairsScene.js';
 
 type SelfOptions = {
@@ -26,17 +26,16 @@ type SceneSelectionRadioButtonGroupOptions = SelfOptions & RectangularRadioButto
 
 export default class SceneSelectionRadioButtonGroup extends RectangularRadioButtonGroup<NumberPairsScene> {
   public static readonly RADIO_BUTTON_DIMENSION = 40;
+
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
-    const totalNumberPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.totalNumberPatternStringProperty, {
-      value: selectedSceneModelProperty
-    }, {
-      maps: {
-        value: sceneModel => sceneModel.total
-      }
+    const totalNumberPatternStringProperty = NumberPairsFluent.a11y.totalNumberPattern.createProperty( {
+
+      // TODO: Double check runtime behavior, see https://github.com/phetsims/number-pairs/issues/196
+      value: new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total )
     } );
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       accessibleName: totalNumberPatternStringProperty,
-      accessibleHelpText: NumberPairsStrings.a11y.chooseTotalHelpTextStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.chooseTotalHelpTextStringProperty,
       radioButtonOptions: {
         size: new Dimension2( SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION, SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION )
       }

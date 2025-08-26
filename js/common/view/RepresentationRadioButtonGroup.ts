@@ -16,7 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import RepresentationType from '../model/RepresentationType.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -40,8 +40,8 @@ export default class RepresentationRadioButtonGroup extends RectangularRadioButt
 
     const buttonMargin = 3;
     const options = optionize<CountingRepresentationRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
-      accessibleName: NumberPairsStrings.a11y.representationTypeStringProperty,
-      accessibleHelpText: NumberPairsStrings.a11y.representationTypeHelpTextStringProperty,
+      accessibleName: NumberPairsFluent.a11y.representationTypeStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.representationTypeHelpTextStringProperty,
       orientation: 'horizontal',
       radioButtonOptions: {
         baseColor: Color.WHITE,

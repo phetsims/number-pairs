@@ -1,0 +1,108 @@
+number-pairs.title: Number Pairs
+screen.intro: Intro
+screen.ten: Ten
+screen.twenty: Twenty
+screen.sum: Sum
+keyboardHelpDialog.objectHeading: Object
+keyboardHelpDialog.object: object
+keyboardHelpDialog.beadHeading: Bead
+keyboardHelpDialog.bead: bead
+keyboardHelpDialog.countingObjectOrBeadHeading: Apple, One, or Bead
+keyboardHelpDialog.countingObjectOrBead: apple, one, or bead
+keyboardHelpDialog.introScreen.moveGrabbableItemHeading: Move Grabbed Object
+keyboardHelpDialog.tenScreen.moveGrabbableItemHeading: Move Kitten or Grabbed Bead
+keyboardHelpDialog.twentyScreen.moveGrabbableItemHeading: Move Grabbed Object in Counting Area
+keyboardHelpDialog.sumScreen.moveGrabbableItemHeading: Move Kitten or Grabbed Bead
+keyboardHelpDialog.jumpToLastKitten: Jump to last kitten
+keyboardHelpDialog.jumpToFirstKitten: Jump to first kitten
+keyboardHelpDialog.changeKittenColor: Change kitten color
+keyboardHelpDialog.kittenSectionHeading: Interact With Kittens
+keyboardHelpDialog.moveToRightSidePattern: Move grabbed {{items}} to right side
+keyboardHelpDialog.moveToLeftSidePattern: Move grabbed {{items}} to left side
+keyboardHelpDialog.moveGrabbedObjectToOppositeSide: Move Grabbed Object to Opposite Side
+keyboardHelpDialog.moveBeadsToOppositeSide: Move Beads to Opposite Side
+keyboardHelpDialog.adjustObjectsTitle: Adjust Number of Colored Objects
+keyboardHelpDialog.numberOfObjects: number of objects
+phrase: Phrase
+numberBond: Number Bond
+barModel: Bar Model
+equation: Equation
+decompositionPhrasePattern: >-
+  <total>{{total}}</total> can be decomposed into <left>{{leftAddend}}</left>
+  and <right>{{rightAddend}}</right>
+decompositionPhraseSpeechPattern: '{{total}} can be decomposed into {{leftAddend}} and {{rightAddend}}'
+sumPhrasePattern: >-
+  <left>{{leftAddend}}</left> plus <right>{{rightAddend}}</right> equals
+  <total>{{total}}</total>
+sumPhraseSpeechPattern: '{{leftAddend}} plus {{rightAddend}} equals {{total}}'
+aNumber: a number
+someNumber: some number
+anotherNumber: another number
+addends: Addends
+tickNumbers: Tick Numbers
+totalJump: Total Jump
+total: Total
+automaticallyHearPhrase: Automatically Hear Phrase
+automaticallyHearPhraseDescription: Hear the phrase update automatically as you interact.
+numberModelType: Number Model Type
+numberModelTypeDescription: >-
+  Choose between a traditional number bond representation or a proportional bar
+  model.
+sumScreenNumberModelOrientation: Sum Screen Number Model Orientation
+sumScreenNumberModelOrientationDescription: >-
+  On the sum screen only, this changes the orientation of the total in the
+  number decomposition model.
+a11y:
+  changeColor: Change Color
+  yellow: Yellow
+  blue: Blue
+  totalOnTop: Total on Top
+  totalOnBottom: Total on Bottom
+  phraseHelpText: Read phrase aloud.
+  totalNumberPattern: Total Number { $value }
+  representationType: Representation Type
+  hearPhrase: Hear Phrase
+  organizeObjectsPattern: Organize { $representation }
+  swapAddends: Swap Addends
+  showAddendPattern: Show { $addend } addend
+  hideAddendPattern: Hide { $addend } addend
+  showAddends: Show addends
+  hideAddends: Hide addends
+  apples: Apples
+  apple: Apple
+  soccerBalls: Soccer Balls
+  soccerBall: Soccer Ball
+  butterflies: Butterflies
+  butterfly: Butterfly
+  ones: Ones
+  one: One
+  kittens: Kittens
+  beads: Beads
+  bead: Bead
+  numberLine: Number Line
+  countOn: Count On
+  countFromZero: Count from Zero
+  locationCountingObjects: Location Counting Objects
+  totalCheckboxHelpText: Show or hide the sum of the two addends.
+  chooseTotalHelpText: Choose total for counting area.
+  representationTypeHelpText: Choose representation for counting area.
+  organizeObjectsHelpTextPattern: Organize { $representation } into groups of five.
+  locationCountingObjectsHelpText: Left and right counting areas with grabbable and movable objects.
+  beadsHelpText: Counting area with grabbable and movable beads.
+  blueKitten: Blue Kitten
+  yellowKitten: Yellow Kitten
+  kittensHelpText: Change kitten color and move kittens around to play.
+  yellowObjects: Yellow Objects
+  blueObjects: Blue Objects
+  countingObjectControlHelpTextPattern: Add or remove from the { $addend } addend.
+  left: left
+  right: right
+  navigatePattern: Navigate { $items }
+  movePattern: Move { $item }
+  home: Home
+  end: End
+  moveAcrossDescriptionPattern: Move grabbed { $item } to { $addend } side with { $key } key.
+  jumpToFirstKittenKeyboardHelp: Jump to first kitten with Home key.
+  jumpToLastKittenKeyboardHelp: Jump to last kitten with End key.
+  changeColorKeyboardHelp: Change color with Space or Enter key.
+  adjustObjectsKeyboardHelp: Adjust number of objects with arrow keys.

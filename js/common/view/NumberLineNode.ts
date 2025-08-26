@@ -19,7 +19,7 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode from './CurvedArrowNode.js';
@@ -61,7 +61,7 @@ export default class NumberLineNode extends Node {
       trackModelViewTransform,
       model.tickValuesVisibleProperty,
       {
-        accessibleName: NumberPairsStrings.a11y.numberLineStringProperty,
+        accessibleName: NumberPairsFluent.a11y.numberLineStringProperty,
         numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
         tandem: options.tandem.createTandem( 'slider' )

@@ -10,7 +10,7 @@
 import numberPairs from '../../numberPairs.js';
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
 import GrabReleaseKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GrabReleaseKeyboardHelpSection.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import KittensKeyboardHelpSection from '../../common/view/KittensKeyboardHelpSection.js';
@@ -19,13 +19,13 @@ import MoveAcrossAreaKeyboardHelpSection from '../../common/view/MoveAcrossAreaK
 export default class TwentyScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNode {
 
   public constructor() {
-    super( [ new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.countingObjectOrBeadHeadingStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.countingObjectOrBeadStringProperty ),
+    super( [ new GrabReleaseKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.countingObjectOrBeadHeadingStringProperty,
+        NumberPairsFluent.keyboardHelpDialog.countingObjectOrBeadStringProperty ),
         new MoveDraggableItemsKeyboardHelpSection( {
-          headingStringProperty: NumberPairsStrings.keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty
+          headingStringProperty: NumberPairsFluent.keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty
         } ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
-          NumberPairsStrings.keyboardHelpDialog.objectStringProperty ),
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
+          NumberPairsFluent.keyboardHelpDialog.objectStringProperty ),
         new KittensKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }

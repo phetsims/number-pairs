@@ -8,16 +8,15 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phet/js/buttons/EyeToggleButton.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
@@ -76,20 +75,20 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       } );
     }
     else if ( options.addendStringProperty ) {
-      hideAddendPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.hideAddendPatternStringProperty, {
+      hideAddendPatternStringProperty = NumberPairsFluent.a11y.hideAddendPattern.createProperty( {
         addend: options.addendStringProperty
       } );
-      showAddendPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.showAddendPatternStringProperty, {
+      showAddendPatternStringProperty = NumberPairsFluent.a11y.showAddendPattern.createProperty( {
         addend: options.addendStringProperty
       } );
     }
 
-    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsStrings.a11y.hideAddendsStringProperty;
+    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsFluent.a11y.hideAddendsStringProperty;
     super( addendToggleVisibleProperty, options );
 
     addendToggleVisibleProperty.link( visible => {
       if ( options.secondAddendVisibleProperty ) {
-        this.accessibleName = visible ? NumberPairsStrings.a11y.hideAddendsStringProperty : NumberPairsStrings.a11y.showAddendsStringProperty;
+        this.accessibleName = visible ? NumberPairsFluent.a11y.hideAddendsStringProperty : NumberPairsFluent.a11y.showAddendsStringProperty;
       }
       else if ( hideAddendPatternStringProperty && showAddendPatternStringProperty ) {
         this.accessibleName = visible ? hideAddendPatternStringProperty : showAddendPatternStringProperty;

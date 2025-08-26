@@ -14,12 +14,12 @@ import AutoHearControl from '../../../../number-suite-common/js/common/view/Auto
 // eslint-disable-next-line phet/no-view-imported-from-model
 import LanguageAndVoiceControl from '../../../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
 import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsPreferences from './NumberPairsPreferences.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import numberPairsUtteranceQueue from '../view/numberPairsUtteranceQueue.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import numberPairsSpeechSynthesisAnnouncer from '../view/numberPairsSpeechSynthesisAnnouncer.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
 import numberPairs from '../../numberPairs.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberPairsPreferencesNode from '../view/NumberPairsPreferencesNode.js';
@@ -45,8 +45,8 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
           createContent: tandem => new AutoHearControl(
             NumberPairsPreferences.autoHearEnabledProperty,
             numberPairsSpeechSynthesisAnnouncer.hasVoiceProperty,
-            NumberPairsStrings.automaticallyHearPhraseStringProperty,
-            NumberPairsStrings.automaticallyHearPhraseDescriptionStringProperty, {
+            NumberPairsFluent.automaticallyHearPhraseStringProperty,
+            NumberPairsFluent.automaticallyHearPhraseDescriptionStringProperty, {
               tandem: tandem.createTandem( 'autoHearControl' )
             } )
         } ],

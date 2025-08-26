@@ -18,7 +18,7 @@ import NumberPairsPreferencesModel from './common/model/NumberPairsPreferencesMo
 import numberPairsSpeechSynthesisAnnouncer from './common/view/numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './common/view/numberPairsUtteranceQueue.js';
 import IntroScreen from './intro/IntroScreen.js';
-import NumberPairsStrings from './NumberPairsStrings.js';
+import NumberPairsFluent from './NumberPairsFluent.js';
 import './common/NumberPairsQueryParameters.js';
 import SumScreen from './sum/SumScreen.js';
 import TenScreen from './ten/TenScreen.js';
@@ -26,7 +26,7 @@ import TwentyScreen from './twenty/TwentyScreen.js';
 
 simLauncher.launch( () => {
 
-  const titleStringProperty = NumberPairsStrings[ 'number-pairs' ].titleStringProperty;
+  const titleStringProperty = NumberPairsFluent[ 'number-pairs' ].titleStringProperty;
 
   const screens = [
     new IntroScreen( { tandem: Tandem.ROOT.createTandem( 'introScreen' ) } ),

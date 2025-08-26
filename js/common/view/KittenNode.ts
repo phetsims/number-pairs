@@ -35,7 +35,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -74,8 +74,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
-      accessibleName: NumberPairsStrings.a11y.yellowKittenStringProperty,
-      accessibleHelpText: NumberPairsStrings.a11y.kittensHelpTextStringProperty,
+      accessibleName: NumberPairsFluent.a11y.yellowKittenStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.kittensHelpTextStringProperty,
       focusable: true
     }, providedOptions );
 
@@ -99,9 +99,9 @@ export default class KittenNode extends InteractiveHighlightingNode {
       size: new Dimension2( 26, 13 ),
       focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
-      accessibleName: NumberPairsStrings.a11y.changeColorStringProperty,
-      accessibleContextResponseLeftValue: NumberPairsStrings.a11y.yellowStringProperty,
-      accessibleContextResponseRightValue: NumberPairsStrings.a11y.blueStringProperty,
+      accessibleName: NumberPairsFluent.a11y.changeColorStringProperty,
+      accessibleContextResponseLeftValue: NumberPairsFluent.a11y.yellowStringProperty,
+      accessibleContextResponseRightValue: NumberPairsFluent.a11y.blueStringProperty,
       accessibleSwitch: false, // This switch does not use boolean values. Read accessibleSwitch documentation for more.
       thumbFill: new DerivedProperty( [
           countingObject.addendTypeProperty,
@@ -152,7 +152,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     this.focusPanel = focusPanel;
     this.countingObject = countingObject;
     isLeftAddendProperty.link( isLeftAddend => {
-      this.accessibleName = isLeftAddend ? NumberPairsStrings.a11y.yellowKittenStringProperty : NumberPairsStrings.a11y.blueKittenStringProperty;
+      this.accessibleName = isLeftAddend ? NumberPairsFluent.a11y.yellowKittenStringProperty : NumberPairsFluent.a11y.blueKittenStringProperty;
     } );
 
     focusPanel.center = this.center;

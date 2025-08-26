@@ -10,7 +10,7 @@ import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHe
 import numberPairs from '../../numberPairs.js';
 import GrabReleaseKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GrabReleaseKeyboardHelpSection.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import MoveAcrossAreaKeyboardHelpSection from '../../common/view/MoveAcrossAreaKeyboardHelpSection.js';
 
 
@@ -18,13 +18,13 @@ export default class IntroScreenKeyboardHelpNode extends NumberPairsKeyboardHelp
 
   public constructor() {
     super( [
-      new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.objectHeadingStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.objectStringProperty ),
+      new GrabReleaseKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.objectHeadingStringProperty,
+        NumberPairsFluent.keyboardHelpDialog.objectStringProperty ),
       new MoveDraggableItemsKeyboardHelpSection( {
-        headingStringProperty: NumberPairsStrings.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
+        headingStringProperty: NumberPairsFluent.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
       } ),
-      new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.objectStringProperty )
+      new MoveAcrossAreaKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
+        NumberPairsFluent.keyboardHelpDialog.objectStringProperty )
     ] );
   }
 }

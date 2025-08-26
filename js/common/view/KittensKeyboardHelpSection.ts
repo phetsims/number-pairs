@@ -9,22 +9,22 @@
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import numberPairs from '../../numberPairs.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor() {
-    const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
-      labelInnerContent: NumberPairsStrings.a11y.jumpToFirstKittenKeyboardHelpStringProperty
+    const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
+      labelInnerContent: NumberPairsFluent.a11y.jumpToFirstKittenKeyboardHelpStringProperty
     } );
-    const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
-      labelInnerContent: NumberPairsStrings.a11y.jumpToLastKittenKeyboardHelpStringProperty
+    const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
+      labelInnerContent: NumberPairsFluent.a11y.jumpToLastKittenKeyboardHelpStringProperty
     } );
-    const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsStrings.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
-      labelInnerContent: NumberPairsStrings.a11y.changeColorKeyboardHelpStringProperty
+    const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
+      labelInnerContent: NumberPairsFluent.a11y.changeColorKeyboardHelpStringProperty
     } );
-    super( NumberPairsStrings.keyboardHelpDialog.kittenSectionHeadingStringProperty, [ homeRow, endRow, toggleKittenColorRow ] );
+    super( NumberPairsFluent.keyboardHelpDialog.kittenSectionHeadingStringProperty, [ homeRow, endRow, toggleKittenColorRow ] );
   }
 }
 

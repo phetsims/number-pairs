@@ -12,7 +12,7 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
@@ -32,17 +32,17 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     }, providedOptions );
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
-        createNode: () => new Text( NumberPairsStrings.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
+        createNode: () => new Text( NumberPairsFluent.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.numberLineAddendValuesVisibleProperty,
         tandemName: 'addendsCheckbox'
       },
       {
-        createNode: () => new Text( NumberPairsStrings.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
+        createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.tickValuesVisibleProperty,
         tandemName: 'tickValuesCheckbox'
       },
       {
-        createNode: () => new Text( NumberPairsStrings.totalJumpStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
+        createNode: () => new Text( NumberPairsFluent.totalJumpStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.totalJumpVisibleProperty,
         tandemName: 'totalJumpCheckbox'
       }

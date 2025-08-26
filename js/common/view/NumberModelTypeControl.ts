@@ -14,7 +14,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import BarModelNode from './BarModelNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -46,7 +46,7 @@ export default class NumberModelTypeControl extends PreferencesControl {
           value: NumberModelType.NUMBER_BOND_MODEL,
           tandemName: 'numberBondModelRadioButton',
           options: {
-            accessibleName: NumberPairsStrings.numberBondStringProperty
+            accessibleName: NumberPairsFluent.numberBondStringProperty
           }
         },
         {
@@ -54,7 +54,7 @@ export default class NumberModelTypeControl extends PreferencesControl {
           value: NumberModelType.BAR_MODEL,
           tandemName: 'barModelRadioButton',
           options: {
-            accessibleName: NumberPairsStrings.barModelStringProperty
+            accessibleName: NumberPairsFluent.barModelStringProperty
           }
         }
       ], {
@@ -66,16 +66,16 @@ export default class NumberModelTypeControl extends PreferencesControl {
           xMargin: 15,
           baseColor: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
         },
-        accessibleName: NumberPairsStrings.numberModelTypeStringProperty,
-        accessibleHelpText: NumberPairsStrings.numberModelTypeDescriptionStringProperty,
+        accessibleName: NumberPairsFluent.numberModelTypeStringProperty,
+        accessibleHelpText: NumberPairsFluent.numberModelTypeDescriptionStringProperty,
 
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
       } );
 
     super( combineOptions<PreferencesControlOptions>( {
-      labelNode: new Text( NumberPairsStrings.numberModelTypeStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-      descriptionNode: new RichText( NumberPairsStrings.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
+      labelNode: new Text( NumberPairsFluent.numberModelTypeStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+      descriptionNode: new RichText( NumberPairsFluent.numberModelTypeDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
       controlNode: radioButtonGroup,
       visiblePropertyOptions: {
         phetioFeatured: true

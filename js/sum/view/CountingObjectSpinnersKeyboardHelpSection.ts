@@ -12,7 +12,7 @@ import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.j
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 
 export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardHelpSection {
@@ -21,11 +21,11 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
 
     const adjustSpinnerStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
       verb: SceneryPhetStrings.keyboardHelpDialog.adjustStringProperty,
-      slider: NumberPairsStrings.keyboardHelpDialog.numberOfObjectsStringProperty
+      slider: NumberPairsFluent.keyboardHelpDialog.numberOfObjectsStringProperty
     } );
-    super( NumberPairsStrings.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
+    super( NumberPairsFluent.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
       KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
-        labelInnerContent: NumberPairsStrings.a11y.adjustObjectsKeyboardHelpStringProperty
+        labelInnerContent: NumberPairsFluent.a11y.adjustObjectsKeyboardHelpStringProperty
       } )
     ] );
   }

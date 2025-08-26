@@ -7,7 +7,10 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -15,16 +18,20 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
+import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
+import CountingObject from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
@@ -42,15 +49,8 @@ import NumberLineOptionsCheckboxGroup from './NumberLineOptionsCheckboxGroup.js'
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
-import TenFrameButton from './TenFrameButton.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
-import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import Property from '../../../../axon/js/Property.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import CountingObject from '../model/CountingObject.js';
+import TenFrameButton from './TenFrameButton.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -157,8 +157,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsStrings.a11y.hearPhraseStringProperty,
-        accessibleHelpText: NumberPairsStrings.a11y.phraseHelpTextStringProperty
+        accessibleName: NumberPairsFluent.a11y.hearPhraseStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.phraseHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -184,13 +184,15 @@ export default class NumberPairsScreenView extends ScreenView {
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
-    const representationTypeAccessibleNameProperty = new DynamicProperty( model.representationTypeProperty, {
+
+    // TODO: Fix type, see https://github.com/phetsims/number-pairs/issues/196
+    const representationTypeAccessibleNameProperty = new DynamicProperty<IntentionalAny, unknown, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
     } );
-    const organizeObjectsPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.organizeObjectsPatternStringProperty, {
+    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.organizeObjectsPattern.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
-    const organizeObjectsHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.organizeObjectsHelpTextPatternStringProperty, {
+    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.organizeObjectsHelpTextPattern.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
 
@@ -216,7 +218,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      accessibleName: NumberPairsStrings.a11y.swapAddendsStringProperty,
+      accessibleName: NumberPairsFluent.a11y.swapAddendsStringProperty,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
@@ -352,8 +354,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
-          valueAAccessibleName: NumberPairsStrings.a11y.countOnStringProperty,
-          valueBAccessibleName: NumberPairsStrings.a11y.countFromZeroStringProperty,
+          valueAAccessibleName: NumberPairsFluent.a11y.countOnStringProperty,
+          valueBAccessibleName: NumberPairsFluent.a11y.countFromZeroStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 ),
             enabledPropertyOptions: {

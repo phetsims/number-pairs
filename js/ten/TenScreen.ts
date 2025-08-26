@@ -11,7 +11,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
+import NumberPairsFluent from '../NumberPairsFluent.js';
 import TenModel from './model/TenModel.js';
 import TenScreenView from './view/TenScreenView.js';
 import TenScreenKeyboardHelpNode from './view/TenScreenKeyboardHelpNode.js';
@@ -26,7 +26,7 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
   public constructor( providedOptions: TenScreenOptions ) {
 
     const options = optionize<TenScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: NumberPairsStrings.screen.tenStringProperty,
+      name: NumberPairsFluent.screen.tenStringProperty,
       createKeyboardHelpNode: () => new TenScreenKeyboardHelpNode(),
       homeScreenIcon: new TenScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new TenScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),

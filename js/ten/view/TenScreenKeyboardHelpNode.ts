@@ -9,7 +9,7 @@
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
 import numberPairs from '../../numberPairs.js';
 import GrabReleaseKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GrabReleaseKeyboardHelpSection.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import KittensKeyboardHelpSection from '../../common/view/KittensKeyboardHelpSection.js';
@@ -19,13 +19,13 @@ import MoveAcrossAreaKeyboardHelpSection from '../../common/view/MoveAcrossAreaK
 export default class TenScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNode {
 
   public constructor() {
-    super( [ new GrabReleaseKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.beadHeadingStringProperty,
-        NumberPairsStrings.keyboardHelpDialog.beadStringProperty ),
+    super( [ new GrabReleaseKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.beadHeadingStringProperty,
+        NumberPairsFluent.keyboardHelpDialog.beadStringProperty ),
         new MoveDraggableItemsKeyboardHelpSection( {
-          headingStringProperty: NumberPairsStrings.keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty
+          headingStringProperty: NumberPairsFluent.keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty
         } ),
-        new MoveAcrossAreaKeyboardHelpSection( NumberPairsStrings.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
-          NumberPairsStrings.keyboardHelpDialog.beadStringProperty ),
+        new MoveAcrossAreaKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
+          NumberPairsFluent.keyboardHelpDialog.beadStringProperty ),
         new KittensKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }

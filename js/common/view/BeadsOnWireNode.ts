@@ -10,6 +10,7 @@
  *
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -17,6 +18,8 @@ import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
+import { equalsEpsilon } from '../../../../dot/js/util/equalsEpsilon.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -31,19 +34,15 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadNode from './BeadNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import { equalsEpsilon } from '../../../../dot/js/util/equalsEpsilon.js';
-import { clamp } from '../../../../dot/js/util/clamp.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import RepresentationType from '../model/RepresentationType.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -99,18 +98,18 @@ export default class BeadsOnWireNode extends Node {
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
     // Create the responsive accessible names for the beads.
-    const navigatePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.navigatePatternStringProperty, {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.navigatePattern.createProperty( {
       items: RepresentationType.BEADS.accessibleName
     } );
-    const movePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.movePatternStringProperty, {
-      item: RepresentationType.BEADS.singularAccessibleName
+    const movePatternStringProperty = NumberPairsFluent.a11y.movePattern.createProperty( {
+      item: RepresentationType.BEADS.singularAccessibleName!
     } );
 
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
       accessibleName: navigatePatternStringProperty,
-      accessibleHelpText: NumberPairsStrings.a11y.beadsHelpTextStringProperty
+      accessibleHelpText: NumberPairsFluent.a11y.beadsHelpTextStringProperty
     }, providedOptions );
 
     super( options );

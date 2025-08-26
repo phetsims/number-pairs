@@ -11,7 +11,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
+import NumberPairsFluent from '../NumberPairsFluent.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenView from './view/IntroScreenView.js';
 import IntroScreenKeyboardHelpNode from './view/IntroScreenKeyboardHelpNode.js';
@@ -26,7 +26,7 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
   public constructor( providedOptions: IntroScreenOptions ) {
 
     const options = optionize<IntroScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: NumberPairsStrings.screen.introStringProperty,
+      name: NumberPairsFluent.screen.introStringProperty,
       createKeyboardHelpNode: () => new IntroScreenKeyboardHelpNode(),
       homeScreenIcon: new IntroScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new IntroScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),

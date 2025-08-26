@@ -9,22 +9,21 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
-import Property from '../../../../axon/js/Property.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -36,8 +35,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleName: NumberPairsStrings.a11y.locationCountingObjectsStringProperty,
-      accessibleHelpText: NumberPairsStrings.a11y.locationCountingObjectsHelpTextStringProperty
+      accessibleName: NumberPairsFluent.a11y.locationCountingObjectsStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.locationCountingObjectsHelpTextStringProperty
     }, providedOptions );
 
     super( options );
@@ -72,75 +71,75 @@ export default class LocationCountingObjectsLayerNode extends Node {
     } );
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, selectedItemPositionProperty,
       this.countingObjectModelToNodeMap, {
-      soundKeyboardDragListenerOptions: {
-        dragDelta: 15,
-        shiftDragDelta: 8,
-        dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
-      },
-      getGroupItemToSelect: () => {
-        const countingObjects = model.getCountingObjectsSortedByLocationPosition().filter( countingObject =>
-          this.countingObjectModelToNodeMap.get( countingObject )!.visible
-        );
-        if ( countingObjects.length === 0 ) {
-          return null;
-        }
-        else {
-          return countingObjects[ 0 ];
-        }
-      },
-      getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
-
-        // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
-        // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
-        const startingPoint = groupItem.locationPositionProperty.value;
-        const delta = this.getKeysDelta( keysPressed );
-        const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
-          countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
-          countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta )
-          && this.countingObjectModelToNodeMap.get( countingObject )!.visible );
-
-        let selectedGroupItem = groupItem;
-
-        // Return the closest counting object in the above calculated direction. (if none stay where we are)
-        if ( countingObjectsInDirection.length > 0 ) {
-          countingObjectsInDirection.sort( ( a, b ) =>
-            a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
-
-          selectedGroupItem = countingObjectsInDirection[ 0 ];
-        }
-        return selectedGroupItem;
-      },
-      handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
-        const currentPosition = groupItem.locationPositionProperty.value;
-        if ( keysPressed.includes( 'home' ) ) {
-
-          // move to the left addend area.
-          if ( !LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-            groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, -1 );
+        soundKeyboardDragListenerOptions: {
+          dragDelta: 15,
+          shiftDragDelta: 8,
+          dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
+        },
+        getGroupItemToSelect: () => {
+          const countingObjects = model.getCountingObjectsSortedByLocationPosition().filter( countingObject =>
+            this.countingObjectModelToNodeMap.get( countingObject )!.visible
+          );
+          if ( countingObjects.length === 0 ) {
+            return null;
           }
-        }
-        else if ( keysPressed.includes( 'end' ) ) {
-
-          // move to the right addend area.
-          if ( !RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-            groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, 1 );
+          else {
+            return countingObjects[ 0 ];
           }
-        }
-      },
-      tandem: options.tandem.createTandem( 'groupSelectView' )
-    } );
+        },
+        getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
+
+          // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
+          // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
+          const startingPoint = groupItem.locationPositionProperty.value;
+          const delta = this.getKeysDelta( keysPressed );
+          const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
+            countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
+            countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta )
+            && this.countingObjectModelToNodeMap.get( countingObject )!.visible );
+
+          let selectedGroupItem = groupItem;
+
+          // Return the closest counting object in the above calculated direction. (if none stay where we are)
+          if ( countingObjectsInDirection.length > 0 ) {
+            countingObjectsInDirection.sort( ( a, b ) =>
+              a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
+
+            selectedGroupItem = countingObjectsInDirection[ 0 ];
+          }
+          return selectedGroupItem;
+        },
+        handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
+          const currentPosition = groupItem.locationPositionProperty.value;
+          if ( keysPressed.includes( 'home' ) ) {
+
+            // move to the left addend area.
+            if ( !LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
+              groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, -1 );
+            }
+          }
+          else if ( keysPressed.includes( 'end' ) ) {
+
+            // move to the right addend area.
+            if ( !RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
+              groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, 1 );
+            }
+          }
+        },
+        tandem: options.tandem.createTandem( 'groupSelectView' )
+      } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
 
-    const itemsStringProperty = new DynamicProperty( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+    const itemsStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
       representation.accessibleName ) );
-    const itemStringProperty = new DynamicProperty( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
-    representation.singularAccessibleName ) );
+    const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+      representation.singularAccessibleName ) );
 
-    const navigatePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.navigatePatternStringProperty, {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.navigatePattern.createProperty( {
       items: itemsStringProperty
     } );
-    const movePatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.movePatternStringProperty, {
+    const movePatternStringProperty = NumberPairsFluent.a11y.movePattern.createProperty( {
       item: itemStringProperty
     } );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {

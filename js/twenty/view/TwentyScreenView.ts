@@ -15,7 +15,7 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TwentyModel from '../model/TwentyModel.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 
@@ -30,8 +30,8 @@ export default class TwentyScreenView extends DecompositionScreenView {
 
     const options = optionize<TwentyScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
       phraseAccordionBox: new PhraseAccordionBox( model, {
-        phraseStringProperty: NumberPairsStrings.decompositionPhrasePatternStringProperty,
-        phraseSpeechStringProperty: NumberPairsStrings.decompositionPhraseSpeechPatternStringProperty,
+        phraseStringProperty: NumberPairsFluent.decompositionPhrasePatternStringProperty,
+        phraseSpeechStringProperty: NumberPairsFluent.decompositionPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.twentyScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),

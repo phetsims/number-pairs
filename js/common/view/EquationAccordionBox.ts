@@ -15,7 +15,7 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import PhraseAccordionBox from './PhraseAccordionBox.js';
@@ -38,7 +38,7 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
 
   public constructor( model: NumberPairsModel, providedOptions: EquationAccordionBoxOptions ) {
 
-    const titleNode = new Text( NumberPairsStrings.equationStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+    const titleNode = new Text( NumberPairsFluent.equationStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
     const options = optionize<EquationAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       addendsOnRight: true,
       titleNode: titleNode,

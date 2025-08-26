@@ -11,7 +11,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
-import NumberPairsStrings from '../NumberPairsStrings.js';
+import NumberPairsFluent from '../NumberPairsFluent.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
 import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js';
@@ -25,7 +25,7 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
   public constructor( providedOptions: TwentyScreenOptions ) {
 
     const options = optionize<TwentyScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: NumberPairsStrings.screen.twentyStringProperty,
+      name: NumberPairsFluent.screen.twentyStringProperty,
       createKeyboardHelpNode: () => new TwentyScreenKeyboardHelpNode(),
       homeScreenIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),

@@ -25,7 +25,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel, { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
@@ -92,7 +92,7 @@ export default class CountingAreaNode extends Node {
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
-      accessibleName: NumberPairsStrings.a11y.hideAddendsStringProperty,
+      accessibleName: NumberPairsFluent.a11y.hideAddendsStringProperty,
       left: COUNTING_AREA_BOUNDS.minX + COUNTING_AREA_MARGIN,
       bottom: COUNTING_AREA_BOUNDS.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,

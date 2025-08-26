@@ -7,31 +7,30 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
+import KittenNode from '../../common/view/KittenNode.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
-import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
-import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import KittenNode from '../../common/view/KittenNode.js';
-import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -50,8 +49,8 @@ export default class SumScreenView extends NumberPairsScreenView {
     const options = optionize<SumScreenViewOptions, SelfOptions, NumberPairsScreenViewOptions>()( {
       sumScreen: true,
       phraseAccordionBox: new PhraseAccordionBox( model, {
-        phraseStringProperty: NumberPairsStrings.sumPhrasePatternStringProperty,
-        phraseSpeechStringProperty: NumberPairsStrings.sumPhraseSpeechPatternStringProperty,
+        phraseStringProperty: NumberPairsFluent.sumPhrasePatternStringProperty,
+        phraseSpeechStringProperty: NumberPairsFluent.sumPhraseSpeechPatternStringProperty,
         speechDataProperty: numberPairsUtteranceQueue.sumScreenSpeechDataProperty,
         tandem: providedOptions.tandem.createTandem( 'phraseAccordionBox' )
       } ),
@@ -80,8 +79,8 @@ export default class SumScreenView extends NumberPairsScreenView {
       maxWidth: NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth - 2
     }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
-      new Text( NumberPairsStrings.totalStringProperty, totalCheckboxLabelOptions ), {
-        accessibleHelpText: NumberPairsStrings.a11y.totalCheckboxHelpTextStringProperty,
+      new Text( NumberPairsFluent.totalStringProperty, totalCheckboxLabelOptions ), {
+        accessibleHelpText: NumberPairsFluent.a11y.totalCheckboxHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
@@ -92,8 +91,8 @@ export default class SumScreenView extends NumberPairsScreenView {
      * Create the counting object controls. These look and act like NumberSpinners but due to their implementation needs,
      * are not NumberSpinners.
      */
-    const leftAddendHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.countingObjectControlHelpTextPatternStringProperty, {
-      addend: NumberPairsStrings.a11y.leftStringProperty
+    const leftAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.countingObjectControlHelpTextPattern.createProperty( {
+      addend: NumberPairsFluent.a11y.leftStringProperty
     } );
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
@@ -104,14 +103,14 @@ export default class SumScreenView extends NumberPairsScreenView {
         countingObjectControlOptions: {
           leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsStrings.a11y.yellowObjectsStringProperty,
+          accessibleName: NumberPairsFluent.a11y.yellowObjectsStringProperty,
           accessibleHelpText: leftAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
 
-    const rightAddendHelpTextPatternStringProperty = new PatternStringProperty( NumberPairsStrings.a11y.countingObjectControlHelpTextPatternStringProperty, {
-      addend: NumberPairsStrings.a11y.rightStringProperty
+    const rightAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.countingObjectControlHelpTextPattern.createProperty( {
+      addend: NumberPairsFluent.a11y.rightStringProperty
     } );
     const rightAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
@@ -121,7 +120,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       {
         countingObjectControlOptions: {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsStrings.a11y.blueObjectsStringProperty,
+          accessibleName: NumberPairsFluent.a11y.blueObjectsStringProperty,
           accessibleHelpText: rightAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )

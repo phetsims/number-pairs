@@ -15,7 +15,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberBondNode from './NumberBondNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -63,7 +63,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
           value: false,
           tandemName: 'totalOnBottomRadioButton',
           options: {
-            accessibleName: NumberPairsStrings.a11y.totalOnBottomStringProperty
+            accessibleName: NumberPairsFluent.a11y.totalOnBottomStringProperty
           }
         },
         {
@@ -84,7 +84,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
           value: true,
           tandemName: 'totalOnTopRadioButton',
           options: {
-            accessibleName: NumberPairsStrings.a11y.totalOnTopStringProperty
+            accessibleName: NumberPairsFluent.a11y.totalOnTopStringProperty
           }
         }
       ], {
@@ -96,15 +96,15 @@ export default class NumberModelOrientationControl extends PreferencesControl {
         orientation: 'horizontal',
         tandem: providedOptions.tandem.createTandem( 'radioButtonGroup' ),
         isDisposable: false,
-        accessibleName: NumberPairsStrings.sumScreenNumberModelOrientationStringProperty,
-        accessibleHelpText: NumberPairsStrings.sumScreenNumberModelOrientationDescriptionStringProperty,
+        accessibleName: NumberPairsFluent.sumScreenNumberModelOrientationStringProperty,
+        accessibleHelpText: NumberPairsFluent.sumScreenNumberModelOrientationDescriptionStringProperty,
 
         // Hide or show the entire row, not just the radio button
         phetioVisiblePropertyInstrumented: false
       } );
     super( combineOptions<PreferencesControlOptions>( {
-      labelNode: new Text( NumberPairsStrings.sumScreenNumberModelOrientationStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
-      descriptionNode: new RichText( NumberPairsStrings.sumScreenNumberModelOrientationDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
+      labelNode: new Text( NumberPairsFluent.sumScreenNumberModelOrientationStringProperty, PreferencesDialogConstants.CONTROL_LABEL_OPTIONS ),
+      descriptionNode: new RichText( NumberPairsFluent.sumScreenNumberModelOrientationDescriptionStringProperty, PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS ),
       controlNode: radioButtonGroup,
       visiblePropertyOptions: {
         phetioFeatured: true

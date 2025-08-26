@@ -25,7 +25,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsStrings from '../../NumberPairsStrings.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
@@ -103,13 +103,13 @@ export default class SplitCountingAreaNode extends Node {
     const leftAddendEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      addendStringProperty: NumberPairsStrings.a11y.leftStringProperty,
+      addendStringProperty: NumberPairsFluent.a11y.leftStringProperty,
       tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
     } );
     const rightAddendEyeToggleButton = new AddendEyeToggleButton( rightAddendVisibleProperty, {
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      addendStringProperty: NumberPairsStrings.a11y.rightStringProperty,
+      addendStringProperty: NumberPairsFluent.a11y.rightStringProperty,
       tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )
     } );
     this.addChild( leftAddendEyeToggleButton );
