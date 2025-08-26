@@ -18,7 +18,6 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -185,9 +184,8 @@ export default class NumberPairsScreenView extends ScreenView {
     const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
 
-    // TODO: Fix type, see https://github.com/phetsims/number-pairs/issues/196
-    const representationTypeAccessibleNameProperty = new DynamicProperty<IntentionalAny, unknown, RepresentationType>( model.representationTypeProperty, {
-      derive: 'accessibleName'
+    const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
+      derive: representationType => representationType.accessibleName
     } );
     const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjectsPattern.createProperty( {
       representation: representationTypeAccessibleNameProperty
