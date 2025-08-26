@@ -125,7 +125,7 @@ addToMapIfDefined( 'a11y_adjustObjectsKeyboardHelp', 'a11y.adjustObjectsKeyboard
 const createFluentFile = (): string => {
   let ftl = '';
   for (const [key, stringProperty] of fluentKeyToStringPropertyMap.entries()) {
-    ftl += `${key} = ${stringProperty.value}\n`;
+    ftl += `${key} = ${stringProperty.value.replace('\n','\n ')}\n`;
   }
   return ftl;
 };
