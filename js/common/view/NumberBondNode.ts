@@ -13,7 +13,7 @@ import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 

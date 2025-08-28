@@ -16,7 +16,7 @@ import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberRectangle from './NumberRectangle.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 

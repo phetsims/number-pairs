@@ -25,7 +25,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberLineIcon from '../view/NumberLineIcon.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import OneCard from '../view/OneCard.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 
 const ICON_MAX_WIDTH = 25;
 const ICON_MAX_HEIGHT = 32;
