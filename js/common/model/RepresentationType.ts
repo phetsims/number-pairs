@@ -34,43 +34,43 @@ export default class RepresentationType extends EnumerationValue {
   public static readonly ICON_MAX_HEIGHT = ICON_MAX_HEIGHT;
   public static readonly APPLES = new RepresentationType(
     'apples',
-    NumberPairsFluent.a11y.applesStringProperty,
+    NumberPairsFluent.a11y.apples.accessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
     new Image( apple_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.appleStringProperty
+    NumberPairsFluent.a11y.apples.singularAccessibleNameStringProperty
   );
   public static readonly SOCCER_BALLS = new RepresentationType(
     'soccerBalls',
-    NumberPairsFluent.a11y.soccerBallsStringProperty,
+    NumberPairsFluent.a11y.soccerBalls.accessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
     new Image( soccerball_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.soccerBallStringProperty
+    NumberPairsFluent.a11y.soccerBalls.singularAccessibleNameStringProperty
   );
   public static readonly BUTTERFLIES = new RepresentationType(
     'butterflies',
-    NumberPairsFluent.a11y.butterfliesStringProperty,
+    NumberPairsFluent.a11y.butterflies.accessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
     new Image( butterfly_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.butterflyStringProperty
+    NumberPairsFluent.a11y.butterflies.singularAccessibleNameStringProperty
   );
   public static readonly ONE_CARDS = new RepresentationType(
     'oneCards',
-    NumberPairsFluent.a11y.onesStringProperty,
+    NumberPairsFluent.a11y.ones.accessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
     new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT, 20 ),
-    NumberPairsFluent.a11y.oneStringProperty
+    NumberPairsFluent.a11y.ones.singularAccessibleNameStringProperty
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
-    NumberPairsFluent.a11y.kittens.kittensStringProperty,
+    NumberPairsFluent.a11y.kittens.accessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
@@ -78,16 +78,16 @@ export default class RepresentationType extends EnumerationValue {
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
-    NumberPairsFluent.a11y.beads.beadsStringProperty,
+    NumberPairsFluent.a11y.beads.accessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
     new Image( beadBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.beads.beadStringProperty
+    NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty
   );
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
-    NumberPairsFluent.a11y.numberLine.numberLineStringProperty,
+    NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,

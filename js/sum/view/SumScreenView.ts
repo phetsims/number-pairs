@@ -80,7 +80,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsFluent.totalStringProperty, totalCheckboxLabelOptions ), {
-        accessibleHelpText: NumberPairsFluent.a11y.total.checkboxHelpTextStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.total.accessibleHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
@@ -91,7 +91,7 @@ export default class SumScreenView extends NumberPairsScreenView {
      * Create the counting object controls. These look and act like NumberSpinners but due to their implementation needs,
      * are not NumberSpinners.
      */
-    const leftAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControlHelpTextPattern.createProperty( {
+    const leftAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
       addend: NumberPairsFluent.a11y.leftStringProperty
     } );
     const leftAddendControlPanel = new AddendControlPanel(
@@ -103,13 +103,13 @@ export default class SumScreenView extends NumberPairsScreenView {
         countingObjectControlOptions: {
           leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsFluent.a11y.controls.yellowObjectsStringProperty,
+          accessibleName: NumberPairsFluent.a11y.controls.yellowObjects.accessibleNameStringProperty,
           accessibleHelpText: leftAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
 
-    const rightAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControlHelpTextPattern.createProperty( {
+    const rightAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
       addend: NumberPairsFluent.a11y.rightStringProperty
     } );
     const rightAddendControlPanel = new AddendControlPanel(
@@ -120,7 +120,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       {
         countingObjectControlOptions: {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsFluent.a11y.controls.blueObjectsStringProperty,
+          accessibleName: NumberPairsFluent.a11y.controls.blueObjects.accessibleNameStringProperty,
           accessibleHelpText: rightAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )

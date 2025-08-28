@@ -35,8 +35,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleName: NumberPairsFluent.a11y.locationCountingObjectsStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.locationCountingObjectsHelpTextStringProperty
+      accessibleName: NumberPairsFluent.a11y.locationCountingObjects.accessibleNameStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.locationCountingObjects.accessibleHelpTextStringProperty
     }, providedOptions );
 
     super( options );
@@ -136,10 +136,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
       representation.singularAccessibleName ) );
 
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.controls.navigatePattern.createProperty( {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.controls.navigate.accessibleName.createProperty( {
       items: itemsStringProperty
     } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.controls.movePattern.createProperty( {
+    const movePatternStringProperty = NumberPairsFluent.a11y.controls.move.accessibleName.createProperty( {
       item: itemStringProperty
     } );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {

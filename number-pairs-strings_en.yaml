@@ -53,76 +53,97 @@ sumScreenNumberModelOrientationDescription:               >-
                                                           On the sum screen only, this changes the orientation of the total in the
                                                           number decomposition model.
 a11y:
+
   # Colors and basic terms
-  yellow:                          Yellow
-  blue:                            Blue
-  left:                            left
-  right:                           right
-  home:                            Home
-  end:                             End
+  yellow: Yellow
+  blue:   Blue
+  left:   left
+  right:  right
+  home:   Home
+  end:    End
 
   # Phrase and interaction
-  phraseHelpText:                  Read phrase aloud.
-  hearPhrase:                      Hear Phrase
+  phrase:
+    accessibleName:     Hear Phrase
+    accessibleHelpText: Read phrase aloud.
 
   # Representation types
-  representationType:              Representation Type
-  representationTypeHelpText:      Choose representation for counting area.
-  apples:                          Apples
-  apple:                           Apple
-  soccerBalls:                     Soccer Balls
-  soccerBall:                      Soccer Ball
-  butterflies:                     Butterflies
-  butterfly:                       Butterfly
-  ones:                            Ones
-  one:                             One
-  locationCountingObjects:         Location Counting Objects
-  locationCountingObjectsHelpText: Left and right counting areas with grabbable and movable objects.
+  representationType:
+    accessibleName:     Representation Type
+    accessibleHelpText: Choose representation for counting area.
+  apples:
+    accessibleName:         Apples
+    singularAccessibleName: Apple
+  soccerBalls:
+    accessibleName:         Soccer Balls
+    singularAccessibleName: Soccer Ball
+  butterflies:
+    accessibleName:         Butterflies
+    singularAccessibleName: Butterfly
+  ones:
+    accessibleName:         Ones
+    singularAccessibleName: One
+  locationCountingObjects:
+    accessibleName:     Location Counting Objects
+    accessibleHelpText: Left and right counting areas with grabbable and movable objects.
 
   # Kittens
   kittens:
-    kittens:                 Kittens
-    changeColor:             Change Color
-    blueKitten:              Blue Kitten
-    yellowKitten:            Yellow Kitten
-    helpText:                Change kitten color and move kittens around to play.
-    jumpToFirstKeyboardHelp: Jump to first kitten with Home key.
-    jumpToLastKeyboardHelp:  Jump to last kitten with End key.
-    changeColorKeyboardHelp: Change color with Space or Enter key.
+    accessibleName:               Kittens
+    changeColorAccessibleName:    Change Color
+    blueKitten:                   Blue Kitten
+    yellowKitten:                 Yellow Kitten
+    accessibleHelpText:           Change kitten color and move kittens around to play.
+    jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
+    jumpToLastLabelInnerContent:  Jump to last kitten with End key.
+    changeColorLabelInnerContent: Change color with Space or Enter key.
 
   # Beads
   beads:
-    beads:    Beads
-    bead:     Bead
-    helpText: Counting area with grabbable and movable beads.
+    accessibleName:         Beads
+    singularAccessibleName: Bead
+    accessibleHelpText:     Counting area with grabbable and movable beads.
 
   # Number line
   numberLine:
-    numberLine:    Number Line
-    countOn:       Count On
-    countFromZero: Count from Zero
+    accessibleName: Number Line
+    countOn:        Count On
+    countFromZero:  Count from Zero
 
   # Total/Number model
   total:
-    totalOnTop:          Total on Top
-    totalOnBottom:       Total on Bottom
-    totalNumberPattern:  Total Number { $value }
-    checkboxHelpText:    Show or hide the sum of the two addends.
-    chooseTotalHelpText: Choose total for counting area.
+    totalOnTop:                    Total on Top
+    totalOnBottom:                 Total on Bottom
+    totalNumberPattern:            Total Number { $value }
+    accessibleHelpText:            Show or hide the sum of the two addends.
+    chooseTotalAccessibleHelpText: Choose total for counting area.
 
   # Controls and interactions
   controls:
-    organizeObjectsPattern:               Organize { $representation }
-    organizeObjectsHelpTextPattern:       Organize { $representation } into groups of five.
-    swapAddends:                          Swap Addends
-    showAddendPattern:                    Show { $addend } addend
-    hideAddendPattern:                    Hide { $addend } addend
-    showAddends:                          Show addends
-    hideAddends:                          Hide addends
-    yellowObjects:                        Yellow Objects
-    blueObjects:                          Blue Objects
-    countingObjectControlHelpTextPattern: Add or remove from the { $addend } addend.
-    navigatePattern:                      Navigate { $items }
-    movePattern:                          Move { $item }
-    moveAcrossDescriptionPattern:         Move grabbed { $item } to { $addend } side with { $key } key.
-    adjustObjectsKeyboardHelp:            Adjust number of objects with arrow keys.
+    organizeObjects:
+      accessibleName:     Organize { $representation }
+      accessibleHelpText: Organize { $representation } into groups of five.
+    swapAddends:
+      accessibleName: Swap Addends
+    showAddend:
+      accessibleName: Show { $addend } addend
+    hideAddend:
+      accessibleName: Hide { $addend } addend
+    showAddends:
+      accessibleName: Show addends
+    hideAddends:
+      accessibleName: Hide addends
+    yellowObjects:
+      accessibleName: Yellow Objects
+    blueObjects:
+      accessibleName: Blue Objects
+    countingObjectControl:
+      accessibleHelpText: Add or remove from the { $addend } addend.
+    navigate:
+      accessibleName: Navigate { $items }
+    move:
+      accessibleName: Move { $item }
+    moveAcrossDescription:
+      labelInnerContent: Move grabbed { $item } to { $addend } side with { $key } key.
+    adjustObjectsKeyboard:
+      labelInnerContent: Adjust number of objects with arrow keys.

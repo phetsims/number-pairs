@@ -79,37 +79,51 @@ type StringsType = {
     'rightStringProperty': LocalizedStringProperty;
     'homeStringProperty': LocalizedStringProperty;
     'endStringProperty': LocalizedStringProperty;
-    'phraseHelpTextStringProperty': LocalizedStringProperty;
-    'hearPhraseStringProperty': LocalizedStringProperty;
-    'representationTypeStringProperty': LocalizedStringProperty;
-    'representationTypeHelpTextStringProperty': LocalizedStringProperty;
-    'applesStringProperty': LocalizedStringProperty;
-    'appleStringProperty': LocalizedStringProperty;
-    'soccerBallsStringProperty': LocalizedStringProperty;
-    'soccerBallStringProperty': LocalizedStringProperty;
-    'butterfliesStringProperty': LocalizedStringProperty;
-    'butterflyStringProperty': LocalizedStringProperty;
-    'onesStringProperty': LocalizedStringProperty;
-    'oneStringProperty': LocalizedStringProperty;
-    'locationCountingObjectsStringProperty': LocalizedStringProperty;
-    'locationCountingObjectsHelpTextStringProperty': LocalizedStringProperty;
+    'phrase': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
+    'representationType': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
+    'apples': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
+    };
+    'soccerBalls': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
+    };
+    'butterflies': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
+    };
+    'ones': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
+    };
+    'locationCountingObjects': {
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
     'kittens': {
-      'kittensStringProperty': LocalizedStringProperty;
-      'changeColorStringProperty': LocalizedStringProperty;
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
       'blueKittenStringProperty': LocalizedStringProperty;
       'yellowKittenStringProperty': LocalizedStringProperty;
-      'helpTextStringProperty': LocalizedStringProperty;
-      'jumpToFirstKeyboardHelpStringProperty': LocalizedStringProperty;
-      'jumpToLastKeyboardHelpStringProperty': LocalizedStringProperty;
-      'changeColorKeyboardHelpStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'jumpToFirstLabelInnerContentStringProperty': LocalizedStringProperty;
+      'jumpToLastLabelInnerContentStringProperty': LocalizedStringProperty;
+      'changeColorLabelInnerContentStringProperty': LocalizedStringProperty;
     };
     'beads': {
-      'beadsStringProperty': LocalizedStringProperty;
-      'beadStringProperty': LocalizedStringProperty;
-      'helpTextStringProperty': LocalizedStringProperty;
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'numberLine': {
-      'numberLineStringProperty': LocalizedStringProperty;
+      'accessibleNameStringProperty': LocalizedStringProperty;
       'countOnStringProperty': LocalizedStringProperty;
       'countFromZeroStringProperty': LocalizedStringProperty;
     };
@@ -117,24 +131,50 @@ type StringsType = {
       'totalOnTopStringProperty': LocalizedStringProperty;
       'totalOnBottomStringProperty': LocalizedStringProperty;
       'totalNumberPatternStringProperty': LocalizedStringProperty;
-      'checkboxHelpTextStringProperty': LocalizedStringProperty;
-      'chooseTotalHelpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'chooseTotalAccessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
-      'organizeObjectsPatternStringProperty': LocalizedStringProperty;
-      'organizeObjectsHelpTextPatternStringProperty': LocalizedStringProperty;
-      'swapAddendsStringProperty': LocalizedStringProperty;
-      'showAddendPatternStringProperty': LocalizedStringProperty;
-      'hideAddendPatternStringProperty': LocalizedStringProperty;
-      'showAddendsStringProperty': LocalizedStringProperty;
-      'hideAddendsStringProperty': LocalizedStringProperty;
-      'yellowObjectsStringProperty': LocalizedStringProperty;
-      'blueObjectsStringProperty': LocalizedStringProperty;
-      'countingObjectControlHelpTextPatternStringProperty': LocalizedStringProperty;
-      'navigatePatternStringProperty': LocalizedStringProperty;
-      'movePatternStringProperty': LocalizedStringProperty;
-      'moveAcrossDescriptionPatternStringProperty': LocalizedStringProperty;
-      'adjustObjectsKeyboardHelpStringProperty': LocalizedStringProperty;
+      'organizeObjects': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'swapAddends': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'showAddend': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'hideAddend': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'showAddends': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'hideAddends': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'yellowObjects': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'blueObjects': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'countingObjectControl': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'navigate': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'move': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+      };
+      'moveAcrossDescription': {
+        'labelInnerContentStringProperty': LocalizedStringProperty;
+      };
+      'adjustObjectsKeyboard': {
+        'labelInnerContentStringProperty': LocalizedStringProperty;
+      }
     }
   }
 };

@@ -156,8 +156,8 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsFluent.a11y.hearPhraseStringProperty,
-        accessibleHelpText: NumberPairsFluent.a11y.phraseHelpTextStringProperty
+        accessibleName: NumberPairsFluent.a11y.phrase.accessibleNameStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.phrase.accessibleHelpTextStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -187,10 +187,10 @@ export default class NumberPairsScreenView extends ScreenView {
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: representationType => representationType.accessibleName
     } );
-    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjectsPattern.createProperty( {
+    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjects.accessibleName.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
-    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjectsHelpTextPattern.createProperty( {
+    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjects.accessibleHelpText.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
 
@@ -216,7 +216,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      accessibleName: NumberPairsFluent.a11y.controls.swapAddendsStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.swapAddends.accessibleNameStringProperty,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {

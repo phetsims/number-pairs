@@ -75,7 +75,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       tagName: 'div',
       cursor: 'pointer',
       accessibleName: NumberPairsFluent.a11y.kittens.yellowKittenStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.kittens.helpTextStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
       focusable: true
     }, providedOptions );
 
@@ -99,7 +99,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       size: new Dimension2( 26, 13 ),
       focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
-      accessibleName: NumberPairsFluent.a11y.kittens.changeColorStringProperty,
+      accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
       accessibleContextResponseLeftValue: NumberPairsFluent.a11y.yellowStringProperty,
       accessibleContextResponseRightValue: NumberPairsFluent.a11y.blueStringProperty,
       accessibleSwitch: false, // This switch does not use boolean values. Read accessibleSwitch documentation for more.

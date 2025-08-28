@@ -75,20 +75,20 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       } );
     }
     else if ( options.addendStringProperty ) {
-      hideAddendPatternStringProperty = NumberPairsFluent.a11y.controls.hideAddendPattern.createProperty( {
+      hideAddendPatternStringProperty = NumberPairsFluent.a11y.controls.hideAddend.accessibleName.createProperty( {
         addend: options.addendStringProperty
       } );
-      showAddendPatternStringProperty = NumberPairsFluent.a11y.controls.showAddendPattern.createProperty( {
+      showAddendPatternStringProperty = NumberPairsFluent.a11y.controls.showAddend.accessibleName.createProperty( {
         addend: options.addendStringProperty
       } );
     }
 
-    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsFluent.a11y.controls.hideAddendsStringProperty;
+    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty;
     super( addendToggleVisibleProperty, options );
 
     addendToggleVisibleProperty.link( visible => {
       if ( options.secondAddendVisibleProperty ) {
-        this.accessibleName = visible ? NumberPairsFluent.a11y.controls.hideAddendsStringProperty : NumberPairsFluent.a11y.controls.showAddendsStringProperty;
+        this.accessibleName = visible ? NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty : NumberPairsFluent.a11y.controls.showAddends.accessibleNameStringProperty;
       }
       else if ( hideAddendPatternStringProperty && showAddendPatternStringProperty ) {
         this.accessibleName = visible ? hideAddendPatternStringProperty : showAddendPatternStringProperty;
