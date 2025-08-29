@@ -134,67 +134,67 @@ const fluentSupport = new FluentContainer( createFluentFile, Array.from(fluentKe
 
 const NumberPairsFluent = {
   "number-pairs": {
-    titleStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'number_pairs_title', _.get( NumberPairsStrings, 'number-pairs.titleStringProperty' ) )
+    titleStringProperty: _.get( NumberPairsStrings, 'number-pairs.titleStringProperty' )
   },
   screen: {
-    introStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'screen_intro', _.get( NumberPairsStrings, 'screen.introStringProperty' ) ),
-    tenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'screen_ten', _.get( NumberPairsStrings, 'screen.tenStringProperty' ) ),
-    twentyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'screen_twenty', _.get( NumberPairsStrings, 'screen.twentyStringProperty' ) ),
-    sumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'screen_sum', _.get( NumberPairsStrings, 'screen.sumStringProperty' ) )
+    introStringProperty: _.get( NumberPairsStrings, 'screen.introStringProperty' ),
+    tenStringProperty: _.get( NumberPairsStrings, 'screen.tenStringProperty' ),
+    twentyStringProperty: _.get( NumberPairsStrings, 'screen.twentyStringProperty' ),
+    sumStringProperty: _.get( NumberPairsStrings, 'screen.sumStringProperty' )
   },
   keyboardHelpDialog: {
-    objectHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_objectHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.objectHeadingStringProperty' ) ),
-    objectStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_object', _.get( NumberPairsStrings, 'keyboardHelpDialog.objectStringProperty' ) ),
-    beadHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_beadHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.beadHeadingStringProperty' ) ),
-    beadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_bead', _.get( NumberPairsStrings, 'keyboardHelpDialog.beadStringProperty' ) ),
-    countingObjectOrBeadHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_countingObjectOrBeadHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.countingObjectOrBeadHeadingStringProperty' ) ),
-    countingObjectOrBeadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_countingObjectOrBead', _.get( NumberPairsStrings, 'keyboardHelpDialog.countingObjectOrBeadStringProperty' ) ),
+    objectHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.objectHeadingStringProperty' ),
+    objectStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.objectStringProperty' ),
+    beadHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.beadHeadingStringProperty' ),
+    beadStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.beadStringProperty' ),
+    countingObjectOrBeadHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.countingObjectOrBeadHeadingStringProperty' ),
+    countingObjectOrBeadStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.countingObjectOrBeadStringProperty' ),
     introScreen: {
-      moveGrabbableItemHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_introScreen_moveGrabbableItemHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty' ) )
+      moveGrabbableItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty' )
     },
     tenScreen: {
-      moveGrabbableItemHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_tenScreen_moveGrabbableItemHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty' ) )
+      moveGrabbableItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty' )
     },
     twentyScreen: {
-      moveGrabbableItemHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_twentyScreen_moveGrabbableItemHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty' ) )
+      moveGrabbableItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty' )
     },
     sumScreen: {
-      moveGrabbableItemHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_sumScreen_moveGrabbableItemHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.sumScreen.moveGrabbableItemHeadingStringProperty' ) )
+      moveGrabbableItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.sumScreen.moveGrabbableItemHeadingStringProperty' )
     },
-    jumpToLastKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_jumpToLastKitten', _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToLastKittenStringProperty' ) ),
-    jumpToFirstKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_jumpToFirstKitten', _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToFirstKittenStringProperty' ) ),
-    changeKittenColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_changeKittenColor', _.get( NumberPairsStrings, 'keyboardHelpDialog.changeKittenColorStringProperty' ) ),
-    kittenSectionHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_kittenSectionHeading', _.get( NumberPairsStrings, 'keyboardHelpDialog.kittenSectionHeadingStringProperty' ) ),
+    jumpToLastKittenStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToLastKittenStringProperty' ),
+    jumpToFirstKittenStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToFirstKittenStringProperty' ),
+    changeKittenColorStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.changeKittenColorStringProperty' ),
+    kittenSectionHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.kittenSectionHeadingStringProperty' ),
     moveToRightSidePatternStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.moveToRightSidePatternStringProperty' ),
     moveToLeftSidePatternStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.moveToLeftSidePatternStringProperty' ),
-    moveGrabbedObjectToOppositeSideStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_moveGrabbedObjectToOppositeSide', _.get( NumberPairsStrings, 'keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty' ) ),
-    moveBeadsToOppositeSideStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_moveBeadsToOppositeSide', _.get( NumberPairsStrings, 'keyboardHelpDialog.moveBeadsToOppositeSideStringProperty' ) ),
-    adjustObjectsTitleStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_adjustObjectsTitle', _.get( NumberPairsStrings, 'keyboardHelpDialog.adjustObjectsTitleStringProperty' ) ),
-    numberOfObjectsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'keyboardHelpDialog_numberOfObjects', _.get( NumberPairsStrings, 'keyboardHelpDialog.numberOfObjectsStringProperty' ) )
+    moveGrabbedObjectToOppositeSideStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty' ),
+    moveBeadsToOppositeSideStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.moveBeadsToOppositeSideStringProperty' ),
+    adjustObjectsTitleStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.adjustObjectsTitleStringProperty' ),
+    numberOfObjectsStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.numberOfObjectsStringProperty' )
   },
   _comment_0: new FluentComment( {"comment":"Phrase and interaction","associatedKey":"phrase"} ),
-  phraseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'phrase', _.get( NumberPairsStrings, 'phraseStringProperty' ) ),
-  numberBondStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'numberBond', _.get( NumberPairsStrings, 'numberBondStringProperty' ) ),
-  barModelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'barModel', _.get( NumberPairsStrings, 'barModelStringProperty' ) ),
-  equationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'equation', _.get( NumberPairsStrings, 'equationStringProperty' ) ),
+  phraseStringProperty: _.get( NumberPairsStrings, 'phraseStringProperty' ),
+  numberBondStringProperty: _.get( NumberPairsStrings, 'numberBondStringProperty' ),
+  barModelStringProperty: _.get( NumberPairsStrings, 'barModelStringProperty' ),
+  equationStringProperty: _.get( NumberPairsStrings, 'equationStringProperty' ),
   decompositionPhrasePatternStringProperty: _.get( NumberPairsStrings, 'decompositionPhrasePatternStringProperty' ),
   decompositionPhraseSpeechPatternStringProperty: _.get( NumberPairsStrings, 'decompositionPhraseSpeechPatternStringProperty' ),
   sumPhrasePatternStringProperty: _.get( NumberPairsStrings, 'sumPhrasePatternStringProperty' ),
   sumPhraseSpeechPatternStringProperty: _.get( NumberPairsStrings, 'sumPhraseSpeechPatternStringProperty' ),
-  aNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'aNumber', _.get( NumberPairsStrings, 'aNumberStringProperty' ) ),
-  someNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'someNumber', _.get( NumberPairsStrings, 'someNumberStringProperty' ) ),
-  anotherNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'anotherNumber', _.get( NumberPairsStrings, 'anotherNumberStringProperty' ) ),
-  addendsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'addends', _.get( NumberPairsStrings, 'addendsStringProperty' ) ),
-  tickNumbersStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'tickNumbers', _.get( NumberPairsStrings, 'tickNumbersStringProperty' ) ),
-  totalJumpStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'totalJump', _.get( NumberPairsStrings, 'totalJumpStringProperty' ) ),
+  aNumberStringProperty: _.get( NumberPairsStrings, 'aNumberStringProperty' ),
+  someNumberStringProperty: _.get( NumberPairsStrings, 'someNumberStringProperty' ),
+  anotherNumberStringProperty: _.get( NumberPairsStrings, 'anotherNumberStringProperty' ),
+  addendsStringProperty: _.get( NumberPairsStrings, 'addendsStringProperty' ),
+  tickNumbersStringProperty: _.get( NumberPairsStrings, 'tickNumbersStringProperty' ),
+  totalJumpStringProperty: _.get( NumberPairsStrings, 'totalJumpStringProperty' ),
   _comment_1: new FluentComment( {"comment":"Total/Number model","associatedKey":"total"} ),
-  totalStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'total', _.get( NumberPairsStrings, 'totalStringProperty' ) ),
-  automaticallyHearPhraseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'automaticallyHearPhrase', _.get( NumberPairsStrings, 'automaticallyHearPhraseStringProperty' ) ),
-  automaticallyHearPhraseDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'automaticallyHearPhraseDescription', _.get( NumberPairsStrings, 'automaticallyHearPhraseDescriptionStringProperty' ) ),
-  numberModelTypeStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'numberModelType', _.get( NumberPairsStrings, 'numberModelTypeStringProperty' ) ),
-  numberModelTypeDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'numberModelTypeDescription', _.get( NumberPairsStrings, 'numberModelTypeDescriptionStringProperty' ) ),
-  sumScreenNumberModelOrientationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'sumScreenNumberModelOrientation', _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ) ),
-  sumScreenNumberModelOrientationDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'sumScreenNumberModelOrientationDescription', _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ) ),
+  totalStringProperty: _.get( NumberPairsStrings, 'totalStringProperty' ),
+  automaticallyHearPhraseStringProperty: _.get( NumberPairsStrings, 'automaticallyHearPhraseStringProperty' ),
+  automaticallyHearPhraseDescriptionStringProperty: _.get( NumberPairsStrings, 'automaticallyHearPhraseDescriptionStringProperty' ),
+  numberModelTypeStringProperty: _.get( NumberPairsStrings, 'numberModelTypeStringProperty' ),
+  numberModelTypeDescriptionStringProperty: _.get( NumberPairsStrings, 'numberModelTypeDescriptionStringProperty' ),
+  sumScreenNumberModelOrientationStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ),
+  sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
   a11y: {
     _comment_0: new FluentComment( {"comment":"Colors and basic terms","associatedKey":"yellow"} ),
     yellowStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_yellow', _.get( NumberPairsStrings, 'a11y.yellowStringProperty' ) ),
