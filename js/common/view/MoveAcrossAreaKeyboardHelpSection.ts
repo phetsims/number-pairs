@@ -13,6 +13,7 @@ import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/Ke
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 
 
 export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSection {
@@ -25,15 +26,15 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsFluent.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.controls.moveAcrossDescription.labelInnerContent.createProperty( {
+    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContent.createProperty( {
       item: itemStringProperty,
       addend: NumberPairsFluent.a11y.leftStringProperty,
-      key: NumberPairsFluent.a11y.homeStringProperty
+      key: SceneryPhetFluent.key.homeStringProperty
     } );
-    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.controls.moveAcrossDescription.labelInnerContent.createProperty( {
+    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContent.createProperty( {
       item: itemStringProperty,
       addend: NumberPairsFluent.a11y.rightStringProperty,
-      key: NumberPairsFluent.a11y.endStringProperty
+      key: SceneryPhetFluent.key.endStringProperty
     } );
     const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveLeftPatternStringProperty, TextKeyNode.home(), {
       labelInnerContent: moveLeftDescriptionPatternStringProperty

@@ -352,8 +352,8 @@ export default class NumberPairsScreenView extends ScreenView {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,
           visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
-          valueAAccessibleName: NumberPairsFluent.a11y.numberLine.countOnStringProperty,
-          valueBAccessibleName: NumberPairsFluent.a11y.numberLine.countFromZeroStringProperty,
+          valueAAccessibleName: NumberPairsFluent.a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty,
+          valueBAccessibleName: NumberPairsFluent.a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 ),
             enabledPropertyOptions: {

@@ -74,7 +74,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
-      accessibleName: NumberPairsFluent.a11y.kittens.yellowKittenStringProperty,
+      accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
       focusable: true
     }, providedOptions );
@@ -100,8 +100,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       focusable: false,
       tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
-      accessibleContextResponseLeftValue: NumberPairsFluent.a11y.yellowStringProperty,
-      accessibleContextResponseRightValue: NumberPairsFluent.a11y.blueStringProperty,
+      accessibleContextResponseLeftValue: NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
+      accessibleContextResponseRightValue: NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
       accessibleSwitch: false, // This switch does not use boolean values. Read accessibleSwitch documentation for more.
       thumbFill: new DerivedProperty( [
           countingObject.addendTypeProperty,
@@ -152,7 +152,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     this.focusPanel = focusPanel;
     this.countingObject = countingObject;
     isLeftAddendProperty.link( isLeftAddend => {
-      this.accessibleName = isLeftAddend ? NumberPairsFluent.a11y.kittens.yellowKittenStringProperty : NumberPairsFluent.a11y.kittens.blueKittenStringProperty;
+      this.accessibleName = isLeftAddend ? NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty : NumberPairsFluent.a11y.kittens.rightAddendKittenStringProperty;
     } );
 
     focusPanel.center = this.center;

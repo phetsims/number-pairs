@@ -80,7 +80,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsFluent.totalStringProperty, totalCheckboxLabelOptions ), {
-        accessibleHelpText: NumberPairsFluent.a11y.total.accessibleHelpTextStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.totalCheckbox.accessibleHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
@@ -103,7 +103,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         countingObjectControlOptions: {
           leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsFluent.a11y.controls.yellowObjects.accessibleNameStringProperty,
+          accessibleName: NumberPairsFluent.a11y.controls.leftObjects.accessibleNameStringProperty,
           accessibleHelpText: leftAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
@@ -120,7 +120,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       {
         countingObjectControlOptions: {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
-          accessibleName: NumberPairsFluent.a11y.controls.blueObjects.accessibleNameStringProperty,
+          accessibleName: NumberPairsFluent.a11y.controls.rightObjects.accessibleNameStringProperty,
           accessibleHelpText: rightAddendHelpTextPatternStringProperty
         },
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )

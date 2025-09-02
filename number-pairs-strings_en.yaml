@@ -54,13 +54,11 @@ sumScreenNumberModelOrientationDescription:               >-
                                                           number decomposition model.
 a11y:
 
-  # Colors and basic terms
-  yellow: Yellow
-  blue:   Blue
-  left:   left
-  right:  right
-  home:   Home
-  end:    End
+  # Basic terms and interactions
+  left:             left
+  right:            right
+  navigatePattern:  Navigate { $items }
+  movePattern:      Move { $item }
 
   # Phrase and interaction
   phrase:
@@ -86,19 +84,15 @@ a11y:
   locationCountingObjects:
     accessibleName:     Location Counting Objects
     accessibleHelpText: Left and right counting areas with grabbable and movable objects.
-
-  # Kittens
   kittens:
     accessibleName:               Kittens
     changeColorAccessibleName:    Change Color
-    blueKitten:                   Blue Kitten
-    yellowKitten:                 Yellow Kitten
+    leftAddendColor:              Yellow
+    rightAddendColor:             Blue
+    leftAddendKitten:             Yellow Kitten
+    rightAddendKitten:            Blue Kitten
     accessibleHelpText:           Change kitten color and move kittens around to play.
-    jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
-    jumpToLastLabelInnerContent:  Jump to last kitten with End key.
-    changeColorLabelInnerContent: Change color with Space or Enter key.
 
-  # Beads
   beads:
     accessibleName:         Beads
     singularAccessibleName: Bead
@@ -107,16 +101,13 @@ a11y:
   # Number line
   numberLine:
     accessibleName: Number Line
-    countOn:        Count On
-    countFromZero:  Count from Zero
 
   # Total/Number model
-  total:
-    totalOnTop:                    Total on Top
-    totalOnBottom:                 Total on Bottom
-    totalNumberPattern:            Total Number { $value }
-    accessibleHelpText:            Show or hide the sum of the two addends.
-    chooseTotalAccessibleHelpText: Choose total for counting area.
+  totalSceneSelection:
+    totalNumberPattern: Total Number { $value }
+    accessibleHelpText: Choose total for counting area.
+  totalCheckbox:
+    accessibleHelpText: Show or hide the sum of the two addends.
 
   # Controls and interactions
   controls:
@@ -125,25 +116,37 @@ a11y:
       accessibleHelpText: Organize { $representation } into groups of five.
     swapAddends:
       accessibleName: Swap Addends
-    showAddend:
-      accessibleName: Show { $addend } addend
-    hideAddend:
-      accessibleName: Hide { $addend } addend
+    showAddendPattern: Show { $addend } addend
+    hideAddendPattern: Hide { $addend } addend
     showAddends:
       accessibleName: Show addends
     hideAddends:
       accessibleName: Hide addends
-    yellowObjects:
+    leftObjects:
       accessibleName: Yellow Objects
-    blueObjects:
+    rightObjects:
       accessibleName: Blue Objects
     countingObjectControl:
       accessibleHelpText: Add or remove from the { $addend } addend.
-    navigate:
-      accessibleName: Navigate { $items }
-    move:
-      accessibleName: Move { $item }
+    countFromZeroSwitch:
+      valueAAccessibleName: Count On
+      valueBAccessibleName: Count from Zero
+    totalCheckbox:
+      accessibleHelpText: Show or hide the sum of the two addends.
+
+  # Preferences
+  preferences:
+    sumScreenModelOrientation:
+      totalOnTop: Total on Top
+      totalOnBottom: Total on Bottom
+
+  # Keyboard help dialog
+  keyboardHelpDialog:
     moveAcrossDescription:
       labelInnerContent: Move grabbed { $item } to { $addend } side with { $key } key.
     adjustObjectsKeyboard:
       labelInnerContent: Adjust number of objects with arrow keys.
+    kittenInteraction:
+      jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
+      jumpToLastLabelInnerContent: Jump to last kitten with End key.
+      changeColorLabelInnerContent: Change color with Space or Enter key.

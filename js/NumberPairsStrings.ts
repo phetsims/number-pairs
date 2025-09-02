@@ -73,12 +73,10 @@ type StringsType = {
   'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
   'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
   'a11y': {
-    'yellowStringProperty': LocalizedStringProperty;
-    'blueStringProperty': LocalizedStringProperty;
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
-    'homeStringProperty': LocalizedStringProperty;
-    'endStringProperty': LocalizedStringProperty;
+    'navigatePatternStringProperty': LocalizedStringProperty;
+    'movePatternStringProperty': LocalizedStringProperty;
     'phrase': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
@@ -110,12 +108,11 @@ type StringsType = {
     'kittens': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
-      'blueKittenStringProperty': LocalizedStringProperty;
-      'yellowKittenStringProperty': LocalizedStringProperty;
+      'leftAddendColorStringProperty': LocalizedStringProperty;
+      'rightAddendColorStringProperty': LocalizedStringProperty;
+      'leftAddendKittenStringProperty': LocalizedStringProperty;
+      'rightAddendKittenStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      'jumpToFirstLabelInnerContentStringProperty': LocalizedStringProperty;
-      'jumpToLastLabelInnerContentStringProperty': LocalizedStringProperty;
-      'changeColorLabelInnerContentStringProperty': LocalizedStringProperty;
     };
     'beads': {
       'accessibleNameStringProperty': LocalizedStringProperty;
@@ -124,15 +121,13 @@ type StringsType = {
     };
     'numberLine': {
       'accessibleNameStringProperty': LocalizedStringProperty;
-      'countOnStringProperty': LocalizedStringProperty;
-      'countFromZeroStringProperty': LocalizedStringProperty;
     };
-    'total': {
-      'totalOnTopStringProperty': LocalizedStringProperty;
-      'totalOnBottomStringProperty': LocalizedStringProperty;
+    'totalSceneSelection': {
       'totalNumberPatternStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      'chooseTotalAccessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
+    'totalCheckbox': {
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
       'organizeObjects': {
@@ -142,38 +137,48 @@ type StringsType = {
       'swapAddends': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
-      'showAddend': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
-      'hideAddend': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
+      'showAddendPatternStringProperty': LocalizedStringProperty;
+      'hideAddendPatternStringProperty': LocalizedStringProperty;
       'showAddends': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
       'hideAddends': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
-      'yellowObjects': {
+      'leftObjects': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
-      'blueObjects': {
+      'rightObjects': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
       'countingObjectControl': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
-      'navigate': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
+      'countFromZeroSwitch': {
+        'valueAAccessibleNameStringProperty': LocalizedStringProperty;
+        'valueBAccessibleNameStringProperty': LocalizedStringProperty;
       };
-      'move': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
+      'totalCheckbox': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      }
+    };
+    'preferences': {
+      'sumScreenModelOrientation': {
+        'totalOnTopStringProperty': LocalizedStringProperty;
+        'totalOnBottomStringProperty': LocalizedStringProperty;
+      }
+    };
+    'keyboardHelpDialog': {
       'moveAcrossDescription': {
         'labelInnerContentStringProperty': LocalizedStringProperty;
       };
       'adjustObjectsKeyboard': {
         'labelInnerContentStringProperty': LocalizedStringProperty;
+      };
+      'kittenInteraction': {
+        'jumpToFirstLabelInnerContentStringProperty': LocalizedStringProperty;
+        'jumpToLastLabelInnerContentStringProperty': LocalizedStringProperty;
+        'changeColorLabelInnerContentStringProperty': LocalizedStringProperty;
       }
     }
   }

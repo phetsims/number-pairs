@@ -75,10 +75,10 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       } );
     }
     else if ( options.addendStringProperty ) {
-      hideAddendPatternStringProperty = NumberPairsFluent.a11y.controls.hideAddend.accessibleName.createProperty( {
+      hideAddendPatternStringProperty = NumberPairsFluent.a11y.controls.hideAddendPattern.createProperty( {
         addend: options.addendStringProperty
       } );
-      showAddendPatternStringProperty = NumberPairsFluent.a11y.controls.showAddend.accessibleName.createProperty( {
+      showAddendPatternStringProperty = NumberPairsFluent.a11y.controls.showAddendPattern.createProperty( {
         addend: options.addendStringProperty
       } );
     }

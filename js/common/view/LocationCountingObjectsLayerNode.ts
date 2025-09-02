@@ -136,10 +136,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
       representation.singularAccessibleName ) );
 
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.controls.navigate.accessibleName.createProperty( {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.navigatePattern.createProperty( {
       items: itemsStringProperty
     } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.controls.move.accessibleName.createProperty( {
+    const movePatternStringProperty = NumberPairsFluent.a11y.movePattern.createProperty( {
       item: itemStringProperty
     } );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
