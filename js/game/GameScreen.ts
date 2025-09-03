@@ -14,7 +14,7 @@ import GameModel from './model/GameModel.js';
 import GameScreenView from './view/GameScreenView.js';
 
 type SelfOptions = {
-  //TODO add options that are specific to GameScreen here
+  //TODO add options that are specific to GameScreen here, https://github.com/phetsims/number-pairs/issues/36
 };
 
 type GameScreenOptions = SelfOptions & ScreenOptions;
@@ -25,9 +25,9 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
 
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
 
-      //TODO add default values for optional SelfOptions here
+      //TODO add default values for optional SelfOptions here, https://github.com/phetsims/number-pairs/issues/36
 
-      //TODO add default values for optional ScreenOptions here
+      //TODO add default values for optional ScreenOptions here, https://github.com/phetsims/number-pairs/issues/36
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 

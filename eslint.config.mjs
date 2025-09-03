@@ -14,7 +14,6 @@ export default [
   ...simEslintConfig,
   {
     rules: {
-      'phet/todo-should-have-issue': 'off',
       'phet/require-fluent': 'error'
     }
   },

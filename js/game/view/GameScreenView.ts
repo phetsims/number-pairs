@@ -14,7 +14,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 
 type SelfOptions = {
- //TODO add options that are specific to GameScreenView here
+ //TODO add options that are specific to GameScreenView here https://github.com/phetsims/number-pairs/issues/36
 };
 
 type GameScreenViewOptions = SelfOptions & ScreenViewOptions;
@@ -25,9 +25,9 @@ export default class GameScreenView extends ScreenView {
 
     const options = optionize<GameScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
-      //TODO add default values for optional SelfOptions here
+      //TODO add default values for optional SelfOptions here https://github.com/phetsims/number-pairs/issues/36
 
-      //TODO add default values for optional ScreenViewOptions here
+      //TODO add default values for optional ScreenViewOptions here https://github.com/phetsims/number-pairs/issues/36
     }, providedOptions );
 
     super( options );
@@ -49,7 +49,7 @@ export default class GameScreenView extends ScreenView {
    * Resets the view.
    */
   public reset(): void {
-    //TODO
+    //TODO https://github.com/phetsims/number-pairs/issues/36
   }
 
   /**
@@ -57,7 +57,7 @@ export default class GameScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-    //TODO
+    //TODO https://github.com/phetsims/number-pairs/issues/36
   }
 }
 
