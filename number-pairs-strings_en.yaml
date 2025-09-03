@@ -3,6 +3,7 @@ screen.intro:                                             Intro
 screen.ten:                                               Ten
 screen.twenty:                                            Twenty
 screen.sum:                                               Sum
+screen.game:                                              Game
 keyboardHelpDialog.objectHeading:                         Object
 keyboardHelpDialog.object:                                object
 keyboardHelpDialog.beadHeading:                           Bead
@@ -55,10 +56,10 @@ sumScreenNumberModelOrientationDescription:               >-
 a11y:
 
   # Basic terms and interactions
-  left:             left
-  right:            right
-  navigatePattern:  Navigate { $items }
-  movePattern:      Move { $item }
+  left:            left
+  right:           right
+  navigatePattern: Navigate { $items }
+  movePattern:     Move { $item }
 
   # Phrase and interaction
   phrase:
@@ -85,13 +86,13 @@ a11y:
     accessibleName:     Location Counting Objects
     accessibleHelpText: Left and right counting areas with grabbable and movable objects.
   kittens:
-    accessibleName:               Kittens
-    changeColorAccessibleName:    Change Color
-    leftAddendColor:              Yellow
-    rightAddendColor:             Blue
-    leftAddendKitten:             Yellow Kitten
-    rightAddendKitten:            Blue Kitten
-    accessibleHelpText:           Change kitten color and move kittens around to play.
+    accessibleName:            Kittens
+    changeColorAccessibleName: Change Color
+    leftAddendColor:           Yellow
+    rightAddendColor:          Blue
+    leftAddendKitten:          Yellow Kitten
+    rightAddendKitten:         Blue Kitten
+    accessibleHelpText:        Change kitten color and move kittens around to play.
 
   beads:
     accessibleName:         Beads
@@ -137,7 +138,7 @@ a11y:
   # Preferences
   preferences:
     sumScreenModelOrientation:
-      totalOnTop: Total on Top
+      totalOnTop:    Total on Top
       totalOnBottom: Total on Bottom
 
   # Keyboard help dialog
@@ -148,5 +149,5 @@ a11y:
       labelInnerContent: Adjust number of objects with arrow keys.
     kittenInteraction:
       jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
-      jumpToLastLabelInnerContent: Jump to last kitten with End key.
+      jumpToLastLabelInnerContent:  Jump to last kitten with End key.
       changeColorLabelInnerContent: Change color with Space or Enter key.

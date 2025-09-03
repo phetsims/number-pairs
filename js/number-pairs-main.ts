@@ -17,6 +17,7 @@ import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAn
 import NumberPairsPreferencesModel from './common/model/NumberPairsPreferencesModel.js';
 import numberPairsSpeechSynthesisAnnouncer from './common/view/numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './common/view/numberPairsUtteranceQueue.js';
+import GameScreen from './game/GameScreen.js';
 import IntroScreen from './intro/IntroScreen.js';
 import NumberPairsFluent from './NumberPairsFluent.js';
 import './common/NumberPairsQueryParameters.js';
@@ -32,8 +33,8 @@ simLauncher.launch( () => {
     new IntroScreen( { tandem: Tandem.ROOT.createTandem( 'introScreen' ) } ),
     new TenScreen( { tandem: Tandem.ROOT.createTandem( 'tenScreen' ) } ),
     new TwentyScreen( { tandem: Tandem.ROOT.createTandem( 'twentyScreen' ) } ),
-    new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } )
-    // new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } ) // On hold until PhET-iO Game design is ready to continue.
+    new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } ),
+    new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } )
   ];
 
   const options: SimOptions = {

@@ -32,6 +32,7 @@ addToMapIfDefined( 'screen_intro', 'screen.introStringProperty' );
 addToMapIfDefined( 'screen_ten', 'screen.tenStringProperty' );
 addToMapIfDefined( 'screen_twenty', 'screen.twentyStringProperty' );
 addToMapIfDefined( 'screen_sum', 'screen.sumStringProperty' );
+addToMapIfDefined( 'screen_game', 'screen.gameStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_objectHeading', 'keyboardHelpDialog.objectHeadingStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_object', 'keyboardHelpDialog.objectStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_beadHeading', 'keyboardHelpDialog.beadHeadingStringProperty' );
@@ -139,7 +140,8 @@ const NumberPairsFluent = {
     introStringProperty: _.get( NumberPairsStrings, 'screen.introStringProperty' ),
     tenStringProperty: _.get( NumberPairsStrings, 'screen.tenStringProperty' ),
     twentyStringProperty: _.get( NumberPairsStrings, 'screen.twentyStringProperty' ),
-    sumStringProperty: _.get( NumberPairsStrings, 'screen.sumStringProperty' )
+    sumStringProperty: _.get( NumberPairsStrings, 'screen.sumStringProperty' ),
+    gameStringProperty: _.get( NumberPairsStrings, 'screen.gameStringProperty' )
   },
   _comment_0: new FluentComment( {"comment":"Keyboard help dialog","associatedKey":"keyboardHelpDialog"} ),
   keyboardHelpDialog: {
