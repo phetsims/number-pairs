@@ -15,6 +15,9 @@
     },
     {
       "path": "../perennial-alias/tsconfig/buildjson/tsconfig.json"
+    },
+    {
+      "path": "../vegas/tsconfig.json"
     }
   ]
 }

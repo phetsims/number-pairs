@@ -12,9 +12,10 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import LevelSelectionNode from './LevelSelectionNode.js';
 
 type SelfOptions = {
- //TODO add options that are specific to GameScreenView here https://github.com/phetsims/number-pairs/issues/36
+  //TODO add options that are specific to GameScreenView here https://github.com/phetsims/number-pairs/issues/36
 };
 
 type GameScreenViewOptions = SelfOptions & ScreenViewOptions;
@@ -31,6 +32,10 @@ export default class GameScreenView extends ScreenView {
     }, providedOptions );
 
     super( options );
+
+    // Level selection UI
+    const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
+    this.addChild( levelSelectionNode );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
