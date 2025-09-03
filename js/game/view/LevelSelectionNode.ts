@@ -16,7 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel from '../model/GameModel.js';
+import GameModel, { Mode } from '../model/GameModel.js';
 
 const TITLE_FONT = new PhetFont( 36 );
 
@@ -33,7 +33,7 @@ export default class LevelSelectionNode extends Node {
 
   public constructor( model: GameModel, layoutBounds: Bounds2, tandem: Tandem ) {
 
-    // Title text. Using a literal for now; will be localized when strings are available.
+    // TODO: https://github.com/phetsims/number-pairs/issues/36 i18n
     const titleText = new Text( 'Choose Your Level', {
       font: TITLE_FONT,
       maxWidth: 0.8 * layoutBounds.width,
@@ -55,8 +55,12 @@ export default class LevelSelectionNode extends Node {
         options: {
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: () => new ScoreDisplayNumberAndStar( scoreProperty ),
-          soundPlayerIndex: level - 1
+          soundPlayerIndex: level - 1,
           // listener can be added when model exposes level selection
+          listener: () => {
+            console.log( `Level ${level} button clicked` );
+            model.modeProperty.value = ( 'level' + level as Mode );
+          }
         }
       } );
     }

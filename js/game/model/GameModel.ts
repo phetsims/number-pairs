@@ -6,6 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import TModel from '../../../../joist/js/TModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -17,10 +18,20 @@ type SelfOptions = {
 
 type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
+const ModeValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8', 'levelSelectionScreen' ] as const;
+export type Mode = ( typeof ModeValues )[number];
+
 export default class GameModel implements TModel {
+  public readonly modeProperty: StringUnionProperty<Mode>;
 
   public constructor( providedOptions: GameModelOptions ) {
+
     //TODO https://github.com/phetsims/number-pairs/issues/36
+    this.modeProperty = new StringUnionProperty<Mode>( 'levelSelectionScreen', {
+      validValues: ModeValues,
+      tandem: providedOptions.tandem.createTandem( 'modeProperty' ),
+      phetioDocumentation: 'the current level'
+    } );
   }
 
   /**
