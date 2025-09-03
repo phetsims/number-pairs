@@ -11,13 +11,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 
 export type NumberButtonGridRange = 'zeroToTen' | 'zeroToTwenty';
@@ -33,18 +34,23 @@ export default class NumberButtonGrid extends Node {
     super();
 
     const alignGroup = new AlignGroup();
+    const buttonStates: BooleanProperty[] = [];
+
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
     const createButton = ( value: number, columnIndex: number, rowIndex: number ) => {
 
-      const label = new Text( value, { font: FONT } );
+      const label = new Text( String( value ), { font: FONT } );
       const labelBox = new AlignBox( label, {
         group: alignGroup,
         xAlign: 'center',
         yAlign: 'center'
       } );
 
-      const button = new RectangularPushButton( {
+      const stateProperty = new BooleanProperty( false );
+      buttonStates.push( stateProperty );
+
+      const button = new BooleanRectangularStickyToggleButton( stateProperty, {
         content: labelBox,
         size: BUTTON_SIZE,
         baseColor: '#f7d9a5'
@@ -52,6 +58,17 @@ export default class NumberButtonGrid extends Node {
 
       button.left = columnIndex * ( BUTTON_SIZE.width + X_SPACING );
       button.top = rowIndex * ( BUTTON_SIZE.height + Y_SPACING );
+
+      // When this button is pressed in (true), pop out all other buttons
+      stateProperty.lazyLink( isDown => {
+        if ( isDown ) {
+          buttonStates.forEach( p => {
+            if ( p !== stateProperty ) {
+              p.value = false;
+            }
+          } );
+        }
+      } );
 
       return button;
     };

@@ -29,7 +29,7 @@ export default class LevelNode extends Node {
     super();
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( '<strong>Level 1</strong> Missing addends in a number bond (0-10)', {
+    const levelDescriptionText = new RichText( '<strong>Level 1</strong>&nbsp;&nbsp;&nbsp;Missing addends in a number bond (0-10)', {
       font: new PhetFont( 21 ),
       maxWidth: 650
     } );
