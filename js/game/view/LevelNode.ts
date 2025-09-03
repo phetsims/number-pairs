@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -19,6 +20,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPairs from '../../numberPairs.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
@@ -65,7 +67,7 @@ export default class LevelNode extends Node {
       touchAreaXDilation: 9,
       touchAreaYDilation: 9,
       content: new Path( rightArrowShape, { fill: Color.BLACK } ),
-      // visibleProperty: level.isChallengeSolvedProperty,
+      visibleProperty: new BooleanProperty( false ),
       listener: () => this.newChallenge()
     } );
     // newChallengeButton.centerX = smileyFaceNode.centerX;
@@ -81,6 +83,18 @@ export default class LevelNode extends Node {
       bottom: layoutBounds.maxY - 10
     } );
     this.addChild( numberButtonGrid );
+
+    // Add a 'Check' button in the top-right, disabled until a number is selected
+    const checkButton = new TextPushButton( 'Check' ); // TODO i18n https://github.com/phetsims/number-pairs/issues/36
+
+    // TODO: Manual constraint for layout, see https://github.com/phetsims/number-pairs/issues/36
+    checkButton.right = layoutBounds.maxX - 20;
+    checkButton.top = statusBar.bottom + 10;
+    checkButton.enabledProperty.value = false;
+    numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
+      checkButton.enabledProperty.value = anySelected;
+    } );
+    this.addChild( checkButton );
   }
 
   public reset(): void {

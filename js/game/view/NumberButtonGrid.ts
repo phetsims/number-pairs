@@ -29,18 +29,24 @@ const Y_SPACING = 12;
 const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
+  public readonly anySelectedProperty: BooleanProperty;
 
   public constructor( range: NumberButtonGridRange, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
     const buttonStates: BooleanProperty[] = [];
+    this.anySelectedProperty = new BooleanProperty( false );
+    const updateAnySelected = () => {
 
+      // true if any button is pressed in
+      this.anySelectedProperty.value = buttonStates.some( p => p.value );
+    };
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
     const createButton = ( value: number, columnIndex: number, rowIndex: number ) => {
 
-      const label = new Text( String( value ), { font: FONT } );
+      const label = new Text( value, { font: FONT } );
       const labelBox = new AlignBox( label, {
         group: alignGroup,
         xAlign: 'center',
@@ -68,6 +74,7 @@ export default class NumberButtonGrid extends Node {
             }
           } );
         }
+        updateAnySelected();
       } );
 
       return button;
