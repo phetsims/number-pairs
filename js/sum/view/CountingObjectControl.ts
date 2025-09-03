@@ -216,11 +216,11 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
         event?.preventDefault();
         if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
           options.interruptPointers();
-          inactiveCountingObjects.lengthProperty.value > 0 && handleIncrement();
+          inactiveCountingObjects.lengthProperty.value > 0 && incrementButton.pdomClick();
         }
         else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
           options.interruptPointers();
-          addendCountingObjects.lengthProperty.value > 0 && handleDecrement();
+          addendCountingObjects.lengthProperty.value > 0 && decrementButton.pdomClick();
         }
       }
     } );
