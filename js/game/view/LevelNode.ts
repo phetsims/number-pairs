@@ -21,6 +21,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPairs from '../../numberPairs.js';
+import NumberButtonGrid from './NumberButtonGrid.js';
 
 export default class LevelNode extends Node {
 
@@ -28,7 +29,7 @@ export default class LevelNode extends Node {
     super();
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( 'description', {
+    const levelDescriptionText = new RichText( '<strong>Level 1</strong> Missing addends in a number bond (0-10)', {
       font: new PhetFont( 21 ),
       maxWidth: 650
     } );
@@ -38,6 +39,7 @@ export default class LevelNode extends Node {
     // bar across the top of the screen
     const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, scoreProperty,
       combineOptions<InfiniteStatusBarOptions>( {
+        barFill: '#b6fab9',
         floatToTop: true,
         spacing: 20,
         backButtonListener: () => {
@@ -72,6 +74,13 @@ export default class LevelNode extends Node {
     //                             NumberPlayGameAnswerButtons.BUTTON_DIMENSION.height -
     //                             LevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( newChallengeButton );
+
+    // Add the number button grid; choose full range for now
+    const numberButtonGrid = new NumberButtonGrid( 'zeroToTwenty', {
+      centerX: layoutBounds.centerX,
+      bottom: layoutBounds.maxY - 10
+    } );
+    this.addChild( numberButtonGrid );
   }
 
   public reset(): void {
