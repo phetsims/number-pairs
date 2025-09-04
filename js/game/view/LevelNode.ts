@@ -32,19 +32,19 @@ export default class LevelNode extends Node {
   private readonly checkButton: TextPushButton;
   private readonly newChallengeButton: RectangularPushButton;
 
-  public constructor( model: GameModel, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void ) {
+  public constructor( model: GameModel, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void, levelNumber: number ) {
     super();
     
     this.model = model;
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( '<strong>Level 1</strong>&nbsp;&nbsp;&nbsp;Missing addends in a number bond (0-10)', {
+    const levelDescriptionText = new RichText( `<strong>Level ${levelNumber}</strong>`, {
       font: new PhetFont( 21 ),
       maxWidth: 650
     } );
 
-    // bar across the top of the screen
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.scoreProperty,
+    // bar across the top of the screen - show this level's score
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevelScoreProperty( levelNumber ),
       combineOptions<InfiniteStatusBarOptions>( {
         barFill: '#b6fab9',
         floatToTop: true,
@@ -83,8 +83,8 @@ export default class LevelNode extends Node {
       touchAreaXDilation: 9,
       touchAreaYDilation: 9,
       content: new Path( rightArrowShape, { fill: Color.BLACK } ),
-      visibleProperty: model.isChallengeSolvedProperty,
-      listener: () => this.newChallenge()
+      visibleProperty: model.getLevel( levelNumber ).isChallengeSolvedProperty,
+      listener: () => this.newChallenge( levelNumber )
     } );
     this.newChallengeButton.centerX = layoutBounds.centerX;
     this.newChallengeButton.bottom = layoutBounds.maxY - 200;
@@ -107,11 +107,11 @@ export default class LevelNode extends Node {
     this.checkButton.top = statusBar.bottom + 10;
     this.checkButton.enabledProperty.value = false;
     this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
-      this.checkButton.enabledProperty.value = anySelected && !model.isChallengeSolvedProperty.value;
+      this.checkButton.enabledProperty.value = anySelected && !model.getLevel( levelNumber ).isChallengeSolvedProperty.value;
     } );
     
     // Disable check button when challenge is solved
-    model.isChallengeSolvedProperty.lazyLink( solved => {
+    model.getLevel( levelNumber ).isChallengeSolvedProperty.lazyLink( solved => {
       if ( solved ) {
         this.checkButton.enabledProperty.value = false;
       }
@@ -144,7 +144,9 @@ export default class LevelNode extends Node {
   /**
    * Sets up a new challenge in the model and in the view.
    */
-  public newChallenge(): void {
+  public newChallenge( levelNumber: number ): void {
+    // Reset the model state and generate a new challenge for this level
+    this.model.getLevel( levelNumber ).resetForNewChallenge();
     this.model.generateNewChallenge();
     this.numberButtonGrid.resetAll();
   }

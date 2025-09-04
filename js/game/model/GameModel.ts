@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
@@ -16,6 +15,7 @@ import TModel from '../../../../joist/js/TModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
+import Level from './Level.js';
 
 type SelfOptions = {
   //TODO add options that are specific to GameModel here https://github.com/phetsims/number-pairs/issues/36
@@ -36,9 +36,9 @@ export default class GameModel implements TModel {
   public readonly equationTextProperty: StringProperty;
 
   // Game state properties
-  public readonly isChallengeSolvedProperty: BooleanProperty;
-  public readonly scoreProperty: NumberProperty; // Number of stars earned
-  public readonly attemptsProperty: NumberProperty; // Number of attempts on current challenge
+
+  // Individual level score properties (persistent across sessions)
+  public readonly levels: Level[]; // indexed 0..7 for levels 1..8
 
   public constructor( providedOptions: GameModelOptions ) {
 
@@ -65,18 +65,10 @@ export default class GameModel implements TModel {
       tandem: providedOptions.tandem.createTandem( 'equationTextProperty' )
     } );
 
-    // Game state
-    this.isChallengeSolvedProperty = new BooleanProperty( false, {
-      tandem: providedOptions.tandem.createTandem( 'isChallengeSolvedProperty' )
-    } );
+    // No aggregate session score; scoring is per-level
 
-    this.scoreProperty = new NumberProperty( 0, {
-      tandem: providedOptions.tandem.createTandem( 'scoreProperty' )
-    } );
-
-    this.attemptsProperty = new NumberProperty( 0, {
-      tandem: providedOptions.tandem.createTandem( 'attemptsProperty' )
-    } );
+    // Create per-level models
+    this.levels = [ 1, 2, 3, 4, 5, 6, 7, 8 ].map( n => new Level( providedOptions.tandem.createTandem( `level${n}` ) ) );
 
     // Generate the first challenge
     this.generateNewChallenge();
@@ -96,25 +88,52 @@ export default class GameModel implements TModel {
     this.missingValueProperty.value = missingValue;
     this.equationTextProperty.value = `${leftAddend} + x = ${total}`;
 
-    // Reset challenge state
-    this.isChallengeSolvedProperty.value = false;
-    this.attemptsProperty.value = 0;
+    // Reset challenge state for the current level (or level 1 during startup)
+    if ( this.levels && this.levels.length > 0 ) {
+      this.getCurrentLevel().resetForNewChallenge();
+    }
+  }
+
+  /**
+   * Gets the score property for a specific level number (1-8).
+   */
+  public getLevelScoreProperty( levelNumber: number ): NumberProperty {
+    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
+    return this.levels[ index ].scoreProperty;
+  }
+
+  /** Returns the Level model for a specific level number (1-8). */
+  public getLevel( levelNumber: number ): Level {
+    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
+    return this.levels[ index ];
+  }
+
+  /** Returns the Level model for the current mode, defaulting to level 1. */
+  public getCurrentLevel(): Level {
+    const mode = this.modeProperty.value;
+    if ( mode === 'levelSelectionScreen' ) {
+      return this.getLevel( 1 );
+    }
+    const match = /^level([1-8])$/.exec( mode );
+    const n = match ? Number( match[ 1 ] ) : 1;
+    return this.getLevel( n );
   }
 
   /**
    * Checks if the user's guess is correct and updates game state.
    */
   public checkAnswer( guess: number ): boolean {
-    this.attemptsProperty.value++;
+    const level = this.getCurrentLevel();
+    level.attemptsProperty.value++;
 
     const isCorrect = guess === this.missingValueProperty.value;
 
     if ( isCorrect ) {
-      this.isChallengeSolvedProperty.value = true;
+      level.isChallengeSolvedProperty.value = true;
 
       // Award star only on first try
-      if ( this.attemptsProperty.value === 1 ) {
-        this.scoreProperty.value++;
+      if ( level.attemptsProperty.value === 1 ) {
+        level.scoreProperty.value++;
       }
     }
 
@@ -125,7 +144,12 @@ export default class GameModel implements TModel {
    * Resets the model.
    */
   public reset(): void {
-    this.scoreProperty.reset();
+    // Reset all level scores and state
+    this.levels.forEach( level => {
+      level.scoreProperty.reset();
+      level.resetForNewChallenge();
+    } );
+
     this.generateNewChallenge();
   }
 

@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -47,16 +46,15 @@ export default class LevelSelectionNode extends Node {
 
     const items: LevelSelectionButtonGroupItem[] = [];
     for ( let level = 1; level <= NUMBER_OF_LEVELS; level++ ) {
-      // TODO: replace with model-provided score property per level when available, see https://github.com/phetsims/number-pairs/issues/36
-      const scoreProperty = new NumberProperty( 0 );
+      // Use the actual score property for this level from the model
+      const scoreProperty = model.getLevelScoreProperty( level );
       items.push( {
         icon: new Text( level, { font: new PhetFont( 18 ) } ),
         scoreProperty: scoreProperty,
         options: {
           // Number Play methodology: show total stars as a number + star icon
-          createScoreDisplay: () => new ScoreDisplayNumberAndStar( scoreProperty ),
+          createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: level - 1,
-          // listener can be added when model exposes level selection
           listener: () => {
             console.log( `Level ${level} button clicked` );
             model.modeProperty.value = ( 'level' + level as Mode );
