@@ -12,9 +12,11 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import LevelNode from './LevelNode.js';
+import LevelSelectionNode from './LevelSelectionNode.js';
 
 type SelfOptions = {
- //TODO add options that are specific to GameScreenView here https://github.com/phetsims/number-pairs/issues/36
+  //TODO add options that are specific to GameScreenView here https://github.com/phetsims/number-pairs/issues/36
 };
 
 type GameScreenViewOptions = SelfOptions & ScreenViewOptions;
@@ -32,6 +34,15 @@ export default class GameScreenView extends ScreenView {
 
     super( options );
 
+    // Level selection UI
+    const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
+    this.addChild( levelSelectionNode );
+
+    const returnToLevelSelection = () => model.showSelection();
+    const levelNodes = Array.from( { length: model.getLevelCount() }, ( _, i ) =>
+      new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, i + 1 )
+    );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -43,6 +54,24 @@ export default class GameScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    const render = () => {
+      this.children = [];
+      if ( model.currentViewProperty.value === 'selection' ) {
+        this.addChild( levelSelectionNode );
+        this.addChild( resetAllButton );
+      }
+      else {
+        const n = model.getCurrentLevelNumber();
+        this.addChild( levelNodes[ n - 1 ] );
+      }
+    };
+    model.currentViewProperty.link( render );
+    model.currentLevelNumberProperty.link( () => {
+      if ( model.currentViewProperty.value === 'level' ) {
+        render();
+      }
+    } );
   }
 
   /**

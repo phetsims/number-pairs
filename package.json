@@ -13,7 +13,8 @@
     "requirejsNamespace": "NUMBER_PAIRS",
     "phetLibs": [
       "counting-common",
-      "number-suite-common"
+      "number-suite-common",
+      "vegas"
     ],
     "simulation": true,
     "runnable": true,

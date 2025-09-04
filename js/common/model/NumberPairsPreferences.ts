@@ -70,7 +70,7 @@ const NumberPairsPreferences = {
   } ),
 
   // Whether the sim is using its primary locale or secondary locale on screens that support two languages.
-  //TODO: https://github.com/phetsims/number-pairs/issues/162 Shouldn't this be specific to each screen? How about Reset All behavior?
+  // NOTE: In https://github.com/phetsims/number-pairs/issues/162 this was designed to be a global, not per-screen.
   isPrimaryLocaleProperty: new BooleanProperty( true, {
     tandem: Tandem.PREFERENCES.createTandem( 'isPrimaryLocaleProperty' ),
     phetioReadOnly: true
