@@ -41,14 +41,14 @@ export default class GameScreenView extends ScreenView {
     const returnToLevelSelection = () => {
       model.modeProperty.value = 'levelSelectionScreen';
     };
-    const level1Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level2Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level3Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level4Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level5Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level6Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level7Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
-    const level8Node = new LevelNode( this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level1Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level2Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level3Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level4Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level5Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level6Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level7Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
+    const level8Node = new LevelNode( model, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {

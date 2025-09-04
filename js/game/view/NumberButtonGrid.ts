@@ -30,17 +30,23 @@ const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
   public readonly anySelectedProperty: BooleanProperty;
+  
+  private readonly buttonStates: BooleanProperty[];
+  private readonly buttons: BooleanRectangularStickyToggleButton[];
+  private readonly buttonValues: number[];
 
   public constructor( range: NumberButtonGridRange, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
-    const buttonStates: BooleanProperty[] = [];
+    this.buttonStates = [];
+    this.buttons = [];
+    this.buttonValues = [];
     this.anySelectedProperty = new BooleanProperty( false );
     const updateAnySelected = () => {
 
       // true if any button is pressed in
-      this.anySelectedProperty.value = buttonStates.some( p => p.value );
+      this.anySelectedProperty.value = this.buttonStates.some( p => p.value );
     };
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
@@ -54,13 +60,16 @@ export default class NumberButtonGrid extends Node {
       } );
 
       const stateProperty = new BooleanProperty( false );
-      buttonStates.push( stateProperty );
+      this.buttonStates.push( stateProperty );
+      this.buttonValues.push( value );
 
       const button = new BooleanRectangularStickyToggleButton( stateProperty, {
         content: labelBox,
         size: BUTTON_SIZE,
         baseColor: '#f7d9a5'
       } );
+      
+      this.buttons.push( button );
 
       button.left = columnIndex * ( BUTTON_SIZE.width + X_SPACING );
       button.top = rowIndex * ( BUTTON_SIZE.height + Y_SPACING );
@@ -68,7 +77,7 @@ export default class NumberButtonGrid extends Node {
       // When this button is pressed in (true), pop out all other buttons
       stateProperty.lazyLink( isDown => {
         if ( isDown ) {
-          buttonStates.forEach( p => {
+          this.buttonStates.forEach( p => {
             if ( p !== stateProperty ) {
               p.value = false;
             }
@@ -94,6 +103,45 @@ export default class NumberButtonGrid extends Node {
     }
 
     this.mutate( providedOptions );
+  }
+  
+  /**
+   * Gets the currently selected number, or null if none selected.
+   */
+  public getSelectedNumber(): number | null {
+    const selectedIndex = this.buttonStates.findIndex( state => state.value );
+    return selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
+  }
+  
+  /**
+   * Disables the button for the given value.
+   */
+  public disableButton( value: number ): void {
+    const index = this.buttonValues.indexOf( value );
+    if ( index >= 0 ) {
+      this.buttons[ index ].enabledProperty.value = false;
+    }
+  }
+  
+  /**
+   * Resets the selection state (unselects all buttons).
+   */
+  public resetSelection(): void {
+    this.buttonStates.forEach( state => {
+      state.value = false;
+    } );
+  }
+  
+  /**
+   * Resets all buttons to their initial state (enabled and unselected).
+   */
+  public resetAll(): void {
+    this.buttonStates.forEach( state => {
+      state.value = false;
+    } );
+    this.buttons.forEach( button => {
+      button.enabledProperty.value = true;
+    } );
   }
 }
 
