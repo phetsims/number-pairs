@@ -38,7 +38,7 @@ export default class LevelNode extends Node {
     this.model = model;
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( `<strong>Level ${levelNumber}</strong>`, {
+    const levelDescriptionText = new RichText( `<strong>${model.getLevelDescription( levelNumber )}</strong>`, {
       font: new PhetFont( 21 ),
       maxWidth: 650
     } );
@@ -90,8 +90,8 @@ export default class LevelNode extends Node {
     this.newChallengeButton.bottom = layoutBounds.maxY - 200;
     this.addChild( this.newChallengeButton );
 
-    // Add the number button grid; choose full range for now
-    this.numberButtonGrid = new NumberButtonGrid( 'zeroToTwenty', {
+    // Add the number button grid; range is configured per level
+    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( levelNumber ).gridRange, {
       centerX: layoutBounds.centerX,
       bottom: layoutBounds.maxY - 10
     } );

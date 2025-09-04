@@ -15,12 +15,11 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel, { Mode } from '../model/GameModel.js';
+import GameModel from '../model/GameModel.js';
 
 const TITLE_FONT = new PhetFont( 36 );
 
-// Create 8 level buttons in 2 rows of 4 using LevelSelectionButtonGroup.
-const NUMBER_OF_LEVELS = 8;
+// Buttons in 2 rows of 4 using LevelSelectionButtonGroup.
 const BUTTON_WIDTH = 130;
 const BUTTON_HEIGHT = 130;
 const BUTTON_LINE_WIDTH = 2;
@@ -45,6 +44,7 @@ export default class LevelSelectionNode extends Node {
     } );
 
     const items: LevelSelectionButtonGroupItem[] = [];
+    const NUMBER_OF_LEVELS = model.getLevelCount();
     for ( let level = 1; level <= NUMBER_OF_LEVELS; level++ ) {
       // Use the actual score property for this level from the model
       const scoreProperty = model.getLevelScoreProperty( level );
@@ -55,10 +55,7 @@ export default class LevelSelectionNode extends Node {
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: level - 1,
-          listener: () => {
-            console.log( `Level ${level} button clicked` );
-            model.modeProperty.value = ( 'level' + level as Mode );
-          }
+          listener: () => model.startLevel( level )
         }
       } );
     }

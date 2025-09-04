@@ -28,6 +28,10 @@ export type Mode = ( typeof ModeValues )[number];
 
 export default class GameModel implements TModel {
   public readonly modeProperty: StringUnionProperty<Mode>;
+  
+  // New view state (preferred over modeProperty going forward)
+  public readonly currentViewProperty: StringUnionProperty<'selection' | 'level'>;
+  public readonly currentLevelNumberProperty: NumberProperty; // 1..N
 
   // Current equation challenge properties
   public readonly leftAddendProperty: NumberProperty;
@@ -37,8 +41,9 @@ export default class GameModel implements TModel {
 
   // Game state properties
 
-  // Individual level score properties (persistent across sessions)
-  public readonly levels: Level[]; // indexed 0..7 for levels 1..8
+  // Individual level models (persistent across session lifetime)
+  public readonly levels: Level[]; // indexed 0..N-1 for levels 1..N
+  private readonly levelConfigs: LevelConfig[];
 
   public constructor( providedOptions: GameModelOptions ) {
 
@@ -46,6 +51,17 @@ export default class GameModel implements TModel {
       validValues: ModeValues,
       tandem: providedOptions.tandem.createTandem( 'modeProperty' ),
       phetioDocumentation: 'the current level'
+    } );
+
+    // New view state
+    this.currentViewProperty = new StringUnionProperty<'selection' | 'level'>( 'selection', {
+      validValues: [ 'selection', 'level' ],
+      tandem: providedOptions.tandem.createTandem( 'currentViewProperty' ),
+      phetioDocumentation: 'which view is currently shown'
+    } );
+    this.currentLevelNumberProperty = new NumberProperty( 1, {
+      tandem: providedOptions.tandem.createTandem( 'currentLevelNumberProperty' ),
+      numberType: 'Integer'
     } );
 
     // Initialize equation properties
@@ -67,28 +83,34 @@ export default class GameModel implements TModel {
 
     // No aggregate session score; scoring is per-level
 
-    // Create per-level models
-    this.levels = [ 1, 2, 3, 4, 5, 6, 7, 8 ].map( n => new Level( providedOptions.tandem.createTandem( `level${n}` ) ) );
+    // Configure and create per-level models
+    this.levelConfigs = [ 1, 2, 3, 4, 5, 6, 7, 8 ].map( n => ( {
+      id: n,
+      description: `Level ${n}`,
+      gridRange: 'zeroToTwenty',
+      generateChallenge: () => {
+        // Prototype: totals 0-10 with missing addend
+        const total = dotRandom.nextIntBetween( 0, 10 );
+        const leftAddend = dotRandom.nextIntBetween( 0, total );
+        const missingValue = total - leftAddend;
+        return createChallenge( leftAddend, missingValue, total );
+      }
+    } ) );
+
+    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ) ) );
 
     // Generate the first challenge
     this.generateNewChallenge();
   }
 
-  /**
-   * Generates a new challenge with random numbers for level 1 (totals 0-10).
-   */
+  /** Generates and applies a new challenge for the current level. */
   public generateNewChallenge(): void {
-    // For level 1: totals between 0-10
-    const total = dotRandom.nextIntBetween( 0, 10 );
-    const leftAddend = dotRandom.nextIntBetween( 0, total );
-    const missingValue = total - leftAddend;
+    const challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
+    this.leftAddendProperty.value = challenge.leftAddend;
+    this.missingValueProperty.value = challenge.missingValue;
+    this.totalProperty.value = challenge.total;
+    this.equationTextProperty.value = challenge.text;
 
-    this.totalProperty.value = total;
-    this.leftAddendProperty.value = leftAddend;
-    this.missingValueProperty.value = missingValue;
-    this.equationTextProperty.value = `${leftAddend} + x = ${total}`;
-
-    // Reset challenge state for the current level (or level 1 during startup)
     if ( this.levels && this.levels.length > 0 ) {
       this.getCurrentLevel().resetForNewChallenge();
     }
@@ -108,8 +130,13 @@ export default class GameModel implements TModel {
     return this.levels[ index ];
   }
 
-  /** Returns the Level model for the current mode, defaulting to level 1. */
+  /** Returns the Level model for the current selection. */
   public getCurrentLevel(): Level {
+    // Prefer the new properties when in 'level' view
+    if ( this.currentViewProperty.value === 'level' ) {
+      return this.getLevel( this.currentLevelNumberProperty.value );
+    }
+    // Fallback for legacy modeProperty
     const mode = this.modeProperty.value;
     if ( mode === 'levelSelectionScreen' ) {
       return this.getLevel( 1 );
@@ -118,6 +145,34 @@ export default class GameModel implements TModel {
     const n = match ? Number( match[ 1 ] ) : 1;
     return this.getLevel( n );
   }
+
+  /** Current level number (1-based). */
+  public getCurrentLevelNumber(): number { return this.currentLevelNumberProperty.value; }
+
+  /** Start the specified level and generate the initial challenge. */
+  public startLevel( levelNumber: number ): void {
+    this.currentLevelNumberProperty.value = levelNumber;
+    this.currentViewProperty.value = 'level';
+    this.getCurrentLevel().resetForNewChallenge();
+    this.generateNewChallenge();
+  }
+
+  /** Show the level selection view. */
+  public showSelection(): void {
+    this.currentViewProperty.value = 'selection';
+  }
+
+  /** Number of levels available. */
+  public getLevelCount(): number { return this.levels.length; }
+
+  /** Level configuration for a level number. */
+  public getLevelConfig( levelNumber: number ): LevelConfig {
+    const index = Math.max( 1, Math.min( this.levelConfigs.length, levelNumber ) ) - 1;
+    return this.levelConfigs[ index ];
+  }
+
+  /** Description for a level. */
+  public getLevelDescription( levelNumber: number ): string { return this.getLevelConfig( levelNumber ).description; }
 
   /**
    * Checks if the user's guess is correct and updates game state.
@@ -163,3 +218,27 @@ export default class GameModel implements TModel {
 }
 
 numberPairs.register( 'GameModel', GameModel );
+
+// Local types to organize challenges and level configuration without new files
+type Challenge = {
+  leftAddend: number;
+  missingValue: number;
+  total: number;
+  text: string;
+};
+
+function createChallenge( leftAddend: number, missingValue: number, total: number ): Challenge {
+  return {
+    leftAddend: leftAddend,
+    missingValue: missingValue,
+    total: total,
+    text: `${leftAddend} + x = ${total}`
+  };
+}
+
+type LevelConfig = {
+  id: number;
+  description: string;
+  gridRange: 'zeroToTen' | 'zeroToTwenty';
+  generateChallenge: () => Challenge;
+};
