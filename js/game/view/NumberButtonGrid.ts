@@ -133,6 +133,15 @@ export default class NumberButtonGrid extends Node {
   }
   
   /**
+   * Disables all number buttons (used after solving a challenge).
+   */
+  public disableAll(): void {
+    this.buttons.forEach( button => {
+      button.enabledProperty.value = false;
+    } );
+  }
+  
+  /**
    * Resets all buttons to their initial state (enabled and unselected).
    */
   public resetAll(): void {

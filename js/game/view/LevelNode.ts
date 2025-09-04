@@ -114,6 +114,7 @@ export default class LevelNode extends Node {
     model.getLevel( levelNumber ).isChallengeSolvedProperty.lazyLink( solved => {
       if ( solved ) {
         this.checkButton.enabledProperty.value = false;
+        this.numberButtonGrid.disableAll();
       }
     } );
     
