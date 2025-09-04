@@ -84,18 +84,96 @@ export default class GameModel implements TModel {
     // No aggregate session score; scoring is per-level
 
     // Configure and create per-level models
-    this.levelConfigs = [ 1, 2, 3, 4, 5, 6, 7, 8 ].map( n => ( {
-      id: n,
-      description: `Level ${n}`,
-      gridRange: 'zeroToTwenty',
-      generateChallenge: () => {
-        // Prototype: totals 0-10 with missing addend
-        const total = dotRandom.nextIntBetween( 0, 10 );
-        const leftAddend = dotRandom.nextIntBetween( 0, total );
-        const missingValue = total - leftAddend;
-        return createChallenge( leftAddend, missingValue, total );
+    this.levelConfigs = [
+      {
+        id: 1,
+        description: 'Level 1 Missing addends in a number bond (0-10)',
+        gridRange: 'zeroToTen',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 0, 10 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 2,
+        description: 'Level 2 Missing addend in a number bond (10 only)',
+        gridRange: 'zeroToTen',
+        generateChallenge: () => {
+          const total = 10;
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 3,
+        description: 'Level 3 Missing addend in a decomposition equation',
+        gridRange: 'zeroToTen',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 0, 10 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 4,
+        description: 'Level 4 Missing addend in a sum equation (10 only)',
+        gridRange: 'zeroToTen',
+        generateChallenge: () => {
+          const total = 10;
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 5,
+        description: 'Level 5 Missing addend with a number bond (11-20)',
+        gridRange: 'zeroToTwenty',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 11, 20 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 6,
+        description: 'Level 6 Missing addend with decomposition equation (11-20)',
+        gridRange: 'zeroToTwenty',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 11, 20 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 7,
+        description: 'Level 7 Missing addend or total with sum equation (11-20)',
+        gridRange: 'zeroToTwenty',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 11, 20 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
+      },
+      {
+        id: 8,
+        description: 'Level 8 Equations with the number line (0-20)',
+        gridRange: 'zeroToTwenty',
+        generateChallenge: () => {
+          const total = dotRandom.nextIntBetween( 0, 20 );
+          const leftAddend = dotRandom.nextIntBetween( 0, total );
+          const missingValue = total - leftAddend;
+          return createChallenge( leftAddend, missingValue, total );
+        }
       }
-    } ) );
+    ];
 
     this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ) ) );
 

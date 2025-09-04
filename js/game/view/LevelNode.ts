@@ -15,7 +15,7 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -37,11 +37,12 @@ export default class LevelNode extends Node {
     
     this.model = model;
 
-    // text displayed in the statusBar
-    const levelDescriptionText = new RichText( `<strong>${model.getLevelDescription( levelNumber )}</strong>`, {
-      font: new PhetFont( 21 ),
-      maxWidth: 650
-    } );
+    // Title and description in the status bar: bold "Level X" + spaced non-bold description
+    const fullDescription = model.getLevelDescription( levelNumber );
+    const descriptionOnly = fullDescription.replace( /^Level\s*\d+\s*/, '' );
+    const levelLabel = new Text( `Level ${levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
+    const descriptionText = new Text( descriptionOnly, { font: new PhetFont( 21 ) } );
+    const levelDescriptionText = new HBox( { spacing: 12, children: [ levelLabel, descriptionText ] } );
 
     // bar across the top of the screen - show this level's score
     const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevelScoreProperty( levelNumber ),
