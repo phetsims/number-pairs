@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
@@ -20,7 +19,6 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = {
   secondAddendVisibleProperty?: BooleanProperty | null;
-  addendStringProperty?: TReadOnlyProperty<string> | null;
 };
 type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
 
@@ -32,19 +30,13 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, HEIGHT ),
       secondAddendVisibleProperty: null,
-      addendStringProperty: null,
       baseColor: Color.WHITE,
       touchAreaXDilation: 5,
-      touchAreaYDilation: 5
+      touchAreaYDilation: 5,
+      accessibleContextResponse: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty
     }, providedOptions );
 
-    assert && assert( ( options.secondAddendVisibleProperty && options.addendStringProperty === null ) ||
-                      ( options.addendStringProperty || options.secondAddendVisibleProperty === null ),
-      'Either secondAddendVisibleProperty or addendStringProperty must be provided, but not both' );
-
     let addendToggleVisibleProperty = addendVisibleProperty;
-    let hideAddendPatternStringProperty: TReadOnlyProperty<string> | null = null;
-    let showAddendPatternStringProperty: TReadOnlyProperty<string> | null = null;
     if ( options.secondAddendVisibleProperty ) {
       addendToggleVisibleProperty = new BooleanProperty( addendVisibleProperty.value && options.secondAddendVisibleProperty.value, {
         reentrant: true,
@@ -74,26 +66,8 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
         }
       } );
     }
-    else if ( options.addendStringProperty ) {
-      hideAddendPatternStringProperty = NumberPairsFluent.a11y.controls.hideAddendPattern.createProperty( {
-        addend: options.addendStringProperty
-      } );
-      showAddendPatternStringProperty = NumberPairsFluent.a11y.controls.showAddendPattern.createProperty( {
-        addend: options.addendStringProperty
-      } );
-    }
 
-    options.accessibleName = hideAddendPatternStringProperty ? hideAddendPatternStringProperty.value : NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty;
     super( addendToggleVisibleProperty, options );
-
-    addendToggleVisibleProperty.link( visible => {
-      if ( options.secondAddendVisibleProperty ) {
-        this.accessibleName = visible ? NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty : NumberPairsFluent.a11y.controls.showAddends.accessibleNameStringProperty;
-      }
-      else if ( hideAddendPatternStringProperty && showAddendPatternStringProperty ) {
-        this.accessibleName = visible ? hideAddendPatternStringProperty : showAddendPatternStringProperty;
-      }
-    } );
   }
 }
 

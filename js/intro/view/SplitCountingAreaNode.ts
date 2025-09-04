@@ -26,6 +26,8 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;
@@ -103,13 +105,29 @@ export default class SplitCountingAreaNode extends Node {
     const leftAddendEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      addendStringProperty: NumberPairsFluent.a11y.leftStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.addendVisible.accessibleNamePattern.createProperty( {
+        addend: NumberPairsFluent.a11y.leftCapitalizedStringProperty
+      } ),
+      accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisible.accessibleHelpTextPattern.createProperty( {
+        addend: NumberPairsFluent.a11y.leftStringProperty,
+        modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
+          derive: 'stringProperty'  //eslint-disable-line phet/bad-sim-text
+        } )
+      } ),
       tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
     } );
     const rightAddendEyeToggleButton = new AddendEyeToggleButton( rightAddendVisibleProperty, {
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      addendStringProperty: NumberPairsFluent.a11y.rightStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.addendVisible.accessibleNamePattern.createProperty( {
+        addend: NumberPairsFluent.a11y.rightCapitalizedStringProperty
+      } ),
+      accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisible.accessibleHelpTextPattern.createProperty( {
+        addend: NumberPairsFluent.a11y.rightStringProperty,
+        modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
+          derive: 'stringProperty'  //eslint-disable-line phet/bad-sim-text
+        } )
+      } ),
       tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )
     } );
     this.addChild( leftAddendEyeToggleButton );

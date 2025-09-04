@@ -24,6 +24,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [
@@ -60,6 +61,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
 
     const options = optionize<GroupSelectDragInteractionViewOptions, SelfOptions, GroupSelectViewOptions<CountingObject, Node>>()( {
       getNodeFromModelItem: countingObject => modelToNodeMap.get( countingObject )!,
+      grabbedRoleDescription: NumberPairsFluent.a11y.movableRoleDescriptionStringProperty,
       soundKeyboardDragListenerOptions: {}
     }, providedOptions );
     super( groupSelectModel, primaryFocusedNode, options );

@@ -136,12 +136,16 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
       representation.singularAccessibleName ) );
 
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.navigatePattern.createProperty( {
+    const navigatePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.navigatePattern.createProperty( {
       items: itemsStringProperty
     } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.movePattern.createProperty( {
+    const movePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedPattern.createProperty( {
       item: itemStringProperty
     } );
+    const grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
+      item: itemsStringProperty
+    } );
+    const releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty;
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
 
       // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
@@ -153,6 +157,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       }
 
       this.accessibleName = isGrabbed ? movePatternStringProperty : navigatePatternStringProperty;
+      this.accessibleHelpText = isGrabbed ? grabbedHelpTextStringProperty : releasedHelpTextStringProperty;
     } );
 
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {

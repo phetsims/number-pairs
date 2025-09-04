@@ -56,15 +56,19 @@ sumScreenNumberModelOrientationDescription:               >-
 a11y:
 
   # Basic terms and interactions
-  left:            left
-  right:           right
-  navigatePattern: Navigate { $items }
-  movePattern:     Move { $item }
-
-  # Phrase and interaction
-  phrase:
-    accessibleName:     Hear Phrase
-    accessibleHelpText: Read phrase aloud.
+  left:                     left
+  right:                    right
+  leftCapitalized:          Left
+  rightCapitalized:         Right
+  movableRoleDescription:   movable
+  grabOrReleaseInteraction:
+    navigatePattern:            Navigate { $items }
+    grabbedPattern:             Grabbed { $item }
+    releasedHelpText:           Press Space to grab or release.
+    grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas
+    grabbedAccessibleResponse:  grabbed, in { $addend } counting area.
+    releasedAccessibleResponse: released, in { $addend } counting area.
+    movedAccessibleResponse:    now in { $addend } counting area
 
   # Representation types
   representationType:
@@ -112,13 +116,44 @@ a11y:
 
   # Controls and interactions
   controls:
+    speechSynthesis:
+      accessibleName:             Hear Phrase
+      noVoiceAccessibleName:      No Voice Found
+      noVoiceAccessibleParagraph: >-
+        There is no voice found on this device for the selected language. Your device may support downloading additional
+        voices for this language.
+      #TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200
+      accessibleHelpText:         Hear decomposition phrase aloud.
+    localeSwitch:
+        accessibleHelpText: Choose between two languages to hear and read phrase.
+    numberModel:
+      numberBond:                     number bond
+      barModel:                       proportional bar model
+      accessibleHelpText:             Represent decomposition as a { $representation }.
+      numberBondAccessibleParagraph:  >-
+        { $total } in top total circle. { $leftAddend } and { $rightAddend } in bottom addend circles.
+      barModelAccessibleParagraph:    >-
+        { $total } in top total rectangle. { $leftAddend } and { $rightAddend } in bottom addends rectangle, split into
+        { $size } sections.
+      largerAndSmaller:               larger and smaller
+      smallerAndLarger:               smaller and larger
+      equal:                          equal
     organizeObjects:
-      accessibleName:     Organize { $representation }
-      accessibleHelpText: Organize { $representation } into groups of five.
-    swapAddends:
-      accessibleName: Swap Addends
-    showAddendPattern: Show { $addend } addend
-    hideAddendPattern: Hide { $addend } addend
+      accessibleName:     Organize { $representation } Into Groups
+      accessibleHelpText: Each group has a maximum of 5 { $representation }.
+    commutativeButton:
+      accessibleName:             Swap Addends
+      accessibleHelpTextPattern:         Switch { $items } from left counting are to right and right counting area to left.
+      #TODO Can we remove the item here so we can reduce the info CommutativeButton needs? https://github.com/phetsims/number-pairs/issues/200
+      accessibleContextResponse:  >-
+        { $leftAddend } on left, { $rightAddend } on right, { $total } { $items } total.
+    addendVisible:
+      accessibleNamePattern:     >-
+        { $addend } Counting Area Visibility
+      accessibleHelpTextPattern: Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
+      accessibleContextResponse:
+        hidden:   contents hidden
+        visible:  contents visible
     showAddends:
       accessibleName: Show addends
     hideAddends:

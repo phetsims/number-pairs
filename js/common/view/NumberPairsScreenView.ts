@@ -156,8 +156,11 @@ export default class NumberPairsScreenView extends ScreenView {
      */
     const speechSynthesisControl = new SpeechSynthesisControl( numberPairsSpeechSynthesisAnnouncer, numberPairsUtteranceQueue, {
       speechSynthesisButtonOptions: {
-        accessibleName: NumberPairsFluent.a11y.phrase.accessibleNameStringProperty,
-        accessibleHelpText: NumberPairsFluent.a11y.phrase.accessibleHelpTextStringProperty
+        accessibleName: NumberPairsFluent.a11y.controls.speechSynthesis.accessibleNameStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.controls.speechSynthesis.accessibleHelpTextStringProperty
+      },
+      noVoiceWarningButtonOptions: {
+        accessibleName: NumberPairsFluent.a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
@@ -165,6 +168,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( speechSynthesisControl );
     const localeSwitch = new LocaleSwitch( NumberPairsPreferences, numberPairsUtteranceQueue, 300, {
+      accessibleHelpText: NumberPairsFluent.a11y.controls.localeSwitch.accessibleHelpTextStringProperty,
       tandem: options.tandem.createTandem( 'localeSwitch' ),
       phetioDocumentation: 'This control is only accessible when a second language is active.'
     } );
@@ -216,7 +220,12 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButton = new CommutativeButton( {
-      accessibleName: NumberPairsFluent.a11y.controls.swapAddends.accessibleNameStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.commutativeButton.accessibleNameStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.controls.commutativeButton.accessibleHelpTextPattern.createProperty( {
+        items: new DynamicProperty( model.representationTypeProperty, {
+          derive: 'accessibleName'
+        } )
+      } ),
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {

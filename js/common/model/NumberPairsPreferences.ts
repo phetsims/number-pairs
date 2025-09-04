@@ -16,6 +16,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 // As with the primary locale, use initialize-globals checkAndRemapLocale() to check validity of the second locale.
 // This potentially either falls back to 'en', or remaps from 3-character locales to PhET locales.
@@ -32,10 +34,16 @@ const secondLocaleProperty = new LocaleProperty( secondLocale as Locale || local
 
 
 export class NumberModelType extends EnumerationValue {
-  public static readonly NUMBER_BOND_MODEL = new NumberModelType();
-  public static readonly BAR_MODEL = new NumberModelType();
+  public static readonly NUMBER_BOND_MODEL = new NumberModelType( NumberPairsFluent.numberBondStringProperty );
+  public static readonly BAR_MODEL = new NumberModelType( NumberPairsFluent.barModelStringProperty );
 
   public static readonly enumeration = new Enumeration( NumberModelType );
+
+  public constructor(
+    public readonly stringProperty: TReadOnlyProperty<string>
+  ) {
+    super();
+  }
 }
 
 const NumberPairsPreferences = {

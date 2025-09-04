@@ -76,11 +76,17 @@ type StringsType = {
   'a11y': {
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
-    'navigatePatternStringProperty': LocalizedStringProperty;
-    'movePatternStringProperty': LocalizedStringProperty;
-    'phrase': {
-      'accessibleNameStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    'leftCapitalizedStringProperty': LocalizedStringProperty;
+    'rightCapitalizedStringProperty': LocalizedStringProperty;
+    'movableRoleDescriptionStringProperty': LocalizedStringProperty;
+    'grabOrReleaseInteraction': {
+      'navigatePatternStringProperty': LocalizedStringProperty;
+      'grabbedPatternStringProperty': LocalizedStringProperty;
+      'releasedHelpTextStringProperty': LocalizedStringProperty;
+      'grabbedHelpTextPatternStringProperty': LocalizedStringProperty;
+      'grabbedAccessibleResponseStringProperty': LocalizedStringProperty;
+      'releasedAccessibleResponseStringProperty': LocalizedStringProperty;
+      'movedAccessibleResponseStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
@@ -131,15 +137,42 @@ type StringsType = {
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
+      'speechSynthesis': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'noVoiceAccessibleNameStringProperty': LocalizedStringProperty;
+        'noVoiceAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'localeSwitch': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'numberModel': {
+        'numberBondStringProperty': LocalizedStringProperty;
+        'barModelStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'numberBondAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'barModelAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'largerAndSmallerStringProperty': LocalizedStringProperty;
+        'smallerAndLargerStringProperty': LocalizedStringProperty;
+        'equalStringProperty': LocalizedStringProperty;
+      };
       'organizeObjects': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
-      'swapAddends': {
+      'commutativeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseStringProperty': LocalizedStringProperty;
       };
-      'showAddendPatternStringProperty': LocalizedStringProperty;
-      'hideAddendPatternStringProperty': LocalizedStringProperty;
+      'addendVisible': {
+        'accessibleNamePatternStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
+        'accessibleContextResponse': {
+          'hiddenStringProperty': LocalizedStringProperty;
+          'visibleStringProperty': LocalizedStringProperty;
+        }
+      };
       'showAddends': {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
