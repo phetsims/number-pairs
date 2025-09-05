@@ -24,11 +24,13 @@ export default class Level {
   public isFirstChallenge: boolean;
   public readonly hasEyeToggle: boolean;
   public readonly hasOrganizeTenFrameButton: boolean;
+  public readonly range: 'zeroToTen' | 'zeroToTwenty';
+  public readonly addendsOnRightInEquation: boolean;
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly guessedNumbers: ObservableArray<number>;
 
-  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean ) {
+  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean ) {
     this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
@@ -59,6 +61,8 @@ export default class Level {
     // Eye toggle from config
     this.hasEyeToggle = hasEyeToggle;
     this.hasOrganizeTenFrameButton = hasOrganizeTenFrameButton;
+    this.range = range;
+    this.addendsOnRightInEquation = addendsOnRightInEquation;
 
     // NOTE: feedbackStateProperty already initialized above, before DerivedProperty creation.
 

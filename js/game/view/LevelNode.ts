@@ -32,6 +32,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
+import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -72,14 +73,7 @@ export default class LevelNode extends Node {
       }, {} ) );
     this.addChild( statusBar );
 
-    // Display the current challenge as either an equation (default) or a number bond when type === 'bond'
-    const equationText = new Text( this.level.currentChallengeProperty.value.toEquationString(), {
-      font: new PhetFont( 48 ),
-      fill: 'black'
-    } );
-    equationText.centerX = layoutBounds.centerX;
-    equationText.top = statusBar.bottom + 40;
-    this.addChild( equationText );
+    // Display the current challenge as either a number bond/bar or an equation (using NumberEquationNode)
 
     // Lightweight adapter to drive NumberBondNode from the Game model
     // Bond adapter (mutable) values/visibility
@@ -113,6 +107,17 @@ export default class LevelNode extends Node {
     };
 
     const numberBondNode = new NumberBondMutableNode( bondAdapter );
+
+    // Equation node constructed from the same adapter properties; order depends on challenge type for this level
+    const equationNode = new NumberEquationNode( bondAdapter, {
+      addendsOnRight: this.level.addendsOnRightInEquation,
+      totalColorProperty: NumberPairsColors.attributeSumColorProperty,
+      leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
+    } );
+    equationNode.centerX = layoutBounds.centerX;
+    equationNode.top = statusBar.bottom + 40;
+    this.addChild( equationNode );
 
     const barAdapter: TGenericNumberPairsModel = {
       totalProperty: barTotalCorrectProperty,
@@ -294,16 +299,13 @@ export default class LevelNode extends Node {
       // Toggle bond vs equation view
       const showRepresentation = ch.type === 'bond';
       representationToggle.visible = showRepresentation;
-      equationText.visible = !showRepresentation;
+      equationNode.visible = !showRepresentation;
 
       // Hide feedback marks on challenge change
       wrongMark.visible = false;
       checkMark.visible = false;
       this.lastIncorrectGuess = null;
       this.lastIncorrectSlot = null;
-
-      // Update equation text regardless (used for non-bond types)
-      equationText.string = ch.toEquationString();
 
       // Initialize stroke styles for missing slot when in representation mode
       if ( showRepresentation ) {
@@ -343,7 +345,7 @@ export default class LevelNode extends Node {
     this.addChild( this.newChallengeButton );
 
     // Add the number button grid; range is configured per level
-    this.numberButtonGrid = new NumberButtonGrid( model.getGridRange( this.level.levelNumber ), this.level.guessedNumbers, {
+    this.numberButtonGrid = new NumberButtonGrid( this.level.range, this.level.guessedNumbers, {
       centerX: layoutBounds.centerX,
       bottom: layoutBounds.maxY - 10
     } );
@@ -493,7 +495,7 @@ export default class LevelNode extends Node {
       const ch = this.level.currentChallengeProperty.value;
       const showRepresentation = ch.type === 'bond';
       representationToggle.visible = showRepresentation;
-      equationText.visible = !showRepresentation;
+      equationNode.visible = !showRepresentation;
 
       const isBond = value === NumberModelType.NUMBER_BOND_MODEL;
       const state = this.level.feedbackStateProperty.value;

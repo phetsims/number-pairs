@@ -15,7 +15,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
+import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
 
 // Font for the '=' and '+' symbols.
@@ -32,7 +32,7 @@ export type NumberEquationNodeOptions = SelfOptions & NodeOptions;
 const SQUARE_DIMENSION = 40;
 export default class NumberEquationNode extends Node {
 
-  public constructor( model: NumberPairsModel, providedOptions: NumberEquationNodeOptions ) {
+  public constructor( model: TGenericNumberPairsModel, providedOptions: NumberEquationNodeOptions ) {
 
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true

@@ -61,14 +61,15 @@ export default class GameModel implements TModel {
 
     // Create per-level models with the appropriate capabilities
     this.levels = [
-      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false ),
-      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true ),
-      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true )
+      // id, hasOrganize, hasEye, range, addendsOnRightInEquation
+      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false ),
+      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false ),
+      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true ), // decomposition
+      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false ), // sum
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false ),
+      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true ), // decomposition
+      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false ), // sum
+      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false ) // number line uses sum orientation
     ];
 
     // Defer challenge generation until a level is started
