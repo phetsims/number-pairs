@@ -22,13 +22,13 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
+import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
-import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
-import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
 
 export default class LevelNode extends Node {
 
@@ -112,7 +112,8 @@ export default class LevelNode extends Node {
     const getSlotTargetNode = ( slot: Slot ) => slot === 'a' ? numberBondNode.leftAddend : ( slot === 'b' ? numberBondNode.rightAddend : numberBondNode.total );
     const positionMarkAtSlot = ( mark: Text, slot: Slot ) => {
       const target = getSlotTargetNode( slot );
-      mark.center = target.center;
+      const parent = mark.globalToParentBounds( target.globalBounds );
+      mark.leftCenter = parent.rightCenter.plusXY( 10, 0 );
     };
     const setSlot = ( slot: Slot, value: number | null ) => {
       if ( slot === 'a' ) {
