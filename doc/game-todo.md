@@ -1,25 +1,15 @@
-**General description for all levels**  
-Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/14BNBrokYt1OI2Y7lzjhkAP2aSnEfBh7xBW868ss2spg/edit#heading=h.cnlkqzqciwrv) → means an infinite number of randomly-generated challenges)
+**General description for all levels**
 
 * For all levels
   * All game levels except the number line have an interactive area and a ten frame (organize) button
 
-* Number bonds
-  * Form:
-  * y is the top
-  * a and b are the addends, which are also the numbers the sum decomposes into
+* Number bonds y at the top, a and b as the addends
+* Decomposition equations, y=a+b
+* Sum equations, in the form of a+b=y
 
-* Decomposition equations
-  * Form: y=a+b
-  * a and b are the addends, which are also the numbers *y* decomposes into
+## Game Outstanding Questions or Changes to Description Below
 
-* Sum equations
-  * Will be in the form of a+b=y
-  
-## Game – Outstanding Questions or Changes to Description Below
-
-* Eye toggle was designed to be on all levels except level 1
-  * Ok to add eye toggle to level 1 if it’s easier in code
+* Add eye toggle for levels with hasEyeToggle: true (all levels except 1)
 * Number bond in mockups shows missing addend with solid border
   * Should be dotted and a grey color (pending color contrast checking)
   * ![][image166]
@@ -33,33 +23,33 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
 
 ### Level 1 (0-10) Missing addends – fluency facts
 
-* See [number bonds logic](#heading=h.oxvb2sjy8v23) above
-* The user has as many chances as there are buttons at the bottom (numbers)
 * Kittens can be moved and organized, but not change color
 * User chooses a number to replace the “?” in the number bond
-* If correct on the first try, user gets a \+1 star and can move to the next level
-* Otherwise, the following pattern is used (see example below)  
   ![][image170]
-
 
 **Example**:
 
-* Challenge: Total of 8 shown, left addend of 3 shown, right addend unknown and shows “?” (challenge is for user to find the correct missing addend)
+* Challenge: Total of 8 shown, left addend of 3 shown, right addend unknown and shows “?” (challenge is for user to find
+  the correct missing addend)
 * The user selects 6
   * 6 blue kittens appear on the screen in random locations
   * Right addend is replaced with the number 6
   * Line remains dotted from total to missing addend
-* The selected number button (6 in this case) changes color (matches the color of the addend but with a slightly different hue – hex code tbd after color contrast checking happens) to indicate it has been depressed, but the user can organize the kittens, change the number of them, or move them prior to pressing “Check”  
+* The selected number button (6 in this case) changes color (matches the color of the addend but with a slightly
+  different hue – hex code tbd after color contrast checking happens) to indicate it has been depressed, but the user
+  can organize the kittens, change the number of them, or move them prior to pressing “Check”  
   ![][image171]
 
 
 * The user presses “Check” to find the choice was incorrect
 * Visual changes (see image below)
   * A red “x” appears near the number bond to indicate an incorrect choice near the incorrect addend in the number bond
-  * in the number bond, the incorrect addend has a red outline to visually indicate what the red “x” is referring to (\*\* should remain dotted)
-  * The “Check” button is disabled, and the chosen number button (6) turns grey (disabled) to indicate it is no longer an option to choose for the number bond game
+  * in the number bond, the incorrect addend has a red outline to visually indicate what the red “x” is referring
+    to (\*\* should remain dotted)
+  * The “Check” button is disabled, and the chosen number button (6) turns grey (disabled) to indicate it is no longer
+    an option to choose for the number bond game
   * The ten frame is always enabled and interactive with feedback
-  * Kittens are always interactive	![][image172]
+  * Kittens are always interactive  ![][image172]
 
 * The user chooses another number (8). At that moment:
   * The red outline on the number bond returns to a normal outline (dotted)
@@ -67,17 +57,21 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
   * The “Check” button becomes enabled to indicate you can check your work again
   * The right addend in the number bond matches the choice (8)
   * Eight blue kittens are now in the counting area
-  * The number “8” button has changed color (matching the missing addend) to indicate what has been chosen, but is still enabled if a different number is chosen prior to pressing “check.” If the user does press a different number, the “8” button will return to a choose-able color/look
+  * The number “8” button has changed color (matching the missing addend) to indicate what has been chosen, but is still
+    enabled if a different number is chosen prior to pressing “check.” If the user does press a different number, the
+    “8” button will return to a choose-able color/look
 * Kittens are always interactive, as is ten-frame button  
   ![][image173]
 
-* In the image below, the user has pressed “Check” and the ten-frame button (in either order – the result shown below will be the same)
+* In the image below, the user has pressed “Check” and the ten-frame button (in either order the result shown below will
+  be the same)
 * The follow visual changes occur:
   * a red “x” appears near the number in the number bond
   * the outline around the incorrect right addend is red and has a thicker stroke
   * the “Check” button greys out as the user decides what number to choose next
   * the “8” button changes to disabled to indicate 8 is no longer a choice
-  * **Note**: since this is a decomposition challenge level, the ten-frame button organizes the kittens into rows of 5 on the left and right (rather than a single ten frame formation in the center)
+  * **Note**: since this is a decomposition challenge level, the ten-frame button organizes the kittens into rows of 5
+    on the left and right (rather than a single ten frame formation in the center)
 
   ![][image174]
 
@@ -96,11 +90,11 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
   * the line from 8 to 5 turns to a thicker stroke and changes to a solid line
   * the outline around the addend turns black (\*\* should be thicker as well)
   * the “check” button turns to an arrow to indicate “next problem”
-  * \*\* the correct number button at the bottom turns a color to indicate correctness. Below shows green, but this might be confusing since the “total” circle is green. Probably should match the missing addend color.
+  * \*\* the correct number button at the bottom turns a color to indicate correctness. Below shows green, but this
+    might be confusing since the “total” circle is green. Probably should match the missing addend color.
   * all other numbers at the bottom all grey out
 
   ![][image176]
-
 
 ### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden
 
@@ -112,7 +106,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
 * Shown with counting area hidden  
   ![][image178]
 
-
 ### Level 3 (10 only): Missing addends: Equation (10 only)
 
 * Identical to level 2, except the representation of the decomposition is an equation
@@ -122,7 +115,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
   ![][image180]  
   ![][image181]
 
-
 ### Level 4 (10 only): missing addend, sum equation
 
 * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
@@ -130,25 +122,25 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
   ![][image182]  
   ![][image183]
 
-
 ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
 
 * Uses game logic for [number bond](#heading=h.oxvb2sjy8v23), where y is any number between 11-20
 * Ten frame (organize) button organizes into separate locations since this is a decomposition screen  
   ![][image184]
 
-
 ### Level 6 (11-20): missing addend with decomposition equation
 
-* See logic for [decomposition equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
+* See logic
+  for [decomposition equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
 * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition  
   ![][image185]
 
-
 ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
 
-* See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
-* Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill
+* See logic
+  for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
+* Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or
+  sum skill
 * Example of the left addend missing  
   ![][image186]
 
@@ -186,7 +178,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
     ![][image194]
 
 
-
 * **Example** of when the right addend is missing
 
   ![][image195]
@@ -199,8 +190,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
     ![][image198]
   * The presses “Check”  
     ![][image199]
-
-
 
 [image166]: ./images/image166.png
 

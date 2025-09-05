@@ -37,7 +37,7 @@ export default class GameModelTests {
     affirm( !c1.isCorrect( 4 ), 'wrong guess 4 should be incorrect for 3 + x = 8' );
 
     // Scoring tests: only a correct first guess grants points
-    const level = new Level( Tandem.OPT_OUT );
+    const level = new Level( Tandem.OPT_OUT, 1 );
 
     // First challenge: correct on first try -> +1 point
     level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 3, null, 8, 'zeroToTen' );
@@ -149,6 +149,18 @@ export default class GameModelTests {
     // Model reset clears scores
     gm2.reset();
     affirm( gm2.getLevelScoreProperty( 1 ).value === 0, 'level 1 stars reset to 0 after model reset' );
+
+    // Eye toggle availability: off for level 1, on for levels 2..8
+    const gm3 = new GameModel( { tandem: Tandem.OPT_OUT } );
+    for ( let levelIndex = 1; levelIndex <= 8; levelIndex++ ) {
+      const hasEyeToggle = gm3.getLevel( levelIndex ).hasEyeToggle;
+      if ( levelIndex === 1 ) {
+        affirm( !hasEyeToggle, 'level 1 has no eye toggle' );
+      }
+      else {
+        affirm( hasEyeToggle, `level ${levelIndex} has eye toggle` );
+      }
+    }
   }
 }
 

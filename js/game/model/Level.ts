@@ -18,8 +18,9 @@ export default class Level {
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
   public isFirstChallenge: boolean;
+  public readonly hasEyeToggle: boolean;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem, levelNumber: number ) {
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
     } );
@@ -38,6 +39,9 @@ export default class Level {
     } );
 
     this.isFirstChallenge = true;
+
+    // Eye toggle on all levels except level 1
+    this.hasEyeToggle = levelNumber !== 1;
   }
 
   public resetForNewChallenge(): void {

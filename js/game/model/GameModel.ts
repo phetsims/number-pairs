@@ -162,7 +162,7 @@ export default class GameModel implements TModel {
       }
     ];
 
-    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ) ) );
+    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ), cfg.id ) );
 
     // Defer challenge generation until a level is started
   }
