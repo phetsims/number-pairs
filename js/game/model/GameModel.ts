@@ -66,6 +66,7 @@ export default class GameModel implements TModel {
         id: 1,
         description: 'Level 1 Missing addends in a number bond (0-10)',
         gridRange: 'zeroToTen',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 0, 10 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -76,6 +77,7 @@ export default class GameModel implements TModel {
         id: 2,
         description: 'Level 2 Missing addend in a number bond (10 only)',
         gridRange: 'zeroToTen',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = 10;
           const a = dotRandom.nextIntBetween( 0, y );
@@ -86,6 +88,7 @@ export default class GameModel implements TModel {
         id: 3,
         description: 'Level 3 Missing addend in a decomposition equation',
         gridRange: 'zeroToTen',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 0, 10 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -96,6 +99,7 @@ export default class GameModel implements TModel {
         id: 4,
         description: 'Level 4 Missing addend in a sum equation (10 only)',
         gridRange: 'zeroToTen',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = 10;
           const a = dotRandom.nextIntBetween( 0, y );
@@ -106,6 +110,7 @@ export default class GameModel implements TModel {
         id: 5,
         description: 'Level 5 Missing addend with a number bond (11-20)',
         gridRange: 'zeroToTwenty',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -116,6 +121,7 @@ export default class GameModel implements TModel {
         id: 6,
         description: 'Level 6 Missing addend with decomposition equation (11-20)',
         gridRange: 'zeroToTwenty',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -126,6 +132,7 @@ export default class GameModel implements TModel {
         id: 7,
         description: 'Level 7 Missing addend or total with sum equation (11-20)',
         gridRange: 'zeroToTwenty',
+        hasOrganizeTenFrameButton: true,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -147,6 +154,7 @@ export default class GameModel implements TModel {
         id: 8,
         description: 'Level 8 Equations with the number line (0-20)',
         gridRange: 'zeroToTwenty',
+        hasOrganizeTenFrameButton: false,
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 0, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
@@ -162,7 +170,7 @@ export default class GameModel implements TModel {
       }
     ];
 
-    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ), cfg.id ) );
+    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ), cfg.id, cfg.hasOrganizeTenFrameButton ) );
 
     // Defer challenge generation until a level is started
   }
@@ -290,6 +298,7 @@ type LevelConfig = {
   id: number;
   description: string;
   gridRange: 'zeroToTen' | 'zeroToTwenty';
+  hasOrganizeTenFrameButton: boolean;
   generateChallenge: () => Challenge;
 };
 
