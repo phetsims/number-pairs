@@ -13,9 +13,9 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -26,7 +26,7 @@ import GameModel from '../model/GameModel.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 
 export default class LevelNode extends Node {
-  
+
   private readonly model: GameModel;
   private readonly levelNumber: number;
   private readonly numberButtonGrid: NumberButtonGrid;
@@ -35,7 +35,7 @@ export default class LevelNode extends Node {
 
   public constructor( model: GameModel, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void, levelNumber: number ) {
     super();
-    
+
     this.model = model;
     this.levelNumber = levelNumber;
 
@@ -67,7 +67,7 @@ export default class LevelNode extends Node {
       top: statusBar.bottom + 40
     } );
     this.addChild( equationText );
-    
+
     // Update equation text when challenge changes
     model.getLevel( levelNumber ).currentChallengeProperty.link( challenge => {
       equationText.string = challenge.toEquationString();
@@ -101,7 +101,7 @@ export default class LevelNode extends Node {
     this.addChild( this.numberButtonGrid );
 
     // Disable any numbers that were already guessed for this challenge (in case of re-entry)
-    const initialGuessed = model.getLevel( levelNumber ).currentChallengeProperty.value.getGuessedNumbers();
+    const initialGuessed = model.getLevel( levelNumber ).getGuessedNumbers();
     initialGuessed.forEach( n => this.numberButtonGrid.disableButton( n ) );
 
     // Add a 'Check' button in the top-right, disabled until a number is selected
@@ -116,15 +116,15 @@ export default class LevelNode extends Node {
     this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
       this.checkButton.enabledProperty.value = anySelected && !model.getLevel( levelNumber ).isChallengeSolvedProperty.value;
     } );
-    
+
     // Disable check button when challenge is solved
-    model.getLevel( levelNumber ).isChallengeSolvedProperty.lazyLink( solved => {
+    model.getLevel( levelNumber ).isChallengeSolvedProperty.lazyLink( ( solved: boolean ) => {
       if ( solved ) {
         this.checkButton.enabledProperty.value = false;
         this.numberButtonGrid.disableAll();
       }
     } );
-    
+
     this.addChild( this.checkButton );
   }
 
@@ -135,7 +135,7 @@ export default class LevelNode extends Node {
     const selectedNumber = this.numberButtonGrid.getSelectedNumber();
     if ( selectedNumber !== null ) {
       const isCorrect = this.model.getLevel( this.levelNumber ).checkAnswer( selectedNumber );
-      
+
       if ( !isCorrect ) {
         // Disable the incorrect button
         this.numberButtonGrid.disableButton( selectedNumber );
