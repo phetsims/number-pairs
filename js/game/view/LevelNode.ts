@@ -491,12 +491,19 @@ export default class LevelNode extends Node {
       if ( ch.type !== 'bond' ) {
         const slot = ch.missing as Slot;
         if ( state === 'incorrect' ) {
+          // Ensure the guessed value is visible in the missing square
+          if ( this.lastIncorrectGuess !== null && this.lastIncorrectSlot === slot ) {
+            setSlot( slot, this.lastIncorrectGuess );
+          }
           positionMarkAtEquationSlot( wrongMark, slot );
           wrongMark.visible = equationNode.visible;
           checkMark.visible = false;
           updateEquationMissingSlotStyle( slot, 'incorrect' );
         }
         else if ( state === 'correct' ) {
+          // Reveal the correct value in the missing square
+          const correctValue = this.level.currentChallengeProperty.value.expectedAnswer();
+          setSlot( slot, correctValue );
           positionMarkAtEquationSlot( checkMark, slot );
           checkMark.visible = equationNode.visible;
           wrongMark.visible = false;
