@@ -94,7 +94,7 @@ export default class LevelSelectionNode extends Node {
       isDisposable: false,
       children: [ titleText, buttonGroup ],
       tandem: tandem,
-      phetioDocumentation: 'UI for choosing a game level (scaffold).',
+      phetioDocumentation: 'UI for choosing a game level.',
       phetioVisiblePropertyInstrumented: false
     } );
   }
