@@ -1,20 +1,9 @@
-**General description for all levels**
+# TO DO
 
-* For all levels
-  * All game levels except the number line have an interactive area and a ten frame (organize) button
+* Add eye toggle node for levels with hasEyeToggle: true (all levels except 1). counting area can be hidden via eye
+  toggle
 
-* Number bonds y at the top, a and b as the addends
-* Decomposition equations, y=a+b
-* Sum equations, in the form of a+b=y
-
-## Game Outstanding Questions or Changes to Description Below
-
-* Add eye toggle node for levels with hasEyeToggle: true (all levels except 1)
-* Assuming preferences choice of bar model versus number bond will also apply to game?
-  * If so, the missing addend border will match description below of dotted
-  * ![][image168]![][image169]
-
-## Mockups & Description of each level:
+* the “check” button turns to an arrow to indicate “next problem”
 
 ### Level 1 (0-10) Missing addends – fluency facts
 
@@ -22,17 +11,12 @@
 
 **Example**:
 
-* Challenge: Total of 8 shown, left addend of 3 shown, right addend unknown and shows “?” (challenge is for user to find
-  the correct missing addend)
 * The user selects 6
   * 6 blue kittens appear on the screen in random locations
-  * Right addend is replaced with the number 6
-  * Line remains dotted from total to missing addend
 * The selected number button (6 in this case) changes color (matches the color of the addend but with a slightly
   different hue – hex code tbd after color contrast checking happens) to indicate it has been depressed, but the user
   can organize the kittens, change the number of them, or move them prior to pressing “Check”  
   ![][image171]
-
 
 * The user presses “Check” to find the choice was incorrect
 * Visual changes (see image below)
@@ -45,10 +29,6 @@
   * Kittens are always interactive  ![][image172]
 
 * The user chooses another number (8). At that moment:
-  * The red outline on the number bond returns to a normal outline (dotted)
-  * The line from the total number (8) to the addend being chosen remains dotted
-  * The “Check” button becomes enabled to indicate you can check your work again
-  * The right addend in the number bond matches the choice (8)
   * Eight blue kittens are now in the counting area
   * The number “8” button has changed color (matching the missing addend) to indicate what has been chosen, but is still
     enabled if a different number is chosen prior to pressing “check.” If the user does press a different number, the
@@ -68,57 +48,20 @@
 
   ![][image174]
 
-
-* The user chooses “5”   
-  ![][image175]
-* The visual changes made:
-  * outline around the right addend changes back to “normal” (grey and dotted)
-  * the “check” button is enabled
-  * the “5” button indicates it has been pressed but still changeable
-  * three kittens have been removed
-  * The user presses “check”
-
 * Visual changes (see image below)
   * a green checkmark appears near the number bond
   * the line from 8 to 5 turns to a thicker stroke and changes to a solid line
   * the outline around the addend turns black (\*\* should be thicker as well)
-  * the “check” button turns to an arrow to indicate “next problem”
   * \*\* the correct number button at the bottom turns a color to indicate correctness. Below shows green, but this
     might be confusing since the “total” circle is green. Probably should match the missing addend color.
   * all other numbers at the bottom all grey out
 
   ![][image176]
 
-### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden via eye toggle
+### Level 5 & 6
 
-### Level 3 (10 only): Missing addends: Equation (10 only)
-
-* Identical to level 2, except the representation of the decomposition is an equation
-* See logic for [decomposition equations](#heading=h.ukjqs5rtjvn8)
-* Note: Missing addend should have a dotted border (the mockups do not have this)
-* ![][image179]  
-  ![][image180]  
-  ![][image181]
-
-### Level 4 (10 only): missing addend, sum equation
-
-* Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
-* See logic for [sum equations](#heading=h.o9d55p201mw3)  
-  ![][image182]  
-  ![][image183]
-
-### Level 5 (11-20): missing addend with number bond, promotes fact fluency
-
-* Uses game logic for [number bond](#heading=h.oxvb2sjy8v23), where y is any number between 11-20
 * Ten frame (organize) button organizes into separate locations since this is a decomposition screen  
   ![][image184]
-
-### Level 6 (11-20): missing addend with decomposition equation
-
-* See logic
-  for [decomposition equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
-* Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition  
-  ![][image185]
 
 ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
 
