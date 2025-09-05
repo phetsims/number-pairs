@@ -12,11 +12,12 @@ import PreferencesDialogConstants from '../../../../joist/js/preferences/Prefere
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberBondNode from './NumberBondNode.js';
+import NumberBondIconNode from './NumberBondIconNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -44,10 +45,9 @@ export default class NumberModelOrientationControl extends PreferencesControl {
     const radioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.sumScreenTotalOnTopProperty,
       [
         {
-          createNode: () => new ToggleNode( NumberPairsPreferences.numberModelTypeProperty, [
+          createNode: () => new ToggleNode<NumberModelType, Node>( NumberPairsPreferences.numberModelTypeProperty, [
             {
-              createNode: () => new NumberBondNode( syntheticNumberPairsModel, {
-                iconOnly: true,
+              createNode: () => new NumberBondIconNode( syntheticNumberPairsModel, {
                 totalOnTopProperty: new BooleanProperty( false )
               } ),
               value: NumberModelType.NUMBER_BOND_MODEL
@@ -67,11 +67,9 @@ export default class NumberModelOrientationControl extends PreferencesControl {
           }
         },
         {
-          createNode: () => new ToggleNode( NumberPairsPreferences.numberModelTypeProperty, [
+          createNode: () => new ToggleNode<NumberModelType, Node>( NumberPairsPreferences.numberModelTypeProperty, [
             {
-              createNode: () => new NumberBondNode( syntheticNumberPairsModel, {
-                iconOnly: true
-              } ),
+              createNode: () => new NumberBondIconNode( syntheticNumberPairsModel, { } ),
               value: NumberModelType.NUMBER_BOND_MODEL
             },
             {

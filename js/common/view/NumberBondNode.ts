@@ -14,68 +14,29 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
-  iconOnly?: boolean;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 const HORIZONTAL_OFFSET = 1.4 * NumberCircle.RADIUS;
 const VERTICAL_OFFSET = 2.25 * NumberCircle.RADIUS;
-const NUMBER_BOND_LINE_WIDTH = 1.5;
+export const NUMBER_BOND_LINE_WIDTH = 1.5;
 
-export default class NumberBondNode extends Node {
+export default abstract class NumberBondNode extends Node {
 
-  public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondNodeOptions ) {
+  protected constructor( total: Node, leftAddend: Node, rightAddend: Node, providedOptions?: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-      totalOnTopProperty: null,
-      iconOnly: false
+      totalOnTopProperty: null
     }, providedOptions );
 
-    let total: Node;
-    let leftAddend: Node;
-    let rightAddend: Node;
+    // Initial horizontal placement relative to total
+    leftAddend.centerX = total.centerX - HORIZONTAL_OFFSET;
+    rightAddend.centerX = total.centerX + HORIZONTAL_OFFSET;
 
-    if ( options.iconOnly ) {
-      total = new Circle( NumberCircle.RADIUS, {
-        fill: model.totalColorProperty,
-        stroke: 'black',
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-      leftAddend = new Circle( NumberCircle.RADIUS, {
-        fill: model.leftAddendColorProperty,
-        stroke: 'black',
-        centerX: total.centerX - HORIZONTAL_OFFSET,
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-      rightAddend = new Circle( NumberCircle.RADIUS, {
-        fill: model.rightAddendColorProperty,
-        stroke: 'black',
-        centerX: total.centerX + HORIZONTAL_OFFSET,
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-    }
-    else {
-      total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
-        fill: model.totalColorProperty,
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-      leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
-        fill: model.leftAddendColorProperty,
-        centerX: total.centerX - HORIZONTAL_OFFSET,
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-      rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
-        fill: model.rightAddendColorProperty,
-        centerX: total.centerX + HORIZONTAL_OFFSET,
-        lineWidth: NUMBER_BOND_LINE_WIDTH
-      } );
-    }
-
+    // Connecting lines
     const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH

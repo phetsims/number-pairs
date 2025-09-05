@@ -26,7 +26,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
-import NumberBondNode from '../../common/view/NumberBondNode.js';
+import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 
@@ -93,7 +93,7 @@ export default class LevelNode extends Node {
       rightAddendVisibleProperty: rightAddendVisibleProperty
     };
 
-    const numberBondNode = new NumberBondNode( bondAdapter );
+    const numberBondNode = new NumberBondMutableNode( bondAdapter );
     numberBondNode.centerX = layoutBounds.centerX;
     numberBondNode.top = statusBar.bottom + 30;
     numberBondNode.visible = false;

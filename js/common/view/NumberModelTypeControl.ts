@@ -19,7 +19,7 @@ import BarModelNode from './BarModelNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberBondNode from './NumberBondNode.js';
+import NumberBondIconNode from './NumberBondIconNode.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
@@ -42,7 +42,7 @@ export default class NumberModelTypeControl extends PreferencesControl {
     const radioButtonGroup = new RectangularRadioButtonGroup( NumberPairsPreferences.numberModelTypeProperty,
       [
         {
-          createNode: () => new NumberBondNode( syntheticNumberPairsModel, { iconOnly: true } ),
+          createNode: () => new NumberBondIconNode( syntheticNumberPairsModel, {} ),
           value: NumberModelType.NUMBER_BOND_MODEL,
           tandemName: 'numberBondModelRadioButton',
           options: {
