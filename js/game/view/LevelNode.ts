@@ -115,6 +115,23 @@ export default class LevelNode extends Node {
       const parent = mark.globalToParentBounds( target.globalBounds );
       mark.leftCenter = parent.rightCenter.plusXY( 10, 0 );
     };
+    const DASH: number[] = [ 6, 4 ];
+    const setSlotStrokeStyle = ( slot: Slot, color: string, lineDash: number[] | null ) => {
+      const node = getSlotTargetNode( slot );
+      node.stroke = color;
+      node.lineDash = lineDash || [];
+    };
+    const updateMissingSlotStyle = ( slot: Slot, state: 'idle' | 'incorrect' | 'correct' ) => {
+      if ( state === 'idle' ) {
+        setSlotStrokeStyle( slot, '#777', DASH );
+      }
+      else if ( state === 'incorrect' ) {
+        setSlotStrokeStyle( slot, '#c40000', DASH );
+      }
+      else {
+        setSlotStrokeStyle( slot, 'black', [] );
+      }
+    };
     const setSlot = ( slot: Slot, value: number | null ) => {
       if ( slot === 'a' ) {
         if ( value !== null ) {
@@ -180,6 +197,12 @@ export default class LevelNode extends Node {
 
       // Update equation text regardless (used for non-bond types)
       equationText.string = ch.toEquationString();
+
+      // Initialize stroke styles for missing slot when in bond mode
+      if ( showBond ) {
+        updateMissingSlotStyle( ch.missing as Slot, 'idle' );
+        ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setSlotStrokeStyle( s, 'black', [] ) );
+      }
     };
     applyChallengeToBond();
 
@@ -239,16 +262,19 @@ export default class LevelNode extends Node {
         if ( selected !== null ) {
           setSlot( slot, selected );
           if ( isIncorrect ) { clearMarksAndFeedback(); }
+          updateMissingSlotStyle( slot, 'idle' );
         }
         else {
           if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
             setSlot( slot, this.lastIncorrectGuess );
             positionMarkAtSlot( wrongMark, slot );
             wrongMark.visible = numberBondNode.visible;
+            updateMissingSlotStyle( slot, 'incorrect' );
           }
           else {
             setSlot( slot, null );
             wrongMark.visible = false;
+            updateMissingSlotStyle( slot, 'idle' );
           }
         }
       }
@@ -267,15 +293,18 @@ export default class LevelNode extends Node {
         positionMarkAtSlot( wrongMark, this.lastIncorrectSlot );
         wrongMark.visible = numberBondNode.visible;
         checkMark.visible = false;
+        updateMissingSlotStyle( this.lastIncorrectSlot, 'incorrect' );
       }
       else if ( state === 'correct' ) {
         positionMarkAtSlot( checkMark, ch.missing as Slot );
         checkMark.visible = numberBondNode.visible;
         wrongMark.visible = false;
+        updateMissingSlotStyle( ch.missing as Slot, 'correct' );
       }
       else {
         wrongMark.visible = false;
         checkMark.visible = false;
+        updateMissingSlotStyle( ch.missing as Slot, 'idle' );
       }
     } );
 
