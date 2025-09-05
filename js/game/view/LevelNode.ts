@@ -205,6 +205,29 @@ export default class LevelNode extends Node {
         setBarSlotStrokeStyle( slot, 'black', [] );
       }
     };
+    const positionMarkAtEquationSlot = ( mark: Text, slot: Slot ) => {
+      const rect = getEquationSlotRect( slot );
+      const parent = mark.globalToParentBounds( rect.globalBounds );
+      mark.leftCenter = parent.rightCenter.plusXY( 10, 0 );
+    };
+    // Equation slot helpers: use NumberEquationNode's exposed rectangles
+    const getEquationSlotRect = ( slot: Slot ) => slot === 'a' ? equationNode.leftAddendSquare : ( slot === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
+    const setEquationSlotStrokeStyle = ( slot: Slot, color: string, lineDash: number[] | null ) => {
+      const rect = getEquationSlotRect( slot );
+      rect.stroke = color;
+      rect.lineDash = lineDash || [];
+    };
+    const updateEquationMissingSlotStyle = ( slot: Slot, state: 'idle' | 'incorrect' | 'correct' ) => {
+      if ( state === 'idle' ) {
+        setEquationSlotStrokeStyle( slot, '#777', DASH );
+      }
+      else if ( state === 'incorrect' ) {
+        setEquationSlotStrokeStyle( slot, '#c40000', DASH );
+      }
+      else {
+        setEquationSlotStrokeStyle( slot, 'black', [] );
+      }
+    };
     const setSlot = ( slot: Slot, value: number | null ) => {
       if ( slot === 'a' ) {
         if ( value !== null ) {
@@ -307,7 +330,7 @@ export default class LevelNode extends Node {
       this.lastIncorrectGuess = null;
       this.lastIncorrectSlot = null;
 
-      // Initialize stroke styles for missing slot when in representation mode
+      // Initialize stroke styles for missing slot when in representation mode or equation
       if ( showRepresentation ) {
         if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
           updateMissingSlotStyle( ch.missing as Slot, 'idle' );
@@ -317,6 +340,10 @@ export default class LevelNode extends Node {
           updateBarMissingSlotStyle( ch.missing as Slot, 'idle' );
           ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setBarSlotStrokeStyle( s, 'black', [] ) );
         }
+      }
+      else {
+        updateEquationMissingSlotStyle( ch.missing as Slot, 'idle' );
+        ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setEquationSlotStrokeStyle( s, 'black', [] ) );
       }
     };
     applyChallengeToBond();
@@ -426,6 +453,27 @@ export default class LevelNode extends Node {
           }
         }
       }
+      else { // equation view
+        const isIncorrect = this.level.feedbackStateProperty.value === 'incorrect';
+        const slot: Slot = ch.missing;
+        if ( selected !== null ) {
+          setSlot( slot, selected );
+          if ( isIncorrect ) { clearMarksAndFeedback(); }
+          updateEquationMissingSlotStyle( slot, 'idle' );
+        }
+        else {
+          if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
+            setSlot( slot, this.lastIncorrectGuess );
+            positionMarkAtEquationSlot( wrongMark, slot );
+            wrongMark.visible = equationNode.visible;
+            updateEquationMissingSlotStyle( slot, 'incorrect' );
+          }
+          else {
+            setSlot( slot, null );
+            updateEquationMissingSlotStyle( slot, 'idle' );
+          }
+        }
+      }
     } );
 
     // Keep wrong mark in sync with feedback state
@@ -441,8 +489,24 @@ export default class LevelNode extends Node {
     this.level.feedbackStateProperty.link( state => {
       const ch = this.level.currentChallengeProperty.value;
       if ( ch.type !== 'bond' ) {
-        wrongMark.visible = false;
-        checkMark.visible = false;
+        const slot = ch.missing as Slot;
+        if ( state === 'incorrect' ) {
+          positionMarkAtEquationSlot( wrongMark, slot );
+          wrongMark.visible = equationNode.visible;
+          checkMark.visible = false;
+          updateEquationMissingSlotStyle( slot, 'incorrect' );
+        }
+        else if ( state === 'correct' ) {
+          positionMarkAtEquationSlot( checkMark, slot );
+          checkMark.visible = equationNode.visible;
+          wrongMark.visible = false;
+          updateEquationMissingSlotStyle( slot, 'correct' );
+        }
+        else {
+          wrongMark.visible = false;
+          checkMark.visible = false;
+          updateEquationMissingSlotStyle( slot, 'idle' );
+        }
         return;
       }
 
@@ -501,8 +565,7 @@ export default class LevelNode extends Node {
       const state = this.level.feedbackStateProperty.value;
 
       if ( !showRepresentation ) {
-        wrongMark.visible = false;
-        checkMark.visible = false;
+        // Preference affects only the representation view; equation view untouched
         return;
       }
 
@@ -573,7 +636,8 @@ export default class LevelNode extends Node {
         // Remember the incorrect guess and which slot it applied to
         const ch = this.level.currentChallengeProperty.value;
         this.lastIncorrectGuess = selectedNumber;
-        this.lastIncorrectSlot = ch.type === 'bond' ? ch.missing : null;
+        // Track for all challenge types so non-bond (equation) can show marks/dotted red with value
+        this.lastIncorrectSlot = ch.missing;
 
         // Reset selection; button disabling is handled by Level.guessedNumbersProperty link in NumberButtonGrid
         this.numberButtonGrid.resetSelection();

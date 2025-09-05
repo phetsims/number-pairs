@@ -31,6 +31,9 @@ export type NumberEquationNodeOptions = SelfOptions & NodeOptions;
 
 const SQUARE_DIMENSION = 40;
 export default class NumberEquationNode extends Node {
+  public readonly totalSquare: NumberRectangle;
+  public readonly leftAddendSquare: NumberRectangle;
+  public readonly rightAddendSquare: NumberRectangle;
 
   public constructor( model: TGenericNumberPairsModel, providedOptions: NumberEquationNodeOptions ) {
 
@@ -74,6 +77,11 @@ export default class NumberEquationNode extends Node {
 
     super( options );
     this.addChild( contentNode );
+
+    // Expose references so callers (e.g., LevelNode) can adjust stroke/lineDash
+    this.totalSquare = totalSquare;
+    this.leftAddendSquare = leftAddendSquare;
+    this.rightAddendSquare = rightAddendSquare;
   }
 }
 
