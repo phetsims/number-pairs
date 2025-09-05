@@ -462,8 +462,13 @@ export default class LevelNode extends Node {
           updateEquationMissingSlotStyle( slot, 'idle' );
         }
         else {
-          if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
-            setSlot( slot, this.lastIncorrectGuess );
+          if ( isIncorrect ) {
+            // Use latest guess from model to avoid race with lastIncorrectGuess assignment
+            const guesses = this.level.getGuessedNumbers();
+            const lastGuess = guesses.length > 0 ? guesses[ guesses.length - 1 ] : this.lastIncorrectGuess;
+            if ( lastGuess !== null && lastGuess !== undefined ) {
+              setSlot( slot, lastGuess );
+            }
             positionMarkAtEquationSlot( wrongMark, slot );
             wrongMark.visible = equationNode.visible;
             updateEquationMissingSlotStyle( slot, 'incorrect' );
@@ -491,9 +496,11 @@ export default class LevelNode extends Node {
       if ( ch.type !== 'bond' ) {
         const slot = ch.missing as Slot;
         if ( state === 'incorrect' ) {
-          // Ensure the guessed value is visible in the missing square
-          if ( this.lastIncorrectGuess !== null && this.lastIncorrectSlot === slot ) {
-            setSlot( slot, this.lastIncorrectGuess );
+          // Ensure the guessed value is visible in the missing square (use most recent guess from model to avoid race)
+          const guesses = this.level.getGuessedNumbers();
+          const lastGuess = guesses.length > 0 ? guesses[ guesses.length - 1 ] : this.lastIncorrectGuess;
+          if ( lastGuess !== null && lastGuess !== undefined ) {
+            setSlot( slot, lastGuess );
           }
           positionMarkAtEquationSlot( wrongMark, slot );
           wrongMark.visible = equationNode.visible;
