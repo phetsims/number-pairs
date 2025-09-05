@@ -23,31 +23,32 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 
 export default class LevelNode extends Node {
 
   private readonly model: GameModel;
-  private readonly levelNumber: number;
+  private readonly level: Level;
   private readonly numberButtonGrid: NumberButtonGrid;
   private readonly checkButton: TextPushButton;
   private readonly newChallengeButton: RectangularPushButton;
 
-  public constructor( model: GameModel, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void, levelNumber: number ) {
+  public constructor( model: GameModel, level: Level, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void ) {
     super();
 
     this.model = model;
-    this.levelNumber = levelNumber;
+    this.level = level;
 
     // Title and description in the status bar: bold "Level X" + spaced non-bold description
-    const fullDescription = model.getLevelDescription( levelNumber );
+    const fullDescription = model.getLevelDescription( this.level.levelNumber );
     const descriptionOnly = fullDescription.replace( /^Level\s*\d+\s*/, '' );
-    const levelLabel = new Text( `Level ${levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
+    const levelLabel = new Text( `Level ${this.level.levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
     const descriptionText = new Text( descriptionOnly, { font: new PhetFont( 21 ) } );
     const levelDescriptionText = new HBox( { spacing: 12, children: [ levelLabel, descriptionText ] } );
 
     // bar across the top of the screen - show this level's score
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevelScoreProperty( levelNumber ),
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevelScoreProperty( this.level.levelNumber ),
       combineOptions<InfiniteStatusBarOptions>( {
         barFill: '#b6fab9',
         floatToTop: true,
@@ -60,7 +61,7 @@ export default class LevelNode extends Node {
     this.addChild( statusBar );
 
     // Display the current equation challenge
-    const equationText = new Text( model.getLevel( levelNumber ).currentChallengeProperty.value.toEquationString(), {
+    const equationText = new Text( this.level.currentChallengeProperty.value.toEquationString(), {
       font: new PhetFont( 48 ),
       fill: 'black',
       centerX: layoutBounds.centerX,
@@ -69,7 +70,7 @@ export default class LevelNode extends Node {
     this.addChild( equationText );
 
     // Update equation text when challenge changes
-    model.getLevel( levelNumber ).currentChallengeProperty.link( challenge => {
+    this.level.currentChallengeProperty.link( challenge => {
       equationText.string = challenge.toEquationString();
     } );
 
@@ -86,7 +87,7 @@ export default class LevelNode extends Node {
       touchAreaXDilation: 9,
       touchAreaYDilation: 9,
       content: new Path( rightArrowShape, { fill: Color.BLACK } ),
-      visibleProperty: model.getLevel( levelNumber ).isChallengeSolvedProperty,
+      visibleProperty: this.level.isChallengeSolvedProperty,
       listener: () => this.newChallenge()
     } );
     this.newChallengeButton.centerX = layoutBounds.centerX;
@@ -94,14 +95,14 @@ export default class LevelNode extends Node {
     this.addChild( this.newChallengeButton );
 
     // Add the number button grid; range is configured per level
-    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( levelNumber ).gridRange, {
+    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( this.level.levelNumber ).gridRange, {
       centerX: layoutBounds.centerX,
       bottom: layoutBounds.maxY - 10
     } );
     this.addChild( this.numberButtonGrid );
 
     // Disable any numbers that were already guessed for this challenge (in case of re-entry)
-    const initialGuessed = model.getLevel( levelNumber ).getGuessedNumbers();
+    const initialGuessed = this.level.getGuessedNumbers();
     initialGuessed.forEach( n => this.numberButtonGrid.disableButton( n ) );
 
     // Add a 'Check' button in the top-right, disabled until a number is selected
@@ -114,11 +115,11 @@ export default class LevelNode extends Node {
     this.checkButton.top = statusBar.bottom + 10;
     this.checkButton.enabledProperty.value = false;
     this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
-      this.checkButton.enabledProperty.value = anySelected && !model.getLevel( levelNumber ).isChallengeSolvedProperty.value;
+      this.checkButton.enabledProperty.value = anySelected && !this.level.isChallengeSolvedProperty.value;
     } );
 
     // Disable check button when challenge is solved
-    model.getLevel( levelNumber ).isChallengeSolvedProperty.lazyLink( ( solved: boolean ) => {
+    this.level.isChallengeSolvedProperty.lazyLink( ( solved: boolean ) => {
       if ( solved ) {
         this.checkButton.enabledProperty.value = false;
         this.numberButtonGrid.disableAll();
@@ -134,7 +135,7 @@ export default class LevelNode extends Node {
   private checkAnswer(): void {
     const selectedNumber = this.numberButtonGrid.getSelectedNumber();
     if ( selectedNumber !== null ) {
-      const isCorrect = this.model.getLevel( this.levelNumber ).checkAnswer( selectedNumber );
+      const isCorrect = this.level.checkAnswer( selectedNumber );
 
       if ( !isCorrect ) {
         // Disable the incorrect button
@@ -154,7 +155,7 @@ export default class LevelNode extends Node {
    */
   public newChallenge(): void {
     // Reset the model state and generate a new challenge for this level
-    this.model.getLevel( this.levelNumber ).resetForNewChallenge();
+    this.level.resetForNewChallenge();
     this.model.generateNewChallenge();
     this.numberButtonGrid.resetAll();
   }

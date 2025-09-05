@@ -16,6 +16,7 @@ import Challenge from './Challenge.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 
 export default class Level {
+  public readonly levelNumber: number;
   public readonly scoreProperty: NumberProperty;
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly attemptsProperty: NumberProperty;
@@ -26,6 +27,7 @@ export default class Level {
   private readonly guessedNumbers: Set<number>;
 
   public constructor( tandem: Tandem, levelNumber: number ) {
+    this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
     } );
