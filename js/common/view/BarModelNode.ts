@@ -23,6 +23,9 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
   iconOnly?: boolean;
+  displayTotalNumberProperty?: TReadOnlyProperty<number> | null;
+  displayLeftAddendNumberProperty?: TReadOnlyProperty<number> | null;
+  displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
 };
 
 type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
@@ -32,6 +35,10 @@ const BAR_HEIGHT = 45;
 const LINE_WIDTH = 1;
 export default class BarModelNode extends VBox {
 
+  public readonly totalRectangle: Rectangle;
+  public readonly leftAddendRectangle: Rectangle;
+  public readonly rightAddendRectangle: Rectangle;
+
   public constructor(
     model: TGenericNumberPairsModel,
     providedOptions?: BarModelNodeOptions ) {
@@ -39,6 +46,9 @@ export default class BarModelNode extends VBox {
     const options = optionize<BarModelNodeOptions, SelfOptions, VBoxOptions>()( {
       totalOnTopProperty: null,
       iconOnly: false,
+      displayTotalNumberProperty: null,
+      displayLeftAddendNumberProperty: null,
+      displayRightAddendNumberProperty: null,
       resize: false,
       spacing: 5
     }, providedOptions );
@@ -75,21 +85,25 @@ export default class BarModelNode extends VBox {
       } );
     }
     else {
-      totalRectangle = new NumberRectangle( totalDimension, model.totalProperty, {
+      const displayTotalNumberProperty = options.displayTotalNumberProperty || model.totalProperty;
+      const displayLeftAddendNumberProperty = options.displayLeftAddendNumberProperty || model.leftAddendProperty;
+      const displayRightAddendNumberProperty = options.displayRightAddendNumberProperty || model.rightAddendProperty;
+
+      totalRectangle = new NumberRectangle( totalDimension, displayTotalNumberProperty, {
         fill: model.totalColorProperty,
         stroke: 'black',
         cornerRadius: 0,
         lineWidth: LINE_WIDTH,
         numberVisibleProperty: model.totalVisibleProperty
       } );
-      leftAddendRectangle = new NumberRectangle( leftAddendDimension, model.leftAddendProperty, {
+      leftAddendRectangle = new NumberRectangle( leftAddendDimension, displayLeftAddendNumberProperty, {
         fill: model.leftAddendColorProperty,
         stroke: 'black',
         cornerRadius: 0,
         lineWidth: LINE_WIDTH,
         numberVisibleProperty: model.leftAddendVisibleProperty
       } );
-      rightAddendRectangle = new NumberRectangle( rightAddendDimension, model.rightAddendProperty, {
+      rightAddendRectangle = new NumberRectangle( rightAddendDimension, displayRightAddendNumberProperty, {
         fill: model.rightAddendColorProperty,
         stroke: 'black',
         cornerRadius: 0,
@@ -134,6 +148,10 @@ export default class BarModelNode extends VBox {
     } );
     options.children = [ totalRectangle, addendsNode ];
     super( options );
+
+    this.totalRectangle = totalRectangle;
+    this.leftAddendRectangle = leftAddendRectangle;
+    this.rightAddendRectangle = rightAddendRectangle;
 
     if ( options.totalOnTopProperty ) {
       options.totalOnTopProperty.link( totalOnTop => {

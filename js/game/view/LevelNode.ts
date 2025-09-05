@@ -21,10 +21,13 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
+import BarModelNode from '../../common/view/BarModelNode.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
@@ -76,12 +79,23 @@ export default class LevelNode extends Node {
     this.addChild( equationText );
 
     // Lightweight adapter to drive NumberBondNode from the Game model
+    // Bond adapter (mutable) values/visibility
     const totalProperty = new Property<number>( 0 );
     const leftAddendProperty = new Property<number>( 0 );
     const rightAddendProperty = new Property<number>( 0 );
     const totalVisibleProperty = new Property<boolean>( true );
     const leftAddendVisibleProperty = new Property<boolean>( true );
     const rightAddendVisibleProperty = new Property<boolean>( true );
+
+    // Bar adapter uses correct values for widths, independent of user guesses
+    const barTotalCorrectProperty = new Property<number>( 0 );
+    const barLeftCorrectProperty = new Property<number>( 0 );
+    const barRightCorrectProperty = new Property<number>( 0 );
+
+    // Display numbers for BarModel text, can differ from width values
+    const barDisplayTotalProperty = new Property<number>( 0 );
+    const barDisplayLeftProperty = new Property<number>( 0 );
+    const barDisplayRightProperty = new Property<number>( 0 );
 
     const bondAdapter: TGenericNumberPairsModel = {
       totalProperty: totalProperty,
@@ -96,10 +110,39 @@ export default class LevelNode extends Node {
     };
 
     const numberBondNode = new NumberBondMutableNode( bondAdapter );
-    numberBondNode.centerX = layoutBounds.centerX;
-    numberBondNode.top = statusBar.bottom + 30;
-    numberBondNode.visible = false;
-    this.addChild( numberBondNode );
+
+    const barAdapter: TGenericNumberPairsModel = {
+      totalProperty: barTotalCorrectProperty,
+      totalColorProperty: NumberPairsColors.attributeSumColorProperty,
+      totalVisibleProperty: totalVisibleProperty,
+      leftAddendProperty: barLeftCorrectProperty,
+      leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
+      leftAddendVisibleProperty: leftAddendVisibleProperty,
+      rightAddendProperty: barRightCorrectProperty,
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      rightAddendVisibleProperty: rightAddendVisibleProperty
+    };
+
+    const barModelNode = new BarModelNode( barAdapter, {
+      displayTotalNumberProperty: barDisplayTotalProperty,
+      displayLeftAddendNumberProperty: barDisplayLeftProperty,
+      displayRightAddendNumberProperty: barDisplayRightProperty
+    } );
+
+    const representationToggle = new ToggleNode<NumberModelType, Node>( NumberPairsPreferences.numberModelTypeProperty, [
+      {
+        createNode: () => numberBondNode,
+        value: NumberModelType.NUMBER_BOND_MODEL
+      },
+      {
+        createNode: () => barModelNode,
+        value: NumberModelType.BAR_MODEL
+      }
+    ] );
+    representationToggle.centerX = layoutBounds.centerX;
+    representationToggle.top = statusBar.bottom + 30;
+    representationToggle.visible = false;
+    this.addChild( representationToggle );
 
     // Feedback indicators shown on the bond
     const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visible: false } );
@@ -132,6 +175,23 @@ export default class LevelNode extends Node {
         setSlotStrokeStyle( slot, 'black', [] );
       }
     };
+    const getBarSlotRect = ( slot: Slot ) => slot === 'a' ? barModelNode.leftAddendRectangle : ( slot === 'b' ? barModelNode.rightAddendRectangle : barModelNode.totalRectangle );
+    const setBarSlotStrokeStyle = ( slot: Slot, color: string, lineDash: number[] | null ) => {
+      const rect = getBarSlotRect( slot );
+      rect.stroke = color;
+      rect.lineDash = lineDash || [];
+    };
+    const updateBarMissingSlotStyle = ( slot: Slot, state: 'idle' | 'incorrect' | 'correct' ) => {
+      if ( state === 'idle' ) {
+        setBarSlotStrokeStyle( slot, '#777', DASH );
+      }
+      else if ( state === 'incorrect' ) {
+        setBarSlotStrokeStyle( slot, '#c40000', DASH );
+      }
+      else {
+        setBarSlotStrokeStyle( slot, 'black', [] );
+      }
+    };
     const setSlot = ( slot: Slot, value: number | null ) => {
       if ( slot === 'a' ) {
         if ( value !== null ) {
@@ -161,6 +221,35 @@ export default class LevelNode extends Node {
         }
       }
     };
+    const setBarDisplaySlot = ( slot: Slot, value: number | null ) => {
+      if ( slot === 'a' ) {
+        if ( value !== null ) {
+          barDisplayLeftProperty.value = value;
+          leftAddendVisibleProperty.value = true;
+        }
+        else {
+          leftAddendVisibleProperty.value = false;
+        }
+      }
+      else if ( slot === 'b' ) {
+        if ( value !== null ) {
+          barDisplayRightProperty.value = value;
+          rightAddendVisibleProperty.value = true;
+        }
+        else {
+          rightAddendVisibleProperty.value = false;
+        }
+      }
+      else { // 'y'
+        if ( value !== null ) {
+          barDisplayTotalProperty.value = value;
+          totalVisibleProperty.value = true;
+        }
+        else {
+          totalVisibleProperty.value = false;
+        }
+      }
+    };
     const clearMarksAndFeedback = () => {
       this.level.clearFeedback();
       wrongMark.visible = false;
@@ -172,22 +261,32 @@ export default class LevelNode extends Node {
     // Sync adapter properties from the current challenge
     const applyChallengeToBond = () => {
       const ch = this.level.currentChallengeProperty.value;
-      const aVal = ch.a !== null ? ch.a : 0;
-      const bVal = ch.b !== null ? ch.b : 0;
       const yVal = ch.y !== null ? ch.y : ( ( ch.a !== null && ch.b !== null ) ? ch.a + ch.b : 0 );
+      const aCorrect = ch.a !== null ? ch.a : ( ch.y !== null && ch.b !== null ? ch.y - ch.b : 0 );
+      const bCorrect = ch.b !== null ? ch.b : ( ch.y !== null && ch.a !== null ? ch.y - ch.a : 0 );
 
-      leftAddendProperty.value = aVal;
-      rightAddendProperty.value = bVal;
+      leftAddendProperty.value = aCorrect;
+      rightAddendProperty.value = bCorrect;
       totalProperty.value = yVal;
+
+      // Bar widths use correct values
+      barLeftCorrectProperty.value = aCorrect;
+      barRightCorrectProperty.value = bCorrect;
+      barTotalCorrectProperty.value = yVal;
+
+      // Set display numbers for bars; missing will be hidden, shown when user selects
+      barDisplayLeftProperty.value = aCorrect;
+      barDisplayRightProperty.value = bCorrect;
+      barDisplayTotalProperty.value = yVal;
 
       leftAddendVisibleProperty.value = ch.missing !== 'a';
       rightAddendVisibleProperty.value = ch.missing !== 'b';
       totalVisibleProperty.value = ch.missing !== 'y';
 
       // Toggle bond vs equation view
-      const showBond = ch.type === 'bond';
-      numberBondNode.visible = showBond;
-      equationText.visible = !showBond;
+      const showRepresentation = ch.type === 'bond';
+      representationToggle.visible = showRepresentation;
+      equationText.visible = !showRepresentation;
 
       // Hide feedback marks on challenge change
       wrongMark.visible = false;
@@ -198,10 +297,16 @@ export default class LevelNode extends Node {
       // Update equation text regardless (used for non-bond types)
       equationText.string = ch.toEquationString();
 
-      // Initialize stroke styles for missing slot when in bond mode
-      if ( showBond ) {
-        updateMissingSlotStyle( ch.missing as Slot, 'idle' );
-        ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setSlotStrokeStyle( s, 'black', [] ) );
+      // Initialize stroke styles for missing slot when in representation mode
+      if ( showRepresentation ) {
+        if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
+          updateMissingSlotStyle( ch.missing as Slot, 'idle' );
+          ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setSlotStrokeStyle( s, 'black', [] ) );
+        }
+        else {
+          updateBarMissingSlotStyle( ch.missing as Slot, 'idle' );
+          ( [ 'a', 'b', 'y' ] as Slot[] ).filter( s => s !== ch.missing ).forEach( s => setBarSlotStrokeStyle( s, 'black', [] ) );
+        }
       }
     };
     applyChallengeToBond();
@@ -259,28 +364,57 @@ export default class LevelNode extends Node {
       if ( ch.type === 'bond' ) {
         const isIncorrect = this.level.feedbackStateProperty.value === 'incorrect';
         const slot: Slot = ch.missing;
-        if ( selected !== null ) {
-          setSlot( slot, selected );
-          if ( isIncorrect ) { clearMarksAndFeedback(); }
-          updateMissingSlotStyle( slot, 'idle' );
-        }
-        else {
-          if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
-            setSlot( slot, this.lastIncorrectGuess );
-            positionMarkAtSlot( wrongMark, slot );
-            wrongMark.visible = numberBondNode.visible;
-            updateMissingSlotStyle( slot, 'incorrect' );
+        const isBond = NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL;
+        if ( isBond ) {
+          if ( selected !== null ) {
+            setSlot( slot, selected );
+            if ( isIncorrect ) { clearMarksAndFeedback(); }
+            updateMissingSlotStyle( slot, 'idle' );
           }
           else {
-            setSlot( slot, null );
-            wrongMark.visible = false;
-            updateMissingSlotStyle( slot, 'idle' );
+            if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
+              setSlot( slot, this.lastIncorrectGuess );
+              positionMarkAtSlot( wrongMark, slot );
+              wrongMark.visible = representationToggle.visible;
+              updateMissingSlotStyle( slot, 'incorrect' );
+            }
+            else {
+              setSlot( slot, null );
+              wrongMark.visible = false;
+              updateMissingSlotStyle( slot, 'idle' );
+            }
+          }
+        }
+        else { // Bar model: update display numbers, keep widths correct
+          if ( selected !== null ) {
+            setBarDisplaySlot( slot, selected );
+            if ( isIncorrect ) { clearMarksAndFeedback(); }
+            updateBarMissingSlotStyle( slot, 'idle' );
+          }
+          else {
+            if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
+              setBarDisplaySlot( slot, this.lastIncorrectGuess );
+              updateBarMissingSlotStyle( slot, 'incorrect' );
+            }
+            else {
+              setBarDisplaySlot( slot, null );
+              updateBarMissingSlotStyle( slot, 'idle' );
+            }
           }
         }
       }
     } );
 
     // Keep wrong mark in sync with feedback state
+    const ensureBarZeroPlaceholder = ( slot: Slot ) => {
+      const total = barTotalCorrectProperty.value;
+      const correct = slot === 'a' ? barLeftCorrectProperty.value : ( slot === 'b' ? barRightCorrectProperty.value : barTotalCorrectProperty.value );
+      if ( total > 0 && correct === 0 ) {
+        const rect = getBarSlotRect( slot );
+        rect.rectWidth = Math.max( rect.rectWidth, 2 );
+      }
+    };
+
     this.level.feedbackStateProperty.link( state => {
       const ch = this.level.currentChallengeProperty.value;
       if ( ch.type !== 'bond' ) {
@@ -289,21 +423,61 @@ export default class LevelNode extends Node {
         return;
       }
 
+      const isBond = NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL;
       if ( state === 'incorrect' && this.lastIncorrectSlot ) {
-        positionMarkAtSlot( wrongMark, this.lastIncorrectSlot );
-        wrongMark.visible = numberBondNode.visible;
-        checkMark.visible = false;
-        updateMissingSlotStyle( this.lastIncorrectSlot, 'incorrect' );
+        if ( isBond ) {
+          positionMarkAtSlot( wrongMark, this.lastIncorrectSlot );
+          wrongMark.visible = representationToggle.visible;
+          checkMark.visible = false;
+          updateMissingSlotStyle( this.lastIncorrectSlot, 'incorrect' );
+        }
+        else {
+          updateBarMissingSlotStyle( ch.missing as Slot, 'incorrect' );
+          ensureBarZeroPlaceholder( ch.missing as Slot );
+        }
       }
       else if ( state === 'correct' ) {
-        positionMarkAtSlot( checkMark, ch.missing as Slot );
-        checkMark.visible = numberBondNode.visible;
-        wrongMark.visible = false;
-        updateMissingSlotStyle( ch.missing as Slot, 'correct' );
+        if ( isBond ) {
+          positionMarkAtSlot( checkMark, ch.missing as Slot );
+          checkMark.visible = representationToggle.visible;
+          wrongMark.visible = false;
+          updateMissingSlotStyle( ch.missing as Slot, 'correct' );
+        }
+        else {
+          updateBarMissingSlotStyle( ch.missing as Slot, 'correct' );
+          ensureBarZeroPlaceholder( ch.missing as Slot );
+        }
       }
       else {
         wrongMark.visible = false;
         checkMark.visible = false;
+        if ( isBond ) {
+          updateMissingSlotStyle( ch.missing as Slot, 'idle' );
+        }
+        else {
+          updateBarMissingSlotStyle( ch.missing as Slot, 'idle' );
+          ensureBarZeroPlaceholder( ch.missing as Slot );
+        }
+      }
+    } );
+
+    // Hide bond-specific marks/styles when pref changes to Bar Model
+    NumberPairsPreferences.numberModelTypeProperty.link( value => {
+      const ch = this.level.currentChallengeProperty.value;
+      const showRepresentation = ch.type === 'bond';
+      representationToggle.visible = showRepresentation;
+      equationText.visible = !showRepresentation;
+
+      const isBond = value === NumberModelType.NUMBER_BOND_MODEL;
+      if ( !isBond ) {
+        wrongMark.visible = false;
+        checkMark.visible = false;
+        if ( showRepresentation ) {
+          updateBarMissingSlotStyle( ch.missing as Slot, 'idle' );
+          ensureBarZeroPlaceholder( ch.missing as Slot );
+        }
+      }
+      else if ( showRepresentation ) {
         updateMissingSlotStyle( ch.missing as Slot, 'idle' );
       }
     } );

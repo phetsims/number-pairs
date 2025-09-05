@@ -3,7 +3,6 @@
  * NumberModelTypeControl is a radio button group that allows the user to select the type of number model.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
@@ -24,6 +23,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
+
 export default class NumberModelTypeControl extends PreferencesControl {
 
   public constructor( providedOptions: NumberModelTypeControlOptions ) {
