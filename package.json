@@ -11,7 +11,8 @@
     "@playwright/test": "^1.40.0"
   },
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "fix-lint-formatting-and-test-all": "grunt type-check && grunt lint --fix && npm test"
   },
   "phet": {
     "requirejsNamespace": "NUMBER_PAIRS",
