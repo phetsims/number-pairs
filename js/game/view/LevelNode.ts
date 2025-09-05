@@ -401,12 +401,18 @@ export default class LevelNode extends Node {
     // TODO: Manual constraint for layout, see https://github.com/phetsims/number-pairs/issues/36
     this.checkButton.right = layoutBounds.maxX - 20;
     this.checkButton.top = statusBar.bottom + 10;
+    const updateCheckEnabled = () => {
+      const anySelected = this.numberButtonGrid.anySelectedProperty.value;
+      const selectedEnabled = this.numberButtonGrid.selectedIsEnabledProperty.value;
+      const notSolved = !this.level.isChallengeSolvedProperty.value;
+      this.checkButton.enabledProperty.value = anySelected && selectedEnabled && notSolved;
+    };
     this.checkButton.enabledProperty.value = false;
-    this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
-      this.checkButton.enabledProperty.value = anySelected && !this.level.isChallengeSolvedProperty.value;
-    } );
+    this.numberButtonGrid.anySelectedProperty.lazyLink( updateCheckEnabled );
+    this.numberButtonGrid.selectedIsEnabledProperty.lazyLink( updateCheckEnabled );
+    this.level.isChallengeSolvedProperty.lazyLink( () => updateCheckEnabled() );
 
-    // Update NumberCircle when the selection number changes (even if anySelected remains true)
+    // Update visuals when the selection number changes (even if anySelected remains true)
     this.numberButtonGrid.selectedNumberProperty.lazyLink( selected => {
       const ch = this.level.currentChallengeProperty.value;
       if ( ch.type === 'bond' ) {
@@ -416,8 +422,21 @@ export default class LevelNode extends Node {
         if ( isBond ) {
           if ( selected !== null ) {
             setSlot( slot, selected );
-            if ( isIncorrect ) { clearMarksAndFeedback(); }
-            updateMissingSlotStyle( slot, 'idle' );
+            if ( isIncorrect ) {
+              // Preserve incorrect styling if the same wrong value remains selected; clear only if user changed selection
+              if ( this.lastIncorrectGuess !== null && selected !== this.lastIncorrectGuess ) {
+                clearMarksAndFeedback();
+                updateMissingSlotStyle( slot, 'idle' );
+              }
+              else {
+                updateMissingSlotStyle( slot, 'incorrect' );
+                positionMarkAtSlot( wrongMark, slot );
+                wrongMark.visible = representationToggle.visible;
+              }
+            }
+            else {
+              updateMissingSlotStyle( slot, 'idle' );
+            }
           }
           else {
             if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
@@ -436,8 +455,20 @@ export default class LevelNode extends Node {
         else { // Bar model: update display numbers, keep widths correct
           if ( selected !== null ) {
             setBarDisplaySlot( slot, selected );
-            if ( isIncorrect ) { clearMarksAndFeedback(); }
-            updateBarMissingSlotStyle( slot, 'idle' );
+            if ( isIncorrect ) {
+              if ( this.lastIncorrectGuess !== null && selected !== this.lastIncorrectGuess ) {
+                clearMarksAndFeedback();
+                updateBarMissingSlotStyle( slot, 'idle' );
+              }
+              else {
+                updateBarMissingSlotStyle( slot, 'incorrect' );
+                positionMarkAtBarSlot( wrongMark, slot );
+                wrongMark.visible = representationToggle.visible;
+              }
+            }
+            else {
+              updateBarMissingSlotStyle( slot, 'idle' );
+            }
           }
           else {
             if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
@@ -458,8 +489,20 @@ export default class LevelNode extends Node {
         const slot: Slot = ch.missing;
         if ( selected !== null ) {
           setSlot( slot, selected );
-          if ( isIncorrect ) { clearMarksAndFeedback(); }
-          updateEquationMissingSlotStyle( slot, 'idle' );
+          if ( isIncorrect ) {
+            if ( this.lastIncorrectGuess !== null && selected !== this.lastIncorrectGuess ) {
+              clearMarksAndFeedback();
+              updateEquationMissingSlotStyle( slot, 'idle' );
+            }
+            else {
+              updateEquationMissingSlotStyle( slot, 'incorrect' );
+              positionMarkAtEquationSlot( wrongMark, slot );
+              wrongMark.visible = equationNode.visible;
+            }
+          }
+          else {
+            updateEquationMissingSlotStyle( slot, 'idle' );
+          }
         }
         else {
           if ( isIncorrect ) {
@@ -653,8 +696,7 @@ export default class LevelNode extends Node {
         // Track for all challenge types so non-bond (equation) can show marks/dotted red with value
         this.lastIncorrectSlot = ch.missing;
 
-        // Reset selection; button disabling is handled by Level.guessedNumbersProperty link in NumberButtonGrid
-        this.numberButtonGrid.resetSelection();
+        // Do not clear selection on incorrect; keep the wrong value visually selected.
       }
     }
   }
