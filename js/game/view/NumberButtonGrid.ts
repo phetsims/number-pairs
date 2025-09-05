@@ -12,6 +12,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -30,6 +31,7 @@ const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
   public readonly anySelectedProperty: BooleanProperty;
+  public readonly selectedNumberProperty: Property<number | null>;
   
   private readonly buttonStates: BooleanProperty[];
   private readonly buttons: BooleanRectangularStickyToggleButton[];
@@ -43,10 +45,16 @@ export default class NumberButtonGrid extends Node {
     this.buttons = [];
     this.buttonValues = [];
     this.anySelectedProperty = new BooleanProperty( false );
-    const updateAnySelected = () => {
+    this.selectedNumberProperty = new Property<number | null>( null );
+    const updateSelectionState = () => {
 
       // true if any button is pressed in
-      this.anySelectedProperty.value = this.buttonStates.some( p => p.value );
+      const anySelected = this.buttonStates.some( p => p.value );
+      this.anySelectedProperty.value = anySelected;
+
+      // currently selected number (or null)
+      const selectedIndex = this.buttonStates.findIndex( state => state.value );
+      this.selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
     };
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
@@ -83,7 +91,7 @@ export default class NumberButtonGrid extends Node {
             }
           } );
         }
-        updateAnySelected();
+        updateSelectionState();
       } );
 
       return button;

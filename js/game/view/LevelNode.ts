@@ -101,16 +101,54 @@ export default class LevelNode extends Node {
     numberBondNode.visible = false;
     this.addChild( numberBondNode );
 
-    // Red X indicator shown for incorrect guesses on the bond
+    // Feedback indicators shown on the bond
     const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visible: false } );
+    const checkMark = new Text( '✓', { font: new PhetFont( 42 ), fill: '#059e05', visible: false } );
     this.addChild( wrongMark );
+    this.addChild( checkMark );
 
-    const positionWrongMark = () => {
-      const ch = this.level.currentChallengeProperty.value;
-      if ( this.lastIncorrectSlot && ch.type === 'bond' ) {
-        const target = this.lastIncorrectSlot === 'a' ? numberBondNode.leftAddend : ( this.lastIncorrectSlot === 'b' ? numberBondNode.rightAddend : numberBondNode.total );
-        wrongMark.center = target.center;
+    type Slot = 'a' | 'b' | 'y';
+
+    const getSlotTargetNode = ( slot: Slot ) => slot === 'a' ? numberBondNode.leftAddend : ( slot === 'b' ? numberBondNode.rightAddend : numberBondNode.total );
+    const positionMarkAtSlot = ( mark: Text, slot: Slot ) => {
+      const target = getSlotTargetNode( slot );
+      mark.center = target.center;
+    };
+    const setSlot = ( slot: Slot, value: number | null ) => {
+      if ( slot === 'a' ) {
+        if ( value !== null ) {
+          leftAddendProperty.value = value;
+          leftAddendVisibleProperty.value = true;
+        }
+        else {
+          leftAddendVisibleProperty.value = false;
+        }
       }
+      else if ( slot === 'b' ) {
+        if ( value !== null ) {
+          rightAddendProperty.value = value;
+          rightAddendVisibleProperty.value = true;
+        }
+        else {
+          rightAddendVisibleProperty.value = false;
+        }
+      }
+      else { // 'y'
+        if ( value !== null ) {
+          totalProperty.value = value;
+          totalVisibleProperty.value = true;
+        }
+        else {
+          totalVisibleProperty.value = false;
+        }
+      }
+    };
+    const clearMarksAndFeedback = () => {
+      this.level.clearFeedback();
+      wrongMark.visible = false;
+      checkMark.visible = false;
+      this.lastIncorrectGuess = null;
+      this.lastIncorrectSlot = null;
     };
 
     // Sync adapter properties from the current challenge
@@ -133,8 +171,9 @@ export default class LevelNode extends Node {
       numberBondNode.visible = showBond;
       equationText.visible = !showBond;
 
-      // Hide wrong mark on challenge change
+      // Hide feedback marks on challenge change
       wrongMark.visible = false;
+      checkMark.visible = false;
       this.lastIncorrectGuess = null;
       this.lastIncorrectSlot = null;
 
@@ -188,86 +227,27 @@ export default class LevelNode extends Node {
     this.checkButton.enabledProperty.value = false;
     this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
       this.checkButton.enabledProperty.value = anySelected && !this.level.isChallengeSolvedProperty.value;
+    } );
 
-      // If this is a number bond challenge, reflect the current selection in the missing addend
+    // Update NumberCircle when the selection number changes (even if anySelected remains true)
+    this.numberButtonGrid.selectedNumberProperty.lazyLink( selected => {
       const ch = this.level.currentChallengeProperty.value;
       if ( ch.type === 'bond' ) {
-        const selected = this.numberButtonGrid.getSelectedNumber();
         const isIncorrect = this.level.feedbackStateProperty.value === 'incorrect';
-
-        if ( ch.missing === 'a' ) {
-          if ( selected !== null ) {
-            leftAddendProperty.value = selected;
-            leftAddendVisibleProperty.value = true;
-
-            // If previously showing an incorrect guess, clear it when a new selection is made
-            if ( isIncorrect ) {
-              this.level.clearFeedback();
-              this.lastIncorrectGuess = null;
-              this.lastIncorrectSlot = null;
-              wrongMark.visible = false;
-            }
-          }
-          else {
-            // If last feedback was incorrect for 'a', keep showing it
-            if ( isIncorrect && this.lastIncorrectSlot === 'a' && this.lastIncorrectGuess !== null ) {
-              leftAddendProperty.value = this.lastIncorrectGuess;
-              leftAddendVisibleProperty.value = true;
-              positionWrongMark();
-              wrongMark.visible = numberBondNode.visible;
-            }
-            else {
-              leftAddendVisibleProperty.value = false;
-              wrongMark.visible = false;
-            }
-          }
+        const slot: Slot = ch.missing;
+        if ( selected !== null ) {
+          setSlot( slot, selected );
+          if ( isIncorrect ) { clearMarksAndFeedback(); }
         }
-        else if ( ch.missing === 'b' ) {
-          if ( selected !== null ) {
-            rightAddendProperty.value = selected;
-            rightAddendVisibleProperty.value = true;
-            if ( isIncorrect ) {
-              this.level.clearFeedback();
-              this.lastIncorrectGuess = null;
-              this.lastIncorrectSlot = null;
-              wrongMark.visible = false;
-            }
+        else {
+          if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
+            setSlot( slot, this.lastIncorrectGuess );
+            positionMarkAtSlot( wrongMark, slot );
+            wrongMark.visible = numberBondNode.visible;
           }
           else {
-            if ( isIncorrect && this.lastIncorrectSlot === 'b' && this.lastIncorrectGuess !== null ) {
-              rightAddendProperty.value = this.lastIncorrectGuess;
-              rightAddendVisibleProperty.value = true;
-              positionWrongMark();
-              wrongMark.visible = numberBondNode.visible;
-            }
-            else {
-              rightAddendVisibleProperty.value = false;
-              wrongMark.visible = false;
-            }
-          }
-        }
-        else if ( ch.missing === 'y' ) {
-          if ( selected !== null ) {
-            totalProperty.value = selected;
-            totalVisibleProperty.value = true;
-            if ( isIncorrect ) {
-              this.level.clearFeedback();
-              this.lastIncorrectGuess = null;
-              this.lastIncorrectSlot = null;
-              wrongMark.visible = false;
-            }
-          }
-          else {
-            if ( isIncorrect && this.lastIncorrectSlot === 'y' && this.lastIncorrectGuess !== null ) {
-              totalProperty.value = this.lastIncorrectGuess;
-              totalVisibleProperty.value = true;
-              positionWrongMark();
-              wrongMark.visible = numberBondNode.visible;
-            }
-            else {
-              totalVisibleProperty.value = false;
-              wrongMark.visible = false;
-            }
+            setSlot( slot, null );
+            wrongMark.visible = false;
           }
         }
       }
@@ -275,12 +255,26 @@ export default class LevelNode extends Node {
 
     // Keep wrong mark in sync with feedback state
     this.level.feedbackStateProperty.link( state => {
-      if ( state === 'incorrect' ) {
-        positionWrongMark();
+      const ch = this.level.currentChallengeProperty.value;
+      if ( ch.type !== 'bond' ) {
+        wrongMark.visible = false;
+        checkMark.visible = false;
+        return;
+      }
+
+      if ( state === 'incorrect' && this.lastIncorrectSlot ) {
+        positionMarkAtSlot( wrongMark, this.lastIncorrectSlot );
         wrongMark.visible = numberBondNode.visible;
+        checkMark.visible = false;
+      }
+      else if ( state === 'correct' ) {
+        positionMarkAtSlot( checkMark, ch.missing as Slot );
+        checkMark.visible = numberBondNode.visible;
+        wrongMark.visible = false;
       }
       else {
         wrongMark.visible = false;
+        checkMark.visible = false;
       }
     } );
 
