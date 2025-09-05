@@ -5,9 +5,7 @@
 
 * the “check” button turns to an arrow to indicate “next problem”
 
-### Level 1 (0-10) Missing addends – fluency facts
-
-* Kittens can be moved and organized, but not change color
+* Add Kittens: they can be moved and organized, but not change color
 
 **Example**:
 
@@ -17,16 +15,6 @@
   different hue – hex code tbd after color contrast checking happens) to indicate it has been depressed, but the user
   can organize the kittens, change the number of them, or move them prior to pressing “Check”  
   ![][image171]
-
-* The user presses “Check” to find the choice was incorrect
-* Visual changes (see image below)
-  * A red “x” appears near the number bond to indicate an incorrect choice near the incorrect addend in the number bond
-  * in the number bond, the incorrect addend has a red outline to visually indicate what the red “x” is referring
-    to (\*\* should remain dotted)
-  * The “Check” button is disabled, and the chosen number button (6) turns grey (disabled) to indicate it is no longer
-    an option to choose for the number bond game
-  * The ten frame is always enabled and interactive with feedback
-  * Kittens are always interactive  ![][image172]
 
 * The user chooses another number (8). At that moment:
   * Eight blue kittens are now in the counting area
@@ -49,8 +37,6 @@
   ![][image174]
 
 * Visual changes (see image below)
-  * a green checkmark appears near the number bond
-  * the line from 8 to 5 turns to a thicker stroke and changes to a solid line
   * the outline around the addend turns black (\*\* should be thicker as well)
   * \*\* the correct number button at the bottom turns a color to indicate correctness. Below shows green, but this
     might be confusing since the “total” circle is green. Probably should match the missing addend color.
@@ -106,18 +92,6 @@
     ![][image194]
 
 
-* **Example** of when the right addend is missing
-
-  ![][image195]
-
-  * The user presses 9  
-    ![][image196]
-  * Then presses “Check”  
-    ![][image197]
-  * The user presses the correct number (11)  
-    ![][image198]
-  * The presses “Check”  
-    ![][image199]
 
 [image166]: ./images/image166.png
 
