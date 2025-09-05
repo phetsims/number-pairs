@@ -8,6 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
@@ -26,6 +27,7 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
 
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsFluent.screen.gameStringProperty,
+      createKeyboardHelpNode: () => new Text( 'hello world' ),
 
       //TODO add default values for optional SelfOptions here, https://github.com/phetsims/number-pairs/issues/36
 
