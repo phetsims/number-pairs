@@ -7,8 +7,10 @@
  */
 
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import Level from './Level.js';
 
 export default class GameModelTests {
   public constructor() {
@@ -32,6 +34,22 @@ export default class GameModelTests {
 
     // Negative case: wrong guess should be incorrect
     affirm( !c1.isCorrect( 4 ), 'wrong guess 4 should be incorrect for 3 + x = 8' );
+
+    // Scoring tests: only a correct first guess grants points
+    const level = new Level( Tandem.OPT_OUT );
+
+    // First challenge: correct on first try -> +1 point
+    level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 3, null, 8, 'zeroToTen' );
+    affirm( level.scoreProperty.value === 0, 'initial score is 0' );
+    affirm( level.checkAnswer( 5 ), 'first challenge: correct on first try' );
+    affirm( level.scoreProperty.value as number === 1, 'score increments to 1 for first-try correct' );
+
+    // Second challenge: wrong first, then correct -> no additional points
+    level.resetForNewChallenge();
+    level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 4, null, 9, 'zeroToTen' ); // expect 5
+    affirm( !level.checkAnswer( 6 ), 'second challenge: wrong first guess' );
+    affirm( level.checkAnswer( 5 ), 'second challenge: then correct' );
+    affirm( level.scoreProperty.value as number === 1, 'score does not increment on non-first-try correct' );
   }
 }
 
