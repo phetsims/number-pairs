@@ -129,7 +129,18 @@ export default class GameModel implements TModel {
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'sum', 'b', a, null, y, 'zeroToTwenty' );
+          const b = y - a;
+          const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
+          const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
+          if ( missing === 'a' ) {
+            return createChallenge( 'sum', 'a', null, b, y, 'zeroToTwenty' );
+          }
+          else if ( missing === 'b' ) {
+            return createChallenge( 'sum', 'b', a, null, y, 'zeroToTwenty' );
+          }
+          else { // missing === 'y'
+            return createChallenge( 'sum', 'y', a, b, null, 'zeroToTwenty' );
+          }
         }
       },
       {
@@ -139,22 +150,55 @@ export default class GameModel implements TModel {
         generateChallenge: () => {
           const y = dotRandom.nextIntBetween( 0, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+          const b = y - a;
+          const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
+          if ( missing === 'a' ) {
+            return createChallenge( 'numberLine', 'a', null, b, y, 'zeroToTwenty' );
+          }
+          else {
+            return createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+          }
         }
       }
     ];
 
     this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ) ) );
 
-    // Generate the first challenge
-    this.generateNewChallenge();
+    // Defer challenge generation until a level is started
   }
 
   /** Generates and applies a new challenge for the current level. */
   public generateNewChallenge(): void {
-    const challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
+    let challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
     if ( this.levels && this.levels.length > 0 ) {
       const level = this.getCurrentLevel();
+
+      // If this is the first challenge for this level, enforce that y, a, b are all non-zero
+      if ( level.isFirstChallenge ) {
+        let attempts = 0;
+        const isValidFirstChallenge = ( ch: Challenge ): boolean => {
+          if ( ch.y === null ) { return false; }
+
+          const y = ch.missing === 'y' ? ch.expectedAnswer() : ch.y;
+          const aVal = ch.missing === 'a' ? ch.expectedAnswer() : ( ch.a! );
+          const bVal = ch.missing === 'b' ? ch.expectedAnswer() : ( ch.b! );
+
+          return y > 0 && aVal > 0 && bVal > 0;
+        };
+        while ( attempts < 100 && !isValidFirstChallenge( challenge ) ) {
+          challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
+          attempts++;
+        }
+
+        // For Level 8, first challenge specifically requires left known, right missing (i.e. missing === 'b')
+        if ( this.getCurrentLevelNumber() === 8 ) {
+          const y = challenge.missing === 'y' ? challenge.expectedAnswer() : ( challenge.y! );
+          const a = challenge.missing === 'a' ? challenge.expectedAnswer() : ( challenge.a! );
+          challenge = createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+        }
+        level.isFirstChallenge = false;
+      }
+
       level.resetForNewChallenge();
       level.currentChallengeProperty.value = challenge;
     }

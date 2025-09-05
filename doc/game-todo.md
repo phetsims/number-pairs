@@ -2,41 +2,20 @@
 Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/14BNBrokYt1OI2Y7lzjhkAP2aSnEfBh7xBW868ss2spg/edit#heading=h.cnlkqzqciwrv) → means an infinite number of randomly-generated challenges)
 
 * For all levels
-  * Infinite challenges randomly generated
-  * \+1 star on first try correct only
-  * Total number of stars are remembered and displayed on game selection screen (like [Number Play](https://phet.colorado.edu/sims/html/number-play/latest/number-play_all.html?screens=3))
-  * The randomly chosen numbers follow: a ≤ y and  b ≤ y, a+b=y, and y ≤ 10 or 20
-    * Note: it’s possible for the user to choose an illogical number. For example, if y is randomly chosen to be 5 and a is 2, the user can select a value for b greater than 3\. That’s ok if it’s the user’s choice.
   * All game levels except the number line have an interactive area and a ten frame (organize) button
 
 * Number bonds
   * Form:
   * y is the top
   * a and b are the addends, which are also the numbers the sum decomposes into
-  * y, a, and b are positive integers taking on values 0, 1, …, 20
-  * First challenge will not have y=0, a=0, or b=0
-  * y will be randomly assigned a number, and its decomposition randomly chosen. Either a or b will be randomly chosen to be displayed while the other addend is the number users will choose
-    * Example:  y is randomly assigned 9\. The decomposition is randomly chosen to be 7 and 2\. b is chosen to be displayed (2), so the number bond will look like:
-
-
 
 * Decomposition equations
   * Form: y=a+b
   * a and b are the addends, which are also the numbers *y* decomposes into
-  * y, a, and b are positive integers taking on values 0, 1, …, 20
-  * First challenge will not have y=0, a=0, or b=0
-  * y will be randomly assigned a number, and its decomposition randomly chosen. Either a or b will be randomly chosen to be displayed while the other addend is the number users will choose
-    * Example:  y is randomly assigned 9\. The decomposition is randomly chosen to be 7 and 2\. b is chosen to be displayed (2), so the equation will look like: 9=?+2
-
-
 
 * Sum equations
   * Will be in the form of a+b=y
-  * y, a, and b are positive integers taking on values 0, 1, …, 20
-  * First challenge will not have y=0, a=0, or b=0
-  * y, a or  will be randomly assigned a number, and its decomposition randomly chosen. One of the remaining letters will have a value while the other will be solved by the user.
-    * Example:  y is randomly assigned 9\. The decomposition is randomly chosen to be 7 and 2\. a and b are chosen to be displayed, so the equation will look like: 7 \+ 2= ?
-
+  
 ## Game – Outstanding Questions or Changes to Description Below
 
 * Eye toggle was designed to be on all levels except level 1
@@ -51,10 +30,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
   * ![][image168]![][image169]
 
 ## Mockups & Description of each level:
-
-* Game screen
-  * Set up logic in game so the very first challenge on any given screen never has an addend of zero, and the total is never zero (first challenge only)
-
 
 ### Level 1 (0-10) Missing addends – fluency facts
 
@@ -174,8 +149,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
 
 * See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
 * Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill
-* The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
-* Value range for y is from 11-20
 * Example of the left addend missing  
   ![][image186]
 
@@ -194,8 +167,6 @@ Randomly generated settings ([type D.2 game](https://docs.google.com/document/d/
 ### Level 8 (0-20): missing both addends, fact fluency,
 
 * See logic for [sum equations](#heading=h.o9d55p201mw3)
-* First challenge: left addend known, right addend unknown
-* Subsequent challenges could be the left or the right addend (not the total)
 * **Example** of starting state when left addend is chosen to be missing (not the first challenge)  
   ![][image190]
   * The user choses 6, presses the Tick Numbers checkbox, and sees the following:

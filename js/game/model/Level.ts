@@ -17,6 +17,7 @@ export default class Level {
   public readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
+  public isFirstChallenge: boolean;
 
   public constructor( tandem: Tandem ) {
     this.scoreProperty = new NumberProperty( 0, {
@@ -35,6 +36,8 @@ export default class Level {
     this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'sum', 'b', 3, null, 5, 'zeroToTen' ), {
       tandem: Tandem.OPT_OUT
     } );
+
+    this.isFirstChallenge = true;
   }
 
   public resetForNewChallenge(): void {
