@@ -100,6 +100,10 @@ export default class LevelNode extends Node {
     } );
     this.addChild( this.numberButtonGrid );
 
+    // Disable any numbers that were already guessed for this challenge (in case of re-entry)
+    const initialGuessed = model.getLevel( levelNumber ).currentChallengeProperty.value.getGuessedNumbers();
+    initialGuessed.forEach( n => this.numberButtonGrid.disableButton( n ) );
+
     // Add a 'Check' button in the top-right, disabled until a number is selected
     this.checkButton = new TextPushButton( 'Check', { // TODO i18n https://github.com/phetsims/number-pairs/issues/36
       listener: () => this.checkAnswer()

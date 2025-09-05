@@ -26,6 +26,9 @@ export default class Challenge {
   // Range used to generate/validate values (useful for grid selection and future validation)
   public readonly range: 'zeroToTen' | 'zeroToTwenty';
 
+  // Track numbers the user has already guessed for this challenge
+  private readonly guessedNumbers: Set<number> = new Set<number>();
+
   public constructor( type: ChallengeType, missing: MissingComponent, a: number | null, b: number | null, y: number | null, range: 'zeroToTen' | 'zeroToTwenty' ) {
     this.type = type;
     this.missing = missing;
@@ -53,6 +56,26 @@ export default class Challenge {
   /** Returns true if the provided guess matches the expected numeric answer. */
   public isCorrect( guess: number ): boolean {
     return guess === this.expectedAnswer();
+  }
+
+  /** Records a guess into the set of already guessed numbers. */
+  public addGuess( guess: number ): void {
+    this.guessedNumbers.add( guess );
+  }
+
+  /** Whether this number has already been guessed for this challenge. */
+  public hasGuessed( guess: number ): boolean {
+    return this.guessedNumbers.has( guess );
+  }
+
+  /** Returns an array of all guessed numbers (copy). */
+  public getGuessedNumbers(): number[] {
+    return Array.from( this.guessedNumbers );
+  }
+
+  /** Clears all recorded guesses. */
+  public resetGuesses(): void {
+    this.guessedNumbers.clear();
   }
 
   /** Simple equation string suitable for the current prototype UI. */

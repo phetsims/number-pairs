@@ -43,6 +43,8 @@ export default class Level {
   public resetForNewChallenge(): void {
     this.isChallengeSolvedProperty.value = false;
     this.attemptsProperty.value = 0;
+    // Clear any tracked guesses on the current challenge, if present
+    this.currentChallengeProperty.value.resetGuesses();
   }
 
   /**
@@ -50,6 +52,8 @@ export default class Level {
    */
   public checkAnswer( guess: number ): boolean {
     this.attemptsProperty.value++;
+    // Record the guess with the current challenge
+    this.currentChallengeProperty.value.addGuess( guess );
 
     const isCorrect = this.currentChallengeProperty.value.isCorrect( guess );
 
