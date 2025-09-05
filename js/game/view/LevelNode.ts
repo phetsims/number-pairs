@@ -22,10 +22,8 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
-import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
@@ -34,57 +32,12 @@ import Challenge from '../model/Challenge.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
+import SimpleLevelDisplay from './SimpleLevelDisplay.js';
 
 type SelfOptions = {
   // reserved for future options
 };
 type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
-
-// Simple adapter that exposes the minimal properties needed by common view widgets.
-class SimpleLevelDisplay implements TGenericNumberPairsModel {
-  public readonly totalProperty: TReadOnlyProperty<number>;
-  public readonly totalColorProperty: TReadOnlyProperty<Color> = NumberPairsColors.attributeSumColorProperty;
-  public readonly totalVisibleProperty: TReadOnlyProperty<boolean>;
-  public readonly leftAddendProperty: TReadOnlyProperty<number>;
-  public readonly leftAddendColorProperty: TReadOnlyProperty<Color> = NumberPairsColors.attributeLeftAddendColorProperty;
-  public readonly leftAddendVisibleProperty: TReadOnlyProperty<boolean>;
-  public readonly rightAddendProperty: TReadOnlyProperty<number>;
-  public readonly rightAddendColorProperty: TReadOnlyProperty<Color> = NumberPairsColors.attributeRightAddendColorProperty;
-  public readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
-
-  public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
-
-    const challengeProperty = level.currentChallengeProperty;
-    const feedbackStateProperty = level.feedbackStateProperty;
-
-    const displayedForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
-      ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
-        const correctMissing = ch.expectedAnswer();
-        const valueBySlot = {
-          a: ch.a === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.a,
-          b: ch.b === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.b,
-          y: ch.y === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.y
-        } as const;
-        return valueBySlot[ slot ];
-      } );
-
-    const visibleForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
-      ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
-        const isMissing = ch.missing === slot;
-        if ( !isMissing ) { return true; }
-        // Missing slot: show number when solved or when the user has an active selection
-        return state === 'correct' || guess !== null;
-      } );
-
-    this.leftAddendProperty = displayedForSlot( 'a' );
-    this.rightAddendProperty = displayedForSlot( 'b' );
-    this.totalProperty = displayedForSlot( 'y' );
-
-    this.leftAddendVisibleProperty = visibleForSlot( 'a' );
-    this.rightAddendVisibleProperty = visibleForSlot( 'b' );
-    this.totalVisibleProperty = visibleForSlot( 'y' );
-  }
-}
 
 export default class LevelNode extends Node {
 
@@ -134,22 +87,22 @@ export default class LevelNode extends Node {
       rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
     } );
 
-    const repArea = new Node();
-    repArea.centerX = layoutBounds.centerX;
-    repArea.centerY = layoutBounds.centerY - 40;
-    this.addChild( repArea );
-
-    // Swap representation based on challenge type
-    const setRepChildren = ( ch: Challenge ) => {
-      if ( ch.type === 'bond' ) {
-        repArea.children = [ bondNode ];
+    // Add both as children; show the one for current challenge and center it in layout bounds
+    this.addChild( bondNode );
+    this.addChild( equationNode );
+    const updateRepresentation = ( ch: Challenge ) => {
+      const useBond = ch.type === 'bond';
+      bondNode.visible = useBond;
+      equationNode.visible = !useBond;
+      if ( useBond ) {
+        bondNode.center = layoutBounds.center;
       }
-      else { // 'decomposition' | 'sum' | 'numberLine' → use equation for now
-        repArea.children = [ equationNode ];
+      else {
+        equationNode.center = layoutBounds.center;
       }
     };
-    setRepChildren( level.currentChallengeProperty.value );
-    level.currentChallengeProperty.link( setRepChildren );
+    updateRepresentation( level.currentChallengeProperty.value );
+    level.currentChallengeProperty.link( updateRepresentation );
 
     // Feedback styling for the missing slot: dashed while unsolved, red dashed when incorrect, solid when correct
     const applyFeedbackStroke = () => {
@@ -172,17 +125,13 @@ export default class LevelNode extends Node {
         }
       };
 
-      if ( repArea.children.length > 0 ) {
-        const rep = repArea.children[ 0 ];
-        if ( rep === bondNode ) {
-          const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
-          styleNode( target );
-        }
-
-        else if ( rep === equationNode ) {
-          const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
-          styleNode( target );
-        }
+      if ( bondNode.visible ) {
+        const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
+        styleNode( target );
+      }
+      else if ( equationNode.visible ) {
+        const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
+        styleNode( target );
       }
     };
     level.feedbackStateProperty.link( applyFeedbackStroke );
