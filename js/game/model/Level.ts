@@ -6,14 +6,17 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
+import Challenge from './Challenge.js';
 
 export default class Level {
   public readonly scoreProperty: NumberProperty;
   public readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly attemptsProperty: NumberProperty;
+  public readonly currentChallengeProperty: Property<Challenge>;
 
   public constructor( tandem: Tandem ) {
     this.scoreProperty = new NumberProperty( 0, {
@@ -27,11 +30,36 @@ export default class Level {
     this.attemptsProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'attemptsProperty' )
     } );
+
+    // Seed with a placeholder; GameModel will replace on start/new challenge
+    this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'sum', 'b', 3, null, 5, 'zeroToTen' ), {
+      tandem: Tandem.OPT_OUT
+    } );
   }
 
   public resetForNewChallenge(): void {
     this.isChallengeSolvedProperty.value = false;
     this.attemptsProperty.value = 0;
+  }
+
+  /**
+   * Checks if the provided guess is correct for the current challenge and updates level state.
+   */
+  public checkAnswer( guess: number ): boolean {
+    this.attemptsProperty.value++;
+
+    const isCorrect = this.currentChallengeProperty.value.isCorrect( guess );
+
+    if ( isCorrect ) {
+      this.isChallengeSolvedProperty.value = true;
+
+      // Award star only on first try
+      if ( this.attemptsProperty.value === 1 ) {
+        this.scoreProperty.value++;
+      }
+    }
+
+    return isCorrect;
   }
 }
 

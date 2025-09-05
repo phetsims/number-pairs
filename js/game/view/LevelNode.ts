@@ -28,6 +28,7 @@ import NumberButtonGrid from './NumberButtonGrid.js';
 export default class LevelNode extends Node {
   
   private readonly model: GameModel;
+  private readonly levelNumber: number;
   private readonly numberButtonGrid: NumberButtonGrid;
   private readonly checkButton: TextPushButton;
   private readonly newChallengeButton: RectangularPushButton;
@@ -36,6 +37,7 @@ export default class LevelNode extends Node {
     super();
     
     this.model = model;
+    this.levelNumber = levelNumber;
 
     // Title and description in the status bar: bold "Level X" + spaced non-bold description
     const fullDescription = model.getLevelDescription( levelNumber );
@@ -58,7 +60,7 @@ export default class LevelNode extends Node {
     this.addChild( statusBar );
 
     // Display the current equation challenge
-    const equationText = new Text( model.equationTextProperty.value, {
+    const equationText = new Text( model.getLevel( levelNumber ).currentChallengeProperty.value.toEquationString(), {
       font: new PhetFont( 48 ),
       fill: 'black',
       centerX: layoutBounds.centerX,
@@ -66,9 +68,9 @@ export default class LevelNode extends Node {
     } );
     this.addChild( equationText );
     
-    // Update equation text when it changes
-    model.equationTextProperty.link( equation => {
-      equationText.string = equation;
+    // Update equation text when challenge changes
+    model.getLevel( levelNumber ).currentChallengeProperty.link( challenge => {
+      equationText.string = challenge.toEquationString();
     } );
 
     // create and add the newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
@@ -85,7 +87,7 @@ export default class LevelNode extends Node {
       touchAreaYDilation: 9,
       content: new Path( rightArrowShape, { fill: Color.BLACK } ),
       visibleProperty: model.getLevel( levelNumber ).isChallengeSolvedProperty,
-      listener: () => this.newChallenge( levelNumber )
+      listener: () => this.newChallenge()
     } );
     this.newChallengeButton.centerX = layoutBounds.centerX;
     this.newChallengeButton.bottom = layoutBounds.maxY - 200;
@@ -128,7 +130,7 @@ export default class LevelNode extends Node {
   private checkAnswer(): void {
     const selectedNumber = this.numberButtonGrid.getSelectedNumber();
     if ( selectedNumber !== null ) {
-      const isCorrect = this.model.checkAnswer( selectedNumber );
+      const isCorrect = this.model.getLevel( this.levelNumber ).checkAnswer( selectedNumber );
       
       if ( !isCorrect ) {
         // Disable the incorrect button
@@ -146,9 +148,9 @@ export default class LevelNode extends Node {
   /**
    * Sets up a new challenge in the model and in the view.
    */
-  public newChallenge( levelNumber: number ): void {
+  public newChallenge(): void {
     // Reset the model state and generate a new challenge for this level
-    this.model.getLevel( levelNumber ).resetForNewChallenge();
+    this.model.getLevel( this.levelNumber ).resetForNewChallenge();
     this.model.generateNewChallenge();
     this.numberButtonGrid.resetAll();
   }
