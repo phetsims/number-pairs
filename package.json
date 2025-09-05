@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "playwright test",
-    "fix-lint-formatting-and-test-all": "grunt type-check && grunt lint --fix && npm test"
+    "typecheck-eslintFix-playwrightTest": "grunt type-check && grunt lint --fix && npm test"
   },
   "phet": {
     "requirejsNamespace": "NUMBER_PAIRS",
