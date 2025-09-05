@@ -176,6 +176,11 @@ export default class LevelNode extends Node {
       }
     };
     const getBarSlotRect = ( slot: Slot ) => slot === 'a' ? barModelNode.leftAddendRectangle : ( slot === 'b' ? barModelNode.rightAddendRectangle : barModelNode.totalRectangle );
+    const positionMarkAtBarSlot = ( mark: Text, slot: Slot ) => {
+      const rect = getBarSlotRect( slot );
+      const parent = mark.globalToParentBounds( rect.globalBounds );
+      mark.leftCenter = parent.rightCenter.plusXY( 10, 0 );
+    };
     const setBarSlotStrokeStyle = ( slot: Slot, color: string, lineDash: number[] | null ) => {
       const rect = getBarSlotRect( slot );
       rect.stroke = color;
@@ -394,6 +399,8 @@ export default class LevelNode extends Node {
           else {
             if ( isIncorrect && this.lastIncorrectSlot === slot && this.lastIncorrectGuess !== null ) {
               setBarDisplaySlot( slot, this.lastIncorrectGuess );
+              positionMarkAtBarSlot( wrongMark, slot );
+              wrongMark.visible = representationToggle.visible;
               updateBarMissingSlotStyle( slot, 'incorrect' );
             }
             else {
@@ -432,6 +439,9 @@ export default class LevelNode extends Node {
           updateMissingSlotStyle( this.lastIncorrectSlot, 'incorrect' );
         }
         else {
+          positionMarkAtBarSlot( wrongMark, ch.missing as Slot );
+          wrongMark.visible = representationToggle.visible;
+          checkMark.visible = false;
           updateBarMissingSlotStyle( ch.missing as Slot, 'incorrect' );
           ensureBarZeroPlaceholder( ch.missing as Slot );
         }
@@ -444,6 +454,9 @@ export default class LevelNode extends Node {
           updateMissingSlotStyle( ch.missing as Slot, 'correct' );
         }
         else {
+          positionMarkAtBarSlot( checkMark, ch.missing as Slot );
+          checkMark.visible = representationToggle.visible;
+          wrongMark.visible = false;
           updateBarMissingSlotStyle( ch.missing as Slot, 'correct' );
           ensureBarZeroPlaceholder( ch.missing as Slot );
         }
@@ -469,16 +482,55 @@ export default class LevelNode extends Node {
       equationText.visible = !showRepresentation;
 
       const isBond = value === NumberModelType.NUMBER_BOND_MODEL;
-      if ( !isBond ) {
+      const state = this.level.feedbackStateProperty.value;
+
+      if ( !showRepresentation ) {
         wrongMark.visible = false;
         checkMark.visible = false;
-        if ( showRepresentation ) {
-          updateBarMissingSlotStyle( ch.missing as Slot, 'idle' );
-          ensureBarZeroPlaceholder( ch.missing as Slot );
+        return;
+      }
+
+      const slot = ch.missing as Slot;
+      if ( isBond ) {
+        if ( state === 'incorrect' && this.lastIncorrectSlot ) {
+          positionMarkAtSlot( wrongMark, this.lastIncorrectSlot );
+          wrongMark.visible = true;
+          checkMark.visible = false;
+          updateMissingSlotStyle( slot, 'incorrect' );
+        }
+        else if ( state === 'correct' ) {
+          positionMarkAtSlot( checkMark, slot );
+          checkMark.visible = true;
+          wrongMark.visible = false;
+          updateMissingSlotStyle( slot, 'correct' );
+        }
+        else {
+          wrongMark.visible = false;
+          checkMark.visible = false;
+          updateMissingSlotStyle( slot, 'idle' );
         }
       }
-      else if ( showRepresentation ) {
-        updateMissingSlotStyle( ch.missing as Slot, 'idle' );
+      else { // Bar model
+        if ( state === 'incorrect' && this.lastIncorrectSlot ) {
+          positionMarkAtBarSlot( wrongMark, slot );
+          wrongMark.visible = true;
+          checkMark.visible = false;
+          updateBarMissingSlotStyle( slot, 'incorrect' );
+          ensureBarZeroPlaceholder( slot );
+        }
+        else if ( state === 'correct' ) {
+          positionMarkAtBarSlot( checkMark, slot );
+          checkMark.visible = true;
+          wrongMark.visible = false;
+          updateBarMissingSlotStyle( slot, 'correct' );
+          ensureBarZeroPlaceholder( slot );
+        }
+        else {
+          wrongMark.visible = false;
+          checkMark.visible = false;
+          updateBarMissingSlotStyle( slot, 'idle' );
+          ensureBarZeroPlaceholder( slot );
+        }
       }
     } );
 
