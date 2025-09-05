@@ -9,12 +9,7 @@
 
 ## Game Outstanding Questions or Changes to Description Below
 
-* Add eye toggle for levels with hasEyeToggle: true (all levels except 1)
-* Number bond in mockups shows missing addend with solid border
-  * Should be dotted and a grey color (pending color contrast checking)
-  * ![][image166]
-* Incorrect outline in number bond shows solid in mockups, but should be dotted
-  * ![][image167]
+* Add eye toggle node for levels with hasEyeToggle: true (all levels except 1)
 * Assuming preferences choice of bar model versus number bond will also apply to game?
   * If so, the missing addend border will match description below of dotted
   * ![][image168]![][image169]
