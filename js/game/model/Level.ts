@@ -7,6 +7,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -24,7 +25,7 @@ export default class Level {
   public readonly hasEyeToggle: boolean;
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
-  private readonly guessedNumbers: Set<number>;
+  public readonly guessedNumbers: ObservableArray<number>;
 
   public constructor( tandem: Tandem, levelNumber: number ) {
     this.levelNumber = levelNumber;
@@ -59,8 +60,8 @@ export default class Level {
 
     // NOTE: feedbackStateProperty already initialized above, before DerivedProperty creation.
 
-    // Track numbers already guessed for the current challenge
-    this.guessedNumbers = new Set<number>();
+    // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
+    this.guessedNumbers = createObservableArray<number>();
   }
 
   public resetForNewChallenge(): void {
@@ -101,9 +102,13 @@ export default class Level {
 
   // --- Guessed number tracking (model-owned) ---
 
-  public addGuess( guess: number ): void { this.guessedNumbers.add( guess ); }
-  public hasGuessed( guess: number ): boolean { return this.guessedNumbers.has( guess ); }
-  public getGuessedNumbers(): number[] { return Array.from( this.guessedNumbers ); }
+  public addGuess( guess: number ): void {
+    if ( !this.guessedNumbers.includes( guess ) ) {
+      this.guessedNumbers.push( guess );
+    }
+  }
+  public hasGuessed( guess: number ): boolean { return this.guessedNumbers.includes( guess ); }
+  public getGuessedNumbers(): number[] { return this.guessedNumbers.slice(); }
   public resetGuesses(): void { this.guessedNumbers.clear(); }
 }
 

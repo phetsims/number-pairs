@@ -340,15 +340,13 @@ export default class LevelNode extends Node {
     this.addChild( this.newChallengeButton );
 
     // Add the number button grid; range is configured per level
-    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( this.level.levelNumber ).gridRange, {
+    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( this.level.levelNumber ).gridRange, this.level.guessedNumbers, {
       centerX: layoutBounds.centerX,
       bottom: layoutBounds.maxY - 10
     } );
     this.addChild( this.numberButtonGrid );
 
-    // Disable any numbers that were already guessed for this challenge (in case of re-entry)
-    const initialGuessed = this.level.getGuessedNumbers();
-    initialGuessed.forEach( n => this.numberButtonGrid.disableButton( n ) );
+    // Button enabling/disabling now reacts to Level.guessedNumbersProperty
 
     // Add a 'Check' button in the top-right, disabled until a number is selected
     this.checkButton = new TextPushButton( 'Check', { // TODO i18n https://github.com/phetsims/number-pairs/issues/36
@@ -559,9 +557,7 @@ export default class LevelNode extends Node {
         this.lastIncorrectGuess = selectedNumber;
         this.lastIncorrectSlot = ch.type === 'bond' ? ch.missing : null;
 
-        // Disable the incorrect button
-        this.numberButtonGrid.disableButton( selectedNumber );
-        // Reset the selected state so user can try again
+        // Reset selection; button disabling is handled by Level.guessedNumbersProperty link in NumberButtonGrid
         this.numberButtonGrid.resetSelection();
       }
     }

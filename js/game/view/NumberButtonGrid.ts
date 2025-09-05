@@ -13,6 +13,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -37,7 +38,7 @@ export default class NumberButtonGrid extends Node {
   private readonly buttons: BooleanRectangularStickyToggleButton[];
   private readonly buttonValues: number[];
 
-  public constructor( range: NumberButtonGridRange, providedOptions?: NodeOptions ) {
+  public constructor( range: NumberButtonGridRange, guessedNumbers: ObservableArray<number>, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
@@ -109,6 +110,30 @@ export default class NumberButtonGrid extends Node {
         this.addChild( createButton( n, columnIndex, 1 ) );
       }
     }
+
+
+    // React to guessed numbers from the model by disabling those buttons
+    const applyGuessedNumbers = () => {
+      for ( let i = 0; i < this.buttonValues.length; i++ ) {
+        const value = this.buttonValues[ i ];
+        const shouldEnable = !guessedNumbers.includes( value );
+        this.buttons[ i ].enabledProperty.value = shouldEnable;
+        if ( !shouldEnable && this.buttonStates[ i ].value ) {
+          // Clear selection if we just disabled a selected button
+          this.buttonStates[ i ].value = false;
+        }
+      }
+      // Update aggregate selection state
+      const anySelected = this.buttonStates.some( p => p.value );
+      this.anySelectedProperty.value = anySelected;
+      const selectedIndex = this.buttonStates.findIndex( state => state.value );
+      this.selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
+    };
+    // Initial and reactive updates when guessed numbers change
+    applyGuessedNumbers();
+    guessedNumbers.elementAddedEmitter.addListener( applyGuessedNumbers );
+    guessedNumbers.elementRemovedEmitter.addListener( applyGuessedNumbers );
+    guessedNumbers.lengthProperty.link( applyGuessedNumbers );
 
     this.mutate( providedOptions );
   }
