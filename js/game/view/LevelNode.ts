@@ -7,6 +7,7 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -25,6 +26,9 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
+import NumberBondNode from '../../common/view/NumberBondNode.js';
+import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 
 export default class LevelNode extends Node {
 
@@ -60,19 +64,68 @@ export default class LevelNode extends Node {
       }, {} ) );
     this.addChild( statusBar );
 
-    // Display the current equation challenge
+    // Display the current challenge as either an equation (default) or a number bond when type === 'bond'
     const equationText = new Text( this.level.currentChallengeProperty.value.toEquationString(), {
       font: new PhetFont( 48 ),
-      fill: 'black',
-      centerX: layoutBounds.centerX,
-      top: statusBar.bottom + 40
+      fill: 'black'
     } );
+    equationText.centerX = layoutBounds.centerX;
+    equationText.top = statusBar.bottom + 40;
     this.addChild( equationText );
 
-    // Update equation text when challenge changes
-    this.level.currentChallengeProperty.link( challenge => {
-      equationText.string = challenge.toEquationString();
-    } );
+    // Lightweight adapter to drive NumberBondNode from the Game model
+    const totalProperty = new Property<number>( 0 );
+    const leftAddendProperty = new Property<number>( 0 );
+    const rightAddendProperty = new Property<number>( 0 );
+    const totalVisibleProperty = new Property<boolean>( true );
+    const leftAddendVisibleProperty = new Property<boolean>( true );
+    const rightAddendVisibleProperty = new Property<boolean>( true );
+
+    const bondAdapter: TGenericNumberPairsModel = {
+      totalProperty: totalProperty,
+      totalColorProperty: NumberPairsColors.attributeSumColorProperty,
+      totalVisibleProperty: totalVisibleProperty,
+      leftAddendProperty: leftAddendProperty,
+      leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
+      leftAddendVisibleProperty: leftAddendVisibleProperty,
+      rightAddendProperty: rightAddendProperty,
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      rightAddendVisibleProperty: rightAddendVisibleProperty
+    };
+
+    const numberBondNode = new NumberBondNode( bondAdapter );
+    numberBondNode.centerX = layoutBounds.centerX;
+    numberBondNode.top = statusBar.bottom + 30;
+    numberBondNode.visible = false;
+    this.addChild( numberBondNode );
+
+    // Sync adapter properties from the current challenge
+    const applyChallengeToBond = () => {
+      const ch = this.level.currentChallengeProperty.value;
+      const aVal = ch.a !== null ? ch.a : 0;
+      const bVal = ch.b !== null ? ch.b : 0;
+      const yVal = ch.y !== null ? ch.y : ( ( ch.a !== null && ch.b !== null ) ? ch.a + ch.b : 0 );
+
+      leftAddendProperty.value = aVal;
+      rightAddendProperty.value = bVal;
+      totalProperty.value = yVal;
+
+      leftAddendVisibleProperty.value = ch.missing !== 'a';
+      rightAddendVisibleProperty.value = ch.missing !== 'b';
+      totalVisibleProperty.value = ch.missing !== 'y';
+
+      // Toggle bond vs equation view
+      const showBond = ch.type === 'bond';
+      numberBondNode.visible = showBond;
+      equationText.visible = !showBond;
+
+      // Update equation text regardless (used for non-bond types)
+      equationText.string = ch.toEquationString();
+    };
+    applyChallengeToBond();
+
+    // Update when the challenge changes
+    this.level.currentChallengeProperty.link( () => applyChallengeToBond() );
 
     // create and add the newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
     const rightArrowShape = new ArrowShape( 0, 0, 42, 0, {
@@ -116,6 +169,39 @@ export default class LevelNode extends Node {
     this.checkButton.enabledProperty.value = false;
     this.numberButtonGrid.anySelectedProperty.lazyLink( anySelected => {
       this.checkButton.enabledProperty.value = anySelected && !this.level.isChallengeSolvedProperty.value;
+
+      // If this is a number bond challenge, reflect the current selection in the missing addend
+      const ch = this.level.currentChallengeProperty.value;
+      if ( ch.type === 'bond' ) {
+        const selected = this.numberButtonGrid.getSelectedNumber();
+        if ( ch.missing === 'a' ) {
+          if ( selected !== null ) {
+            leftAddendProperty.value = selected;
+            leftAddendVisibleProperty.value = true;
+          }
+          else {
+            leftAddendVisibleProperty.value = false;
+          }
+        }
+        else if ( ch.missing === 'b' ) {
+          if ( selected !== null ) {
+            rightAddendProperty.value = selected;
+            rightAddendVisibleProperty.value = true;
+          }
+          else {
+            rightAddendVisibleProperty.value = false;
+          }
+        }
+        else if ( ch.missing === 'y' ) {
+          if ( selected !== null ) {
+            totalProperty.value = selected;
+            totalVisibleProperty.value = true;
+          }
+          else {
+            totalVisibleProperty.value = false;
+          }
+        }
+      }
     } );
 
     // Disable check button when challenge is solved
