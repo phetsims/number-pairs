@@ -32,6 +32,9 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
+import TenFrameButton from '../../common/view/TenFrameButton.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class LevelNode extends Node {
 
@@ -340,11 +343,24 @@ export default class LevelNode extends Node {
     this.addChild( this.newChallengeButton );
 
     // Add the number button grid; range is configured per level
-    this.numberButtonGrid = new NumberButtonGrid( model.getLevelConfig( this.level.levelNumber ).gridRange, this.level.guessedNumbers, {
+    this.numberButtonGrid = new NumberButtonGrid( model.getGridRange( this.level.levelNumber ), this.level.guessedNumbers, {
       centerX: layoutBounds.centerX,
       bottom: layoutBounds.maxY - 10
     } );
     this.addChild( this.numberButtonGrid );
+
+    // Add Ten Frame (organize) button on the left side for levels that support it
+    if ( this.level.hasOrganizeTenFrameButton ) {
+      const tenFrameButton = new TenFrameButton( {
+        tandem: Tandem.OPT_OUT,
+        left: layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+        top: statusBar.bottom + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+        listener: () => {
+          console.log( 'Game: Ten Frame organize pressed' );
+        }
+      } );
+      this.addChild( tenFrameButton );
+    }
 
     // Button enabling/disabling now reacts to Level.guessedNumbersProperty
 

@@ -19,8 +19,6 @@
 ### Level 1 (0-10) Missing addends – fluency facts
 
 * Kittens can be moved and organized, but not change color
-* User chooses a number to replace the “?” in the number bond
-  ![][image170]
 
 **Example**:
 
@@ -91,15 +89,7 @@
 
   ![][image176]
 
-### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden
-
-* Identical to level 1 with the following exceptions
-  * The value of y is always 10
-  * The counting area can be hidden
-* Starting state is the counting area visible  
-  ![][image177]
-* Shown with counting area hidden  
-  ![][image178]
+### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden via eye toggle
 
 ### Level 3 (10 only): Missing addends: Equation (10 only)
 

@@ -37,7 +37,6 @@ export default class GameModel implements TModel {
 
   // Individual level models (persistent across session lifetime)
   public readonly levels: Level[]; // indexed 0..N-1 for levels 1..N
-  private readonly levelConfigs: LevelConfig[];
 
   public constructor( providedOptions: GameModelOptions ) {
 
@@ -60,124 +59,24 @@ export default class GameModel implements TModel {
 
     // No aggregate session score; scoring is per-level
 
-    // Configure and create per-level models
-    this.levelConfigs = [
-      {
-        id: 1,
-        description: 'Level 1 Missing addends in a number bond (0-10)',
-        gridRange: 'zeroToTen',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 0, 10 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
-        }
-      },
-      {
-        id: 2,
-        description: 'Level 2 Missing addend in a number bond (10 only)',
-        gridRange: 'zeroToTen',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = 10;
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
-        }
-      },
-      {
-        id: 3,
-        description: 'Level 3 Missing addend in a decomposition equation',
-        gridRange: 'zeroToTen',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 0, 10 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTen' );
-        }
-      },
-      {
-        id: 4,
-        description: 'Level 4 Missing addend in a sum equation (10 only)',
-        gridRange: 'zeroToTen',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = 10;
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'sum', 'b', a, null, y, 'zeroToTen' );
-        }
-      },
-      {
-        id: 5,
-        description: 'Level 5 Missing addend with a number bond (11-20)',
-        gridRange: 'zeroToTwenty',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'bond', 'b', a, null, y, 'zeroToTwenty' );
-        }
-      },
-      {
-        id: 6,
-        description: 'Level 6 Missing addend with decomposition equation (11-20)',
-        gridRange: 'zeroToTwenty',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTwenty' );
-        }
-      },
-      {
-        id: 7,
-        description: 'Level 7 Missing addend or total with sum equation (11-20)',
-        gridRange: 'zeroToTwenty',
-        hasOrganizeTenFrameButton: true,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          const b = y - a;
-          const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
-          const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
-          if ( missing === 'a' ) {
-            return createChallenge( 'sum', 'a', null, b, y, 'zeroToTwenty' );
-          }
-          else if ( missing === 'b' ) {
-            return createChallenge( 'sum', 'b', a, null, y, 'zeroToTwenty' );
-          }
-          else { // missing === 'y'
-            return createChallenge( 'sum', 'y', a, b, null, 'zeroToTwenty' );
-          }
-        }
-      },
-      {
-        id: 8,
-        description: 'Level 8 Equations with the number line (0-20)',
-        gridRange: 'zeroToTwenty',
-        hasOrganizeTenFrameButton: false,
-        generateChallenge: () => {
-          const y = dotRandom.nextIntBetween( 0, 20 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          const b = y - a;
-          const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
-          if ( missing === 'a' ) {
-            return createChallenge( 'numberLine', 'a', null, b, y, 'zeroToTwenty' );
-          }
-          else {
-            return createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
-          }
-        }
-      }
+    // Create per-level models with the appropriate capabilities
+    this.levels = [
+      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false ),
+      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true ),
+      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true )
     ];
-
-    this.levels = this.levelConfigs.map( cfg => new Level( providedOptions.tandem.createTandem( `level${cfg.id}` ), cfg.id, cfg.hasOrganizeTenFrameButton ) );
 
     // Defer challenge generation until a level is started
   }
 
   /** Generates and applies a new challenge for the current level. */
   public generateNewChallenge(): void {
-    let challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
+    let challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
     if ( this.levels && this.levels.length > 0 ) {
       const level = this.getCurrentLevel();
 
@@ -194,7 +93,7 @@ export default class GameModel implements TModel {
           return y > 0 && aVal > 0 && bVal > 0;
         };
         while ( attempts < 100 && !isValidFirstChallenge( challenge ) ) {
-          challenge = this.getLevelConfig( this.getCurrentLevelNumber() ).generateChallenge();
+          challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
           attempts++;
         }
 
@@ -261,14 +160,25 @@ export default class GameModel implements TModel {
   /** Number of levels available. */
   public getLevelCount(): number { return this.levels.length; }
 
-  /** Level configuration for a level number. */
-  public getLevelConfig( levelNumber: number ): LevelConfig {
-    const index = Math.max( 1, Math.min( this.levelConfigs.length, levelNumber ) ) - 1;
-    return this.levelConfigs[ index ];
+  /** Grid range for a level. */
+  public getGridRange( levelNumber: number ): 'zeroToTen' | 'zeroToTwenty' {
+    return levelNumber <= 4 ? 'zeroToTen' : 'zeroToTwenty';
   }
 
   /** Description for a level. */
-  public getLevelDescription( levelNumber: number ): string { return this.getLevelConfig( levelNumber ).description; }
+  public getLevelDescription( levelNumber: number ): string {
+    switch( levelNumber ) {
+      case 1: return 'Level 1 Missing addends in a number bond (0-10)';
+      case 2: return 'Level 2 Missing addend in a number bond (10 only)';
+      case 3: return 'Level 3 Missing addend in a decomposition equation';
+      case 4: return 'Level 4 Missing addend in a sum equation (10 only)';
+      case 5: return 'Level 5 Missing addend with a number bond (11-20)';
+      case 6: return 'Level 6 Missing addend with decomposition equation (11-20)';
+      case 7: return 'Level 7 Missing addend or total with sum equation (11-20)';
+      case 8: return 'Level 8 Equations with the number line (0-20)';
+      default: return '';
+    }
+  }
 
   /**
    * Resets the model.
@@ -290,18 +200,79 @@ export default class GameModel implements TModel {
   public step( dt: number ): void {
     // No step behavior needed for this game model
   }
+
+  /** Create (but do not apply) a new Challenge appropriate for the specified level. */
+  public createChallengeForLevel( levelNumber: number ): Challenge {
+    switch( levelNumber ) {
+      case 1: {
+        const y = dotRandom.nextIntBetween( 0, 10 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+      }
+      case 2: {
+        const y = 10;
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+      }
+      case 3: {
+        const y = dotRandom.nextIntBetween( 0, 10 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTen' );
+      }
+      case 4: {
+        const y = 10;
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'sum', 'b', a, null, y, 'zeroToTen' );
+      }
+      case 5: {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTwenty' );
+      }
+      case 6: {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTwenty' );
+      }
+      case 7: {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        const b = y - a;
+        const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
+        const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
+        if ( missing === 'a' ) {
+          return createChallenge( 'sum', 'a', null, b, y, 'zeroToTwenty' );
+        }
+        else if ( missing === 'b' ) {
+          return createChallenge( 'sum', 'b', a, null, y, 'zeroToTwenty' );
+        }
+        else { // 'y'
+          return createChallenge( 'sum', 'y', a, b, null, 'zeroToTwenty' );
+        }
+      }
+      case 8: {
+        const y = dotRandom.nextIntBetween( 0, 20 );
+        const a = dotRandom.nextIntBetween( 0, y );
+        const b = y - a;
+        const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
+        if ( missing === 'a' ) {
+          return createChallenge( 'numberLine', 'a', null, b, y, 'zeroToTwenty' );
+        }
+        else {
+          return createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+        }
+      }
+      default: {
+        const y = 10;
+        const a = dotRandom.nextIntBetween( 0, y );
+        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+      }
+    }
+  }
 }
 
 numberPairs.register( 'GameModel', GameModel );
-
-type LevelConfig = {
-  id: number;
-  description: string;
-  gridRange: 'zeroToTen' | 'zeroToTwenty';
-  hasOrganizeTenFrameButton: boolean;
-  generateChallenge: () => Challenge;
-};
-
+ 
 function createChallenge( type: 'bond' | 'decomposition' | 'sum' | 'numberLine', missing: 'a' | 'b' | 'y', a: number | null, b: number | null, y: number | null, range: 'zeroToTen' | 'zeroToTwenty' ): Challenge {
   return new Challenge( type, missing, a, b, y, range );
 }

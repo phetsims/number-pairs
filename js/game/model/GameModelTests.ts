@@ -37,7 +37,7 @@ export default class GameModelTests {
     affirm( !c1.isCorrect( 4 ), 'wrong guess 4 should be incorrect for 3 + x = 8' );
 
     // Scoring tests: only a correct first guess grants points
-    const level = new Level( Tandem.OPT_OUT, 1, true );
+    const level = new Level( Tandem.OPT_OUT, 1, true, false );
 
     // First challenge: correct on first try -> +1 point
     level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 3, null, 8, 'zeroToTen' );
@@ -90,7 +90,7 @@ export default class GameModelTests {
     for ( let levelIndex = 1; levelIndex <= 8; levelIndex++ ) {
       const [ minY, maxY ] = ranges[ levelIndex - 1 ];
       for ( let i = 0; i < iterations; i++ ) {
-        const ch = gm.getLevelConfig( levelIndex ).generateChallenge();
+        const ch = gm.createChallengeForLevel( levelIndex );
         checkChallenge( ch, minY, maxY );
 
         // Level 7: missing may be a, b, or y
