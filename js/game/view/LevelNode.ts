@@ -37,6 +37,8 @@ export default class LevelNode extends Node {
   private readonly numberButtonGrid: NumberButtonGrid;
   private readonly checkButton: TextPushButton;
   private readonly newChallengeButton: RectangularPushButton;
+  private lastIncorrectGuess: number | null = null;
+  private lastIncorrectSlot: 'a' | 'b' | 'y' | null = null;
 
   public constructor( model: GameModel, level: Level, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, returnToLevelSelection: () => void ) {
     super();
@@ -99,6 +101,18 @@ export default class LevelNode extends Node {
     numberBondNode.visible = false;
     this.addChild( numberBondNode );
 
+    // Red X indicator shown for incorrect guesses on the bond
+    const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visible: false } );
+    this.addChild( wrongMark );
+
+    const positionWrongMark = () => {
+      const ch = this.level.currentChallengeProperty.value;
+      if ( this.lastIncorrectSlot && ch.type === 'bond' ) {
+        const target = this.lastIncorrectSlot === 'a' ? numberBondNode.leftAddend : ( this.lastIncorrectSlot === 'b' ? numberBondNode.rightAddend : numberBondNode.total );
+        wrongMark.center = target.center;
+      }
+    };
+
     // Sync adapter properties from the current challenge
     const applyChallengeToBond = () => {
       const ch = this.level.currentChallengeProperty.value;
@@ -118,6 +132,11 @@ export default class LevelNode extends Node {
       const showBond = ch.type === 'bond';
       numberBondNode.visible = showBond;
       equationText.visible = !showBond;
+
+      // Hide wrong mark on challenge change
+      wrongMark.visible = false;
+      this.lastIncorrectGuess = null;
+      this.lastIncorrectSlot = null;
 
       // Update equation text regardless (used for non-bond types)
       equationText.string = ch.toEquationString();
@@ -174,33 +193,94 @@ export default class LevelNode extends Node {
       const ch = this.level.currentChallengeProperty.value;
       if ( ch.type === 'bond' ) {
         const selected = this.numberButtonGrid.getSelectedNumber();
+        const isIncorrect = this.level.feedbackStateProperty.value === 'incorrect';
+
         if ( ch.missing === 'a' ) {
           if ( selected !== null ) {
             leftAddendProperty.value = selected;
             leftAddendVisibleProperty.value = true;
+
+            // If previously showing an incorrect guess, clear it when a new selection is made
+            if ( isIncorrect ) {
+              this.level.clearFeedback();
+              this.lastIncorrectGuess = null;
+              this.lastIncorrectSlot = null;
+              wrongMark.visible = false;
+            }
           }
           else {
-            leftAddendVisibleProperty.value = false;
+            // If last feedback was incorrect for 'a', keep showing it
+            if ( isIncorrect && this.lastIncorrectSlot === 'a' && this.lastIncorrectGuess !== null ) {
+              leftAddendProperty.value = this.lastIncorrectGuess;
+              leftAddendVisibleProperty.value = true;
+              positionWrongMark();
+              wrongMark.visible = numberBondNode.visible;
+            }
+            else {
+              leftAddendVisibleProperty.value = false;
+              wrongMark.visible = false;
+            }
           }
         }
         else if ( ch.missing === 'b' ) {
           if ( selected !== null ) {
             rightAddendProperty.value = selected;
             rightAddendVisibleProperty.value = true;
+            if ( isIncorrect ) {
+              this.level.clearFeedback();
+              this.lastIncorrectGuess = null;
+              this.lastIncorrectSlot = null;
+              wrongMark.visible = false;
+            }
           }
           else {
-            rightAddendVisibleProperty.value = false;
+            if ( isIncorrect && this.lastIncorrectSlot === 'b' && this.lastIncorrectGuess !== null ) {
+              rightAddendProperty.value = this.lastIncorrectGuess;
+              rightAddendVisibleProperty.value = true;
+              positionWrongMark();
+              wrongMark.visible = numberBondNode.visible;
+            }
+            else {
+              rightAddendVisibleProperty.value = false;
+              wrongMark.visible = false;
+            }
           }
         }
         else if ( ch.missing === 'y' ) {
           if ( selected !== null ) {
             totalProperty.value = selected;
             totalVisibleProperty.value = true;
+            if ( isIncorrect ) {
+              this.level.clearFeedback();
+              this.lastIncorrectGuess = null;
+              this.lastIncorrectSlot = null;
+              wrongMark.visible = false;
+            }
           }
           else {
-            totalVisibleProperty.value = false;
+            if ( isIncorrect && this.lastIncorrectSlot === 'y' && this.lastIncorrectGuess !== null ) {
+              totalProperty.value = this.lastIncorrectGuess;
+              totalVisibleProperty.value = true;
+              positionWrongMark();
+              wrongMark.visible = numberBondNode.visible;
+            }
+            else {
+              totalVisibleProperty.value = false;
+              wrongMark.visible = false;
+            }
           }
         }
+      }
+    } );
+
+    // Keep wrong mark in sync with feedback state
+    this.level.feedbackStateProperty.link( state => {
+      if ( state === 'incorrect' ) {
+        positionWrongMark();
+        wrongMark.visible = numberBondNode.visible;
+      }
+      else {
+        wrongMark.visible = false;
       }
     } );
 
@@ -224,6 +304,11 @@ export default class LevelNode extends Node {
       const isCorrect = this.level.checkAnswer( selectedNumber );
 
       if ( !isCorrect ) {
+        // Remember the incorrect guess and which slot it applied to
+        const ch = this.level.currentChallengeProperty.value;
+        this.lastIncorrectGuess = selectedNumber;
+        this.lastIncorrectSlot = ch.type === 'bond' ? ch.missing : null;
+
         // Disable the incorrect button
         this.numberButtonGrid.disableButton( selectedNumber );
         // Reset the selected state so user can try again

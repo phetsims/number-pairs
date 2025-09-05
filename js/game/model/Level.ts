@@ -18,12 +18,12 @@ import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 export default class Level {
   public readonly levelNumber: number;
   public readonly scoreProperty: NumberProperty;
-  public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
   public isFirstChallenge: boolean;
   public readonly hasEyeToggle: boolean;
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
+  public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   private readonly guessedNumbers: Set<number>;
 
   public constructor( tandem: Tandem, levelNumber: number ) {
