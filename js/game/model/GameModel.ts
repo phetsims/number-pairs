@@ -92,8 +92,6 @@ export default class GameModel implements TModel {
     }
   }
 
-  // First-challenge generation is handled by createChallengeForLevel(levelNumber, true)
-
   /**
    * Gets the score property for a specific level number (1-8).
    */
