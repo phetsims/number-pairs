@@ -16,21 +16,23 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import BarModelNode from '../../common/view/BarModelNode.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
-import Challenge from '../model/Challenge.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
+import BarLevelDisplay from './BarLevelDisplay.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import SimpleLevelDisplay from './SimpleLevelDisplay.js';
 
@@ -77,9 +79,16 @@ export default class LevelNode extends Node {
 
     // Simple adapter for view widgets
     const displayAdapter = new SimpleLevelDisplay( level, numberGrid.selectedNumberProperty );
+    // Correct-size adapter for bar model widths
+    const barAdapter = new BarLevelDisplay( level, numberGrid.selectedNumberProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new NumberBondMutableNode( displayAdapter );
+    const barNode = new BarModelNode( barAdapter, {
+      displayTotalNumberProperty: displayAdapter.totalProperty,
+      displayLeftAddendNumberProperty: displayAdapter.leftAddendProperty,
+      displayRightAddendNumberProperty: displayAdapter.rightAddendProperty
+    } );
     const equationNode = new NumberEquationNode( displayAdapter, {
       addendsOnRight: level.addendsOnRightInEquation,
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
@@ -89,20 +98,29 @@ export default class LevelNode extends Node {
 
     // Add both as children; show the one for current challenge and center it in layout bounds
     this.addChild( bondNode );
+    this.addChild( barNode );
     this.addChild( equationNode );
-    const updateRepresentation = ( ch: Challenge ) => {
-      const useBond = level.type === 'bond';
-      bondNode.visible = useBond;
-      equationNode.visible = !useBond;
-      if ( useBond ) {
+    const updateRepresentation = () => {
+      const isBondType = level.type === 'bond';
+      const useBarModel = NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.BAR_MODEL;
+
+      bondNode.visible = isBondType && !useBarModel;
+      barNode.visible = isBondType && useBarModel;
+      equationNode.visible = !isBondType;
+
+      if ( bondNode.visible ) {
         bondNode.center = layoutBounds.center;
+      }
+      else if ( barNode.visible ) {
+        barNode.center = layoutBounds.center;
       }
       else {
         equationNode.center = layoutBounds.center;
       }
     };
-    updateRepresentation( level.currentChallengeProperty.value );
+    updateRepresentation();
     level.currentChallengeProperty.link( updateRepresentation );
+    NumberPairsPreferences.numberModelTypeProperty.link( updateRepresentation );
 
     // Feedback styling for the missing slot: dashed while unsolved, red dashed when incorrect, solid when correct
     const applyFeedbackStroke = () => {
@@ -129,6 +147,10 @@ export default class LevelNode extends Node {
         const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
         styleNode( target );
       }
+      else if ( barNode.visible ) {
+        const target = ch.missing === 'a' ? barNode.leftAddendRectangle : ( ch.missing === 'b' ? barNode.rightAddendRectangle : barNode.totalRectangle );
+        styleNode( target );
+      }
       else if ( equationNode.visible ) {
         const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
         styleNode( target );
@@ -136,6 +158,52 @@ export default class LevelNode extends Node {
     };
     level.feedbackStateProperty.link( applyFeedbackStroke );
     level.currentChallengeProperty.link( applyFeedbackStroke );
+    NumberPairsPreferences.numberModelTypeProperty.link( applyFeedbackStroke );
+
+    // Checkmark/X feedback marks positioned by the missing slot
+    const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visible: false } );
+    const checkMark = new Text( '✓', { font: new PhetFont( 42 ), fill: '#059e05', visible: false } );
+    this.addChild( wrongMark );
+    this.addChild( checkMark );
+
+    const updateMarks = () => {
+      const ch = level.currentChallengeProperty.value;
+      const state = level.feedbackStateProperty.value;
+
+      wrongMark.visible = false;
+      checkMark.visible = false;
+
+      const placeMarkNear = ( target: Node ) => {
+        const parentBounds = wrongMark.globalToParentBounds( target.globalBounds );
+        const pos = parentBounds.rightCenter.plusXY( 10, 0 );
+        if ( state === 'incorrect' ) {
+          wrongMark.leftCenter = pos;
+          wrongMark.visible = true;
+        }
+        else if ( state === 'correct' ) {
+          checkMark.leftCenter = pos;
+          checkMark.visible = true;
+        }
+      };
+
+      if ( state === 'idle' ) { return; }
+
+      if ( bondNode.visible ) {
+        const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
+        placeMarkNear( target );
+      }
+      else if ( barNode.visible ) {
+        const target = ch.missing === 'a' ? barNode.leftAddendRectangle : ( ch.missing === 'b' ? barNode.rightAddendRectangle : barNode.totalRectangle );
+        placeMarkNear( target );
+      }
+      else if ( equationNode.visible ) {
+        const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
+        placeMarkNear( target );
+      }
+    };
+    level.feedbackStateProperty.link( updateMarks );
+    level.currentChallengeProperty.link( updateMarks );
+    NumberPairsPreferences.numberModelTypeProperty.link( updateMarks );
 
     // Buttons row: Check / Next
     const checkButton = new TextPushButton( 'Check', {
