@@ -8,6 +8,7 @@
  */
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -16,9 +17,18 @@ import GameModel from '../model/GameModel.js';
 import LevelNode from './LevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
 
+type SelfOptions = EmptySelfOptions;
+type GameScreenViewOptions = PickRequired<ScreenViewOptions, 'tandem'>;
+
 export default class GameScreenView extends ScreenView {
 
-  public constructor( model: GameModel, options: PickRequired<ScreenViewOptions, 'tandem'> ) {
+  public constructor( model: GameModel, providedOptions: PickRequired<ScreenViewOptions, 'tandem'> ) {
+
+    const options = optionize<GameScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+      // Remove the "normal" PDOM structure Nodes like the screen summary, play area, and control area Nodes from the
+      // HomeScreen. The HomeScreen handles its own description.
+      includePDOMNodes: false
+    }, providedOptions );
 
     super( options );
 
