@@ -16,11 +16,14 @@ import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 
+export type ChallengeType = 'bond' | 'decomposition' | 'sum' | 'numberLine';
+
 export default class Level {
   public readonly levelNumber: number;
   public readonly scoreProperty: NumberProperty;
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
+  public readonly type: ChallengeType;
   public isFirstChallenge: boolean;
   public readonly hasEyeToggle: boolean;
   public readonly hasOrganizeTenFrameButton: boolean;
@@ -30,7 +33,7 @@ export default class Level {
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly guessedNumbers: ObservableArray<number>;
 
-  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean ) {
+  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean, type: ChallengeType ) {
     this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
@@ -52,7 +55,7 @@ export default class Level {
     } );
 
     // Seed with a placeholder; GameModel will replace on start/new challenge
-    this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'sum', 'b', 3, null, 5, 'zeroToTen' ), {
+    this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'b', 3, null, 5 ), {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -63,6 +66,7 @@ export default class Level {
     this.hasOrganizeTenFrameButton = hasOrganizeTenFrameButton;
     this.range = range;
     this.addendsOnRightInEquation = addendsOnRightInEquation;
+    this.type = type;
 
     // NOTE: feedbackStateProperty already initialized above, before DerivedProperty creation.
 

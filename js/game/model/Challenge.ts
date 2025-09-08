@@ -11,11 +11,9 @@
 
 import numberPairs from '../../numberPairs.js';
 
-export type ChallengeType = 'bond' | 'decomposition' | 'sum' | 'numberLine';
 export type MissingComponent = 'a' | 'b' | 'y';
 
 export default class Challenge {
-  public readonly type: ChallengeType;
   public readonly missing: MissingComponent;
 
   // If a component is missing, its value is null. The remaining components are non-null.
@@ -23,17 +21,11 @@ export default class Challenge {
   public readonly b: number | null;
   public readonly y: number | null;
 
-  // Range used to generate/validate values (useful for grid selection and future validation)
-  public readonly range: 'zeroToTen' | 'zeroToTwenty';
-
-
-  public constructor( type: ChallengeType, missing: MissingComponent, a: number | null, b: number | null, y: number | null, range: 'zeroToTen' | 'zeroToTwenty' ) {
-    this.type = type;
+  public constructor( missing: MissingComponent, a: number | null, b: number | null, y: number | null ) {
     this.missing = missing;
     this.a = a;
     this.b = b;
     this.y = y;
-    this.range = range;
   }
 
   /** Returns the expected numeric answer for the missing component. */

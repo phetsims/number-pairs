@@ -61,15 +61,15 @@ export default class GameModel implements TModel {
 
     // Create per-level models with the appropriate capabilities
     this.levels = [
-      // id, hasOrganize, hasEye, range, addendsOnRightInEquation
-      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false ),
-      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false ),
-      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true ), // decomposition
-      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false ), // sum
-      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false ),
-      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true ), // decomposition
-      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false ), // sum
-      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false ) // number line uses sum orientation
+      // id, hasOrganize, hasEye, range, addendsOnRightInEquation, type
+      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false, 'bond' ),
+      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false, 'bond' ),
+      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true, 'decomposition' ),
+      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false, 'sum' ),
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'bond' ),
+      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition' ),
+      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum' ),
+      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine' )
     ];
 
     // Defer challenge generation until a level is started
@@ -102,7 +102,7 @@ export default class GameModel implements TModel {
         if ( this.getCurrentLevelNumber() === 8 ) {
           const y = challenge.missing === 'y' ? challenge.expectedAnswer() : ( challenge.y! );
           const a = challenge.missing === 'a' ? challenge.expectedAnswer() : ( challenge.a! );
-          challenge = createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+          challenge = createChallenge( 'b', a, null, y );
         }
         level.isFirstChallenge = false;
       }
@@ -208,32 +208,32 @@ export default class GameModel implements TModel {
       case 1: {
         const y = dotRandom.nextIntBetween( 0, 10 );
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+        return createChallenge( 'b', a, null, y );
       }
       case 2: {
         const y = 10;
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+        return createChallenge( 'b', a, null, y );
       }
       case 3: {
         const y = dotRandom.nextIntBetween( 0, 10 );
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTen' );
+        return createChallenge( 'b', a, null, y );
       }
       case 4: {
         const y = 10;
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'sum', 'b', a, null, y, 'zeroToTen' );
+        return createChallenge( 'b', a, null, y );
       }
       case 5: {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTwenty' );
+        return createChallenge( 'b', a, null, y );
       }
       case 6: {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'decomposition', 'b', a, null, y, 'zeroToTwenty' );
+        return createChallenge( 'b', a, null, y );
       }
       case 7: {
         const y = dotRandom.nextIntBetween( 11, 20 );
@@ -242,13 +242,13 @@ export default class GameModel implements TModel {
         const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
         const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
         if ( missing === 'a' ) {
-          return createChallenge( 'sum', 'a', null, b, y, 'zeroToTwenty' );
+          return createChallenge( 'a', null, b, y );
         }
         else if ( missing === 'b' ) {
-          return createChallenge( 'sum', 'b', a, null, y, 'zeroToTwenty' );
+          return createChallenge( 'b', a, null, y );
         }
         else { // 'y'
-          return createChallenge( 'sum', 'y', a, b, null, 'zeroToTwenty' );
+          return createChallenge( 'y', a, b, null );
         }
       }
       case 8: {
@@ -257,23 +257,23 @@ export default class GameModel implements TModel {
         const b = y - a;
         const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
         if ( missing === 'a' ) {
-          return createChallenge( 'numberLine', 'a', null, b, y, 'zeroToTwenty' );
+          return createChallenge( 'a', null, b, y );
         }
         else {
-          return createChallenge( 'numberLine', 'b', a, null, y, 'zeroToTwenty' );
+          return createChallenge( 'b', a, null, y );
         }
       }
       default: {
         const y = 10;
         const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'bond', 'b', a, null, y, 'zeroToTen' );
+        return createChallenge( 'b', a, null, y );
       }
     }
   }
 }
 
 numberPairs.register( 'GameModel', GameModel );
- 
-function createChallenge( type: 'bond' | 'decomposition' | 'sum' | 'numberLine', missing: 'a' | 'b' | 'y', a: number | null, b: number | null, y: number | null, range: 'zeroToTen' | 'zeroToTwenty' ): Challenge {
-  return new Challenge( type, missing, a, b, y, range );
+
+function createChallenge( missing: 'a' | 'b' | 'y', a: number | null, b: number | null, y: number | null ): Challenge {
+  return new Challenge( missing, a, b, y );
 }

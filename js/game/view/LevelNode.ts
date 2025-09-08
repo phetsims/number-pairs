@@ -91,7 +91,7 @@ export default class LevelNode extends Node {
     this.addChild( bondNode );
     this.addChild( equationNode );
     const updateRepresentation = ( ch: Challenge ) => {
-      const useBond = ch.type === 'bond';
+      const useBond = level.type === 'bond';
       bondNode.visible = useBond;
       equationNode.visible = !useBond;
       if ( useBond ) {

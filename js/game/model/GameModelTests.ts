@@ -22,32 +22,32 @@ export default class GameModelTests {
     console.log( 'start tests' );
 
     // Basic passing tests for Challenge
-    const c1 = new Challenge( 'sum', 'b', 3, null, 8, 'zeroToTen' );
+    const c1 = new Challenge( 'b', 3, null, 8 );
     affirm( c1.expectedAnswer() === 5, 'expectedAnswer for 3 + x = 8 is 5' );
     affirm( c1.isCorrect( 5 ), 'isCorrect accepts correct guess 5' );
     affirm( !c1.isCorrect( 4 ), 'isCorrect rejects incorrect guess 4' );
 
-    const c2 = new Challenge( 'sum', 'y', 4, 7, null, 'zeroToTwenty' );
+    const c2 = new Challenge( 'y', 4, 7, null );
     affirm( c2.expectedAnswer() === 11, 'expectedAnswer for 4 + 7 = x is 11' );
 
-    const c3 = new Challenge( 'decomposition', 'a', null, 6, 15, 'zeroToTwenty' );
+    const c3 = new Challenge( 'a', null, 6, 15 );
     affirm( c3.expectedAnswer() === 9, 'expectedAnswer for x + 6 = 15 is 9' );
 
     // Negative case: wrong guess should be incorrect
     affirm( !c1.isCorrect( 4 ), 'wrong guess 4 should be incorrect for 3 + x = 8' );
 
     // Scoring tests: only a correct first guess grants points
-    const level = new Level( Tandem.OPT_OUT, 1, true, false, 'zeroToTen', false );
+    const level = new Level( Tandem.OPT_OUT, 1, true, false, 'zeroToTen', false, 'bond' );
 
     // First challenge: correct on first try -> +1 point
-    level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 3, null, 8, 'zeroToTen' );
+    level.currentChallengeProperty.value = new Challenge( 'b', 3, null, 8 );
     affirm( level.scoreProperty.value === 0, 'initial score is 0' );
     affirm( level.checkAnswer( 5 ), 'first challenge: correct on first try' );
     affirm( level.scoreProperty.value as number === 1, 'score increments to 1 for first-try correct' );
 
     // Second challenge: wrong first, then correct -> no additional points
     level.resetForNewChallenge();
-    level.currentChallengeProperty.value = new Challenge( 'sum', 'b', 4, null, 9, 'zeroToTen' ); // expect 5
+    level.currentChallengeProperty.value = new Challenge( 'b', 4, null, 9 ); // expect 5
     affirm( !level.checkAnswer( 6 ), 'second challenge: wrong first guess' );
     affirm( level.checkAnswer( 5 ), 'second challenge: then correct' );
     affirm( level.scoreProperty.value as number === 1, 'score does not increment on non-first-try correct' );
@@ -131,7 +131,7 @@ export default class GameModelTests {
     const gm2 = new GameModel( { tandem: Tandem.OPT_OUT } );
     gm2.startLevel( 1 );
     // Deterministic challenge so we can award a star
-    gm2.getLevel( 1 ).currentChallengeProperty.value = new Challenge( 'sum', 'b', 2, null, 7, 'zeroToTen' ); // expect 5
+    gm2.getLevel( 1 ).currentChallengeProperty.value = new Challenge( 'b', 2, null, 7 ); // expect 5
     affirm( gm2.getLevelScoreProperty( 1 ).value === 0, 'initial stars for level 1 are 0' );
     affirm( gm2.getLevel( 1 ).checkAnswer( 5 ), 'award star on first try for level 1' );
     affirm( gm2.getLevelScoreProperty( 1 ).value === 1, 'stars incremented to 1 for level 1' );
