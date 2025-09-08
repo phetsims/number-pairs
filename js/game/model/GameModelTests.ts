@@ -77,7 +77,7 @@ export default class GameModelTests {
 
     // Level-specific expected y ranges
     const ranges: Array<[ number, number ]> = [
-      [ 0, 10 ], // level 1
+      [ 1, 10 ], // level 1 (y >= 1 to avoid b=0)
       [ 10, 10 ], // level 2
       [ 0, 10 ], // level 3
       [ 10, 10 ], // level 4

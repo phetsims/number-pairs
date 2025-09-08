@@ -206,13 +206,15 @@ export default class GameModel implements TModel {
   public createChallengeForLevel( levelNumber: number ): Challenge {
     switch( levelNumber ) {
       case 1: {
-        const y = dotRandom.nextIntBetween( 0, 10 );
-        const a = dotRandom.nextIntBetween( 0, y );
+        // Avoid right addend (b) = 0 by ensuring y >= 1 and a <= y-1
+        const y = dotRandom.nextIntBetween( 1, 10 );
+        const a = dotRandom.nextIntBetween( 0, y - 1 );
         return createChallenge( 'b', a, null, y );
       }
       case 2: {
         const y = 10;
-        const a = dotRandom.nextIntBetween( 0, y );
+        // Avoid right addend (b) = 0 by ensuring a <= 9
+        const a = dotRandom.nextIntBetween( 0, 9 );
         return createChallenge( 'b', a, null, y );
       }
       case 3: {
@@ -227,7 +229,8 @@ export default class GameModel implements TModel {
       }
       case 5: {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( 0, y );
+        // Avoid right addend (b) = 0 by ensuring a <= y-1
+        const a = dotRandom.nextIntBetween( 0, y - 1 );
         return createChallenge( 'b', a, null, y );
       }
       case 6: {
