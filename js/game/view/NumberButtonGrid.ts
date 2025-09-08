@@ -147,25 +147,6 @@ export default class NumberButtonGrid extends Node {
   }
   
   /**
-   * Disables the button for the given value.
-   */
-  public disableButton( value: number ): void {
-    const index = this.buttonValues.indexOf( value );
-    if ( index >= 0 ) {
-      this.buttons[ index ].enabledProperty.value = false;
-    }
-  }
-  
-  /**
-   * Resets the selection state (unselects all buttons).
-   */
-  public resetSelection(): void {
-    this.buttonStates.forEach( state => {
-      state.value = false;
-    } );
-  }
-  
-  /**
    * Disables all number buttons (used after solving a challenge).
    */
   public disableAll(): void {

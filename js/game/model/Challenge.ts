@@ -47,16 +47,6 @@ export default class Challenge {
   public isCorrect( guess: number ): boolean {
     return guess === this.expectedAnswer();
   }
-
-
-  /** Simple equation string suitable for the current prototype UI. */
-  public toEquationString(): string {
-    // Use a generic sum form for now; views will evolve with representations.
-    const aStr = this.missing === 'a' ? 'x' : String( this.a );
-    const bStr = this.missing === 'b' ? 'x' : String( this.b );
-    const yStr = this.missing === 'y' ? 'x' : String( this.y );
-    return `${aStr} + ${bStr} = ${yStr}`;
-  }
 }
 
 numberPairs.register( 'Challenge', Challenge );

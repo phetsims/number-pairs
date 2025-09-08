@@ -59,24 +59,26 @@ export default class GameModel implements TModel {
 
     // No aggregate session score; scoring is per-level
 
-    // Create per-level models with the appropriate capabilities
-    this.levels = [
-      // id, hasOrganize, hasEye, range, addendsOnRightInEquation, type
-      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false, 'bond' ),
-      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false, 'bond' ),
-      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true, 'decomposition' ),
-      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false, 'sum' ),
-      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'bond' ),
-      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition' ),
-      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum' ),
-      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine' )
-    ];
+    // Create per-level models with initial challenges so challenges persist across navigation
+    const l1 = this.createChallengeForLevel( 1, true );
+    const l2 = this.createChallengeForLevel( 2, true );
+    const l3 = this.createChallengeForLevel( 3, true );
+    const l4 = this.createChallengeForLevel( 4, true );
+    const l5 = this.createChallengeForLevel( 5, true );
+    const l6 = this.createChallengeForLevel( 6, true );
+    const l7 = this.createChallengeForLevel( 7, true );
+    const l8 = this.createChallengeForLevel( 8, true );
 
-    // Pre-allocate the first challenge for each level so challenges persist across navigation
-    for ( let i = 1; i <= this.getLevelCount(); i++ ) {
-      const level = this.getLevel( i );
-      level.currentChallengeProperty.value = this.createChallengeForLevel( i, true );
-    }
+    this.levels = [
+      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false, 'bond', l1 ),
+      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false, 'bond', l2 ),
+      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true, 'decomposition', l3 ),
+      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false, 'sum', l4 ),
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'bond', l5 ),
+      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition', l6 ),
+      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum', l7 ),
+      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine', l8 )
+    ];
   }
 
   /** Generates and applies a new challenge for the current level. */
@@ -138,11 +140,6 @@ export default class GameModel implements TModel {
 
   /** Number of levels available. */
   public getLevelCount(): number { return this.levels.length; }
-
-  /** Grid range for a level. */
-  public getGridRange( levelNumber: number ): 'zeroToTen' | 'zeroToTwenty' {
-    return levelNumber <= 4 ? 'zeroToTen' : 'zeroToTwenty';
-  }
 
   /** Description for a level. */
   public getLevelDescription( levelNumber: number ): string {
@@ -232,8 +229,8 @@ export default class GameModel implements TModel {
         const y = dotRandom.nextIntBetween( 11, 20 );
         if ( isFirst ) {
           // First: y shown, a>0, b>0; choose missing from a/b only
-          const chooseA = dotRandom.nextIntBetween( 0, 1 ) === 0; // if true, missing a; else missing b
-          if ( chooseA ) {
+          const missingFirst = dotRandom.sample( [ 'a', 'b' ] as const );
+          if ( missingFirst === 'a' ) {
             const b = dotRandom.nextIntBetween( 1, y - 1 );
             return createChallenge( 'a', null, b, y );
           }
@@ -245,8 +242,7 @@ export default class GameModel implements TModel {
         else {
           const a = dotRandom.nextIntBetween( 0, y );
           const b = y - a;
-          const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
-          const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
+          const missing = dotRandom.sample( [ 'a', 'b', 'y' ] as const );
           if ( missing === 'a' ) {
             return createChallenge( 'a', null, b, y );
           }
@@ -269,7 +265,7 @@ export default class GameModel implements TModel {
           const y = dotRandom.nextIntBetween( 0, 20 );
           const a = dotRandom.nextIntBetween( 0, y );
           const b = y - a;
-          const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
+          const missing = dotRandom.sample( [ 'a', 'b' ] as const );
           if ( missing === 'a' ) {
             return createChallenge( 'a', null, b, y );
           }

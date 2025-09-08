@@ -32,7 +32,7 @@ export default class Level {
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly guessedNumbers: ObservableArray<number>;
 
-  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean, type: ChallengeType ) {
+  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean, type: ChallengeType, initialChallenge: Challenge ) {
     this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
@@ -53,8 +53,8 @@ export default class Level {
       tandem: tandem.createTandem( 'attemptsProperty' )
     } );
 
-    // Seed with a placeholder; GameModel will replace on start/new challenge
-    this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'b', 3, null, 5 ), {
+    // Seed with provided initial challenge so there is no placeholder dependency
+    this.currentChallengeProperty = new Property<Challenge>( initialChallenge, {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -114,8 +114,6 @@ export default class Level {
       this.guessedNumbers.push( guess );
     }
   }
-  public hasGuessed( guess: number ): boolean { return this.guessedNumbers.includes( guess ); }
-  public getGuessedNumbers(): number[] { return this.guessedNumbers.slice(); }
   public resetGuesses(): void { this.guessedNumbers.clear(); }
 }
 
