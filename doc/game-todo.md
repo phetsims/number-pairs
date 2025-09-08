@@ -7,6 +7,8 @@
 
 * Add Kittens: they can be moved and organized, but not change color
 
+* Add a keep going dialog after 10 stars.
+
 **Example**:
 
 * The user selects 6
