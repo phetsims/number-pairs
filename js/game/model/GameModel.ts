@@ -72,44 +72,49 @@ export default class GameModel implements TModel {
       new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine' )
     ];
 
-    // Defer challenge generation until a level is started
+    // Pre-allocate the first challenge for each level so challenges persist across navigation
+    for ( let i = 1; i <= this.getLevelCount(); i++ ) {
+      const level = this.getLevel( i );
+      level.currentChallengeProperty.value = this.generateFirstChallenge( i );
+    }
   }
 
   /** Generates and applies a new challenge for the current level. */
   public generateNewChallenge(): void {
-    let challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
+    const challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
     if ( this.levels && this.levels.length > 0 ) {
       const level = this.getCurrentLevel();
-
-      // If this is the first challenge for this level, enforce that y, a, b are all non-zero
-      if ( level.isFirstChallenge ) {
-        let attempts = 0;
-        const isValidFirstChallenge = ( ch: Challenge ): boolean => {
-          if ( ch.y === null ) { return false; }
-
-          const y = ch.missing === 'y' ? ch.expectedAnswer() : ch.y;
-          const aVal = ch.missing === 'a' ? ch.expectedAnswer() : ( ch.a! );
-          const bVal = ch.missing === 'b' ? ch.expectedAnswer() : ( ch.b! );
-
-          return y > 0 && aVal > 0 && bVal > 0;
-        };
-        while ( attempts < 100 && !isValidFirstChallenge( challenge ) ) {
-          challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
-          attempts++;
-        }
-
-        // For Level 8, first challenge specifically requires left known, right missing (i.e. missing === 'b')
-        if ( this.getCurrentLevelNumber() === 8 ) {
-          const y = challenge.missing === 'y' ? challenge.expectedAnswer() : ( challenge.y! );
-          const a = challenge.missing === 'a' ? challenge.expectedAnswer() : ( challenge.a! );
-          challenge = createChallenge( 'b', a, null, y );
-        }
-        level.isFirstChallenge = false;
-      }
 
       level.resetForNewChallenge();
       level.currentChallengeProperty.value = challenge;
     }
+  }
+
+  /**
+   * Common challenge generator for both initial seeding and "Next" generation.
+   * Applies first-challenge constraints when isFirst is true.
+   */
+  private generateFirstChallenge( levelNumber: number ): Challenge {
+    let challenge = this.createChallengeForLevel( levelNumber );
+    const isValidFirst = ( ch: Challenge ): boolean => {
+      // First challenge must show y (not missing) and have all positive parts
+      if ( ch.y === null ) { return false; }
+      const y = ch.y;
+      const aVal = ch.missing === 'a' ? ch.expectedAnswer() : ( ch.a! );
+      const bVal = ch.missing === 'b' ? ch.expectedAnswer() : ( ch.b! );
+      return y > 0 && aVal > 0 && bVal > 0;
+    };
+    let attempts = 0;
+    while ( attempts < 100 && !isValidFirst( challenge ) ) {
+      challenge = this.createChallengeForLevel( levelNumber );
+      attempts++;
+    }
+    if ( levelNumber === 8 ) {
+      const y = challenge.missing === 'y' ? challenge.expectedAnswer() : ( challenge.y! );
+      const a = challenge.missing === 'a' ? challenge.expectedAnswer() : ( challenge.a! );
+      challenge = createChallenge( 'b', a, null, y );
+    }
+    return challenge;
   }
 
   /**
@@ -149,8 +154,6 @@ export default class GameModel implements TModel {
   public startLevel( levelNumber: number ): void {
     this.currentLevelNumberProperty.value = levelNumber;
     this.currentViewProperty.value = 'level';
-    this.getCurrentLevel().resetForNewChallenge();
-    this.generateNewChallenge();
   }
 
   /** Show the level selection view. */
@@ -169,15 +172,24 @@ export default class GameModel implements TModel {
   /** Description for a level. */
   public getLevelDescription( levelNumber: number ): string {
     switch( levelNumber ) {
-      case 1: return 'Level 1 Missing addends in a number bond (0-10)';
-      case 2: return 'Level 2 Missing addend in a number bond (10 only)';
-      case 3: return 'Level 3 Missing addend in a decomposition equation';
-      case 4: return 'Level 4 Missing addend in a sum equation (10 only)';
-      case 5: return 'Level 5 Missing addend with a number bond (11-20)';
-      case 6: return 'Level 6 Missing addend with decomposition equation (11-20)';
-      case 7: return 'Level 7 Missing addend or total with sum equation (11-20)';
-      case 8: return 'Level 8 Equations with the number line (0-20)';
-      default: return '';
+      case 1:
+        return 'Level 1 Missing addends in a number bond (0-10)';
+      case 2:
+        return 'Level 2 Missing addend in a number bond (10 only)';
+      case 3:
+        return 'Level 3 Missing addend in a decomposition equation';
+      case 4:
+        return 'Level 4 Missing addend in a sum equation (10 only)';
+      case 5:
+        return 'Level 5 Missing addend with a number bond (11-20)';
+      case 6:
+        return 'Level 6 Missing addend with decomposition equation (11-20)';
+      case 7:
+        return 'Level 7 Missing addend or total with sum equation (11-20)';
+      case 8:
+        return 'Level 8 Equations with the number line (0-20)';
+      default:
+        return '';
     }
   }
 

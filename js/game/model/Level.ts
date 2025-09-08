@@ -24,7 +24,6 @@ export default class Level {
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
   public readonly type: ChallengeType;
-  public isFirstChallenge: boolean;
   public readonly hasEyeToggle: boolean;
   public readonly hasOrganizeTenFrameButton: boolean;
   public readonly range: 'zeroToTen' | 'zeroToTwenty';
@@ -58,8 +57,6 @@ export default class Level {
     this.currentChallengeProperty = new Property<Challenge>( new Challenge( 'b', 3, null, 5 ), {
       tandem: Tandem.OPT_OUT
     } );
-
-    this.isFirstChallenge = true;
 
     // Eye toggle from config
     this.hasEyeToggle = hasEyeToggle;
