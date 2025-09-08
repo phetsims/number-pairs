@@ -75,7 +75,7 @@ export default class GameModel implements TModel {
     // Pre-allocate the first challenge for each level so challenges persist across navigation
     for ( let i = 1; i <= this.getLevelCount(); i++ ) {
       const level = this.getLevel( i );
-      level.currentChallengeProperty.value = this.generateFirstChallenge( i );
+      level.currentChallengeProperty.value = this.createChallengeForLevel( i, true );
     }
   }
 
@@ -90,32 +90,7 @@ export default class GameModel implements TModel {
     }
   }
 
-  /**
-   * Common challenge generator for both initial seeding and "Next" generation.
-   * Applies first-challenge constraints when isFirst is true.
-   */
-  private generateFirstChallenge( levelNumber: number ): Challenge {
-    let challenge = this.createChallengeForLevel( levelNumber );
-    const isValidFirst = ( ch: Challenge ): boolean => {
-      // First challenge must show y (not missing) and have all positive parts
-      if ( ch.y === null ) { return false; }
-      const y = ch.y;
-      const aVal = ch.missing === 'a' ? ch.expectedAnswer() : ( ch.a! );
-      const bVal = ch.missing === 'b' ? ch.expectedAnswer() : ( ch.b! );
-      return y > 0 && aVal > 0 && bVal > 0;
-    };
-    let attempts = 0;
-    while ( attempts < 100 && !isValidFirst( challenge ) ) {
-      challenge = this.createChallengeForLevel( levelNumber );
-      attempts++;
-    }
-    if ( levelNumber === 8 ) {
-      const y = challenge.missing === 'y' ? challenge.expectedAnswer() : ( challenge.y! );
-      const a = challenge.missing === 'a' ? challenge.expectedAnswer() : ( challenge.a! );
-      challenge = createChallenge( 'b', a, null, y );
-    }
-    return challenge;
-  }
+  // First-challenge generation is handled by createChallengeForLevel(levelNumber, true)
 
   /**
    * Gets the score property for a specific level number (1-8).
@@ -214,68 +189,93 @@ export default class GameModel implements TModel {
     // No step behavior needed for this game model
   }
 
-  /** Create (but do not apply) a new Challenge appropriate for the specified level. */
-  public createChallengeForLevel( levelNumber: number ): Challenge {
+  /** Create (but do not apply) a new Challenge appropriate for the specified level.
+   *  If isFirst is true, applies first-challenge constraints (y present and > 0, a > 0, b > 0; level 8: missing='b').
+   */
+  public createChallengeForLevel( levelNumber: number, isFirst = false ): Challenge {
     switch( levelNumber ) {
       case 1: {
-        // Avoid right addend (b) = 0 by ensuring y >= 1 and a <= y-1
-        const y = dotRandom.nextIntBetween( 1, 10 );
-        const a = dotRandom.nextIntBetween( 0, y - 1 );
+        // Bond, missing b
+        const y = dotRandom.nextIntBetween( isFirst ? 2 : 1, 10 ); // first: need y>=2 so a,b>0 are possible
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 ); // ensure a>0 when first
         return createChallenge( 'b', a, null, y );
       }
       case 2: {
         const y = 10;
-        // Avoid right addend (b) = 0 by ensuring a <= 9
-        const a = dotRandom.nextIntBetween( 0, 9 );
+        // Avoid b=0 generally; and ensure a>0 when first
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 );
         return createChallenge( 'b', a, null, y );
       }
       case 3: {
-        const y = dotRandom.nextIntBetween( 0, 10 );
-        const a = dotRandom.nextIntBetween( 0, y );
+        const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 10 );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? ( y - 1 ) : y );
+        // First: a in [1, y-1] so a>0 and b>0; otherwise allow a==y (b=0 allowed for this level)
         return createChallenge( 'b', a, null, y );
       }
       case 4: {
         const y = 10;
-        const a = dotRandom.nextIntBetween( 0, y );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? 9 : y );
         return createChallenge( 'b', a, null, y );
       }
       case 5: {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        // Avoid right addend (b) = 0 by ensuring a <= y-1
-        const a = dotRandom.nextIntBetween( 0, y - 1 );
+        // Avoid right addend (b) = 0 generally; and ensure a>0 when first
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
         return createChallenge( 'b', a, null, y );
       }
       case 6: {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( 0, y );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? ( y - 1 ) : y );
         return createChallenge( 'b', a, null, y );
       }
       case 7: {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( 0, y );
-        const b = y - a;
-        const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
-        const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
-        if ( missing === 'a' ) {
-          return createChallenge( 'a', null, b, y );
+        if ( isFirst ) {
+          // First: y shown, a>0, b>0; choose missing from a/b only
+          const chooseA = dotRandom.nextIntBetween( 0, 1 ) === 0; // if true, missing a; else missing b
+          if ( chooseA ) {
+            const b = dotRandom.nextIntBetween( 1, y - 1 );
+            return createChallenge( 'a', null, b, y );
+          }
+          else {
+            const a = dotRandom.nextIntBetween( 1, y - 1 );
+            return createChallenge( 'b', a, null, y );
+          }
         }
-        else if ( missing === 'b' ) {
-          return createChallenge( 'b', a, null, y );
-        }
-        else { // 'y'
-          return createChallenge( 'y', a, b, null );
+        else {
+          const a = dotRandom.nextIntBetween( 0, y );
+          const b = y - a;
+          const choices: Array<'a' | 'b' | 'y'> = [ 'a', 'b', 'y' ];
+          const missing = choices[ dotRandom.nextIntBetween( 0, choices.length - 1 ) ];
+          if ( missing === 'a' ) {
+            return createChallenge( 'a', null, b, y );
+          }
+          else if ( missing === 'b' ) {
+            return createChallenge( 'b', a, null, y );
+          }
+          else { // 'y'
+            return createChallenge( 'y', a, b, null );
+          }
         }
       }
       case 8: {
-        const y = dotRandom.nextIntBetween( 0, 20 );
-        const a = dotRandom.nextIntBetween( 0, y );
-        const b = y - a;
-        const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
-        if ( missing === 'a' ) {
-          return createChallenge( 'a', null, b, y );
+        if ( isFirst ) {
+          // First: y shown, a>0, b>0, missing='b'
+          const y = dotRandom.nextIntBetween( 2, 20 );
+          const a = dotRandom.nextIntBetween( 1, y - 1 );
+          return createChallenge( 'b', a, null, y );
         }
         else {
-          return createChallenge( 'b', a, null, y );
+          const y = dotRandom.nextIntBetween( 0, 20 );
+          const a = dotRandom.nextIntBetween( 0, y );
+          const b = y - a;
+          const missing = dotRandom.nextIntBetween( 0, 1 ) === 0 ? 'a' : 'b';
+          if ( missing === 'a' ) {
+            return createChallenge( 'a', null, b, y );
+          }
+          else {
+            return createChallenge( 'b', a, null, y );
+          }
         }
       }
       default: {
