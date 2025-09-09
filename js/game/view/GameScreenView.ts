@@ -38,7 +38,7 @@ export default class GameScreenView extends ScreenView {
 
     const returnToLevelSelection = () => model.showSelection();
     const levelNodes = Array.from( { length: model.getLevelCount() }, ( _, i ) =>
-      new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection )
+      new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) )
     );
 
     const resetAllButton = new ResetAllButton( {

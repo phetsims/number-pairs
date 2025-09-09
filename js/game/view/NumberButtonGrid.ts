@@ -12,8 +12,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -21,6 +21,7 @@ import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 
 export type NumberButtonGridRange = 'zeroToTen' | 'zeroToTwenty';
@@ -34,12 +35,12 @@ export default class NumberButtonGrid extends Node {
   public readonly anySelectedProperty: BooleanProperty;
   public readonly selectedNumberProperty: Property<number | null>;
   public readonly selectedIsEnabledProperty: BooleanProperty;
-  
+
   private readonly buttonStates: BooleanProperty[];
   private readonly buttons: BooleanRectangularStickyToggleButton[];
   private readonly buttonValues: number[];
 
-  public constructor( range: NumberButtonGridRange, guessedNumbers: ObservableArray<number>, providedOptions?: NodeOptions ) {
+  public constructor( range: NumberButtonGridRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
@@ -76,11 +77,12 @@ export default class NumberButtonGrid extends Node {
       this.buttonValues.push( value );
 
       const button = new BooleanRectangularStickyToggleButton( stateProperty, {
+        tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
         size: BUTTON_SIZE,
         baseColor: '#f7d9a5'
       } );
-      
+
       this.buttons.push( button );
 
       button.left = columnIndex * ( BUTTON_SIZE.width + X_SPACING );
@@ -137,7 +139,7 @@ export default class NumberButtonGrid extends Node {
 
     this.mutate( providedOptions );
   }
-  
+
   /**
    * Gets the currently selected number, or null if none selected.
    */
@@ -145,7 +147,7 @@ export default class NumberButtonGrid extends Node {
     const selectedIndex = this.buttonStates.findIndex( state => state.value );
     return selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
   }
-  
+
   /**
    * Disables all number buttons (used after solving a challenge).
    */
@@ -154,7 +156,7 @@ export default class NumberButtonGrid extends Node {
       button.enabledProperty.value = false;
     } );
   }
-  
+
   /**
    * Resets all buttons to their initial state (enabled and unselected).
    */

@@ -23,6 +23,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
@@ -48,6 +49,7 @@ export default class LevelNode extends Node {
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       returnToSelection: () => void,
+                      tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
     const options = optionize<LevelNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
@@ -67,20 +69,21 @@ export default class LevelNode extends Node {
       backButtonListener: () => {
         this.interruptSubtreeInput();
         returnToSelection();
-      }
+      },
+      tandem: tandem.createTandem( 'statusBar' )
     } );
     this.addChild( statusBar );
 
     // Number selection grid and selection state
-    const numberGrid = new NumberButtonGrid( level.range, level.guessedNumbers );
-    numberGrid.centerX = layoutBounds.centerX;
-    numberGrid.bottom = layoutBounds.bottom - 40;
-    this.addChild( numberGrid );
+    const numberButtonGrid = new NumberButtonGrid( level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
+    numberButtonGrid.centerX = layoutBounds.centerX;
+    numberButtonGrid.bottom = layoutBounds.bottom - 40;
+    this.addChild( numberButtonGrid );
 
     // Simple adapter for view widgets
-    const displayAdapter = new SimpleLevelDisplay( level, numberGrid.selectedNumberProperty );
+    const displayAdapter = new SimpleLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
     // Correct-size adapter for bar model widths
-    const barAdapter = new BarLevelDisplay( level, numberGrid.selectedNumberProperty );
+    const barAdapter = new BarLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new NumberBondMutableNode( displayAdapter );
@@ -207,24 +210,26 @@ export default class LevelNode extends Node {
 
     // Buttons row: Check / Next
     const checkButton = new TextPushButton( 'Check', {
+      tandem: tandem.createTandem( 'checkButton' ),
       listener: () => {
-        const guess = numberGrid.getSelectedNumber();
+        const guess = numberButtonGrid.getSelectedNumber();
         if ( guess !== null ) {
           const correct = level.checkAnswer( guess );
           // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
           if ( correct ) {
             // Disable all further number input until next
-            numberGrid.disableAll();
+            numberButtonGrid.disableAll();
           }
         }
       }
     } );
     const nextButton = new TextPushButton( 'Next', {
+      tandem: tandem.createTandem( 'nextButton' ),
       listener: () => {
         level.resetForNewChallenge();
         model.generateNewChallenge();
         // Reset grid visuals for the new challenge
-        numberGrid.resetAll();
+        numberButtonGrid.resetAll();
         applyFeedbackStroke();
       }
     } );
@@ -234,11 +239,11 @@ export default class LevelNode extends Node {
       children: [ checkButton, nextButton ]
     } );
     buttonsRow.centerX = layoutBounds.centerX;
-    buttonsRow.bottom = numberGrid.top - 20;
+    buttonsRow.bottom = numberButtonGrid.top - 20;
     this.addChild( buttonsRow );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
-    const checkEnabledProperty = new DerivedProperty( [ numberGrid.anySelectedProperty, numberGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
+    const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
       ( anySelected: boolean, selectedEnabled: boolean, state: 'idle' | 'incorrect' | 'correct' ) => anySelected && selectedEnabled && state !== 'correct' );
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
@@ -252,7 +257,7 @@ export default class LevelNode extends Node {
     // Status bar description comes from the level description; no per-challenge update needed here
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
-    numberGrid.selectedNumberProperty.link( () => {
+    numberButtonGrid.selectedNumberProperty.link( () => {
       if ( level.feedbackStateProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }
