@@ -38,7 +38,12 @@ export default class TotalRepresentationAccordionBox extends AccordionBox {
       useExpandedBoundsWhenCollapsed: false,
       fill: NumberPairsColors.accordionBoxBackgroundColorProperty,
       expandCollapseButtonOptions: {
-        sideLength: EXPAND_COLLAPSE_SIDE_LENGTH
+        sideLength: EXPAND_COLLAPSE_SIDE_LENGTH,
+        touchAreaXDilation: 9,
+        touchAreaYDilation: 9,
+
+        mouseAreaXDilation: 4.5,
+        mouseAreaYDilation: 4.5
       }
     }, providedOptions );
     super( contentNode, options );
