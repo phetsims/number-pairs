@@ -127,6 +127,7 @@ export default class Level {
 
   public reset(): void {
     this.scoreProperty.reset();
+    this.currentChallengeProperty.value = this.createChallenge( true );
   }
 }
 
