@@ -1,7 +1,9 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * Model for a single level in the Number Pairs game.
+ * Model for a single level in the Number Pairs game. It maintains state regarding the current challenge, what the
+ * user has guessed so far, etc.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
@@ -69,10 +71,12 @@ export default class Level {
     this.addendsOnRightInEquation = addendsOnRightInEquation;
     this.type = type;
 
-    // NOTE: feedbackStateProperty already initialized above, before DerivedProperty creation.
-
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
     this.guessedNumbers = createObservableArray<number>();
+
+    this.currentChallengeProperty.link( challenge => {
+      console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
+    } );
   }
 
   public nextChallenge(): void {
@@ -112,8 +116,6 @@ export default class Level {
   public clearFeedback(): void {
     this.feedbackStateProperty.value = 'idle';
   }
-
-  // --- Guessed number tracking (model-owned) ---
 
   public addGuess( guess: number ): void {
     if ( !this.guessedNumbers.includes( guess ) ) {

@@ -1,10 +1,8 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * Challenge encapsulates the arithmetic state for a single problem in the game.
- * It knows which representation it is, which component is missing, and the numeric values.
- *
- * This model is intentionally UI-agnostic; views can format as needed.
+ * Challenge represents one question in the game for a+b=y. It knows which representation it is, which component is
+ * missing, and the numeric values.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -29,11 +27,20 @@ export default class Challenge {
     this.answer = this.missing === 'a' ? this.a :
                   this.missing === 'b' ? this.b :
                   this.missing === 'y' ? this.y :
-                  ( () => { throw new Error( `Unhandled missing: ${this.missing}` ); } )(); // IIFE to throw error
+                  ( () => { throw new Error( `Unhandled missing: ${this.missing}` ); } )();
   }
 
-  // Compatibility helpers for callers that query correctness
   public isCorrect( guess: number ): boolean { return guess === this.answer; }
+
+  /**
+   * Returns a concise string representation for debugging, e.g. "3 + ? = 7 (answer = 4)".
+   */
+  public toDebugString(): string {
+    const aStr = this.missing === 'a' ? '?' : `${this.a}`;
+    const bStr = this.missing === 'b' ? '?' : `${this.b}`;
+    const yStr = this.missing === 'y' ? '?' : `${this.y}`;
+    return `${aStr} + ${bStr} = ${yStr} (answer = ${this.answer})`;
+  }
 }
 
 numberPairs.register( 'Challenge', Challenge );
