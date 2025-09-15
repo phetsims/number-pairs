@@ -24,7 +24,7 @@ export default class Level {
 
   public readonly scoreProperty: NumberProperty;
   public readonly attemptsProperty: NumberProperty;
-  public readonly currentChallengeProperty: Property<Challenge>;
+  public readonly challengeProperty: Property<Challenge>;
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly guessedNumbers: ObservableArray<number>;
@@ -59,9 +59,9 @@ export default class Level {
       tandem: tandem.createTandem( 'attemptsProperty' )
     } );
 
-    // Seed with provided initial challenge so there is no placeholder dependency
-    this.currentChallengeProperty = new Property<Challenge>( createChallenge( true ), {
-      tandem: Tandem.OPT_OUT
+    this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
+      tandem: tandem.createTandem( 'challengeProperty' ),
+      phetioValueType: Challenge.ChallengeIO
     } );
 
     this.hasEyeToggle = hasEyeToggle;
@@ -75,7 +75,7 @@ export default class Level {
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}, hasEyeToggle=${this.hasEyeToggle}, hasOrganizeTenFrameButton=${this.hasOrganizeTenFrameButton}`;
     phet.chipper.queryParameters.dev && console.log( debugString );
 
-    phet.chipper.queryParameters.dev && this.currentChallengeProperty.link( challenge => {
+    phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
       console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
   }
@@ -86,7 +86,7 @@ export default class Level {
     this.resetGuesses();
     this.feedbackStateProperty.value = 'idle';
 
-    this.currentChallengeProperty.value = this.createChallenge( false );
+    this.challengeProperty.value = this.createChallenge( false );
   }
 
   /**
@@ -97,7 +97,7 @@ export default class Level {
     // Record the guess
     this.addGuess( guess );
 
-    const isCorrect = this.currentChallengeProperty.value.isCorrect( guess );
+    const isCorrect = this.challengeProperty.value.isCorrect( guess );
 
     if ( isCorrect ) {
       // Award star only on first try
@@ -128,7 +128,7 @@ export default class Level {
 
   public reset(): void {
     this.scoreProperty.reset();
-    this.currentChallengeProperty.value = this.createChallenge( true );
+    this.challengeProperty.value = this.createChallenge( true );
   }
 }
 

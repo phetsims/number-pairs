@@ -119,12 +119,12 @@ export default class LevelNode extends Node {
       }
     };
     updateRepresentation();
-    level.currentChallengeProperty.link( updateRepresentation );
+    level.challengeProperty.link( updateRepresentation );
     NumberPairsPreferences.numberModelTypeProperty.link( updateRepresentation );
 
     // Feedback styling for the missing slot: dashed while unsolved, red dashed when incorrect, solid when correct
     const applyFeedbackStroke = () => {
-      const ch = level.currentChallengeProperty.value;
+      const ch = level.challengeProperty.value;
       const state = level.feedbackStateProperty.value;
 
       // Helper to set stroke/dash on a Circle/Rectangle-like node
@@ -157,7 +157,7 @@ export default class LevelNode extends Node {
       }
     };
     level.feedbackStateProperty.link( applyFeedbackStroke );
-    level.currentChallengeProperty.link( applyFeedbackStroke );
+    level.challengeProperty.link( applyFeedbackStroke );
     NumberPairsPreferences.numberModelTypeProperty.link( applyFeedbackStroke );
 
     // Checkmark/X feedback marks positioned by the missing slot
@@ -167,7 +167,7 @@ export default class LevelNode extends Node {
     this.addChild( checkMark );
 
     const updateMarks = () => {
-      const ch = level.currentChallengeProperty.value;
+      const ch = level.challengeProperty.value;
       const state = level.feedbackStateProperty.value;
 
       wrongMark.visible = false;
@@ -202,7 +202,7 @@ export default class LevelNode extends Node {
       }
     };
     level.feedbackStateProperty.link( updateMarks );
-    level.currentChallengeProperty.link( updateMarks );
+    level.challengeProperty.link( updateMarks );
     NumberPairsPreferences.numberModelTypeProperty.link( updateMarks );
 
     // Buttons row: Check / Next

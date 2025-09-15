@@ -29,7 +29,7 @@ export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
 
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
 
-    const challengeProperty = level.currentChallengeProperty;
+    const challengeProperty = level.challengeProperty;
     const feedbackStateProperty = level.feedbackStateProperty;
 
     const displayedForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],

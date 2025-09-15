@@ -31,7 +31,7 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
   public readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
 
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
-    const challengeProperty = level.currentChallengeProperty;
+    const challengeProperty = level.challengeProperty;
     const feedbackStateProperty = level.feedbackStateProperty;
 
     // Correct values for bar widths (independent of guess)
