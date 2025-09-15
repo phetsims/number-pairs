@@ -32,6 +32,7 @@ export default class Level {
   public constructor(
     tandem: Tandem,
     public readonly levelNumber: number,
+    public readonly description: string,
     public readonly hasOrganizeTenFrameButton: boolean,
     public readonly hasEyeToggle: boolean,
     public readonly range: 'zeroToTen' | 'zeroToTwenty',
@@ -64,7 +65,6 @@ export default class Level {
       tandem: Tandem.OPT_OUT
     } );
 
-    // Eye toggle from config
     this.hasEyeToggle = hasEyeToggle;
     this.hasOrganizeTenFrameButton = hasOrganizeTenFrameButton;
     this.range = range;

@@ -56,7 +56,9 @@ export default class LevelNode extends Node {
     super( options );
 
     // Status bar per requested strategy
-    const fullDescription = model.getLevelDescription( level.levelNumber );
+    const fullDescription = level.description;
+
+    // TODO: Fix this up, see https://github.com/phetsims/number-pairs/issues/36
     const descriptionOnly = fullDescription.replace( /^Level\s*\d+\s*/, '' );
     const levelLabel = new Text( `Level ${level.levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
     const descriptionText = new Text( descriptionOnly, { font: new PhetFont( 21 ) } );
