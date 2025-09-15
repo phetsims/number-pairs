@@ -8,6 +8,7 @@
  */
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -36,7 +37,9 @@ export default class GameScreenView extends ScreenView {
     const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
     this.addChild( levelSelectionNode );
 
-    const returnToLevelSelection = () => model.showSelection();
+    const returnToLevelSelection = () => {
+      model.modeProperty.value = 'levelSelectionScreen';
+    };
     const levelNodes = Array.from( { length: model.getLevelCount() }, ( _, i ) =>
       new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) )
     );
@@ -54,21 +57,22 @@ export default class GameScreenView extends ScreenView {
 
     const render = () => {
       this.children = [];
-      if ( model.currentViewProperty.value === 'selection' ) {
+      if ( model.modeProperty.value === 'levelSelectionScreen' ) {
         this.addChild( levelSelectionNode );
         this.addChild( resetAllButton );
       }
       else {
-        const n = model.getCurrentLevelNumber();
-        this.addChild( levelNodes[ n - 1 ] );
+        const level = model.modeProperty.value;
+        const levelNumber = Number( level.charAt( level.length - 1 ) ); // level is 'levelN' where N is 1,2,...
+
+        affirm( !isNaN( levelNumber ) && levelNumber >= 1 && levelNumber <= model.getLevelCount(), `Unexpected mode: ${level}` );
+        affirm( levelNodes[ levelNumber - 1 ], `Missing LevelNode for level ${levelNumber}` );
+        // add the level node for the current level
+
+        this.addChild( levelNodes[ levelNumber - 1 ] );
       }
     };
-    model.currentViewProperty.link( render );
-    model.currentLevelNumberProperty.link( () => {
-      if ( model.currentViewProperty.value === 'level' ) {
-        render();
-      }
-    } );
+    model.modeProperty.link( render );
   }
 
   /**

@@ -28,12 +28,6 @@ export type Mode = ( typeof ModeValues )[number];
 export default class GameModel implements TModel {
   public readonly modeProperty: StringUnionProperty<Mode>;
 
-  // New view state (preferred over modeProperty going forward)
-  public readonly currentViewProperty: StringUnionProperty<'selection' | 'level'>;
-  public readonly currentLevelNumberProperty: NumberProperty; // 1..N
-
-  // Game state properties
-
   // Individual level models (persistent across session lifetime)
   public readonly levels: Level[]; // indexed 0..N-1 for levels 1..N
 
@@ -45,17 +39,6 @@ export default class GameModel implements TModel {
       validValues: ModeValues,
       tandem: tandem.createTandem( 'modeProperty' ),
       phetioDocumentation: 'the current level'
-    } );
-
-    // New view state
-    this.currentViewProperty = new StringUnionProperty<'selection' | 'level'>( 'selection', {
-      validValues: [ 'selection', 'level' ],
-      tandem: tandem.createTandem( 'currentViewProperty' ),
-      phetioDocumentation: 'which view is currently shown'
-    } );
-    this.currentLevelNumberProperty = new NumberProperty( 1, {
-      tandem: tandem.createTandem( 'currentLevelNumberProperty' ),
-      numberType: 'Integer'
     } );
 
     /**
@@ -185,27 +168,11 @@ export default class GameModel implements TModel {
     return this.levels[ index ].scoreProperty;
   }
 
-  /** Returns the Level model for a specific level number (1-8). */
   public getLevel( levelNumber: number ): Level {
     const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
     return this.levels[ index ];
   }
 
-  /** Current level number (1-based). */
-  public getCurrentLevelNumber(): number { return this.currentLevelNumberProperty.value; }
-
-  /** Start the specified level and generate the initial challenge. */
-  public startLevel( levelNumber: number ): void {
-    this.currentLevelNumberProperty.value = levelNumber;
-    this.currentViewProperty.value = 'level';
-  }
-
-  /** Show the level selection view. */
-  public showSelection(): void {
-    this.currentViewProperty.value = 'selection';
-  }
-
-  /** Number of levels available. */
   public getLevelCount(): number { return this.levels.length; }
 
   /**

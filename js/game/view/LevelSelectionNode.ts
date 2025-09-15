@@ -55,7 +55,13 @@ export default class LevelSelectionNode extends Node {
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: level - 1,
-          listener: () => model.startLevel( level )
+          listener: () => {
+
+            // TODO: https://github.com/phetsims/number-pairs/issues/36
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            model.modeProperty.value = `level${level}`;
+          }
         }
       } );
     }
