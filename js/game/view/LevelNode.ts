@@ -226,8 +226,7 @@ export default class LevelNode extends Node {
     const nextButton = new TextPushButton( 'Next', {
       tandem: tandem.createTandem( 'nextButton' ),
       listener: () => {
-        level.resetForNewChallenge();
-        model.generateNewChallenge();
+        level.nextChallenge();
         // Reset grid visuals for the new challenge
         numberButtonGrid.resetAll();
         applyFeedbackStroke();

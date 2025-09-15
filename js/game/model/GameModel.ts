@@ -57,39 +57,112 @@ export default class GameModel implements TModel {
       numberType: 'Integer'
     } );
 
-    // No aggregate session score; scoring is per-level
-
-    // Create per-level models with initial challenges so challenges persist across navigation
-    const l1 = this.createChallengeForLevel( 1, true );
-    const l2 = this.createChallengeForLevel( 2, true );
-    const l3 = this.createChallengeForLevel( 3, true );
-    const l4 = this.createChallengeForLevel( 4, true );
-    const l5 = this.createChallengeForLevel( 5, true );
-    const l6 = this.createChallengeForLevel( 6, true );
-    const l7 = this.createChallengeForLevel( 7, true );
-    const l8 = this.createChallengeForLevel( 8, true );
-
+    const createLevel234Challenge = ( isFirst: boolean ): Challenge => {
+      const y = 10;
+      const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 ); // [L2] avoid b=0 generally; first: a>0
+      const b = y - a;
+      const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const ); // [L2] missing is a or b only
+      return new Challenge( missingComponent, a, b, y );
+    };
     this.levels = [
-      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false, 'bond', l1 ),
-      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false, 'bond', l2 ),
-      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true, 'decomposition', l3 ),
-      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false, 'sum', l4 ),
-      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'bond', l5 ),
-      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition', l6 ),
-      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum', l7 ),
-      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine', l8 )
+
+      /**
+       * [L1] Level 1 (0-10) Missing addends – fluency facts
+       * Number Bond
+       * - On first challenge, neither addend is zero
+       */
+      new Level( providedOptions.tandem.createTandem( 'level1' ), 1, true, false, 'zeroToTen', false, 'bond', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( isFirst ? 2 : 1, 10 ); // [L1] first: y>=2 so a,b>0 possible
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 ); // [L1] first: a>0
+        const b = y - a;
+        const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const ); // [L1] missing is a or b only
+        return new Challenge( missingComponent, a, b, y );
+      } ),
+
+      /**
+       * ### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden
+       *
+       * Identical to level 1 with the following exceptions
+       * - The value of y is always 10
+       * - The counting area can be hidden
+       * Starting state is the counting area visible // TODO https://github.com/phetsims/number-pairs/issues/36
+       */
+      new Level( providedOptions.tandem.createTandem( 'level2' ), 2, true, true, 'zeroToTen', false, 'bond', createLevel234Challenge ),
+
+      /**
+       * ### Level 3 (10 only): Missing addends: Equation (10 only)
+       *
+       * Identical to level 2, except the representation of the decomposition is an equation
+       */
+      new Level( providedOptions.tandem.createTandem( 'level3' ), 3, true, true, 'zeroToTen', true, 'decomposition', createLevel234Challenge ),
+
+      /**
+       * ### Level 4 (10 only): missing addend, sum equation
+       *
+       * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
+       */
+      new Level( providedOptions.tandem.createTandem( 'level4' ), 4, true, true, 'zeroToTen', false, 'sum', createLevel234Challenge ),
+
+      /**
+       * ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
+       *
+       * * Uses game logic for [number bond](#heading=h.oxvb2sjy8v23), where y is any number between 11-20
+       * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen TODO: https://github.com/phetsims/number-pairs/issues/36
+       */
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'decomposition', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( 11, 20 ); // [L5]
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
+        const b = y - a;
+        const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const ); // [L1] missing is a or b only
+        return new Challenge( missingComponent, a, b, y );
+      } ),
+
+      /**
+       * ### Level 6 (11-20): missing addend with decomposition equation
+       *
+       * * See logic for [decomposition equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
+       * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
+       *   ![][image185]
+       */
+      new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
+        const b = y - a;
+        const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const );
+        return new Challenge( missingComponent, a, b, y );
+      } ),
+
+      /**
+       * ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
+       *
+       * * See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
+       * * Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill TODO: https://github.com/phetsims/number-pairs/issues/36
+       * * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
+       * * Value range for y is from 11-20
+       */
+      new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
+        const b = y - a;
+        const missingComponent = dotRandom.sample( [ 'a', 'b', 'y' ] as const );
+        return new Challenge( missingComponent, a, b, y );
+      } ),
+
+      /**
+       * ### Level 8 (0-20): missing both addends, fact fluency,
+       *
+       * * See logic for [sum equations](#heading=h.o9d55p201mw3)
+       * * First challenge: left addend known, right addend unknown
+       * * Subsequent challenges could be the left or the right addend (not the total)
+       */
+      new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( isFirst ? 1 : 0, 20 );
+        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
+        const b = y - a;
+        const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b', 'y' ] as const );
+        return new Challenge( missingComponent, a, b, y );
+      } )
     ];
-  }
-
-  /** Generates and applies a new challenge for the current level. */
-  public generateNewChallenge(): void {
-    const challenge = this.createChallengeForLevel( this.getCurrentLevelNumber() );
-    if ( this.levels && this.levels.length > 0 ) {
-      const level = this.getCurrentLevel();
-
-      level.resetForNewChallenge();
-      level.currentChallengeProperty.value = challenge;
-    }
   }
 
   /**
@@ -169,11 +242,8 @@ export default class GameModel implements TModel {
   public reset(): void {
     // Reset all level scores and state
     this.levels.forEach( level => {
-      level.scoreProperty.reset();
-      level.resetForNewChallenge();
+      level.reset();
     } );
-
-    this.generateNewChallenge();
   }
 
   /**
@@ -183,106 +253,6 @@ export default class GameModel implements TModel {
   public step( dt: number ): void {
     // No step behavior needed for this game model
   }
-
-  /** Create (but do not apply) a new Challenge appropriate for the specified level.
-   *  If isFirst is true, applies first-challenge constraints (y present and > 0, a > 0, b > 0; level 8: missing='b').
-   */
-  public createChallengeForLevel( levelNumber: number, isFirst = false ): Challenge {
-    switch( levelNumber ) {
-      case 1: {
-        // Bond, missing b
-        const y = dotRandom.nextIntBetween( isFirst ? 2 : 1, 10 ); // first: need y>=2 so a,b>0 are possible
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 ); // ensure a>0 when first
-        return createChallenge( 'b', a, null, y );
-      }
-      case 2: {
-        const y = 10;
-        // Avoid b=0 generally; and ensure a>0 when first
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 );
-        return createChallenge( 'b', a, null, y );
-      }
-      case 3: {
-        const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 10 );
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? ( y - 1 ) : y );
-        // First: a in [1, y-1] so a>0 and b>0; otherwise allow a==y (b=0 allowed for this level)
-        return createChallenge( 'b', a, null, y );
-      }
-      case 4: {
-        const y = 10;
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? 9 : y );
-        return createChallenge( 'b', a, null, y );
-      }
-      case 5: {
-        const y = dotRandom.nextIntBetween( 11, 20 );
-        // Avoid right addend (b) = 0 generally; and ensure a>0 when first
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
-        return createChallenge( 'b', a, null, y );
-      }
-      case 6: {
-        const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, isFirst ? ( y - 1 ) : y );
-        return createChallenge( 'b', a, null, y );
-      }
-      case 7: {
-        const y = dotRandom.nextIntBetween( 11, 20 );
-        if ( isFirst ) {
-          // First: y shown, a>0, b>0; choose missing from a/b only
-          const missingFirst = dotRandom.sample( [ 'a', 'b' ] as const );
-          if ( missingFirst === 'a' ) {
-            const b = dotRandom.nextIntBetween( 1, y - 1 );
-            return createChallenge( 'a', null, b, y );
-          }
-          else {
-            const a = dotRandom.nextIntBetween( 1, y - 1 );
-            return createChallenge( 'b', a, null, y );
-          }
-        }
-        else {
-          const a = dotRandom.nextIntBetween( 0, y );
-          const b = y - a;
-          const missing = dotRandom.sample( [ 'a', 'b', 'y' ] as const );
-          if ( missing === 'a' ) {
-            return createChallenge( 'a', null, b, y );
-          }
-          else if ( missing === 'b' ) {
-            return createChallenge( 'b', a, null, y );
-          }
-          else { // 'y'
-            return createChallenge( 'y', a, b, null );
-          }
-        }
-      }
-      case 8: {
-        if ( isFirst ) {
-          // First: y shown, a>0, b>0, missing='b'
-          const y = dotRandom.nextIntBetween( 2, 20 );
-          const a = dotRandom.nextIntBetween( 1, y - 1 );
-          return createChallenge( 'b', a, null, y );
-        }
-        else {
-          const y = dotRandom.nextIntBetween( 0, 20 );
-          const a = dotRandom.nextIntBetween( 0, y );
-          const b = y - a;
-          const missing = dotRandom.sample( [ 'a', 'b' ] as const );
-          if ( missing === 'a' ) {
-            return createChallenge( 'a', null, b, y );
-          }
-          else {
-            return createChallenge( 'b', a, null, y );
-          }
-        }
-      }
-      default: {
-        const y = 10;
-        const a = dotRandom.nextIntBetween( 0, y );
-        return createChallenge( 'b', a, null, y );
-      }
-    }
-  }
 }
 
 numberPairs.register( 'GameModel', GameModel );
-
-function createChallenge( missing: 'a' | 'b' | 'y', a: number | null, b: number | null, y: number | null ): Challenge {
-  return new Challenge( missing, a, b, y );
-}

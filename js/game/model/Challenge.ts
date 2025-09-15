@@ -9,44 +9,31 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import numberPairs from '../../numberPairs.js';
 
 export type MissingComponent = 'a' | 'b' | 'y';
 
 export default class Challenge {
-  public readonly missing: MissingComponent;
+  public readonly answer: number;
 
-  // If a component is missing, its value is null. The remaining components are non-null.
-  public readonly a: number | null;
-  public readonly b: number | null;
-  public readonly y: number | null;
+  public constructor(
+    public readonly missing: MissingComponent,
+    public readonly a: number,
+    public readonly b: number,
+    public readonly y: number
+  ) {
 
-  public constructor( missing: MissingComponent, a: number | null, b: number | null, y: number | null ) {
-    this.missing = missing;
-    this.a = a;
-    this.b = b;
-    this.y = y;
+    affirm( a + b === y, `Invalid Challenge: a(${a}) + b(${b}) should equal y(${y})` );
+
+    this.answer = this.missing === 'a' ? this.a :
+                  this.missing === 'b' ? this.b :
+                  this.missing === 'y' ? this.y :
+                  ( () => { throw new Error( `Unhandled missing: ${this.missing}` ); } )(); // IIFE to throw error
   }
 
-  /** Returns the expected numeric answer for the missing component. */
-  public expectedAnswer(): number {
-    if ( this.missing === 'a' ) {
-      if ( this.y === null || this.b === null ) { throw new Error( 'invalid challenge values' ); }
-      return this.y - this.b;
-    }
-    if ( this.missing === 'b' ) {
-      if ( this.y === null || this.a === null ) { throw new Error( 'invalid challenge values' ); }
-      return this.y - this.a;
-    }
-    // missing === 'y'
-    if ( this.a === null || this.b === null ) { throw new Error( 'invalid challenge values' ); }
-    return this.a + this.b;
-  }
-
-  /** Returns true if the provided guess matches the expected numeric answer. */
-  public isCorrect( guess: number ): boolean {
-    return guess === this.expectedAnswer();
-  }
+  // Compatibility helpers for callers that query correctness
+  public isCorrect( guess: number ): boolean { return guess === this.answer; }
 }
 
 numberPairs.register( 'Challenge', Challenge );

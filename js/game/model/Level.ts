@@ -5,34 +5,38 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 
 export type ChallengeType = 'bond' | 'decomposition' | 'sum' | 'numberLine';
 
 export default class Level {
-  public readonly levelNumber: number;
+
   public readonly scoreProperty: NumberProperty;
   public readonly attemptsProperty: NumberProperty;
   public readonly currentChallengeProperty: Property<Challenge>;
-  public readonly type: ChallengeType;
-  public readonly hasEyeToggle: boolean;
-  public readonly hasOrganizeTenFrameButton: boolean;
-  public readonly range: 'zeroToTen' | 'zeroToTwenty';
-  public readonly addendsOnRightInEquation: boolean;
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
   public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
   public readonly guessedNumbers: ObservableArray<number>;
 
-  public constructor( tandem: Tandem, levelNumber: number, hasOrganizeTenFrameButton: boolean, hasEyeToggle: boolean, range: 'zeroToTen' | 'zeroToTwenty', addendsOnRightInEquation: boolean, type: ChallengeType, initialChallenge: Challenge ) {
+  public constructor(
+    tandem: Tandem,
+    public readonly levelNumber: number,
+    public readonly hasOrganizeTenFrameButton: boolean,
+    public readonly hasEyeToggle: boolean,
+    public readonly range: 'zeroToTen' | 'zeroToTwenty',
+    public readonly addendsOnRightInEquation: boolean,
+    public readonly type: ChallengeType,
+    private readonly createChallenge: ( isFirst: boolean ) => Challenge
+  ) {
     this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
@@ -54,7 +58,7 @@ export default class Level {
     } );
 
     // Seed with provided initial challenge so there is no placeholder dependency
-    this.currentChallengeProperty = new Property<Challenge>( initialChallenge, {
+    this.currentChallengeProperty = new Property<Challenge>( createChallenge( true ), {
       tandem: Tandem.OPT_OUT
     } );
 
@@ -71,11 +75,13 @@ export default class Level {
     this.guessedNumbers = createObservableArray<number>();
   }
 
-  public resetForNewChallenge(): void {
+  public nextChallenge(): void {
+
     this.attemptsProperty.value = 0;
-    // Clear any tracked guesses
     this.resetGuesses();
     this.feedbackStateProperty.value = 'idle';
+
+    this.currentChallengeProperty.value = this.createChallenge( false );
   }
 
   /**
@@ -114,7 +120,12 @@ export default class Level {
       this.guessedNumbers.push( guess );
     }
   }
+
   public resetGuesses(): void { this.guessedNumbers.clear(); }
+
+  public reset(): void {
+    this.scoreProperty.reset();
+  }
 }
 
 numberPairs.register( 'Level', Level );

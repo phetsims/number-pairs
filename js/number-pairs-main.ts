@@ -18,7 +18,6 @@ import NumberPairsPreferencesModel from './common/model/NumberPairsPreferencesMo
 import numberPairsSpeechSynthesisAnnouncer from './common/view/numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairsUtteranceQueue from './common/view/numberPairsUtteranceQueue.js';
 import GameScreen from './game/GameScreen.js';
-import GameModelTests from './game/model/GameModelTests.js';
 import IntroScreen from './intro/IntroScreen.js';
 import NumberPairsFluent from './NumberPairsFluent.js';
 import './common/NumberPairsQueryParameters.js';
@@ -56,9 +55,6 @@ simLauncher.launch( () => {
 
   // For unit testing, report when the sim is launched.
   sim.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
-
-    new GameModelTests().start();
-
     if ( isConstructionComplete ) {
       console.log( 'sim launched successfully' );
     }

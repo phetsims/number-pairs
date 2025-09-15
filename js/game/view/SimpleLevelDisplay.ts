@@ -34,7 +34,7 @@ export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
 
     const displayedForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
       ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
-        const correctMissing = ch.expectedAnswer();
+        const correctMissing = ch.answer;
         const valueBySlot = {
           a: ch.a === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.a,
           b: ch.b === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.b,
@@ -62,4 +62,3 @@ export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
 }
 
 numberPairs.register( 'SimpleLevelDisplay', SimpleLevelDisplay );
-

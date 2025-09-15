@@ -38,17 +38,17 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
     this.leftAddendProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
       if ( ch.a !== null ) { return ch.a; }
       // missing 'a' -> remainder
-      return ch.expectedAnswer();
+      return ch.answer;
     } );
     this.rightAddendProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
       if ( ch.b !== null ) { return ch.b; }
       // missing 'b' -> remainder
-      return ch.expectedAnswer();
+      return ch.answer;
     } );
     this.totalProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
       if ( ch.y !== null ) { return ch.y; }
       // missing 'y' -> a + b
-      return ch.expectedAnswer();
+      return ch.answer;
     } );
 
     // Visibility mirrors SimpleLevelDisplay behavior: show the missing number when solved or when there's a guess
@@ -66,4 +66,3 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
 }
 
 numberPairs.register( 'BarLevelDisplay', BarLevelDisplay );
-
