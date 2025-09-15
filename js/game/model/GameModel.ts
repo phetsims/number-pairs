@@ -57,11 +57,17 @@ export default class GameModel implements TModel {
       numberType: 'Integer'
     } );
 
+    /**
+     * For all Levels + Challenges:
+     * - The randomly chosen numbers follow: a ≤ y and  b ≤ y, a+b=y, and y ≤ 10 or 20
+     * - y, a, and b are positive integers taking on values 0, 1, …, 20
+     * - First challenge will not have y=0, a=0, or b=0
+     */
     const createLevel234Challenge = ( isFirst: boolean ): Challenge => {
       const y = 10;
-      const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 ); // [L2] avoid b=0 generally; first: a>0
+      const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 );
       const b = y - a;
-      const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const ); // [L2] missing is a or b only
+      const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const );
       return new Challenge( missingComponent, a, b, y );
     };
     this.levels = [
@@ -106,7 +112,7 @@ export default class GameModel implements TModel {
       /**
        * ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
        *
-       * * Uses game logic for [number bond](#heading=h.oxvb2sjy8v23), where y is any number between 11-20
+       * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen TODO: https://github.com/phetsims/number-pairs/issues/36
        */
       new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'decomposition', ( isFirst: boolean ): Challenge => {
@@ -177,22 +183,6 @@ export default class GameModel implements TModel {
   public getLevel( levelNumber: number ): Level {
     const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
     return this.levels[ index ];
-  }
-
-  /** Returns the Level model for the current selection. */
-  public getCurrentLevel(): Level {
-    // Prefer the new properties when in 'level' view
-    if ( this.currentViewProperty.value === 'level' ) {
-      return this.getLevel( this.currentLevelNumberProperty.value );
-    }
-    // Fallback for legacy modeProperty
-    const mode = this.modeProperty.value;
-    if ( mode === 'levelSelectionScreen' ) {
-      return this.getLevel( 1 );
-    }
-    const match = /^level([1-8])$/.exec( mode );
-    const n = match ? Number( match[ 1 ] ) : 1;
-    return this.getLevel( n );
   }
 
   /** Current level number (1-based). */
