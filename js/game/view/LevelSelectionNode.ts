@@ -46,8 +46,9 @@ export default class LevelSelectionNode extends Node {
     const items: LevelSelectionButtonGroupItem[] = [];
     const NUMBER_OF_LEVELS = model.getLevelCount();
     for ( let level = 1; level <= NUMBER_OF_LEVELS; level++ ) {
+
       // Use the actual score property for this level from the model
-      const scoreProperty = model.getLevelScoreProperty( level );
+      const scoreProperty = model.getLevel( level ).scoreProperty;
       items.push( {
         icon: new Text( level, { font: new PhetFont( 18 ) } ),
         scoreProperty: scoreProperty,

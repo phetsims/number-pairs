@@ -59,7 +59,7 @@ export default class LevelNode extends Node {
     const descriptionText = new Text( level.description, { font: new PhetFont( 21 ) } );
     const levelDescriptionText = new HBox( { spacing: 12, children: [ levelLabel, descriptionText ] } );
 
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevelScoreProperty( level.levelNumber ), {
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevel( level.levelNumber ).scoreProperty, {
       barFill: '#b6fab9',
       floatToTop: true,
       spacing: 20,

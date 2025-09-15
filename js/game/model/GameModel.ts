@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
@@ -29,7 +28,8 @@ export default class GameModel implements TModel {
   public readonly modeProperty: StringUnionProperty<Mode>;
 
   // Individual level models (persistent across session lifetime)
-  public readonly levels: Level[]; // indexed 0..N-1 for levels 1..N
+  // indexed 0..N-1 for levels 1..N
+  public readonly levels: Level[];
 
   public constructor( providedOptions: GameModelOptions ) {
 
@@ -38,7 +38,7 @@ export default class GameModel implements TModel {
     this.modeProperty = new StringUnionProperty<Mode>( 'levelSelectionScreen', {
       validValues: ModeValues,
       tandem: tandem.createTandem( 'modeProperty' ),
-      phetioDocumentation: 'the current level'
+      phetioDocumentation: 'the current level, or "levelSelectionScreen" if the level selection screen is showing'
     } );
 
     /**
@@ -160,32 +160,19 @@ export default class GameModel implements TModel {
     ];
   }
 
-  /**
-   * Gets the score property for a specific level number (1-8).
-   */
-  public getLevelScoreProperty( levelNumber: number ): NumberProperty {
-    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
-    return this.levels[ index ].scoreProperty;
-  }
-
   public getLevel( levelNumber: number ): Level {
     const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
     return this.levels[ index ];
   }
 
-  public getLevelCount(): number { return this.levels.length; }
+  public getLevelCount(): number {
+    return this.levels.length;
+  }
 
-  /**
-   * Resets the model.
-   */
   public reset(): void {
     this.levels.forEach( level => level.reset() );
   }
 
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
   public step( dt: number ): void {
     // No step behavior needed for this game model
   }
