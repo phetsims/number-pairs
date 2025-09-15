@@ -90,7 +90,7 @@ export default class LevelNode extends Node {
       displayRightAddendNumberProperty: displayAdapter.rightAddendProperty
     } );
     const equationNode = new NumberEquationNode( displayAdapter, {
-      addendsOnRight: level.addendsOnRightInEquation,
+      addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
       rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty

@@ -18,7 +18,7 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 
-export type ChallengeType = 'bond' | 'decomposition' | 'sum' | 'numberLine';
+export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
 
 export default class Level {
 
@@ -36,7 +36,6 @@ export default class Level {
     public readonly hasOrganizeTenFrameButton: boolean,
     public readonly hasEyeToggle: boolean,
     public readonly range: 'zeroToTen' | 'zeroToTwenty',
-    public readonly addendsOnRightInEquation: boolean,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge
   ) {
@@ -68,13 +67,15 @@ export default class Level {
     this.hasEyeToggle = hasEyeToggle;
     this.hasOrganizeTenFrameButton = hasOrganizeTenFrameButton;
     this.range = range;
-    this.addendsOnRightInEquation = addendsOnRightInEquation;
     this.type = type;
 
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
     this.guessedNumbers = createObservableArray<number>();
 
-    this.currentChallengeProperty.link( challenge => {
+    const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}, hasEyeToggle=${this.hasEyeToggle}, hasOrganizeTenFrameButton=${this.hasOrganizeTenFrameButton}`;
+    phet.chipper.queryParameters.dev && console.log( debugString );
+
+    phet.chipper.queryParameters.dev && this.currentChallengeProperty.link( challenge => {
       console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
   }

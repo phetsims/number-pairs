@@ -90,7 +90,7 @@ export default class GameModel implements TModel {
        * Number Bond
        * - On first challenge, neither addend is zero
        */
-      new Level( tandem.createTandem( 'level1' ), 1, 'Missing addends in a number bond (0-10)', true, false, 'zeroToTen', false, 'bond', ( isFirst: boolean ): Challenge => {
+      new Level( tandem.createTandem( 'level1' ), 1, 'Missing addends in a number bond (0-10)', true, false, 'zeroToTen', 'bond', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( isFirst ? 2 : 1, 10 ); // first: y>=2 so a,b>0 possible
         const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 ); // first: a>0
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
@@ -104,21 +104,21 @@ export default class GameModel implements TModel {
        * - The counting area can be hidden
        * Starting state is the counting area visible // TODO https://github.com/phetsims/number-pairs/issues/36
        */
-      new Level( tandem.createTandem( 'level2' ), 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', false, 'bond', createLevel234Challenge ),
+      new Level( tandem.createTandem( 'level2' ), 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', 'bond', createLevel234Challenge ),
 
       /**
        * ### Level 3 (10 only): Missing addends: Equation (10 only)
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( tandem.createTandem( 'level3' ), 3, 'Missing addend in a decomposition equation', true, true, 'zeroToTen', true, 'decomposition', createLevel234Challenge ),
+      new Level( tandem.createTandem( 'level3' ), 3, 'Missing addend in a decomposition equation', true, true, 'zeroToTen', 'decompositionEquation', createLevel234Challenge ),
 
       /**
        * ### Level 4 (10 only): missing addend, sum equation
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( tandem.createTandem( 'level4' ), 4, 'Missing addend in a sum equation (10 only)', true, true, 'zeroToTen', false, 'sum', createLevel234Challenge ),
+      new Level( tandem.createTandem( 'level4' ), 4, 'Missing addend in a sum equation (10 only)', true, true, 'zeroToTen', 'sumEquation', createLevel234Challenge ),
 
       /**
        * ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
@@ -126,7 +126,7 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen TODO: https://github.com/phetsims/number-pairs/issues/36
        */
-      new Level( tandem.createTandem( 'level5' ), 5, 'Missing addend with a number bond (11-20)', true, true, 'zeroToTwenty', false, 'bond', ( isFirst: boolean ): Challenge => {
+      new Level( tandem.createTandem( 'level5' ), 5, 'Missing addend with a number bond (11-20)', true, true, 'zeroToTwenty', 'bond', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -139,7 +139,7 @@ export default class GameModel implements TModel {
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        *   ![][image185]
        */
-      new Level( tandem.createTandem( 'level6' ), 6, 'Missing addend with decomposition equation (11-20)', true, true, 'zeroToTwenty', true, 'decomposition', ( isFirst: boolean ): Challenge => {
+      new Level( tandem.createTandem( 'level6' ), 6, 'Missing addend with decomposition equation (11-20)', true, true, 'zeroToTwenty', 'decompositionEquation', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -153,7 +153,7 @@ export default class GameModel implements TModel {
        * * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * * Value range for y is from 11-20
        */
-      new Level( tandem.createTandem( 'level7' ), 7, 'Missing addend or total with sum equation (11-20)', true, true, 'zeroToTwenty', false, 'sum', ( isFirst: boolean ): Challenge => {
+      new Level( tandem.createTandem( 'level7' ), 7, 'Missing addend or total with sum equation (11-20)', true, true, 'zeroToTwenty', 'sumEquation', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
@@ -166,7 +166,7 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new Level( tandem.createTandem( 'level8' ), 8, 'Equations with the number line (0-20)', false, true, 'zeroToTwenty', false, 'numberLine', ( isFirst: boolean ): Challenge => {
+      new Level( tandem.createTandem( 'level8' ), 8, 'Equations with the number line (0-20)', false, true, 'zeroToTwenty', 'numberLine', ( isFirst: boolean ): Challenge => {
 
         // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
         const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );
