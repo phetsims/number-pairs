@@ -15,6 +15,7 @@ import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 
@@ -70,7 +71,10 @@ export default class Level {
     this.type = type;
 
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
-    this.guessedNumbers = createObservableArray<number>();
+    this.guessedNumbers = createObservableArray<number>( {
+      tandem: tandem.createTandem( 'guessedNumbers' ),
+      phetioType: createObservableArray.ObservableArrayIO( NumberIO )
+    } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}, hasEyeToggle=${this.hasEyeToggle}, hasOrganizeTenFrameButton=${this.hasOrganizeTenFrameButton}`;
     phet.chipper.queryParameters.dev && console.log( debugString );
@@ -124,7 +128,9 @@ export default class Level {
     }
   }
 
-  public resetGuesses(): void { this.guessedNumbers.clear(); }
+  public resetGuesses(): void {
+    this.guessedNumbers.clear();
+  }
 
   public reset(): void {
     this.scoreProperty.reset();
