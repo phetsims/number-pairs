@@ -63,10 +63,22 @@ export default class GameModel implements TModel {
      * - y, a, and b are positive integers taking on values 0, 1, …, 20
      * - First challenge will not have y=0, a=0, or b=0
      */
+      // Helper to generate (a,b) for a given y, honoring first-challenge constraint (no zeros) when possible.
+    const generateAddends = ( y: number, isFirst: boolean ): { a: number; b: number } => {
+        if ( y === 0 ) {
+          // Only valid pair when y=0
+          return { a: 0, b: 0 };
+        }
+        const minA = isFirst ? 1 : 0;
+        const maxA = Math.max( minA, y - 1 ); // ensure valid range even for small y
+        const a = dotRandom.nextIntBetween( minA, maxA );
+        const b = y - a;
+        return { a: a, b: b };
+      };
+
     const createLevel234Challenge = ( isFirst: boolean ): Challenge => {
       const y = 10;
-      const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, 9 );
-      const b = y - a;
+      const { a, b } = generateAddends( y, isFirst );
       const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const );
       return new Challenge( missingComponent, a, b, y );
     };
@@ -115,11 +127,10 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen TODO: https://github.com/phetsims/number-pairs/issues/36
        */
-      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'decomposition', ( isFirst: boolean ): Challenge => {
-        const y = dotRandom.nextIntBetween( 11, 20 ); // [L5]
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
-        const b = y - a;
-        const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const ); // [L1] missing is a or b only
+      new Level( providedOptions.tandem.createTandem( 'level5' ), 5, true, true, 'zeroToTwenty', false, 'bond', ( isFirst: boolean ): Challenge => {
+        const y = dotRandom.nextIntBetween( 11, 20 );
+        const { a, b } = generateAddends( y, isFirst );
+        const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const );
         return new Challenge( missingComponent, a, b, y );
       } ),
 
@@ -132,8 +143,7 @@ export default class GameModel implements TModel {
        */
       new Level( providedOptions.tandem.createTandem( 'level6' ), 6, true, true, 'zeroToTwenty', true, 'decomposition', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
-        const b = y - a;
+        const { a, b } = generateAddends( y, isFirst );
         const missingComponent = dotRandom.sample( [ 'a', 'b' ] as const );
         return new Challenge( missingComponent, a, b, y );
       } ),
@@ -148,8 +158,7 @@ export default class GameModel implements TModel {
        */
       new Level( providedOptions.tandem.createTandem( 'level7' ), 7, true, true, 'zeroToTwenty', false, 'sum', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
-        const b = y - a;
+        const { a, b } = generateAddends( y, isFirst );
         const missingComponent = dotRandom.sample( [ 'a', 'b', 'y' ] as const );
         return new Challenge( missingComponent, a, b, y );
       } ),
@@ -157,15 +166,15 @@ export default class GameModel implements TModel {
       /**
        * ### Level 8 (0-20): missing both addends, fact fluency,
        *
-       * * See logic for [sum equations](#heading=h.o9d55p201mw3)
-       * * First challenge: left addend known, right addend unknown
-       * * Subsequent challenges could be the left or the right addend (not the total)
+       * - See logic for [sum equations](#heading=h.o9d55p201mw3)
+       * - First challenge: left addend known, right addend unknown
+       * - Subsequent challenges could be the left or the right addend (not the total)
        */
       new Level( providedOptions.tandem.createTandem( 'level8' ), 8, false, true, 'zeroToTwenty', false, 'numberLine', ( isFirst: boolean ): Challenge => {
-        const y = dotRandom.nextIntBetween( isFirst ? 1 : 0, 20 );
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 );
-        const b = y - a;
-        const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b', 'y' ] as const );
+        // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
+        const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );
+        const { a, b } = generateAddends( y, isFirst );
+        const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
         return new Challenge( missingComponent, a, b, y );
       } )
     ];
