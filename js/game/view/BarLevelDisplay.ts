@@ -13,11 +13,11 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import numberPairs from '../../numberPairs.js';
+import { MissingComponent } from '../model/Challenge.js';
 import Level from '../model/Level.js';
-import Challenge from '../model/Challenge.js';
 
 export default class BarLevelDisplay implements TGenericNumberPairsModel {
   public readonly totalProperty: TReadOnlyProperty<number>;
@@ -32,28 +32,15 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
 
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
     const challengeProperty = level.challengeProperty;
-    const feedbackStateProperty = level.feedbackStateProperty;
 
     // Correct values for bar widths (independent of guess)
-    this.leftAddendProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
-      if ( ch.a !== null ) { return ch.a; }
-      // missing 'a' -> remainder
-      return ch.answer;
-    } );
-    this.rightAddendProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
-      if ( ch.b !== null ) { return ch.b; }
-      // missing 'b' -> remainder
-      return ch.answer;
-    } );
-    this.totalProperty = new DerivedProperty( [ challengeProperty ], ( ch: Challenge ) => {
-      if ( ch.y !== null ) { return ch.y; }
-      // missing 'y' -> a + b
-      return ch.answer;
-    } );
+    this.leftAddendProperty = new DerivedProperty( [ challengeProperty ], ch => ch.a );
+    this.rightAddendProperty = new DerivedProperty( [ challengeProperty ], ch => ch.b );
+    this.totalProperty = new DerivedProperty( [ challengeProperty ], ch => ch.y );
 
     // Visibility mirrors SimpleLevelDisplay behavior: show the missing number when solved or when there's a guess
-    const visibleForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
-      ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
+    const visibleForSlot = ( slot: MissingComponent ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, level.feedbackStateProperty ],
+      ( ch, guess, state ) => {
         const isMissing = ch.missing === slot;
         if ( !isMissing ) { return true; }
         return state === 'correct' || guess !== null;

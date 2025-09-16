@@ -14,9 +14,10 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
@@ -37,9 +38,7 @@ import NumberButtonGrid from './NumberButtonGrid.js';
 import SimpleLevelDisplay from './SimpleLevelDisplay.js';
 import StatusBar from './StatusBar.js';
 
-type SelfOptions = {
-  // reserved for future options
-};
+type SelfOptions = EmptySelfOptions;
 type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class LevelNode extends Node {
@@ -69,48 +68,46 @@ export default class LevelNode extends Node {
 
     // Simple adapter for view widgets
     const displayAdapter = new SimpleLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
+
     // Correct-size adapter for bar model widths
     const barAdapter = new BarLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
-    const bondNode = new NumberBondMutableNode( displayAdapter );
+    const bondNode = new NumberBondMutableNode( displayAdapter, {
+      visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
+        return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
+      } )
+    } );
     const barNode = new BarModelNode( barAdapter, {
       displayTotalNumberProperty: displayAdapter.totalProperty,
       displayLeftAddendNumberProperty: displayAdapter.leftAddendProperty,
-      displayRightAddendNumberProperty: displayAdapter.rightAddendProperty
+      displayRightAddendNumberProperty: displayAdapter.rightAddendProperty,
+      visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
+        return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
+      } )
     } );
     const equationNode = new NumberEquationNode( displayAdapter, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
-      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      visible: level.type === 'decompositionEquation' || level.type === 'sumEquation'
+    } );
+
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode ], ( bondNodeProxy, barNodeProxy, equationNodeProxy ) => {
+      bondNodeProxy.centerX = layoutBounds.centerX;
+      barNodeProxy.centerX = layoutBounds.centerX;
+      equationNodeProxy.centerX = layoutBounds.centerX;
+
+      bondNodeProxy.top = statusBar.bottom + 20;
+      barNodeProxy.top = statusBar.bottom + 20;
+      equationNodeProxy.top = statusBar.bottom + 20;
     } );
 
     // Add both as children; show the one for current challenge and center it in layout bounds
     this.addChild( bondNode );
     this.addChild( barNode );
     this.addChild( equationNode );
-    const updateRepresentation = () => {
-      const isBondType = level.type === 'bond';
-      const useBarModel = NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.BAR_MODEL;
-
-      bondNode.visible = isBondType && !useBarModel;
-      barNode.visible = isBondType && useBarModel;
-      equationNode.visible = !isBondType;
-
-      if ( bondNode.visible ) {
-        bondNode.center = layoutBounds.center;
-      }
-      else if ( barNode.visible ) {
-        barNode.center = layoutBounds.center;
-      }
-      else {
-        equationNode.center = layoutBounds.center;
-      }
-    };
-    updateRepresentation();
-    level.challengeProperty.link( updateRepresentation );
-    NumberPairsPreferences.numberModelTypeProperty.link( updateRepresentation );
 
     // Feedback styling for the missing slot: dashed while unsolved, red dashed when incorrect, solid when correct
     const applyFeedbackStroke = () => {
@@ -151,17 +148,14 @@ export default class LevelNode extends Node {
     NumberPairsPreferences.numberModelTypeProperty.link( applyFeedbackStroke );
 
     // Checkmark/X feedback marks positioned by the missing slot
-    const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visible: false } );
-    const checkMark = new Text( '✓', { font: new PhetFont( 42 ), fill: '#059e05', visible: false } );
+    const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' ) } );
+    const checkMark = new Text( '✓', { font: new PhetFont( 42 ), fill: '#059e05', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' ) } );
     this.addChild( wrongMark );
     this.addChild( checkMark );
 
     const updateMarks = () => {
       const ch = level.challengeProperty.value;
       const state = level.feedbackStateProperty.value;
-
-      wrongMark.visible = false;
-      checkMark.visible = false;
 
       const placeMarkNear = ( target: Node ) => {
         const parentBounds = wrongMark.globalToParentBounds( target.globalBounds );
@@ -191,7 +185,6 @@ export default class LevelNode extends Node {
         placeMarkNear( target );
       }
     };
-    level.feedbackStateProperty.link( updateMarks );
     level.challengeProperty.link( updateMarks );
     NumberPairsPreferences.numberModelTypeProperty.link( updateMarks );
 
@@ -202,8 +195,10 @@ export default class LevelNode extends Node {
         const guess = numberButtonGrid.getSelectedNumber();
         if ( guess !== null ) {
           const correct = level.checkAnswer( guess );
+
           // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
           if ( correct ) {
+
             // Disable all further number input until next
             numberButtonGrid.disableAll();
           }
@@ -212,8 +207,10 @@ export default class LevelNode extends Node {
     } );
     const nextButton = new TextPushButton( 'Next', {
       tandem: tandem.createTandem( 'nextButton' ),
+      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
+
         // Reset grid visuals for the new challenge
         numberButtonGrid.resetAll();
         applyFeedbackStroke();
@@ -235,7 +232,6 @@ export default class LevelNode extends Node {
 
     // Show Next only when solved
     level.feedbackStateProperty.link( feedbackState => {
-      nextButton.visible = feedbackState === 'correct';
       checkButton.visible = feedbackState !== 'correct';
     } );
 
