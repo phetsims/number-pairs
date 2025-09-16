@@ -94,17 +94,16 @@ export default class LevelNode extends Node {
       visible: level.type === 'decompositionEquation' || level.type === 'sumEquation'
     } );
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode ], ( bondNodeProxy, barNodeProxy, equationNodeProxy ) => {
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy ) => {
       bondNodeProxy.centerX = layoutBounds.centerX;
       barNodeProxy.centerX = layoutBounds.centerX;
       equationNodeProxy.centerX = layoutBounds.centerX;
 
-      bondNodeProxy.top = statusBar.bottom + 20;
-      barNodeProxy.top = statusBar.bottom + 20;
-      equationNodeProxy.top = statusBar.bottom + 20;
+      bondNodeProxy.top = statusBarProxy.bottom + 20;
+      barNodeProxy.top = statusBarProxy.bottom + 20;
+      equationNodeProxy.top = statusBarProxy.bottom + 20;
     } );
 
-    // Add both as children; show the one for current challenge and center it in layout bounds
     this.addChild( bondNode );
     this.addChild( barNode );
     this.addChild( equationNode );
@@ -234,8 +233,6 @@ export default class LevelNode extends Node {
     level.feedbackStateProperty.link( feedbackState => {
       checkButton.visible = feedbackState !== 'correct';
     } );
-
-    // Status bar description comes from the level description; no per-challenge update needed here
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     numberButtonGrid.selectedNumberProperty.link( () => {
