@@ -211,15 +211,6 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
-    Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty,
-        model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
-      ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern, leftAddend, rightAddend, total ) => {
-
-        // We only want to update the speechDataProperty if the math checks out.
-        if ( leftAddend + rightAddend === total ) {
-          options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
-        }
-      } );
 
     /**
      * Update the highlight colors as the counting representation changes.
@@ -250,6 +241,17 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
     options.titleNode = new Text( NumberPairsFluent.phraseStringProperty, titleTextOptions );
 
     super( phraseNode, options );
+
+    Multilink.multilink( [ isPrimaryLocaleProperty, primaryLocaleSpeechPatternStringProperty, secondaryLocaleSpeechPatternStringProperty,
+        model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
+      ( isPrimaryLocale, primaryLocaleSpeechPattern, secondaryLocaleSpeechPattern, leftAddend, rightAddend, total ) => {
+
+        // We only want to update the speechDataProperty if the math checks out.
+        if ( leftAddend + rightAddend === total ) {
+          options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+          this.accessibleParagraph = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+        }
+      } );
   }
 }
 
