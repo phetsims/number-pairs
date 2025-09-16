@@ -244,10 +244,9 @@ export default class LevelNode extends Node {
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
     // Show Next only when solved
-    level.isChallengeSolvedProperty.link( solved => {
-      nextButton.visible = solved;
-      // Hide check when solved to reduce clutter
-      checkButton.visible = !solved;
+    level.feedbackStateProperty.link( feedbackState => {
+      nextButton.visible = feedbackState === 'correct';
+      checkButton.visible = feedbackState !== 'correct';
     } );
 
     // Status bar description comes from the level description; no per-challenge update needed here

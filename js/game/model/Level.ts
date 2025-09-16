@@ -8,13 +8,10 @@
  */
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
@@ -23,11 +20,17 @@ export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | '
 
 export default class Level {
 
+  // Accumulated points on this level.
   public readonly scoreProperty: NumberProperty;
-  public readonly attemptsProperty: NumberProperty;
+
+  // The current challenge for this level.
   public readonly challengeProperty: Property<Challenge>;
+
+  // 'idle' = no feedback, 'incorrect' = last guess was incorrect, 'correct' = last guess was correct
   public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
-  public readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
+
+  // List of numbers already guessed for the current challenge, used to know if they got it right on their first guess
+  // and to gray out those numbers in the grid.
   public readonly guessedNumbers: ObservableArray<number>;
 
   public constructor(
@@ -48,16 +51,6 @@ export default class Level {
     this.feedbackStateProperty = new StringUnionProperty<'idle' | 'incorrect' | 'correct'>( 'idle', {
       validValues: [ 'idle', 'incorrect', 'correct' ],
       tandem: Tandem.OPT_OUT
-    } );
-
-    // Derived to avoid redundancy: solved iff feedback == 'correct'
-    this.isChallengeSolvedProperty = new DerivedProperty( [ this.feedbackStateProperty ], state => state === 'correct', {
-      tandem: tandem.createTandem( 'isChallengeSolvedProperty' ),
-      phetioValueType: BooleanIO
-    } );
-
-    this.attemptsProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'attemptsProperty' )
     } );
 
     this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
@@ -86,7 +79,6 @@ export default class Level {
 
   public nextChallenge(): void {
 
-    this.attemptsProperty.value = 0;
     this.resetGuesses();
     this.feedbackStateProperty.value = 'idle';
 
@@ -97,15 +89,15 @@ export default class Level {
    * Checks if the provided guess is correct for the current challenge and updates level state.
    */
   public checkAnswer( guess: number ): boolean {
-    this.attemptsProperty.value++;
-    // Record the guess
+
     this.addGuess( guess );
 
     const isCorrect = this.challengeProperty.value.isCorrect( guess );
 
     if ( isCorrect ) {
+
       // Award star only on first try
-      if ( this.attemptsProperty.value === 1 ) {
+      if ( this.guessedNumbers.length === 1 ) {
         this.scoreProperty.value++;
       }
       this.feedbackStateProperty.value = 'correct';

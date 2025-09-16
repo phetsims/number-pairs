@@ -25,6 +25,7 @@ const ModeValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6',
 export type Mode = ( typeof ModeValues )[number];
 
 export default class GameModel implements TModel {
+
   public readonly modeProperty: StringUnionProperty<Mode>;
 
   // Individual level models (persistent across session lifetime)
@@ -47,19 +48,11 @@ export default class GameModel implements TModel {
      * - y, a, and b are positive integers taking on values 0, 1, …, 20
      * - First challenge will not have y=0, a=0, or b=0
      */
-      // Helper to generate (a,b) for a given y, honoring first-challenge constraint (no zeros) when possible.
-    const generateAddends = ( y: number, isFirst: boolean ): { a: number; b: number } => {
-        if ( y === 0 ) {
-          // Only valid pair when y=0
-          return { a: 0, b: 0 };
-        }
-        const minA = isFirst ? 1 : 0;
-        const maxA = Math.max( minA, y - 1 ); // ensure valid range even for small y
-        const a = dotRandom.nextIntBetween( minA, maxA );
-        const b = y - a;
-        return { a: a, b: b };
-      };
 
+    /**
+     * Shared logic for levels 2, 3, and 4 (y=10)
+     * @param isFirst
+     */
     const createLevel234Challenge = ( isFirst: boolean ): Challenge => {
       const y = 10;
       const { a, b } = generateAddends( y, isFirst );
@@ -177,5 +170,20 @@ export default class GameModel implements TModel {
     // No step behavior needed for this game model
   }
 }
+
+/**
+ * Helper to generate (a,b) for a given y, honoring first-challenge constraint (no zeros) when possible.
+ */
+const generateAddends = ( y: number, isFirst: boolean ): { a: number; b: number } => {
+  if ( y === 0 ) {
+    // Only valid pair when y=0
+    return { a: 0, b: 0 };
+  }
+  const minA = isFirst ? 1 : 0;
+  const maxA = Math.max( minA, y - 1 ); // ensure valid range even for small y
+  const a = dotRandom.nextIntBetween( minA, maxA );
+  const b = y - a;
+  return { a: a, b: b };
+};
 
 numberPairs.register( 'GameModel', GameModel );
