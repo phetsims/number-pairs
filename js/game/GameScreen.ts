@@ -3,11 +3,12 @@
 /**
  * GameScreen is the 'Game' screen.
  *
+ * @author Sam Reid (PhET Interactive Simulations)
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
@@ -15,9 +16,7 @@ import NumberPairsFluent from '../NumberPairsFluent.js';
 import GameModel from './model/GameModel.js';
 import GameScreenView from './view/GameScreenView.js';
 
-type SelfOptions = {
-  //TODO add options that are specific to GameScreen here, https://github.com/phetsims/number-pairs/issues/36
-};
+type SelfOptions = EmptySelfOptions;
 
 type GameScreenOptions = SelfOptions & ScreenOptions;
 
