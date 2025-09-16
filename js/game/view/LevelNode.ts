@@ -24,7 +24,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
@@ -36,6 +35,7 @@ import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import SimpleLevelDisplay from './SimpleLevelDisplay.js';
+import StatusBar from './StatusBar.js';
 
 type SelfOptions = {
   // reserved for future options
@@ -55,20 +55,10 @@ export default class LevelNode extends Node {
     const options = optionize<LevelNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
     super( options );
 
-    const levelLabel = new Text( `Level ${level.levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
-    const descriptionText = new Text( level.description, { font: new PhetFont( 21 ) } );
-    const levelDescriptionText = new HBox( { spacing: 12, children: [ levelLabel, descriptionText ] } );
-
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevel( level.levelNumber ).scoreProperty, {
-      barFill: '#b6fab9',
-      floatToTop: true,
-      spacing: 20,
-      backButtonListener: () => {
-        this.interruptSubtreeInput();
-        returnToSelection();
-      },
-      tandem: tandem.createTandem( 'statusBar' )
-    } );
+    const statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, model, () => {
+      this.interruptSubtreeInput();
+      returnToSelection();
+    }, tandem.createTandem( 'statusBar' ) );
     this.addChild( statusBar );
 
     // Number selection grid and selection state
