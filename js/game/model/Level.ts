@@ -35,15 +35,14 @@ export default class Level {
 
   public constructor(
     tandem: Tandem,
-    public readonly levelNumber: number,
-    public readonly description: string,
+    public readonly levelNumber: number, // 1-indexed level number
+    public readonly description: string, // Appears in the bar at the top of the screen
     public readonly hasOrganizeTenFrameButton: boolean,
     public readonly hasEyeToggle: boolean,
-    public readonly range: 'zeroToTen' | 'zeroToTwenty',
+    public readonly range: 'zeroToTen' | 'zeroToTwenty', // possible guesses
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge
   ) {
-    this.levelNumber = levelNumber;
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
     } );
@@ -57,11 +56,6 @@ export default class Level {
       tandem: tandem.createTandem( 'challengeProperty' ),
       phetioValueType: Challenge.ChallengeIO
     } );
-
-    this.hasEyeToggle = hasEyeToggle;
-    this.hasOrganizeTenFrameButton = hasOrganizeTenFrameButton;
-    this.range = range;
-    this.type = type;
 
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
     this.guessedNumbers = createObservableArray<number>( {
@@ -78,10 +72,8 @@ export default class Level {
   }
 
   public nextChallenge(): void {
-
     this.resetGuesses();
     this.feedbackStateProperty.value = 'idle';
-
     this.challengeProperty.value = this.createChallenge( false );
   }
 
@@ -109,18 +101,20 @@ export default class Level {
     return isCorrect;
   }
 
-  /** Clears any incorrect/correct feedback, used when user changes selection before next check. */
+  /**
+   * Clears any incorrect/correct feedback, used when user changes selection before next check.
+   */
   public clearFeedback(): void {
     this.feedbackStateProperty.value = 'idle';
   }
 
-  public addGuess( guess: number ): void {
+  private addGuess( guess: number ): void {
     if ( !this.guessedNumbers.includes( guess ) ) {
       this.guessedNumbers.push( guess );
     }
   }
 
-  public resetGuesses(): void {
+  private resetGuesses(): void {
     this.guessedNumbers.clear();
   }
 
