@@ -160,7 +160,10 @@ export default class NumberPairsScreenView extends ScreenView {
         accessibleHelpText: NumberPairsFluent.a11y.controls.speechSynthesis.accessibleHelpTextStringProperty
       },
       noVoiceWarningButtonOptions: {
-        accessibleName: NumberPairsFluent.a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty
+        accessibleName: NumberPairsFluent.a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty,
+        noVoiceWarningDialogOptions: {
+          accessibleParagraph: NumberPairsFluent.a11y.controls.speechSynthesis.noVoiceAccessibleParagraphStringProperty
+        }
       },
       x: this.layoutBounds.minX + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
       y: this.layoutBounds.minY + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
