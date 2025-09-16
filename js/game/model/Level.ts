@@ -15,6 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import InputRange from './InputRange.js';
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
 
@@ -39,7 +40,7 @@ export default class Level {
     public readonly description: string, // Appears in the bar at the top of the screen
     public readonly hasOrganizeTenFrameButton: boolean,
     public readonly hasEyeToggle: boolean,
-    public readonly range: 'zeroToTen' | 'zeroToTwenty', // possible guesses
+    public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge
   ) {

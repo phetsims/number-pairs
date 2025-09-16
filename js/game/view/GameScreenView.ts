@@ -35,9 +35,7 @@ export default class GameScreenView extends ScreenView {
 
     super( options );
 
-    // Level selection UI
     const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
-
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress

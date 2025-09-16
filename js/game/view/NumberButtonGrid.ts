@@ -23,8 +23,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
-
-export type NumberButtonGridRange = 'zeroToTen' | 'zeroToTwenty';
+import InputRange from '../model/InputRange.js';
 
 const BUTTON_SIZE = new Dimension2( 60, 60 );
 const X_SPACING = 12;
@@ -40,7 +39,7 @@ export default class NumberButtonGrid extends Node {
   private readonly buttons: BooleanRectangularStickyToggleButton[];
   private readonly buttonValues: number[];
 
-  public constructor( range: NumberButtonGridRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
+  public constructor( range: InputRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
