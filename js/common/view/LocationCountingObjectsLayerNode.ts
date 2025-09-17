@@ -24,6 +24,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -133,15 +134,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
     const itemsStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
       representation.accessibleName ) );
-    const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
-      representation.singularAccessibleName ) );
 
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.navigatePattern.createProperty( {
-      items: itemsStringProperty
-    } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedPattern.createProperty( {
-      item: itemStringProperty
-    } );
     const grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
       item: itemsStringProperty
     } );
@@ -155,9 +148,29 @@ export default class LocationCountingObjectsLayerNode extends Node {
       if ( !isGrabbed && selectedGroupItem ) {
         countingAreaNode.dropCountingObject( selectedGroupItem, 'location' );
       }
-
-      this.accessibleName = isGrabbed ? movePatternStringProperty : navigatePatternStringProperty;
       this.accessibleHelpText = isGrabbed ? grabbedHelpTextStringProperty : releasedHelpTextStringProperty;
+    } );
+
+    // Update the accessibleName of the layer based on the selected counting object and its addend type.
+    const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+      representation.singularAccessibleName ) );
+    const leftItemStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftItemPattern.createProperty( {
+      item: itemStringProperty
+    } );
+    const rightItemStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightItemPattern.createProperty( {
+      item: itemStringProperty
+    } );
+    const accessibleNameDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
+    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty ], () => {
+      const selectedObject = groupSelectModel.selectedGroupItemProperty.value;
+      if ( selectedObject ) {
+        this.accessibleName = selectedObject.addendTypeProperty.value === AddendType.LEFT ?
+                              leftItemStringProperty.value :
+                              rightItemStringProperty.value;
+      }
+      else if ( model.totalProperty.value === 0 ) {
+        this.accessibleName = NumberPairsFluent.a11y.countingAreaEmptyStringProperty;
+      }
     } );
 
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {

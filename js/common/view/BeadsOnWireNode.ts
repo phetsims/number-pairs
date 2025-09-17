@@ -38,11 +38,11 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadNode from './BeadNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -97,18 +97,9 @@ export default class BeadsOnWireNode extends Node {
     } );
     beadSeparatorCenterXProperty.link( x => { beadSeparator.centerX = x; } );
 
-    // Create the responsive accessible names for the beads.
-    const navigatePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.navigatePattern.createProperty( {
-      items: RepresentationType.BEADS.accessibleName
-    } );
-    const movePatternStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedPattern.createProperty( {
-      item: RepresentationType.BEADS.singularAccessibleName!
-    } );
-
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
       excludeInvisibleChildrenFromBounds: true,
-      accessibleName: navigatePatternStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.beads.accessibleHelpTextStringProperty
     }, providedOptions );
 
@@ -172,10 +163,10 @@ export default class BeadsOnWireNode extends Node {
     // When the proposed bead position is being changed by dragging with the keyboard, handle that proposed position
     // using a process similar to mouse/touch dragging - that is, via handleBeadMove.
     this.keyboardProposedBeadPositionProperty.lazyLink( proposedBeadPosition => {
-      const countingObject = groupSelectModel.selectedGroupItemProperty.value!;
-      assert && assert( countingObject, 'Expected to have a countingObject when dragging with keyboard.' );
-      const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject )!;
-      assert && assert( grabbedBeadNode, 'Expected to have a grabbedBeadNode when dragging with keyboard.' );
+      const countingObject = groupSelectModel.selectedGroupItemProperty.value;
+      affirm( countingObject, 'Expected to have a countingObject when dragging with keyboard.' );
+      const grabbedBeadNode = this.beadModelToNodeMap.get( countingObject );
+      affirm( grabbedBeadNode, 'Expected to have a grabbedBeadNode when dragging with keyboard.' );
 
 
       // This complicated transform is unfortunate, but we want to handle all varieties of dragging via handleBeadMove.
@@ -207,8 +198,8 @@ export default class BeadsOnWireNode extends Node {
         const sortedBeadNodes = this.getSortedBeadNodes();
 
         const selectedBeadNode = this.beadModelToNodeMap.get( groupItem );
-        assert && assert( selectedBeadNode, 'selectedBeadNode should not be null' );
-        const groupItemIndex = sortedBeadNodes.indexOf( selectedBeadNode! );
+        affirm( selectedBeadNode, 'selectedBeadNode should not be null' );
+        const groupItemIndex = sortedBeadNodes.indexOf( selectedBeadNode );
 
         // Determine the delta based on the keys pressed, then use this delta to find the appropriate bead to select.
         const delta = this.getKeysDelta( keysPressed );
@@ -242,10 +233,22 @@ export default class BeadsOnWireNode extends Node {
 
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
     groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
-    groupSelectModel.isGroupItemKeyboardGrabbedProperty.link( grabbed => {
-      this.accessibleName = grabbed ? movePatternStringProperty : navigatePatternStringProperty;
+
+    // When the selected bead changes, update the accessible name to reflect the selected bead.
+    const accessibleNameDependencies = model.countingObjects.map( bead => bead.addendTypeProperty );
+    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty ], () => {
+      const selectedBead = groupSelectModel.selectedGroupItemProperty.value;
+      if ( selectedBead ) {
+        this.accessibleName = selectedBead.addendTypeProperty.value === AddendType.LEFT ?
+                              NumberPairsFluent.a11y.beads.leftAddendBeadStringProperty :
+                              NumberPairsFluent.a11y.beads.rightAddendBeadStringProperty;
+      }
+      else if ( model.totalProperty.value === 0 ) {
+        this.accessibleName = NumberPairsFluent.a11y.countingAreaEmptyStringProperty;
+      }
     } );
 
+    // Update the position of the bead separator and the bead positions when the addends change.
     Multilink.multilink( [
       model.leftAddendProperty,
       model.leftAddendCountingObjectsLengthProperty,
@@ -365,7 +368,7 @@ export default class BeadsOnWireNode extends Node {
     // Since beadNodesToMove was created above by slicing the sortedBeadNodeArray at the grabbedBead, we can
     // be confident that the first beadNode in the beadNodesToMove array is the grabbedBeadNode, and rely
     // on that assumption as we iterate over the array.
-    assert && assert( beadNodesToMove[ 0 ] === grabbedBeadNode, 'The first bead in beadNodesToMove should be the grabbed bead' );
+    affirm( beadNodesToMove[ 0 ] === grabbedBeadNode, 'The first bead in beadNodesToMove should be the grabbed bead' );
 
     beadNodesToMove.forEach( ( beadNode, i ) => {
       if ( beadNode !== grabbedBeadNode ) {
@@ -425,8 +428,8 @@ export default class BeadsOnWireNode extends Node {
       this.keyboardProposedBeadPositionProperty.set( new Vector2( grabbedBeadNode.countingObject.beadXPositionProperty.value, 0 ) );
     }
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendProperty' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendProperty' );
+    affirm( this.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'leftAddendObjects.length should match leftAddendProperty' );
+    affirm( this.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'rightAddendObjects.length should match rightAddendProperty' );
   }
 
   /**
@@ -463,8 +466,9 @@ export default class BeadsOnWireNode extends Node {
                                     proposedXPosition - BeadManager.BEAD_MODEL_VIEW_TRANSFORM.modelToViewDeltaX( proposedBeadsToMove.length ) <= beadNode.centerX;
 
         // We want to only return beads that are the same addend type as the grabbed bead, and are touching the
-        // grabbed bead without space in between, OR any moving bead is proposing to move past another bead no matter
-        // what it's addend type is.
+        // grabbed bead without space in between.
+        // OR
+        // Any moving bead is proposing to move past another bead no matter what its addend type is.
         ( ( addendMatch && touchingPreviousBead && !beadSpaceFound ) || newPositionPastBead ) && proposedBeadsToMove.push( beadNode );
       } );
     return proposedBeadsToMove;
@@ -546,7 +550,7 @@ export default class BeadsOnWireNode extends Node {
     const separatorXPosition = this.beadSeparatorCenterXProperty.value;
     return this.getSortedBeadNodes().every( beadNode => {
       const addendType = beadNode.countingObject.addendTypeProperty.value;
-      assert && assert( addendType !== AddendType.INACTIVE, 'Addend type should not be inactive' );
+      affirm( addendType !== AddendType.INACTIVE, 'Addend type should not be inactive' );
       return addendType === AddendType.LEFT ? beadNode.centerX <= separatorXPosition : beadNode.centerX >= separatorXPosition;
     } );
   }

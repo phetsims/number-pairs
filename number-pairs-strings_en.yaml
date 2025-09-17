@@ -61,14 +61,15 @@ a11y:
   leftCapitalized:          Left
   rightCapitalized:         Right
   movableRoleDescription:   movable
+  countingAreaEmpty:        Counting Area Empty
   grabOrReleaseInteraction:
-    navigatePattern:            Navigate { $items }
-    grabbedPattern:             Grabbed { $item }
     releasedHelpText:           Press Space to grab or release.
     grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas
     grabbedAccessibleResponse:  grabbed, in { $addend } counting area.
     releasedAccessibleResponse: released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
+    leftItemPattern:            Left { $item }
+    rightItemPattern:           Right { $item }
 
   # Representation types
   representationType:
@@ -101,6 +102,8 @@ a11y:
   beads:
     accessibleName:         Beads
     singularAccessibleName: Bead
+    leftAddendBead:         Yellow Bead
+    rightAddendBead:        Blue Bead
     accessibleHelpText:     Counting area with grabbable and movable beads.
 
   # Number line

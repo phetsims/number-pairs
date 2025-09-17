@@ -79,14 +79,15 @@ type StringsType = {
     'leftCapitalizedStringProperty': LocalizedStringProperty;
     'rightCapitalizedStringProperty': LocalizedStringProperty;
     'movableRoleDescriptionStringProperty': LocalizedStringProperty;
+    'countingAreaEmptyStringProperty': LocalizedStringProperty;
     'grabOrReleaseInteraction': {
-      'navigatePatternStringProperty': LocalizedStringProperty;
-      'grabbedPatternStringProperty': LocalizedStringProperty;
       'releasedHelpTextStringProperty': LocalizedStringProperty;
       'grabbedHelpTextPatternStringProperty': LocalizedStringProperty;
       'grabbedAccessibleResponseStringProperty': LocalizedStringProperty;
       'releasedAccessibleResponseStringProperty': LocalizedStringProperty;
       'movedAccessibleResponseStringProperty': LocalizedStringProperty;
+      'leftItemPatternStringProperty': LocalizedStringProperty;
+      'rightItemPatternStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
@@ -124,6 +125,8 @@ type StringsType = {
     'beads': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
+      'leftAddendBeadStringProperty': LocalizedStringProperty;
+      'rightAddendBeadStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'numberLine': {
