@@ -33,7 +33,8 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       baseColor: Color.WHITE,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
-      accessibleContextResponse: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty
+      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty,
+      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.visibleStringProperty
     }, providedOptions );
 
     let addendToggleVisibleProperty = addendVisibleProperty;
