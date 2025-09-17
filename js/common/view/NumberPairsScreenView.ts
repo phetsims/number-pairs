@@ -222,6 +222,11 @@ export default class NumberPairsScreenView extends ScreenView {
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 
+    const commutativeButtonContextResponseProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
+      leftAddend: model.leftAddendProperty,
+      rightAddend: model.rightAddendProperty,
+      total: model.totalProperty
+    } );
     const commutativeButton = new CommutativeButton( {
       accessibleName: NumberPairsFluent.a11y.controls.commutativeButton.accessibleNameStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.controls.commutativeButton.accessibleHelpTextPattern.createProperty( {
@@ -235,6 +240,7 @@ export default class NumberPairsScreenView extends ScreenView {
         model.deselectAllKittens();
         this.interruptSubtreeInput();
         model.swapAddends.bind( model )();
+        this.addAccessibleContextResponse( commutativeButtonContextResponseProperty.value );
       },
       tandem: options.tandem.createTandem( 'commutativeButton' )
     } );

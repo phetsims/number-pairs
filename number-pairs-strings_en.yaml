@@ -143,10 +143,9 @@ a11y:
       accessibleHelpText: Each group has a maximum of 5 { $representation }.
     commutativeButton:
       accessibleName:             Swap Addends
-      accessibleHelpTextPattern:         Switch { $items } from left counting are to right and right counting area to left.
-      #TODO Can we remove the item here so we can reduce the info CommutativeButton needs? https://github.com/phetsims/number-pairs/issues/200
-      accessibleContextResponse:  >-
-        { $leftAddend } on left, { $rightAddend } on right, { $total } { $items } total.
+      accessibleHelpTextPattern:  Switch { $items } from left counting are to right and right counting area to left.
+      accessibleContextResponse:  >- 
+        { $leftAddend } on left, { $rightAddend } on right, { $total } total.
     addendVisible:
       accessibleNamePattern:     >-
         { $addend } Counting Area Visibility
