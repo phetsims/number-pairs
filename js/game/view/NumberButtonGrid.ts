@@ -76,6 +76,7 @@ export default class NumberButtonGrid extends Node {
       this.buttonValues.push( value );
 
       const button = new BooleanRectangularStickyToggleButton( stateProperty, {
+        accessibleName: value.toString(),
         tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
         size: BUTTON_SIZE,
