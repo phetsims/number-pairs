@@ -161,7 +161,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       item: itemStringProperty
     } );
     const accessibleNameDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
-    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty ], () => {
+    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty, itemStringProperty ], () => {
       const selectedObject = groupSelectModel.selectedGroupItemProperty.value;
       if ( selectedObject ) {
         this.accessibleName = selectedObject.addendTypeProperty.value === AddendType.LEFT ?
