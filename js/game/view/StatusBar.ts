@@ -28,7 +28,10 @@ export default class StatusBar extends InfiniteStatusBar {
 
     const levelLabel = new Text( `Level ${level.levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
     const descriptionText = new Text( level.description, { font: new PhetFont( 21 ) } );
-    const levelDescriptionText = new HBox( { spacing: 12, children: [ levelLabel, descriptionText ] } );
+    const levelDescriptionText = new HBox( {
+      spacing: 12, children: [ levelLabel, descriptionText ],
+      accessibleParagraph: `Level ${level.levelNumber}. ${level.description}` // updates when level changes
+    } );
 
     super( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevel( level.levelNumber ).scoreProperty, {
       barFill: '#b6fab9',

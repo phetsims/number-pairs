@@ -56,7 +56,9 @@ export default class GameScreenView extends ScreenView {
     const toggleNode = new ToggleNode( model.modeProperty, [
       {
         value: 'levelSelectionScreen', createNode: () => new Node( {
-          children: [ levelSelectionNode, resetAllButton ]
+          children: [ new Node( {
+            accessibleParagraph: 'Game Screen. Select a level to begin playing. In each level, find pairs of numbers that add up to the target number.'
+          } ), levelSelectionNode, resetAllButton ]
         } )
       },
       { value: 'level1', createNode: () => levelNodes[ 0 ] },
