@@ -94,16 +94,6 @@ export default class LevelNode extends Node {
       visible: level.type === 'decompositionEquation' || level.type === 'sumEquation'
     } );
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy ) => {
-      bondNodeProxy.centerX = layoutBounds.centerX;
-      barNodeProxy.centerX = layoutBounds.centerX;
-      equationNodeProxy.centerX = layoutBounds.centerX;
-
-      bondNodeProxy.top = statusBarProxy.bottom + 20;
-      barNodeProxy.top = statusBarProxy.bottom + 20;
-      equationNodeProxy.top = statusBarProxy.bottom + 20;
-    } );
-
     this.addChild( bondNode );
     this.addChild( barNode );
     this.addChild( equationNode );
@@ -152,40 +142,21 @@ export default class LevelNode extends Node {
     this.addChild( wrongMark );
     this.addChild( checkMark );
 
-    const updateMarks = () => {
-      const ch = level.challengeProperty.value;
-      const state = level.feedbackStateProperty.value;
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy ) => {
+      bondNodeProxy.centerX = layoutBounds.centerX;
+      barNodeProxy.centerX = layoutBounds.centerX;
+      equationNodeProxy.centerX = layoutBounds.centerX;
 
-      const placeMarkNear = ( target: Node ) => {
-        const parentBounds = wrongMark.globalToParentBounds( target.globalBounds );
-        const pos = parentBounds.rightCenter.plusXY( 10, 0 );
-        if ( state === 'incorrect' ) {
-          wrongMark.leftCenter = pos;
-          wrongMark.visible = true;
-        }
-        else if ( state === 'correct' ) {
-          checkMark.leftCenter = pos;
-          checkMark.visible = true;
-        }
-      };
+      bondNodeProxy.top = statusBarProxy.bottom + 20;
+      barNodeProxy.top = statusBarProxy.bottom + 20;
+      equationNodeProxy.top = statusBarProxy.bottom + 20;
 
-      if ( state === 'idle' ) { return; }
+      wrongMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
+      wrongMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
 
-      if ( bondNode.visible ) {
-        const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
-        placeMarkNear( target );
-      }
-      else if ( barNode.visible ) {
-        const target = ch.missing === 'a' ? barNode.leftAddendRectangle : ( ch.missing === 'b' ? barNode.rightAddendRectangle : barNode.totalRectangle );
-        placeMarkNear( target );
-      }
-      else if ( equationNode.visible ) {
-        const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
-        placeMarkNear( target );
-      }
-    };
-    level.challengeProperty.link( updateMarks );
-    NumberPairsPreferences.numberModelTypeProperty.link( updateMarks );
+      checkMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
+      checkMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
+    } );
 
     // Buttons row: Check / Next
     const checkButton = new TextPushButton( 'Check', {
