@@ -728,6 +728,12 @@ export default class NumberPairsModel implements TNumberPairsModel {
     assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
+
+  public deselectAllKittens(): void {
+    this.countingObjects.forEach( countingObject => {
+      countingObject.kittenSelectedProperty.value = false;
+    } );
+  }
 }
 
 numberPairs.register( 'NumberPairsModel', NumberPairsModel );

@@ -76,7 +76,7 @@ export default class NumberPairsScreenView extends ScreenView {
   protected readonly representationRadioButtonGroup: Node;
   protected readonly controlNodes: Node[] = [];
 
-  public constructor( private readonly model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
+  public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
     // Create the radio buttons that live below the counting area and determine which representation is shown.
     const representationRadioButtonGroup = new RepresentationRadioButtonGroup( model.representationTypeProperty, {
@@ -210,7 +210,7 @@ export default class NumberPairsScreenView extends ScreenView {
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
         this.interruptSubtreeInput();
-        this.deselectAllKittens();
+        model.deselectAllKittens();
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
           model.organizeInGroupsOfFive.bind( model )();
         }
@@ -232,7 +232,7 @@ export default class NumberPairsScreenView extends ScreenView {
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {
-        this.deselectAllKittens();
+        model.deselectAllKittens();
         this.interruptSubtreeInput();
         model.swapAddends.bind( model )();
       },
@@ -458,12 +458,6 @@ export default class NumberPairsScreenView extends ScreenView {
         return this.handlePositionOverlap( positionProperties, validBounds, minWidthRatio );
       }
     }
-  }
-
-  private deselectAllKittens(): void {
-    this.model.countingObjects.forEach( countingObject => {
-      countingObject.kittenSelectedProperty.value = false;
-    } );
   }
 
   /**
