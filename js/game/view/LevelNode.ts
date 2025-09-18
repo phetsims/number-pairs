@@ -22,12 +22,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
-import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
+import GameNumberBondNode from './GameNumberBondNode.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import SimpleLevelDisplay from './SimpleLevelDisplay.js';
 import StatusBar from './StatusBar.js';
@@ -67,7 +67,7 @@ export default class LevelNode extends Node {
     const barAdapter = new BarLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
-    const bondNode = new NumberBondMutableNode( displayAdapter, {
+    const bondNode = new GameNumberBondNode( displayAdapter, level, {
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
@@ -91,54 +91,6 @@ export default class LevelNode extends Node {
     this.addChild( bondNode );
     this.addChild( barNode );
     this.addChild( equationNode );
-
-    // Feedback styling for the missing slot: dotted grey while unsolved, red dashed when incorrect, solid when correct
-    const updateRepresentation = () => {
-      const allCircles = [ bondNode.leftAddend, bondNode.rightAddend, bondNode.total ];
-      allCircles.forEach( circle => {
-        circle.stroke = 'black';
-        circle.lineDash = [];
-      } );
-
-      const allLines = [ bondNode.leftLine, bondNode.rightLine ];
-      allLines.forEach( line => {
-        line.stroke = 'black';
-        line.lineDash = [];
-      } );
-
-      const missing = level.challengeProperty.value.missing;
-      const missingCircle = missing === 'a' ? bondNode.leftAddend :
-                            missing === 'b' ? bondNode.rightAddend :
-                            bondNode.total;
-
-      const missingLine = missing === 'a' ? bondNode.leftLine :
-                          bondNode.rightLine;
-
-      if ( level.feedbackStateProperty.value === 'incorrect' ) {
-        missingCircle.stroke = 'red';
-        missingCircle.lineDash = [ 6, 6 ];
-
-        missingLine.stroke = 'red';
-        missingLine.lineDash = [ 6, 6 ];
-      }
-      else if ( level.feedbackStateProperty.value === 'correct' ) {
-        missingCircle.stroke = 'black';
-        missingCircle.lineDash = [];
-
-        missingLine.stroke = 'black';
-        missingLine.lineDash = [];
-      }
-      else {
-        missingCircle.stroke = '#7f7f7f';
-        missingCircle.lineDash = [ 6, 6 ];
-
-        missingLine.stroke = '#7f7f7f';
-        missingLine.lineDash = [ 6, 6 ];
-      }
-    };
-    level.feedbackStateProperty.link( updateRepresentation );
-    level.challengeProperty.link( updateRepresentation );
-    NumberPairsPreferences.numberModelTypeProperty.link( updateRepresentation );
 
     // Checkmark/X feedback marks positioned by the missing slot
     const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' ) } );
@@ -187,7 +139,6 @@ export default class LevelNode extends Node {
 
         // Reset grid visuals for the new challenge
         numberButtonGrid.resetAll();
-        updateRepresentation();
       }
     } );
 
@@ -214,7 +165,6 @@ export default class LevelNode extends Node {
       if ( level.feedbackStateProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }
-      updateRepresentation();
     } );
   }
 }
