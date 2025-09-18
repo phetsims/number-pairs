@@ -49,9 +49,8 @@ export default class GameScreenView extends ScreenView {
     const returnToLevelSelection = () => {
       model.modeProperty.value = 'levelSelectionScreen';
     };
-    const levelNodes = Array.from( { length: model.getLevelCount() }, ( _, i ) =>
-      new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) )
-    );
+    const createLevelNode = ( i: number ) =>
+      new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
 
     const toggleNode = new ToggleNode( model.modeProperty, [
       {
@@ -61,14 +60,14 @@ export default class GameScreenView extends ScreenView {
           } ), levelSelectionNode, resetAllButton ]
         } )
       },
-      { value: 'level1', createNode: () => levelNodes[ 0 ] },
-      { value: 'level2', createNode: () => levelNodes[ 1 ] },
-      { value: 'level3', createNode: () => levelNodes[ 2 ] },
-      { value: 'level4', createNode: () => levelNodes[ 3 ] },
-      { value: 'level5', createNode: () => levelNodes[ 4 ] },
-      { value: 'level6', createNode: () => levelNodes[ 5 ] },
-      { value: 'level7', createNode: () => levelNodes[ 6 ] },
-      { value: 'level8', createNode: () => levelNodes[ 7 ] }
+      { value: 'level1', createNode: () => createLevelNode( 0 ) },
+      { value: 'level2', createNode: () => createLevelNode( 1 ) },
+      { value: 'level3', createNode: () => createLevelNode( 2 ) },
+      { value: 'level4', createNode: () => createLevelNode( 3 ) },
+      { value: 'level5', createNode: () => createLevelNode( 4 ) },
+      { value: 'level6', createNode: () => createLevelNode( 5 ) },
+      { value: 'level7', createNode: () => createLevelNode( 6 ) },
+      { value: 'level8', createNode: () => createLevelNode( 7 ) }
     ], {
       alignChildren: ToggleNode.NONE
     } );
