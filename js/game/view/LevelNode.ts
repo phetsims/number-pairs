@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -20,10 +21,17 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
+import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
+import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
+import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
+import TwentyModel from '../../twenty/model/TwentyModel.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
@@ -57,7 +65,7 @@ export default class LevelNode extends Node {
     // Number selection grid and selection state
     const numberButtonGrid = new NumberButtonGrid( level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
     numberButtonGrid.centerX = layoutBounds.centerX;
-    numberButtonGrid.bottom = layoutBounds.bottom - 40;
+    numberButtonGrid.bottom = layoutBounds.bottom - 5;
     this.addChild( numberButtonGrid );
 
     // Simple adapter for view widgets
@@ -103,9 +111,9 @@ export default class LevelNode extends Node {
       barNodeProxy.centerX = layoutBounds.centerX;
       equationNodeProxy.centerX = layoutBounds.centerX;
 
-      bondNodeProxy.top = statusBarProxy.bottom + 20;
-      barNodeProxy.top = statusBarProxy.bottom + 20;
-      equationNodeProxy.top = statusBarProxy.bottom + 20;
+      bondNodeProxy.top = statusBarProxy.bottom + 5;
+      barNodeProxy.top = statusBarProxy.bottom + 5;
+      equationNodeProxy.top = statusBarProxy.bottom + 5;
 
       wrongMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
       wrongMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
@@ -113,6 +121,59 @@ export default class LevelNode extends Node {
       checkMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
       checkMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
     } );
+
+
+    if ( level.levelNumber <= 7 ) {
+
+      // TODO: Use DecompositionModel, see https://github.com/phetsims/number-pairs/issues/36
+      const twentyModel = new TwentyModel( {
+
+        representationTypeValidValues: [
+          RepresentationType.APPLES, // TODO https://github.com/phetsims/number-pairs/issues/36
+          RepresentationType.KITTENS,
+          RepresentationType.NUMBER_LINE
+        ],
+
+        // TODO: This will help us get rid of apples, see https://github.com/phetsims/number-pairs/issues/36
+        // initialRepresentationType: RepresentationType.KITTENS,
+        tandem: tandem.createTandem( 'twentyModel' )
+      } );
+      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), twentyModel, {
+        countingRepresentationTypeProperty: twentyModel.representationTypeProperty,
+        backgroundColorProperty: NumberPairsColors.kittenPanelBackgroundColorProperty,
+        tandem: tandem.createTandem( 'gameCountingAreaNode' ),
+        top: equationNode.bottom + 20
+      } );
+
+      const kittensLayerNode = new KittensLayerNode( twentyModel.countingObjects, gameCountingAreaNode, {
+        tandem: tandem.createTandem( 'kittensLayerNode' )
+      } );
+
+      const tenFrameButton = new TenFrameButton( {
+        // accessibleName: organizeObjectsPatternStringProperty,
+        // accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
+        tandem: tandem.createTandem( 'tenFrameButton' ),
+        // touchAreaXDilation: buttonVBoxSpacing / 2,
+        // touchAreaYDilation: buttonVBoxSpacing / 2,
+        right: gameCountingAreaNode.left,
+        top: gameCountingAreaNode.top,
+        listener: () => {
+          this.interruptSubtreeInput();
+          twentyModel.deselectAllKittens();
+
+          // TODO: Why bind? See the other site, see https://github.com/phetsims/number-pairs/issues/36
+          twentyModel.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
+        }
+      } );
+
+      this.addChild( gameCountingAreaNode );
+      this.addChild( kittensLayerNode );
+      this.addChild( tenFrameButton );
+
+      // numberButtonGrid.selectedNumberProperty.link( guess => {
+      //   twentyModel.setGuess( guess );
+      // } );
+    }
 
     // Buttons row: Check / Next
     const checkButton = new TextPushButton( 'Check', {
