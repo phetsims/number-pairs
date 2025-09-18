@@ -4,10 +4,6 @@
  * LevelNode composes the UI for a single game level: the representation area (bond/equation),
  * number selection grid, and basic Check/Next flow with lightweight feedback visuals.
  *
- * This follows the LevelNode rewrite spec by keeping view logic declarative and deriving
- * display state from the model, while avoiding model changes for now by using a simple
- * adapter that conforms to TGenericNumberPairsModel.
- *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
@@ -19,9 +15,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -98,43 +92,35 @@ export default class LevelNode extends Node {
     this.addChild( barNode );
     this.addChild( equationNode );
 
-    // Feedback styling for the missing slot: dashed while unsolved, red dashed when incorrect, solid when correct
-    const applyFeedbackStroke = () => {
-      const ch = level.challengeProperty.value;
-      const state = level.feedbackStateProperty.value;
+    // Feedback styling for the missing slot: dotted grey while unsolved, red dashed when incorrect, solid when correct
+    const updateRepresentation = () => {
+      const allCircles = [ bondNode.leftAddend, bondNode.rightAddend, bondNode.total ];
+      allCircles.forEach( circle => {
+        circle.stroke = 'black';
+        circle.lineDash = [];
+      } );
 
-      // Helper to set stroke/dash on a Circle/Rectangle-like node
-      const styleNode = ( node: Circle | Rectangle ) => {
-        if ( state === 'correct' ) {
-          node.stroke = 'black';
-          node.lineDash = [];
-        }
-        else if ( state === 'incorrect' ) {
-          node.stroke = 'red';
-          node.lineDash = [ 6, 6 ];
-        }
-        else { // idle
-          node.stroke = '#888';
-          node.lineDash = [ 6, 6 ];
-        }
-      };
+      const missing = level.challengeProperty.value.missing;
+      const missingCircle = missing === 'a' ? bondNode.leftAddend :
+        missing === 'b' ? bondNode.rightAddend :
+        bondNode.total;
 
-      if ( bondNode.visible ) {
-        const target = ch.missing === 'a' ? bondNode.leftAddend : ( ch.missing === 'b' ? bondNode.rightAddend : bondNode.total );
-        styleNode( target );
+      if ( level.feedbackStateProperty.value === 'incorrect' ) {
+        missingCircle.stroke = 'red';
+        missingCircle.lineDash = [ 6, 6 ];
       }
-      else if ( barNode.visible ) {
-        const target = ch.missing === 'a' ? barNode.leftAddendRectangle : ( ch.missing === 'b' ? barNode.rightAddendRectangle : barNode.totalRectangle );
-        styleNode( target );
+      else if ( level.feedbackStateProperty.value === 'correct' ) {
+        missingCircle.stroke = 'black';
+        missingCircle.lineDash = [];
       }
-      else if ( equationNode.visible ) {
-        const target = ch.missing === 'a' ? equationNode.leftAddendSquare : ( ch.missing === 'b' ? equationNode.rightAddendSquare : equationNode.totalSquare );
-        styleNode( target );
+      else {
+        missingCircle.stroke = '#7f7f7f';
+        missingCircle.lineDash = [ 2, 6 ];
       }
     };
-    level.feedbackStateProperty.link( applyFeedbackStroke );
-    level.challengeProperty.link( applyFeedbackStroke );
-    NumberPairsPreferences.numberModelTypeProperty.link( applyFeedbackStroke );
+    level.feedbackStateProperty.link( updateRepresentation );
+    level.challengeProperty.link( updateRepresentation );
+    NumberPairsPreferences.numberModelTypeProperty.link( updateRepresentation );
 
     // Checkmark/X feedback marks positioned by the missing slot
     const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' ) } );
@@ -183,7 +169,7 @@ export default class LevelNode extends Node {
 
         // Reset grid visuals for the new challenge
         numberButtonGrid.resetAll();
-        applyFeedbackStroke();
+        updateRepresentation();
       }
     } );
 
@@ -210,7 +196,7 @@ export default class LevelNode extends Node {
       if ( level.feedbackStateProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }
-      applyFeedbackStroke();
+      updateRepresentation();
     } );
   }
 }

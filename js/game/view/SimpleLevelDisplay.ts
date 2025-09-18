@@ -10,11 +10,10 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import Challenge from '../model/Challenge.js';
 
 export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
   public readonly totalProperty: TReadOnlyProperty<number>;
@@ -29,35 +28,22 @@ export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
 
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
 
-    const challengeProperty = level.challengeProperty;
-    const feedbackStateProperty = level.feedbackStateProperty;
+    this.totalProperty = new DerivedProperty( [ level.challengeProperty ], challenge => challenge.y );
+    this.totalVisibleProperty = new DerivedProperty( [ level.challengeProperty ], challenge => challenge.missing !== 'y' );
 
-    const displayedForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
-      ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
-        const correctMissing = ch.answer;
-        const valueBySlot = {
-          a: ch.a === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.a,
-          b: ch.b === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.b,
-          y: ch.y === null ? ( state === 'correct' ? correctMissing : ( guess ?? 0 ) ) : ch.y
-        } as const;
-        return valueBySlot[ slot ];
-      } );
+    this.leftAddendProperty = new DerivedProperty( [ level.challengeProperty, selectedGuessProperty ], ( challenge, selectedGuess ) => {
+      return challenge.missing === 'a' && selectedGuess !== null ? selectedGuess : challenge.a;
+    } );
+    this.leftAddendVisibleProperty = new DerivedProperty( [ level.challengeProperty, selectedGuessProperty ], ( challenge, selectedGuess ) => {
+      return ( challenge.missing === 'a' && selectedGuess !== null ) || challenge.missing !== 'a';
+    } );
 
-    const visibleForSlot = ( slot: 'a' | 'b' | 'y' ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, feedbackStateProperty ],
-      ( ch: Challenge, guess: number | null, state: 'idle' | 'incorrect' | 'correct' ) => {
-        const isMissing = ch.missing === slot;
-        if ( !isMissing ) { return true; }
-        // Missing slot: show number when solved or when the user has an active selection
-        return state === 'correct' || guess !== null;
-      } );
-
-    this.leftAddendProperty = displayedForSlot( 'a' );
-    this.rightAddendProperty = displayedForSlot( 'b' );
-    this.totalProperty = displayedForSlot( 'y' );
-
-    this.leftAddendVisibleProperty = visibleForSlot( 'a' );
-    this.rightAddendVisibleProperty = visibleForSlot( 'b' );
-    this.totalVisibleProperty = visibleForSlot( 'y' );
+    this.rightAddendProperty = new DerivedProperty( [ level.challengeProperty, selectedGuessProperty ], ( challenge, selectedGuess ) => {
+      return challenge.missing === 'b' && selectedGuess !== null ? selectedGuess : challenge.b;
+    } );
+    this.rightAddendVisibleProperty = new DerivedProperty( [ level.challengeProperty, selectedGuessProperty ], ( challenge, selectedGuess ) => {
+      return ( challenge.missing === 'b' && selectedGuess !== null ) || challenge.missing !== 'b';
+    } );
   }
 }
 
