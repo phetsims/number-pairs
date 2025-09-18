@@ -7,13 +7,13 @@
  *
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
@@ -25,6 +25,9 @@ const VERTICAL_OFFSET = 2.25 * NumberCircle.RADIUS;
 export const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export default abstract class NumberBondNode extends Node {
+
+  public readonly leftLine: Line;
+  public readonly rightLine: Line;
 
   protected constructor( total: Node, leftAddend: Node, rightAddend: Node, providedOptions?: NumberBondNodeOptions ) {
 
@@ -65,6 +68,9 @@ export default abstract class NumberBondNode extends Node {
 
     options.children = [ leftLine, rightLine, total, leftAddend, rightAddend ];
     super( options );
+
+    this.leftLine = leftLine;
+    this.rightLine = rightLine;
   }
 }
 

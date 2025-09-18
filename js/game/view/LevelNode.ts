@@ -100,22 +100,40 @@ export default class LevelNode extends Node {
         circle.lineDash = [];
       } );
 
+      const allLines = [ bondNode.leftLine, bondNode.rightLine ];
+      allLines.forEach( line => {
+        line.stroke = 'black';
+        line.lineDash = [];
+      } );
+
       const missing = level.challengeProperty.value.missing;
       const missingCircle = missing === 'a' ? bondNode.leftAddend :
-        missing === 'b' ? bondNode.rightAddend :
-        bondNode.total;
+                            missing === 'b' ? bondNode.rightAddend :
+                            bondNode.total;
+
+      const missingLine = missing === 'a' ? bondNode.leftLine :
+                          bondNode.rightLine;
 
       if ( level.feedbackStateProperty.value === 'incorrect' ) {
         missingCircle.stroke = 'red';
         missingCircle.lineDash = [ 6, 6 ];
+
+        missingLine.stroke = 'red';
+        missingLine.lineDash = [ 6, 6 ];
       }
       else if ( level.feedbackStateProperty.value === 'correct' ) {
         missingCircle.stroke = 'black';
         missingCircle.lineDash = [];
+
+        missingLine.stroke = 'black';
+        missingLine.lineDash = [];
       }
       else {
         missingCircle.stroke = '#7f7f7f';
-        missingCircle.lineDash = [ 2, 6 ];
+        missingCircle.lineDash = [ 6, 6 ];
+
+        missingLine.stroke = '#7f7f7f';
+        missingLine.lineDash = [ 6, 6 ];
       }
     };
     level.feedbackStateProperty.link( updateRepresentation );
