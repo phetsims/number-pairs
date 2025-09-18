@@ -4,25 +4,24 @@
  * This class keeps track of the total and both addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import RepresentationType from './RepresentationType.js';
-import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // The difference between the initial left addend value and the total value for each scene, which therefore determines
 // the initial right addend value.
@@ -33,6 +32,7 @@ type SelfOptions = {
 };
 
 export type DecompositionModelOptions = SelfOptions & StrictOmit<NumberPairsModelOptions, 'numberOfCountingObjects' | 'isSumScreen'>;
+
 export default class DecompositionModel extends NumberPairsModel {
 
 
@@ -41,7 +41,7 @@ export default class DecompositionModel extends NumberPairsModel {
   public readonly selectedSceneProperty: Property<NumberPairsScene>;
   public readonly scenes: NumberPairsScene[];
 
-  protected constructor( providedOptions: DecompositionModelOptions ) {
+  public constructor( providedOptions: DecompositionModelOptions ) {
 
     const options = optionize<DecompositionModelOptions, SelfOptions, NumberPairsModelOptions>()( {
       isSumScreen: false,

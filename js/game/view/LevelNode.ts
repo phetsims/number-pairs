@@ -19,6 +19,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import DecompositionModel from '../../common/model/DecompositionModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
@@ -30,7 +31,6 @@ import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
-import TwentyModel from '../../twenty/model/TwentyModel.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
@@ -124,18 +124,16 @@ export default class LevelNode extends Node {
 
     if ( level.levelNumber <= 7 ) {
 
-      // TODO: Use DecompositionModel, see https://github.com/phetsims/number-pairs/issues/36
       // TODO: Maybe don't create a whole model? see see https://github.com/phetsims/number-pairs/issues/36
-      const twentyModel = new TwentyModel( {
+      const twentyModel = new DecompositionModel( {
 
+        sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE,
+        initialTotalValue: NumberPairsConstants.TWENTY_INITIAL_SUM_VALUE,
         representationTypeValidValues: [
-          RepresentationType.APPLES, // TODO https://github.com/phetsims/number-pairs/issues/36
           RepresentationType.KITTENS,
-          RepresentationType.NUMBER_LINE
+          RepresentationType.NUMBER_LINE // TODO: Will we use this? see https://github.com/phetsims/number-pairs/issues/36
         ],
-
-        // TODO: This will help us get rid of apples, see https://github.com/phetsims/number-pairs/issues/36
-        // initialRepresentationType: RepresentationType.KITTENS,
+        initialRepresentationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'twentyModel' )
       } );
       const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), twentyModel, {
