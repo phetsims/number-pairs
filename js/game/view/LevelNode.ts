@@ -15,7 +15,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
@@ -126,6 +125,7 @@ export default class LevelNode extends Node {
     if ( level.levelNumber <= 7 ) {
 
       // TODO: Use DecompositionModel, see https://github.com/phetsims/number-pairs/issues/36
+      // TODO: Maybe don't create a whole model? see see https://github.com/phetsims/number-pairs/issues/36
       const twentyModel = new TwentyModel( {
 
         representationTypeValidValues: [
@@ -178,6 +178,8 @@ export default class LevelNode extends Node {
     // Buttons row: Check / Next
     const checkButton = new TextPushButton( 'Check', {
       tandem: tandem.createTandem( 'checkButton' ),
+      right: layoutBounds.right - 100,
+      top: layoutBounds.top + 100,
       listener: () => {
         const guess = numberButtonGrid.getSelectedNumber();
         if ( guess !== null ) {
@@ -194,6 +196,8 @@ export default class LevelNode extends Node {
     } );
     const nextButton = new TextPushButton( 'Next', {
       tandem: tandem.createTandem( 'nextButton' ),
+      right: layoutBounds.right - 100,
+      top: layoutBounds.top + 100,
       visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
@@ -203,13 +207,8 @@ export default class LevelNode extends Node {
       }
     } );
 
-    const buttonsRow = new HBox( {
-      spacing: 20,
-      children: [ checkButton, nextButton ]
-    } );
-    buttonsRow.centerX = layoutBounds.centerX;
-    buttonsRow.bottom = numberButtonGrid.top - 20;
-    this.addChild( buttonsRow );
+    this.addChild( checkButton );
+    this.addChild( nextButton );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
     const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
