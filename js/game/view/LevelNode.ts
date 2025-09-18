@@ -28,8 +28,8 @@ import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
+import GameNumberBondNodeViewModel from './GameNumberBondNodeViewModel.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
-import SimpleLevelDisplay from './SimpleLevelDisplay.js';
 import StatusBar from './StatusBar.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -61,26 +61,26 @@ export default class LevelNode extends Node {
     this.addChild( numberButtonGrid );
 
     // Simple adapter for view widgets
-    const displayAdapter = new SimpleLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
+    const bondViewModel = new GameNumberBondNodeViewModel( level, numberButtonGrid.selectedNumberProperty );
 
     // Correct-size adapter for bar model widths
     const barAdapter = new BarLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
-    const bondNode = new GameNumberBondNode( displayAdapter, level, {
+    const bondNode = new GameNumberBondNode( bondViewModel, level, {
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new BarModelNode( barAdapter, {
-      displayTotalNumberProperty: displayAdapter.totalProperty,
-      displayLeftAddendNumberProperty: displayAdapter.leftAddendProperty,
-      displayRightAddendNumberProperty: displayAdapter.rightAddendProperty,
+      displayTotalNumberProperty: bondViewModel.totalProperty,
+      displayLeftAddendNumberProperty: bondViewModel.leftAddendProperty,
+      displayRightAddendNumberProperty: bondViewModel.rightAddendProperty,
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new NumberEquationNode( displayAdapter, {
+    const equationNode = new NumberEquationNode( bondViewModel, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,

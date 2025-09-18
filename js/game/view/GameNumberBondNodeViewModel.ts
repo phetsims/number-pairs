@@ -1,7 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * SimpleLevelDisplay is a thin adapter that exposes TGenericNumberPairsModel-compatible
+ * GameNumberBondNodeViewModel is a thin adapter that exposes TGenericNumberPairsModel-compatible
  * read-only properties derived from the Level model and current grid selection.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -15,7 +15,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 
-export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
+export default class GameNumberBondNodeViewModel implements TGenericNumberPairsModel {
   public readonly totalProperty: TReadOnlyProperty<number>;
   public readonly totalColorProperty: TReadOnlyProperty<Color> = NumberPairsColors.attributeSumColorProperty;
   public readonly totalVisibleProperty: TReadOnlyProperty<boolean>;
@@ -47,4 +47,4 @@ export default class SimpleLevelDisplay implements TGenericNumberPairsModel {
   }
 }
 
-numberPairs.register( 'SimpleLevelDisplay', SimpleLevelDisplay );
+numberPairs.register( 'GameNumberBondNodeViewModel', GameNumberBondNodeViewModel );

@@ -38,7 +38,7 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
     this.rightAddendProperty = new DerivedProperty( [ challengeProperty ], ch => ch.b );
     this.totalProperty = new DerivedProperty( [ challengeProperty ], ch => ch.y );
 
-    // Visibility mirrors SimpleLevelDisplay behavior: show the missing number when solved or when there's a guess
+    // Visibility mirrors GameNumberBondNodeViewModel behavior: show the missing number when solved or when there's a guess
     const visibleForSlot = ( slot: MissingComponent ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, level.feedbackStateProperty ],
       ( ch, guess, state ) => {
         const isMissing = ch.missing === slot;
