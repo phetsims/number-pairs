@@ -33,6 +33,7 @@ export default class LevelSelectionNode extends Node {
 
     // TODO: https://github.com/phetsims/number-pairs/issues/36 i18n
     const titleText = new Text( 'Choose Your Level', {
+      accessibleParagraph: 'Choose Your Level',
       font: TITLE_FONT,
       maxWidth: 0.8 * layoutBounds.width,
       centerY: layoutBounds.centerY - ( layoutBounds.height * 0.25 )
