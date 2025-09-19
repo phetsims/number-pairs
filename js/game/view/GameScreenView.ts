@@ -11,10 +11,12 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import { getPDOMFocusedNode } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
+import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
 import LevelNode from './LevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
@@ -52,6 +54,24 @@ export default class GameScreenView extends ScreenView {
     const createLevelNode = ( i: number ) =>
       new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
 
+    const focusNodes: Record<Mode, Node | null> = {
+      level1: null,
+      level2: null,
+      level3: null,
+      level4: null,
+      level5: null,
+      level6: null,
+      level7: null,
+      level8: null,
+      levelSelectionScreen: null
+    };
+
+    // Keep track of the last focused Node within each mode so that when we return to it, focus goes back to where it was.
+    // NOTE: Must be done before the ToggleNode is created, so that we capture the focus before the Node is removed from the PDOM.
+    model.modeProperty.lazyLink( ( mode, oldMode ) => {
+      focusNodes[ oldMode ] = getPDOMFocusedNode();
+    } );
+
     const toggleNode = new ToggleNode( model.modeProperty, [
       {
         value: 'levelSelectionScreen', createNode: () => new Node( {
@@ -73,6 +93,12 @@ export default class GameScreenView extends ScreenView {
     } );
 
     this.addChild( toggleNode );
+
+    // Restore the last focused Node for the mode that became active after the ToggleNode is created.
+    // NOTE: Must be done after the ToggleNode is created, so that we restore the focus after the Node is added to the PDOM.
+    model.modeProperty.lazyLink( mode => {
+      focusNodes[ mode ]?.focus();
+    } );
   }
 
   /**

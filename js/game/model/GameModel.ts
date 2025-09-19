@@ -39,7 +39,10 @@ export default class GameModel implements TModel {
     this.modeProperty = new StringUnionProperty<Mode>( 'levelSelectionScreen', {
       validValues: ModeValues,
       tandem: tandem.createTandem( 'modeProperty' ),
-      phetioDocumentation: 'the current level, or "levelSelectionScreen" if the level selection screen is showing'
+      phetioDocumentation: 'the current level, or "levelSelectionScreen" if the level selection screen is showing',
+
+      // In GameScreenView, we rely on listener order dispatch for recording and restoring focus
+      hasListenerOrderDependencies: true
     } );
 
     /**
