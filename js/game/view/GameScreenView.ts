@@ -76,7 +76,7 @@ export default class GameScreenView extends ScreenView {
       {
         value: 'levelSelectionScreen', createNode: () => new Node( {
           children: [ new Node( {
-            accessibleParagraph: 'Game Screen. Select a level to begin playing. In each level, find pairs of numbers that add up to the target number.'
+            accessibleParagraph: 'Game Screen. Select a level to begin playing. Choose the number that adds to the target number for each challenge.'
           } ), levelSelectionNode, resetAllButton ]
         } )
       },
