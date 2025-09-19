@@ -83,7 +83,7 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
    */
   private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
     this.pdomPlayAreaNode.setPDOMOrder( [
-        ...this.representationNodes,
+        this.countingAreaRepresentationsHeading,
         this.representationRadioButtonGroup,
         this.countingAreaButtonsVBox,
         ...this.countingAreaNodes,

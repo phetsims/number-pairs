@@ -35,6 +35,7 @@ import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
 import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -159,8 +160,8 @@ export default class CountingAreaNode extends Node {
     } );
     this.model.countingObjectsAnimation.start();
 
-    assert && assert( this.model.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'Addend array length and value should match' );
-    assert && assert( this.model.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.model.leftAddendCountingObjectsProperty.value.length === this.model.leftAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.model.rightAddendCountingObjectsProperty.value.length === this.model.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   /**

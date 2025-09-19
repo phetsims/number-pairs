@@ -89,6 +89,17 @@ type StringsType = {
       'leftItemPatternStringProperty': LocalizedStringProperty;
       'rightItemPatternStringProperty': LocalizedStringProperty;
     };
+    'countingArea': {
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
+      'leadingParagraphStringProperty': LocalizedStringProperty;
+      'numberBondLeadingParagraphStringProperty': LocalizedStringProperty;
+      'barModelLeadingParagraphStringProperty': LocalizedStringProperty;
+      'leftSideListItemPatternStringProperty': LocalizedStringProperty;
+      'rightSideListItemPatternStringProperty': LocalizedStringProperty;
+      'leftCircleListItemPatternStringProperty': LocalizedStringProperty;
+      'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
+      'valueHiddenStringProperty': LocalizedStringProperty;
+    };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
@@ -140,6 +151,7 @@ type StringsType = {
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
       'speechSynthesis': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'noVoiceAccessibleNameStringProperty': LocalizedStringProperty;

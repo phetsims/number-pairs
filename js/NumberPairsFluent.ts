@@ -81,6 +81,15 @@ addToMapIfDefined( 'a11y_grabOrReleaseInteraction_releasedAccessibleResponse', '
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_movedAccessibleResponse', 'a11y.grabOrReleaseInteraction.movedAccessibleResponseStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_leftItemPattern', 'a11y.grabOrReleaseInteraction.leftItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_rightItemPattern', 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_accessibleHeading', 'a11y.countingArea.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_leadingParagraph', 'a11y.countingArea.leadingParagraphStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_numberBondLeadingParagraph', 'a11y.countingArea.numberBondLeadingParagraphStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_barModelLeadingParagraph', 'a11y.countingArea.barModelLeadingParagraphStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_leftSideListItemPattern', 'a11y.countingArea.leftSideListItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_rightSideListItemPattern', 'a11y.countingArea.rightSideListItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_leftCircleListItemPattern', 'a11y.countingArea.leftCircleListItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_rightCircleListItemPattern', 'a11y.countingArea.rightCircleListItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_valueHidden', 'a11y.countingArea.valueHiddenStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleName', 'a11y.representationType.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleHelpText', 'a11y.representationType.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_apples_accessibleName', 'a11y.apples.accessibleNameStringProperty' );
@@ -109,6 +118,7 @@ addToMapIfDefined( 'a11y_numberLine_accessibleName', 'a11y.numberLine.accessible
 addToMapIfDefined( 'a11y_totalSceneSelection_totalNumberPattern', 'a11y.totalSceneSelection.totalNumberPatternStringProperty' );
 addToMapIfDefined( 'a11y_totalSceneSelection_accessibleHelpText', 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_totalCheckbox_accessibleHelpText', 'a11y.totalCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_accessibleHeading', 'a11y.controls.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_accessibleName', 'a11y.controls.speechSynthesis.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_noVoiceAccessibleName', 'a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_noVoiceAccessibleParagraph', 'a11y.controls.speechSynthesis.noVoiceAccessibleParagraphStringProperty' );
@@ -238,6 +248,17 @@ const NumberPairsFluent = {
       leftItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_leftItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.leftItemPatternStringProperty' ), [{"name":"item"}] ),
       rightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_rightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' ), [{"name":"item"}] )
     },
+    countingArea: {
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
+      leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total"}] ),
+      numberBondLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_numberBondLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.numberBondLeadingParagraphStringProperty' ), [{"name":"total"}] ),
+      barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
+      leftSideListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftSideListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftSideListItemPatternStringProperty' ), [{"name":"value"}] ),
+      rightSideListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightSideListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightSideListItemPatternStringProperty' ), [{"name":"value"}] ),
+      leftCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
+      rightCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
+      valueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_valueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.valueHiddenStringProperty' ) )
+    },
     _comment_1: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationType_accessibleName', _.get( NumberPairsStrings, 'a11y.representationType.accessibleNameStringProperty' ) ),
@@ -299,6 +320,7 @@ const NumberPairsFluent = {
     },
     _comment_4: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
     controls: {
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_accessibleHeading', _.get( NumberPairsStrings, 'a11y.controls.accessibleHeadingStringProperty' ) ),
       speechSynthesis: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.accessibleNameStringProperty' ) ),
         noVoiceAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_noVoiceAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty' ) ),

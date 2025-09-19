@@ -172,7 +172,7 @@ export default class SumScreenView extends NumberPairsScreenView {
    */
   private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
     this.pdomPlayAreaNode.setPDOMOrder( [
-      ...this.representationNodes,
+      this.countingAreaRepresentationsHeading,
       totalInteractionNode,
       this.representationRadioButtonGroup,
       this.countingAreaButtonsVBox,

@@ -132,7 +132,6 @@ export default class SplitCountingAreaNode extends Node {
     } );
     this.addChild( leftAddendEyeToggleButton );
     this.addChild( rightAddendEyeToggleButton );
-
   }
 }
 
