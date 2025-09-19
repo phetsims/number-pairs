@@ -215,11 +215,11 @@ export default class NumberPairsScreenView extends ScreenView {
         this.interruptSubtreeInput();
         model.deselectAllKittens();
         if ( model.representationTypeProperty.value === RepresentationType.BEADS ) {
-          model.organizeInGroupsOfFive.bind( model )();
+          model.organizeInGroupsOfFive();
         }
         else {
           const positionPropertyType = model.representationTypeProperty.value === RepresentationType.KITTENS ? 'attribute' : 'location';
-          model.organizeIntoTenFrame.bind( model )( tenFrameBounds, positionPropertyType );
+          model.organizeIntoTenFrame( tenFrameBounds, positionPropertyType );
         }
       },
       visibleProperty: tenFrameButtonVisibleProperty

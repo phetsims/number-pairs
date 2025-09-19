@@ -22,7 +22,7 @@ type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
 
-  public constructor( countingObjects: CountingObject[], countingAreNode: CountingAreaNode, providedOptions: KittensLayerNodeOptions ) {
+  public constructor( countingObjects: CountingObject[], countingAreaNode: CountingAreaNode, providedOptions: KittensLayerNodeOptions ) {
     const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
 
@@ -39,7 +39,7 @@ export default class KittensLayerNode extends Node {
           lastActiveKitten.focus();
         },
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty ], addendType => addendType !== AddendType.INACTIVE ),
-        onEndDrag: countingAreNode.dropCountingObject.bind( countingAreNode ),
+        onEndDrag: ( countingObject, positionPropertyType ) => countingAreaNode.dropCountingObject( countingObject, positionPropertyType ),
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } ) );
     } );
