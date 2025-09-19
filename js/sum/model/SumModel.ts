@@ -24,6 +24,8 @@ import numberPairs from '../../numberPairs.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -89,7 +91,7 @@ export default class SumModel extends NumberPairsModel {
         tandem: options.tandem.createTandem( 'rightAddendProperty' )
       } );
 
-    const countingObjects = NumberPairsModel.createCountingObjects( SCENE_RANGE.max, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
+    const countingObjects = CountingObjectsManager.createCountingObjects( SCENE_RANGE.max, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
     const inactiveCountingObjects = countingObjects.slice();
     const initialLeftAddendObjects: CountingObject[] = [];
     const initialRightAddendObjects: CountingObject[] = [];
@@ -147,9 +149,9 @@ export default class SumModel extends NumberPairsModel {
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
 
-    NumberPairsModel.setAddendType( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
+    CountingObjectsManager.setAddendType( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
     this.registerObservableArrays( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
-    assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+    affirm( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
 
     // Listen to the rightAddendProperty since it is derived and will therefore be updated last.
@@ -190,7 +192,7 @@ export default class SumModel extends NumberPairsModel {
         }
 
         if ( leftAddendDelta > 0 ) {
-          assert && assert( this.inactiveCountingObjects.length >= leftAddendDelta, 'not enough inactive counting objects' );
+          affirm( this.inactiveCountingObjects.length >= leftAddendDelta, 'not enough inactive counting objects' );
           leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, leftAddendDelta ) );
         }
         else if ( leftAddendDelta < 0 ) {
@@ -199,9 +201,9 @@ export default class SumModel extends NumberPairsModel {
       }
 
 
-      assert && assert( this.leftAddendProperty.value === leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
-      assert && assert( this.rightAddendProperty.value === rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
-      assert && assert( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+      affirm( this.leftAddendProperty.value === leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
+      affirm( this.rightAddendProperty.value === rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
+      affirm( leftAddendObjects.length + rightAddendObjects.length === this.totalProperty.value, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
 
     leftAddendObjects.lengthProperty.link( leftAddend => {
@@ -234,7 +236,7 @@ export default class SumModel extends NumberPairsModel {
 
 
     // Once all the observable arrays have been reset we can set the addendType for each counting object.
-    NumberPairsModel.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
+    CountingObjectsManager.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
   }
 }
 

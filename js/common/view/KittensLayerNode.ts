@@ -17,6 +17,7 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class KittensLayerNode extends Node {
@@ -30,7 +31,7 @@ export default class KittensLayerNode extends Node {
       kittenNodes.push( new KittenNode( countingObject, newKittenSelectedEmitter, {
         switchFocusToFirstKitten: () => {
           const firstKitten = kittenNodes[ 0 ];
-          assert && assert( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );
+          affirm( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );
           firstKitten.focus();
         },
         switchFocusToLastKitten: () => {

@@ -19,10 +19,8 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import DecompositionModel from '../../common/model/DecompositionModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
-import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
@@ -35,7 +33,6 @@ import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
-import GameNumberBondNodeViewModel from './GameNumberBondNodeViewModel.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import StatusBar from './StatusBar.js';
 
@@ -62,32 +59,29 @@ export default class LevelNode extends Node {
     this.addChild( statusBar );
 
     // Number selection grid and selection state
-    const numberButtonGrid = new NumberButtonGrid( level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
+    const numberButtonGrid = new NumberButtonGrid( level.selectedGuessProperty, level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
     numberButtonGrid.centerX = layoutBounds.centerX;
     numberButtonGrid.bottom = layoutBounds.bottom - 5;
     this.addChild( numberButtonGrid );
 
-    // Simple adapter for view widgets
-    const bondViewModel = new GameNumberBondNodeViewModel( level, numberButtonGrid.selectedNumberProperty );
-
     // Correct-size adapter for bar model widths
-    const barAdapter = new BarLevelDisplay( level, numberButtonGrid.selectedNumberProperty );
+    const barAdapter = new BarLevelDisplay( level, level.selectedGuessProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
-    const bondNode = new GameNumberBondNode( bondViewModel, level, {
+    const bondNode = new GameNumberBondNode( level, level, {
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new BarModelNode( barAdapter, {
-      displayTotalNumberProperty: bondViewModel.totalProperty,
-      displayLeftAddendNumberProperty: bondViewModel.leftAddendProperty,
-      displayRightAddendNumberProperty: bondViewModel.rightAddendProperty,
+      displayTotalNumberProperty: level.totalProperty,
+      displayLeftAddendNumberProperty: level.leftAddendProperty,
+      displayRightAddendNumberProperty: level.rightAddendProperty,
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new NumberEquationNode( bondViewModel, {
+    const equationNode = new NumberEquationNode( level, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -100,8 +94,16 @@ export default class LevelNode extends Node {
     this.addChild( equationNode );
 
     // Checkmark/X feedback marks positioned by the missing slot
-    const wrongMark = new Text( '✗', { font: new PhetFont( 42 ), fill: 'red', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' ) } );
-    const checkMark = new Text( '✓', { font: new PhetFont( 42 ), fill: '#059e05', visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' ) } );
+    const wrongMark = new Text( '✗', {
+      font: new PhetFont( 42 ),
+      fill: 'red',
+      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' )
+    } );
+    const checkMark = new Text( '✓', {
+      font: new PhetFont( 42 ),
+      fill: '#059e05',
+      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' )
+    } );
     this.addChild( wrongMark );
     this.addChild( checkMark );
 
@@ -123,27 +125,14 @@ export default class LevelNode extends Node {
 
 
     if ( level.levelNumber <= 7 ) {
-
-      // TODO: Maybe don't create a whole model? see see https://github.com/phetsims/number-pairs/issues/36
-      const twentyModel = new DecompositionModel( {
-
-        sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE,
-        initialTotalValue: NumberPairsConstants.TWENTY_INITIAL_SUM_VALUE,
-        representationTypeValidValues: [
-          RepresentationType.KITTENS,
-          RepresentationType.NUMBER_LINE // TODO: Will we use this? see https://github.com/phetsims/number-pairs/issues/36
-        ],
-        initialRepresentationType: RepresentationType.KITTENS,
-        tandem: tandem.createTandem( 'twentyModel' )
-      } );
-      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), twentyModel, {
-        countingRepresentationTypeProperty: twentyModel.representationTypeProperty,
-        backgroundColorProperty: NumberPairsColors.kittenPanelBackgroundColorProperty,
+      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), level, {
+        countingRepresentationTypeProperty: level.representationTypeProperty,
+        backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
         top: equationNode.bottom + 20
       } );
 
-      const kittensLayerNode = new KittensLayerNode( twentyModel.countingObjects, gameCountingAreaNode, {
+      const kittensLayerNode = new KittensLayerNode( level.countingObjects, gameCountingAreaNode, {
         tandem: tandem.createTandem( 'kittensLayerNode' )
       } );
 
@@ -157,10 +146,9 @@ export default class LevelNode extends Node {
         top: gameCountingAreaNode.top,
         listener: () => {
           this.interruptSubtreeInput();
-          twentyModel.deselectAllKittens();
+          level.deselectAllKittens();
 
-          // TODO: Why bind? See the other site, see https://github.com/phetsims/number-pairs/issues/36
-          twentyModel.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
+          level.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
         }
       } );
 
@@ -219,7 +207,7 @@ export default class LevelNode extends Node {
     } );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
-    numberButtonGrid.selectedNumberProperty.link( () => {
+    level.selectedGuessProperty.link( () => {
       if ( level.feedbackStateProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }

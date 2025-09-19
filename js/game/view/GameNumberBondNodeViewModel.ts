@@ -5,6 +5,8 @@
  * read-only properties derived from the Level model and current grid selection.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ *
+ * TODO: We might not need this anymore. It's being covered by Level. https://github.com/phetsims/number-pairs/issues/36
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

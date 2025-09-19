@@ -19,7 +19,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import TModel from '../../../../joist/js/TModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
@@ -35,7 +34,8 @@ import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
-import TGenericNumberPairsModel from './TGenericNumberPairsModel.js';
+import TNumberPairsModel from './TNumberPairsModel.js';
+import { CountingObjectsManager } from './CountingObjectsManager.js';
 
 export type AnimationTarget = {
   property: Property<Vector2>;
@@ -56,7 +56,6 @@ export type BeadXPositionsTypes = {
   rightAddendXPositions: number[];
 };
 
-type TNumberPairsModel = TGenericNumberPairsModel & TModel;
 export default class NumberPairsModel implements TNumberPairsModel {
 
   public readonly beadManager: BeadManager;
@@ -106,7 +105,6 @@ export default class NumberPairsModel implements TNumberPairsModel {
     providedOptions: NumberPairsModelOptions ) {
 
     const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {}, providedOptions );
-
     this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
@@ -305,7 +303,7 @@ export default class NumberPairsModel implements TNumberPairsModel {
    */
   protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-    const gridCoordinates = NumberPairsModel.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
+    const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
     return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
       const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.locationPositionProperty.value );
       return !dropZoneBounds.containsPoint( gridCoordinate );
@@ -587,13 +585,13 @@ export default class NumberPairsModel implements TNumberPairsModel {
     let leftGridCoordinates: Vector2[];
     let rightGridCoordinates: Vector2[];
     if ( tenFrameBounds.length === 1 ) {
-      const gridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
+      const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
       leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
       rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
     }
     else {
-      leftGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35 ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = NumberPairsModel.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35 ).slice( 0, rightAddendObjects.length );
+      leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35 ).slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35 ).slice( 0, rightAddendObjects.length );
     }
     if ( positionType === 'attribute' ) {
       this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
@@ -607,102 +605,9 @@ export default class NumberPairsModel implements TNumberPairsModel {
     assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
-  /**
-   * Returns grid coordinates based on the provided bounds.
-   * This function assumes that we want the coordinates for a ten frame based grid which means there are 5 columns.
-   * @param bounds
-   * @param leftMargin
-   * @param rightMargin
-   * @param columnNumber
-   */
-  public static getGridCoordinates( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] {
-    const rowNumber = 4;
-    const topMargin = 11;
-    const bottomMargin = 56;
-    assert && assert( columnNumber * rowNumber >= NumberPairsConstants.TWENTY_TOTAL_RANGE.max, 'There are not enough cells for the possible amount of counting objects.' );
-
-    const columnWidth = ( bounds.width - rightMargin - leftMargin ) / columnNumber;
-    const rowHeight = ( bounds.height - bottomMargin - topMargin ) / rowNumber;
-
-    const cellCenterCoordinates: Vector2[] = [];
-
-    for ( let i = 0; i < rowNumber; i++ ) {
-      for ( let j = 0; j < columnNumber; j++ ) {
-        const x = bounds.minX + j * columnWidth + columnWidth / 2;
-        const y = bounds.minY + i * rowHeight + rowHeight / 2;
-        cellCenterCoordinates.push( new Vector2( x + leftMargin, y + topMargin ) );
-      }
-    }
-    return cellCenterCoordinates;
-  }
-
   public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
     return this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
-  }
-
-  /**
-   * Creates and places the counting objects for the screen based on the provided paramters
-   * @param numberOfCountingObjects
-   * @param initialLeftAddend
-   * @param initialRightAddend
-   * @param tandem
-   */
-  protected static createCountingObjects( numberOfCountingObjects: number, initialLeftAddend: number, initialRightAddend: number, tandem: Tandem ): CountingObject[] {
-
-    // Constants
-    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
-    const leftCountingAreaBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
-    const rightCountingAreaBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
-    const countingAreaInnerMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-    const kittenPanelWidth = NumberPairsConstants.KITTEN_PANEL_WIDTH;
-
-    // Get the possible positions for each representation.
-    const availableAttributeGridPositions = NumberPairsModel.getGridCoordinates( countingAreaBounds, kittenPanelWidth, kittenPanelWidth, 8 );
-    const availableLeftLocationGridPositions = NumberPairsModel.getGridCoordinates( leftCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
-    const availableRightLocationGridPositions = NumberPairsModel.getGridCoordinates( rightCountingAreaBounds, countingAreaInnerMargin, countingAreaInnerMargin, 6 );
-    const beadXPositions = BeadManager.getDefaultBeadPositions( initialLeftAddend, initialRightAddend );
-
-    // Find and set the initial positions for each counting object.
-    const countingObjects: CountingObject[] = [];
-    const countingObjectsTandem = tandem.createTandem( 'countingObjects' );
-    _.times( numberOfCountingObjects, i => {
-      const countingObjectID = i + 1;
-      const initialAttributePosition = dotRandom.sample( availableAttributeGridPositions );
-      availableAttributeGridPositions.splice( availableAttributeGridPositions.indexOf( initialAttributePosition ), 1 );
-
-      let initialBeadXPosition;
-      let initialLocationPosition;
-      if ( i < initialLeftAddend ) {
-        initialBeadXPosition = beadXPositions.leftAddendXPositions[ i ];
-        initialLocationPosition = dotRandom.sample( availableLeftLocationGridPositions );
-        availableLeftLocationGridPositions.splice( availableLeftLocationGridPositions.indexOf( initialLocationPosition ), 1 );
-      }
-      else if ( numberOfCountingObjects - i <= initialRightAddend ) {
-        initialBeadXPosition = beadXPositions.rightAddendXPositions[ numberOfCountingObjects - i - 1 ];
-        initialLocationPosition = dotRandom.sample( availableRightLocationGridPositions );
-        availableRightLocationGridPositions.splice( availableRightLocationGridPositions.indexOf( initialLocationPosition ), 1 );
-      }
-      else {
-        initialBeadXPosition = -1; // negative value indicates that the bead should not be placed.
-        initialLocationPosition = new Vector2( 0, 0 );
-      }
-      countingObjects.push( new CountingObject( {
-        id: countingObjectID,
-        initialBeadXPosition: initialBeadXPosition,
-        initialAttributePosition: initialAttributePosition,
-        initialLocationPosition: initialLocationPosition,
-        tandem: countingObjectsTandem.createTandem( `countingObject${countingObjectID}` )
-      } ) );
-    } );
-
-    return countingObjects;
-  }
-
-  public static setAddendType( leftCountingObjects: CountingObject[], rightCountingObjects: CountingObject[], inactiveCountingObjects: CountingObject[] ): void {
-    leftCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.LEFT; } );
-    rightCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.RIGHT; } );
-    inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
   }
 
   public reset(): void {

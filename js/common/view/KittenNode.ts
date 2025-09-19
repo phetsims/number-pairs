@@ -41,6 +41,7 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
+// TODO: add option to not include the toggle switch for the game screen. https://github.com/phetsims/number-pairs/issues/36
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
   switchFocusToLastKitten: () => void;

@@ -32,14 +32,13 @@ const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
   public readonly anySelectedProperty: BooleanProperty;
-  public readonly selectedNumberProperty: Property<number | null>;
   public readonly selectedIsEnabledProperty: BooleanProperty;
 
   private readonly buttonStates: BooleanProperty[];
   private readonly buttons: BooleanRectangularStickyToggleButton[];
   private readonly buttonValues: number[];
 
-  public constructor( range: InputRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
+  public constructor( selectedNumberProperty: Property<number | null>, range: InputRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
@@ -47,7 +46,6 @@ export default class NumberButtonGrid extends Node {
     this.buttons = [];
     this.buttonValues = [];
     this.anySelectedProperty = new BooleanProperty( false );
-    this.selectedNumberProperty = new Property<number | null>( null );
     this.selectedIsEnabledProperty = new BooleanProperty( false );
     const updateSelectionState = () => {
 
@@ -57,7 +55,7 @@ export default class NumberButtonGrid extends Node {
 
       // currently selected number (or null)
       const selectedIndex = this.buttonStates.findIndex( state => state.value );
-      this.selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
+      selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
       this.selectedIsEnabledProperty.value = selectedIndex >= 0 ? this.buttons[ selectedIndex ].enabledProperty.value : false;
     };
 
@@ -128,7 +126,7 @@ export default class NumberButtonGrid extends Node {
       const anySelected = this.buttonStates.some( p => p.value );
       this.anySelectedProperty.value = anySelected;
       const selectedIndex = this.buttonStates.findIndex( state => state.value );
-      this.selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
+      selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
       this.selectedIsEnabledProperty.value = selectedIndex >= 0 ? this.buttons[ selectedIndex ].enabledProperty.value : false;
     };
     // Initial and reactive updates when guessed numbers change

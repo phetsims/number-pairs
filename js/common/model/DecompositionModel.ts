@@ -22,6 +22,7 @@ import CountingObject, { AddendType } from './CountingObject.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import RepresentationType from './RepresentationType.js';
+import { CountingObjectsManager } from './CountingObjectsManager.js';
 
 // The difference between the initial left addend value and the total value for each scene, which therefore determines
 // the initial right addend value.
@@ -49,7 +50,7 @@ export default class DecompositionModel extends NumberPairsModel {
     }, providedOptions );
     const changingScenesProperty = new BooleanProperty( false ); // does not need to be instrumented.
 
-    const countingObjects = NumberPairsModel.createCountingObjects(
+    const countingObjects = CountingObjectsManager.createCountingObjects(
       options.sceneRange.max, options.initialTotalValue - INITIAL_VALUES_DIFFERENCE, INITIAL_VALUES_DIFFERENCE, options.tandem );
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
@@ -116,7 +117,7 @@ export default class DecompositionModel extends NumberPairsModel {
       }
     } );
 
-    NumberPairsModel.setAddendType( initialSceneModel!.leftAddendObjects, initialSceneModel!.rightAddendObjects, initialSceneModel!.inactiveCountingObjects );
+    CountingObjectsManager.setAddendType( initialSceneModel!.leftAddendObjects, initialSceneModel!.rightAddendObjects, initialSceneModel!.inactiveCountingObjects );
 
     const totalProperty = new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total );
     const leftAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
@@ -218,7 +219,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const rightAddendObjects = this.selectedSceneProperty.value.rightAddendObjects;
     const inactiveCountingObjects = this.selectedSceneProperty.value.inactiveCountingObjects;
     const beadXPositions = this.selectedSceneProperty.value.beadXPositionsProperty.value;
-    NumberPairsModel.setAddendType( leftAddendObjects, rightAddendObjects, inactiveCountingObjects );
+    CountingObjectsManager.setAddendType( leftAddendObjects, rightAddendObjects, inactiveCountingObjects );
     this.beadManager.setBeadXPositions( leftAddendObjects, rightAddendObjects,
       beadXPositions.leftAddendXPositions, beadXPositions.rightAddendXPositions );
   }

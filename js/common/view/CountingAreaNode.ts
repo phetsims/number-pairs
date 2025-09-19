@@ -27,7 +27,7 @@ import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import NumberPairsModel, { AnimationTarget } from '../model/NumberPairsModel.js';
+import { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
@@ -36,6 +36,7 @@ import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import TNumberPairsModel from '../model/TNumberPairsModel.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -52,7 +53,7 @@ export default class CountingAreaNode extends Node {
   public constructor(
     leftAddendVisibleProperty: BooleanProperty,
     rightAddendVisibleProperty: BooleanProperty,
-    private readonly model: NumberPairsModel,
+    private readonly model: TNumberPairsModel,
     providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
@@ -89,7 +90,7 @@ export default class CountingAreaNode extends Node {
       backgroundRectangle.fill = backgroundColor;
     } );
 
-    const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ?
+    const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ?
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
