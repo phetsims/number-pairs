@@ -178,7 +178,7 @@ export default class GameModel implements TModel {
         const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
         return new Challenge( missingComponent, a, b, y );
       }, {
-        representationType: RepresentationType.KITTENS,
+        representationType: RepresentationType.NUMBER_LINE, // TODO: Show the number line, see https://github.com/phetsims/number-pairs/issues/36
         tandem: tandem.createTandem( 'level8' )
       } )
     ];

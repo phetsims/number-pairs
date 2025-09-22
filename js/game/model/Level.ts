@@ -284,6 +284,7 @@ export default class Level implements TNumberPairsModel {
   }
 
   // TODO: Everything from here and below was pulled from NumberPairsModel https://github.com/phetsims/number-pairs/issues/36
+  // Maybe subtype?
   public deselectAllKittens(): void {
     this.countingObjects.forEach( countingObject => {
       countingObject.kittenSelectedProperty.value = false;
