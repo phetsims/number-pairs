@@ -137,45 +137,34 @@ export default class Level implements TNumberPairsModel {
 
     this.countingObjects = CountingObjectsManager.createCountingObjects( 40, this.leftAddendProperty.value, this.rightAddendProperty.value, tandem );
     const inactiveCountingObjects = this.countingObjects.slice();
-    const initialLeftAddendObjects: CountingObject[] = [];
-    const initialRightAddendObjects: CountingObject[] = [];
-    _.times( this.leftAddendProperty.value, () => {
-      const countingObject = inactiveCountingObjects.shift();
-      initialLeftAddendObjects.push( countingObject! );
-    } );
-    _.times( this.rightAddendProperty.value, () => {
-
-      // We want to pull from the end of the inactiveCountingObjects array to keep as much consistency as possible
-      // between which countingObjects belong to which addend in the initial state.
-      const countingObject = inactiveCountingObjects.pop();
-      initialRightAddendObjects.push( countingObject! );
-    } );
-
-    const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
-      elements: initialLeftAddendObjects,
-      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: tandem.createTandem( 'leftAddendObjects' )
-    } );
-    this.leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
-    const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
-      elements: initialRightAddendObjects,
-      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: tandem.createTandem( 'rightAddendObjects' )
-    } );
-    this.rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
-
     this.inactiveCountingObjects = createObservableArray( {
       elements: inactiveCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
+    const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
+      tandem: tandem.createTandem( 'leftAddendObjects' )
+    } );
+    const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
+      tandem: tandem.createTandem( 'rightAddendObjects' )
+    } );
+
+    // This model does not need a Property of each addend's counting objects since the array never changes, but it
+    // satisfies the type requirement of TNumberPairsModel.
+    this.leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
+    this.rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
+    this.distributeCountingObjects();
 
     CountingObjectsManager.setAddendType( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
     this.registerObservableArrays( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
 
+    this.challengeProperty.link( () => {
+      this.distributeCountingObjects();
+    } );
+
     // TODO: Add missing y functionality https://github.com/phetsims/number-pairs/issues/36
-    // the addend Properties are already listening to what is missing and what is the guess, so we need to:
-    // - link to each Property and update the ObservableArrays when they change.
 
     this.leftAddendProperty.link( leftAddend => {
       if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
@@ -231,6 +220,33 @@ export default class Level implements TNumberPairsModel {
     } );
   }
 
+  /**
+   * When a challenge is created or changed, we need to distribute the counting objects to match the left and right addends.
+   * This is used at startup as well as during reset and when a challenge is changed.
+   */
+  private distributeCountingObjects(): void {
+    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
+
+    this.inactiveCountingObjects.reset();
+    leftAddendObjects.reset();
+    rightAddendObjects.reset();
+
+    _.times( this.leftAddendProperty.value, () => {
+      const countingObject = this.inactiveCountingObjects.shift();
+      leftAddendObjects.push( countingObject! );
+    } );
+    _.times( this.rightAddendProperty.value, () => {
+
+      // We want to pull from the end of the inactiveCountingObjects array to keep as much consistency as possible
+      // between which countingObjects belong to which addend in the initial state.
+      const countingObject = this.inactiveCountingObjects.pop();
+      rightAddendObjects.push( countingObject! );
+    } );
+
+    CountingObjectsManager.setAddendType( leftAddendObjects, rightAddendObjects, this.inactiveCountingObjects );
+  }
+
   public nextChallenge(): void {
     this.resetGuesses();
     this.feedbackStateProperty.value = 'idle';
@@ -281,6 +297,7 @@ export default class Level implements TNumberPairsModel {
   public reset(): void {
     this.scoreProperty.reset();
     this.challengeProperty.value = this.createChallenge( true );
+    this.distributeCountingObjects();
   }
 
   // TODO: Everything from here and below was pulled from NumberPairsModel https://github.com/phetsims/number-pairs/issues/36
