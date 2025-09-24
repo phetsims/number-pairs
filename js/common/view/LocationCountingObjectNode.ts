@@ -30,6 +30,8 @@ import OneCard from './OneCard.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 
 type SelfOptions = {
   handleLocationChange: ( countingObject: CountingObject, newPosition: Vector2 ) => void;
@@ -90,6 +92,11 @@ export default class LocationCountingObjectNode extends InteractiveHighlightingN
     soccerBallNode.center = this.center;
     butterflyNode.center = this.center;
 
+    // For debugging, show the id (object number) when ?dev is in the query parameters.
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addCountingObjectID( countingObject.id );
+    }
+
     const dragListener = new SoundDragListener( {
       start: () => {
         countingObject.isDraggingProperty.value = true;
@@ -110,6 +117,17 @@ export default class LocationCountingObjectNode extends InteractiveHighlightingN
       this.center = position;
       !isSettingPhetioStateProperty.value && !isResettingAllProperty.value && providedOptions.handleLocationChange( countingObject, position );
     } );
+  }
+
+  /**
+   * Show the id (object number) when debugging with ?dev.
+   */
+  private addCountingObjectID( id: number ): void {
+    this.addChild( new Text( id + '', {
+      font: new PhetFont( 20 ),
+      fill: 'black',
+      center: this.center
+    } ) );
   }
 }
 

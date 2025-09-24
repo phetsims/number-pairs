@@ -25,6 +25,7 @@ import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -78,37 +79,47 @@ export default class LocationCountingObjectsLayerNode extends Node {
           dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
         },
         getGroupItemToSelect: () => {
-          const countingObjects = model.getCountingObjectsSortedByLocationPosition().filter( countingObject =>
-            this.countingObjectModelToNodeMap.get( countingObject )!.visible
-          );
-          if ( countingObjects.length === 0 ) {
+          const leftCountingObjects = model.leftAddendCountingObjectsProperty.value;
+          const rightCountingObjects = model.rightAddendCountingObjectsProperty.value;
+          if ( leftCountingObjects.length === 0 && rightCountingObjects.length === 0 ) {
             return null;
           }
           else {
-            return countingObjects[ 0 ];
+
+            // We want to start with the left addend counting objects.
+            if ( leftCountingObjects.length > 0 ) {
+              return leftCountingObjects[ 0 ];
+            }
+            else {
+              return rightCountingObjects[ 0 ];
+            }
           }
         },
         getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
-
-          // Find the direction of the traversal by finding the slope for the currentPoint(0, 0) and the
-          // delta created by the arrow keys (1, 0) for right, (-1, 0), etc.
-          const startingPoint = groupItem.locationPositionProperty.value;
-          const delta = this.getKeysDelta( keysPressed );
-          const countingObjectsInDirection = model.countingObjects.filter( countingObject =>
-            countingObject.addendTypeProperty.value !== AddendType.INACTIVE &&
-            countingObject.locationPositionProperty.value.dot( delta ) > groupItem.locationPositionProperty.value.dot( delta )
-            && this.countingObjectModelToNodeMap.get( countingObject )!.visible );
-
-          let selectedGroupItem = groupItem;
-
-          // Return the closest counting object in the above calculated direction. (if none stay where we are)
-          if ( countingObjectsInDirection.length > 0 ) {
-            countingObjectsInDirection.sort( ( a, b ) =>
-              a.locationPositionProperty.value.distance( startingPoint ) - b.locationPositionProperty.value.distance( startingPoint ) );
-
-            selectedGroupItem = countingObjectsInDirection[ 0 ];
+          affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
+          const addendType = groupItem.addendTypeProperty.value;
+          const addendCountingObjects = addendType === AddendType.LEFT ?
+                                       model.leftAddendCountingObjectsProperty.value :
+                                       model.rightAddendCountingObjectsProperty.value;
+          const currentIndex = addendCountingObjects.indexOf( groupItem );
+          const keysDelta = this.getKeysDelta( keysPressed );
+          const newIndex = Math.min( Math.max( currentIndex + keysDelta, 0 ), addendCountingObjects.length - 1 );
+          if ( newIndex !== currentIndex ) {
+            return addendCountingObjects[ newIndex ];
           }
-          return selectedGroupItem;
+          else {
+            const otherAddendCountingObjects = addendType === AddendType.LEFT ?
+                                              model.rightAddendCountingObjectsProperty.value :
+                                              model.leftAddendCountingObjectsProperty.value;
+            if ( otherAddendCountingObjects.length > 0 ) {
+              // wrap around to the other addend array.
+              return keysDelta > 0 ? otherAddendCountingObjects[ 0 ] : otherAddendCountingObjects[ otherAddendCountingObjects.length - 1 ];
+            }
+            else {
+              // wrap around to the other end of the same addend array.
+              return keysDelta > 0 ? addendCountingObjects[ 0 ] : addendCountingObjects[ addendCountingObjects.length - 1 ];
+            }
+          }
         },
         handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
           const currentPosition = groupItem.locationPositionProperty.value;
@@ -212,22 +223,22 @@ export default class LocationCountingObjectsLayerNode extends Node {
     }
   }
 
-  private getKeysDelta( keysPressed: string ): Vector2 {
+  private getKeysDelta( keysPressed: string ): number {
     switch( keysPressed ) {
       case 'd':
       case 'arrowRight':
-        return new Vector2( 1, 0 );
+        return 1;
       case 'a':
       case 'arrowLeft':
-        return new Vector2( -1, 0 );
+        return -1;
       case 'w':
       case 'arrowUp':
-        return new Vector2( 0, -1 );
+        return 1;
       case 's':
       case 'arrowDown':
-        return new Vector2( 0, 1 );
+        return -1;
       default:
-        return new Vector2( 0, 0 );
+        return 0;
     }
   }
 }
