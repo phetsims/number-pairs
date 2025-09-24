@@ -123,6 +123,8 @@ export default class LevelNode extends Node {
       checkMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
     } );
 
+    let countingAreaNode: CountingAreaNode | null = null;
+    let myTenFrameButton: TenFrameButton | null = null;
 
     if ( level.levelNumber <= 7 ) {
       const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), level, {
@@ -131,6 +133,8 @@ export default class LevelNode extends Node {
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
         top: equationNode.bottom + 20
       } );
+
+      countingAreaNode = gameCountingAreaNode;
 
       const kittensLayerNode = new KittensLayerNode( level.countingObjects, gameCountingAreaNode, {
         tandem: tandem.createTandem( 'kittensLayerNode' )
@@ -149,8 +153,11 @@ export default class LevelNode extends Node {
           level.deselectAllKittens();
 
           level.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
-        }
+        },
+        accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/36
       } );
+
+      myTenFrameButton = tenFrameButton;
 
       this.addChild( gameCountingAreaNode );
       this.addChild( kittensLayerNode );
@@ -212,6 +219,15 @@ export default class LevelNode extends Node {
         level.clearFeedback();
       }
     } );
+
+    this.pdomOrder = [
+      numberButtonGrid,
+      checkButton,
+      nextButton,
+      ...( myTenFrameButton ? [ myTenFrameButton ] : [] ),
+      ...( countingAreaNode ? [ countingAreaNode ] : [] ),
+      statusBar
+    ];
   }
 }
 
