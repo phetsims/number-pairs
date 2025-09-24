@@ -197,11 +197,19 @@ export default class LevelNode extends Node {
 
         // Reset grid visuals for the new challenge
         numberButtonGrid.resetAll();
+
+        numberButtonGrid.buttons[ 0 ].focus();
       }
     } );
 
     this.addChild( checkButton );
     this.addChild( nextButton );
+
+    nextButton.visibleProperty.lazyLink( visible => {
+      if ( visible ) {
+        nextButton.focus();
+      }
+    } );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
     const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
