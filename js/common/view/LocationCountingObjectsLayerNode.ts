@@ -16,7 +16,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
@@ -24,8 +23,8 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -36,11 +35,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
-    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleName: NumberPairsFluent.a11y.locationCountingObjects.accessibleNameStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.locationCountingObjects.accessibleHelpTextStringProperty
-    }, providedOptions );
-
+    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {}, providedOptions );
     super( options );
 
     /**
@@ -99,8 +94,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
           affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
           const addendType = groupItem.addendTypeProperty.value;
           const addendCountingObjects = addendType === AddendType.LEFT ?
-                                       model.leftAddendCountingObjectsProperty.value :
-                                       model.rightAddendCountingObjectsProperty.value;
+                                        model.leftAddendCountingObjectsProperty.value :
+                                        model.rightAddendCountingObjectsProperty.value;
           const currentIndex = addendCountingObjects.indexOf( groupItem );
           const keysDelta = this.getKeysDelta( keysPressed );
           const newIndex = Math.min( Math.max( currentIndex + keysDelta, 0 ), addendCountingObjects.length - 1 );
@@ -109,8 +104,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
           }
           else {
             const otherAddendCountingObjects = addendType === AddendType.LEFT ?
-                                              model.rightAddendCountingObjectsProperty.value :
-                                              model.leftAddendCountingObjectsProperty.value;
+                                               model.rightAddendCountingObjectsProperty.value :
+                                               model.leftAddendCountingObjectsProperty.value;
             if ( otherAddendCountingObjects.length > 0 ) {
               // wrap around to the other addend array.
               return keysDelta > 0 ? otherAddendCountingObjects[ 0 ] : otherAddendCountingObjects[ otherAddendCountingObjects.length - 1 ];
@@ -142,14 +137,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
-
-    const itemsStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
-      representation.accessibleName ) );
-
-    const grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
-      item: itemsStringProperty
-    } );
-    const releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty;
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
 
       // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
@@ -159,34 +146,33 @@ export default class LocationCountingObjectsLayerNode extends Node {
       if ( !isGrabbed && selectedGroupItem ) {
         countingAreaNode.dropCountingObject( selectedGroupItem, 'location' );
       }
-      this.accessibleHelpText = isGrabbed ? grabbedHelpTextStringProperty : releasedHelpTextStringProperty;
-    } );
-
-    // Update the accessibleName of the layer based on the selected counting object and its addend type.
-    const itemStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
-      representation.singularAccessibleName ) );
-    const leftItemStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftItemPattern.createProperty( {
-      item: itemStringProperty
-    } );
-    const rightItemStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightItemPattern.createProperty( {
-      item: itemStringProperty
-    } );
-    const accessibleNameDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
-    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty, itemStringProperty ], () => {
-      const selectedObject = groupSelectModel.selectedGroupItemProperty.value;
-      if ( selectedObject ) {
-        this.accessibleName = selectedObject.addendTypeProperty.value === AddendType.LEFT ?
-                              leftItemStringProperty.value :
-                              rightItemStringProperty.value;
-      }
-      else if ( model.totalProperty.value === 0 ) {
-        this.accessibleName = NumberPairsFluent.a11y.countingAreaEmptyStringProperty;
-      }
     } );
 
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {
       selectedGroupItem && this.countingObjectModelToNodeMap.get( selectedGroupItem )?.moveToFront();
     } );
+
+    /**
+     * Create the a11y description and help text.
+     */
+    const itemStringProperty = new DynamicProperty<string, unknown, unknown>(
+      new DerivedProperty( [ this.model.representationTypeProperty ],
+        representation => representation.singularAccessibleName ) );
+    const itemsStringProperty = new DynamicProperty<string, unknown, unknown>( new DerivedProperty( [ this.model.representationTypeProperty ], representation =>
+      representation.accessibleName ) );
+
+    // There is no distinction between left and right item names, so we can use the same property for both.
+    const grabDragDescriptionManager = new GrabDragDescriptionManager( itemStringProperty, itemStringProperty, itemsStringProperty );
+    this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
+      model.groupSelectLocationObjectsModel.selectedGroupItemProperty,
+      model.leftAddendCountingObjectsProperty,
+      model.rightAddendCountingObjectsProperty,
+      model.leftAddendProperty,
+      model.rightAddendProperty
+    );
+    this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty(
+      model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
+    );
   }
 
   /**

@@ -68,8 +68,16 @@ a11y:
     grabbedAccessibleResponse:  grabbed, in { $addend } counting area.
     releasedAccessibleResponse: released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
-    leftItemPattern:            Left { $item }
-    rightItemPattern:           Right { $item }
+    firstLeftItemPattern:            First { $item } on left side
+    leftItemPattern:                 >- 
+      { $item } on left side
+    lastLeftItemPattern:             Last { $item } on left side
+    onlyLeftItemPattern:             Only { $item } on left side
+    firstRightItemPattern:           First { $item } on right side
+    rightItemPattern:                >-
+      { $item } on right side
+    lastRightItemPattern:            Last { $item } on right side
+    onlyRightItemPattern:            Only { $item } on right side
 
   countingArea:
     accessibleHeading: Counting Area
@@ -106,9 +114,6 @@ a11y:
   ones:
     accessibleName:         Ones
     singularAccessibleName: One
-  locationCountingObjects:
-    accessibleName:     Location Counting Objects
-    accessibleHelpText: Left and right counting areas with grabbable and movable objects.
   kittens:
     accessibleName:            Kittens
     changeColorAccessibleName: Change Color

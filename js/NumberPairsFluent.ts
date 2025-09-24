@@ -79,8 +79,14 @@ addToMapIfDefined( 'a11y_grabOrReleaseInteraction_grabbedHelpTextPattern', 'a11y
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_grabbedAccessibleResponse', 'a11y.grabOrReleaseInteraction.grabbedAccessibleResponseStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_releasedAccessibleResponse', 'a11y.grabOrReleaseInteraction.releasedAccessibleResponseStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_movedAccessibleResponse', 'a11y.grabOrReleaseInteraction.movedAccessibleResponseStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_firstLeftItemPattern', 'a11y.grabOrReleaseInteraction.firstLeftItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_leftItemPattern', 'a11y.grabOrReleaseInteraction.leftItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_lastLeftItemPattern', 'a11y.grabOrReleaseInteraction.lastLeftItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_onlyLeftItemPattern', 'a11y.grabOrReleaseInteraction.onlyLeftItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_firstRightItemPattern', 'a11y.grabOrReleaseInteraction.firstRightItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_rightItemPattern', 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_lastRightItemPattern', 'a11y.grabOrReleaseInteraction.lastRightItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_onlyRightItemPattern', 'a11y.grabOrReleaseInteraction.onlyRightItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_accessibleHeading', 'a11y.countingArea.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_leadingParagraph', 'a11y.countingArea.leadingParagraphStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_numberBondLeadingParagraph', 'a11y.countingArea.numberBondLeadingParagraphStringProperty' );
@@ -100,8 +106,6 @@ addToMapIfDefined( 'a11y_butterflies_accessibleName', 'a11y.butterflies.accessib
 addToMapIfDefined( 'a11y_butterflies_singularAccessibleName', 'a11y.butterflies.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_ones_accessibleName', 'a11y.ones.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_ones_singularAccessibleName', 'a11y.ones.singularAccessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_locationCountingObjects_accessibleName', 'a11y.locationCountingObjects.accessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_locationCountingObjects_accessibleHelpText', 'a11y.locationCountingObjects.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleName', 'a11y.kittens.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_changeColorAccessibleName', 'a11y.kittens.changeColorAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_leftAddendColor', 'a11y.kittens.leftAddendColorStringProperty' );
@@ -245,8 +249,14 @@ const NumberPairsFluent = {
       grabbedAccessibleResponse: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_grabbedAccessibleResponse', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.grabbedAccessibleResponseStringProperty' ), [{"name":"addend"}] ),
       releasedAccessibleResponse: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedAccessibleResponse', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedAccessibleResponseStringProperty' ), [{"name":"addend"}] ),
       movedAccessibleResponse: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_movedAccessibleResponse', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.movedAccessibleResponseStringProperty' ), [{"name":"addend"}] ),
+      firstLeftItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_firstLeftItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.firstLeftItemPatternStringProperty' ), [{"name":"item"}] ),
       leftItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_leftItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.leftItemPatternStringProperty' ), [{"name":"item"}] ),
-      rightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_rightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' ), [{"name":"item"}] )
+      lastLeftItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_lastLeftItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.lastLeftItemPatternStringProperty' ), [{"name":"item"}] ),
+      onlyLeftItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_onlyLeftItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.onlyLeftItemPatternStringProperty' ), [{"name":"item"}] ),
+      firstRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_firstRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.firstRightItemPatternStringProperty' ), [{"name":"item"}] ),
+      rightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_rightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' ), [{"name":"item"}] ),
+      lastRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_lastRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.lastRightItemPatternStringProperty' ), [{"name":"item"}] ),
+      onlyRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_onlyRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.onlyRightItemPatternStringProperty' ), [{"name":"item"}] )
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
@@ -280,11 +290,6 @@ const NumberPairsFluent = {
     ones: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_ones_accessibleName', _.get( NumberPairsStrings, 'a11y.ones.accessibleNameStringProperty' ) ),
       singularAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_ones_singularAccessibleName', _.get( NumberPairsStrings, 'a11y.ones.singularAccessibleNameStringProperty' ) )
-    },
-    locationCountingObjects: {
-      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_locationCountingObjects_accessibleName', _.get( NumberPairsStrings, 'a11y.locationCountingObjects.accessibleNameStringProperty' ) ),
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
-      accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_locationCountingObjects_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.locationCountingObjects.accessibleHelpTextStringProperty' ) )
     },
     kittens: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleName', _.get( NumberPairsStrings, 'a11y.kittens.accessibleNameStringProperty' ) ),

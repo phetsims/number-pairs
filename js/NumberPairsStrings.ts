@@ -86,8 +86,14 @@ type StringsType = {
       'grabbedAccessibleResponseStringProperty': LocalizedStringProperty;
       'releasedAccessibleResponseStringProperty': LocalizedStringProperty;
       'movedAccessibleResponseStringProperty': LocalizedStringProperty;
+      'firstLeftItemPatternStringProperty': LocalizedStringProperty;
       'leftItemPatternStringProperty': LocalizedStringProperty;
+      'lastLeftItemPatternStringProperty': LocalizedStringProperty;
+      'onlyLeftItemPatternStringProperty': LocalizedStringProperty;
+      'firstRightItemPatternStringProperty': LocalizedStringProperty;
       'rightItemPatternStringProperty': LocalizedStringProperty;
+      'lastRightItemPatternStringProperty': LocalizedStringProperty;
+      'onlyRightItemPatternStringProperty': LocalizedStringProperty;
     };
     'countingArea': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
@@ -119,10 +125,6 @@ type StringsType = {
     'ones': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
-    };
-    'locationCountingObjects': {
-      'accessibleNameStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'kittens': {
       'accessibleNameStringProperty': LocalizedStringProperty;
