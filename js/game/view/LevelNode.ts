@@ -199,7 +199,7 @@ export default class LevelNode extends Node {
         if ( correct ) {
 
           // Disable all further number input until next
-          numberButtonGrid.disableAll();
+          numberButtonGrid.showCorrectAnswer( guess );
         }
       },
       visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' )

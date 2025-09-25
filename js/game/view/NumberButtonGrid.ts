@@ -156,10 +156,20 @@ export default class NumberButtonGrid extends Node {
   /**
    * Disables all number buttons (used after solving a challenge).
    */
-  public disableAll(): void {
+  public showCorrectAnswer( answer: number ): void {
     this.buttons.forEach( button => {
       button.enabledProperty.value = false;
     } );
+
+    const answerIndex = this.buttonValues.indexOf( answer );
+    if ( answerIndex >= 0 ) {
+      const button = this.buttons[ answerIndex ];
+      button.enabledProperty.value = true;
+      button.pickable = false;
+
+      // unpress the button
+      this.buttonStates[ answerIndex ].value = false;
+    }
   }
 
   /**
@@ -171,6 +181,7 @@ export default class NumberButtonGrid extends Node {
     } );
     this.buttons.forEach( button => {
       button.enabledProperty.value = true;
+      button.pickable = true;
     } );
   }
 }
