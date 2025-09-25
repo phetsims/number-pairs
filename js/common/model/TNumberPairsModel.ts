@@ -3,7 +3,7 @@
 /**
  * TODO: Move this to a base class that NumberPairsModel and Level can both extend.
  *   that will allow us to reduce the duplication that currently exists, and also
- *   consolidate functions used in both NumberPairsModel and Level right now. https://github.com/phetsims/number-pairs/issues/36
+ *   consolidate functions used in both NumberPairsModel and Level right now. https://github.com/phetsims/number-pairs/issues/216
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  */

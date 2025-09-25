@@ -299,7 +299,7 @@ export default class Level implements TNumberPairsModel {
     this.distributeCountingObjects();
   }
 
-  // TODO: Everything from here and below was pulled from NumberPairsModel https://github.com/phetsims/number-pairs/issues/36
+  // TODO: Everything from here and below was pulled from NumberPairsModel https://github.com/phetsims/number-pairs/issues/216
   // Maybe subtype?
   public deselectAllKittens(): void {
     this.countingObjects.forEach( countingObject => {
