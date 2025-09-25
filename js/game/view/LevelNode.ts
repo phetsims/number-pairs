@@ -114,15 +114,22 @@ export default class LevelNode extends Node {
       barNodeProxy.centerX = layoutBounds.centerX;
       equationNodeProxy.centerX = layoutBounds.centerX;
 
-      bondNodeProxy.top = statusBarProxy.bottom + 5;
+      // TODO: Center between top of counting area and bottom of status bar, see https://github.com/phetsims/number-pairs/issues/213
+      bondNodeProxy.top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + MARGIN );
       barNodeProxy.top = statusBarProxy.bottom + 5;
       equationNodeProxy.top = statusBarProxy.bottom + 5;
 
-      wrongMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
-      wrongMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
+      wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+      checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
 
-      checkMarkProxy.right = Math.max( bondNodeProxy.right, barNodeProxy.right, equationNodeProxy.right ) + 10;
-      checkMarkProxy.centerY = ( bondNodeProxy.centerY + barNodeProxy.centerY + equationNodeProxy.centerY ) / 3;
+      if ( level.challengeProperty.value.missing === 'a' ) {
+        wrongMarkProxy.right = bondNodeProxy.left - 5;
+        checkMarkProxy.right = bondNodeProxy.left - 5;
+      }
+      else if ( level.challengeProperty.value.missing === 'b' ) {
+        wrongMarkProxy.left = bondNodeProxy.right + 5;
+        checkMarkProxy.left = bondNodeProxy.right + 5;
+      }
     } );
 
     let countingAreaNode: CountingAreaNode | null = null;
