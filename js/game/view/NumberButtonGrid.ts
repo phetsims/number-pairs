@@ -1,9 +1,9 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * NumberButtonGrid lays out identically sized number buttons in one or two rows.
- * Row 1: 0..10
- * Row 2: 11..20 (11 is under 1; 0 has nothing under it)
+ * NumberButtonGrid lays out identically sized number buttons in one or two vertical columns.
+ * Left column: 0..10 (low numbers at the bottom)
+ * Right column (for zeroToTwenty): 11..20, aligned so 1 and 11 are side-by-side and 0 has no neighbor.
  *
  * The content inside each button is an AlignBox sharing an AlignGroup so numbers align and reserve equal space.
  * Uses fixed button sizes so no dynamic layout is required beyond simple positioning.
@@ -25,9 +25,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import InputRange from '../model/InputRange.js';
 
-const BUTTON_SIZE = new Dimension2( 60, 60 );
-const X_SPACING = 12;
-const Y_SPACING = 12;
+const BUTTON_SIZE = new Dimension2( 40, 40 );
+const X_SPACING = 8;
+const Y_SPACING = 8;
 const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
@@ -101,19 +101,19 @@ export default class NumberButtonGrid extends Node {
       return button;
     };
 
-    // Row 1: 0..10
+    // Two vertical columns with low numbers at the bottom.
+    // Left column 0..10, bottom-to-top (rowIndex 10..0).
     for ( let n = 0; n <= 10; n++ ) {
-      this.addChild( createButton( n, n, 0 ) );
+      const rowIndex = 10 - n; // 0->10 (bottom) ... 10->0 (top)
+      this.addChild( createButton( n, 0, rowIndex ) );
     }
-
-    // Row 2: 11..20 (11 under 1; 0 has nothing under it)
+    // Right column 11..20 aligned with 1..10, so 11 is beside 1 and 0 has no neighbor.
     if ( range === 'zeroToTwenty' ) {
       for ( let n = 11; n <= 20; n++ ) {
-        const columnIndex = n - 10; // 11->1 ... 20->10
-        this.addChild( createButton( n, columnIndex, 1 ) );
+        const rowIndex = 20 - n; // 11->9 ... 20->0 (no rowIndex 10 in right column)
+        this.addChild( createButton( n, 1, rowIndex ) );
       }
     }
-
 
     // React to guessed numbers from the model by disabling those buttons
     const applyGuessedNumbers = () => {

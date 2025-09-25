@@ -39,6 +39,8 @@ import StatusBar from './StatusBar.js';
 type SelfOptions = EmptySelfOptions;
 type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
+const MARGIN = 10;
+
 export default class LevelNode extends Node {
 
   public constructor( model: GameModel,
@@ -60,8 +62,8 @@ export default class LevelNode extends Node {
 
     // Number selection grid and selection state
     const numberButtonGrid = new NumberButtonGrid( level.selectedGuessProperty, level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
-    numberButtonGrid.centerX = layoutBounds.centerX;
-    numberButtonGrid.bottom = layoutBounds.bottom - 5;
+    numberButtonGrid.right = layoutBounds.right - MARGIN;
+    numberButtonGrid.bottom = layoutBounds.bottom - MARGIN;
     this.addChild( numberButtonGrid );
 
     // Correct-size adapter for bar model widths
