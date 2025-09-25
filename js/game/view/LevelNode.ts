@@ -166,7 +166,7 @@ export default class LevelNode extends Node {
 
           level.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
         },
-        accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/36
+        accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/217
       } );
 
       myTenFrameButton = tenFrameButton;

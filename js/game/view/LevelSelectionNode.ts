@@ -31,7 +31,7 @@ export default class LevelSelectionNode extends Node {
 
   public constructor( model: GameModel, layoutBounds: Bounds2, tandem: Tandem ) {
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/36 i18n
+    // TODO: https://github.com/phetsims/number-pairs/issues/217 i18n
     const titleText = new Text( 'Choose Your Level', {
       accessibleParagraph: 'Choose Your Level',
       font: TITLE_FONT,
