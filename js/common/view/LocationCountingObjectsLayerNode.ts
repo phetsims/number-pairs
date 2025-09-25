@@ -24,6 +24,8 @@ import CountingAreaNode from './CountingAreaNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import CountingObjectSoundPlayer from './CountingObjectSoundPlayer.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
@@ -55,6 +57,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
       this.addChild( countingObjectNode );
       this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
+
+      soundManager.addSoundGenerator( new CountingObjectSoundPlayer( countingObject.addendTypeProperty, countingObject.isDraggingProperty ) );
     } );
 
     /**
