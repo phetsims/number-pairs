@@ -20,7 +20,8 @@ import Level from '../model/Level.js';
 const FEEDBACK_STYLES = {
   idle: { stroke: '#7f7f7f', lineDash: [ 6, 6 ] },
   incorrect: { stroke: 'red', lineDash: [ 6, 6 ] },
-  correct: { stroke: 'black', lineDash: [] }
+  correct: { stroke: 'black', lineDash: [] },
+  guessSelected: { stroke: '#7f7f7f', lineDash: [ 6, 6 ] } // TODO: Factor out? See https://github.com/phetsims/number-pairs/issues/213
 };
 
 type FeedbackState = keyof typeof FEEDBACK_STYLES;
@@ -51,7 +52,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     };
 
     Multilink.multilink(
-      [ level.feedbackStateProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
+      [ level.modeProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
       ( feedbackState, challenge ) => {
         updateRepresentation( feedbackState, challenge.missing );
 

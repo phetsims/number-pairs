@@ -11,6 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -100,12 +101,12 @@ export default class LevelNode extends Node {
     const wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
       fill: 'red',
-      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
     } );
     const checkMark = new Text( '✓', {
       font: new PhetFont( 42 ),
       fill: '#059e05',
-      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' )
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'correct' )
     } );
     this.addChild( wrongMark );
     this.addChild( checkMark );
@@ -181,36 +182,33 @@ export default class LevelNode extends Node {
       top: layoutBounds.top + 100,
       listener: () => {
         const guess = numberButtonGrid.getSelectedNumber();
-        if ( guess !== null ) {
-          const correct = level.checkAnswer( guess );
+        affirm( guess !== null, 'There should be a selected number when Check is pressed' );
+        const correct = level.checkAnswer( guess );
 
-          // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
-          if ( correct ) {
+        // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
+        // TODO: This should be done through the model, see https://github.com/phetsims/number-pairs/issues/213
+        if ( correct ) {
 
-            // Disable all further number input until next
-            numberButtonGrid.disableAll();
-          }
+          // Disable all further number input until next
+          numberButtonGrid.disableAll();
         }
       },
-      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'idle' )
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' )
     } );
 
     const tryAgainButton = new TextPushButton( 'Try Again', {
       tandem: tandem.createTandem( 'tryAgainButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
-      listener: () => {
-        level.clearFeedback();
-        level.feedbackStateProperty.value = 'idle';
-      },
-      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' )
+      listener: () => level.tryAgain(),
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
     } );
 
     const nextButton = new TextPushButton( 'Next', {
       tandem: tandem.createTandem( 'nextButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
-      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'correct' ),
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
 
@@ -232,13 +230,13 @@ export default class LevelNode extends Node {
     } );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
-    const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
-      ( anySelected: boolean, selectedEnabled: boolean, state: 'idle' | 'incorrect' | 'correct' ) => anySelected && selectedEnabled && state !== 'correct' );
+    const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.modeProperty ],
+      ( anySelected, selectedEnabled, state ) => anySelected && selectedEnabled && state !== 'correct' );
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     level.selectedGuessProperty.link( () => {
-      if ( level.feedbackStateProperty.value === 'incorrect' ) {
+      if ( level.modeProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }
     } );

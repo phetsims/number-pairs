@@ -52,7 +52,7 @@ export default class Level implements TNumberPairsModel {
   public readonly challengeProperty: Property<Challenge>;
 
   // 'idle' = no feedback, 'incorrect' = last guess was incorrect, 'correct' = last guess was correct
-  public readonly feedbackStateProperty: StringUnionProperty<'idle' | 'incorrect' | 'correct'>;
+  public readonly modeProperty: StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>;
 
   // List of numbers already guessed for the current challenge, used to know if they got it right on their first guess
   // and to gray out those numbers in the grid.
@@ -101,8 +101,8 @@ export default class Level implements TNumberPairsModel {
       tandem: tandem.createTandem( 'scoreProperty' )
     } );
 
-    this.feedbackStateProperty = new StringUnionProperty<'idle' | 'incorrect' | 'correct'>( 'idle', {
-      validValues: [ 'idle', 'incorrect', 'correct' ],
+    this.modeProperty = new StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>( 'idle', {
+      validValues: [ 'idle', 'guessSelected', 'incorrect', 'correct' ],
       tandem: Tandem.OPT_OUT
     } );
 
@@ -248,7 +248,7 @@ export default class Level implements TNumberPairsModel {
 
   public nextChallenge(): void {
     this.resetGuesses();
-    this.feedbackStateProperty.value = 'idle';
+    this.modeProperty.value = 'idle';
     this.challengeProperty.value = this.createChallenge( false );
   }
 
@@ -267,10 +267,10 @@ export default class Level implements TNumberPairsModel {
       if ( this.guessedNumbers.length === 1 ) {
         this.scoreProperty.value++;
       }
-      this.feedbackStateProperty.value = 'correct';
+      this.modeProperty.value = 'correct';
     }
     else {
-      this.feedbackStateProperty.value = 'incorrect';
+      this.modeProperty.value = 'incorrect';
     }
 
     return isCorrect;
@@ -280,7 +280,7 @@ export default class Level implements TNumberPairsModel {
    * Clears any incorrect/correct feedback, used when user changes selection before next check.
    */
   public clearFeedback(): void {
-    this.feedbackStateProperty.value = 'idle';
+    this.modeProperty.value = 'idle';
   }
 
   private addGuess( guess: number ): void {
@@ -488,6 +488,11 @@ export default class Level implements TNumberPairsModel {
         }
       }
     } );
+  }
+
+  public tryAgain(): void {
+    this.clearFeedback();
+    this.modeProperty.value = 'idle';
   }
 }
 
