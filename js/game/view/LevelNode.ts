@@ -61,9 +61,10 @@ export default class LevelNode extends Node {
     this.addChild( statusBar );
 
     // Number selection grid and selection state
-    const numberButtonGrid = new NumberButtonGrid( level.selectedGuessProperty, level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ) );
-    numberButtonGrid.right = layoutBounds.right - MARGIN;
-    numberButtonGrid.bottom = layoutBounds.bottom - MARGIN;
+    const numberButtonGrid = new NumberButtonGrid( level.selectedGuessProperty, level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ), {
+      right: layoutBounds.right - MARGIN,
+      bottom: layoutBounds.bottom - MARGIN
+    } );
     this.addChild( numberButtonGrid );
 
     // Correct-size adapter for bar model widths
