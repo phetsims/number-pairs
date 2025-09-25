@@ -18,7 +18,7 @@ import type { MissingComponent } from '../model/Challenge.js';
 import Level from '../model/Level.js';
 
 const DASHED_LINE = [ 6, 6 ];
-const DASHED_LINE_WIDTH = 2.5;;
+const DASHED_LINE_WIDTH = 2.5;
 const GRAY = '#7f7f7f';
 
 const FEEDBACK_STYLES = {
