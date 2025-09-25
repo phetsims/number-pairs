@@ -15,10 +15,11 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
@@ -175,8 +176,16 @@ export default class LevelNode extends Node {
       this.addChild( tenFrameButton );
     }
 
+    const alignGroup = new AlignGroup();
+
     // Buttons row: Check / Next
-    const checkButton = new TextPushButton( 'Check', {
+    const FONT_SIZE = 18;
+    const checkText = alignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
+    const tryAgainText = alignGroup.createBox( new Text( 'Try Again', { fontSize: FONT_SIZE } ) );
+    const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
+
+    const checkButton = new RectangularPushButton( {
+      content: checkText,
       tandem: tandem.createTandem( 'checkButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
@@ -196,7 +205,9 @@ export default class LevelNode extends Node {
       visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' )
     } );
 
-    const tryAgainButton = new TextPushButton( 'Try Again', {
+
+    const tryAgainButton = new RectangularPushButton( {
+      content: tryAgainText,
       tandem: tandem.createTandem( 'tryAgainButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
@@ -204,7 +215,8 @@ export default class LevelNode extends Node {
       visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
     } );
 
-    const nextButton = new TextPushButton( 'Next', {
+    const nextButton = new RectangularPushButton( {
+      content: nextText,
       tandem: tandem.createTandem( 'nextButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
