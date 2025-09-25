@@ -13,10 +13,10 @@ import TModel from '../../../../joist/js/TModel.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
-import RepresentationType from '../../common/model/RepresentationType.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -57,10 +57,10 @@ export default class GameModel implements TModel {
      * Shared logic for levels 2, 3, and 4 (y=10)
      * @param isFirst
      */
-    const createLevel234Challenge = ( isFirst: boolean ): Challenge => {
+    const createLevel23Challenge = ( isFirst: boolean ): Challenge => {
       const y = 10;
-      const { a, b } = generateAddends( y, isFirst );
-      return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      const a = dotRandom.nextIntBetween( 1, y - 1 );
+      return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
     };
 
     this.levels = [
@@ -68,11 +68,11 @@ export default class GameModel implements TModel {
       /**
        * [L1] Level 1 (0-10) Missing addends – fluency facts
        * Number Bond
-       * - On first challenge, neither addend is zero
+       * neither addend is zero since it can't be shown well with the number bar representation.
        */
       new Level( 1, 'Missing addends in a number bond (0-10)', true, false, 'zeroToTen', 'bond', ( isFirst: boolean ): Challenge => {
-        const y = dotRandom.nextIntBetween( isFirst ? 2 : 1, 10 ); // first: y>=2 so a,b>0 possible
-        const a = dotRandom.nextIntBetween( isFirst ? 1 : 0, y - 1 ); // first: a>0
+        const y = dotRandom.nextIntBetween( 2, 10 );
+        const a = dotRandom.nextIntBetween( 1, y - 1 );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
       }, {
         representationType: RepresentationType.KITTENS,
@@ -87,7 +87,7 @@ export default class GameModel implements TModel {
        * - The counting area can be hidden
        * Starting state is the counting area visible // TODO https://github.com/phetsims/number-pairs/issues/36
        */
-      new Level( 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', 'bond', createLevel234Challenge, {
+      new Level( 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', 'bond', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level2' )
       } ),
@@ -97,7 +97,7 @@ export default class GameModel implements TModel {
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, 'Missing addend in a decomposition equation', true, true, 'zeroToTen', 'decompositionEquation', createLevel234Challenge, {
+      new Level( 3, 'Missing addend in a decomposition equation', true, true, 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level3' )
       } ),
@@ -107,7 +107,11 @@ export default class GameModel implements TModel {
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( 4, 'Missing addend in a sum equation (10 only)', true, true, 'zeroToTen', 'sumEquation', createLevel234Challenge, {
+      new Level( 4, 'Missing addend in a sum equation (10 only)', true, true, 'zeroToTen', 'sumEquation', ( isFirst: boolean ): Challenge => {
+        const y = 10;
+        const { a, b } = generateAddends( y, isFirst );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      }, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level4' )
       } ),
