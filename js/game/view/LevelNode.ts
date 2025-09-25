@@ -164,10 +164,6 @@ export default class LevelNode extends Node {
       this.addChild( gameCountingAreaNode );
       this.addChild( kittensLayerNode );
       this.addChild( tenFrameButton );
-
-      // numberButtonGrid.selectedNumberProperty.link( guess => {
-      //   twentyModel.setGuess( guess );
-      // } );
     }
 
     // Buttons row: Check / Next
@@ -238,6 +234,15 @@ export default class LevelNode extends Node {
       ...( countingAreaNode ? [ countingAreaNode ] : [] ),
       statusBar
     ];
+
+    // Match up the button colors to match up with the unknown in the representation
+    level.challengeProperty.link( challenge => {
+      const color = challenge.missing === 'a' ? level.leftAddendColorProperty.value :
+                    challenge.missing === 'b' ? level.rightAddendColorProperty.value :
+                    level.totalColorProperty.value;
+
+      numberButtonGrid.setButtonColor( color );
+    } );
   }
 }
 

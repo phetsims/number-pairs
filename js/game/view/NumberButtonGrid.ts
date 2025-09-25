@@ -20,6 +20,7 @@ import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js'
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
@@ -136,6 +137,12 @@ export default class NumberButtonGrid extends Node {
     guessedNumbers.lengthProperty.link( applyGuessedNumbers );
 
     this.mutate( providedOptions );
+  }
+
+  public setButtonColor( color: TColor ): void {
+    this.buttons.forEach( button => {
+      button.baseColor = color;
+    } );
   }
 
   /**
