@@ -163,8 +163,6 @@ export default class Level implements TNumberPairsModel {
       this.distributeCountingObjects();
     } );
 
-    // TODO: Add missing y functionality https://github.com/phetsims/number-pairs/issues/36
-
     this.leftAddendProperty.link( leftAddend => {
       if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
         // No_op. We can rely on our observable arrays and Properties to have the correct state. This link fires before

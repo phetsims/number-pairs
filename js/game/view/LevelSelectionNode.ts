@@ -58,11 +58,16 @@ export default class LevelSelectionNode extends Node {
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: level - 1,
           listener: () => {
-
-            // TODO: https://github.com/phetsims/number-pairs/issues/36
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            model.modeProperty.value = `level${level}`;
+            model.modeProperty.value =
+              level === 1 ? 'level1' :
+              level === 2 ? 'level2' :
+              level === 3 ? 'level3' :
+              level === 4 ? 'level4' :
+              level === 5 ? 'level5' :
+              level === 6 ? 'level6' :
+              level === 7 ? 'level7' :
+              level === 8 ? 'level8' :
+              ( () => { throw new Error( `Unhandled level: ${level}` ); } )(); // IIFE to throw error
           }
         }
       } );
