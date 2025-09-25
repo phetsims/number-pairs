@@ -11,7 +11,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
-import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { NumberBondNodeOptions } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
@@ -29,8 +28,8 @@ export type GameNumberBondNodeOptions = NumberBondNodeOptions;
 
 export default class GameNumberBondNode extends NumberBondMutableNode {
 
-  public constructor( model: TGenericNumberPairsModel, level: Level, providedOptions?: GameNumberBondNodeOptions ) {
-    super( model, providedOptions );
+  public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
+    super( level, providedOptions );
 
     const stylize = ( path: Path, stroke: Color | string, lineDash: number[] ) => {
       path.stroke = stroke;
@@ -55,10 +54,9 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
       [ level.feedbackStateProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
       ( feedbackState, challenge ) => {
         updateRepresentation( feedbackState, challenge.missing );
+
       }
     );
-
-    updateRepresentation( level.feedbackStateProperty.value, level.challengeProperty.value.missing );
   }
 }
 

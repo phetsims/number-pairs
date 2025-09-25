@@ -8,33 +8,33 @@
  */
 
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
+import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
+import { AnimationTarget } from '../../common/model/NumberPairsModel.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
+import TNumberPairsModel from '../../common/model/TNumberPairsModel.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
-import TNumberPairsModel from '../../common/model/TNumberPairsModel.js';
-import RepresentationType from '../../common/model/RepresentationType.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Color from '../../../../scenery/js/util/Color.js';
-import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Animation from '../../../../twixt/js/Animation.js';
-import { AnimationTarget } from '../../common/model/NumberPairsModel.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type SelfOptions = {
   representationType: RepresentationType;
@@ -125,7 +125,6 @@ export default class Level implements TNumberPairsModel {
       ( challenge, guess ) => ( challenge.missing === 'a' && guess !== null ) || challenge.missing !== 'a' );
     this.rightAddendVisibleProperty = new DerivedProperty( [ this.challengeProperty, this.selectedGuessProperty ],
       ( challenge, guess ) => ( challenge.missing === 'b' && guess !== null ) || challenge.missing !== 'b' );
-
 
     this.totalProperty = new DerivedProperty( [ this.challengeProperty ], challenge => challenge.y );
 

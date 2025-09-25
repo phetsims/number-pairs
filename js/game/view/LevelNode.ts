@@ -71,7 +71,7 @@ export default class LevelNode extends Node {
     const barAdapter = new BarLevelDisplay( level, level.selectedGuessProperty );
 
     // Representation nodes (pre-create and swap based on challenge type)
-    const bondNode = new GameNumberBondNode( level, level, {
+    const bondNode = new GameNumberBondNode( level, {
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
@@ -191,8 +191,21 @@ export default class LevelNode extends Node {
             numberButtonGrid.disableAll();
           }
         }
-      }
+      },
+      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'idle' )
     } );
+
+    const tryAgainButton = new TextPushButton( 'Try Again', {
+      tandem: tandem.createTandem( 'tryAgainButton' ),
+      right: layoutBounds.right - 100,
+      top: layoutBounds.top + 100,
+      listener: () => {
+        level.clearFeedback();
+        level.feedbackStateProperty.value = 'idle';
+      },
+      visibleProperty: new DerivedProperty( [ level.feedbackStateProperty ], feedbackState => feedbackState === 'incorrect' )
+    } );
+
     const nextButton = new TextPushButton( 'Next', {
       tandem: tandem.createTandem( 'nextButton' ),
       right: layoutBounds.right - 100,
@@ -210,6 +223,7 @@ export default class LevelNode extends Node {
 
     this.addChild( checkButton );
     this.addChild( nextButton );
+    this.addChild( tryAgainButton );
 
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
@@ -221,11 +235,6 @@ export default class LevelNode extends Node {
     const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.feedbackStateProperty ],
       ( anySelected: boolean, selectedEnabled: boolean, state: 'idle' | 'incorrect' | 'correct' ) => anySelected && selectedEnabled && state !== 'correct' );
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
-
-    // Show Next only when solved
-    level.feedbackStateProperty.link( feedbackState => {
-      checkButton.visible = feedbackState !== 'correct';
-    } );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     level.selectedGuessProperty.link( () => {
