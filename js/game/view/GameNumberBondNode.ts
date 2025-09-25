@@ -17,11 +17,15 @@ import numberPairs from '../../numberPairs.js';
 import type { MissingComponent } from '../model/Challenge.js';
 import Level from '../model/Level.js';
 
+const DASHED_LINE = [ 6, 6 ];
+const DASHED_LINE_WIDTH = 2.5;;
+const GRAY = '#7f7f7f';
+
 const FEEDBACK_STYLES = {
-  idle: { stroke: '#7f7f7f', lineDash: [ 6, 6 ] },
-  incorrect: { stroke: 'red', lineDash: [ 6, 6 ] },
-  correct: { stroke: 'black', lineDash: [] },
-  guessSelected: { stroke: '#7f7f7f', lineDash: [ 6, 6 ] } // TODO: Factor out? See https://github.com/phetsims/number-pairs/issues/213
+  idle: { stroke: GRAY, lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH },
+  incorrect: { stroke: 'red', lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH },
+  correct: { stroke: 'black', lineDash: [], lineWidth: 1 },
+  guessSelected: { stroke: GRAY, lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH } // TODO: Factor out? See https://github.com/phetsims/number-pairs/issues/213
 };
 
 type FeedbackState = keyof typeof FEEDBACK_STYLES;
@@ -32,23 +36,24 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
     super( level, providedOptions );
 
-    const stylize = ( path: Path, stroke: Color | string, lineDash: number[] ) => {
+    const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth: number ) => {
       path.stroke = stroke;
       path.lineDash = lineDash;
+      path.lineWidth = lineWidth;
     };
 
     const updateRepresentation = ( feedbackState: FeedbackState, missing: MissingComponent ) => {
 
-      [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [] ) );
-      [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [] ) );
+      [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [], 1 ) );
+      [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [], 1 ) );
 
       const missingCircle = missing === 'a' ? this.leftAddend : missing === 'b' ? this.rightAddend : this.total;
       const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
-      const { stroke, lineDash } = FEEDBACK_STYLES[ feedbackState ];
+      const { stroke, lineDash, lineWidth } = FEEDBACK_STYLES[ feedbackState ];
 
-      stylize( missingCircle, stroke, lineDash );
-      stylize( missingLine, stroke, lineDash );
+      stylize( missingCircle, stroke, lineDash, lineWidth );
+      stylize( missingLine, stroke, lineDash, lineWidth );
     };
 
     Multilink.multilink(
