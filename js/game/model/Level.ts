@@ -493,6 +493,9 @@ export default class Level implements TNumberPairsModel {
   public tryAgain(): void {
     this.clearFeedback();
     this.modeProperty.value = 'idle';
+
+    // hide the missing addend again
+    this.selectedGuessProperty.value = null;
   }
 }
 
