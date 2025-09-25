@@ -27,10 +27,6 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsFluent.screen.gameStringProperty,
       createKeyboardHelpNode: () => new Text( 'hello world' ),
-
-      //TODO add default values for optional SelfOptions here, https://github.com/phetsims/number-pairs/issues/36
-
-      //TODO add default values for optional ScreenOptions here, https://github.com/phetsims/number-pairs/issues/36
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
     }, providedOptions );
 

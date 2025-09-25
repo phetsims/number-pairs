@@ -13,7 +13,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 
 type TGenericNumberPairsModel = {
   totalProperty: TReadOnlyProperty<number>;
-  totalColorProperty: TReadOnlyProperty<Color>; // TODO: Can this be TColor? https://github.com/phetsims/number-pairs/issues/36
+  totalColorProperty: TReadOnlyProperty<Color>;
   totalVisibleProperty: TReadOnlyProperty<boolean>;
   leftAddendProperty: TReadOnlyProperty<number>;
   leftAddendColorProperty: TReadOnlyProperty<Color>;

@@ -85,7 +85,6 @@ export default class GameModel implements TModel {
        * Identical to level 1 with the following exceptions
        * - The value of y is always 10
        * - The counting area can be hidden
-       * Starting state is the counting area visible // TODO https://github.com/phetsims/number-pairs/issues/36
        */
       new Level( 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', 'bond', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
@@ -120,8 +119,7 @@ export default class GameModel implements TModel {
        * ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
        *
        * * Uses game logic for number bond, where y is any number between 11-20
-       * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen TODO:
-       * https://github.com/phetsims/number-pairs/issues/36
+       * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
       new Level( 5, 'Missing addend with a number bond (11-20)', true, true, 'zeroToTwenty', 'bond', ( isFirst: boolean ): Challenge => {
         const y = dotRandom.nextIntBetween( 11, 20 );
@@ -182,7 +180,7 @@ export default class GameModel implements TModel {
         const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
         return new Challenge( missingComponent, a, b, y );
       }, {
-        representationType: RepresentationType.NUMBER_LINE, // TODO: Show the number line, see https://github.com/phetsims/number-pairs/issues/36
+        representationType: RepresentationType.NUMBER_LINE, // TODO: Show the number line, see https://github.com/phetsims/number-pairs/issues/215
         tandem: tandem.createTandem( 'level8' )
       } )
     ];

@@ -13,7 +13,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import numberPairs from '../../numberPairs.js';
 
-export type MissingComponent = 'a' | 'b' | 'y'; // TODO: I think we can remove 'y' as a missing component, see https://github.com/phetsims/number-pairs/issues/36
+export type MissingComponent = 'a' | 'b' | 'y';
 
 type ChallengeState = {
   missing: MissingComponent;
