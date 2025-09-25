@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 /**
  * This file manages the creation of the a11y description strings for grab and drag interactions in Number Pairs.
  *
