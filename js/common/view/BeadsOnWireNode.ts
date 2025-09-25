@@ -43,6 +43,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadNode from './BeadNode.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -99,8 +100,7 @@ export default class BeadsOnWireNode extends Node {
 
     const options = optionize<BeadsOnWireNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ wire, beadSeparator ],
-      excludeInvisibleChildrenFromBounds: true,
-      accessibleHelpText: NumberPairsFluent.a11y.beads.accessibleHelpTextStringProperty
+      excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
 
     super( options );
@@ -234,20 +234,6 @@ export default class BeadsOnWireNode extends Node {
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );
     groupSelectView.grabReleaseCueNode.centerTop = new Vector2( NumberPairsConstants.COUNTING_AREA_BOUNDS.width / 2, -NumberPairsConstants.COUNTING_AREA_BOUNDS.height / 2 ).plusXY( 0, 50 );
 
-    // When the selected bead changes, update the accessible name to reflect the selected bead.
-    const accessibleNameDependencies = model.countingObjects.map( bead => bead.addendTypeProperty );
-    Multilink.multilinkAny( [ ...accessibleNameDependencies, groupSelectModel.selectedGroupItemProperty ], () => {
-      const selectedBead = groupSelectModel.selectedGroupItemProperty.value;
-      if ( selectedBead ) {
-        this.accessibleName = selectedBead.addendTypeProperty.value === AddendType.LEFT ?
-                              NumberPairsFluent.a11y.beads.leftAddendBeadStringProperty :
-                              NumberPairsFluent.a11y.beads.rightAddendBeadStringProperty;
-      }
-      else if ( model.totalProperty.value === 0 ) {
-        this.accessibleName = NumberPairsFluent.a11y.countingAreaEmptyStringProperty;
-      }
-    } );
-
     // Update the position of the bead separator and the bead positions when the addends change.
     Multilink.multilink( [
       model.leftAddendProperty,
@@ -278,6 +264,23 @@ export default class BeadsOnWireNode extends Node {
         }
       }
     } );
+
+    /**
+     * Create the a11y description and help text.
+     */
+    const grabDragDescriptionManager = new GrabDragDescriptionManager(
+      NumberPairsFluent.a11y.beads.leftAddendBeadStringProperty,
+      NumberPairsFluent.a11y.beads.rightAddendBeadStringProperty,
+      NumberPairsFluent.a11y.beads.accessibleNameStringProperty );
+    this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
+      groupSelectModel.selectedGroupItemProperty,
+      () => this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT )
+        .map( beadNode => beadNode.countingObject ),
+      () => this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT )
+        .map( beadNode => beadNode.countingObject ),
+      model.leftAddendProperty,
+      model.rightAddendProperty );
+    this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty( groupSelectModel.isGroupItemKeyboardGrabbedProperty );
 
   }
 

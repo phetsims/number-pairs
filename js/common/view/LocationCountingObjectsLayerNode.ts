@@ -165,8 +165,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const grabDragDescriptionManager = new GrabDragDescriptionManager( itemStringProperty, itemStringProperty, itemsStringProperty );
     this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
       model.groupSelectLocationObjectsModel.selectedGroupItemProperty,
-      model.leftAddendCountingObjectsProperty,
-      model.rightAddendCountingObjectsProperty,
+      () => model.leftAddendCountingObjectsProperty.value,
+      () => model.rightAddendCountingObjectsProperty.value,
       model.leftAddendProperty,
       model.rightAddendProperty
     );

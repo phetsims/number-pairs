@@ -11,7 +11,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 
 
@@ -71,24 +70,25 @@ export default class GrabDragDescriptionManager {
   }
 
   public createItemDescriptionProperty( selectedGroupItemProperty: TReadOnlyProperty<CountingObject | null>,
-                                               leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-                                               rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+                                               getLeftAddendCountingObjects: () => CountingObject[],
+                                               getRightAddendCountingObjects: () => CountingObject[],
                                                leftAddendProperty: TReadOnlyProperty<number>,
                                                rightAddendProperty: TReadOnlyProperty<number> ): TReadOnlyProperty<string> {
 
     // We set the value as null at startup. Once a group item is selected, the description will be set appropriately,
     // and if the selected item is cleared, the description will remain as it was (until another item is selected).
     let stringProperty: TReadOnlyProperty<string> = new Property( 'null' );
-    stringProperty = new DerivedProperty( [ leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty,
-        leftAddendProperty, rightAddendProperty,
+    stringProperty = new DerivedProperty( [ leftAddendProperty, rightAddendProperty,
         selectedGroupItemProperty,
         this.onlyLeftItemDescriptionProperty, this.onlyRightItemDescriptionProperty,
         this.lastLeftItemDescriptionProperty, this.lastRightItemDescriptionProperty,
         this.firstLeftItemDescriptionProperty, this.firstRightItemDescriptionProperty,
         this.leftItemDescriptionProperty, this.rightItemDescriptionProperty ],
-      ( leftAddendCountingObjects, rightAddendCountingObjects, leftAddend, rightAddend, selectedObject,
+      ( leftAddend, rightAddend, selectedObject,
         onlyLeftItem, onlyRightItem, lastLeftItem, lastRightItem, firstLeftItem, firstRightItem, leftItem, rightItem ) => {
         if ( selectedObject ) {
+          const leftAddendCountingObjects = getLeftAddendCountingObjects();
+          const rightAddendCountingObjects = getRightAddendCountingObjects();
           const selectedAddendCountingObjects = selectedObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendCountingObjects : rightAddendCountingObjects;
           if ( selectedAddendCountingObjects.length === 1 ) {
             return selectedObject.addendTypeProperty.value === AddendType.LEFT ? onlyLeftItem : onlyRightItem;
