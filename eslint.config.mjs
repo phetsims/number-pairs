@@ -14,8 +14,7 @@ export default [
   ...simEslintConfig,
   {
     rules: {
-      'phet/require-fluent': 'error',
-      'eol-last': 'off'
+      'phet/require-fluent': 'error'
     }
   },
   ...banTSCommentConfig
