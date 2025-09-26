@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * CountingObjectSoundPlayer is a sound player that is used to produce sounds when a counting object's addend type
