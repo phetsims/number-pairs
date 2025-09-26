@@ -171,8 +171,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
       model.groupSelectLocationObjectsModel.selectedGroupItemProperty,
       () => model.leftAddendCountingObjectsProperty.value,
       () => model.rightAddendCountingObjectsProperty.value,
-      model.leftAddendProperty,
-      model.rightAddendProperty
+      model.leftAddendCountingObjectsLengthProperty,
+      model.rightAddendCountingObjectsLengthProperty
     );
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty(
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty

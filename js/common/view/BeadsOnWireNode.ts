@@ -282,8 +282,8 @@ export default class BeadsOnWireNode extends Node {
         .map( beadNode => beadNode.countingObject ),
       () => this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT )
         .map( beadNode => beadNode.countingObject ),
-      model.leftAddendProperty,
-      model.rightAddendProperty );
+      model.leftAddendCountingObjectsLengthProperty,
+      model.rightAddendCountingObjectsLengthProperty );
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty( groupSelectModel.isGroupItemKeyboardGrabbedProperty );
 
   }

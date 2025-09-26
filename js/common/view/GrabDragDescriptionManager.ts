@@ -9,7 +9,7 @@
 import numberPairs from '../../numberPairs.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
+import CountingObject from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -29,6 +29,7 @@ export default class GrabDragDescriptionManager {
   // String Properties used for describing the help text when an item is grabbed or released
   private readonly grabbedHelpTextStringProperty: TReadOnlyProperty<string>;
   private readonly releasedHelpTextStringProperty: TReadOnlyProperty<string>;
+
   /**
    *
    * @param leftItemProperty - the string used to describe items that are part of the left addend
@@ -70,37 +71,42 @@ export default class GrabDragDescriptionManager {
   }
 
   public createItemDescriptionProperty( selectedGroupItemProperty: TReadOnlyProperty<CountingObject | null>,
-                                               getLeftAddendCountingObjects: () => CountingObject[],
-                                               getRightAddendCountingObjects: () => CountingObject[],
-                                               leftAddendProperty: TReadOnlyProperty<number>,
-                                               rightAddendProperty: TReadOnlyProperty<number> ): TReadOnlyProperty<string> {
+                                        getLeftAddendCountingObjects: () => CountingObject[],
+                                        getRightAddendCountingObjects: () => CountingObject[],
+                                        leftAddendObjectsLengthProperty: TReadOnlyProperty<number>,
+                                        rightAddendObjectsLengthProperty: TReadOnlyProperty<number> ): TReadOnlyProperty<string> {
 
     // We set the value as null at startup. Once a group item is selected, the description will be set appropriately,
     // and if the selected item is cleared, the description will remain as it was (until another item is selected).
     let stringProperty: TReadOnlyProperty<string> = new Property( 'null' );
-    stringProperty = new DerivedProperty( [ leftAddendProperty, rightAddendProperty,
+    stringProperty = new DerivedProperty( [ leftAddendObjectsLengthProperty, rightAddendObjectsLengthProperty,
         selectedGroupItemProperty,
         this.onlyLeftItemDescriptionProperty, this.onlyRightItemDescriptionProperty,
         this.lastLeftItemDescriptionProperty, this.lastRightItemDescriptionProperty,
         this.firstLeftItemDescriptionProperty, this.firstRightItemDescriptionProperty,
         this.leftItemDescriptionProperty, this.rightItemDescriptionProperty ],
-      ( leftAddend, rightAddend, selectedObject,
+      ( leftAddendObjectsLength, rightAddendObjectsLength, selectedObject,
         onlyLeftItem, onlyRightItem, lastLeftItem, lastRightItem, firstLeftItem, firstRightItem, leftItem, rightItem ) => {
+        const leftAddendCountingObjects = getLeftAddendCountingObjects();
+        const rightAddendCountingObjects = getRightAddendCountingObjects();
+
         if ( selectedObject ) {
-          const leftAddendCountingObjects = getLeftAddendCountingObjects();
-          const rightAddendCountingObjects = getRightAddendCountingObjects();
-          const selectedAddendCountingObjects = selectedObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendCountingObjects : rightAddendCountingObjects;
+
+          // Do not use selectedObject.addendTypeProperty here, because the object may be in transition between addends
+          // due to listener order. Instead, check which addend array it is currently in.
+          const isInLeftAddend = leftAddendCountingObjects.includes( selectedObject );
+          const selectedAddendCountingObjects = isInLeftAddend ? leftAddendCountingObjects : rightAddendCountingObjects;
           if ( selectedAddendCountingObjects.length === 1 ) {
-            return selectedObject.addendTypeProperty.value === AddendType.LEFT ? onlyLeftItem : onlyRightItem;
+            return isInLeftAddend ? onlyLeftItem : onlyRightItem;
           }
           else {
             const index = selectedAddendCountingObjects.indexOf( selectedObject );
-            return index === 0 ? ( selectedObject.addendTypeProperty.value === AddendType.LEFT ? firstLeftItem : firstRightItem ) :
-                   index === selectedAddendCountingObjects.length - 1 ? ( selectedObject.addendTypeProperty.value === AddendType.LEFT ? lastLeftItem : lastRightItem ) :
-                   selectedObject.addendTypeProperty.value === AddendType.LEFT ? leftItem : rightItem;
+            return index === 0 ? ( isInLeftAddend ? firstLeftItem : firstRightItem ) :
+                   index === selectedAddendCountingObjects.length - 1 ? ( isInLeftAddend ? lastLeftItem : lastRightItem ) :
+                   isInLeftAddend ? leftItem : rightItem;
           }
         }
-        else if ( leftAddend === 0 && rightAddend === 0 ) {
+        else if ( leftAddendObjectsLength === 0 && rightAddendObjectsLength === 0 ) {
           return NumberPairsFluent.a11y.countingAreaEmptyStringProperty.value;
         }
         else {
