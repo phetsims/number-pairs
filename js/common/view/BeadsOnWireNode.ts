@@ -112,6 +112,9 @@ export default class BeadsOnWireNode extends Node {
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
 
+    const countingObjectSoundPlayer = new CountingObjectSoundPlayer();
+    soundManager.addSoundGenerator( countingObjectSoundPlayer );
+
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
         countingObject,
@@ -136,8 +139,6 @@ export default class BeadsOnWireNode extends Node {
 
       this.beadModelToNodeMap.set( countingObject, beadNode );
       this.addChild( beadNode );
-
-      soundManager.addSoundGenerator( new CountingObjectSoundPlayer( countingObject.addendTypeProperty, this.beadDraggingProperty ) );
     } );
 
     /**
@@ -208,6 +209,11 @@ export default class BeadsOnWireNode extends Node {
         // Determine the delta based on the keys pressed, then use this delta to find the appropriate bead to select.
         const delta = this.getKeysDelta( keysPressed );
         const selectedGroupItemIndex = clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
+
+        if ( delta !== 0 ) {
+          delta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+        }
+
         return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
       },
       handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {

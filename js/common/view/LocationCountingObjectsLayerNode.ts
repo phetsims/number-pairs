@@ -40,6 +40,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {}, providedOptions );
     super( options );
 
+    const countingObjectSoundPlayer = new CountingObjectSoundPlayer();
+    soundManager.addSoundGenerator( countingObjectSoundPlayer );
+
     /**
      * Create the LocationCountingObjectNodes for each countingObject in the model.
      */
@@ -57,8 +60,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
       this.addChild( countingObjectNode );
       this.countingObjectModelToNodeMap.set( countingObject, countingObjectNode );
-
-      soundManager.addSoundGenerator( new CountingObjectSoundPlayer( countingObject.addendTypeProperty, countingObject.isDraggingProperty ) );
     } );
 
     /**
@@ -103,6 +104,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
           const currentIndex = addendCountingObjects.indexOf( groupItem );
           const keysDelta = this.getKeysDelta( keysPressed );
           const newIndex = Math.min( Math.max( currentIndex + keysDelta, 0 ), addendCountingObjects.length - 1 );
+
+          if ( keysDelta !== 0 ) {
+            keysDelta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+          }
+
           if ( newIndex !== currentIndex ) {
             return addendCountingObjects[ newIndex ];
           }

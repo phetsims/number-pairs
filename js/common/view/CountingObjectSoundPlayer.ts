@@ -8,24 +8,21 @@
  */
 
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import cardMovement1_mp3 from '../../../../tambo/sounds/cardMovement1_mp3.js';
-import cardMovement2_mp3 from '../../../../tambo/sounds/cardMovement2_mp3.js';
 import numberPairs from '../../numberPairs.js';
-import { AddendType } from '../model/CountingObject.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import stepForward_mp3 from '../../../../tambo/sounds/stepForward_mp3.js';
+import stepBack_mp3 from '../../../../tambo/sounds/stepBack_mp3.js';
 
 type SelfOptions = EmptySelfOptions;
 type CountingObjectSoundPlayerOptions = SoundGeneratorOptions & SelfOptions;
 
-class CountingObjectSoundPlayer extends SoundGenerator implements TSoundPlayer {
+class CountingObjectSoundPlayer extends SoundGenerator {
 
   private readonly stepForwardSound: SoundClip;
-  private readonly stepBackwardSound: SoundClip;
+  private readonly stepBackSound: SoundClip;
 
-  public constructor( addendTypeProperty: TReadOnlyProperty<AddendType>, draggingProperty: TReadOnlyProperty<boolean>, providedOptions?: CountingObjectSoundPlayerOptions ) {
+  public constructor( providedOptions?: CountingObjectSoundPlayerOptions ) {
 
     const options = optionize<CountingObjectSoundPlayerOptions, SelfOptions, SoundGeneratorOptions>()( {
       initialOutputLevel: 0.2
@@ -33,32 +30,19 @@ class CountingObjectSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
     super( options );
 
-    this.stepForwardSound = new SoundClip( cardMovement1_mp3 );
-    this.stepBackwardSound = new SoundClip( cardMovement2_mp3 );
+    this.stepForwardSound = new SoundClip( stepForward_mp3 );
+    this.stepBackSound = new SoundClip( stepBack_mp3 );
 
     this.stepForwardSound.connect( this.mainGainNode );
-    this.stepBackwardSound.connect( this.mainGainNode );
-
-    addendTypeProperty.lazyLink( ( newAddendType, oldAddendType ) => {
-
-      if ( draggingProperty.value ) {
-        if ( newAddendType === AddendType.RIGHT ) {
-          this.stepForwardSound.play();
-        }
-        else if ( newAddendType === AddendType.LEFT ) {
-          this.stepBackwardSound.play();
-        }
-      }
-    } );
+    this.stepBackSound.connect( this.mainGainNode );
   }
 
-  public play(): void {
-    // This sound player is driven by property changes, so this method is not used.
+  public playStepForwardSound(): void {
+    this.stepForwardSound.play();
   }
 
-  public stop(): void {
-    this.stepForwardSound.stop();
-    this.stepBackwardSound.stop();
+  public playStepBackSound(): void {
+    this.stepBackSound.play();
   }
 }
 
