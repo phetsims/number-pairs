@@ -32,7 +32,7 @@ export default class GameScreenView extends ScreenView {
 
       // Remove the "normal" PDOM structure Nodes like the screen summary, play area, and control area Nodes from the
       // HomeScreen. The HomeScreen handles its own description.
-      includePDOMNodes: false
+      includeAccessibleSectionNodes: false
     }, providedOptions );
 
     super( options );
