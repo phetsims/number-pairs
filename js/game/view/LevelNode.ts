@@ -139,7 +139,11 @@ export default class LevelNode extends Node {
     let myTenFrameButton: TenFrameButton | null = null;
 
     if ( level.levelNumber <= 7 ) {
-      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), level.countingObjectsModel, {
+      const leftAddendsVisibleProperty = new BooleanProperty( true );
+      const rightAddendsVisibleProperty = new BooleanProperty( true );
+      const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
+
+      const gameCountingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsModel, {
         countingRepresentationTypeProperty: level.representationTypeProperty,
         backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
@@ -150,7 +154,8 @@ export default class LevelNode extends Node {
 
       const kittensLayerNode = new KittensLayerNode( level.countingObjects, gameCountingAreaNode, {
         tandem: tandem.createTandem( 'kittensLayerNode' ),
-        includeKittenAttributeSwitch: false
+        includeKittenAttributeSwitch: false,
+        visibleProperty: addendsVisibleProperty
       } );
 
       const tenFrameBounds = level.levelNumber === 7 ?
