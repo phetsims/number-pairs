@@ -149,7 +149,8 @@ export default class LevelNode extends Node {
       countingAreaNode = gameCountingAreaNode;
 
       const kittensLayerNode = new KittensLayerNode( level.countingObjects, gameCountingAreaNode, {
-        tandem: tandem.createTandem( 'kittensLayerNode' )
+        tandem: tandem.createTandem( 'kittensLayerNode' ),
+        includeKittenAttributeSwitch: false
       } );
 
       const tenFrameBounds = level.levelNumber === 7 ?

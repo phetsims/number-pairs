@@ -9,17 +9,22 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
-type KittensLayerNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
+type SelfOptions = {
+  includeKittenAttributeSwitch?: boolean;
+};
+
+type KittensLayerNodeOptions = SelfOptions & StrictOmit<WithRequired<NodeOptions, 'tandem'>, 'children'>;
+
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
 
@@ -29,6 +34,7 @@ export default class KittensLayerNode extends Node {
 
     countingObjects.forEach( ( countingObject, i ) => {
       kittenNodes.push( new KittenNode( countingObject, newKittenSelectedEmitter, {
+        includeAttributeSwitch: providedOptions.includeKittenAttributeSwitch,
         switchFocusToFirstKitten: () => {
           const firstKitten = kittenNodes[ 0 ];
           affirm( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );

@@ -32,6 +32,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import numberPairs from '../../numberPairs.js';
@@ -41,11 +42,11 @@ import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
-// TODO: add option to not include the toggle switch for the game screen. https://github.com/phetsims/number-pairs/issues/218
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
   switchFocusToLastKitten: () => void;
   switchFocusToFirstKitten: () => void;
+  includeAttributeSwitch?: boolean;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -77,7 +78,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       cursor: 'pointer',
       accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
-      focusable: true
+      focusable: true,
+      includeAttributeSwitch: true
     }, providedOptions );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
@@ -99,7 +101,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const kittenAttributeSwitch = new ToggleSwitch( isLeftAddendProperty, true, false, {
       size: new Dimension2( 26, 13 ),
       focusable: false,
-      tandem: options.tandem.createTandem( 'kittenAttributeSwitch' ),
+      tandem: options.includeAttributeSwitch ? options.tandem.createTandem( 'kittenAttributeSwitch' ) : Tandem.OPT_OUT,
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
       accessibleContextResponseLeftValue: NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
       accessibleContextResponseRightValue: NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
@@ -111,7 +113,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
         ],
         ( addendType, attributeLeftAddendColor, attributeRightAddendColor ) =>
           addendType === AddendType.LEFT ? attributeLeftAddendColor : attributeRightAddendColor
-      )
+      ),
+      visible: options.includeAttributeSwitch
     } );
 
     // When a countingObject is focused the panel with a switch is visible
