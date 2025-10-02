@@ -11,7 +11,6 @@
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import TModel from '../../../../joist/js/TModel.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import CountingObject from './CountingObject.js';
 import RepresentationType from './RepresentationType.js';
@@ -23,6 +22,6 @@ type TNumberPairsModel = {
   rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>;
   countingObjectsAnimation: Animation | null;
   representationTypeProperty: Property<RepresentationType>;
-} & TGenericNumberPairsModel & TModel;
+} & TGenericNumberPairsModel;
 
 export default TNumberPairsModel;

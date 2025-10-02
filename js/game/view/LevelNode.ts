@@ -139,7 +139,7 @@ export default class LevelNode extends Node {
     let myTenFrameButton: TenFrameButton | null = null;
 
     if ( level.levelNumber <= 7 ) {
-      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), level, {
+      const gameCountingAreaNode = new CountingAreaNode( new BooleanProperty( true ), new BooleanProperty( true ), level.countingObjectsModel, {
         countingRepresentationTypeProperty: level.representationTypeProperty,
         backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
