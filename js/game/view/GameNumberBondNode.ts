@@ -34,7 +34,7 @@ export type GameNumberBondNodeOptions = NumberBondNodeOptions;
 export default class GameNumberBondNode extends NumberBondMutableNode {
 
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
-    super( level, providedOptions );
+    super( level.countingObjectsDelegate, providedOptions );
 
     const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth: number ) => {
       path.stroke = stroke;

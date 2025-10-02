@@ -11,19 +11,15 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Animation from '../../../../twixt/js/Animation.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import TNumberPairsModel from '../../common/model/TNumberPairsModel.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
@@ -56,7 +52,7 @@ export default class Level {
   // Counting object observable arrays
   public readonly representationTypeProperty: Property<RepresentationType>;
 
-  private readonly countingObjectsDelegate: LevelCountingObjectsDelegate;
+  public readonly countingObjectsDelegate: LevelCountingObjectsDelegate;
 
   public hasShownReward = false;
 
@@ -103,7 +99,7 @@ export default class Level {
 
     // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
     // that is handled manually above.
-    this.countingObjects.forEach( countingObject => {
+    this.countingObjectsDelegate.countingObjects.forEach( countingObject => {
       this.createCountingObjectAddendTypeLinks( countingObject );
     } );
 
@@ -119,70 +115,6 @@ export default class Level {
     phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
       console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
-  }
-
-  public get totalProperty(): TReadOnlyProperty<number> {
-    return this.countingObjectsDelegate.totalProperty;
-  }
-
-  public get leftAddendProperty(): TReadOnlyProperty<number> {
-    return this.countingObjectsDelegate.leftAddendProperty;
-  }
-
-  public get rightAddendProperty(): TReadOnlyProperty<number> {
-    return this.countingObjectsDelegate.rightAddendProperty;
-  }
-
-  public get totalVisibleProperty(): TReadOnlyProperty<boolean> {
-    return this.countingObjectsDelegate.totalVisibleProperty;
-  }
-
-  public get leftAddendVisibleProperty(): TReadOnlyProperty<boolean> {
-    return this.countingObjectsDelegate.leftAddendVisibleProperty;
-  }
-
-  public get rightAddendVisibleProperty(): TReadOnlyProperty<boolean> {
-    return this.countingObjectsDelegate.rightAddendVisibleProperty;
-  }
-
-  public get leftAddendCountingObjectsProperty(): TReadOnlyProperty<ObservableArray<CountingObject>> {
-    return this.countingObjectsDelegate.leftAddendCountingObjectsProperty;
-  }
-
-  public get rightAddendCountingObjectsProperty(): TReadOnlyProperty<ObservableArray<CountingObject>> {
-    return this.countingObjectsDelegate.rightAddendCountingObjectsProperty;
-  }
-
-  public get totalColorProperty(): TReadOnlyProperty<Color> {
-    return this.countingObjectsDelegate.totalColorProperty;
-  }
-
-  public get leftAddendColorProperty(): TReadOnlyProperty<Color> {
-    return this.countingObjectsDelegate.leftAddendColorProperty;
-  }
-
-  public get rightAddendColorProperty(): TReadOnlyProperty<Color> {
-    return this.countingObjectsDelegate.rightAddendColorProperty;
-  }
-
-  public get inactiveCountingObjects(): ObservableArray<CountingObject> {
-    return this.countingObjectsDelegate.inactiveCountingObjects;
-  }
-
-  public get countingObjects(): CountingObject[] {
-    return this.countingObjectsDelegate.countingObjects;
-  }
-
-  public get countingObjectsModel(): TNumberPairsModel {
-    return this.countingObjectsDelegate;
-  }
-
-  public get countingObjectsAnimation(): Animation | null {
-    return this.countingObjectsDelegate.countingObjectsAnimation;
-  }
-
-  public set countingObjectsAnimation( animation: Animation | null ) {
-    this.countingObjectsDelegate.countingObjectsAnimation = animation;
   }
 
   public nextChallenge(): void {

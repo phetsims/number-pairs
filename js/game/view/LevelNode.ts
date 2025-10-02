@@ -79,14 +79,14 @@ export default class LevelNode extends Node {
       } )
     } );
     const barNode = new BarModelNode( barAdapter, {
-      displayTotalNumberProperty: level.totalProperty,
-      displayLeftAddendNumberProperty: level.leftAddendProperty,
-      displayRightAddendNumberProperty: level.rightAddendProperty,
+      displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
+      displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
+      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
       visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new NumberEquationNode( level, {
+    const equationNode = new NumberEquationNode( level.countingObjectsDelegate, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -120,7 +120,7 @@ export default class LevelNode extends Node {
       const rightAddendsVisibleProperty = new BooleanProperty( true );
       const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
 
-      const gameCountingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsModel, {
+      const gameCountingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
         countingRepresentationTypeProperty: level.representationTypeProperty,
         backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
@@ -129,7 +129,7 @@ export default class LevelNode extends Node {
 
       countingAreaNode = gameCountingAreaNode;
 
-      const kittensLayerNode = new KittensLayerNode( level.countingObjects, gameCountingAreaNode, {
+      const kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, gameCountingAreaNode, {
         tandem: tandem.createTandem( 'kittensLayerNode' ),
         includeKittenAttributeSwitch: false,
         visibleProperty: addendsVisibleProperty
@@ -285,9 +285,9 @@ export default class LevelNode extends Node {
 
     // Match up the button colors to match up with the unknown in the representation
     level.challengeProperty.link( challenge => {
-      const color = challenge.missing === 'a' ? level.leftAddendColorProperty.value :
-                    challenge.missing === 'b' ? level.rightAddendColorProperty.value :
-                    level.totalColorProperty.value;
+      const color = challenge.missing === 'a' ? level.countingObjectsDelegate.leftAddendColorProperty.value :
+                    challenge.missing === 'b' ? level.countingObjectsDelegate.rightAddendColorProperty.value :
+                    level.countingObjectsDelegate.totalColorProperty.value;
 
       numberButtonGrid.setButtonColor( color );
     } );
