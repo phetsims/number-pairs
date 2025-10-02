@@ -12,7 +12,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -173,18 +172,6 @@ export default class Level {
 
   public deselectAllKittens(): void {
     this.countingObjectsDelegate.deselectAllKittens();
-  }
-
-  /**
-   * Set the attribute positions of the counting objects based on the provided left and right addend positions.
-   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
-   * @param rightAddendObjects
-   * @param leftAttributePositions
-   * @param rightAttributePositions
-   * @param animate - whether to animate the movement of the counting objects.
-   */
-  public setAttributePositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
-    this.countingObjectsDelegate.setAttributePositions( leftAddendObjects, rightAddendObjects, leftAttributePositions, rightAttributePositions, animate );
   }
 
   /**
