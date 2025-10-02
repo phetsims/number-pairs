@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Tandem from '../../../../tandem/js/Tandem.js';
 import RewardDialog from '../../../../vegas/js/RewardDialog.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
 import numberPairs from '../../numberPairs.js';
@@ -15,7 +16,8 @@ export default class NumberPairsRewardDialog extends RewardDialog {
   public constructor(
     returnToHomeScreen: () => void,
     rewardNode: RewardNode,
-    rewardScore: number
+    rewardScore: number,
+    tandem: Tandem
   ) {
 
     super( rewardScore, {
@@ -38,7 +40,9 @@ export default class NumberPairsRewardDialog extends RewardDialog {
       // When the dialog is hidden, hide the reward.
       hideCallback: () => {
         rewardNode.visible = false;
-      }
+      },
+
+      tandem: tandem
     } );
   }
 }
