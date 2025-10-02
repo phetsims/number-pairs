@@ -112,29 +112,6 @@ export default class LevelNode extends Node {
     this.addChild( wrongMark );
     this.addChild( checkMark );
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy ) => {
-      bondNodeProxy.centerX = layoutBounds.centerX;
-      barNodeProxy.centerX = layoutBounds.centerX;
-      equationNodeProxy.centerX = layoutBounds.centerX;
-
-      // TODO: Center between top of counting area and bottom of status bar, see https://github.com/phetsims/number-pairs/issues/213
-      bondNodeProxy.top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + MARGIN );
-      barNodeProxy.top = statusBarProxy.bottom + 5;
-      equationNodeProxy.top = statusBarProxy.bottom + 5;
-
-      wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
-      checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
-
-      if ( level.challengeProperty.value.missing === 'a' ) {
-        wrongMarkProxy.right = bondNodeProxy.left - 5;
-        checkMarkProxy.right = bondNodeProxy.left - 5;
-      }
-      else if ( level.challengeProperty.value.missing === 'b' ) {
-        wrongMarkProxy.left = bondNodeProxy.right + 5;
-        checkMarkProxy.left = bondNodeProxy.right + 5;
-      }
-    } );
-
     let countingAreaNode: CountingAreaNode | null = null;
     let myTenFrameButton: TenFrameButton | null = null;
 
@@ -159,7 +136,7 @@ export default class LevelNode extends Node {
       } );
 
       const tenFrameBounds = level.levelNumber === 7 ?
-                             [ NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ) ] :
+        [ NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ) ] :
                              NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS );
 
       const tenFrameButton = new TenFrameButton( {
@@ -186,6 +163,37 @@ export default class LevelNode extends Node {
       this.addChild( tenFrameButton );
     }
 
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, countingAreaNodeProxy ) => {
+      bondNodeProxy.centerX = layoutBounds.centerX;
+      barNodeProxy.centerX = layoutBounds.centerX;
+      equationNodeProxy.centerX = layoutBounds.centerX;
+
+      const top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + MARGIN );
+
+      // Center between the top and the counting area if it exists, but don't let it get too far away from the counting area
+      if ( countingAreaNodeProxy.bounds.isFinite() ) {
+        const bottom = countingAreaNodeProxy.top;
+        bondNodeProxy.centerY = ( top + bottom ) / 2;
+      }
+      else {
+        bondNodeProxy.centerY = ( top + MARGIN );
+      }
+      barNodeProxy.top = statusBarProxy.bottom + 5;
+      equationNodeProxy.top = statusBarProxy.bottom + 5;
+
+      wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+      checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
+
+      if ( level.challengeProperty.value.missing === 'a' ) {
+        wrongMarkProxy.right = bondNodeProxy.left - 5;
+        checkMarkProxy.right = bondNodeProxy.left - 5;
+      }
+      else if ( level.challengeProperty.value.missing === 'b' ) {
+        wrongMarkProxy.left = bondNodeProxy.right + 5;
+        checkMarkProxy.left = bondNodeProxy.right + 5;
+      }
+    } );
+
     const alignGroup = new AlignGroup();
 
     // Buttons row: Check / Next
@@ -202,19 +210,22 @@ export default class LevelNode extends Node {
       listener: () => {
         const guess = numberButtonGrid.getSelectedNumber();
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
-        const correct = level.checkAnswer( guess );
-
-        // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
-        // TODO: This should be done through the model, see https://github.com/phetsims/number-pairs/issues/213
-        if ( correct ) {
-
-          // Disable all further number input until next
-          numberButtonGrid.showCorrectAnswer( guess );
-        }
+        level.checkAnswer( guess );
       },
       visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' )
     } );
 
+    // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
+    level.modeProperty.lazyLink( mode => {
+      if ( mode === 'correct' ) {
+
+        const value = level.selectedGuessProperty.value;
+        affirm( value !== null );
+
+        // Disable all further number input until next
+        numberButtonGrid.showCorrectAnswer( value );
+      }
+    } );
 
     const tryAgainButton = new RectangularPushButton( {
       content: tryAgainText,

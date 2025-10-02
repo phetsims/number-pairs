@@ -25,7 +25,7 @@ const FEEDBACK_STYLES = {
   idle: { stroke: GRAY, lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH },
   incorrect: { stroke: 'red', lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH },
   correct: { stroke: 'black', lineDash: [], lineWidth: 1 },
-  guessSelected: { stroke: GRAY, lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH } // TODO: Factor out? See https://github.com/phetsims/number-pairs/issues/213
+  guessSelected: { stroke: GRAY, lineDash: DASHED_LINE, lineWidth: DASHED_LINE_WIDTH }
 };
 
 type FeedbackState = keyof typeof FEEDBACK_STYLES;
