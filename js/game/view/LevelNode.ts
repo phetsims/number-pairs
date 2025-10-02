@@ -163,7 +163,19 @@ export default class LevelNode extends Node {
       this.addChild( tenFrameButton );
     }
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, countingAreaNodeProxy ) => {
+    const alignGroup = new AlignGroup();
+
+    // Buttons row: Check / Next
+    const FONT_SIZE = 18;
+    const checkText = alignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
+    const tryAgainText = alignGroup.createBox( new Text( 'Try Again', {
+      fill: 'red',
+      fontSize: FONT_SIZE,
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
+    } ) );
+    const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
+
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, countingAreaNodeProxy ) => {
       bondNodeProxy.centerX = layoutBounds.centerX;
       barNodeProxy.centerX = layoutBounds.centerX;
       equationNodeProxy.centerX = layoutBounds.centerX;
@@ -187,20 +199,16 @@ export default class LevelNode extends Node {
       if ( level.challengeProperty.value.missing === 'a' ) {
         wrongMarkProxy.right = bondNodeProxy.left - 5;
         checkMarkProxy.right = bondNodeProxy.left - 5;
+
+        tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
       }
       else if ( level.challengeProperty.value.missing === 'b' ) {
         wrongMarkProxy.left = bondNodeProxy.right + 5;
         checkMarkProxy.left = bondNodeProxy.right + 5;
+
+        tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
       }
     } );
-
-    const alignGroup = new AlignGroup();
-
-    // Buttons row: Check / Next
-    const FONT_SIZE = 18;
-    const checkText = alignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
-    const tryAgainText = alignGroup.createBox( new Text( 'Try Again', { fontSize: FONT_SIZE } ) );
-    const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
 
     const checkButton = new RectangularPushButton( {
       content: checkText,
@@ -212,7 +220,7 @@ export default class LevelNode extends Node {
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
         level.checkAnswer( guess );
       },
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' )
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' )
     } );
 
     // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
@@ -225,15 +233,6 @@ export default class LevelNode extends Node {
         // Disable all further number input until next
         numberButtonGrid.showCorrectAnswer( value );
       }
-    } );
-
-    const tryAgainButton = new RectangularPushButton( {
-      content: tryAgainText,
-      tandem: tandem.createTandem( 'tryAgainButton' ),
-      right: layoutBounds.right - 100,
-      top: layoutBounds.top + 100,
-      listener: () => level.tryAgain(),
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
     } );
 
     const nextButton = new RectangularPushButton( {
@@ -254,7 +253,7 @@ export default class LevelNode extends Node {
 
     this.addChild( checkButton );
     this.addChild( nextButton );
-    this.addChild( tryAgainButton );
+    this.addChild( tryAgainText );
 
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
