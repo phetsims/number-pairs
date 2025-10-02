@@ -12,21 +12,21 @@ import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
+import CountingObjectSoundPlayer from './CountingObjectSoundPlayer.js';
+import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import CountingObjectSoundPlayer from './CountingObjectSoundPlayer.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -81,18 +81,16 @@ export default class LocationCountingObjectsLayerNode extends Node {
         getGroupItemToSelect: () => {
           const leftCountingObjects = model.leftAddendCountingObjectsProperty.value;
           const rightCountingObjects = model.rightAddendCountingObjectsProperty.value;
-          if ( leftCountingObjects.length === 0 && rightCountingObjects.length === 0 ) {
-            return null;
+
+          // We want to start with the left addend counting objects.
+          if ( leftCountingObjects.length > 0 ) {
+            return leftCountingObjects[ 0 ];
+          }
+          else if ( rightCountingObjects.length > 0 ) {
+            return rightCountingObjects[ 0 ];
           }
           else {
-
-            // We want to start with the left addend counting objects.
-            if ( leftCountingObjects.length > 0 ) {
-              return leftCountingObjects[ 0 ];
-            }
-            else {
-              return rightCountingObjects[ 0 ];
-            }
+            return null;
           }
         },
         getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
@@ -101,30 +99,26 @@ export default class LocationCountingObjectsLayerNode extends Node {
           const addendCountingObjects = addendType === AddendType.LEFT ?
                                         model.leftAddendCountingObjectsProperty.value :
                                         model.rightAddendCountingObjectsProperty.value;
-          const currentIndex = addendCountingObjects.indexOf( groupItem );
+          const otherAddendCountingObjects = addendType === AddendType.LEFT ?
+                                             model.rightAddendCountingObjectsProperty.value :
+                                             model.leftAddendCountingObjectsProperty.value;
           const keysDelta = this.getKeysDelta( keysPressed );
-          const newIndex = Math.min( Math.max( currentIndex + keysDelta, 0 ), addendCountingObjects.length - 1 );
 
-          if ( keysDelta !== 0 ) {
-            keysDelta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+          if ( keysDelta === 0 ) {
+            return groupItem;
           }
 
-          if ( newIndex !== currentIndex ) {
-            return addendCountingObjects[ newIndex ];
-          }
-          else {
-            const otherAddendCountingObjects = addendType === AddendType.LEFT ?
-                                               model.rightAddendCountingObjectsProperty.value :
-                                               model.leftAddendCountingObjectsProperty.value;
-            if ( otherAddendCountingObjects.length > 0 ) {
-              // wrap around to the other addend array.
-              return keysDelta > 0 ? otherAddendCountingObjects[ 0 ] : otherAddendCountingObjects[ otherAddendCountingObjects.length - 1 ];
-            }
-            else {
-              // wrap around to the other end of the same addend array.
-              return keysDelta > 0 ? addendCountingObjects[ 0 ] : addendCountingObjects[ addendCountingObjects.length - 1 ];
-            }
-          }
+          const orderedCountingObjects = addendCountingObjects.concat( otherAddendCountingObjects );
+          const currentIndex = orderedCountingObjects.indexOf( groupItem );
+          affirm( currentIndex !== -1, 'Group item not found in combined counting objects' );
+
+          const totalObjects = orderedCountingObjects.length;
+          affirm( totalObjects > 0, 'No counting objects available for navigation' );
+          const nextIndex = ( currentIndex + keysDelta + totalObjects ) % totalObjects;
+
+          keysDelta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+
+          return orderedCountingObjects[ nextIndex ];
         },
         handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
           const currentPosition = groupItem.locationPositionProperty.value;
