@@ -15,6 +15,7 @@ import { getPDOMFocusedNode } from '../../../../scenery/js/accessibility/pdomFoc
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
@@ -106,9 +107,13 @@ export default class GameScreenView extends ScreenView {
     this.rewardNode = new NumberPairsRewardNode();
     this.numberPairsRewardDialog = new NumberPairsRewardDialog( () => {
       model.modeProperty.value = 'levelSelectionScreen';
-    }, this.rewardNode, 1 );
+    }, this.rewardNode, NumberPairsQueryParameters.rewardScore );
 
     this.addChild( this.rewardNode );
+
+    model.rewardAchievedEmitter.addListener( () => {
+      this.numberPairsRewardDialog.show();
+    } );
   }
 
   /**

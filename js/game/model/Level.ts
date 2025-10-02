@@ -82,6 +82,7 @@ export default class Level implements TNumberPairsModel {
   public readonly totalVisibleProperty: TReadOnlyProperty<boolean>;
   public readonly leftAddendVisibleProperty: TReadOnlyProperty<boolean>;
   public readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
+  public hasShownReward = false;
 
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
@@ -295,6 +296,7 @@ export default class Level implements TNumberPairsModel {
     this.scoreProperty.reset();
     this.challengeProperty.value = this.createChallenge( true );
     this.distributeCountingObjects();
+    this.hasShownReward = false;
   }
 
   // TODO: Everything from here and below was pulled from NumberPairsModel https://github.com/phetsims/number-pairs/issues/216

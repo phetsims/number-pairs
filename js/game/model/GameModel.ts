@@ -7,13 +7,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
@@ -33,9 +36,30 @@ export default class GameModel implements TModel {
   // indexed 0..N-1 for levels 1..N
   public readonly levels: Level[];
 
+  // Emits when a level reaches the reward score for the first time.
+  public readonly rewardAchievedEmitter: Emitter<[ number, number ]>;
+
   public constructor( providedOptions: GameModelOptions ) {
 
     const tandem = providedOptions.tandem;
+
+    this.rewardAchievedEmitter = new Emitter<[ number, number ]>( {
+      tandem: tandem.createTandem( 'rewardAchievedEmitter' ),
+      parameters: [
+        {
+          name: 'levelNumber',
+          phetioType: NumberIO,
+          valueType: 'number',
+          phetioDocumentation: '1-indexed level number whose score reached the reward threshold'
+        },
+        {
+          name: 'score',
+          phetioType: NumberIO,
+          valueType: 'number',
+          phetioDocumentation: 'Score value that triggered the reward'
+        }
+      ]
+    } );
 
     this.modeProperty = new StringUnionProperty<Mode>( 'levelSelectionScreen', {
       validValues: ModeValues,
@@ -184,6 +208,15 @@ export default class GameModel implements TModel {
         tandem: tandem.createTandem( 'level8' )
       } )
     ];
+
+    this.levels.forEach( level => {
+      level.scoreProperty.link( score => {
+        if ( score >= NumberPairsQueryParameters.rewardScore && !level.hasShownReward ) {
+          level.hasShownReward = true;
+          this.rewardAchievedEmitter.emit( level.levelNumber, score );
+        }
+      } );
+    } );
   }
 
   public getLevel( levelNumber: number ): Level {
