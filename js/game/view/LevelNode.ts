@@ -14,6 +14,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
@@ -175,7 +176,13 @@ export default class LevelNode extends Node {
     } ) );
     const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, countingAreaNodeProxy ) => {
+    const resetButton = new ResetButton( {
+      baseColor: 'white',
+      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' ),
+      listener: () => level.tryAgain()
+    } );
+
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetButton, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, countingAreaNodeProxy ) => {
       bondNodeProxy.centerX = layoutBounds.centerX;
       barNodeProxy.centerX = layoutBounds.centerX;
       equationNodeProxy.centerX = layoutBounds.centerX;
@@ -186,6 +193,8 @@ export default class LevelNode extends Node {
       if ( countingAreaNodeProxy.bounds.isFinite() ) {
         const bottom = countingAreaNodeProxy.top;
         bondNodeProxy.centerY = ( top + bottom ) / 2;
+
+        resetButtonProxy.rightBottom = countingAreaNodeProxy.rightBottom.plusXY( -5, -5 );
       }
       else {
         bondNodeProxy.centerY = ( top + MARGIN );
@@ -254,6 +263,7 @@ export default class LevelNode extends Node {
     this.addChild( checkButton );
     this.addChild( nextButton );
     this.addChild( tryAgainText );
+    this.addChild( resetButton );
 
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
