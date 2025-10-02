@@ -20,11 +20,15 @@ import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
 import LevelNode from './LevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
+import NumberPairsRewardDialog from './NumberPairsRewardDialog.js';
+import NumberPairsRewardNode from './NumberPairsRewardNode.js';
 
 type SelfOptions = EmptySelfOptions;
 type GameScreenViewOptions = PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class GameScreenView extends ScreenView {
+  private readonly rewardNode: NumberPairsRewardNode;
+  private readonly numberPairsRewardDialog: NumberPairsRewardDialog;
 
   public constructor( model: GameModel, providedOptions: PickRequired<ScreenViewOptions, 'tandem'> ) {
 
@@ -98,6 +102,13 @@ export default class GameScreenView extends ScreenView {
     model.modeProperty.lazyLink( mode => {
       focusNodes[ mode ]?.focus();
     } );
+
+    this.rewardNode = new NumberPairsRewardNode();
+    this.numberPairsRewardDialog = new NumberPairsRewardDialog( () => {
+      model.modeProperty.value = 'levelSelectionScreen';
+    }, this.rewardNode, 1 );
+
+    this.addChild( this.rewardNode );
   }
 
   /**
@@ -105,8 +116,9 @@ export default class GameScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
-
-    // nothing to animate here
+    if ( this.rewardNode.visible ) {
+      this.rewardNode.step( dt );
+    }
   }
 }
 

@@ -42,6 +42,12 @@ const NumberPairsQueryParameters = QueryStringMachine.getAll( {
     public: true,
     type: 'string',
     defaultValue: null
+  },
+
+  // For development, how many stars gives the reward dialog
+  rewardScore: {
+    type: 'number',
+    defaultValue: 10
   }
 } );
 
