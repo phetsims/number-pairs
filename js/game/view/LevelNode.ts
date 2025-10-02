@@ -152,6 +152,10 @@ export default class LevelNode extends Node {
         tandem: tandem.createTandem( 'kittensLayerNode' )
       } );
 
+      const tenFrameBounds = level.levelNumber === 7 ?
+                             [ NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ) ] :
+                             NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+
       const tenFrameButton = new TenFrameButton( {
         // accessibleName: organizeObjectsPatternStringProperty,
         // accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
@@ -164,7 +168,7 @@ export default class LevelNode extends Node {
           this.interruptSubtreeInput();
           level.deselectAllKittens();
 
-          level.organizeIntoTenFrame( NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ), 'attribute' );
+          level.organizeIntoTenFrame( tenFrameBounds, 'attribute' );
         },
         accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/217
       } );

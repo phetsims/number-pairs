@@ -585,13 +585,16 @@ export default class NumberPairsModel implements TNumberPairsModel {
     let leftGridCoordinates: Vector2[];
     let rightGridCoordinates: Vector2[];
     if ( tenFrameBounds.length === 1 ) {
-      const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0 );
+      const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length );
+      const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0, totalColumnCount );
       leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
       rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
     }
     else {
-      leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35 ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35 ).slice( 0, rightAddendObjects.length );
+      const leftColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length );
+      const rightColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( rightAddendObjects.length );
+      leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35, leftColumnCount ).slice( 0, leftAddendObjects.length );
+      rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35, rightColumnCount ).slice( 0, rightAddendObjects.length );
     }
     if ( positionType === 'attribute' ) {
       this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );

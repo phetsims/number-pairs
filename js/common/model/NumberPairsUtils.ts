@@ -27,6 +27,14 @@ export const NumberPairsUtils = {
   },
 
   /**
+   * Creates a centered ten frame bounds, eroded along the x-axis so the frame appears centered within the counting area.
+   * @param bounds
+   */
+  createCenteredTenFrameBounds: ( bounds: Bounds2 ): Bounds2 => {
+    return bounds.erodedX( bounds.width / 3.5 );
+  },
+
+  /**
    * We will make sure that the direction is always -1 or 1, so we can just multiply by the direction to get the
    * correct side of the counting area.
    * @param position

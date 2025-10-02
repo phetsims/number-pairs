@@ -15,28 +15,30 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
+const TEN_FRAME_ROW_COUNT = 4;
+const DEFAULT_TEN_FRAME_COLUMN_COUNT = 5;
+
 export const CountingObjectsManager = {
 
   /**
    * Returns grid coordinates based on the provided bounds.
-   * This function assumes that we want the coordinates for a ten frame based grid which means there are 5 columns.
+   * This function defaults to a ten frame style grid (5 columns) but allows callers to supply more columns when needed.
    * @param bounds
    * @param leftMargin
    * @param rightMargin
    * @param columnNumber
    */
-  getGridCoordinates: ( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = 5 ): Vector2[] => {
-    const rowNumber = 4;
+  getGridCoordinates: ( bounds: Bounds2, leftMargin: number, rightMargin: number, columnNumber = DEFAULT_TEN_FRAME_COLUMN_COUNT ): Vector2[] => {
     const topMargin = 11;
     const bottomMargin = 56;
-    affirm( columnNumber * rowNumber >= NumberPairsConstants.TWENTY_TOTAL_RANGE.max, 'There are not enough cells for the possible amount of counting objects.' );
+    affirm( columnNumber * TEN_FRAME_ROW_COUNT >= NumberPairsConstants.TWENTY_TOTAL_RANGE.max, 'There are not enough cells for the possible amount of counting objects.' );
 
     const columnWidth = ( bounds.width - rightMargin - leftMargin ) / columnNumber;
-    const rowHeight = ( bounds.height - bottomMargin - topMargin ) / rowNumber;
+    const rowHeight = ( bounds.height - bottomMargin - topMargin ) / TEN_FRAME_ROW_COUNT;
 
     const cellCenterCoordinates: Vector2[] = [];
 
-    for ( let i = 0; i < rowNumber; i++ ) {
+    for ( let i = 0; i < TEN_FRAME_ROW_COUNT; i++ ) {
       for ( let j = 0; j < columnNumber; j++ ) {
         const x = bounds.minX + j * columnWidth + columnWidth / 2;
         const y = bounds.minY + i * rowHeight + rowHeight / 2;
@@ -44,6 +46,17 @@ export const CountingObjectsManager = {
       }
     }
     return cellCenterCoordinates;
+  },
+
+  /**
+   * Calculates the number of columns required for the provided object count while respecting the default column count
+   * used by ten frames.
+   * @param objectCount
+   * @param minimumColumns
+   */
+  getColumnCountForObjectTotal: ( objectCount: number, minimumColumns = DEFAULT_TEN_FRAME_COLUMN_COUNT ): number => {
+    const requiredColumns = Math.ceil( objectCount / TEN_FRAME_ROW_COUNT );
+    return Math.max( minimumColumns, requiredColumns );
   },
   setAddendType: ( leftCountingObjects: CountingObject[], rightCountingObjects: CountingObject[], inactiveCountingObjects: CountingObject[] ): void => {
   leftCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.LEFT; } );

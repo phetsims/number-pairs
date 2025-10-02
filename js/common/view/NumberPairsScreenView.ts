@@ -190,7 +190,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
-    const sumTenFrameBounds = COUNTING_AREA_BOUNDS.erodedX( COUNTING_AREA_BOUNDS.width / 3.5 );
+    const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
     const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
 
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
