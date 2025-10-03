@@ -244,9 +244,11 @@ export default class LevelNode extends Node {
       }
     } );
 
-    // Layout
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node() ],
-      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy ) => {
+    // Layout: TODO: how to modularize and make more readable? See https://github.com/phetsims/number-pairs/issues/232
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node(),
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
+      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
+        equationLeftProxy, equationRightProxy, equationTopProxy ) => {
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
         equationNodeProxy.centerX = layoutBounds.centerX;
@@ -276,20 +278,35 @@ export default class LevelNode extends Node {
         equationNodeProxy.centerY = bondNodeProxy.centerY;
         barNodeProxy.top = statusBarProxy.bottom + 5;
 
-        wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
-        checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
+        if ( level.type === 'bond' ) {
 
-        if ( level.challengeProperty.value.missing === 'a' ) {
-          wrongMarkProxy.right = bondNodeProxy.left - 5;
-          checkMarkProxy.right = bondNodeProxy.left - 5;
+          wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+          checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
 
-          tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
+          if ( level.challengeProperty.value.missing === 'a' ) {
+            wrongMarkProxy.right = bondNodeProxy.left - 5;
+            checkMarkProxy.right = bondNodeProxy.left - 5;
+
+            tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
+          }
+          else if ( level.challengeProperty.value.missing === 'b' ) {
+            wrongMarkProxy.left = bondNodeProxy.right + 5;
+            checkMarkProxy.left = bondNodeProxy.right + 5;
+
+            tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
+          }
         }
-        else if ( level.challengeProperty.value.missing === 'b' ) {
-          wrongMarkProxy.left = bondNodeProxy.right + 5;
-          checkMarkProxy.left = bondNodeProxy.right + 5;
+        else if ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) {
 
-          tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
+          const missingSquare = equationNode.getMissingSquare();
+          const proxy = missingSquare === equationNode.leftAddendSquare ? equationLeftProxy :
+                        missingSquare === equationNode.rightAddendSquare ? equationRightProxy :
+                        equationTopProxy;
+          wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+          checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+
+          tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
+          tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
         }
       } );
 

@@ -16,7 +16,7 @@ import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
 
 export default class GameNumberEquationNode extends NumberEquationNode {
-  public constructor( level: Level ) {
+  public constructor( private readonly level: Level ) {
     super( level.countingObjectsDelegate, 66, 46.2, 39.6, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
@@ -36,7 +36,7 @@ export default class GameNumberEquationNode extends NumberEquationNode {
       ( mode, challenge ) => {
         [ this.leftAddendSquare, this.rightAddendSquare, this.totalSquare ].forEach( setDefaultStyle );
 
-        const missingSquare = challenge.missing === 'a' ? this.leftAddendSquare : challenge.missing === 'b' ? this.rightAddendSquare : this.totalSquare;
+        const missingSquare = this.getMissingSquare();
         const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
         missingSquare.stroke = stroke;
@@ -44,6 +44,11 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         missingSquare.lineWidth = lineWidth;
       }
     );
+  }
+
+  public getMissingSquare(): Rectangle {
+    const challenge = this.level.challengeProperty.value;
+    return challenge.missing === 'a' ? this.leftAddendSquare : challenge.missing === 'b' ? this.rightAddendSquare : this.totalSquare;
   }
 }
 

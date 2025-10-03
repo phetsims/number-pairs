@@ -71,7 +71,10 @@ export default class NumberEquationNode extends Node {
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
     const contentNode = new HBox( {
       children: contentChildren,
-      spacing: 10
+      spacing: 10,
+
+      // Do not relayout when the stroke changes on the game screen.
+      resize: false // TODO: Is this safe for the whole sim? See https://github.com/phetsims/number-pairs/issues/224
     } );
 
     super( options );
