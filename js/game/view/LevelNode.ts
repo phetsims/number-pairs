@@ -29,13 +29,13 @@ import BarModelNode from '../../common/view/BarModelNode.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
-import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
+import GameNumberEquationNode from './GameNumberEquationNode.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import StatusBar from './StatusBar.js';
 
@@ -87,13 +87,7 @@ export default class LevelNode extends Node {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new NumberEquationNode( level.countingObjectsDelegate, 66, 46.2, 39.6, {
-      addendsOnRight: level.type === 'decompositionEquation',
-      totalColorProperty: NumberPairsColors.attributeSumColorProperty,
-      leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
-      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
-      visible: level.type === 'decompositionEquation' || level.type === 'sumEquation'
-    } );
+    const equationNode = new GameNumberEquationNode( level.countingObjectsDelegate, level.type );
 
     this.addChild( bondNode );
     this.addChild( barNode );

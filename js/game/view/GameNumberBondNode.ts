@@ -58,10 +58,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
     Multilink.multilink(
       [ level.modeProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
-      ( feedbackState, challenge ) => {
-        updateRepresentation( feedbackState, challenge.missing );
-
-      }
+      ( feedbackState, challenge ) => updateRepresentation( feedbackState, challenge.missing )
     );
   }
 }
