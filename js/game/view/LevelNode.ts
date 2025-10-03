@@ -136,11 +136,7 @@ export default class LevelNode extends Node {
       } );
 
       const tenFrameButton = new TenFrameButton( {
-        // accessibleName: organizeObjectsPatternStringProperty,
-        // accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
         tandem: tandem.createTandem( 'tenFrameButton' ),
-        // touchAreaXDilation: buttonVBoxSpacing / 2,
-        // touchAreaYDilation: buttonVBoxSpacing / 2,
         right: gameCountingAreaNode.left,
         top: gameCountingAreaNode.top,
         listener: () => {
@@ -170,10 +166,13 @@ export default class LevelNode extends Node {
     } ) );
     const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
 
-    const resetButton = new ResetButton( {
+    const resetChallengeButton = new ResetButton( {
       baseColor: 'white',
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' ),
-      listener: () => level.tryAgain()
+      listener: () => {
+        level.resetChallenge();
+        numberButtonGrid.buttonStates.forEach( buttonState => {buttonState.value = false;} );
+      },
+      tandem: tandem.createTandem( 'resetChallengeButton' )
     } );
 
     const checkButton = new RectangularPushButton( {
@@ -220,7 +219,7 @@ export default class LevelNode extends Node {
     this.addChild( checkButton );
     this.addChild( nextButton );
     this.addChild( tryAgainText );
-    this.addChild( resetButton );
+    this.addChild( resetChallengeButton );
 
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
@@ -241,7 +240,7 @@ export default class LevelNode extends Node {
     } );
 
     // Layout
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetButton, myTenFrameButton || new Node(), countingAreaNode || new Node() ],
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node() ],
       ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy ) => {
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;

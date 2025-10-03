@@ -35,7 +35,7 @@ export default class NumberButtonGrid extends Node {
   public readonly anySelectedProperty: BooleanProperty;
   public readonly selectedIsEnabledProperty: BooleanProperty;
 
-  private readonly buttonStates: BooleanProperty[];
+  public readonly buttonStates: BooleanProperty[];
   public readonly buttons: BooleanRectangularStickyToggleButton[];
   private readonly buttonValues: number[];
 

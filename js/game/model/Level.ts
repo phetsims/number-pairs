@@ -193,7 +193,7 @@ export default class Level {
     this.countingObjectsDelegate.createCountingObjectAddendTypeLinks( countingObject );
   }
 
-  public tryAgain(): void {
+  public resetChallenge(): void {
     this.clearFeedback();
     this.modeProperty.value = 'idle';
 
