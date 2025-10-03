@@ -11,7 +11,6 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -176,11 +175,14 @@ export default class Level {
 
   /**
    * Organizes the counting objects into a ten frame based on the provided bounds.
-   * @param tenFrameBounds
-   * @param positionType
    */
-  public organizeIntoTenFrame( tenFrameBounds: Bounds2[], positionType: 'attribute' | 'location' ): void {
-    this.countingObjectsDelegate.organizeIntoTenFrame( tenFrameBounds, positionType );
+  public organizeIntoTenFrame(): void {
+    if ( this.levelNumber !== 7 ) {
+      this.countingObjectsDelegate.organizeIntoDoubleTenFrame();
+    }
+    else {
+      this.countingObjectsDelegate.organizeIntoSingleTenFrame();
+    }
   }
 
   /**

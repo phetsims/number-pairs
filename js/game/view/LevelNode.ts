@@ -24,9 +24,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
-import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
@@ -137,10 +135,6 @@ export default class LevelNode extends Node {
         visibleProperty: addendsVisibleProperty
       } );
 
-      const tenFrameBounds = level.levelNumber === 7 ?
-        [ NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ) ] :
-                             NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS );
-
       const tenFrameButton = new TenFrameButton( {
         // accessibleName: organizeObjectsPatternStringProperty,
         // accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
@@ -152,8 +146,7 @@ export default class LevelNode extends Node {
         listener: () => {
           this.interruptSubtreeInput();
           level.deselectAllKittens();
-
-          level.organizeIntoTenFrame( tenFrameBounds, 'attribute' );
+          level.organizeIntoTenFrame();
         },
         accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/217
       } );

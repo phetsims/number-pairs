@@ -26,6 +26,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import { AnimationTarget } from '../../common/model/NumberPairsModel.js';
+import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import TNumberPairsModel from '../../common/model/TNumberPairsModel.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -150,28 +151,36 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
     } );
   }
 
-  public organizeIntoTenFrame( tenFrameBounds: Bounds2[], positionType: 'attribute' | 'location' ): void {
-    affirm( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
+  public organizeIntoDoubleTenFrame(): void {
     const leftAddendObjects = this.leftAddendObjects;
     const rightAddendObjects = this.rightAddendObjects;
 
-    let leftGridCoordinates: Vector2[];
-    let rightGridCoordinates: Vector2[];
-    if ( tenFrameBounds.length === 1 ) {
-      const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length );
-      const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0, totalColumnCount );
-      leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
-    }
-    else {
-      const leftColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length );
-      const rightColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( rightAddendObjects.length );
-      leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35, leftColumnCount ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35, rightColumnCount ).slice( 0, rightAddendObjects.length );
-    }
-    if ( positionType === 'attribute' ) {
-      this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
-    }
+    const tenFrameBounds = NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+
+    const leftColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length );
+    const rightColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( rightAddendObjects.length );
+    const leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35, leftColumnCount ).slice( 0, leftAddendObjects.length );
+    const rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35, rightColumnCount ).slice( 0, rightAddendObjects.length );
+
+    this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates );
+
+    affirm( this.leftAddendObjects.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.rightAddendObjects.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
+  }
+
+  // For level 7, show as a single ten-frame, with a gap between 5th and 6th columns
+  public organizeIntoSingleTenFrame(): void {
+    const leftAddendObjects = this.leftAddendObjects;
+    const rightAddendObjects = this.rightAddendObjects;
+
+    const tenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+
+    const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length );
+    const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds, 0, 0, totalColumnCount );
+    const leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
+    const rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
+
+    this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates );
 
     affirm( this.leftAddendObjects.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     affirm( this.rightAddendObjects.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
@@ -180,35 +189,24 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
   public setAttributePositions( leftAddendObjects: CountingObject[],
                                 rightAddendObjects: CountingObject[],
                                 leftAttributePositions: Vector2[],
-                                rightAttributePositions: Vector2[],
-                                animate = false ): void {
+                                rightAttributePositions: Vector2[] ): void {
     affirm( leftAddendObjects.length === leftAttributePositions.length,
       `leftAddendObjects length: ${leftAddendObjects.length}  should be the same leftAttributePositions length: ${leftAttributePositions.length} and the left value is: ${this.leftAddendProperty.value}.` );
     affirm( rightAddendObjects.length === rightAttributePositions.length,
       `rightAddendObjects length: ${rightAddendObjects.length}  should be the same rightAttributePositions length: ${rightAttributePositions.length} and the right value is: ${this.rightAddendProperty.value}.` );
 
-    if ( animate ) {
-      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
-        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
+    const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
+      ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
 
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-    else {
-      leftAddendObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
-      } );
-      rightAddendObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
-      } );
-    }
+    this.countingObjectsAnimation?.stop();
+    this.countingObjectsAnimation = new Animation( {
+      duration: 0.4,
+      targets: animationTargets
+    } );
+    this.countingObjectsAnimation.endedEmitter.addListener( () => {
+      this.countingObjectsAnimation = null;
+    } );
+    this.countingObjectsAnimation.start();
   }
 
   public createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
