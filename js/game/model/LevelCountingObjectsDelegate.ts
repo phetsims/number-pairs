@@ -33,6 +33,10 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 
+// Controls extra spacing between the two halves of the single ten frame used in level 7.
+const SINGLE_TEN_FRAME_COLUMN_GAP = 20;
+const SINGLE_TEN_FRAME_GAP_COLUMN_INDEX = 5;
+
 export type CountingObjectsDelegateOptions = {
   challengeProperty: Property<Challenge>;
   selectedGuessProperty: Property<number | null>;
@@ -178,8 +182,15 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
 
     const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length, 10 );
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds, 0, 0, totalColumnCount );
-    const leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
-    const rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
+
+    // On level 7, show a gap between columns 5-6 to make it easier to visually parse
+    const gapAdjustedGridCoordinates = gridCoordinates.map( ( coordinate, index ) => {
+      const columnIndex = index % totalColumnCount;
+      return columnIndex >= SINGLE_TEN_FRAME_GAP_COLUMN_INDEX ? coordinate.plusXY( SINGLE_TEN_FRAME_COLUMN_GAP, 0 ) : coordinate;
+    } );
+
+    const leftGridCoordinates = gapAdjustedGridCoordinates.slice( 0, leftAddendObjects.length );
+    const rightGridCoordinates = gapAdjustedGridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
 
     this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates );
 
