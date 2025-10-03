@@ -18,9 +18,6 @@ import numberPairs from '../../numberPairs.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
 
-// Font for the '=' and '+' symbols.
-const SYMBOL_FONT = new PhetFont( 28 );
-
 type SelfOptions = {
   addendsOnRight?: boolean;
   totalColorProperty: TReadOnlyProperty<Color>;
@@ -29,44 +26,46 @@ type SelfOptions = {
 };
 export type NumberEquationNodeOptions = SelfOptions & NodeOptions;
 
-const SQUARE_DIMENSION = 40;
 export default class NumberEquationNode extends Node {
   public readonly totalSquare: NumberRectangle;
   public readonly leftAddendSquare: NumberRectangle;
   public readonly rightAddendSquare: NumberRectangle;
 
-  public constructor( model: TGenericNumberPairsModel, providedOptions: NumberEquationNodeOptions ) {
+  public constructor( model: TGenericNumberPairsModel, squareDimension: number, symbolFontSize: number, numberFontSize: number, providedOptions: NumberEquationNodeOptions ) {
 
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true
     }, providedOptions );
 
-    const totalSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.totalProperty, {
-      numberVisibleProperty: model.totalVisibleProperty
+    const totalSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.totalProperty, {
+      numberVisibleProperty: model.totalVisibleProperty,
+      numberFontSize: numberFontSize
     } );
     options.totalColorProperty.link( totalColor => {
       totalSquare.fill = totalColor;
       totalSquare.stroke = totalColor.darkerColor();
     } );
 
-    const leftAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.leftAddendProperty, {
-      numberVisibleProperty: model.leftAddendVisibleProperty
+    const leftAddendSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.leftAddendProperty, {
+      numberVisibleProperty: model.leftAddendVisibleProperty,
+      numberFontSize: numberFontSize
     } );
     options.leftAddendColorProperty.link( leftAddendColor => {
       leftAddendSquare.fill = leftAddendColor;
       leftAddendSquare.stroke = leftAddendColor.darkerColor();
     } );
 
-    const rightAddendSquare = new NumberRectangle( new Dimension2( SQUARE_DIMENSION, SQUARE_DIMENSION ), model.rightAddendProperty, {
-      numberVisibleProperty: model.rightAddendVisibleProperty
+    const rightAddendSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.rightAddendProperty, {
+      numberVisibleProperty: model.rightAddendVisibleProperty,
+      numberFontSize: numberFontSize
     } );
     options.rightAddendColorProperty.link( rightAddendColor => {
       rightAddendSquare.fill = rightAddendColor;
       rightAddendSquare.stroke = rightAddendColor.darkerColor();
     } );
 
-    const equalSign = new Text( '=', { font: SYMBOL_FONT } );
-    const plusSign = new Text( '+', { font: SYMBOL_FONT } );
+    const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
+    const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
 
     const contentChildren = options.addendsOnRight ? [ totalSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];

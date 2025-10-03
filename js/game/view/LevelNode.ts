@@ -87,7 +87,7 @@ export default class LevelNode extends Node {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new NumberEquationNode( level.countingObjectsDelegate, {
+    const equationNode = new NumberEquationNode( level.countingObjectsDelegate, 66, 46.2, 39.6, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -279,8 +279,8 @@ export default class LevelNode extends Node {
         else {
           bondNodeProxy.centerY = ( top + MARGIN );
         }
+        equationNodeProxy.centerY = bondNodeProxy.centerY;
         barNodeProxy.top = statusBarProxy.bottom + 5;
-        equationNodeProxy.top = statusBarProxy.bottom + 5;
 
         wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
         checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
