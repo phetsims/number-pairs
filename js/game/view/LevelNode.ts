@@ -115,17 +115,21 @@ export default class LevelNode extends Node {
 
     let countingAreaNode: CountingAreaNode | null = null;
     let myTenFrameButton: TenFrameButton | null = null;
+    let myKittensLayerNode: KittensLayerNode | null = null;
 
     if ( level.levelNumber <= 7 ) {
       const leftAddendsVisibleProperty = new BooleanProperty( true );
       const rightAddendsVisibleProperty = new BooleanProperty( true );
       const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
 
+      // TODO: layout, see https://github.com/phetsims/number-pairs/issues/231
+      const SCALE = 0.97;
+
       const gameCountingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
         countingRepresentationTypeProperty: level.representationTypeProperty,
         backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
         tandem: tandem.createTandem( 'gameCountingAreaNode' ),
-        top: equationNode.bottom + 20
+        scale: SCALE
       } );
 
       countingAreaNode = gameCountingAreaNode;
@@ -133,8 +137,10 @@ export default class LevelNode extends Node {
       const kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, gameCountingAreaNode, {
         tandem: tandem.createTandem( 'kittensLayerNode' ),
         includeKittenAttributeSwitch: false,
-        visibleProperty: addendsVisibleProperty
+        visibleProperty: addendsVisibleProperty,
+        scale: SCALE
       } );
+      myKittensLayerNode = kittensLayerNode;
 
       const tenFrameButton = new TenFrameButton( {
         tandem: tandem.createTandem( 'tenFrameButton' ),
@@ -245,8 +251,8 @@ export default class LevelNode extends Node {
     } );
 
     // Layout
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node() ],
-      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy ) => {
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node() ],
+      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy ) => {
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
         equationNodeProxy.centerX = layoutBounds.centerX;
@@ -255,11 +261,20 @@ export default class LevelNode extends Node {
 
         // Center between the top and the counting area if it exists, but don't let it get too far away from the counting area
         if ( countingAreaNodeProxy.bounds.isFinite() ) {
+
+          myTenFrameButtonProxy.left = layoutBounds.left + MARGIN;
+
+          countingAreaNodeProxy.bottom = layoutBounds.bottom - 20;
+          countingAreaNodeProxy.left = myTenFrameButtonProxy.right + 5;
+
           const bottom = countingAreaNodeProxy.top;
           bondNodeProxy.centerY = ( top + bottom ) / 2;
 
           resetButtonProxy.rightBottom = countingAreaNodeProxy.rightBottom.plusXY( -5, -5 );
-          myTenFrameButtonProxy.rightTop = countingAreaNodeProxy.leftTop.plusXY( -5, 0 );
+          myTenFrameButtonProxy.top = countingAreaNodeProxy.top;
+
+          myKittensLayerNodeProxy.x = countingAreaNodeProxy.x;
+          myKittensLayerNodeProxy.y = countingAreaNodeProxy.y;
         }
         else {
           bondNodeProxy.centerY = ( top + MARGIN );
