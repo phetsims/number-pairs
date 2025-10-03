@@ -167,8 +167,7 @@ export default class NumberButtonGrid extends Node {
       button.enabledProperty.value = true;
       button.pickable = false;
 
-      // unpress the button
-      this.buttonStates[ answerIndex ].value = false;
+      // Keep the button pressed so the correct answer remains visible
     }
   }
 
