@@ -182,43 +182,6 @@ export default class LevelNode extends Node {
       listener: () => level.tryAgain()
     } );
 
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetButton, countingAreaNode || new Node() ], ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, countingAreaNodeProxy ) => {
-      bondNodeProxy.centerX = layoutBounds.centerX;
-      barNodeProxy.centerX = layoutBounds.centerX;
-      equationNodeProxy.centerX = layoutBounds.centerX;
-
-      const top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + MARGIN );
-
-      // Center between the top and the counting area if it exists, but don't let it get too far away from the counting area
-      if ( countingAreaNodeProxy.bounds.isFinite() ) {
-        const bottom = countingAreaNodeProxy.top;
-        bondNodeProxy.centerY = ( top + bottom ) / 2;
-
-        resetButtonProxy.rightBottom = countingAreaNodeProxy.rightBottom.plusXY( -5, -5 );
-      }
-      else {
-        bondNodeProxy.centerY = ( top + MARGIN );
-      }
-      barNodeProxy.top = statusBarProxy.bottom + 5;
-      equationNodeProxy.top = statusBarProxy.bottom + 5;
-
-      wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
-      checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
-
-      if ( level.challengeProperty.value.missing === 'a' ) {
-        wrongMarkProxy.right = bondNodeProxy.left - 5;
-        checkMarkProxy.right = bondNodeProxy.left - 5;
-
-        tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
-      }
-      else if ( level.challengeProperty.value.missing === 'b' ) {
-        wrongMarkProxy.left = bondNodeProxy.right + 5;
-        checkMarkProxy.left = bondNodeProxy.right + 5;
-
-        tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
-      }
-    } );
-
     const checkButton = new RectangularPushButton( {
       content: checkText,
       tandem: tandem.createTandem( 'checkButton' ),
@@ -282,6 +245,46 @@ export default class LevelNode extends Node {
         level.clearFeedback();
       }
     } );
+
+    // Layout
+    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetButton, myTenFrameButton || new Node(), countingAreaNode || new Node() ],
+      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy ) => {
+        bondNodeProxy.centerX = layoutBounds.centerX;
+        barNodeProxy.centerX = layoutBounds.centerX;
+        equationNodeProxy.centerX = layoutBounds.centerX;
+
+        const top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + MARGIN );
+
+        // Center between the top and the counting area if it exists, but don't let it get too far away from the counting area
+        if ( countingAreaNodeProxy.bounds.isFinite() ) {
+          const bottom = countingAreaNodeProxy.top;
+          bondNodeProxy.centerY = ( top + bottom ) / 2;
+
+          resetButtonProxy.rightBottom = countingAreaNodeProxy.rightBottom.plusXY( -5, -5 );
+          myTenFrameButtonProxy.rightTop = countingAreaNodeProxy.leftTop.plusXY( -5, 0 );
+        }
+        else {
+          bondNodeProxy.centerY = ( top + MARGIN );
+        }
+        barNodeProxy.top = statusBarProxy.bottom + 5;
+        equationNodeProxy.top = statusBarProxy.bottom + 5;
+
+        wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+        checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
+
+        if ( level.challengeProperty.value.missing === 'a' ) {
+          wrongMarkProxy.right = bondNodeProxy.left - 5;
+          checkMarkProxy.right = bondNodeProxy.left - 5;
+
+          tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
+        }
+        else if ( level.challengeProperty.value.missing === 'b' ) {
+          wrongMarkProxy.left = bondNodeProxy.right + 5;
+          checkMarkProxy.left = bondNodeProxy.right + 5;
+
+          tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
+        }
+      } );
 
     this.pdomOrder = [
       numberButtonGrid,
