@@ -26,6 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import BarModelNode from '../../common/view/BarModelNode.js';
+import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
@@ -152,6 +153,9 @@ export default class LevelNode extends Node {
       this.addChild( gameCountingAreaNode );
       this.addChild( kittensLayerNode );
       this.addChild( tenFrameButton );
+
+      // If the user clicks outside the kittens, then remove focus from all the counting objects.
+      this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
     }
 
     const alignGroup = new AlignGroup();

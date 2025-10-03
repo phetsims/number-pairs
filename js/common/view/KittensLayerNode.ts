@@ -28,7 +28,11 @@ type KittensLayerNodeOptions = SelfOptions & StrictOmit<WithRequired<NodeOptions
 export default class KittensLayerNode extends Node {
   public readonly kittenNodes: KittenNode[];
 
-  public constructor( countingObjects: CountingObject[], countingAreaNode: CountingAreaNode, providedOptions: KittensLayerNodeOptions ) {
+  public constructor(
+    public readonly countingObjects: CountingObject[],
+    countingAreaNode: CountingAreaNode,
+    providedOptions: KittensLayerNodeOptions
+  ) {
     const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
 

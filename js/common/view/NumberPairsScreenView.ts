@@ -17,14 +17,15 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
-import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
@@ -38,6 +39,7 @@ import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadsOnWireNode from './BeadsOnWireNode.js';
+import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressListener.js';
 import CommutativeButton from './CommutativeButton.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
@@ -50,8 +52,6 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
-import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -357,18 +357,7 @@ export default class NumberPairsScreenView extends ScreenView {
       this.representationNodes.push( ...kittensLayerNode.kittenNodes );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
-      this.addInputListener( new PressListener( {
-        attach: false,
-        pressCursor: null,
-        press: event => {
-          if ( kittensLayerNode.kittenNodes.every( kittenNode => !event.trail.containsNode( kittenNode ) ) ) {
-            model.countingObjects.forEach( countingObject => {
-              countingObject.kittenSelectedProperty.value = false;
-            } );
-          }
-        },
-        tandem: options.tandem.createTandem( 'kittensLayerNodePressListener' )
-      } ) );
+      this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode, options.tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
     }
 
     /**
