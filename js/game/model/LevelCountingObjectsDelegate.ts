@@ -189,13 +189,24 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds, 0, 0, totalColumnCount );
 
     // On level 7, show a gap between columns 5-6 to make it easier to visually parse
-    const gapAdjustedGridCoordinates = gridCoordinates.map( ( coordinate, index ) => {
+    const gapAdjustedGridCoordinateEntries = gridCoordinates.map( ( coordinate, index ) => {
       const columnIndex = index % totalColumnCount;
-      return columnIndex >= SINGLE_TEN_FRAME_GAP_COLUMN_INDEX ? coordinate.plusXY( SINGLE_TEN_FRAME_COLUMN_GAP, 0 ) : coordinate;
+      const adjustedCoordinate = columnIndex >= SINGLE_TEN_FRAME_GAP_COLUMN_INDEX ? coordinate.plusXY( SINGLE_TEN_FRAME_COLUMN_GAP, 0 ) : coordinate;
+      return {
+        coordinate: adjustedCoordinate,
+        columnIndex: columnIndex
+      };
     } );
 
-    const leftGridCoordinates = gapAdjustedGridCoordinates.slice( 0, leftAddendObjects.length );
-    const rightGridCoordinates = gapAdjustedGridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
+    const orderedGapAdjustedCoordinates = totalColumnCount > SINGLE_TEN_FRAME_GAP_COLUMN_INDEX ? [
+      ...gapAdjustedGridCoordinateEntries.filter( entry => entry.columnIndex < SINGLE_TEN_FRAME_GAP_COLUMN_INDEX ),
+      ...gapAdjustedGridCoordinateEntries.filter( entry => entry.columnIndex >= SINGLE_TEN_FRAME_GAP_COLUMN_INDEX )
+    ] : gapAdjustedGridCoordinateEntries;
+
+    const orderedGridCoordinates = orderedGapAdjustedCoordinates.map( entry => entry.coordinate );
+
+    const leftGridCoordinates = orderedGridCoordinates.slice( 0, leftAddendObjects.length );
+    const rightGridCoordinates = orderedGridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
 
     this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates );
 
