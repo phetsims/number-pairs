@@ -22,7 +22,6 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import Color from '../../../../scenery/js/util/Color.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
@@ -57,7 +56,6 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
 
   public countingObjectsAnimation: Animation | null = null;
 
-  private readonly tandem: Tandem;
   private readonly challengeProperty: Property<Challenge>;
   private readonly selectedGuessProperty: Property<number | null>;
   public readonly representationTypeProperty: Property<RepresentationType>;
@@ -65,7 +63,6 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
   private readonly rightAddendObjects: ObservableArray<CountingObject>;
 
   public constructor( options: CountingObjectsDelegateOptions ) {
-    this.tandem = options.tandem;
     this.challengeProperty = options.challengeProperty;
     this.selectedGuessProperty = options.selectedGuessProperty;
     this.representationTypeProperty = options.representationTypeProperty;
@@ -97,20 +94,20 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
     this.rightAddendVisibleProperty = derived( this.challengeProperty, this.selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missing === 'b' && guess !== null ) || challenge.missing !== 'b' );
 
-    this.countingObjects = CountingObjectsManager.createCountingObjects( 40, this.leftAddendProperty.value, this.rightAddendProperty.value, this.tandem );
+    this.countingObjects = CountingObjectsManager.createCountingObjects( 40, this.leftAddendProperty.value, this.rightAddendProperty.value, options.tandem );
     const inactiveCountingObjects = this.countingObjects.slice();
     this.inactiveCountingObjects = createObservableArray( {
       elements: inactiveCountingObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: this.tandem.createTandem( 'inactiveCountingObjects' )
+      tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
     this.leftAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: this.tandem.createTandem( 'leftAddendObjects' )
+      tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
     this.rightAddendObjects = createObservableArray( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: this.tandem.createTandem( 'rightAddendObjects' )
+      tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );
 
     this.leftAddendCountingObjectsProperty = new Property( this.leftAddendObjects );
