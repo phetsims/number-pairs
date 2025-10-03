@@ -173,7 +173,8 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
     const leftAddendObjects = this.leftAddendObjects;
     const rightAddendObjects = this.rightAddendObjects;
 
-    const tenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+    // Use more of the number game play area
+    const tenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ).dilatedX( 100 );
 
     const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length, 10 );
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds, 0, 0, totalColumnCount );
