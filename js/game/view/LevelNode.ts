@@ -20,12 +20,12 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import BarModelNode from '../../common/view/BarModelNode.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
@@ -33,7 +33,7 @@ import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
-import BarLevelDisplay from './BarLevelDisplay.js';
+import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
@@ -70,23 +70,13 @@ export default class LevelNode extends Node {
     } );
     this.addChild( numberButtonGrid );
 
-    // Correct-size adapter for bar model widths
-    const barAdapter = new BarLevelDisplay( level, level.selectedGuessProperty );
-
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
-    const barNode = new BarModelNode( barAdapter, {
-      displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
-      displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
-      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
-      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
-        return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
-      } )
-    } );
+    const barNode = new GameNumberBarModelNode( level );
     const equationNode = new GameNumberEquationNode( level );
 
     this.addChild( bondNode );
@@ -244,11 +234,27 @@ export default class LevelNode extends Node {
       }
     } );
 
+    // Layout must be done through ManualConstraint. However, we also require a way to trigger the manual constraint
+    // when the preferences change, hence this fakeNode.
+    const fakeNode = new Rectangle( 0, 0, 1, 1, {
+      opacity: 0,
+      pickable: false
+    } );
+    this.addChild( fakeNode );
+
+    NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
+      fakeNode.rectWidth++;
+    } );
+
     // Layout: TODO: how to modularize and make more readable? See https://github.com/phetsims/number-pairs/issues/232
-    ManualConstraint.create( this, [ bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton, myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node(),
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
-      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy ) => {
+    ManualConstraint.create( this, [
+        bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton,
+        myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node(),
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, fakeNode ],
+      ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
+        resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
+        equationLeftProxy, equationRightProxy, equationTopProxy, fakeNodeProxy ) => {
+
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
         equationNodeProxy.centerX = layoutBounds.centerX;
@@ -276,24 +282,32 @@ export default class LevelNode extends Node {
           bondNodeProxy.centerY = ( top + MARGIN );
         }
         equationNodeProxy.centerY = bondNodeProxy.centerY;
-        barNodeProxy.top = statusBarProxy.bottom + 5;
+        barNodeProxy.center = bondNodeProxy.center;
 
         if ( level.type === 'bond' ) {
 
           wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
           checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
 
-          if ( level.challengeProperty.value.missing === 'a' ) {
-            wrongMarkProxy.right = bondNodeProxy.left - 5;
-            checkMarkProxy.right = bondNodeProxy.left - 5;
+          if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
-            tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
+            if ( level.challengeProperty.value.missing === 'a' ) {
+              wrongMarkProxy.right = bondNodeProxy.left - 5;
+              checkMarkProxy.right = bondNodeProxy.left - 5;
+
+              tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
+            }
+            else if ( level.challengeProperty.value.missing === 'b' ) {
+              wrongMarkProxy.left = bondNodeProxy.right + 5;
+              checkMarkProxy.left = bondNodeProxy.right + 5;
+
+              tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
+            }
           }
-          else if ( level.challengeProperty.value.missing === 'b' ) {
-            wrongMarkProxy.left = bondNodeProxy.right + 5;
-            checkMarkProxy.left = bondNodeProxy.right + 5;
+          else {
 
-            tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
+            // TODO: Layout wrongMark and checkMark for bar model, see https://github.com/phetsims/number-pairs/issues/227
+
           }
         }
         else if ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) {
