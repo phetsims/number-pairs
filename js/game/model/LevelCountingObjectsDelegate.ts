@@ -177,10 +177,15 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
     const leftAddendObjects = this.leftAddendObjects;
     const rightAddendObjects = this.rightAddendObjects;
 
-    // Use more of the number game play area
-    const tenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ).dilatedX( 100 );
+    const LOTS_OF_CATS = leftAddendObjects.length + rightAddendObjects.length > 20;
 
-    const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length, 10 );
+    // Use more of the number game play area when there are lots of cats
+    const tenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS ).dilatedX( LOTS_OF_CATS ? 100 : 0 );
+
+    // when there are lots of cats, use more columns
+    const minColumns = LOTS_OF_CATS ? 10 : 5;
+
+    const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length, minColumns );
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds, 0, 0, totalColumnCount );
 
     // On level 7, show a gap between columns 5-6 to make it easier to visually parse
