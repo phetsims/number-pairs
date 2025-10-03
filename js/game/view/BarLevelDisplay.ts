@@ -10,7 +10,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import derived from '../../../../axon/js/derived.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
@@ -31,15 +31,14 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
   public readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
 
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
-    const challengeProperty = level.challengeProperty;
 
     // Correct values for bar widths (independent of guess)
-    this.leftAddendProperty = new DerivedProperty( [ challengeProperty ], ch => ch.a );
-    this.rightAddendProperty = new DerivedProperty( [ challengeProperty ], ch => ch.b );
-    this.totalProperty = new DerivedProperty( [ challengeProperty ], ch => ch.y );
+    this.leftAddendProperty = derived( level.challengeProperty, ch => ch.a );
+    this.rightAddendProperty = derived( level.challengeProperty, ch => ch.b );
+    this.totalProperty = derived( level.challengeProperty, ch => ch.y );
 
     // Visibility mirrors GameNumberBondNodeViewModel behavior: show the missing number when solved or when there's a guess
-    const visibleForSlot = ( slot: MissingComponent ) => new DerivedProperty( [ challengeProperty, selectedGuessProperty, level.modeProperty ],
+    const visibleForSlot = ( slot: MissingComponent ) => derived( level.challengeProperty, selectedGuessProperty, level.modeProperty,
       ( ch, guess, state ) => {
         const isMissing = ch.missing === slot;
         if ( !isMissing ) { return true; }

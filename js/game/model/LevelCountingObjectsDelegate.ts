@@ -9,7 +9,7 @@
  */
 
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import derived from '../../../../axon/js/derived.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -19,6 +19,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -27,10 +28,9 @@ import CountingObject, { AddendType } from '../../common/model/CountingObject.js
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import { AnimationTarget } from '../../common/model/NumberPairsModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import TNumberPairsModel from '../../common/model/TNumberPairsModel.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import Challenge from './Challenge.js';
 
 export type CountingObjectsDelegateOptions = {
@@ -80,17 +80,21 @@ export default class LevelCountingObjectsDelegate implements TNumberPairsModel {
       derive: 'rightAddendColorProperty'
     } );
 
-    this.totalProperty = new DerivedProperty( [ this.challengeProperty ], challenge => challenge.y );
+    this.totalProperty = derived( this.challengeProperty, challenge => challenge.y );
 
-    this.leftAddendProperty = new DerivedProperty( [ this.challengeProperty, this.selectedGuessProperty ],
-      ( challenge, guess ) => challenge.missing === 'a' ? guess === null ? 0 : guess : challenge.a );
-    this.rightAddendProperty = new DerivedProperty( [ this.challengeProperty, this.selectedGuessProperty ],
+    this.leftAddendProperty = derived( this.challengeProperty, this.selectedGuessProperty,
+      ( challenge, guess ) => challenge.missing === 'a' ? guess === null ? 0 : guess : challenge.a
+    );
+
+    this.rightAddendProperty = derived( this.challengeProperty, this.selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
 
-    this.totalVisibleProperty = new DerivedProperty( [ this.challengeProperty ], challenge => challenge.missing !== 'y' );
-    this.leftAddendVisibleProperty = new DerivedProperty( [ this.challengeProperty, this.selectedGuessProperty ],
+    this.totalVisibleProperty = derived( this.challengeProperty, challenge => challenge.missing !== 'y' );
+
+    this.leftAddendVisibleProperty = derived( this.challengeProperty, this.selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missing === 'a' && guess !== null ) || challenge.missing !== 'a' );
-    this.rightAddendVisibleProperty = new DerivedProperty( [ this.challengeProperty, this.selectedGuessProperty ],
+
+    this.rightAddendVisibleProperty = derived( this.challengeProperty, this.selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missing === 'b' && guess !== null ) || challenge.missing !== 'b' );
 
     this.countingObjects = CountingObjectsManager.createCountingObjects( 40, this.leftAddendProperty.value, this.rightAddendProperty.value, this.tandem );

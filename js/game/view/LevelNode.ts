@@ -8,6 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -75,7 +76,7 @@ export default class LevelNode extends Node {
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
-      visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
+      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
@@ -83,7 +84,7 @@ export default class LevelNode extends Node {
       displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
       displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
       displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
-      visibleProperty: new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty ], numberModelType => {
+      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
@@ -103,12 +104,12 @@ export default class LevelNode extends Node {
     const wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
       fill: 'red',
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
     } );
     const checkMark = new Text( '✓', {
       font: new PhetFont( 42 ),
       fill: '#059e05',
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'correct' )
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
     } );
     this.addChild( wrongMark );
     this.addChild( checkMark );
@@ -172,13 +173,13 @@ export default class LevelNode extends Node {
     const tryAgainText = alignGroup.createBox( new Text( 'Try Again', {
       fill: 'red',
       fontSize: FONT_SIZE,
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
     } ) );
     const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
 
     const resetButton = new ResetButton( {
       baseColor: 'white',
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'incorrect' ),
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' ),
       listener: () => level.tryAgain()
     } );
 
@@ -192,7 +193,7 @@ export default class LevelNode extends Node {
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
         level.checkAnswer( guess );
       },
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' )
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' )
     } );
 
     // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
@@ -212,7 +213,7 @@ export default class LevelNode extends Node {
       tandem: tandem.createTandem( 'nextButton' ),
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
-      visibleProperty: new DerivedProperty( [ level.modeProperty ], feedbackState => feedbackState === 'correct' ),
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
 
@@ -235,7 +236,7 @@ export default class LevelNode extends Node {
     } );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
-    const checkEnabledProperty = new DerivedProperty( [ numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.modeProperty ],
+    const checkEnabledProperty = derived( numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.modeProperty,
       ( anySelected, selectedEnabled, state ) => anySelected && selectedEnabled && state !== 'correct' );
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
