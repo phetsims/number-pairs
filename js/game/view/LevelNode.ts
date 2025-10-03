@@ -172,6 +172,7 @@ export default class LevelNode extends Node {
         level.resetChallenge();
         numberButtonGrid.buttonStates.forEach( buttonState => {buttonState.value = false;} );
       },
+      enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'resetChallengeButton' )
     } );
 
