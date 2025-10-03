@@ -87,7 +87,7 @@ export default class LevelNode extends Node {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
-    const equationNode = new GameNumberEquationNode( level.countingObjectsDelegate, level.type );
+    const equationNode = new GameNumberEquationNode( level );
 
     this.addChild( bondNode );
     this.addChild( barNode );
