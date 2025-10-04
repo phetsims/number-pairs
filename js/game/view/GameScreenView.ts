@@ -22,6 +22,7 @@ import GameModel from '../model/GameModel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
+import NumberLineLevelNode from './NumberLineLevelNode.js';
 import NumberPairsRewardDialog from './NumberPairsRewardDialog.js';
 import NumberPairsRewardNode from './NumberPairsRewardNode.js';
 
@@ -57,12 +58,13 @@ export default class GameScreenView extends ScreenView {
       model.modeProperty.value = 'levelSelectionScreen';
     };
 
-    // TODO: correct subtypes for the level nodes, see https://github.com/phetsims/number-pairs/issues/232
     const createLevelNode = ( i: number ) => {
       const level = model.getLevel( i + 1 );
       return level.type === 'bond' ?
              new BondBarLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
-             new EquationLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
+             ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) ?
+             new EquationLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
+             new NumberLineLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
     };
 
     const focusNodes: Record<Mode, Node | null> = {
