@@ -250,10 +250,12 @@ export default class LevelNode extends Node {
     ManualConstraint.create( this, [
         bondNode, barNode, equationNode, statusBar, wrongMark, checkMark, tryAgainText, resetChallengeButton,
         myTenFrameButton || new Node(), countingAreaNode || new Node(), myKittensLayerNode || new Node(),
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, fakeNode ],
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare,
+        barNode.leftAddendRectangle, barNode.rightAddendRectangle, barNode.totalRectangle, fakeNode ],
       ( bondNodeProxy, barNodeProxy, equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy, fakeNodeProxy ) => {
+        equationLeftProxy, equationRightProxy, equationTopProxy,
+        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy ) => {
 
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
@@ -286,9 +288,6 @@ export default class LevelNode extends Node {
 
         if ( level.type === 'bond' ) {
 
-          wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
-          checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
-
           if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
             if ( level.challengeProperty.value.missing === 'a' ) {
@@ -306,7 +305,16 @@ export default class LevelNode extends Node {
           }
           else {
 
-            // TODO: Layout wrongMark and checkMark for bar model, see https://github.com/phetsims/number-pairs/issues/227
+            const missing = level.challengeProperty.value.missing;
+            const missingRectangleProxy = missing === 'a' ? barLeftAddendProxy :
+                                          missing === 'b' ? barRightAddendProxy :
+                                          barTotalProxy;
+
+            wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
+            checkMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
+
+            tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
+            tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
 
           }
         }
