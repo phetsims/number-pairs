@@ -290,6 +290,9 @@ export default class LevelNode extends Node {
 
           if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
+            wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+            checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
+
             if ( level.challengeProperty.value.missing === 'a' ) {
               wrongMarkProxy.right = bondNodeProxy.left - 5;
               checkMarkProxy.right = bondNodeProxy.left - 5;
