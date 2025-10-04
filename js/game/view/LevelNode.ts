@@ -148,17 +148,17 @@ export default class LevelNode extends Node {
       this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
     }
 
-    const alignGroup = new AlignGroup();
+    const buttonContentAlignGroup = new AlignGroup();
 
     // Buttons row: Check / Next
     const FONT_SIZE = 18;
-    const checkText = alignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
-    const tryAgainText = alignGroup.createBox( new Text( 'Try Again', {
+    const checkText = buttonContentAlignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
+    const tryAgainText = new Text( 'Try Again', {
       fill: 'red',
       fontSize: FONT_SIZE,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
-    } ) );
-    const nextText = alignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
+    } );
+    const nextText = buttonContentAlignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) );
 
     const resetChallengeButton = new ResetButton( {
       baseColor: 'white',
