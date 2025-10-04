@@ -19,7 +19,7 @@ import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.
 import numberPairs from '../../numberPairs.js';
 import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
-import LevelNode from './LevelNode.js';
+import CountingAreaLevelNode from './CountingAreaLevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
 import NumberPairsRewardDialog from './NumberPairsRewardDialog.js';
 import NumberPairsRewardNode from './NumberPairsRewardNode.js';
@@ -55,8 +55,10 @@ export default class GameScreenView extends ScreenView {
     const returnToLevelSelection = () => {
       model.modeProperty.value = 'levelSelectionScreen';
     };
+
+    // TODO: correct subtypes for the level nodes, see https://github.com/phetsims/number-pairs/issues/232
     const createLevelNode = ( i: number ) =>
-      new LevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
+      new CountingAreaLevelNode( model, model.getLevel( i + 1 ), this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
 
     const focusNodes: Record<Mode, Node | null> = {
       level1: null,
