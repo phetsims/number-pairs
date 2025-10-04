@@ -12,6 +12,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
+import GameNumberEquationNode from './GameNumberEquationNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
 export default class NumberLineLevelNode extends LevelNode {
@@ -26,6 +27,11 @@ export default class NumberLineLevelNode extends LevelNode {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
 
+    const equationNode = new GameNumberEquationNode( level );
+    this.addChild( equationNode );
+
+    equationNode.centerX = layoutBounds.centerX;
+    equationNode.centerY = layoutBounds.centerY;
   }
 }
 

@@ -21,8 +21,7 @@ export default class GameNumberEquationNode extends NumberEquationNode {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
-      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
-      visible: level.type === 'decompositionEquation' || level.type === 'sumEquation'
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
     } );
 
     const setDefaultStyle = ( square: Rectangle ) => {
