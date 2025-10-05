@@ -32,6 +32,7 @@ type NumberLineSliderOptions = SelfOptions & PickRequired<HSliderOptions, 'tande
 export default class NumberLineSlider extends HSlider {
 
   public readonly sliderTickParent: Node;
+  public readonly thumbNode: ThumbNode;
 
   public constructor(
     leftAddendProperty: PhetioProperty<number>,
@@ -77,6 +78,7 @@ export default class NumberLineSlider extends HSlider {
     super( leftAddendProperty, numberLineRange, options );
 
     this.sliderTickParent = sliderTickParent;
+    this.thumbNode = thumbNode;
   }
 }
 

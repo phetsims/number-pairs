@@ -6,9 +6,15 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
@@ -32,6 +38,42 @@ export default class NumberLineLevelNode extends LevelNode {
 
     equationNode.centerX = layoutBounds.centerX;
     equationNode.centerY = layoutBounds.centerY;
+
+    const numberLineModel = {
+      leftAddendProperty: new NumberProperty( 0 ),
+      numberLineSliderEnabledRangeProperty: new Property( new Range( 0, 20 ) ),
+      tickValuesVisibleProperty: new BooleanProperty( true ),
+      rightAddendProperty: new NumberProperty( 0 ),
+      totalProperty: new NumberProperty( 0 ),
+      totalJumpVisibleProperty: new BooleanProperty( false ),
+      numberLineCountFromZeroProperty: new BooleanProperty( true ),
+      numberLineAddendValuesVisibleProperty: new BooleanProperty( true )
+    } as const;
+
+    Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
+      const numericGuess = guess || 0;
+
+      if ( challenge.missing === 'a' ) {
+        numberLineModel.leftAddendProperty.value = numericGuess;
+        numberLineModel.rightAddendProperty.value = level.challengeProperty.value.b;
+        numberLineModel.totalProperty.value = numericGuess + level.challengeProperty.value.b;
+      }
+      else {
+        numberLineModel.leftAddendProperty.value = level.challengeProperty.value.a;
+        numberLineModel.rightAddendProperty.value = numericGuess;
+        numberLineModel.totalProperty.value = numericGuess + level.challengeProperty.value.a;
+      }
+    } );
+
+    const numberLineNode = new NumberLineNode( numberLineModel, layoutBounds.width - 200, {
+      tandem: tandem.createTandem( 'numberLineNode' ),
+      numberLineRange: new Range( 0, 20 ),
+      bottom: layoutBounds.bottom - 20,
+      left: layoutBounds.left + 20
+    } );
+    numberLineNode.slider.pickable = false;
+    numberLineNode.slider.thumbNode.visible = false;
+    this.addChild( numberLineNode );
   }
 }
 

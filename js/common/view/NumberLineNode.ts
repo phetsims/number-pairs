@@ -39,7 +39,11 @@ const LABEL_MARGIN = 5; // distance between the label and the arrow
 export default class NumberLineNode extends Node {
   public static readonly POINT_RADIUS = NUMBER_LINE_POINT_RADIUS;
 
-  public constructor( model: NumberPairsModel, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
+  public readonly slider: NumberLineSlider;
+
+  public constructor( model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' | 'tickValuesVisibleProperty' |
+    'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' | 'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty'
+  >, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
     const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
@@ -186,6 +190,8 @@ export default class NumberLineNode extends Node {
         labelProxy.centerBottom = arrowProxy.centerTop.plusXY( 0, -LABEL_MARGIN );
       }
     } );
+
+    this.slider = slider;
   }
 }
 
