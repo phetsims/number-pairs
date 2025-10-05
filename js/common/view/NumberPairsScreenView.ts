@@ -8,6 +8,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -30,7 +31,6 @@ import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import CountingObject from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
@@ -51,6 +51,7 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
+import CountingObject from '../model/CountingObject.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -73,7 +74,6 @@ export default class NumberPairsScreenView extends ScreenView {
 
   // For pdom order.
   protected readonly countingAreaRepresentationsHeading = new Node( { accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty } );
-  protected readonly representationNodes: Node[] = [];
   protected readonly countingAreaNodes: Node[] = [];
   protected readonly representationRadioButtonGroup: Node;
   protected readonly controlNodes: Node[] = [];
@@ -354,11 +354,19 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: kittensLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'kittensLayerNode' )
       } );
-      countingRepresentationsLayer.addChild( kittensLayerNode );
 
-      // We need to specify the kitten node pdom order so that it remains consistent as kittenNodes move to front during
-      // interactions.
-      this.representationNodes.push( ...kittensLayerNode.kittenNodes );
+      // We only want to update the pdom order when we are in the kitten representation.
+      Multilink.multilink( [ model.leftAddendCountingObjectsLengthProperty, model.rightAddendCountingObjectsLengthProperty, model.totalProperty, model.representationTypeProperty ],
+        ( leftAddendLength, rightAddendLength, total, representationType ) => {
+          if ( representationType === RepresentationType.KITTENS && leftAddendLength + rightAddendLength === total ) {
+            const leftAddendObjects = model.leftAddendCountingObjectsProperty.value;
+            const rightAddendObjects = model.rightAddendCountingObjectsProperty.value;
+            const leftAddendKittenNodes = leftAddendObjects.map( countingObject => kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
+            const rightAddendKittenNodes = rightAddendObjects.map( countingObject => kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
+            kittensLayerNode.kittenPDOMOrderProperty.value = leftAddendKittenNodes.concat( rightAddendKittenNodes );
+          }
+        } );
+      countingRepresentationsLayer.addChild( kittensLayerNode );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
       this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode, options.tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
@@ -380,7 +388,6 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'numberLineNode' )
       } );
       countingRepresentationsLayer.addChild( numberLineNode );
-      this.representationNodes.push( numberLineNode );
 
       numberLineNode.center = COUNTING_AREA_BOUNDS.center;
 
@@ -443,7 +450,6 @@ export default class NumberPairsScreenView extends ScreenView {
         tandem: options.tandem.createTandem( 'beadsOnWireNode' )
       } );
       countingRepresentationsLayer.addChild( beadsOnWireNode );
-      this.representationNodes.push( beadsOnWireNode );
 
       beadsOnWireNode.center = COUNTING_AREA_BOUNDS.center;
     }
