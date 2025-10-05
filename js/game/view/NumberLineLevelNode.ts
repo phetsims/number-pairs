@@ -13,6 +13,7 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
@@ -74,6 +75,27 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.pickable = false;
     numberLineNode.slider.thumbNode.visible = false;
     this.addChild( numberLineNode );
+
+    ManualConstraint.create( this, [
+        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
+      ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
+        resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
+
+        resetButtonProxy.rightBottom = layoutBounds.rightBottom.plusXY( -120, 0 );
+        equationNodeProxy.center = layoutBounds.center;
+
+        // TODO: duplicated with EquationLevelNode, see https://github.com/phetsims/number-pairs/issues/215
+        const missingSquare = equationNode.getMissingSquare();
+        const proxy = missingSquare === equationNode.leftAddendSquare ? equationLeftProxy :
+                      missingSquare === equationNode.rightAddendSquare ? equationRightProxy :
+                      equationTopProxy;
+        wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+        checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+
+        tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
+        tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+      } );
   }
 }
 
