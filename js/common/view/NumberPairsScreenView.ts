@@ -3,7 +3,6 @@
  * The base screen view for the Intro, Ten, Twenty, and Sum Screens in the Number Pairs simulation.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

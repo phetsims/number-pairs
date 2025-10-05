@@ -3,7 +3,6 @@
  * NumberPairsScene is the model for the scene in the Number Pairs simulation.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';

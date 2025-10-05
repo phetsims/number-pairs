@@ -4,7 +4,6 @@
  * Keyboard help content for the twenty screen
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import GrabReleaseKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GrabReleaseKeyboardHelpSection.js';

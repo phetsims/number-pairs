@@ -4,7 +4,6 @@
  * TenScreenIcon contains a number circle with the number 10.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

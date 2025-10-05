@@ -3,7 +3,6 @@
  * This button toggles the visibility of the addend (or addends).
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

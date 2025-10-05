@@ -3,7 +3,6 @@
  * TenFrameButton is a button that when clicked will organize the counting objects into a ten frame.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import Shape from '../../../../kite/js/Shape.js';

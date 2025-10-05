@@ -4,7 +4,6 @@
  * The total values are displayed in descending order and are each associated with a scene that tracks its own state.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

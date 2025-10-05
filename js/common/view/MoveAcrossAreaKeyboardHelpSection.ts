@@ -3,7 +3,6 @@
  * Keyboard help section for moving counting objects across an area with home and end keys
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';

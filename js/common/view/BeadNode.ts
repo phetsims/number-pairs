@@ -5,7 +5,6 @@
  * both mouse and keyboard events. The color of the bead changes depending on which addend it is associated with.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

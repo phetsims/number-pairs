@@ -3,7 +3,6 @@
  * Creates a counting object control inside a panel that adjusts the respective addend.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';

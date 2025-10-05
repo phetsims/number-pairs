@@ -3,7 +3,6 @@
  * This file manages the creation of the a11y description strings for grab and drag interactions in Number Pairs.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

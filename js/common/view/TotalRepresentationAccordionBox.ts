@@ -4,7 +4,6 @@
  * This is a base class for accordion boxes that contain a representation of a total decomposed into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';

@@ -4,7 +4,6 @@
  * It adds a radio button group that allows users to pick the total they want to interact with.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import Range from '../../../../dot/js/Range.js';

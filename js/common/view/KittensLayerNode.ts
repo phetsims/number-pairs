@@ -4,7 +4,6 @@
  * KittensLayerNode is a Node that contains all the KittenNodes for the counting objects in the model.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

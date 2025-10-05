@@ -6,7 +6,6 @@
  * affecting the totalProperty accordingly.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';

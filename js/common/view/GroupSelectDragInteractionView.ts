@@ -5,7 +5,6 @@
  * in the direction of the arrow keys.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

@@ -4,7 +4,6 @@
  * determines which addend the object is associated with.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

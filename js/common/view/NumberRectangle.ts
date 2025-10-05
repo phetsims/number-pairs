@@ -3,7 +3,6 @@
  * A square that displays a number in its center with a specified fill color.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

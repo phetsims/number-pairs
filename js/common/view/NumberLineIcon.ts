@@ -4,7 +4,6 @@
  * NumberLineIcon creates a track in order to render a number line icon based on specified options.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';

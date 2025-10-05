@@ -5,7 +5,6 @@
  * It is used for both the NumberLineSlider and related icons.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';

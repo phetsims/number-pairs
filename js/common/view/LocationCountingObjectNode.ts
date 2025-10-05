@@ -5,7 +5,6 @@
  * decomposition of a number. It can take the form of an apple, one card, soccer ball, or butterfly
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

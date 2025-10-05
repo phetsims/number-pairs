@@ -5,7 +5,6 @@
  * different way, or with different images.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import Property from '../../../../axon/js/Property.js';

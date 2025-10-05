@@ -3,7 +3,6 @@
  * Creates the handle that the user can drag to change the value of the left addend.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';

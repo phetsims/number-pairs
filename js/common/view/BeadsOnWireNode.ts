@@ -7,7 +7,6 @@
  * group. The total value determines the number of visible beads.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

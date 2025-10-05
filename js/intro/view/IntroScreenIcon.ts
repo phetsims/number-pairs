@@ -5,7 +5,6 @@
  * and three apples.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';

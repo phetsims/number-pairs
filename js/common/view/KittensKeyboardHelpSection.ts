@@ -3,7 +3,6 @@
  * Keyboard help section to use home/end hotkeys and toggle kitten color
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';

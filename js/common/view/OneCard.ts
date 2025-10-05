@@ -3,7 +3,6 @@
  * A OneCard is a rectangle with rounded corners and the number one in the center.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';

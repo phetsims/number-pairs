@@ -5,7 +5,6 @@
  * takes an elliptical arc shape to get from a starting point to and ending point.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

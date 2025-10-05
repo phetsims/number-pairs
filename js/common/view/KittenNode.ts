@@ -4,7 +4,6 @@
  * KittenNode displays a kitten who's color and coat pattern changes depending on the addend it is associated with.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

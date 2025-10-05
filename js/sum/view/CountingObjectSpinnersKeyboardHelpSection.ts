@@ -3,7 +3,6 @@
  * Keyboard help section for the counting object spinners
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';

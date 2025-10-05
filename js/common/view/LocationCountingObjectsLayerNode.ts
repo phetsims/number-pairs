@@ -4,7 +4,6 @@
  * The LocationCountingObjectsLayerNode creates all the location counting object nodes.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

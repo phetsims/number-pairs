@@ -4,7 +4,6 @@
  * This accordion box contains a number bond that represents the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

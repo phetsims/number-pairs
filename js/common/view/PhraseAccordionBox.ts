@@ -3,7 +3,6 @@
  * This accordion box contains a phrase that describes the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

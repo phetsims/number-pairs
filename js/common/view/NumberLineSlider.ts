@@ -3,7 +3,6 @@
  * NumberLineSlider is a slider whose track is represented as a number line.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';

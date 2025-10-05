@@ -4,7 +4,6 @@
  * Creates a bar model that displays the total and two addends as proportional rectangles.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';

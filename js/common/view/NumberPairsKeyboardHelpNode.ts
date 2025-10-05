@@ -4,7 +4,6 @@
  * Base class for the keyboard help content for the number pairs sim
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';

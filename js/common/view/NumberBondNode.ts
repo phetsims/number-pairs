@@ -4,7 +4,6 @@
  * A graphical representation of a number bond which shows the total and two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';

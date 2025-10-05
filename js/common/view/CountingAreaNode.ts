@@ -4,7 +4,6 @@
  * Create the counting area where counting representations are placed and can be manipulated by the user.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

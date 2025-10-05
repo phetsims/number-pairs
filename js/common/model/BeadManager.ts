@@ -4,7 +4,6 @@
  * Manages the positions of the beads on the wires.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';

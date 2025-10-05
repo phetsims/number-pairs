@@ -4,7 +4,6 @@
  * SumScreenIcon contains a number circle with the number 20.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';

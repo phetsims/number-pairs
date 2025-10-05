@@ -4,7 +4,6 @@
  * CommutativeButton is a button that when clicked will swap the left right addends. The total stays the same.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';

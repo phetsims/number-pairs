@@ -4,7 +4,6 @@
  * Utility functions for NumberPairs.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';

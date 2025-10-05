@@ -3,7 +3,6 @@
  * This accordion box displays an equation that represents the decomposition of a total into two addends.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';

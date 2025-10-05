@@ -4,7 +4,6 @@
  * This checkbox group contains options to turn on decorators that are only applicable to the number line representation.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
