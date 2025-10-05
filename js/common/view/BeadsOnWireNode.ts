@@ -465,8 +465,8 @@ export default class BeadsOnWireNode extends Node {
     const proposedBeadsToMove: BeadNode[] = [];
     slicedBeadNodes.forEach(
       ( beadNode, i ) => {
-        const addendMatch: boolean = beadNode.countingObject.addendTypeProperty.value === startingBeadNode.countingObject.addendTypeProperty.value;
-        const touchingPreviousBead: boolean = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
+        const addendMatch = beadNode.countingObject.addendTypeProperty.value === startingBeadNode.countingObject.addendTypeProperty.value;
+        const touchingPreviousBead = i === 0 || Math.abs( beadNode.centerX - slicedBeadNodes[ i - 1 ].centerX ) <= BEAD_WIDTH;
         if ( !touchingPreviousBead ) {
           beadSpaceFound = true;
         }

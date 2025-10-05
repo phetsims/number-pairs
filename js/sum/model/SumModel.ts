@@ -107,13 +107,13 @@ export default class SumModel extends NumberPairsModel {
       initialRightAddendObjects.push( countingObject! );
     } );
 
-    const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+    const leftAddendObjects = createObservableArray<CountingObject>( {
       elements: initialLeftAddendObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
     const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
-    const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+    const rightAddendObjects = createObservableArray<CountingObject>( {
       elements: initialRightAddendObjects,
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )

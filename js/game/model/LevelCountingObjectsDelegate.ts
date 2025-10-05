@@ -15,16 +15,16 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
 import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
-import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
@@ -37,7 +37,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
   public constructor(
     private readonly challengeProperty: Property<Challenge>,
-    private readonly selectedGuessProperty: Property<number | null>,
+    selectedGuessProperty: Property<number | null>,
     providedOptions: CountingObjectsDelegateOptions ) {
 
     const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {}, providedOptions );
@@ -54,11 +54,11 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
     } );
-    const leftAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+    const leftAddendObjects = createObservableArray<CountingObject>( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'leftAddendObjects' )
     } );
-    const rightAddendObjects: ObservableArray<CountingObject> = createObservableArray( {
+    const rightAddendObjects = createObservableArray<CountingObject>( {
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'rightAddendObjects' )
     } );

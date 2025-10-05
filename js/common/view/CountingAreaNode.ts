@@ -28,6 +28,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
@@ -35,7 +36,6 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -123,7 +123,7 @@ export default class CountingAreaNode extends Node {
     const positionProperty = positionPropertyType === 'attribute' ? droppedCountingObject.attributePositionProperty :
                              droppedCountingObject.locationPositionProperty;
 
-    const animationTargets: AnimationTarget[] = [ this.getValidDropPointTarget( positionProperty, dragBounds ) ];
+    const animationTargets = [ this.getValidDropPointTarget( positionProperty, dragBounds ) ];
     const dropPoint = animationTargets[ 0 ].to;
     const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( dropPoint );
 
