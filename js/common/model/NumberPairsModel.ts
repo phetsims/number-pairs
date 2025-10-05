@@ -10,7 +10,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -21,14 +20,10 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Animation from '../../../../twixt/js/Animation.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadManager from './BeadManager.js';
@@ -36,7 +31,7 @@ import CountingObject, { AddendType } from './CountingObject.js';
 import { CountingObjectsManager } from './CountingObjectsManager.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
 import RepresentationType from './RepresentationType.js';
-import TNumberPairsModel from './TNumberPairsModel.js';
+import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from './AbstractNumberPairsModel.js';
 
 export type AnimationTarget = {
   property: Property<Vector2>;
@@ -49,7 +44,7 @@ type SelfOptions = {
   isSumScreen: boolean;
 };
 
-export type NumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type NumberPairsModelOptions = SelfOptions & AbstractNumberPairsModelOptions;
 
 export type PositionPropertyType = 'attribute' | 'location';
 export type BeadXPositionsTypes = {
@@ -57,23 +52,9 @@ export type BeadXPositionsTypes = {
   rightAddendXPositions: number[];
 };
 
-export default class NumberPairsModel implements TNumberPairsModel {
+export default class NumberPairsModel extends AbstractNumberPairsModel {
 
   public readonly beadManager: BeadManager;
-
-  // The counting representation type determines the colors of the total and addends,
-  // as well as the image assets used to represent each counting object.
-  // The CUBES and NUMBER_LINE representations additionally support different user interactions.
-  public readonly representationTypeProperty: Property<RepresentationType>;
-
-  // The colors that code each addend and the total in the sim change based on the chosen counting representation.
-  public readonly totalColorProperty: TReadOnlyProperty<Color>;
-  public readonly leftAddendColorProperty: TReadOnlyProperty<Color>;
-  public readonly rightAddendColorProperty: TReadOnlyProperty<Color>;
-
-  public readonly leftAddendVisibleProperty: BooleanProperty;
-  public readonly rightAddendVisibleProperty: BooleanProperty;
-  public readonly totalVisibleProperty: BooleanProperty;
 
   public readonly numberLineSliderEnabledRangeProperty: Property<Range>;
 
@@ -83,8 +64,6 @@ export default class NumberPairsModel implements TNumberPairsModel {
   public readonly totalJumpVisibleProperty: Property<boolean>;
   public readonly numberLineCountFromZeroProperty: Property<boolean>;
 
-  public countingObjectsAnimation: Animation | null = null;
-
   public readonly groupSelectLocationObjectsModel: GroupSelectModel<CountingObject>;
   public readonly groupSelectBeadsModel: GroupSelectModel<CountingObject>;
 
@@ -93,55 +72,53 @@ export default class NumberPairsModel implements TNumberPairsModel {
   public readonly leftAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
   public readonly rightAddendCountingObjectsLengthProperty: TReadOnlyProperty<number>;
 
+  public override readonly totalVisibleProperty: Property<boolean>;
+  public override readonly leftAddendVisibleProperty: BooleanProperty;
+  public override readonly rightAddendVisibleProperty: BooleanProperty;
+
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
     // In decomposition models (Intro, Ten, and Twenty screens) it is set by the selected scene.
-    public readonly totalProperty: TReadOnlyProperty<number>,
-    public readonly leftAddendProperty: PhetioProperty<number>,
-    public readonly rightAddendProperty: TReadOnlyProperty<number>,
-    public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
-    public readonly countingObjects: CountingObject[],
+    totalProperty: TReadOnlyProperty<number>,
+    public override readonly leftAddendProperty: PhetioProperty<number>,
+    rightAddendProperty: TReadOnlyProperty<number>,
+    leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
+    countingObjects: CountingObject[],
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
-    const options = optionize<NumberPairsModelOptions, SelfOptions, PhetioObjectOptions>()( {}, providedOptions );
-    this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
-    this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
-      validValues: options.representationTypeValidValues,
-      tandem: options.tandem.createTandem( 'representationTypeProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.totalColorProperty = new DynamicProperty( this.representationTypeProperty, {
-      derive: 'totalColorProperty'
-    } );
-    this.leftAddendColorProperty = new DynamicProperty( this.representationTypeProperty, {
-      derive: 'leftAddendColorProperty'
-    } );
-    this.rightAddendColorProperty = new DynamicProperty( this.representationTypeProperty, {
-      derive: 'rightAddendColorProperty'
-    } );
+    const options = optionize<NumberPairsModelOptions, SelfOptions, AbstractNumberPairsModelOptions>()( {
+    }, providedOptions );
 
     // Define Visible Properties
     const visiblePropertiesTandem = options.tandem.createTandem( 'visibleProperties' );
 
     // As of this writing the leftAddendVisibleProperty and rightAddendVisibleProperty are only used in the
     // location representations. Every screen with a location representation at least has the RepresentationType.ONE_CARDS
-    this.leftAddendVisibleProperty = new BooleanProperty( true, {
+    const leftAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
               visiblePropertiesTandem.createTandem( 'leftAddendVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.rightAddendVisibleProperty = new BooleanProperty( true, {
+    const rightAddendVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.ONE_CARDS ) ?
               visiblePropertiesTandem.createTandem( 'rightAddendVisibleProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
-    this.totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
+    const totalVisibleProperty = new BooleanProperty( !options.isSumScreen, {
       tandem: visiblePropertiesTandem.createTandem( 'totalVisibleProperty' ),
       phetioFeatured: true
     } );
+
+    super( totalProperty, leftAddendProperty, rightAddendProperty, leftAddendCountingObjectsProperty,
+      rightAddendCountingObjectsProperty, totalVisibleProperty, leftAddendVisibleProperty, rightAddendVisibleProperty,
+      countingObjects, options );
+    this.totalVisibleProperty = totalVisibleProperty;
+    this.leftAddendVisibleProperty = leftAddendVisibleProperty;
+    this.rightAddendVisibleProperty = rightAddendVisibleProperty;
+
+    this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
 
     this.numberLineAddendValuesVisibleProperty = new BooleanProperty( true, {
       tandem: options.representationTypeValidValues.includes( RepresentationType.NUMBER_LINE ) ?
@@ -400,144 +377,6 @@ export default class NumberPairsModel implements TNumberPairsModel {
   }
 
   /**
-   * Returns animation targets based on the provided position Properties and target positions.
-   * @param positionProperties
-   * @param targetPositions
-   */
-  private getAnimationTargets( positionProperties: Property<Vector2>[], targetPositions: Vector2[] ): AnimationTarget[] {
-    return positionProperties.map( ( positionProperty, index ) => {
-      return {
-        property: positionProperty,
-        to: targetPositions[ index ]
-      };
-    } );
-  }
-
-  /**
-   * Set the location positions of the counting objects based on the provided left and right location positions.
-   * @param leftLocationPositions
-   * @param rightLocationPositions
-   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
-   * @param rightAddendObjects
-   * @param animate - whether to animate the movement of the counting objects. If we are not animating the movement
-   *  we are fading the counting objects in and out to their new spots to prevent a jarring UX.
-   */
-  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate = false ): void {
-
-    affirm( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
-    affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
-
-    if ( animate ) {
-      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
-        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
-      this.countingObjectsAnimation?.stop();
-
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-    else {
-      const fadeOutTargets = this.countingObjects.map( countingObject => {
-        return {
-          property: countingObject.locationOpacityProperty,
-          to: 0
-        };
-      } );
-      const fadeInTargets = this.countingObjects.map( countingObject => {
-        return {
-          property: countingObject.locationOpacityProperty,
-          to: 1
-        };
-      } );
-
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.04,
-        targets: fadeOutTargets
-      } );
-
-      // Save a copy of the counting objects observable array so that we do not iterate over a different array
-      // once the animation has ended.
-      const copyOfLeftAddendObjects = leftAddendObjects.slice();
-      const copyOfRightAddendObjects = rightAddendObjects.slice();
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        copyOfLeftAddendObjects.forEach( ( countingObject, index ) => {
-          countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
-        } );
-        copyOfRightAddendObjects.forEach( ( countingObject, index ) => {
-          countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
-        } );
-      } );
-
-      // If the fade out animation is manually stopped we do not want to start the fade in animation, instead we want
-      // to immediately set the target Properties to the fade in target "to" values.
-      this.countingObjectsAnimation.stopEmitter.addListener( () => {
-        fadeInTargets.forEach( target => {
-          target.property.value = target.to;
-        } );
-        this.countingObjectsAnimation = null;
-      } );
-
-      // If the fade out animation is finished we want to start the fade in animation.
-      this.countingObjectsAnimation.finishEmitter.addListener( () => {
-        this.countingObjectsAnimation = new Animation( {
-          duration: 0.3,
-          targets: fadeInTargets
-        } );
-        this.countingObjectsAnimation.endedEmitter.addListener( () => {
-          this.countingObjectsAnimation = null;
-        } );
-        this.countingObjectsAnimation.start();
-      } );
-
-      this.countingObjectsAnimation.start();
-    }
-  }
-
-  /**
-   * Set the attribute positions of the counting objects based on the provided left and right addend positions.
-   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
-   * @param rightAddendObjects
-   * @param leftAttributePositions
-   * @param rightAttributePositions
-   * @param animate - whether to animate the movement of the counting objects.
-   */
-  public setAttributePositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
-    affirm( leftAddendObjects.length === leftAttributePositions.length,
-      `leftAddendObjects length: ${leftAddendObjects.length}  should be the same leftAttributePositions length: ${leftAttributePositions.length} and the left value is: ${this.leftAddendProperty.value}.` );
-    affirm( rightAddendObjects.length === rightAttributePositions.length,
-      `rightAddendObjects length: ${rightAddendObjects.length}  should be the same rightAttributePositions length: ${rightAttributePositions.length} and the right value is: ${this.rightAddendProperty.value}.` );
-
-    if ( animate ) {
-      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
-        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
-
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-    else {
-      leftAddendObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
-      } );
-      rightAddendObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
-      } );
-    }
-  }
-
-  /**
    * Snap the beads to their organized positions on the wire based on the addend values. When organized the beads are
    * arranged in groups of 5 with a separator between the two addends.
    */
@@ -571,57 +410,14 @@ export default class NumberPairsModel implements TNumberPairsModel {
     this.beadManager.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftXPositions, rightXPositions );
   }
 
-  /**
-   * Organizes the counting objects into a ten frame based on the provided bounds.
-   * @param tenFrameBounds
-   * @param positionType
-   */
-  public organizeIntoTenFrame( tenFrameBounds: Bounds2[], positionType: 'attribute' | 'location' ): void {
-    affirm( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
-    const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
-    const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
-
-    // If we are only provided one ten frame bound, we are in the unified counting area where Counting Objects are split by attribute.
-    // If we have two ten frame bounds, we are in a split counting area where Counting Objects are split by location.
-    let leftGridCoordinates: Vector2[];
-    let rightGridCoordinates: Vector2[];
-    if ( tenFrameBounds.length === 1 ) {
-      const totalColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length + rightAddendObjects.length );
-      const gridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 0, 0, totalColumnCount );
-      leftGridCoordinates = gridCoordinates.slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = gridCoordinates.slice( leftAddendObjects.length, leftAddendObjects.length + rightAddendObjects.length );
-    }
-    else {
-      const leftColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( leftAddendObjects.length );
-      const rightColumnCount = CountingObjectsManager.getColumnCountForObjectTotal( rightAddendObjects.length );
-      leftGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 0 ], 35, 35, leftColumnCount ).slice( 0, leftAddendObjects.length );
-      rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35, rightColumnCount ).slice( 0, rightAddendObjects.length );
-    }
-    if ( positionType === 'attribute' ) {
-      this.setAttributePositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
-    }
-    else {
-      this.setLocationPositions( leftAddendObjects, rightAddendObjects, leftGridCoordinates, rightGridCoordinates, true );
-    }
-
-
-    affirm( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
-    affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
-  }
-
   public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
     return this.countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE )
       .slice().sort( ( a, b ) => a.locationPositionProperty.value.x - b.locationPositionProperty.value.x + a.locationPositionProperty.value.y - b.locationPositionProperty.value.y );
   }
 
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
 
-    // Stop any animation that may be in progress.
-    this.countingObjectsAnimation?.stop();
-
-    this.countingObjects.forEach( countingObject => countingObject.reset() );
-
-    this.representationTypeProperty.reset();
     this.leftAddendVisibleProperty.reset();
     this.rightAddendVisibleProperty.reset();
     this.totalVisibleProperty.reset();

@@ -31,11 +31,11 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
-import TNumberPairsModel from '../model/TNumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -52,7 +52,7 @@ export default class CountingAreaNode extends Node {
   public constructor(
     leftAddendVisibleProperty: BooleanProperty,
     rightAddendVisibleProperty: BooleanProperty,
-    private readonly model: TNumberPairsModel,
+    private readonly model: AbstractNumberPairsModel,
     providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {

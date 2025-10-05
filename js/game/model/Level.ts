@@ -22,6 +22,8 @@ import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
 import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
+import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   representationType: RepresentationType;
@@ -84,16 +86,12 @@ export default class Level {
 
     this.selectedGuessProperty = new Property<number | null>( null );
 
-    // Create UI/UX related Properties
-    // This Property doesn't change, so does not need to be instrumented.
-    this.representationTypeProperty = new Property( options.representationType );
-
-    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( {
+    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty, {
       tandem: tandem,
-      challengeProperty: this.challengeProperty,
-      selectedGuessProperty: this.selectedGuessProperty,
-      representationTypeProperty: this.representationTypeProperty
+      initialRepresentationType: options.representationType,
+      representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
     } );
+    this.representationTypeProperty = this.countingObjectsDelegate.representationTypeProperty;
 
     // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
     // that is handled manually above.
@@ -177,12 +175,24 @@ export default class Level {
    * Organizes the counting objects into a ten frame based on the provided bounds.
    */
   public organizeIntoTenFrame(): void {
-    if ( this.levelNumber !== 7 ) {
-      this.countingObjectsDelegate.organizeIntoDoubleTenFrame();
+
+    let leftCountingObjects: CountingObject[];
+    let rightCountingObjects: CountingObject[];
+    if ( this.levelNumber === 7 ) {
+      const activeCountingObjects = [ ...this.countingObjectsDelegate.leftAddendCountingObjectsProperty.value,
+        ...this.countingObjectsDelegate.rightAddendCountingObjectsProperty.value ];
+      leftCountingObjects = activeCountingObjects.slice( 0, 20 );
+      rightCountingObjects = activeCountingObjects.slice( 20 );
     }
     else {
-      this.countingObjectsDelegate.organizeIntoSingleTenFrame();
+      leftCountingObjects = this.countingObjectsDelegate.leftAddendCountingObjectsProperty.value;
+      rightCountingObjects = this.countingObjectsDelegate.rightAddendCountingObjectsProperty.value;
     }
+
+    this.countingObjectsDelegate.organizeIntoSplitTenFrame(
+      NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ),
+      leftCountingObjects, rightCountingObjects, 'attribute' );
+
   }
 
   /**

@@ -190,7 +190,7 @@ export default class NumberPairsScreenView extends ScreenView {
     // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
     // we have access to the countingAreaBounds which are defined during construction.
     const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
-    const tenFrameBounds = options.sumScreen ? [ sumTenFrameBounds ] : NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
+    const splitTenFrameBounds = NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
 
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: representationType => representationType.accessibleName
@@ -217,7 +217,12 @@ export default class NumberPairsScreenView extends ScreenView {
         }
         else {
           const positionPropertyType = model.representationTypeProperty.value === RepresentationType.KITTENS ? 'attribute' : 'location';
-          model.organizeIntoTenFrame( tenFrameBounds, positionPropertyType );
+          if ( options.sumScreen ) {
+            model.organizeIntoSingleTenFrame( sumTenFrameBounds, model.leftAddendCountingObjectsProperty.value, model.rightAddendCountingObjectsProperty.value, positionPropertyType );
+          }
+          else {
+            model.organizeIntoSplitTenFrame( splitTenFrameBounds, model.leftAddendCountingObjectsProperty.value, model.rightAddendCountingObjectsProperty.value, positionPropertyType );
+          }
         }
       },
       visibleProperty: tenFrameButtonVisibleProperty
