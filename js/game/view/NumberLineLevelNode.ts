@@ -78,6 +78,9 @@ export default class NumberLineLevelNode extends LevelNode {
 
     this.resetChallengeButton.moveToFront(); // awkward
 
+    // So the number line goes behind.
+    this.numberButtonGrid.moveToFront(); // awkward
+
     ManualConstraint.create( this, [
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],

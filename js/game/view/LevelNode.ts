@@ -37,6 +37,7 @@ export default abstract class LevelNode extends Node {
   protected readonly checkMark: Text;
   protected readonly tryAgainText: Text;
   protected readonly resetChallengeButton: ResetButton;
+  protected readonly numberButtonGrid: NumberButtonGrid;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -67,7 +68,7 @@ export default abstract class LevelNode extends Node {
       } );
 
     // Number selection grid and selection state
-    const numberButtonGrid = new NumberButtonGrid(
+    this.numberButtonGrid = new NumberButtonGrid(
       derived( level.modeProperty, mode => mode === 'correct' ),
       level.selectedGuessProperty,
       level.range,
@@ -77,7 +78,7 @@ export default abstract class LevelNode extends Node {
         right: layoutBounds.right - MARGIN,
         bottom: layoutBounds.bottom - MARGIN
       } );
-    this.addChild( numberButtonGrid );
+    this.addChild( this.numberButtonGrid );
 
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
@@ -108,7 +109,7 @@ export default abstract class LevelNode extends Node {
       baseColor: 'white',
       listener: () => {
         level.resetChallenge();
-        numberButtonGrid.elements.forEach( element => {element.stateProperty.value = false;} ); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
+        this.numberButtonGrid.elements.forEach( element => {element.stateProperty.value = false;} ); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       },
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'resetChallengeButton' )
@@ -140,9 +141,9 @@ export default abstract class LevelNode extends Node {
         level.nextChallenge();
 
         // Reset grid visuals for the new challenge
-        numberButtonGrid.resetAll(); // TODO: Move to model, see https://github.com/phetsims/number-pairs/issues/233
+        this.numberButtonGrid.resetAll(); // TODO: Move to model, see https://github.com/phetsims/number-pairs/issues/233
 
-        numberButtonGrid.elements[ 0 ].button.focus(); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
+        this.numberButtonGrid.elements[ 0 ].button.focus(); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       }
     } );
 
@@ -165,7 +166,7 @@ export default abstract class LevelNode extends Node {
     } );
 
     this.pdomOrder = [
-      numberButtonGrid,
+      this.numberButtonGrid,
       checkButton,
       nextButton,
       this.statusBar
