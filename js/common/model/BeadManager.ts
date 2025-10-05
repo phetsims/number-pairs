@@ -272,10 +272,6 @@ export default class BeadManager {
     const startingPosition = 15;
     return leftAddendValue / 2.2 + startingPosition;
   }
-
-  public reset(): void {
-    // Do I need to reset anything?
-  }
 }
 
 numberPairs.register( 'BeadManager', BeadManager );
