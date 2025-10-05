@@ -48,8 +48,8 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const rightAddendProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
 
-    const countingObjects: CountingObject[] = CountingObjectsManager.createCountingObjects( 40, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
-    const inactiveCountingObjects: ObservableArray<CountingObject> = createObservableArray( {
+    const countingObjects = CountingObjectsManager.createCountingObjects( 40, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
+    const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice(),
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
       tandem: options.tandem.createTandem( 'inactiveCountingObjects' )

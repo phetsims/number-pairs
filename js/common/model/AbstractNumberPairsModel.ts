@@ -81,7 +81,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param positionProperties
    * @param targetPositions
    */
-  private getAnimationTargets( positionProperties: Property<Vector2>[], targetPositions: Vector2[] ): AnimationTarget[] {
+  private static getAnimationTargets( positionProperties: Property<Vector2>[], targetPositions: Vector2[] ): AnimationTarget[] {
     return positionProperties.map( ( positionProperty, index ) => {
       return {
         property: positionProperty,
@@ -106,8 +106,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
 
     if ( animate ) {
-      const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
-        ...this.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
+      const animationTargets = [ ...AbstractNumberPairsModel.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
+        ...AbstractNumberPairsModel.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
       this.countingObjectsAnimation?.stop();
 
       this.countingObjectsAnimation = new Animation( {
@@ -192,8 +192,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
       `rightAddendObjects length: ${rightObjects.length}  should be the same rightAttributePositions length: ${rightAttributePositions.length} and the right value is: ${this.rightAddendProperty.value}.` );
 
     if ( animate ) {
-      const animationTargets = [ ...this.getAnimationTargets( leftObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
-        ...this.getAnimationTargets( rightObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
+      const animationTargets = [ ...AbstractNumberPairsModel.getAnimationTargets( leftObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
+        ...AbstractNumberPairsModel.getAnimationTargets( rightObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
 
       this.countingObjectsAnimation?.stop();
       this.countingObjectsAnimation = new Animation( {

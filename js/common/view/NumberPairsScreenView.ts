@@ -187,11 +187,6 @@ export default class NumberPairsScreenView extends ScreenView {
                                 countingRepresentation === RepresentationType.KITTENS ||
                                 countingRepresentation === RepresentationType.BEADS ), tenFrameButtonTandem );
 
-    // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
-    // we have access to the countingAreaBounds which are defined during construction.
-    const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
-    const splitTenFrameBounds = NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
-
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: representationType => representationType.accessibleName
     } );
@@ -202,6 +197,10 @@ export default class NumberPairsScreenView extends ScreenView {
       representation: representationTypeAccessibleNameProperty
     } );
 
+    // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
+    // we have access to the countingAreaBounds which are defined during construction.
+    const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
+    const splitTenFrameBounds = NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
