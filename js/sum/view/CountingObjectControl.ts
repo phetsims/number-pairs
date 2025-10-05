@@ -11,8 +11,10 @@
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -26,18 +28,16 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import beadYellow_svg from '../../../images/beadYellow_svg.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
-import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
-import beadYellow_svg from '../../../images/beadYellow_svg.js';
 
 type SelfOptions = {
   interruptPointers: () => void;

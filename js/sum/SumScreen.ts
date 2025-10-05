@@ -13,9 +13,9 @@ import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import SumModel from './model/SumModel.js';
-import SumScreenView from './view/SumScreenView.js';
-import SumScreenKeyboardHelpNode from './view/SumScreenKeyboardHelpNode.js';
 import SumScreenIcon from './view/SumScreenIcon.js';
+import SumScreenKeyboardHelpNode from './view/SumScreenKeyboardHelpNode.js';
+import SumScreenView from './view/SumScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 

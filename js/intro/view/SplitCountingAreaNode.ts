@@ -9,6 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -20,14 +21,13 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
 const RIGHT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationRightAddendColorProperty;

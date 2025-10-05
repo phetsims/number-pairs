@@ -11,6 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
+import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -21,7 +22,6 @@ import numberPairs from '../../numberPairs.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import ThumbNode from './ThumbNode.js';
-import { toFixedNumber } from '../../../../dot/js/util/toFixedNumber.js';
 
 type SelfOptions = {
   numberLineWidth: number;

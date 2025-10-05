@@ -21,6 +21,7 @@ type NumberCircleOptions = StrictOmit<CircleOptions, 'children' | 'radius'>;
 const RADIUS = 30;
 export default class NumberCircle extends Circle {
   public static readonly RADIUS = RADIUS;
+
   public constructor(
     numberProperty: TReadOnlyProperty<number>,
     numberVisibleProperty: TReadOnlyProperty<boolean>,

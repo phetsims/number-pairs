@@ -7,24 +7,24 @@
  *
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberBondIconNode from './NumberBondIconNode.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import NumberPairsColors from '../NumberPairsColors.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import BarModelNode from './BarModelNode.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
+import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
+import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import BarModelNode from './BarModelNode.js';
+import NumberBondIconNode from './NumberBondIconNode.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 export default class NumberModelOrientationControl extends PreferencesControl {
@@ -69,7 +69,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
         {
           createNode: () => new ToggleNode<NumberModelType, Node>( NumberPairsPreferences.numberModelTypeProperty, [
             {
-              createNode: () => new NumberBondIconNode( syntheticNumberPairsModel, { } ),
+              createNode: () => new NumberBondIconNode( syntheticNumberPairsModel, {} ),
               value: NumberModelType.NUMBER_BOND_MODEL
             },
             {

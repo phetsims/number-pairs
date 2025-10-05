@@ -13,9 +13,9 @@ import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import IntroModel from './model/IntroModel.js';
-import IntroScreenView from './view/IntroScreenView.js';
-import IntroScreenKeyboardHelpNode from './view/IntroScreenKeyboardHelpNode.js';
 import IntroScreenIcon from './view/IntroScreenIcon.js';
+import IntroScreenKeyboardHelpNode from './view/IntroScreenKeyboardHelpNode.js';
+import IntroScreenView from './view/IntroScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 

@@ -9,10 +9,13 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -29,14 +32,11 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
+import TNumberPairsModel from '../model/TNumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
-import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
 import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import TNumberPairsModel from '../model/TNumberPairsModel.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -208,7 +208,7 @@ export default class CountingAreaNode extends Node {
   public static getRandomEmptyPoint( occupiedPoints: Vector2[], validBounds: Bounds2, minRatio = 0.5 ): Vector2 {
     let recursionDepth = 0;
     let point = dotRandom.nextPointInBounds( validBounds );
-    
+
     const isPointTooClose = ( point: Vector2 ): boolean => {
       return occupiedPoints.some( occupiedPoint =>
         point.distance( occupiedPoint ) < NumberPairsConstants.KITTEN_PANEL_WIDTH * minRatio
@@ -220,7 +220,7 @@ export default class CountingAreaNode extends Node {
       affirm( recursionDepth <= 100, 'We tried to find an empty point but it took us over 100 tries.' );
       point = dotRandom.nextPointInBounds( validBounds );
     }
-    
+
     return point;
   }
 

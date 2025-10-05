@@ -6,14 +6,14 @@
  *
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 const TEN_FRAME_ROW_COUNT = 4;
 const DEFAULT_TEN_FRAME_COLUMN_COUNT = 5;
@@ -59,10 +59,10 @@ export const CountingObjectsManager = {
     return Math.max( minimumColumns, requiredColumns );
   },
   setAddendType: ( leftCountingObjects: CountingObject[], rightCountingObjects: CountingObject[], inactiveCountingObjects: CountingObject[] ): void => {
-  leftCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.LEFT; } );
-  rightCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.RIGHT; } );
-  inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
-},
+    leftCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.LEFT; } );
+    rightCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.RIGHT; } );
+    inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
+  },
   /**
    * Creates and places the counting objects for the screen based on the provided paramters
    * @param numberOfCountingObjects

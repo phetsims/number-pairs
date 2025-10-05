@@ -7,17 +7,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import numberPairs from '../../numberPairs.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import localeProperty, { Locale, LocaleProperty } from '../../../../joist/js/i18n/localeProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import localeProperty, { Locale, LocaleProperty } from '../../../../joist/js/i18n/localeProperty.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
 
 // As with the primary locale, use initialize-globals checkAndRemapLocale() to check validity of the second locale.
 // This potentially either falls back to 'en', or remaps from 3-character locales to PhET locales.

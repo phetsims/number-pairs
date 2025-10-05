@@ -8,6 +8,7 @@
  *
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -19,10 +20,9 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node, { NodeOptions, NodeTransformOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberLineNode from './NumberLineNode.js';
-import Color from '../../../../scenery/js/util/Color.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   arrowColorProperty: TReadOnlyProperty<Color> | null;

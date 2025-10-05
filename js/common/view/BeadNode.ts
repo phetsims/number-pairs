@@ -9,22 +9,22 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
+import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
+import beadYellow_svg from '../../../images/beadYellow_svg.js';
 import numberPairs from '../../numberPairs.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-import beadYellow_svg from '../../../images/beadYellow_svg.js';
-import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
-import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   onStartDrag: ( beadNode: BeadNode ) => void;

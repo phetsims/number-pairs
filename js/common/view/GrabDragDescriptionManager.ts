@@ -6,12 +6,12 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
-import CountingObject from '../model/CountingObject.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
+import CountingObject from '../model/CountingObject.js';
 
 
 export default class GrabDragDescriptionManager {

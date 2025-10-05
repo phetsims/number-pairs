@@ -7,12 +7,12 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import numberPairs from '../../numberPairs.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import stepForward_mp3 from '../../../../tambo/sounds/stepForward_mp3.js';
 import stepBack_mp3 from '../../../../tambo/sounds/stepBack_mp3.js';
+import stepForward_mp3 from '../../../../tambo/sounds/stepForward_mp3.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type CountingObjectSoundPlayerOptions = SoundGeneratorOptions & SelfOptions;

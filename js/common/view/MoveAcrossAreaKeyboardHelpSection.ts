@@ -11,9 +11,9 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 
 
 export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSection {

@@ -33,10 +33,10 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
-import RepresentationType from './RepresentationType.js';
-import { NumberPairsUtils } from './NumberPairsUtils.js';
-import TNumberPairsModel from './TNumberPairsModel.js';
 import { CountingObjectsManager } from './CountingObjectsManager.js';
+import { NumberPairsUtils } from './NumberPairsUtils.js';
+import RepresentationType from './RepresentationType.js';
+import TNumberPairsModel from './TNumberPairsModel.js';
 
 export type AnimationTarget = {
   property: Property<Vector2>;

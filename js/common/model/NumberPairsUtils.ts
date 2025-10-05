@@ -8,8 +8,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import numberPairs from '../../numberPairs.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 

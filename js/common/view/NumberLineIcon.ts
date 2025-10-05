@@ -19,13 +19,13 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import NumberRectangle, { NumberSquareOptions } from './NumberRectangle.js';
-import TColor from '../../../../scenery/js/util/TColor.js';
 
 type SelfOptions = {
   showRightArrow?: boolean;

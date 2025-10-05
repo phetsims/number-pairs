@@ -6,12 +6,12 @@
  *
  */
 
-import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import numberPairs from '../../numberPairs.js';
-import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
-import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
+import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
+import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
+import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 

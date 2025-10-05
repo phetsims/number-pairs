@@ -7,17 +7,17 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObjectControl, { CountingObjectControlOptions } from './CountingObjectControl.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   countingObjectControlOptions: StrictOmit<CountingObjectControlOptions, 'tandem'>;
@@ -25,6 +25,7 @@ type SelfOptions = {
 type AddendControlPanelOptions = WithRequired<PanelOptions, 'tandem'> & SelfOptions;
 export default class AddendControlPanel extends Panel {
   public readonly countingObjectControl: CountingObjectControl;
+
   public constructor(
     totalProperty: NumberProperty,
     addendCountingObjects: ObservableArray<CountingObject>,

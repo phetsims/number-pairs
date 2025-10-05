@@ -13,9 +13,9 @@ import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import TenModel from './model/TenModel.js';
-import TenScreenView from './view/TenScreenView.js';
-import TenScreenKeyboardHelpNode from './view/TenScreenKeyboardHelpNode.js';
 import TenScreenIcon from './view/TenScreenIcon.js';
+import TenScreenKeyboardHelpNode from './view/TenScreenKeyboardHelpNode.js';
+import TenScreenView from './view/TenScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 

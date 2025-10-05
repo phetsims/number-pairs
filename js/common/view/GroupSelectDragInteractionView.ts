@@ -9,10 +9,14 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
 import GroupSelectView, { GroupSelectViewOptions } from '../../../../scenery-phet/js/accessibility/group-sort/view/GroupSelectView.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
@@ -20,12 +24,8 @@ import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.
 import Node from '../../../../scenery/js/nodes/Node.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
-import CountingObject from '../model/CountingObject.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import CountingObject from '../model/CountingObject.js';
 
 // A list of all keys that are listened to, except those covered by the numberKeyMapper
 const KEYBOARD_INTERACTION_KEYS = [

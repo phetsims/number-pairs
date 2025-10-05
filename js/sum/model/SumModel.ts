@@ -6,26 +6,26 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
+import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import NumberPairsModel, { BeadXPositionsTypes, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = EmptySelfOptions;
 

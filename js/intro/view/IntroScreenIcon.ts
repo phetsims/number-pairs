@@ -8,16 +8,16 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
-import Line from '../../../../scenery/js/nodes/Line.js';
-import apple_svg from '../../../images/apple_svg.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import apple_svg from '../../../images/apple_svg.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type IntroScreenIconOptions = WithRequired<ScreenIconOptions, 'size'> & SelfOptions;

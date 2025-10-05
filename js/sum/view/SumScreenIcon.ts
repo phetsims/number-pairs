@@ -7,11 +7,11 @@
  *
  */
 import ScreenIcon, { ScreenIconOptions } from '../../../../joist/js/ScreenIcon.js';
-import numberPairs from '../../numberPairs.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberLineIcon from '../../common/view/NumberLineIcon.js';
+import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type SumScreenIconOptions = WithRequired<ScreenIconOptions, 'size'> & SelfOptions;

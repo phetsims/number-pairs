@@ -7,10 +7,10 @@
  */
 
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
-import numberPairs from '../../numberPairs.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 

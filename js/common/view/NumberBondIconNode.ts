@@ -7,9 +7,9 @@
 
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import numberPairs from '../../numberPairs.js';
+import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberBondNode, { NUMBER_BOND_LINE_WIDTH, NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberCircle from './NumberCircle.js';
-import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 
 export default class NumberBondIconNode extends NumberBondNode {
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondNodeOptions ) {

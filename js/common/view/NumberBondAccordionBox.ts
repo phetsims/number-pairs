@@ -15,13 +15,13 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BarModelNode from './BarModelNode.js';
 import NumberBondMutableNode from './NumberBondMutableNode.js';
 import { NumberBondNodeOptions } from './NumberBondNode.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
-import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 
 type SelfOptions = {
   numberBondNodeOptions?: NumberBondNodeOptions;

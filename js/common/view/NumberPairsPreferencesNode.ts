@@ -7,18 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import optionize from '../../../../phet-core/js/optionize.js';
-import numberPairs from '../../numberPairs.js';
-import SecondLanguageControl from '../../../../number-suite-common/js/common/view/SecondLanguageControl.js';
-import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
-import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PreferencesPanelContentNode, { PreferencesPanelContentNodeOptions } from '../../../../joist/js/preferences/PreferencesPanelContentNode.js';
+import SecondLanguageControl from '../../../../number-suite-common/js/common/view/SecondLanguageControl.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
-import NumberModelTypeControl from './NumberModelTypeControl.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberModelOrientationControl from './NumberModelOrientationControl.js';
+import NumberModelTypeControl from './NumberModelTypeControl.js';
+import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 
 type SelfOptions = {
   secondLanguageControlVisible?: boolean; // should the 'Second Language' control be visible?

@@ -8,17 +8,17 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
-import NumberRectangle from './NumberRectangle.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import numberPairs from '../../numberPairs.js';
+import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
+import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;

@@ -8,21 +8,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 import PreferencesModel from '../../../../joist/js/preferences/PreferencesModel.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import AutoHearControl from '../../../../number-suite-common/js/common/view/AutoHearControl.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import LanguageAndVoiceControl from '../../../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
-import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberPairsPreferences from './NumberPairsPreferences.js';
-// eslint-disable-next-line phet/no-view-imported-from-model
-import numberPairsUtteranceQueue from '../view/numberPairsUtteranceQueue.js';
-// eslint-disable-next-line phet/no-view-imported-from-model
-import numberPairsSpeechSynthesisAnnouncer from '../view/numberPairsSpeechSynthesisAnnouncer.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberPairsPreferencesNode from '../view/NumberPairsPreferencesNode.js';
+// eslint-disable-next-line phet/no-view-imported-from-model
+import numberPairsSpeechSynthesisAnnouncer from '../view/numberPairsSpeechSynthesisAnnouncer.js';
+// eslint-disable-next-line phet/no-view-imported-from-model
+import numberPairsUtteranceQueue from '../view/numberPairsUtteranceQueue.js';
+import NumberPairsPreferences from './NumberPairsPreferences.js';
 
 export default class NumberPairsPreferencesModel extends PreferencesModel {
 

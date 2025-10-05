@@ -5,22 +5,22 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import BarModelNode from './BarModelNode.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsColors from '../NumberPairsColors.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberBondIconNode from './NumberBondIconNode.js';
-import RichText from '../../../../scenery/js/nodes/RichText.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import BarModelNode from './BarModelNode.js';
+import NumberBondIconNode from './NumberBondIconNode.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 

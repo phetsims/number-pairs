@@ -13,9 +13,9 @@ import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import TwentyModel from './model/TwentyModel.js';
-import TwentyScreenView from './view/TwentyScreenView.js';
-import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js';
 import TwentyScreenIcon from './view/TwentyScreenIcon.js';
+import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js';
+import TwentyScreenView from './view/TwentyScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 type TwentyScreenOptions = SelfOptions & ScreenOptions;
