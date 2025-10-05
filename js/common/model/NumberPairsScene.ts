@@ -23,6 +23,7 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import { BeadXPositionsTypes } from './NumberPairsModel.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import BeadManager from './BeadManager.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 
 type SelfOptions = {
   includesBeadRepresentation: boolean;
@@ -103,42 +104,42 @@ export default class NumberPairsScene extends PhetioObject {
 
       if ( leftAddendDelta + rightAddendDelta === 0 ) {
         if ( leftAddendDelta > 0 ) {
-          assert && assert( this.rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
+          affirm( this.rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
           this.leftAddendObjects.push( ...this.rightAddendObjects.splice( 0, leftAddendDelta ) );
 
         }
         else if ( rightAddendDelta > 0 ) {
-          assert && assert( this.leftAddendObjects.length >= rightAddendDelta, 'not enough left addend objects' );
+          affirm( this.leftAddendObjects.length >= rightAddendDelta, 'not enough left addend objects' );
           this.rightAddendObjects.push( ...this.leftAddendObjects.splice( 0, rightAddendDelta ) );
         }
       }
       else {
         if ( rightAddendDelta > 0 ) {
-          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
+          affirm( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
 
           // We use the immutable `slice` here because removing and item from the inactiveCountingObjects array
           // should be handled by the addend specific ObservableArray.
           this.rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, rightAddendDelta ) );
         }
         else if ( rightAddendDelta < 0 ) {
-          assert && assert( this.rightAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough right addend objects' );
+          affirm( this.rightAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough right addend objects' );
           this.rightAddendObjects.splice( rightAddendDelta, -rightAddendDelta );
         }
 
         if ( leftAddendDelta > 0 ) {
-          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
+          affirm( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
 
           this.leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, leftAddendDelta ) );
         }
         else if ( leftAddendDelta < 0 ) {
-          assert && assert( this.leftAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough left addend objects' );
+          affirm( this.leftAddendObjects.length >= Math.abs( rightAddendDelta ), 'not enough left addend objects' );
           this.leftAddendObjects.splice( leftAddendDelta, -leftAddendDelta );
         }
       }
 
-      assert && assert( this.leftAddendProperty.value === this.leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
-      assert && assert( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
-      assert && assert( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+      affirm( this.leftAddendProperty.value === this.leftAddendObjects.length, 'leftAddendProperty should match leftAddendObjects length' );
+      affirm( this.rightAddendProperty.value === this.rightAddendObjects.length, 'rightAddendProperty should match rightAddendObjects length' );
+      affirm( this.leftAddendObjects.length + this.rightAddendObjects.length === this.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
     } );
   }
 

@@ -9,6 +9,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -97,8 +98,8 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
       enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
       fire: ( event, keysPressed ) => {
         const groupItem = groupSelectModel.selectedGroupItemProperty.value;
-        assert && assert( groupItem !== null, 'selectedGroupItem should not be null' );
-        options.handleHomeEndKeysDuringDrag( keysPressed, groupItem! );
+        affirm( groupItem !== null, 'selectedGroupItem should not be null' );
+        options.handleHomeEndKeysDuringDrag( keysPressed, groupItem );
       }
     } );
 

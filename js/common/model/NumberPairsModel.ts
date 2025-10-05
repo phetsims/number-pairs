@@ -19,6 +19,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
@@ -179,7 +180,7 @@ export default class NumberPairsModel implements TNumberPairsModel {
     this.groupSelectLocationObjectsModel = new GroupSelectModel( {
       phetioMouseSortCueInstrumented: false,
       getGroupItemValue: ( countingObject: CountingObject ) => {
-        assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
+        affirm( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
       },
       tandem: options.tandem.createTandem( 'groupSelectLocationObjectsModel' )
@@ -187,7 +188,7 @@ export default class NumberPairsModel implements TNumberPairsModel {
     this.groupSelectBeadsModel = new GroupSelectModel( {
       phetioMouseSortCueInstrumented: false,
       getGroupItemValue: ( countingObject: CountingObject ) => {
-        assert && assert( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
+        affirm( countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be sorted.' );
         return countingObject.addendTypeProperty.value === AddendType.LEFT ? 0 : 1;
       },
       tandem: options.tandem.createTandem( 'groupSelectBeadsModel' )
@@ -353,9 +354,9 @@ export default class NumberPairsModel implements TNumberPairsModel {
 
     // Swap the addend values. Listeners handle the rest (observable arrays, addend types, etc).
     this.leftAddendProperty.value = this.rightAddendProperty.value;
-    assert && assert( leftAddendObjects.length === this.leftAddendProperty.value,
+    affirm( leftAddendObjects.length === this.leftAddendProperty.value,
       `We have swapped addends and leftAddendObjects.length (${leftAddendObjects.length}) should equal leftAddendProperty.value (${this.leftAddendProperty.value})` );
-    assert && assert( rightAddendObjects.length === this.rightAddendProperty.value,
+    affirm( rightAddendObjects.length === this.rightAddendProperty.value,
       `We have swapped addends and leftAddendObjects.length (${rightAddendObjects.length}) should equal leftAddendProperty.value (${this.rightAddendProperty.value})` );
 
     // Make a copy of the counting object observable arrays so that each representation is working with a consistent
@@ -394,8 +395,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
         this.beadManager.shiftOverlappingBeadPositions( newRightBeadXPositions, false ) );
     }
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   /**
@@ -423,8 +424,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
    */
   public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate = false ): void {
 
-    assert && assert( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
-    assert && assert( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
+    affirm( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
+    affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
 
     if ( animate ) {
       const animationTargets = [ ...this.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
@@ -507,9 +508,9 @@ export default class NumberPairsModel implements TNumberPairsModel {
    * @param animate - whether to animate the movement of the counting objects.
    */
   public setAttributePositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
-    assert && assert( leftAddendObjects.length === leftAttributePositions.length,
+    affirm( leftAddendObjects.length === leftAttributePositions.length,
       `leftAddendObjects length: ${leftAddendObjects.length}  should be the same leftAttributePositions length: ${leftAttributePositions.length} and the left value is: ${this.leftAddendProperty.value}.` );
-    assert && assert( rightAddendObjects.length === rightAttributePositions.length,
+    affirm( rightAddendObjects.length === rightAttributePositions.length,
       `rightAddendObjects length: ${rightAddendObjects.length}  should be the same rightAttributePositions length: ${rightAttributePositions.length} and the right value is: ${this.rightAddendProperty.value}.` );
 
     if ( animate ) {
@@ -576,7 +577,7 @@ export default class NumberPairsModel implements TNumberPairsModel {
    * @param positionType
    */
   public organizeIntoTenFrame( tenFrameBounds: Bounds2[], positionType: 'attribute' | 'location' ): void {
-    assert && assert( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
+    affirm( tenFrameBounds.length === 1 || tenFrameBounds.length === 2, 'Ten frame bounds must be an array of length 1 or 2.' );
     const leftAddendObjects = this.leftAddendCountingObjectsProperty.value;
     const rightAddendObjects = this.rightAddendCountingObjectsProperty.value;
 
@@ -604,8 +605,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
     }
 
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   public getCountingObjectsSortedByLocationPosition(): CountingObject[] {
@@ -633,8 +634,8 @@ export default class NumberPairsModel implements TNumberPairsModel {
     this.groupSelectBeadsModel.reset();
     this.groupSelectLocationObjectsModel.reset();
 
-    assert && assert( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
-    assert && assert( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
+    affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 
   public deselectAllKittens(): void {

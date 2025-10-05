@@ -82,7 +82,7 @@ export default class SumModel extends NumberPairsModel {
           return rightAddendProperty.value;
         }
         else {
-          assert && assert( SCENE_RANGE.contains( newValue ), 'rightAddendProperty out of range' );
+          affirm( SCENE_RANGE.contains( newValue ), 'rightAddendProperty out of range' );
           return newValue;
         }
       },
@@ -167,13 +167,13 @@ export default class SumModel extends NumberPairsModel {
 
       if ( leftAddendDelta + rightAddendDelta === 0 ) {
         if ( leftAddendDelta > 0 ) {
-          assert && assert( rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
+          affirm( rightAddendObjects.length >= leftAddendDelta, 'not enough right addend objects' );
 
           // Remove from the end of the array to create a less jarring experience for the user.
           leftAddendObjects.push( ...rightAddendObjects.splice( -leftAddendDelta, leftAddendDelta ) );
         }
         else if ( rightAddendDelta > 0 ) {
-          assert && assert( leftAddendObjects.length >= rightAddendDelta, 'not enough right addend objects' );
+          affirm( leftAddendObjects.length >= rightAddendDelta, 'not enough right addend objects' );
 
           // Remove from the end of the array to create a less jarring experience for the user.
           rightAddendObjects.push( ...leftAddendObjects.splice( -rightAddendDelta, rightAddendDelta ) );
@@ -181,7 +181,7 @@ export default class SumModel extends NumberPairsModel {
       }
       else {
         if ( rightAddendDelta > 0 ) {
-          assert && assert( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
+          affirm( this.inactiveCountingObjects.length >= rightAddendDelta, 'not enough inactive counting objects' );
 
           // We use the immutable `slice` here because removing an item from the inactiveCountingObjects array
           // should be handled by the addend-specific ObservableArray.

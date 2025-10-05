@@ -13,6 +13,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Segment, { Cubic, EllipticalArc } from '../../../../kite/js/segments/Segment.js';
 import Shape from '../../../../kite/js/Shape.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -69,7 +70,7 @@ export default class CurvedArrowNode extends Node {
     }, providedOptions );
 
 
-    options.addStrokeToArrow && assert && assert( options.arrowColorProperty, 'arrowColorProperty is required when addStrokeToArrow is true' );
+    options.addStrokeToArrow && affirm( options.arrowColorProperty, 'arrowColorProperty is required when addStrokeToArrow is true' );
 
     const tailShape = new Shape();
     const arrowHeadShape = new Shape();
@@ -242,7 +243,7 @@ export default class CurvedArrowNode extends Node {
 
   private getIntersection( arcA: Segment, arcB: Segment ): Vector2 {
     const intersections = Segment.intersect( arcA, arcB );
-    assert && assert( intersections.length > 0, 'An intersection should be defined' );
+    affirm( intersections.length > 0, 'An intersection should be defined' );
     return intersections[ intersections.length - 1 ].point;
   }
 

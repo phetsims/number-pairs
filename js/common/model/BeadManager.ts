@@ -1,20 +1,22 @@
 // Copyright 2025, University of Colorado Boulder
+
 /**
  * Manages the positions of the beads on the wires.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  *
  */
-import { BeadXPositionsTypes } from './NumberPairsModel.js';
-import NumberPairsConstants from '../NumberPairsConstants.js';
-import Range from '../../../../dot/js/Range.js';
-import CountingObject, { AddendType } from './CountingObject.js';
-import NumberPairsScene from './NumberPairsScene.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import numberPairs from '../../numberPairs.js';
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
+import CountingObject, { AddendType } from './CountingObject.js';
+import { BeadXPositionsTypes } from './NumberPairsModel.js';
+import NumberPairsScene from './NumberPairsScene.js';
 
 export default class BeadManager {
   private readonly beadXRange: Range;
@@ -129,8 +131,8 @@ export default class BeadManager {
       rightAddendXPositions = this.shiftXPositions( rightAddendXPositions, 1, separatorXPosition + beadDistanceFromSeparator );
     }
 
-    assert && assert( leftAddendBeads.length === leftAddendXPositions.length, 'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
-    assert && assert( rightAddendBeads.length === rightAddendXPositions.length, 'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
+    affirm( leftAddendBeads.length === leftAddendXPositions.length, 'leftAddendObjects.length should match beadXPositionsProperty.leftAddendXPositions.length' );
+    affirm( rightAddendBeads.length === rightAddendXPositions.length, 'rightAddendObjects.length should match beadXPositionsProperty.rightAddendXPositions.length' );
     this.setBeadXPositions( leftAddendBeads, rightAddendBeads, leftAddendXPositions, rightAddendXPositions );
 
     // Now we can set any beads that are not part of the left or right addend arrays to have a position of -1
@@ -212,8 +214,8 @@ export default class BeadManager {
    * @param rightAddendObjects
    */
   public setBeadXPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftXPositions: number[], rightXPositions: number[] ): void {
-    assert && assert( leftAddendObjects.length === leftXPositions.length, `leftAddendObjects.length (${leftAddendObjects.length}) should match leftXPositions.length (${leftXPositions.length}).` );
-    assert && assert( rightAddendObjects.length === rightXPositions.length, `rightAddendObjects.length (${rightAddendObjects.length}) should match rightXPositions.length (${rightXPositions.length}).` );
+    affirm( leftAddendObjects.length === leftXPositions.length, `leftAddendObjects.length (${leftAddendObjects.length}) should match leftXPositions.length (${leftXPositions.length}).` );
+    affirm( rightAddendObjects.length === rightXPositions.length, `rightAddendObjects.length (${rightAddendObjects.length}) should match rightXPositions.length (${rightXPositions.length}).` );
     leftAddendObjects.forEach( ( countingObject, index ) => {
       countingObject.beadXPositionProperty.value = leftXPositions[ index ];
     } );

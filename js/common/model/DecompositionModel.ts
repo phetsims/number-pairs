@@ -11,6 +11,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
@@ -19,10 +20,10 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from './CountingObject.js';
+import { CountingObjectsManager } from './CountingObjectsManager.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
 import NumberPairsScene from './NumberPairsScene.js';
 import RepresentationType from './RepresentationType.js';
-import { CountingObjectsManager } from './CountingObjectsManager.js';
 
 // The difference between the initial left addend value and the total value for each scene, which therefore determines
 // the initial right addend value.
@@ -98,8 +99,8 @@ export default class DecompositionModel extends NumberPairsModel {
     }
 
     const initialSceneModel = sceneModels.find( sceneModel => sceneModel.total === options.initialTotalValue );
-    assert && assert( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
-    const selectedSceneModelProperty = new Property( initialSceneModel!, {
+    affirm( initialSceneModel, `initialSceneModel not found for total: ${options.initialTotalValue}` );
+    const selectedSceneModelProperty = new Property( initialSceneModel, {
       validValues: sceneModels,
       hasListenerOrderDependencies: true, // we need to set the changing scenes flags at the right times.
       phetioValueType: ReferenceIO( IOType.ObjectIO ),
@@ -117,7 +118,7 @@ export default class DecompositionModel extends NumberPairsModel {
       }
     } );
 
-    CountingObjectsManager.setAddendType( initialSceneModel!.leftAddendObjects, initialSceneModel!.rightAddendObjects, initialSceneModel!.inactiveCountingObjects );
+    CountingObjectsManager.setAddendType( initialSceneModel.leftAddendObjects, initialSceneModel.rightAddendObjects, initialSceneModel.inactiveCountingObjects );
 
     const totalProperty = new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total );
     const leftAddendCountingObjectsProperty = new DerivedProperty( [ selectedSceneModelProperty ],
@@ -152,7 +153,7 @@ export default class DecompositionModel extends NumberPairsModel {
     sceneModels.forEach( sceneModel => {
       this.registerObservableArrays( sceneModel.leftAddendObjects, sceneModel.rightAddendObjects, sceneModel.inactiveCountingObjects );
 
-      assert && assert( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
+      affirm( sceneModel.leftAddendObjects.length + sceneModel.rightAddendObjects.length === sceneModel.total, 'leftAddendObjects.length + rightAddendObjects.length should equal total' );
 
       // We only need to update the leftAddendProperty since the rightAddend is derived.
       // This link must be registered after the observable arrays are populated.

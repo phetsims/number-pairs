@@ -217,7 +217,7 @@ export default class CountingAreaNode extends Node {
 
     while ( isPointTooClose( point ) ) {
       recursionDepth += 1;
-      assert && assert( recursionDepth <= 100, 'We tried to find an empty point but it took us over 100 tries.' );
+      affirm( recursionDepth <= 100, 'We tried to find an empty point but it took us over 100 tries.' );
       point = dotRandom.nextPointInBounds( validBounds );
     }
     
