@@ -5,6 +5,8 @@
  *   that will allow us to reduce the duplication that currently exists, and also
  *   consolidate functions used in both NumberPairsModel and Level right now. https://github.com/phetsims/number-pairs/issues/216
  *
+ * TODO: Or perhaps the pattern in https://github.com/phetsims/number-pairs/blob/ff56ccb97d73137e300d70baa24ff6b712bc6383/js/game/view/NumberLineLevelNode.ts#L43-L52 is reasonable?
+ *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
