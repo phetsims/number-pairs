@@ -55,11 +55,28 @@ export default abstract class LevelNode extends Node {
     }, tandem.createTandem( 'statusBar' ) );
     this.addChild( this.statusBar );
 
+    const buttonColorProperty = derived(
+      level.challengeProperty,
+      level.countingObjectsDelegate.leftAddendColorProperty,
+      level.countingObjectsDelegate.rightAddendColorProperty,
+      level.countingObjectsDelegate.totalColorProperty,
+      ( challenge, leftColor, rightColor, totalColor ) => {
+        return challenge.missing === 'a' ? leftColor :
+               challenge.missing === 'b' ? rightColor :
+               totalColor;
+      } );
+
     // Number selection grid and selection state
-    const numberButtonGrid = new NumberButtonGrid( level.selectedGuessProperty, level.range, level.guessedNumbers, tandem.createTandem( 'numberButtonGrid' ), {
-      right: layoutBounds.right - MARGIN,
-      bottom: layoutBounds.bottom - MARGIN
-    } );
+    const numberButtonGrid = new NumberButtonGrid(
+      derived( level.modeProperty, mode => mode === 'correct' ),
+      level.selectedGuessProperty,
+      level.range,
+      level.guessedNumbers,
+      buttonColorProperty,
+      tandem.createTandem( 'numberButtonGrid' ), {
+        right: layoutBounds.right - MARGIN,
+        bottom: layoutBounds.bottom - MARGIN
+      } );
     this.addChild( numberButtonGrid );
 
     // Checkmark/X feedback marks positioned by the missing slot
@@ -91,7 +108,7 @@ export default abstract class LevelNode extends Node {
       baseColor: 'white',
       listener: () => {
         level.resetChallenge();
-        numberButtonGrid.buttonStates.forEach( buttonState => {buttonState.value = false;} );
+        numberButtonGrid.elements.forEach( element => {element.stateProperty.value = false;} ); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       },
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'resetChallengeButton' )
@@ -103,23 +120,14 @@ export default abstract class LevelNode extends Node {
       right: layoutBounds.right - 100,
       top: layoutBounds.top + 100,
       listener: () => {
-        const guess = numberButtonGrid.getSelectedNumber();
+        const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
         level.checkAnswer( guess );
       },
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' )
-    } );
-
-    // Keep selection so the user sees their choice; grid disables wrong guesses via guessedNumbers
-    level.modeProperty.lazyLink( mode => {
-      if ( mode === 'correct' ) {
-
-        const value = level.selectedGuessProperty.value;
-        affirm( value !== null );
-
-        // Disable all further number input until next
-        numberButtonGrid.showCorrectAnswer( value );
-      }
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
+      enabledProperty: derived( level.modeProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
+        return selectedGuess !== null && !level.guessedNumbers.includes( selectedGuess ) && mode !== 'correct';
+      } )
     } );
 
     const nextButton = new RectangularPushButton( {
@@ -132,9 +140,9 @@ export default abstract class LevelNode extends Node {
         level.nextChallenge();
 
         // Reset grid visuals for the new challenge
-        numberButtonGrid.resetAll();
+        numberButtonGrid.resetAll(); // TODO: Move to model, see https://github.com/phetsims/number-pairs/issues/233
 
-        numberButtonGrid.buttons[ 0 ].focus();
+        numberButtonGrid.elements[ 0 ].button.focus(); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       }
     } );
 
@@ -148,11 +156,6 @@ export default abstract class LevelNode extends Node {
         nextButton.focus();
       }
     } );
-
-    // Enable Check only when a selectable number is down and feedback is not already correct
-    const checkEnabledProperty = derived( level.selectedGuessProperty, level.modeProperty,
-      ( selectedGuess, state ) => !!( selectedGuess && state !== 'correct' ) );
-    checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     level.selectedGuessProperty.link( () => {
@@ -168,14 +171,6 @@ export default abstract class LevelNode extends Node {
       this.statusBar
     ];
 
-    // Match up the button colors to match up with the unknown in the representation
-    level.challengeProperty.link( challenge => {
-      const color = challenge.missing === 'a' ? level.countingObjectsDelegate.leftAddendColorProperty.value :
-                    challenge.missing === 'b' ? level.countingObjectsDelegate.rightAddendColorProperty.value :
-                    level.countingObjectsDelegate.totalColorProperty.value;
-
-      numberButtonGrid.setButtonColor( color );
-    } );
   }
 }
 

@@ -34,6 +34,8 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
     const equationNode = new GameNumberEquationNode( level );
     this.addChild( equationNode );
 
+    this.resetChallengeButton.moveToFront(); // awkward
+
     ManualConstraint.create( this, [
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,

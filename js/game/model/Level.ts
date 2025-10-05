@@ -17,13 +17,13 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
+import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
 import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
-import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 
 type SelfOptions = {
   representationType: RepresentationType;
@@ -114,7 +114,8 @@ export default class Level {
   }
 
   public nextChallenge(): void {
-    this.resetGuesses();
+    this.guessedNumbers.clear();
+    this.selectedGuessProperty.value = null;
     this.modeProperty.value = 'idle';
     this.challengeProperty.value = this.createChallenge( false );
   }
@@ -154,10 +155,6 @@ export default class Level {
     if ( !this.guessedNumbers.includes( guess ) ) {
       this.guessedNumbers.push( guess );
     }
-  }
-
-  private resetGuesses(): void {
-    this.guessedNumbers.clear();
   }
 
   public reset(): void {

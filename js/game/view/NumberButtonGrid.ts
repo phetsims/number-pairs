@@ -13,16 +13,20 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import TColor from '../../../../scenery/js/util/TColor.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import InputRange from '../model/InputRange.js';
 
@@ -33,17 +37,24 @@ const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
 
-  public readonly buttonStates: BooleanProperty[] = [];
-  public readonly buttons: BooleanRectangularStickyToggleButton[] = [];
-  private readonly buttonValues: number[] = [];
+  public readonly elements: Array<{
+    button: BooleanRectangularStickyToggleButton;
+    toggleNode: BooleanToggleNode;
+    stateProperty: BooleanProperty;
+    correctAnswerNode: NumberRectangle;
+    value: number;
+  }> = [];
 
-  public constructor( selectedNumberProperty: Property<number | null>, range: InputRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
+  public constructor( isCorrectProperty: TReadOnlyProperty<boolean>, selectedNumberProperty: Property<number | null>, range: InputRange, guessedNumbers: ObservableArray<number>,
+                      buttonColorProperty: TReadOnlyProperty<Color>,
+                      tandem: Tandem,
+                      providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
-    const createButton = ( value: number, columnIndex: number, rowIndex: number ) => {
+    const createElement = ( value: number, columnIndex: number, rowIndex: number ) => {
 
       const label = new Text( value, { font: FONT } );
       const labelBox = new AlignBox( label, {
@@ -53,15 +64,32 @@ export default class NumberButtonGrid extends Node {
       } );
 
       const stateProperty = new BooleanProperty( false );
-      this.buttonStates.push( stateProperty );
-      this.buttonValues.push( value );
 
       const button = new BooleanRectangularStickyToggleButton( stateProperty, {
         accessibleName: value.toString(),
         tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
         size: BUTTON_SIZE,
-        baseColor: '#f7d9a5',
+        baseColor: buttonColorProperty,
+        enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty, ( isCorrect, selectedNumber ) => {
+
+          // when the correct answer is showing, disable all buttons
+          if ( isCorrect ) {
+            return false;
+          }
+
+          // disable buttons that have already been guessed
+          return !guessedNumbers.includes( value );
+        } )
+      } );
+
+      const correctAnswerNode = new NumberRectangle( new Dimension2( button.width, button.height ), new Property( value ), {
+        stroke: 'black',
+        fill: buttonColorProperty
+      } );
+
+      const toggleProperty = derived( isCorrectProperty, selectedNumberProperty, ( isCorrect, selectedNumber ) => isCorrect && selectedNumber === value );
+      const toggleNode = new BooleanToggleNode( toggleProperty, correctAnswerNode, button, {
         left: columnIndex * ( BUTTON_SIZE.width + X_SPACING ),
         top: rowIndex * ( BUTTON_SIZE.height + Y_SPACING )
       } );
@@ -75,88 +103,44 @@ export default class NumberButtonGrid extends Node {
 
       // When the model changes, update the button state.
       selectedNumberProperty.lazyLink( selectedNumber => {
-        if ( selectedNumber === value ) {
-          stateProperty.value = true;
-        }
-        else if ( stateProperty.value ) {
-
-          // Deselect if another button is selected
-          stateProperty.value = false;
-        }
+        stateProperty.value = selectedNumber === value;
       } );
 
-      this.buttons.push( button );
+      const element = {
+        button: button,
+        toggleNode: toggleNode,
+        correctAnswerNode: correctAnswerNode,
+        stateProperty: stateProperty,
+        value: value
+      };
+      this.elements.push( element );
 
-      return button;
+      return element;
     };
 
     // Two vertical columns with low numbers at the bottom.
     // Left column 0..10, bottom-to-top (rowIndex 10..0).
     for ( let n = 0; n <= 10; n++ ) {
       const rowIndex = 10 - n; // 0->10 (bottom) ... 10->0 (top)
-      this.addChild( createButton( n, 0, rowIndex ) );
+      this.addChild( createElement( n, 0, rowIndex ).toggleNode );
     }
     // Right column 11..20 aligned with 1..10, so 11 is beside 1 and 0 has no neighbor.
     if ( range === 'zeroToTwenty' ) {
       for ( let n = 11; n <= 20; n++ ) {
         const rowIndex = 20 - n; // 11->9 ... 20->0 (no rowIndex 10 in right column)
-        this.addChild( createButton( n, 1, rowIndex ) );
+        this.addChild( createElement( n, 1, rowIndex ).toggleNode );
       }
     }
-
-    // React to guessed numbers from the model by disabling those buttons
-    guessedNumbers.lengthProperty.link( () => {
-      for ( let i = 0; i < this.buttonValues.length; i++ ) {
-        const value = this.buttonValues[ i ];
-        this.buttons[ i ].enabledProperty.value = !guessedNumbers.includes( value );
-      }
-    } );
 
     this.mutate( providedOptions );
-  }
-
-  public setButtonColor( color: TColor ): void {
-    this.buttons.forEach( button => {
-      button.baseColor = color;
-    } );
-  }
-
-  /**
-   * Gets the currently selected number, or null if none selected.
-   */
-  public getSelectedNumber(): number | null {
-    const selectedIndex = this.buttonStates.findIndex( state => state.value );
-    return selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
-  }
-
-  /**
-   * Disables all number buttons (used after solving a challenge).
-   */
-  public showCorrectAnswer( answer: number ): void {
-    this.buttons.forEach( button => {
-      button.enabledProperty.value = false;
-    } );
-
-    const answerIndex = this.buttonValues.indexOf( answer );
-    if ( answerIndex >= 0 ) {
-      const button = this.buttons[ answerIndex ];
-      button.enabledProperty.value = true;
-      button.pickable = false;
-
-      // Keep the button pressed so the correct answer remains visible
-    }
   }
 
   /**
    * Resets all buttons to their initial state (enabled and unselected).
    */
   public resetAll(): void {
-    this.buttonStates.forEach( state => {
-      state.value = false;
-    } );
-    this.buttons.forEach( button => {
-      button.enabledProperty.value = true;
-      button.pickable = true;
+    this.elements.forEach( element => {
+      element.stateProperty.value = false;
     } );
   }
 }

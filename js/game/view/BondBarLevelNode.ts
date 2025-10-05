@@ -44,6 +44,8 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     this.addChild( bondNode );
     this.addChild( barNode );
 
+    this.resetChallengeButton.moveToFront(); // awkward
+
     ManualConstraint.create( this, [
         bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,

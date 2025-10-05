@@ -76,6 +76,8 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.thumbNode.visible = false;
     this.addChild( numberLineNode );
 
+    this.resetChallengeButton.moveToFront(); // awkward
+
     ManualConstraint.create( this, [
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
