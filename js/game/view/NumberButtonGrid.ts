@@ -32,33 +32,15 @@ const Y_SPACING = 8;
 const FONT = new PhetFont( 24 );
 
 export default class NumberButtonGrid extends Node {
-  public readonly anySelectedProperty: BooleanProperty;
-  public readonly selectedIsEnabledProperty: BooleanProperty;
 
-  public readonly buttonStates: BooleanProperty[];
-  public readonly buttons: BooleanRectangularStickyToggleButton[];
-  private readonly buttonValues: number[];
+  public readonly buttonStates: BooleanProperty[] = [];
+  public readonly buttons: BooleanRectangularStickyToggleButton[] = [];
+  private readonly buttonValues: number[] = [];
 
   public constructor( selectedNumberProperty: Property<number | null>, range: InputRange, guessedNumbers: ObservableArray<number>, tandem: Tandem, providedOptions?: NodeOptions ) {
     super();
 
     const alignGroup = new AlignGroup();
-    this.buttonStates = [];
-    this.buttons = [];
-    this.buttonValues = [];
-    this.anySelectedProperty = new BooleanProperty( false );
-    this.selectedIsEnabledProperty = new BooleanProperty( false );
-    const updateSelectionState = () => {
-
-      // true if any button is pressed in
-      const anySelected = this.buttonStates.some( p => p.value );
-      this.anySelectedProperty.value = anySelected;
-
-      // currently selected number (or null)
-      const selectedIndex = this.buttonStates.findIndex( state => state.value );
-      selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
-      this.selectedIsEnabledProperty.value = selectedIndex >= 0 ? this.buttons[ selectedIndex ].enabledProperty.value : false;
-    };
 
     // Helper to create a fixed-size button for a given number, placed at a given grid position.
     const createButton = ( value: number, columnIndex: number, rowIndex: number ) => {
@@ -79,25 +61,31 @@ export default class NumberButtonGrid extends Node {
         tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
         size: BUTTON_SIZE,
-        baseColor: '#f7d9a5'
+        baseColor: '#f7d9a5',
+        left: columnIndex * ( BUTTON_SIZE.width + X_SPACING ),
+        top: rowIndex * ( BUTTON_SIZE.height + Y_SPACING )
+      } );
+
+      // When the button is pressed, tell the model about it.
+      stateProperty.lazyLink( state => {
+        if ( state ) {
+          selectedNumberProperty.value = state ? value : null;
+        }
+      } );
+
+      // When the model changes, update the button state.
+      selectedNumberProperty.lazyLink( selectedNumber => {
+        if ( selectedNumber === value ) {
+          stateProperty.value = true;
+        }
+        else if ( stateProperty.value ) {
+
+          // Deselect if another button is selected
+          stateProperty.value = false;
+        }
       } );
 
       this.buttons.push( button );
-
-      button.left = columnIndex * ( BUTTON_SIZE.width + X_SPACING );
-      button.top = rowIndex * ( BUTTON_SIZE.height + Y_SPACING );
-
-      // When this button is pressed in (true), pop out all other buttons
-      stateProperty.lazyLink( isDown => {
-        if ( isDown ) {
-          this.buttonStates.forEach( p => {
-            if ( p !== stateProperty ) {
-              p.value = false;
-            }
-          } );
-        }
-        updateSelectionState();
-      } );
 
       return button;
     };
@@ -117,24 +105,12 @@ export default class NumberButtonGrid extends Node {
     }
 
     // React to guessed numbers from the model by disabling those buttons
-    const applyGuessedNumbers = () => {
+    guessedNumbers.lengthProperty.link( () => {
       for ( let i = 0; i < this.buttonValues.length; i++ ) {
         const value = this.buttonValues[ i ];
-        const shouldEnable = !guessedNumbers.includes( value );
-        this.buttons[ i ].enabledProperty.value = shouldEnable;
+        this.buttons[ i ].enabledProperty.value = !guessedNumbers.includes( value );
       }
-      // Update aggregate selection state (including enabled state)
-      const anySelected = this.buttonStates.some( p => p.value );
-      this.anySelectedProperty.value = anySelected;
-      const selectedIndex = this.buttonStates.findIndex( state => state.value );
-      selectedNumberProperty.value = selectedIndex >= 0 ? this.buttonValues[ selectedIndex ] : null;
-      this.selectedIsEnabledProperty.value = selectedIndex >= 0 ? this.buttons[ selectedIndex ].enabledProperty.value : false;
-    };
-    // Initial and reactive updates when guessed numbers change
-    applyGuessedNumbers();
-    guessedNumbers.elementAddedEmitter.addListener( applyGuessedNumbers );
-    guessedNumbers.elementRemovedEmitter.addListener( applyGuessedNumbers );
-    guessedNumbers.lengthProperty.link( applyGuessedNumbers );
+    } );
 
     this.mutate( providedOptions );
   }

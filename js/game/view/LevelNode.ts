@@ -150,8 +150,8 @@ export default abstract class LevelNode extends Node {
     } );
 
     // Enable Check only when a selectable number is down and feedback is not already correct
-    const checkEnabledProperty = derived( numberButtonGrid.anySelectedProperty, numberButtonGrid.selectedIsEnabledProperty, level.modeProperty,
-      ( anySelected, selectedEnabled, state ) => anySelected && selectedEnabled && state !== 'correct' );
+    const checkEnabledProperty = derived( level.selectedGuessProperty, level.modeProperty,
+      ( selectedGuess, state ) => !!( selectedGuess && state !== 'correct' ) );
     checkEnabledProperty.link( enabled => { checkButton.enabled = enabled; } );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
