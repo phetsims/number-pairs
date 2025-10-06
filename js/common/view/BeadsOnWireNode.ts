@@ -48,6 +48,7 @@ import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js'
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
+const SEPARATOR_EPSILON = 1e-6; // Small value to handle floating point precision issues.
 const WIRE_HEIGHT = 4;
 type SelfOptions = {
   sceneRange: Range;
@@ -236,6 +237,23 @@ export default class BeadsOnWireNode extends Node {
           const rightAddendSortedBeads = this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT ).reverse();
           this.handleBeadsOutsideOfBounds( rightAddendSortedBeads, true );
         }
+
+        // Assert that all beads are on the correct side after a home/end move
+        this.getSortedBeadNodes().forEach( beadNode => {
+          const addendType = beadNode.countingObject.addendTypeProperty.value;
+          if ( addendType === AddendType.LEFT ) {
+            affirm(
+              beadNode.centerX < separatorXPosition || equalsEpsilon( beadNode.centerX, separatorXPosition, SEPARATOR_EPSILON ),
+              `Bead with LEFT addend type is not on the left side after home/end key. centerX=${beadNode.centerX}, separatorX=${separatorXPosition}`
+            );
+          }
+          else if ( addendType === AddendType.RIGHT ) {
+            affirm(
+              beadNode.centerX > separatorXPosition || equalsEpsilon( beadNode.centerX, separatorXPosition, SEPARATOR_EPSILON ),
+              `Bead with RIGHT addend type is not on the right side after home/end key. centerX=${beadNode.centerX}, separatorX=${separatorXPosition}`
+            );
+          }
+        } );
       },
       tandem: options.tandem.createTandem( 'groupSelectView' )
     } );
@@ -398,11 +416,11 @@ export default class BeadsOnWireNode extends Node {
        * intention is to move the bead to the right addend. The same logic applies when dragging to the left.
        */
       if ( beadNode.centerX > this.beadSeparatorCenterXProperty.value ||
-           ( draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
+           ( draggingRight && equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, SEPARATOR_EPSILON ) ) ) {
         this.moveBeadToRightAddend( beadNode, grabbedBeadNode );
       }
       else if ( beadNode.centerX < this.beadSeparatorCenterXProperty.value ||
-                ( !draggingRight && beadNode.centerX === this.beadSeparatorCenterXProperty.value ) ) {
+                ( !draggingRight && equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, SEPARATOR_EPSILON ) ) ) {
         this.moveBeadToLeftAddend( beadNode, grabbedBeadNode );
       }
     } );
@@ -412,10 +430,10 @@ export default class BeadsOnWireNode extends Node {
     while ( !this.beadsOnCorrectSide() ) {
       this.getSortedBeadNodes().forEach( beadNode => {
         const addendType = beadNode.countingObject.addendTypeProperty.value;
-        if ( addendType === AddendType.LEFT && beadNode.centerX > this.beadSeparatorCenterXProperty.value ) {
+        if ( addendType === AddendType.LEFT && beadNode.centerX > this.beadSeparatorCenterXProperty.value && !equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, SEPARATOR_EPSILON ) ) {
           this.moveBeadToRightAddend( beadNode, grabbedBeadNode );
         }
-        else if ( addendType === AddendType.RIGHT && beadNode.centerX < this.beadSeparatorCenterXProperty.value ) {
+        else if ( addendType === AddendType.RIGHT && beadNode.centerX < this.beadSeparatorCenterXProperty.value && !equalsEpsilon( beadNode.centerX, this.beadSeparatorCenterXProperty.value, SEPARATOR_EPSILON ) ) {
           this.moveBeadToLeftAddend( beadNode, grabbedBeadNode );
         }
       } );
@@ -563,7 +581,12 @@ export default class BeadsOnWireNode extends Node {
     return this.getSortedBeadNodes().every( beadNode => {
       const addendType = beadNode.countingObject.addendTypeProperty.value;
       affirm( addendType !== AddendType.INACTIVE, 'Addend type should not be inactive' );
-      return addendType === AddendType.LEFT ? beadNode.centerX <= separatorXPosition : beadNode.centerX >= separatorXPosition;
+      if ( addendType === AddendType.LEFT ) {
+        return beadNode.centerX < separatorXPosition || equalsEpsilon( beadNode.centerX, separatorXPosition, SEPARATOR_EPSILON );
+      }
+      else {
+        return beadNode.centerX > separatorXPosition || equalsEpsilon( beadNode.centerX, separatorXPosition, SEPARATOR_EPSILON );
+      }
     } );
   }
 
