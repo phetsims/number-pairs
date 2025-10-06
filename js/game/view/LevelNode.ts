@@ -38,6 +38,7 @@ export default abstract class LevelNode extends Node {
   protected readonly tryAgainText: Text;
   protected readonly resetChallengeButton: ResetButton;
   protected readonly numberButtonGrid: NumberButtonGrid;
+  protected readonly checkButton: RectangularPushButton;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -115,11 +116,9 @@ export default abstract class LevelNode extends Node {
       tandem: tandem.createTandem( 'resetChallengeButton' )
     } );
 
-    const checkButton = new RectangularPushButton( {
+    this.checkButton = new RectangularPushButton( {
       content: checkText,
       tandem: tandem.createTandem( 'checkButton' ),
-      right: layoutBounds.right - 100,
-      top: layoutBounds.top + 100,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
@@ -147,7 +146,7 @@ export default abstract class LevelNode extends Node {
       }
     } );
 
-    this.addChild( checkButton );
+    this.addChild( this.checkButton );
     this.addChild( nextButton );
     this.addChild( this.tryAgainText );
     this.addChild( this.resetChallengeButton );
@@ -167,7 +166,7 @@ export default abstract class LevelNode extends Node {
 
     this.pdomOrder = [
       this.numberButtonGrid,
-      checkButton,
+      this.checkButton,
       nextButton,
       this.statusBar
     ];

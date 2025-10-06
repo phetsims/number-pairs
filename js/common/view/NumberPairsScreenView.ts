@@ -31,6 +31,7 @@ import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import CountingObject from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
@@ -51,7 +52,6 @@ import numberPairsUtteranceQueue from './numberPairsUtteranceQueue.js';
 import RepresentationRadioButtonGroup from './RepresentationRadioButtonGroup.js';
 import SceneSelectionRadioButtonGroup from './SceneSelectionRadioButtonGroup.js';
 import TenFrameButton from './TenFrameButton.js';
-import CountingObject from '../model/CountingObject.js';
 
 type SelfOptions = {
   phraseAccordionBox: AccordionBox;
@@ -197,10 +197,6 @@ export default class NumberPairsScreenView extends ScreenView {
       representation: representationTypeAccessibleNameProperty
     } );
 
-    // The sum screen organizes all the objects into one central ten frame. We create that bounds here so that
-    // we have access to the countingAreaBounds which are defined during construction.
-    const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
-    const splitTenFrameBounds = NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
     const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
@@ -217,9 +213,13 @@ export default class NumberPairsScreenView extends ScreenView {
         else {
           const positionPropertyType = model.representationTypeProperty.value === RepresentationType.KITTENS ? 'attribute' : 'location';
           if ( options.sumScreen ) {
+
+            // The sum screen organizes all the objects into one central ten frame.
+            const sumTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( COUNTING_AREA_BOUNDS );
             model.organizeIntoSingleTenFrame( sumTenFrameBounds, model.leftAddendCountingObjectsProperty.value, model.rightAddendCountingObjectsProperty.value, positionPropertyType );
           }
           else {
+            const splitTenFrameBounds = NumberPairsUtils.splitBoundsInHalf( COUNTING_AREA_BOUNDS );
             model.organizeIntoSplitTenFrame( splitTenFrameBounds, model.leftAddendCountingObjectsProperty.value, model.rightAddendCountingObjectsProperty.value, positionPropertyType );
           }
         }

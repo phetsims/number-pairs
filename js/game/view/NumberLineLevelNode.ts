@@ -83,9 +83,9 @@ export default class NumberLineLevelNode extends LevelNode {
 
     ManualConstraint.create( this, [
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.checkButton ],
       ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
+        resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy ) => {
 
         resetButtonProxy.rightBottom = layoutBounds.rightBottom.plusXY( -120, 0 );
         equationNodeProxy.center = layoutBounds.center;
@@ -100,6 +100,9 @@ export default class NumberLineLevelNode extends LevelNode {
 
         tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
         tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+
+        checkButtonProxy.centerY = equationNodeProxy.centerY;
+        checkButtonProxy.left = equationNodeProxy.right + 135;
       } );
   }
 }

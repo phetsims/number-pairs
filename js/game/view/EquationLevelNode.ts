@@ -40,11 +40,11 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,
         equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare,
-        this.preferencesNode ],
+        this.preferencesNode, this.checkButton ],
       ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
         equationLeftProxy, equationRightProxy, equationTopProxy,
-        preferencesNodeProxy ) => {
+        preferencesNodeProxy, checkButtonProxy ) => {
 
         equationNodeProxy.centerX = layoutBounds.centerX;
 
@@ -75,6 +75,9 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
         tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
         tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+
+        checkButtonProxy.centerY = equationNodeProxy.centerY;
+        checkButtonProxy.right = countingAreaNodeProxy.right;
       } );
   }
 }
