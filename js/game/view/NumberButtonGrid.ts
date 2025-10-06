@@ -25,6 +25,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
+import { FlatAppearanceStrategy } from '../../../../sun/js/buttons/ButtonNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
@@ -66,6 +67,7 @@ export default class NumberButtonGrid extends Node {
       const stateProperty = new BooleanProperty( false );
 
       const button = new BooleanRectangularStickyToggleButton( stateProperty, {
+        buttonAppearanceStrategy: FlatAppearanceStrategy,
         accessibleName: value.toString(),
         tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
