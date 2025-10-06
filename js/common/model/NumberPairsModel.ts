@@ -26,12 +26,12 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from './AbstractNumberPairsModel.js';
 import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import { CountingObjectsManager } from './CountingObjectsManager.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
 import RepresentationType from './RepresentationType.js';
-import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from './AbstractNumberPairsModel.js';
 
 export type AnimationTarget = {
   property: Property<Vector2>;
@@ -88,8 +88,7 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
     public readonly changingScenesProperty: Property<boolean>,
     providedOptions: NumberPairsModelOptions ) {
 
-    const options = optionize<NumberPairsModelOptions, SelfOptions, AbstractNumberPairsModelOptions>()( {
-    }, providedOptions );
+    const options = optionize<NumberPairsModelOptions, SelfOptions, AbstractNumberPairsModelOptions>()( {}, providedOptions );
 
     // Define Visible Properties
     const visiblePropertiesTandem = options.tandem.createTandem( 'visibleProperties' );

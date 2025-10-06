@@ -8,6 +8,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Property from '../../../../axon/js/Property.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -17,7 +18,6 @@ import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
-import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   includeKittenAttributeSwitch?: boolean;

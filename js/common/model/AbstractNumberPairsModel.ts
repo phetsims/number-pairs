@@ -6,25 +6,25 @@
  *
  */
 
-import numberPairs from '../../numberPairs.js';
-import TGenericNumberPairsModel from './TGenericNumberPairsModel.js';
-import CountingObject from './CountingObject.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import Animation from '../../../../twixt/js/Animation.js';
-import Property from '../../../../axon/js/Property.js';
-import RepresentationType from './RepresentationType.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { CountingObjectsManager } from './CountingObjectsManager.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import numberPairs from '../../numberPairs.js';
+import CountingObject from './CountingObject.js';
+import { CountingObjectsManager } from './CountingObjectsManager.js';
 import { AnimationTarget } from './NumberPairsModel.js';
+import RepresentationType from './RepresentationType.js';
+import TGenericNumberPairsModel from './TGenericNumberPairsModel.js';
 
 type SelfOptions = {
   initialRepresentationType: RepresentationType;
