@@ -70,11 +70,11 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
         const proxy = missingSquare === equationNode.leftAddendSquare ? equationLeftProxy :
                       missingSquare === equationNode.rightAddendSquare ? equationRightProxy :
                       equationTopProxy;
-        wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+        wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, -1 );
         checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
 
         tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
-        tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+        tryAgainTextProxy.top = wrongMarkProxy.bottom - 1;
 
         checkButtonProxy.centerY = equationNodeProxy.centerY;
         checkButtonProxy.right = countingAreaNodeProxy.right;
