@@ -104,10 +104,8 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
 
     // In this interaction nodes may become invisible but still be active. In this case we do not want to be able
     // to select or drag them even though they will still contribute to values in the model.
-    const visibleProperties: TReadOnlyProperty<boolean>[] = [];
-    modelToNodeMap.forEach( ( value, key ) => {
-      visibleProperties.push( value.visibleProperty );
-    } );
+    const visibleProperties = [ ...modelToNodeMap.values() ].map( v => v.visibleProperty );
+
     Multilink.multilinkAny( visibleProperties, () => {
       if ( groupSelectModel.selectedGroupItemProperty.value ) {
         const selectedGroupItemNode = modelToNodeMap.get( groupSelectModel.selectedGroupItemProperty.value )!;
