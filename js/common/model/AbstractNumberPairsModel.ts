@@ -1,9 +1,8 @@
 // Copyright 2025, University of Colorado Boulder
 /**
- * Abstract base class for all of the screens in the Number Pairs sim.
+ * Abstract base class for all screens in the Number Pairs sim.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
- *
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
@@ -30,7 +29,9 @@ type SelfOptions = {
   initialRepresentationType: RepresentationType;
   representationTypeValidValues: RepresentationType[];
 };
+
 export type AbstractNumberPairsModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+
 export default abstract class AbstractNumberPairsModel implements TGenericNumberPairsModel {
 
   // The colors that code each addend and the total in the sim change based on the chosen counting representation.
@@ -42,7 +43,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
 
   // The counting representation type determines the colors of the total and addends,
   // as well as the image assets used to represent each counting object.
-  // The CUBES and NUMBER_LINE representations additionally support different user interactions.
+  // The BEADS and NUMBER_LINE representations additionally support different user interactions.
   public readonly representationTypeProperty: Property<RepresentationType>;
 
   protected constructor(
@@ -100,7 +101,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param animate - whether to animate the movement of the counting objects. If we are not animating the movement
    *  we are fading the counting objects in and out to their new spots to prevent a jarring UX.
    */
-  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate = false ): void {
+  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate: boolean ): void {
 
     affirm( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
     affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );

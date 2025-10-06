@@ -437,7 +437,7 @@ export default class NumberPairsScreenView extends ScreenView {
     }
 
     /**
-     * Create the cubes on wire representation and accompanying features.
+     * Create the beads on wire representation and accompanying features.
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
       const beadsVisibleProperty = DerivedProperty.valueEqualsConstant( model.representationTypeProperty, RepresentationType.BEADS );

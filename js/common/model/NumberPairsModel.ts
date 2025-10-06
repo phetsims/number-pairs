@@ -352,7 +352,7 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
       NumberPairsUtils.mirrorPositionAcrossCountingArea( position, 1 ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
       NumberPairsUtils.mirrorPositionAcrossCountingArea( position, -1 ) );
-    this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
+    this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions, false );
 
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
 
