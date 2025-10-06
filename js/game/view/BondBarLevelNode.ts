@@ -63,10 +63,10 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
       }
     } );
 
-    this.resetChallengeButton.moveToFront(); // awkward
+    this.challengeResetButton.moveToFront(); // awkward
 
     ManualConstraint.create( this, [
-        bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
+        bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
         this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,
         barNode.leftAddendRectangle, barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode, this.checkButton, this.nextButton ],
       ( bondNodeProxy, barNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,

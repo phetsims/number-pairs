@@ -36,7 +36,7 @@ export default abstract class LevelNode extends Node {
   protected readonly wrongMark: Text;
   protected readonly checkMark: Text;
   protected readonly tryAgainText: Text;
-  protected readonly resetChallengeButton: ResetButton;
+  protected readonly challengeResetButton: ResetButton;
   protected readonly numberButtonGrid: NumberButtonGrid;
   protected readonly checkButton: RectangularPushButton;
   protected readonly nextButton: RectangularPushButton;
@@ -107,14 +107,14 @@ export default abstract class LevelNode extends Node {
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
     } );
 
-    this.resetChallengeButton = new ResetButton( {
+    this.challengeResetButton = new ResetButton( {
       baseColor: 'white',
       listener: () => {
         level.resetChallenge();
         this.numberButtonGrid.elements.forEach( element => {element.stateProperty.value = false;} ); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       },
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
-      tandem: tandem.createTandem( 'resetChallengeButton' )
+      tandem: tandem.createTandem( 'challengeResetButton' )
     } );
 
     this.checkButton = new RectangularPushButton( {
@@ -148,7 +148,7 @@ export default abstract class LevelNode extends Node {
     this.addChild( this.checkButton );
     this.addChild( this.nextButton );
     this.addChild( this.tryAgainText );
-    this.addChild( this.resetChallengeButton );
+    this.addChild( this.challengeResetButton );
 
     this.nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {

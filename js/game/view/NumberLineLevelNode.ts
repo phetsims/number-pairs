@@ -76,13 +76,13 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.thumbNode.visible = false;
     this.addChild( numberLineNode );
 
-    this.resetChallengeButton.moveToFront(); // awkward
+    this.challengeResetButton.moveToFront(); // awkward
 
     // So the number line goes behind.
     this.numberButtonGrid.moveToFront(); // awkward
 
     ManualConstraint.create( this, [
-        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
+        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
         equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.checkButton, this.nextButton ],
       ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
