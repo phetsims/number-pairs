@@ -39,6 +39,7 @@ export default abstract class LevelNode extends Node {
   protected readonly resetChallengeButton: ResetButton;
   protected readonly numberButtonGrid: NumberButtonGrid;
   protected readonly checkButton: RectangularPushButton;
+  protected readonly nextButton: RectangularPushButton;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -130,11 +131,9 @@ export default abstract class LevelNode extends Node {
       } )
     } );
 
-    const nextButton = new RectangularPushButton( {
+    this.nextButton = new RectangularPushButton( {
       content: buttonContentAlignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) ),
       tandem: tandem.createTandem( 'nextButton' ),
-      right: layoutBounds.right - 100,
-      top: layoutBounds.top + 100,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
@@ -147,13 +146,13 @@ export default abstract class LevelNode extends Node {
     } );
 
     this.addChild( this.checkButton );
-    this.addChild( nextButton );
+    this.addChild( this.nextButton );
     this.addChild( this.tryAgainText );
     this.addChild( this.resetChallengeButton );
 
-    nextButton.visibleProperty.lazyLink( visible => {
+    this.nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
-        nextButton.focus();
+        this.nextButton.focus();
       }
     } );
 
@@ -167,7 +166,7 @@ export default abstract class LevelNode extends Node {
     this.pdomOrder = [
       this.numberButtonGrid,
       this.checkButton,
-      nextButton,
+      this.nextButton,
       this.statusBar
     ];
 

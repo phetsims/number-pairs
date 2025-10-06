@@ -49,10 +49,10 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     ManualConstraint.create( this, [
         bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.resetChallengeButton,
         this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,
-        barNode.leftAddendRectangle, barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode, this.checkButton ],
+        barNode.leftAddendRectangle, barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode, this.checkButton, this.nextButton ],
       ( bondNodeProxy, barNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
-        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy, checkButtonProxy ) => {
+        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy, checkButtonProxy, nextButtonProxy ) => {
 
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
@@ -78,6 +78,9 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
 
         checkButtonProxy.centerY = bondNodeProxy.centerY;
         checkButtonProxy.right = countingAreaNodeProxy.right;
+
+        nextButtonProxy.centerY = checkButtonProxy.centerY;
+        nextButtonProxy.right = checkButtonProxy.right;
 
         if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
