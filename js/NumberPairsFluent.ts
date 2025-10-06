@@ -5,11 +5,11 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import FluentComment from '../../chipper/js/browser/FluentComment.js';
+import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import type {FluentVariable} from '../../chipper/js/browser/FluentPattern.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import numberPairs from './numberPairs.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 
