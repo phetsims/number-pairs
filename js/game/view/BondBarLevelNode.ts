@@ -129,8 +129,8 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
           wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
           checkMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
 
-          tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
-          tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+          tryAgainTextProxy.left = wrongMarkProxy.right + 10;
+          tryAgainTextProxy.centerY = wrongMarkProxy.centerY;
         }
       } );
   }
