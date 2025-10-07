@@ -11,6 +11,7 @@
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
@@ -84,38 +85,33 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
       this.distributeCountingObjects();
     } );
 
-    this.leftAddendProperty.link( leftAddend => {
-      if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
-        return;
-      }
-      const delta = leftAddend - this.leftAddendObjects.length;
-      if ( delta > 0 ) {
-        affirm( this.inactiveCountingObjects.length >= delta, 'not enough inactive counting objects' );
-        this.leftAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, delta ) );
-      }
-      else if ( delta < 0 ) {
-        this.leftAddendObjects.splice( delta, -delta );
-      }
-    } );
+    this.setupAddendPropertyLink( leftAddendProperty, this.leftAddendObjects, this.inactiveCountingObjects );
+    this.setupAddendPropertyLink( rightAddendProperty, this.rightAddendObjects, this.inactiveCountingObjects );
 
-    this.rightAddendProperty.link( rightAddend => {
-      if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
-        return;
-      }
-      const delta = rightAddend - this.rightAddendObjects.length;
-      if ( delta > 0 ) {
-        affirm( this.inactiveCountingObjects.length >= delta, 'not enough inactive counting objects' );
-        this.rightAddendObjects.push( ...this.inactiveCountingObjects.slice( 0, delta ) );
-      }
-      else if ( delta < 0 ) {
-        this.rightAddendObjects.splice( delta, -delta );
-      }
-    } );
+    // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
+    // that is handled manually above.
+    this.initializeCountingObjectLinks();
   }
 
-  public deselectAllKittens(): void {
-    this.countingObjects.forEach( countingObject => {
-      countingObject.kittenSelectedProperty.value = false;
+  /**
+   * Sets up a link on the addendProperty to add or remove counting objects from the addendObjects array.
+   * @param addendProperty
+   * @param addendObjects
+   * @param inactiveObjects
+   */
+  private setupAddendPropertyLink( addendProperty: TReadOnlyProperty<number>, addendObjects: ObservableArray<CountingObject>, inactiveObjects: ObservableArray<CountingObject> ): void {
+    addendProperty.link( addend => {
+      if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
+        return;
+      }
+      const delta = addend - addendObjects.length;
+      if ( delta > 0 ) {
+        affirm( inactiveObjects.length >= delta, 'not enough inactive counting objects' );
+        addendObjects.push( ...inactiveObjects.slice( 0, delta ) );
+      }
+      else if ( delta < 0 ) {
+        addendObjects.splice( delta, -delta );
+      }
     } );
   }
 

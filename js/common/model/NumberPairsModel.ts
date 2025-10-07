@@ -184,14 +184,6 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
   }
 
   /**
-   * Creates a link that updates the addend type of the counting object based on the changed addend type.
-   * @param countingObject
-   */
-  public override createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
-    super.createCountingObjectAddendTypeLinks( countingObject, this.changingScenesProperty );
-  }
-
-  /**
    * Creates a multilink that updates the enabled range of the number line slider based on the left and right addend numbers.
    */
   protected createNumberLineEnabledRangeLinks(): void {
@@ -335,12 +327,6 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
 
     affirm( this.leftAddendCountingObjectsProperty.value.length === this.leftAddendProperty.value, 'Addend array length and value should match' );
     affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
-  }
-
-  public deselectAllKittens(): void {
-    this.countingObjects.forEach( countingObject => {
-      countingObject.kittenSelectedProperty.value = false;
-    } );
   }
 }
 

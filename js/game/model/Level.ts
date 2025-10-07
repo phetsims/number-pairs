@@ -93,12 +93,6 @@ export default class Level {
     } );
     this.representationTypeProperty = this.countingObjectsDelegate.representationTypeProperty;
 
-    // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
-    // that is handled manually above.
-    this.countingObjectsDelegate.countingObjects.forEach( countingObject => {
-      this.createCountingObjectAddendTypeLinks( countingObject );
-    } );
-
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
     this.guessedNumbers = createObservableArray<number>( {
       tandem: tandem.createTandem( 'guessedNumbers' ),
@@ -209,14 +203,6 @@ export default class Level {
       );
     }
 
-  }
-
-  /**
-   * Creates a link that updates the addend type of the counting object based on the changed addend type.
-   * @param countingObject
-   */
-  public createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
-    this.countingObjectsDelegate.createCountingObjectAddendTypeLinks( countingObject );
   }
 
   public resetChallenge(): void {

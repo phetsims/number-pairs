@@ -220,9 +220,7 @@ export default class SumModel extends NumberPairsModel {
 
     // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
     // that is handled manually above.
-    this.countingObjects.forEach( countingObject => {
-      this.createCountingObjectAddendTypeLinks( countingObject );
-    } );
+    this.initializeCountingObjectLinks( this.changingScenesProperty );
   }
 
   /**

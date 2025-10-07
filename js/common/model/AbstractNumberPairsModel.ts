@@ -83,6 +83,18 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
   }
 
   /**
+   * Initializes the links that update the addend type of each counting object based on its current addend type.
+   *
+   * @param changingScenesProperty - Optional property that indicates if scenes are changing. Used in NumberPairsModel
+   * but not in LevelCountingObjectsDelegate.
+   */
+  protected initializeCountingObjectLinks( changingScenesProperty?: TReadOnlyProperty<boolean> ): void {
+    this.countingObjects.forEach( countingObject => {
+      this.createCountingObjectAddendTypeLinks( countingObject, changingScenesProperty );
+    } );
+  }
+
+  /**
    * Returns animation targets based on the provided position Properties and target positions.
    * @param positionProperties
    * @param targetPositions
@@ -307,7 +319,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param changingScenesProperty - Optional property that indicates if scenes are changing. Used in NumberPairsModel
    * but not in LevelCountingObjectsDelegate.
    */
-  public createCountingObjectAddendTypeLinks( countingObject: CountingObject, changingScenesProperty?: TReadOnlyProperty<boolean> ): void {
+  private createCountingObjectAddendTypeLinks( countingObject: CountingObject, changingScenesProperty?: TReadOnlyProperty<boolean> ): void {
     countingObject.addendTypeProperty.lazyLink( addendType => {
       const leftAddendCountingObjects = this.leftAddendCountingObjectsProperty.value;
       const rightAddendCountingObjects = this.rightAddendCountingObjectsProperty.value;
@@ -360,6 +372,15 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
       const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.locationPositionProperty.value );
       return !dropZoneBounds.containsPoint( gridCoordinate );
     } ) );
+  }
+
+  /**
+   * Deselects all kittens.
+   */
+  public deselectAllKittens(): void {
+    this.countingObjects.forEach( countingObject => {
+      countingObject.kittenSelectedProperty.value = false;
+    } );
   }
 
   public reset(): void {
