@@ -11,7 +11,7 @@ import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
-import BarModelNode from '../../common/view/BarModelNode.js';
+import BarModelNode, { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
@@ -24,6 +24,7 @@ export default class GameNumberBarModelNode extends BarModelNode {
     const barLevelDisplay = new BarLevelDisplay( level, level.selectedGuessProperty );
 
     super( barLevelDisplay, {
+      dimensions: GAME_BAR_MODEL_DIMENSIONS,
       displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
       displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
       displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,

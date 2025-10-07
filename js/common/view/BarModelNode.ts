@@ -18,6 +18,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPairs from '../../numberPairs.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
+import { GAME_DIMENSION } from './NumberBondNode.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
@@ -25,13 +26,36 @@ type SelfOptions = {
   displayTotalNumberProperty?: TReadOnlyProperty<number> | null;
   displayLeftAddendNumberProperty?: TReadOnlyProperty<number> | null;
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
+  dimensions?: BarModelDimensions;
 };
 
-type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
+export type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
 
-const BAR_MODEL_WIDTH = 200;
-const BAR_HEIGHT = 45;
-const LINE_WIDTH = 1;
+export type BarModelDimensions = {
+  totalWidth: number;
+  barHeight: number;
+  lineWidth: number;
+  spacing: number;
+  numberFontSize: number;
+};
+
+export const NORMAL_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
+  totalWidth: 200,
+  barHeight: 45,
+  lineWidth: 1,
+  spacing: 5,
+  numberFontSize: 24
+};
+
+const BAR_MODEL_GAME_SCALE = GAME_DIMENSION.fontSize / NORMAL_BAR_MODEL_DIMENSIONS.numberFontSize;
+
+export const GAME_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
+  totalWidth: NORMAL_BAR_MODEL_DIMENSIONS.totalWidth * BAR_MODEL_GAME_SCALE,
+  barHeight: NORMAL_BAR_MODEL_DIMENSIONS.barHeight * BAR_MODEL_GAME_SCALE,
+  lineWidth: NORMAL_BAR_MODEL_DIMENSIONS.lineWidth,
+  spacing: NORMAL_BAR_MODEL_DIMENSIONS.spacing * BAR_MODEL_GAME_SCALE,
+  numberFontSize: GAME_DIMENSION.fontSize
+};
 export default class BarModelNode extends VBox {
 
   public readonly totalRectangle: Rectangle;
@@ -49,16 +73,19 @@ export default class BarModelNode extends VBox {
       displayLeftAddendNumberProperty: null,
       displayRightAddendNumberProperty: null,
       resize: false,
-      spacing: 5
+      spacing: NORMAL_BAR_MODEL_DIMENSIONS.spacing,
+      dimensions: NORMAL_BAR_MODEL_DIMENSIONS
     }, providedOptions );
+
+    const dimensions = options.dimensions;
 
     /**
      * Create the rectangles that represent the total and addends
      */
-    const totalWidth = options.iconOnly ? BAR_MODEL_WIDTH * 0.7 : BAR_MODEL_WIDTH;
-    const totalDimension = new Dimension2( totalWidth, BAR_HEIGHT );
-    const leftAddendDimension = new Dimension2( 0, BAR_HEIGHT );
-    const rightAddendDimension = new Dimension2( 0, BAR_HEIGHT );
+    const totalWidth = options.iconOnly ? dimensions.totalWidth * 0.7 : dimensions.totalWidth;
+    const totalDimension = new Dimension2( totalWidth, dimensions.barHeight );
+    const leftAddendDimension = new Dimension2( 0, dimensions.barHeight );
+    const rightAddendDimension = new Dimension2( 0, dimensions.barHeight );
     let totalRectangle: Rectangle;
     let leftAddendRectangle: Rectangle;
     let rightAddendRectangle: Rectangle;
@@ -68,19 +95,19 @@ export default class BarModelNode extends VBox {
         rectSize: totalDimension,
         fill: model.totalColorProperty,
         stroke: 'black',
-        lineWidth: LINE_WIDTH
+        lineWidth: dimensions.lineWidth
       } );
       leftAddendRectangle = new Rectangle( {
         rectSize: leftAddendDimension,
         fill: model.leftAddendColorProperty,
         stroke: 'black',
-        lineWidth: LINE_WIDTH
+        lineWidth: dimensions.lineWidth
       } );
       rightAddendRectangle = new Rectangle( {
         rectSize: rightAddendDimension,
         fill: model.rightAddendColorProperty,
         stroke: 'black',
-        lineWidth: LINE_WIDTH
+        lineWidth: dimensions.lineWidth
       } );
     }
     else {
@@ -92,22 +119,25 @@ export default class BarModelNode extends VBox {
         fill: model.totalColorProperty,
         stroke: 'black',
         cornerRadius: 0,
-        lineWidth: LINE_WIDTH,
-        numberVisibleProperty: model.totalVisibleProperty
+        lineWidth: dimensions.lineWidth,
+        numberVisibleProperty: model.totalVisibleProperty,
+        numberFontSize: dimensions.numberFontSize
       } );
       leftAddendRectangle = new NumberRectangle( leftAddendDimension, displayLeftAddendNumberProperty, {
         fill: model.leftAddendColorProperty,
         stroke: 'black',
         cornerRadius: 0,
-        lineWidth: LINE_WIDTH,
-        numberVisibleProperty: model.leftAddendVisibleProperty
+        lineWidth: dimensions.lineWidth,
+        numberVisibleProperty: model.leftAddendVisibleProperty,
+        numberFontSize: dimensions.numberFontSize
       } );
       rightAddendRectangle = new NumberRectangle( rightAddendDimension, displayRightAddendNumberProperty, {
         fill: model.rightAddendColorProperty,
         stroke: 'black',
         cornerRadius: 0,
-        lineWidth: LINE_WIDTH,
-        numberVisibleProperty: model.rightAddendVisibleProperty
+        lineWidth: dimensions.lineWidth,
+        numberVisibleProperty: model.rightAddendVisibleProperty,
+        numberFontSize: dimensions.numberFontSize
       } );
     }
 
