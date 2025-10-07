@@ -8,6 +8,7 @@
  */
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
@@ -55,6 +56,7 @@ export default class Level {
   public readonly countingObjectsDelegate: LevelCountingObjectsDelegate;
 
   public hasShownReward = false;
+  public readonly challengeResetEmitter = new Emitter();
 
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
@@ -204,6 +206,8 @@ export default class Level {
 
     // hide the missing addend again
     this.selectedGuessProperty.value = null;
+
+    this.challengeResetEmitter.emit();
   }
 }
 

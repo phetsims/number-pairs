@@ -82,6 +82,10 @@ export default abstract class LevelNode extends Node {
       } );
     this.addChild( this.numberButtonGrid );
 
+    // When a challenge is reset, or when we move to the next challenge, clear the number grid selection
+    level.challengeResetEmitter.addListener( () => this.numberButtonGrid.resetAll() );
+    level.challengeProperty.link( () => this.numberButtonGrid.resetAll() );
+
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
@@ -111,7 +115,6 @@ export default abstract class LevelNode extends Node {
       baseColor: 'white',
       listener: () => {
         level.resetChallenge();
-        this.numberButtonGrid.elements.forEach( element => {element.stateProperty.value = false;} ); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       },
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' )
@@ -138,11 +141,6 @@ export default abstract class LevelNode extends Node {
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
-
-        // Reset grid visuals for the new challenge
-        this.numberButtonGrid.resetAll(); // TODO: Move to model, see https://github.com/phetsims/number-pairs/issues/233
-
-        this.numberButtonGrid.elements[ 0 ].button.focus(); // TODO: move to model, see https://github.com/phetsims/number-pairs/issues/233
       }
     } );
 

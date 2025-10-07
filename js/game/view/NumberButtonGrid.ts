@@ -46,10 +46,15 @@ export default class NumberButtonGrid extends Node {
     value: number;
   }> = [];
 
-  public constructor( isCorrectProperty: TReadOnlyProperty<boolean>, selectedNumberProperty: Property<number | null>, range: InputRange, guessedNumbers: ObservableArray<number>,
-                      buttonColorProperty: TReadOnlyProperty<Color>,
-                      tandem: Tandem,
-                      providedOptions?: NodeOptions ) {
+  public constructor(
+    isCorrectProperty: TReadOnlyProperty<boolean>,
+    selectedNumberProperty: Property<number | null>,
+    range: InputRange,
+    guessedNumbers: ObservableArray<number>,
+    buttonColorProperty: TReadOnlyProperty<Color>,
+    tandem: Tandem,
+    providedOptions?: NodeOptions
+  ) {
     super();
 
     const alignGroup = new AlignGroup();
