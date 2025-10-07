@@ -365,7 +365,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param countingObjects
    * @param addendBounds
    */
-  protected getAvailableGridCoordinates( countingObjects: CountingObject[] | ObservableArray<CountingObject>, addendBounds: Bounds2 ): Vector2[] {
+  protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
     return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
