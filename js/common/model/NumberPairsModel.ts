@@ -14,22 +14,17 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
-import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from './AbstractNumberPairsModel.js';
 import BeadManager from './BeadManager.js';
 import CountingObject, { AddendType } from './CountingObject.js';
-import { CountingObjectsManager } from './CountingObjectsManager.js';
 import { NumberPairsUtils } from './NumberPairsUtils.js';
 import RepresentationType from './RepresentationType.js';
 
@@ -189,102 +184,11 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
   }
 
   /**
-   * Registers the provided observable arrays to update their counting objects as expected when added or removed.
-   * Overall, the removal and addition of counting objects to the inactiveCountingObjects array should be handled
-   * in these listeners. This allows us to keep the arrays in sync in one central location.
-   * @param leftAddendObjects
-   * @param rightAddendObjects
-   * @param inactiveCountingObjects
-   */
-  public registerObservableArrays( leftAddendObjects: ObservableArray<CountingObject>, rightAddendObjects: ObservableArray<CountingObject>, inactiveCountingObjects: ObservableArray<CountingObject> ): void {
-
-    // In general, We want to rely on the observable arrays and instrumented Properties to manage the state of the counting objects.
-    leftAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
-        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-        countingObject.addendTypeProperty.value = AddendType.LEFT;
-      }
-    } );
-    leftAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
-        inactiveCountingObjects.unshift( countingObject );
-      }
-    } );
-
-    rightAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
-        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-        countingObject.addendTypeProperty.value = AddendType.RIGHT;
-      }
-    } );
-    rightAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
-        inactiveCountingObjects.unshift( countingObject );
-      }
-    } );
-
-    inactiveCountingObjects.addItemAddedListener( countingObject => {
-      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
-    } );
-  }
-
-  /**
    * Creates a link that updates the addend type of the counting object based on the changed addend type.
    * @param countingObject
    */
-  public createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
-    countingObject.addendTypeProperty.lazyLink( addendType => {
-      const leftAddendCountingObjects = this.leftAddendCountingObjectsProperty.value;
-      const rightAddendCountingObjects = this.rightAddendCountingObjectsProperty.value;
-
-      if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
-        if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) && rightAddendCountingObjects.includes( countingObject ) ) {
-          countingObject.traverseInactiveObjects = false;
-          rightAddendCountingObjects.remove( countingObject );
-          leftAddendCountingObjects.add( countingObject );
-          countingObject.traverseInactiveObjects = true;
-        }
-        else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) && leftAddendCountingObjects.includes( countingObject ) ) {
-          countingObject.traverseInactiveObjects = false;
-          rightAddendCountingObjects.add( countingObject );
-          leftAddendCountingObjects.remove( countingObject );
-          countingObject.traverseInactiveObjects = true;
-        }
-      }
-
-      // Update the location of the countingObject when the addendType changes during reset, scene changes, or if we are
-      // changing the addend value in a different representation.
-      const locationRepresentationTypes = [ RepresentationType.APPLES, RepresentationType.ONE_CARDS, RepresentationType.SOCCER_BALLS, RepresentationType.BUTTERFLIES ];
-      if ( isResettingAllProperty.value || this.changingScenesProperty.value || !locationRepresentationTypes.includes( this.representationTypeProperty.value ) ) {
-        const addendBounds = addendType === AddendType.LEFT ? NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS : NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
-        const dilatedAddendBounds = addendBounds.dilated( -20 );
-
-        if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
-          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-        }
-        else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
-          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-        }
-      }
-    } );
-  }
-
-  /**
-   * Returns the grid coordinates that are available for a counting object to be placed in the counting area.
-   * This function will first retrieve all the grid coordinates according to the provided bounds, and then
-   * filter out the grid coordinates that are already occupied by counting objects.
-   * @param countingObjects
-   * @param addendBounds
-   */
-  protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
-    const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-    const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
-    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
-      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.locationPositionProperty.value );
-      return !dropZoneBounds.containsPoint( gridCoordinate );
-    } ) );
+  public override createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
+    super.createCountingObjectAddendTypeLinks( countingObject, this.changingScenesProperty );
   }
 
   /**

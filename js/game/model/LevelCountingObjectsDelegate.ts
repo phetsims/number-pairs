@@ -11,18 +11,13 @@
 import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
 import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
-import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
+import CountingObject from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
-import RepresentationType from '../../common/model/RepresentationType.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 
@@ -83,7 +78,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
     this.distributeCountingObjects();
     CountingObjectsManager.setAddendType( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
-    this.registerObservableArrays();
+    this.registerObservableArrays( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
 
     this.challengeProperty.link( () => {
       this.distributeCountingObjects();
@@ -118,43 +113,6 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     } );
   }
 
-  public createCountingObjectAddendTypeLinks( countingObject: CountingObject ): void {
-    countingObject.addendTypeProperty.lazyLink( addendType => {
-      const leftAddendCountingObjects = this.leftAddendObjects;
-      const rightAddendCountingObjects = this.rightAddendObjects;
-
-      if ( !isSettingPhetioStateProperty.value && !isResettingAllProperty.value ) {
-        if ( addendType === AddendType.LEFT && !leftAddendCountingObjects.includes( countingObject ) && rightAddendCountingObjects.includes( countingObject ) ) {
-          countingObject.traverseInactiveObjects = false;
-          rightAddendCountingObjects.remove( countingObject );
-          leftAddendCountingObjects.add( countingObject );
-          countingObject.traverseInactiveObjects = true;
-        }
-        else if ( addendType === AddendType.RIGHT && !rightAddendCountingObjects.includes( countingObject ) && leftAddendCountingObjects.includes( countingObject ) ) {
-          countingObject.traverseInactiveObjects = false;
-          rightAddendCountingObjects.add( countingObject );
-          leftAddendCountingObjects.remove( countingObject );
-          countingObject.traverseInactiveObjects = true;
-        }
-      }
-
-      const locationRepresentationTypes = [ RepresentationType.APPLES, RepresentationType.ONE_CARDS, RepresentationType.SOCCER_BALLS, RepresentationType.BUTTERFLIES ];
-      if ( isResettingAllProperty.value || !locationRepresentationTypes.includes( this.representationTypeProperty.value ) ) {
-        const addendBounds = addendType === AddendType.LEFT ? NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS : NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
-        const dilatedAddendBounds = addendBounds.dilated( -20 );
-
-        if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
-          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-        }
-        else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
-          countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
-        }
-      }
-    } );
-  }
-
   public deselectAllKittens(): void {
     this.countingObjects.forEach( countingObject => {
       countingObject.kittenSelectedProperty.value = false;
@@ -181,49 +139,6 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     } );
 
     CountingObjectsManager.setAddendType( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
-  }
-
-  private registerObservableArrays(): void {
-    const leftAddendObjects = this.leftAddendObjects;
-    const rightAddendObjects = this.rightAddendObjects;
-    const inactiveCountingObjects = this.inactiveCountingObjects;
-
-    leftAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
-        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-        countingObject.addendTypeProperty.value = AddendType.LEFT;
-      }
-    } );
-    leftAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
-        inactiveCountingObjects.unshift( countingObject );
-      }
-    } );
-
-    rightAddendObjects.addItemAddedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value ) {
-        inactiveCountingObjects.includes( countingObject ) && inactiveCountingObjects.remove( countingObject );
-        countingObject.addendTypeProperty.value = AddendType.RIGHT;
-      }
-    } );
-    rightAddendObjects.addItemRemovedListener( countingObject => {
-      if ( !isResettingAllProperty.value && !isSettingPhetioStateProperty.value && countingObject.traverseInactiveObjects && !inactiveCountingObjects.includes( countingObject ) ) {
-        inactiveCountingObjects.unshift( countingObject );
-      }
-    } );
-
-    inactiveCountingObjects.addItemAddedListener( countingObject => {
-      countingObject.addendTypeProperty.value = AddendType.INACTIVE;
-    } );
-  }
-
-  private getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
-    const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-    const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
-    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
-      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.locationPositionProperty.value );
-      return !dropZoneBounds.containsPoint( gridCoordinate );
-    } ) );
   }
 }
 
