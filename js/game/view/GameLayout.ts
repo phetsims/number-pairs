@@ -3,14 +3,11 @@
 /**
  * Shared layout helpers for game view nodes.
  *
- * Keep these utilities minimal and focused on the existing ManualConstraint usage.
- *
- * @author
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LayoutProxy from '../../../../scenery/js/layout/LayoutProxy.js';
-import numberPairs from '../../numberPairs.js';
 import GameConstants from './GameConstants.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 
@@ -82,11 +79,3 @@ export function layoutTryAgainLabel( wrongMarkProxy: LayoutProxy,
   tryAgainProxy.centerX = wrongMarkProxy.centerX;
   tryAgainProxy.top = wrongMarkProxy.bottom + verticalOffset;
 }
-
-numberPairs.register( 'GameLayout', {
-  layoutCountingAreaBlock: layoutCountingAreaBlock,
-  layoutCheckAndNextButtons: layoutCheckAndNextButtons,
-  getEquationMissingProxy: getEquationMissingProxy,
-  layoutEquationFeedbackMarks: layoutEquationFeedbackMarks,
-  layoutTryAgainLabel: layoutTryAgainLabel
-} );

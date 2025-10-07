@@ -9,6 +9,7 @@
 import derived from '../../../../axon/js/derived.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
@@ -71,38 +72,31 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
         resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
         barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy, checkButtonProxy, nextButtonProxy ) => {
 
-        bondNodeProxy.centerX = layoutBounds.centerX;
-        barNodeProxy.centerX = layoutBounds.centerX;
-
         const { middle } = layoutCountingAreaBlock(
           layoutBounds, statusBarProxy, myTenFrameButtonProxy,
           countingAreaNodeProxy, myKittensLayerNodeProxy, resetButtonProxy
         );
 
-        bondNodeProxy.centerY = middle;
-        barNodeProxy.center = bondNodeProxy.center;
-
         layoutCheckAndNextButtons( layoutBounds, bondNodeProxy, checkButtonProxy, nextButtonProxy );
 
         if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
+          bondNodeProxy.center = new Vector2( layoutBounds.centerX, middle );
+
           wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
-          checkMarkProxy.bottom = bondNodeProxy.bottom - 10;
 
           if ( level.challengeProperty.value.missing === 'a' ) {
             wrongMarkProxy.right = bondNodeProxy.left - 5;
-            checkMarkProxy.right = bondNodeProxy.left - 5;
-
             tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
           }
           else if ( level.challengeProperty.value.missing === 'b' ) {
             wrongMarkProxy.left = bondNodeProxy.right + 5;
-            checkMarkProxy.left = bondNodeProxy.right + 5;
-
             tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
           }
         }
         else {
+
+          barNodeProxy.center = new Vector2( layoutBounds.centerX, middle );
 
           const missing = level.challengeProperty.value.missing;
           const missingRectangleProxy = missing === 'a' ? barLeftAddendProxy :
@@ -110,11 +104,12 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                                         barTotalProxy;
 
           wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
-          checkMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
 
           tryAgainTextProxy.left = wrongMarkProxy.right + 10;
           tryAgainTextProxy.centerY = wrongMarkProxy.centerY;
         }
+
+        checkMarkProxy.center = wrongMarkProxy.center; // keep them aligned if one is hidden
       } );
   }
 }
