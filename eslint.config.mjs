@@ -7,8 +7,9 @@
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
 
-import simEslintConfig from '../perennial-alias/js/eslint/config/sim.eslint.config.mjs';
 import banTSCommentConfig from '../perennial-alias/js/eslint/config/util/banTSCommentConfig.mjs';
+import strictBooleanExpressionsConfig from '../perennial-alias/js/eslint/config/util/strictBooleanExpressionsConfig.mjs';
+import simEslintConfig from '../perennial-alias/js/eslint/config/sim.eslint.config.mjs';
 
 export default [
   ...simEslintConfig,
@@ -17,5 +18,6 @@ export default [
       'phet/require-fluent': 'error'
     }
   },
+  ...strictBooleanExpressionsConfig,
   ...banTSCommentConfig
 ];

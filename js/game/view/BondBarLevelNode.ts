@@ -46,19 +46,17 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     // when the challenge changes, move the correct addend of the GameNumberBarModelNode to the front, to avoid
     // the stroke being obscured by the other addend, see https://github.com/phetsims/number-pairs/issues/227#issuecomment-3368461725
     level.challengeProperty.link( challenge => {
-      if ( challenge ) {
-        if ( challenge.missing === 'a' ) {
-          barNode.leftAddendRectangle.moveToFront();
-        }
-        else if ( challenge.missing === 'b' ) {
-          barNode.rightAddendRectangle.moveToFront();
-        }
-        else if ( challenge.missing === 'y' ) {
-          barNode.totalRectangle.moveToFront();
-        }
-        else {
-          throw new Error( `Unknown missing value: ${challenge.missing}` );
-        }
+      if ( challenge.missing === 'a' ) {
+        barNode.leftAddendRectangle.moveToFront();
+      }
+      else if ( challenge.missing === 'b' ) {
+        barNode.rightAddendRectangle.moveToFront();
+      }
+      else if ( challenge.missing === 'y' ) {
+        barNode.totalRectangle.moveToFront();
+      }
+      else {
+        throw new Error( `Unknown missing value: ${challenge.missing}` );
       }
     } );
 

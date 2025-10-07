@@ -216,19 +216,13 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
      * Ensure that the highlights exist in scenarios where translations or string changes remove the appropriate tags.
      */
     model.totalColorProperty.link( color => {
-      if ( totalHighlight ) {
-        totalHighlight.fill = color;
-      }
+      totalHighlight.fill = color;
     } );
     model.leftAddendColorProperty.link( color => {
-      if ( leftAddendHighlight ) {
-        leftAddendHighlight.fill = color;
-      }
+      leftAddendHighlight.fill = color;
     } );
     model.rightAddendColorProperty.link( color => {
-      if ( rightAddendHighlight ) {
-        rightAddendHighlight.fill = color;
-      }
+      rightAddendHighlight.fill = color;
     } );
 
     const titleTextOptions = optionize3<TextOptions, EmptySelfOptions, TextOptions>()( {},
