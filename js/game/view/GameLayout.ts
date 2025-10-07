@@ -76,6 +76,5 @@ export function layoutTryAgainLabel( wrongMarkProxy: LayoutProxy,
                                      tryAgainProxy: LayoutProxy,
                                      verticalOffset: number ): void {
 
-  tryAgainProxy.centerX = wrongMarkProxy.centerX;
-  tryAgainProxy.top = wrongMarkProxy.bottom + verticalOffset;
+  tryAgainProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
 }

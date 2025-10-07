@@ -83,7 +83,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
 
           bondNodeProxy.center = new Vector2( layoutBounds.centerX, middle );
 
-          wrongMarkProxy.bottom = bondNodeProxy.bottom - 10;
+          wrongMarkProxy.bottom = bondNodeProxy.bottom - 23; // Manually tuned based on the size of the circles and the height of the text.
 
           if ( level.challengeProperty.value.missing === 'a' ) {
             wrongMarkProxy.right = bondNodeProxy.left - 5;
