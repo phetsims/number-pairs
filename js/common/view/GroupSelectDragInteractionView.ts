@@ -74,7 +74,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     const keyboardDragListener = new SoundKeyboardDragListener( keyboardListenerOptions );
     positionProperty.link( () => {
       const selectedItem = groupSelectModel.selectedGroupItemProperty.value;
-      groupSelectModel.isGroupItemKeyboardGrabbedProperty && selectedItem && this.onGroupItemChange( selectedItem );
+      groupSelectModel.isGroupItemKeyboardGrabbedProperty.value && selectedItem && this.onGroupItemChange( selectedItem );
     } );
 
     const selectItemKeyboardListener = new KeyboardListener( {
