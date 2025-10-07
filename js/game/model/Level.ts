@@ -173,22 +173,41 @@ export default class Level {
    */
   public organizeIntoTenFrame(): void {
 
-    let leftCountingObjects: CountingObject[];
-    let rightCountingObjects: CountingObject[];
-    if ( this.levelNumber === 7 ) {
-      const activeCountingObjects = [ ...this.countingObjectsDelegate.leftAddendCountingObjectsProperty.value,
-        ...this.countingObjectsDelegate.rightAddendCountingObjectsProperty.value ];
-      leftCountingObjects = activeCountingObjects.slice( 0, 20 );
-      rightCountingObjects = activeCountingObjects.slice( 20 );
+    const leftAddendObjects = this.countingObjectsDelegate.leftAddendCountingObjectsProperty.value;
+    const rightAddendObjects = this.countingObjectsDelegate.rightAddendCountingObjectsProperty.value;
+    const totalObjectCount = leftAddendObjects.length + rightAddendObjects.length;
+
+    // When less than or equal to 20 objects, use a single combined ten frame, otherwise split into two ten frames.
+    if ( totalObjectCount <= 20 ) {
+      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+      this.countingObjectsDelegate.organizeIntoSingleTenFrame(
+        centeredTenFrameBounds,
+        leftAddendObjects,
+        rightAddendObjects,
+        'attribute'
+      );
     }
     else {
-      leftCountingObjects = this.countingObjectsDelegate.leftAddendCountingObjectsProperty.value;
-      rightCountingObjects = this.countingObjectsDelegate.rightAddendCountingObjectsProperty.value;
-    }
+      let leftCountingObjects: CountingObject[];
+      let rightCountingObjects: CountingObject[];
 
-    this.countingObjectsDelegate.organizeIntoSplitTenFrame(
-      NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ),
-      leftCountingObjects, rightCountingObjects, 'attribute' );
+      if ( this.levelNumber === 7 ) {
+        const activeCountingObjects = [ ...leftAddendObjects, ...rightAddendObjects ];
+        leftCountingObjects = activeCountingObjects.slice( 0, 20 );
+        rightCountingObjects = activeCountingObjects.slice( 20 );
+      }
+      else {
+        leftCountingObjects = leftAddendObjects;
+        rightCountingObjects = rightAddendObjects;
+      }
+
+      this.countingObjectsDelegate.organizeIntoSplitTenFrame(
+        NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ),
+        leftCountingObjects,
+        rightCountingObjects,
+        'attribute'
+      );
+    }
 
   }
 
