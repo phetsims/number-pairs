@@ -60,6 +60,7 @@ export default class Level {
 
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
+    public readonly color: string, // Color used for the status bar and level selection button
     public readonly description: string, // Appears in the bar at the top of the screen
     public readonly range: InputRange,
     public readonly type: ChallengeType,

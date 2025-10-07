@@ -46,28 +46,30 @@ export default class LevelSelectionNode extends Node {
 
     const items: LevelSelectionButtonGroupItem[] = [];
     const NUMBER_OF_LEVELS = model.getLevelCount();
-    for ( let level = 1; level <= NUMBER_OF_LEVELS; level++ ) {
+    for ( let levelNumber = 1; levelNumber <= NUMBER_OF_LEVELS; levelNumber++ ) {
 
       // Use the actual score property for this level from the model
-      const scoreProperty = model.getLevel( level ).scoreProperty;
+      const level = model.getLevel( levelNumber );
+      const scoreProperty = level.scoreProperty;
       items.push( {
-        icon: new Text( level, { font: new PhetFont( 18 ) } ),
+        icon: new Text( levelNumber, { font: new PhetFont( 18 ) } ),
         scoreProperty: scoreProperty,
         options: {
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
-          soundPlayerIndex: level - 1,
+          soundPlayerIndex: levelNumber - 1,
+          baseColor: level.color,
           listener: () => {
             model.modeProperty.value =
-              level === 1 ? 'level1' :
-              level === 2 ? 'level2' :
-              level === 3 ? 'level3' :
-              level === 4 ? 'level4' :
-              level === 5 ? 'level5' :
-              level === 6 ? 'level6' :
-              level === 7 ? 'level7' :
-              level === 8 ? 'level8' :
-              ( () => { throw new Error( `Unhandled level: ${level}` ); } )(); // IIFE to throw error
+              levelNumber === 1 ? 'level1' :
+              levelNumber === 2 ? 'level2' :
+              levelNumber === 3 ? 'level3' :
+              levelNumber === 4 ? 'level4' :
+              levelNumber === 5 ? 'level5' :
+              levelNumber === 6 ? 'level6' :
+              levelNumber === 7 ? 'level7' :
+              levelNumber === 8 ? 'level8' :
+              ( () => { throw new Error( `Unhandled level: ${levelNumber}` ); } )(); // IIFE to throw error
           }
         }
       } );

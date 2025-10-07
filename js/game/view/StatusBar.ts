@@ -34,7 +34,7 @@ export default class StatusBar extends InfiniteStatusBar {
     } );
 
     super( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevel( level.levelNumber ).scoreProperty, {
-      barFill: '#b6fab9',
+      barFill: level.color,
       floatToTop: true,
       spacing: 20,
       backButtonListener: backButtonListener,
