@@ -11,18 +11,25 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
-import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
-import { NumberBondNodeOptions } from '../../common/view/NumberBondNode.js';
+import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../common/view/NumberBondMutableNode.js';
+import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
 
-export type GameNumberBondNodeOptions = NumberBondNodeOptions;
+export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
 
 export default class GameNumberBondNode extends NumberBondMutableNode {
 
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
-    super( level.countingObjectsDelegate, providedOptions );
+    const options: GameNumberBondNodeOptions = {
+      dimensions: GAME_DIMENSION
+    };
+    if ( providedOptions ) {
+      Object.assign( options, providedOptions );
+    }
+
+    super( level.countingObjectsDelegate, options );
 
     const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth: number ) => {
       path.stroke = stroke;

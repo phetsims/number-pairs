@@ -11,13 +11,14 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
+import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
 
 export default class GameNumberEquationNode extends NumberEquationNode {
   public constructor( private readonly level: Level ) {
-    super( level.countingObjectsDelegate, 66, 46.2, 39.6, {
+    super( level.countingObjectsDelegate, 66, 46.2, GAME_DIMENSION.fontSize, {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
