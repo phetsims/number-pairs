@@ -17,8 +17,8 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPairs from '../../numberPairs.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
-import NumberRectangle from './NumberRectangle.js';
 import { GAME_DIMENSION } from './NumberBondNode.js';
+import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;

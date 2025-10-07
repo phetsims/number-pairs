@@ -10,8 +10,8 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
+import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
