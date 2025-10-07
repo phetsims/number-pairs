@@ -20,6 +20,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
@@ -123,7 +124,7 @@ export default abstract class LevelNode extends Node {
     this.checkButton = new RectangularPushButton( {
       content: checkText,
       tandem: tandem.createTandem( 'checkButton' ),
-      baseColor: 'white',
+      baseColor: NumberPairsColors.checkButtonColorProperty,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
