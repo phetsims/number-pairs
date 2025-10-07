@@ -19,6 +19,7 @@ import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
+import GameConstants from './GameConstants.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -102,7 +103,7 @@ export default class NumberLineLevelNode extends LevelNode {
         tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
 
         checkButtonProxy.centerY = equationNodeProxy.centerY;
-        checkButtonProxy.left = equationNodeProxy.right + 135;
+        checkButtonProxy.centerX = GameConstants.getCheckButtonCenterX( layoutBounds );
 
         nextButtonProxy.centerY = checkButtonProxy.centerY;
         nextButtonProxy.left = checkButtonProxy.left;

@@ -16,6 +16,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
+import GameConstants from './GameConstants.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
@@ -96,7 +97,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
         barNodeProxy.center = bondNodeProxy.center;
 
         checkButtonProxy.centerY = bondNodeProxy.centerY;
-        checkButtonProxy.right = countingAreaNodeProxy.right;
+        checkButtonProxy.centerX = GameConstants.getCheckButtonCenterX( layoutBounds );
 
         nextButtonProxy.centerY = checkButtonProxy.centerY;
         nextButtonProxy.right = checkButtonProxy.right;
