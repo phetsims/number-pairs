@@ -79,9 +79,8 @@ export default class GameModel implements TModel {
 
     /**
      * Shared logic for levels 2, 3, and 4 (y=10)
-     * @param isFirst
      */
-    const createLevel23Challenge = ( isFirst: boolean ): Challenge => {
+    const createLevel23Challenge = () => {
       const y = 10;
       const a = dotRandom.nextIntBetween( 1, y - 1 );
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
@@ -94,7 +93,7 @@ export default class GameModel implements TModel {
        * Number Bond
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
-      new Level( 1, 'Missing addends in a number bond (0-10)', true, false, 'zeroToTen', 'bond', ( isFirst: boolean ): Challenge => {
+      new Level( 1, 'Missing addends in a number bond (0-10)', 'zeroToTen', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 2, 10 );
         const a = dotRandom.nextIntBetween( 1, y - 1 );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
@@ -110,7 +109,7 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 2, 'Missing addend in a number bond (10 only)', true, true, 'zeroToTen', 'bond', createLevel23Challenge, {
+      new Level( 2, 'Missing addend in a number bond (10 only)', 'zeroToTen', 'bond', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level2' )
       } ),
@@ -120,7 +119,7 @@ export default class GameModel implements TModel {
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, 'Missing addend in a decomposition equation', true, true, 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
+      new Level( 3, 'Missing addend in a decomposition equation', 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level3' )
       } ),
@@ -130,7 +129,7 @@ export default class GameModel implements TModel {
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( 4, 'Missing addend in a sum equation (10 only)', true, true, 'zeroToTen', 'sumEquation', ( isFirst: boolean ): Challenge => {
+      new Level( 4, 'Missing addend in a sum equation (10 only)', 'zeroToTen', 'sumEquation', isFirst => {
         const y = 10;
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -145,7 +144,7 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
-      new Level( 5, 'Missing addend with a number bond (11-20)', true, true, 'zeroToTwenty', 'bond', ( isFirst: boolean ): Challenge => {
+      new Level( 5, 'Missing addend with a number bond (11-20)', 'zeroToTwenty', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -162,7 +161,7 @@ export default class GameModel implements TModel {
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        *   ![][image185]
        */
-      new Level( 6, 'Missing addend with decomposition equation (11-20)', true, true, 'zeroToTwenty', 'decompositionEquation', ( isFirst: boolean ): Challenge => {
+      new Level( 6, 'Missing addend with decomposition equation (11-20)', 'zeroToTwenty', 'decompositionEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -180,7 +179,7 @@ export default class GameModel implements TModel {
        * * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * * Value range for y is from 11-20
        */
-      new Level( 7, 'Missing addend or total with sum equation (11-20)', true, true, 'zeroToTwenty', 'sumEquation', ( isFirst: boolean ): Challenge => {
+      new Level( 7, 'Missing addend or total with sum equation (11-20)', 'zeroToTwenty', 'sumEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
@@ -196,7 +195,7 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new Level( 8, 'Equations with the number line (0-20)', false, true, 'zeroToTwenty', 'numberLine', ( isFirst: boolean ): Challenge => {
+      new Level( 8, 'Equations with the number line (0-20)', 'zeroToTwenty', 'numberLine', isFirst => {
 
         // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
         const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );

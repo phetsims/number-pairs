@@ -59,8 +59,6 @@ export default class Level {
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
     public readonly description: string, // Appears in the bar at the top of the screen
-    public readonly hasOrganizeTenFrameButton: boolean,
-    public readonly hasEyeToggle: boolean,
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
@@ -105,7 +103,7 @@ export default class Level {
       phetioType: createObservableArray.ObservableArrayIO( NumberIO )
     } );
 
-    const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}, hasEyeToggle=${this.hasEyeToggle}, hasOrganizeTenFrameButton=${this.hasOrganizeTenFrameButton}`;
+    const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
     phet.chipper.queryParameters.dev && console.log( debugString );
 
     phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
