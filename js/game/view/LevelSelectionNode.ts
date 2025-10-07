@@ -14,8 +14,10 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GameInfoButton from '../../../../vegas/js/buttons/GameInfoButton.js';
+import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
+import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 
@@ -41,8 +43,15 @@ export default class LevelSelectionNode extends Node {
       centerY: layoutBounds.centerY - ( layoutBounds.height * 0.25 )
     } );
 
+    const infoDialog = new GameInfoDialog( model.levels.map( level => `Level ${level.levelNumber}: ${level.description}` ), {
+      gameLevels: NumberPairsQueryParameters.gameLevels
+    } );
+
     const infoButton = new GameInfoButton( {
-      scale: 0.7
+      scale: 0.7,
+      listener: () => {
+        infoDialog.show();
+      }
     } );
 
     // Position the title centered near the top, keeping it centered as bounds change.

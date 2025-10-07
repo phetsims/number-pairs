@@ -9,6 +9,7 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
+import getGameLevelsSchema from '../../../vegas/js/getGameLevelsSchema.js';
 import numberPairs from '../numberPairs.js';
 
 const NumberPairsQueryParameters = QueryStringMachine.getAll( {
@@ -48,7 +49,9 @@ const NumberPairsQueryParameters = QueryStringMachine.getAll( {
   rewardScore: {
     type: 'number',
     defaultValue: 10
-  }
+  },
+
+  gameLevels: getGameLevelsSchema( 8 )
 } );
 
 numberPairs.register( 'NumberPairsQueryParameters', NumberPairsQueryParameters );
