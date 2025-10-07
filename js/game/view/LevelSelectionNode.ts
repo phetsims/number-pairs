@@ -9,9 +9,11 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import GameInfoButton from '../../../../vegas/js/buttons/GameInfoButton.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import numberPairs from '../../numberPairs.js';
@@ -37,6 +39,10 @@ export default class LevelSelectionNode extends Node {
       font: TITLE_FONT,
       maxWidth: 0.8 * layoutBounds.width,
       centerY: layoutBounds.centerY - ( layoutBounds.height * 0.25 )
+    } );
+
+    const infoButton = new GameInfoButton( {
+      scale: 0.7
     } );
 
     // Position the title centered near the top, keeping it centered as bounds change.
@@ -107,10 +113,14 @@ export default class LevelSelectionNode extends Node {
 
     super( {
       isDisposable: false,
-      children: [ titleText, buttonGroup ],
+      children: [ titleText, buttonGroup, infoButton ],
       tandem: tandem,
       phetioDocumentation: 'UI for choosing a game level.',
       phetioVisiblePropertyInstrumented: false
+    } );
+
+    ManualConstraint.create( this, [ titleText, infoButton ], ( titleTextProxy, infoButtonProxy ) => {
+      infoButtonProxy.leftCenter = titleTextProxy.rightCenter.plusXY( 40, 0 );
     } );
   }
 }
