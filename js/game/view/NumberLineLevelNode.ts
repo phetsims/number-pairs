@@ -19,8 +19,7 @@ import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
-import GameConstants from './GameConstants.js';
-import { getEquationMissingProxy } from './GameLayout.js';
+import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -92,18 +91,12 @@ export default class NumberLineLevelNode extends LevelNode {
         resetButtonProxy.rightBottom = layoutBounds.rightBottom.plusXY( -120, 0 );
         equationNodeProxy.center = layoutBounds.center;
 
-        const proxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
-        checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+        const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
+        layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, 5, 5 );
 
-        tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
-        tryAgainTextProxy.top = wrongMarkProxy.bottom + 5;
+        layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, 5 );
 
-        checkButtonProxy.centerY = equationNodeProxy.centerY;
-        checkButtonProxy.centerX = GameConstants.getCheckButtonCenterX( layoutBounds );
-
-        nextButtonProxy.centerY = checkButtonProxy.centerY;
-        nextButtonProxy.left = checkButtonProxy.left;
+        layoutCheckAndNextButtons( layoutBounds, equationNodeProxy, checkButtonProxy, nextButtonProxy );
       } );
   }
 }

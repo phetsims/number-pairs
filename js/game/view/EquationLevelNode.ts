@@ -14,8 +14,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
-import GameConstants from './GameConstants.js';
-import { getEquationMissingProxy, layoutCountingAreaBlock } from './GameLayout.js';
+import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutCountingAreaBlock, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
 
@@ -47,7 +46,7 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
         equationNodeProxy.centerX = layoutBounds.centerX;
 
-        const { top, bottom } = layoutCountingAreaBlock(
+        const { middle } = layoutCountingAreaBlock(
           layoutBounds,
           statusBarProxy,
           myTenFrameButtonProxy,
@@ -56,20 +55,14 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
           resetButtonProxy
         );
 
-        equationNodeProxy.centerY = ( bottom + top ) / 2;
+        equationNodeProxy.centerY = middle;
 
-        const proxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, -1 );
-        checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
+        const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
+        layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, -1, 5 );
 
-        tryAgainTextProxy.centerX = wrongMarkProxy.centerX;
-        tryAgainTextProxy.top = wrongMarkProxy.bottom - 1;
+        layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, -1 );
 
-        checkButtonProxy.centerY = equationNodeProxy.centerY;
-        checkButtonProxy.centerX = GameConstants.getCheckButtonCenterX( layoutBounds );
-
-        nextButtonProxy.centerY = checkButtonProxy.centerY;
-        nextButtonProxy.right = checkButtonProxy.right;
+        layoutCheckAndNextButtons( layoutBounds, equationNodeProxy, checkButtonProxy, nextButtonProxy );
       } );
   }
 }

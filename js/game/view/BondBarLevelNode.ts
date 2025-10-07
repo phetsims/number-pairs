@@ -16,8 +16,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
-import GameConstants from './GameConstants.js';
-import { layoutCountingAreaBlock } from './GameLayout.js';
+import { layoutCheckAndNextButtons, layoutCountingAreaBlock } from './GameLayout.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
@@ -75,23 +74,15 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
         bondNodeProxy.centerX = layoutBounds.centerX;
         barNodeProxy.centerX = layoutBounds.centerX;
 
-        const { top, bottom } = layoutCountingAreaBlock(
-          layoutBounds,
-          statusBarProxy,
-          myTenFrameButtonProxy,
-          countingAreaNodeProxy,
-          myKittensLayerNodeProxy,
-          resetButtonProxy
+        const { middle } = layoutCountingAreaBlock(
+          layoutBounds, statusBarProxy, myTenFrameButtonProxy,
+          countingAreaNodeProxy, myKittensLayerNodeProxy, resetButtonProxy
         );
 
-        bondNodeProxy.centerY = ( top + bottom ) / 2;
+        bondNodeProxy.centerY = middle;
         barNodeProxy.center = bondNodeProxy.center;
 
-        checkButtonProxy.centerY = bondNodeProxy.centerY;
-        checkButtonProxy.centerX = GameConstants.getCheckButtonCenterX( layoutBounds );
-
-        nextButtonProxy.centerY = checkButtonProxy.centerY;
-        nextButtonProxy.right = checkButtonProxy.right;
+        layoutCheckAndNextButtons( layoutBounds, bondNodeProxy, checkButtonProxy, nextButtonProxy );
 
         if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
 
