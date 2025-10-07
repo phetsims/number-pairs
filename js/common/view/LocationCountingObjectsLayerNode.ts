@@ -15,17 +15,16 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
-import CountingObjectSoundPlayer from './CountingObjectSoundPlayer.js';
 import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import NumberPairsSounds from './NumberPairsSounds.js';
 
 type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
 
@@ -38,9 +37,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
     const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {}, providedOptions );
     super( options );
-
-    const countingObjectSoundPlayer = new CountingObjectSoundPlayer();
-    soundManager.addSoundGenerator( countingObjectSoundPlayer );
 
     /**
      * Create the LocationCountingObjectNodes for each countingObject in the model.
@@ -115,9 +111,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
           affirm( totalObjects > 0, 'No counting objects available for navigation' );
           const nextIndex = ( currentIndex + keysDelta + totalObjects ) % totalObjects;
 
-          keysDelta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+          const nextCountingObject = orderedCountingObjects[ nextIndex ];
+          NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, keysDelta > 0 );
 
-          return orderedCountingObjects[ nextIndex ];
+          return nextCountingObject;
         },
         handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
           const currentPosition = groupItem.locationPositionProperty.value;

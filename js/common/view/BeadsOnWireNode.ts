@@ -32,7 +32,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -42,9 +41,9 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadNode from './BeadNode.js';
-import CountingObjectSoundPlayer from './CountingObjectSoundPlayer.js';
 import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
+import NumberPairsSounds from './NumberPairsSounds.js';
 
 const BEAD_WIDTH = BeadManager.BEAD_WIDTH;
 const SEPARATOR_BUFFER = 1.5 * BEAD_WIDTH;
@@ -111,9 +110,6 @@ export default class BeadsOnWireNode extends Node {
     this.beadDragBounds = wire.bounds.erodedX( BEAD_WIDTH );
     this.rightAddendCountingObjectsProperty = model.rightAddendCountingObjectsProperty;
     this.leftAddendCountingObjectsProperty = model.leftAddendCountingObjectsProperty;
-
-    const countingObjectSoundPlayer = new CountingObjectSoundPlayer();
-    soundManager.addSoundGenerator( countingObjectSoundPlayer );
 
     model.countingObjects.forEach( ( countingObject, i ) => {
       const beadNode = new BeadNode(
@@ -210,11 +206,12 @@ export default class BeadsOnWireNode extends Node {
         const delta = this.getKeysDelta( keysPressed );
         const selectedGroupItemIndex = clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
 
+        const nextCountingObject = sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
         if ( delta !== 0 ) {
-          delta > 0 ? countingObjectSoundPlayer.playStepForwardSound() : countingObjectSoundPlayer.playStepBackSound();
+          NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, delta > 0 );
         }
 
-        return sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
+        return nextCountingObject;
       },
       handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
         const separatorXPosition = this.beadSeparatorCenterXProperty.value;
