@@ -99,7 +99,7 @@ export default abstract class LevelNode extends Node {
     const buttonContentAlignGroup = new AlignGroup();
 
     // Buttons row: Check / Next
-    const FONT_SIZE = 18;
+    const FONT_SIZE = 26;
     const checkText = buttonContentAlignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
     this.tryAgainText = new Text( 'Try Again', {
       fill: 'red',
@@ -120,6 +120,7 @@ export default abstract class LevelNode extends Node {
     this.checkButton = new RectangularPushButton( {
       content: checkText,
       tandem: tandem.createTandem( 'checkButton' ),
+      baseColor: 'white',
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
