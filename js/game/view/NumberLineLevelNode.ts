@@ -20,6 +20,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import GameConstants from './GameConstants.js';
+import { getEquationMissingProxy } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -91,11 +92,7 @@ export default class NumberLineLevelNode extends LevelNode {
         resetButtonProxy.rightBottom = layoutBounds.rightBottom.plusXY( -120, 0 );
         equationNodeProxy.center = layoutBounds.center;
 
-        // TODO: duplicated with EquationLevelNode, see https://github.com/phetsims/number-pairs/issues/215
-        const missingSquare = equationNode.getMissingSquare();
-        const proxy = missingSquare === equationNode.leftAddendSquare ? equationLeftProxy :
-                      missingSquare === equationNode.rightAddendSquare ? equationRightProxy :
-                      equationTopProxy;
+        const proxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         wrongMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
         checkMarkProxy.centerTop = proxy.centerBottom.plusXY( 0, 5 );
 
