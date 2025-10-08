@@ -23,25 +23,23 @@ export default class NumberBondIconNode extends NumberBondNode {
       dimensions: NORMAL_DIMENSION
     }, providedOptions );
 
-    const { dimensions, ...numberBondOptions } = options;
-
-    const total = new Circle( dimensions.circleRadius, {
+    const total = new Circle( options.dimensions.circleRadius, {
       fill: model.totalColorProperty,
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
-    const leftAddend = new Circle( dimensions.circleRadius, {
+    const leftAddend = new Circle( options.dimensions.circleRadius, {
       fill: model.leftAddendColorProperty,
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
-    const rightAddend = new Circle( dimensions.circleRadius, {
+    const rightAddend = new Circle( options.dimensions.circleRadius, {
       fill: model.rightAddendColorProperty,
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
-    super( total, leftAddend, rightAddend, dimensions, numberBondOptions as NumberBondNodeOptions );
+    super( total, leftAddend, rightAddend, options.dimensions, options );
   }
 }
 

@@ -27,28 +27,26 @@ export default class NumberBondMutableNode extends NumberBondNode {
       dimensions: NORMAL_DIMENSION
     }, providedOptions );
 
-    const { dimensions, ...numberBondOptions } = options;
-
     const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
-      radius: dimensions.circleRadius,
-      fontSize: dimensions.fontSize,
+      radius: options.dimensions.circleRadius,
+      fontSize: options.dimensions.fontSize,
       fill: model.totalColorProperty,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
-      radius: dimensions.circleRadius,
-      fontSize: dimensions.fontSize,
+      radius: options.dimensions.circleRadius,
+      fontSize: options.dimensions.fontSize,
       fill: model.leftAddendColorProperty,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
     const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
-      radius: dimensions.circleRadius,
-      fontSize: dimensions.fontSize,
+      radius: options.dimensions.circleRadius,
+      fontSize: options.dimensions.fontSize,
       fill: model.rightAddendColorProperty,
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
-    super( total, leftAddend, rightAddend, dimensions, numberBondOptions as NumberBondNodeOptions );
+    super( total, leftAddend, rightAddend, options.dimensions, options );
 
     // Expose typed references for clients that need them
     this.total = total;
