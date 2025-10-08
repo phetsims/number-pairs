@@ -179,11 +179,10 @@ export default class GameModel implements TModel {
       /**
        * ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
        *
-       * * See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
-       * * Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill TODO:
-       * https://github.com/phetsims/number-pairs/issues/219
-       * * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
-       * * Value range for y is from 11-20
+       * See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
+       * Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill
+       * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
+       * Value range for y is from 11-20
        */
       new Level( 7, level567Color, 'Missing addend or total in a sum equation (11-20)', 'zeroToTwenty', 'sumEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
