@@ -9,10 +9,13 @@
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
@@ -123,9 +126,24 @@ export default class LevelIcons {
       fill: 'black'
     } );
 
-    return new Node( {
-      children: [ numberLine, leftEdge, rightEdge, leftMidEdge, rightMidEdge, arrowTail, arrowHead, circle ]
+    const questionMark = '?';
+    const text = new Text( questionMark, {
+      font: new PhetFont( {
+        size: 16,
+        weight: 'bold'
+      } )
     } );
+
+    const node = new Node( {
+      children: [ numberLine, leftEdge, rightEdge, leftMidEdge, rightMidEdge, arrowTail, arrowHead, circle, text ]
+    } );
+
+    // Update positioning of the question mark, since it is i18nized
+    ManualConstraint.create( node, [ text ], textProxy => {
+      textProxy.bottom = leftEdge.top - 5;
+      textProxy.centerX = rightMidEdge.centerX;
+    } );
+    return node;
   }
 
   public static getIcon( levelNumber: number ): Node {
