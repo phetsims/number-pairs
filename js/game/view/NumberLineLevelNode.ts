@@ -13,7 +13,9 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
+import Shape from '../../../../kite/js/Shape.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
@@ -37,9 +39,6 @@ export default class NumberLineLevelNode extends LevelNode {
 
     const equationNode = new GameNumberEquationNode( level );
     this.addChild( equationNode );
-
-    equationNode.centerX = layoutBounds.centerX;
-    equationNode.centerY = layoutBounds.centerY;
 
     const numberLineModel = {
       leftAddendProperty: new NumberProperty( 0 ),
@@ -67,20 +66,39 @@ export default class NumberLineLevelNode extends LevelNode {
       }
     } );
 
+    const CORNER_RADIUS = 5;
+    const clipShape = Shape.roundedRectangleWithRadii( 0, 0, layoutBounds.width - 120, 300, {
+      topLeft: CORNER_RADIUS, topRight: CORNER_RADIUS, bottomLeft: CORNER_RADIUS, bottomRight: CORNER_RADIUS
+    } );
+
+    const countingAreaNode = new Path( clipShape, {
+      fill: '#e9e9f3',
+      left: 10,
+      bottom: layoutBounds.bottom - 10,
+      clipArea: clipShape
+    } );
+    this.addChild( countingAreaNode );
+
     const numberLineNode = new NumberLineNode( numberLineModel, layoutBounds.width - 200, {
       tandem: tandem.createTandem( 'numberLineNode' ),
       numberLineRange: new Range( 0, 20 ),
-      bottom: layoutBounds.bottom - 20,
-      left: layoutBounds.left + 20
+      bottom: countingAreaNode.height - 20,
+      centerX: countingAreaNode.width / 2
     } );
     numberLineNode.slider.pickable = false;
     numberLineNode.slider.thumbNode.visible = false;
-    this.addChild( numberLineNode );
+    countingAreaNode.addChild( numberLineNode );
+
+    // In z-order, "sandwich" the content between the background and the border so the content doesn't "bleed" across the border.
+    const border = new Path( clipShape, {
+      stroke: 'gray',
+      lineWidth: 1,
+      x: countingAreaNode.x,
+      y: countingAreaNode.y
+    } );
+    this.addChild( border );
 
     this.challengeResetButton.moveToFront(); // awkward
-
-    // So the number line goes behind.
-    this.numberButtonGrid.moveToFront(); // awkward
 
     ManualConstraint.create( this, [
         equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
@@ -88,8 +106,8 @@ export default class NumberLineLevelNode extends LevelNode {
       ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
 
-        resetButtonProxy.rightBottom = layoutBounds.rightBottom.plusXY( -120, 0 );
-        equationNodeProxy.center = layoutBounds.center;
+        resetButtonProxy.rightBottom = countingAreaNode.rightBottom.plusXY( -10, -10 );
+        equationNodeProxy.center = layoutBounds.center.plusXY( -40, -100 );
 
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, 5, 5 );
