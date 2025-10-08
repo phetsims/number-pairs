@@ -11,6 +11,8 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
+import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
+import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberStyles from './NumberStyles.js';
 
@@ -35,18 +37,39 @@ export default class LevelIcons {
     return level1Icon;
   }
 
-  public static getIcon( levelNumber: number ): Node {
-    if ( levelNumber === 1 ) {
-      return LevelIcons.getNumberBondIcon( 7 );
-    }
-    else if ( levelNumber === 2 ) {
-      return LevelIcons.getNumberBondIcon( 10 );
-    }
-    else if ( levelNumber === 5 ) {
-      return LevelIcons.getNumberBondIcon( 15 );
-    }
+  private static getNumberEquationIcon( total: number, addendsOnRight = true ): Node {
+    const model = {
+      totalProperty: new Property( total ),
+      totalColorProperty: new Property( new Color( '#9ffda9' ) ),
+      totalVisibleProperty: new Property( true ),
+      leftAddendProperty: new Property( 3 ),
+      leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      leftAddendVisibleProperty: new Property( false ),
+      rightAddendProperty: new Property( 4 ),
+      rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      rightAddendVisibleProperty: new Property( false )
+    };
 
-    return new Rectangle( 0, 0, 40, 40, { fill: 'blue' } );
+    const numberEquationNode = new NumberEquationNode( model, 66, 46.2, GAME_DIMENSION.fontSize, {
+      totalColorProperty: new Property( new Color( '#9ffda9' ) ),
+      leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      scale: 0.42,
+      addendsOnRight: addendsOnRight
+    } );
+    numberEquationNode.rightAddendSquare.children = []; // awkward
+    return numberEquationNode;
+  }
+
+  public static getIcon( levelNumber: number ): Node {
+    return levelNumber === 1 ? LevelIcons.getNumberBondIcon( 7 ) :
+           levelNumber === 2 ? LevelIcons.getNumberBondIcon( 10 ) :
+           levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10 ) :
+           levelNumber === 4 ? LevelIcons.getNumberEquationIcon( 10, false ) :
+           levelNumber === 5 ? LevelIcons.getNumberBondIcon( 15 ) :
+           levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16 ) :
+           levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, false ) :
+           new Rectangle( 0, 0, 40, 40, { fill: 'blue' } );
   }
 }
 
