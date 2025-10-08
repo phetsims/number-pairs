@@ -94,7 +94,7 @@ export default abstract class LevelNode extends Node {
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
     } );
     this.checkMark = new Text( '✓', {
-      font: new PhetFont( 42 ),
+      font: new PhetFont( 54 ),
       fill: '#059e05',
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
     } );
