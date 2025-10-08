@@ -8,9 +8,11 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Shape from '../../../../kite/js/Shape.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
@@ -83,12 +85,38 @@ export default class LevelIcons {
       lineWidth: 2
     } );
 
-    const circle = new Circle( 8, { fill: '#fffec7', stroke: 'black', lineWidth: 1, center: new Vector2( NUMBER_LINE_LENGTH / 3, 0 ) } );
+    const circleRadius = 8;
+    const circleCenterX = NUMBER_LINE_LENGTH / 3;
+    const circle = new Circle( circleRadius, {
+      fill: '#fffec7',
+      stroke: 'black',
+      lineWidth: 1,
+      center: new Vector2( circleCenterX, 0 )
+    } );
 
-    // TODO: add an arc that points from the circle to the right edge at y=0, see https://github.com/phetsims/number-pairs/issues/251
+    const arrowHeadLength = 12;
+    const arrowControlYOffset = 40;
+    const tailShape = new Shape()
+      .moveTo( circleCenterX, 0 )
+      .quadraticCurveTo( ( circleCenterX + NUMBER_LINE_LENGTH ) / 2, -arrowControlYOffset, NUMBER_LINE_LENGTH, 0 );
+    const arrowTail = new Path( tailShape, {
+      stroke: 'black',
+      lineWidth: 2,
+      lineCap: 'round'
+    } );
+
+    const arrowHeadWidth = 10;
+    const arrowHeadShape = new Shape()
+      .moveTo( NUMBER_LINE_LENGTH, 0 )
+      .lineTo( NUMBER_LINE_LENGTH - arrowHeadLength, arrowHeadWidth / 2 )
+      .lineTo( NUMBER_LINE_LENGTH - arrowHeadLength, -arrowHeadWidth / 2 )
+      .close();
+    const arrowHead = new Path( arrowHeadShape, {
+      fill: 'black'
+    } );
 
     return new Node( {
-      children: [ numberLine, leftEdge, rightEdge, leftMidEdge, rightMidEdge, circle ]
+      children: [ numberLine, leftEdge, rightEdge, leftMidEdge, rightMidEdge, arrowTail, arrowHead, circle ]
     } );
   }
 
