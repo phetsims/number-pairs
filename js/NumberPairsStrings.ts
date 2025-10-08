@@ -176,6 +176,7 @@ type StringsType = {
       'organizeObjects': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseStringProperty': LocalizedStringProperty;
       };
       'commutativeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;

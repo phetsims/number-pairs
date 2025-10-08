@@ -169,6 +169,7 @@ a11y:
     organizeObjects:
       accessibleName:     Organize { $representation } Into Groups
       accessibleHelpText: Each group has a maximum of 5 { $representation }.
+      accessibleContextResponse: Organized.
     commutativeButton:
       accessibleName:             Swap Addends
       accessibleHelpTextPattern:  Switch { $items } from left counting are to right and right counting area to left.

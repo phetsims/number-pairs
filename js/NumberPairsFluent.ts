@@ -5,11 +5,11 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import FluentComment from '../../chipper/js/browser/FluentComment.js';
+import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import type {FluentVariable} from '../../chipper/js/browser/FluentPattern.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import numberPairs from './numberPairs.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 
@@ -137,6 +137,7 @@ addToMapIfDefined( 'a11y_controls_numberModel_smallerAndLarger', 'a11y.controls.
 addToMapIfDefined( 'a11y_controls_numberModel_equal', 'a11y.controls.numberModel.equalStringProperty' );
 addToMapIfDefined( 'a11y_controls_organizeObjects_accessibleName', 'a11y.controls.organizeObjects.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_organizeObjects_accessibleHelpText', 'a11y.controls.organizeObjects.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_organizeObjects_accessibleContextResponse', 'a11y.controls.organizeObjects.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleName', 'a11y.controls.commutativeButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpTextPattern', 'a11y.controls.commutativeButton.accessibleHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponse', 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' );
@@ -350,7 +351,8 @@ const NumberPairsFluent = {
       organizeObjects: {
         accessibleName: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_organizeObjects_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.organizeObjects.accessibleNameStringProperty' ), [{"name":"representation"}] ),
         _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
-        accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_organizeObjects_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.organizeObjects.accessibleHelpTextStringProperty' ), [{"name":"representation"}] )
+        accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_organizeObjects_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.organizeObjects.accessibleHelpTextStringProperty' ), [{"name":"representation"}] ),
+        accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_organizeObjects_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.organizeObjects.accessibleContextResponseStringProperty' ) )
       },
       commutativeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleNameStringProperty' ) ),
