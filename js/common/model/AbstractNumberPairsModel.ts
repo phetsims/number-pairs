@@ -116,6 +116,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param rightAddendObjects
    * @param animate - whether to animate the movement of the counting objects. If we are not animating the movement
    *  we are fading the counting objects in and out to their new spots to prevent a jarring UX.
+   *
+   * TODO: Seperate into two different functions based on if/else logic. https://github.com/phetsims/number-pairs/issues/240
    */
   public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate: boolean ): void {
 
@@ -201,6 +203,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param leftAttributePositions
    * @param rightAttributePositions
    * @param animate - whether to animate the movement of the counting objects.
+   *
+   * TODO: Seperate into two different functions based on if/else logic. https://github.com/phetsims/number-pairs/issues/240
    */
   public setAttributePositions( leftObjects: CountingObject[], rightObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
     affirm( leftObjects.length === leftAttributePositions.length,
