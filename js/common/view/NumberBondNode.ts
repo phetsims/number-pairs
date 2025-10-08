@@ -36,7 +36,7 @@ export const NORMAL_DIMENSION: NumberBondDimensions = {
 };
 
 // In the game, things are a bit larger. Do not just scale overall, since that affects line widths.
-const GAME_SCALE = 39.6 / NumberCircle.DEFAULT_FONT_SIZE;
+const GAME_SCALE = 1.414;
 
 export const GAME_DIMENSION: NumberBondDimensions = {
   circleRadius: NORMAL_DIMENSION.circleRadius * GAME_SCALE,
