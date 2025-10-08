@@ -31,7 +31,7 @@ import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import InputRange from '../model/InputRange.js';
 
-const BUTTON_SIZE = new Dimension2( 40, 40 );
+const BUTTON_SIZE = new Dimension2( 42, 42 );
 const X_SPACING = 8;
 const Y_SPACING = 8;
 const FONT = new PhetFont( 24 );
