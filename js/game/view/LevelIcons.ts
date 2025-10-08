@@ -7,8 +7,10 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
@@ -54,6 +56,42 @@ export default class LevelIcons {
     return numberEquationNode;
   }
 
+  private static getNumberLineIcon(): Node {
+    const NUMBER_LINE_LENGTH = 95;
+    const numberLine = new Line( 0, 0, NUMBER_LINE_LENGTH, 0, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+    const majorTickExtent = 16;
+    const minorTickExtent = 11;
+    const leftEdge = new Line( 0, -majorTickExtent, 0, majorTickExtent, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+    const rightEdge = new Line( NUMBER_LINE_LENGTH, -majorTickExtent, NUMBER_LINE_LENGTH, majorTickExtent, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+
+    const leftMidEdge = new Line( NUMBER_LINE_LENGTH / 3, -minorTickExtent, NUMBER_LINE_LENGTH / 3, minorTickExtent, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+
+    const rightMidEdge = new Line( 2 * NUMBER_LINE_LENGTH / 3, -minorTickExtent, 2 * NUMBER_LINE_LENGTH / 3, minorTickExtent, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+
+    const circle = new Circle( 8, { fill: '#fffec7', stroke: 'black', lineWidth: 1, center: new Vector2( NUMBER_LINE_LENGTH / 3, 0 ) } );
+
+    // TODO: add an arc that points from the circle to the right edge at y=0, see https://github.com/phetsims/number-pairs/issues/251
+
+    return new Node( {
+      children: [ numberLine, leftEdge, rightEdge, leftMidEdge, rightMidEdge, circle ]
+    } );
+  }
+
   public static getIcon( levelNumber: number ): Node {
     return levelNumber === 1 ? LevelIcons.getNumberBondIcon( 7 ) :
            levelNumber === 2 ? LevelIcons.getNumberBondIcon( 10 ) :
@@ -62,7 +100,7 @@ export default class LevelIcons {
            levelNumber === 5 ? LevelIcons.getNumberBondIcon( 15 ) :
            levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16 ) :
            levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, false ) :
-           new Rectangle( 0, 0, 40, 40, { fill: 'blue' } );
+           LevelIcons.getNumberLineIcon();
   }
 }
 
