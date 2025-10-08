@@ -15,6 +15,7 @@ import Level, { ChallengeType, LevelOptions } from './Level.js';
 export default class NumberLineLevel extends Level {
   public readonly showTickNumbersProperty: BooleanProperty;
   public readonly showAddendsProperty: BooleanProperty;
+  public readonly numberLineVisibleProperty: BooleanProperty;
 
   public constructor(
     levelNumber: number, // 1-indexed level number
@@ -27,6 +28,10 @@ export default class NumberLineLevel extends Level {
   ) {
     super( levelNumber, color, description, range, type, createChallenge, providedOptions );
 
+    this.numberLineVisibleProperty = new BooleanProperty( true, {
+      tandem: providedOptions.tandem.createTandem( 'numberLineVisibleProperty' ),
+      phetioFeatured: true
+    } );
     this.showTickNumbersProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'showTickNumbersProperty' ),
       phetioFeatured: true

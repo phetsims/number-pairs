@@ -21,6 +21,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -88,6 +89,8 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( countingAreaNode );
 
+    const numberLineVisibleProperty = level.numberLineVisibleProperty;
+
     const numberLineNode = new GameNumberLineNode( numberLineModel, layoutBounds.width - 200, missingAddendProperty, feedbackStyleProperty, {
       tandem: tandem.createTandem( 'numberLineNode' ),
       numberLineRange: new Range( 0, 20 ),
@@ -98,6 +101,19 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.thumbNode.visible = false;
     countingAreaNode.addChild( numberLineNode );
 
+    numberLineVisibleProperty.link( visible => {
+      numberLineNode.visible = visible;
+    } );
+
+    const clipBounds = clipShape.bounds;
+    const hiddenNumberLineText = new Text( '?', {
+      font: new PhetFont( 80 ),
+      centerX: clipBounds.width / 2,
+      centerY: clipBounds.height / 2,
+      visibleProperty: derived( numberLineVisibleProperty, visible => !visible )
+    } );
+    countingAreaNode.addChild( hiddenNumberLineText );
+
     // In z-order, "sandwich" the content between the background and the border so the content doesn't "bleed" across the border.
     const border = new Path( clipShape, {
       stroke: 'gray',
@@ -106,6 +122,13 @@ export default class NumberLineLevelNode extends LevelNode {
       y: countingAreaNode.y
     } );
     this.addChild( border );
+
+    const numberLineEyeToggleButton = new AddendEyeToggleButton( numberLineVisibleProperty, {
+      tandem: tandem.createTandem( 'numberLineEyeToggleButton' ),
+      left: 10,
+      bottom: countingAreaNode.height - 10
+    } );
+    countingAreaNode.addChild( numberLineEyeToggleButton );
 
     const checkboxGroup = new VerticalCheckboxGroup( [ {
       property: level.showAddendsProperty,
@@ -123,6 +146,7 @@ export default class NumberLineLevelNode extends LevelNode {
       phetioFeatured: true,
       top: 10,
       right: countingAreaNode.width - 10,
+      visibleProperty: numberLineVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
 
