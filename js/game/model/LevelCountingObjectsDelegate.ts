@@ -37,7 +37,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     providedOptions: CountingObjectsDelegateOptions ) {
 
     const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {}, providedOptions );
-    const totalProperty = derived( challengeProperty, challenge => challenge.y );
+    const totalProperty = derived( challengeProperty, selectedGuessProperty,
+      ( challenge, guess ) => challenge.missing === 'y' ? ( guess === null ? 0 : guess ) : challenge.y
+    );
     const leftAddendProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'a' ? guess === null ? 0 : guess : challenge.a
     );
@@ -62,7 +64,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
-    const totalVisibleProperty = derived( challengeProperty, challenge => challenge.missing !== 'y' );
+    const totalVisibleProperty = derived( challengeProperty, selectedGuessProperty,
+      ( challenge, guess ) => ( challenge.missing === 'y' && guess !== null ) || challenge.missing !== 'y'
+    );
 
     const leftAddendVisibleProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missing === 'a' && guess !== null ) || challenge.missing !== 'a' );
