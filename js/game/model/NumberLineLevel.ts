@@ -28,10 +28,12 @@ export default class NumberLineLevel extends Level {
     super( levelNumber, color, description, range, type, createChallenge, providedOptions );
 
     this.showTickNumbersProperty = new BooleanProperty( false, {
-      tandem: providedOptions.tandem.createTandem( 'showTickNumbersProperty' )
+      tandem: providedOptions.tandem.createTandem( 'showTickNumbersProperty' ),
+      phetioFeatured: true
     } );
     this.showAddendsProperty = new BooleanProperty( false, {
-      tandem: providedOptions.tandem.createTandem( 'showAddendsProperty' )
+      tandem: providedOptions.tandem.createTandem( 'showAddendsProperty' ),
+      phetioFeatured: true
     } );
   }
 }

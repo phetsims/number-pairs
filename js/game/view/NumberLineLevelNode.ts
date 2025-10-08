@@ -120,6 +120,7 @@ export default class NumberLineLevelNode extends LevelNode {
       } ),
       tandemName: 'showTickNumbersCheckbox'
     } ], {
+      phetioFeatured: true,
       top: 10,
       right: countingAreaNode.width - 10,
       tandem: tandem.createTandem( 'checkboxGroup' )

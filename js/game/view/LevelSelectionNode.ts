@@ -47,14 +47,16 @@ export default class LevelSelectionNode extends Node {
     } );
 
     const infoDialog = new GameInfoDialog( model.levels.map( level => `Level ${level.levelNumber}: ${level.description}` ), {
-      gameLevels: NumberPairsQueryParameters.gameLevels
+      gameLevels: NumberPairsQueryParameters.gameLevels,
+      tandem: tandem.createTandem( 'infoDialog' )
     } );
 
     const infoButton = new GameInfoButton( {
       scale: 0.7,
       listener: () => {
         infoDialog.show();
-      }
+      },
+      tandem: tandem.createTandem( 'infoButton' )
     } );
 
     // Position the title centered near the top, keeping it centered as bounds change.
