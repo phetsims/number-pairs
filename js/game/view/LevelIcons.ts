@@ -10,6 +10,7 @@ import Property from '../../../../axon/js/Property.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
@@ -18,8 +19,8 @@ import NumberStyles from './NumberStyles.js';
 
 export default class LevelIcons {
 
-  private static getNumberBondIcon( total: number ): Node {
-    const model = {
+  private static createModel( total: number ): TGenericNumberPairsModel {
+    return {
       totalProperty: new Property( total ),
       totalColorProperty: new Property( new Color( '#9ffda9' ) ),
       totalVisibleProperty: new Property( true ),
@@ -30,7 +31,11 @@ export default class LevelIcons {
       rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
       rightAddendVisibleProperty: new Property( false )
     };
-    const level1Icon = new NumberBondMutableNode( model, { scale: 0.5 } );
+  }
+
+  private static getNumberBondIcon( total: number ): Node {
+
+    const level1Icon = new NumberBondMutableNode( LevelIcons.createModel( total ), { scale: 0.5 } );
     level1Icon.leftAddend.children = []; // awkward
     level1Icon.rightAddend.lineDash = NumberStyles.DASHED_LINE;
     level1Icon.rightLine.lineDash = NumberStyles.DASHED_LINE;
@@ -38,19 +43,7 @@ export default class LevelIcons {
   }
 
   private static getNumberEquationIcon( total: number, addendsOnRight = true ): Node {
-    const model = {
-      totalProperty: new Property( total ),
-      totalColorProperty: new Property( new Color( '#9ffda9' ) ),
-      totalVisibleProperty: new Property( true ),
-      leftAddendProperty: new Property( 3 ),
-      leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
-      leftAddendVisibleProperty: new Property( false ),
-      rightAddendProperty: new Property( 4 ),
-      rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
-      rightAddendVisibleProperty: new Property( false )
-    };
-
-    const numberEquationNode = new NumberEquationNode( model, 66, 46.2, GAME_DIMENSION.fontSize, {
+    const numberEquationNode = new NumberEquationNode( LevelIcons.createModel( total ), 66, 46.2, GAME_DIMENSION.fontSize, {
       totalColorProperty: new Property( new Color( '#9ffda9' ) ),
       leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
       rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
