@@ -42,6 +42,7 @@ export default class KittensLayerNode extends Node {
     countingObjects.forEach( ( countingObject, i ) => {
       const kittenNode = new KittenNode( countingObject, newKittenSelectedEmitter, {
         includeAttributeSwitch: providedOptions.includeKittenAttributeSwitch,
+        dragBounds: countingAreaNode.attributeDragBounds,
         switchFocusToFirstKitten: () => {
           const firstKitten = kittenPDOMOrderProperty.value[ 0 ];
           affirm( firstKitten.countingObject.addendTypeProperty.value !== AddendType.INACTIVE, 'first kitten should not be inactive' );

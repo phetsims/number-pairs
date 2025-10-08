@@ -46,6 +46,7 @@ type SelfOptions = {
   switchFocusToLastKitten: () => void;
   switchFocusToFirstKitten: () => void;
   includeAttributeSwitch?: boolean;
+  dragBounds?: Bounds2;
 };
 
 type KittenNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'> &
@@ -78,7 +79,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
       focusable: true,
-      includeAttributeSwitch: true
+      includeAttributeSwitch: true,
+      dragBounds: KittenNode.DRAG_BOUNDS
     }, providedOptions );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
@@ -187,7 +189,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
         this.moveToFront();
       },
       tandem: providedOptions.tandem,
-      dragBoundsProperty: new Property( KittenNode.DRAG_BOUNDS, {} ),
+      dragBoundsProperty: new Property( options.dragBounds, {} ),
       dragListenerOptions: {
         useParentOffset: true,
         end: () => {

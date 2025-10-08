@@ -12,6 +12,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -32,6 +33,18 @@ type SelfOptions = {
 export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
+
+// Reduce size to fit in the game area. It is smaller since the double rows of number buttons takes up horizontal space.
+const COUNTING_AREA_SCALE = 0.97;
+
+const scaleBounds = ( bounds: Bounds2, scale: number ): Bounds2 => {
+  return new Bounds2(
+    bounds.minX * scale,
+    bounds.minY * scale,
+    bounds.maxX * scale,
+    bounds.maxY * scale
+  );
+};
 
 export default class Level {
 
@@ -87,8 +100,11 @@ export default class Level {
 
     this.selectedGuessProperty = new Property<number | null>( null );
 
+    const countingAreaBounds = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS, COUNTING_AREA_SCALE );
+
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty, {
       tandem: tandem,
+      countingAreaBounds: countingAreaBounds,
       initialRepresentationType: options.representationType,
       representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
     } );
@@ -174,7 +190,7 @@ export default class Level {
 
     // When less than or equal to 20 objects, use a single combined ten frame, otherwise split into two ten frames.
     if ( totalObjectCount <= 20 ) {
-      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( this.countingObjectsDelegate.countingAreaBounds );
       this.countingObjectsDelegate.organizeIntoSingleTenFrame(
         centeredTenFrameBounds,
         leftAddendObjects,
@@ -197,7 +213,7 @@ export default class Level {
       }
 
       this.countingObjectsDelegate.organizeIntoSplitTenFrame(
-        NumberPairsUtils.splitBoundsInHalf( NumberPairsConstants.COUNTING_AREA_BOUNDS ),
+        NumberPairsUtils.splitBoundsInHalf( this.countingObjectsDelegate.countingAreaBounds ),
         leftCountingObjects,
         rightCountingObjects,
         'attribute'

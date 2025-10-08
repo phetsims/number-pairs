@@ -12,6 +12,7 @@ import createObservableArray, { ObservableArray, ObservableArrayIO } from '../..
 import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
@@ -19,10 +20,13 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = EmptySelfOptions & {
+  countingAreaBounds?: Bounds2;
+};
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
 
 export default class LevelCountingObjectsDelegate extends AbstractNumberPairsModel {
@@ -30,13 +34,17 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
   private readonly leftAddendObjects: ObservableArray<CountingObject>;
   private readonly rightAddendObjects: ObservableArray<CountingObject>;
+  public readonly countingAreaBounds: Bounds2;
 
   public constructor(
     private readonly challengeProperty: Property<Challenge>,
     selectedGuessProperty: Property<number | null>,
     providedOptions: CountingObjectsDelegateOptions ) {
 
-    const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {}, providedOptions );
+    const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {
+      countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS
+    }, providedOptions );
+
     const totalProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'y' ? ( guess === null ? 0 : guess ) : challenge.y
     );
@@ -46,7 +54,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const rightAddendProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
 
-    const countingObjects = CountingObjectsManager.createCountingObjects( 40, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
+    const countingObjects = CountingObjectsManager.createCountingObjects( 40, leftAddendProperty.value, rightAddendProperty.value, options.tandem, options.countingAreaBounds );
     const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice(),
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -80,6 +88,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     this.inactiveCountingObjects = inactiveCountingObjects;
     this.leftAddendObjects = leftAddendObjects;
     this.rightAddendObjects = rightAddendObjects;
+    this.countingAreaBounds = options.countingAreaBounds;
 
     this.distributeCountingObjects();
     CountingObjectsManager.setAddendType( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );

@@ -62,18 +62,27 @@ export const CountingObjectsManager = {
     rightCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.RIGHT; } );
     inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
   },
+
   /**
-   * Creates and places the counting objects for the screen based on the provided paramters
-   * @param numberOfCountingObjects
-   * @param initialLeftAddend
-   * @param initialRightAddend
-   * @param tandem
+   * Creates and places the counting objects for the screen based on the provided parameters
    */
-  createCountingObjects: ( numberOfCountingObjects: number, initialLeftAddend: number, initialRightAddend: number, tandem: Tandem ): CountingObject[] => {
+  createCountingObjects: (
+    numberOfCountingObjects: number,
+    initialLeftAddend: number,
+    initialRightAddend: number,
+    tandem: Tandem,
+    countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS
+  ): CountingObject[] => {
+
     // Constants
-    const countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS;
-    const leftCountingAreaBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
-    const rightCountingAreaBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
+    const leftCountingAreaBounds = countingAreaBounds === NumberPairsConstants.COUNTING_AREA_BOUNDS ?
+                                   NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS :
+                                   new Bounds2( countingAreaBounds.minX, countingAreaBounds.minY, countingAreaBounds.centerX, countingAreaBounds.maxY );
+
+    const rightCountingAreaBounds = countingAreaBounds === NumberPairsConstants.COUNTING_AREA_BOUNDS ?
+                                    NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS :
+                                    new Bounds2( countingAreaBounds.centerX, countingAreaBounds.minY, countingAreaBounds.maxX, countingAreaBounds.maxY );
+
     const countingAreaInnerMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const kittenPanelWidth = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 

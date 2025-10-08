@@ -34,21 +34,22 @@ import { AnimationTarget } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
-import KittenNode from './KittenNode.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
   countingRepresentationTypeProperty: Property<RepresentationType>;
+  countingAreaBounds?: Bounds2;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
 const COUNTING_AREA_LINE_WIDTH = 1.5;
 const COUNTING_AREA_MARGIN = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
-const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
 
 export default class CountingAreaNode extends Node {
+  public readonly attributeDragBounds: Bounds2;
+
   public constructor(
     leftAddendVisibleProperty: BooleanProperty,
     rightAddendVisibleProperty: BooleanProperty,
@@ -56,9 +57,16 @@ export default class CountingAreaNode extends Node {
     providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
-      phetioVisiblePropertyInstrumented: false
+      phetioVisiblePropertyInstrumented: false,
+      countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS
     }, providedOptions );
     super( options );
+
+    const countingAreaBounds = options.countingAreaBounds;
+    this.attributeDragBounds = countingAreaBounds.erodedXY(
+      NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 + NumberPairsConstants.KITTEN_PANEL_MARGIN,
+      NumberPairsConstants.KITTEN_PANEL_HEIGHT / 2 + NumberPairsConstants.KITTEN_PANEL_MARGIN
+    );
 
     // The split counting area is only visible when we are in a location based counting representation.
     // i.e. Apples, Soccer Balls, Butterflies, One Cards
@@ -70,7 +78,7 @@ export default class CountingAreaNode extends Node {
                countingRepresentationType === RepresentationType.BUTTERFLIES;
       } );
 
-    const backgroundRectangle = new Rectangle( COUNTING_AREA_BOUNDS, {
+    const backgroundRectangle = new Rectangle( countingAreaBounds, {
       fill: options.backgroundColorProperty.value,
       stroke: 'black',
       lineWidth: COUNTING_AREA_LINE_WIDTH,
@@ -94,8 +102,8 @@ export default class CountingAreaNode extends Node {
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty,
-      left: COUNTING_AREA_BOUNDS.minX + COUNTING_AREA_MARGIN,
-      bottom: COUNTING_AREA_BOUNDS.maxY - COUNTING_AREA_MARGIN,
+      left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
+      bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,
       visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
       tandem: bothAddendsEyeToggleButtonTandem
@@ -104,7 +112,7 @@ export default class CountingAreaNode extends Node {
     this.addChild( bothAddendsEyeToggleButton );
 
     const splitCountingAreaBackground = new SplitCountingAreaNode(
-      COUNTING_AREA_BOUNDS, leftAddendVisibleProperty, rightAddendVisibleProperty, {
+      countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
         visibleProperty: splitCountingAreaVisibleProperty,
         tandem: options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ?
                 options.tandem.createTandem( 'splitCountingAreaBackground' ) : Tandem.OPT_OUT
@@ -119,7 +127,7 @@ export default class CountingAreaNode extends Node {
    * @param positionPropertyType
    */
   public dropCountingObject( droppedCountingObject: CountingObject, positionPropertyType: 'attribute' | 'location' ): void {
-    const dragBounds = positionPropertyType === 'attribute' ? KittenNode.DRAG_BOUNDS : LocationCountingObjectNode.DRAG_BOUNDS;
+    const dragBounds = positionPropertyType === 'attribute' ? this.attributeDragBounds : LocationCountingObjectNode.DRAG_BOUNDS;
     const positionProperty = positionPropertyType === 'attribute' ? droppedCountingObject.attributePositionProperty :
                              droppedCountingObject.locationPositionProperty;
 

@@ -44,20 +44,19 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
 
     // TODO: layout, see https://github.com/phetsims/number-pairs/issues/231
-    const SCALE = 0.97;
+    const countingAreaBounds = level.countingObjectsDelegate.countingAreaBounds;
 
     this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
-      scale: SCALE
+      countingAreaBounds: countingAreaBounds
     } );
 
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {
       tandem: tandem.createTandem( 'kittensLayerNode' ),
       includeKittenAttributeSwitch: false,
-      visibleProperty: addendsVisibleProperty,
-      scale: SCALE
+      visibleProperty: addendsVisibleProperty
     } );
 
     this.tenFrameButton = new TenFrameButton( {
