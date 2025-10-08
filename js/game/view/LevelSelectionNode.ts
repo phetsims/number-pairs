@@ -9,7 +9,9 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -20,6 +22,7 @@ import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAn
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import LevelIcons from './LevelIcons.js';
 
 const TITLE_FONT = new PhetFont( 36 );
 
@@ -61,15 +64,30 @@ export default class LevelSelectionNode extends Node {
 
     const items: LevelSelectionButtonGroupItem[] = [];
     const NUMBER_OF_LEVELS = model.getLevelCount();
+
+    const textAlignGroup = new AlignGroup();
+    const iconAlignGroup = new AlignGroup();
+
     for ( let levelNumber = 1; levelNumber <= NUMBER_OF_LEVELS; levelNumber++ ) {
 
       // Use the actual score property for this level from the model
       const level = model.getLevel( levelNumber );
-      const scoreProperty = level.scoreProperty;
       items.push( {
-        icon: new Text( levelNumber, { font: new PhetFont( 18 ) } ),
-        scoreProperty: scoreProperty,
+        icon: new VBox( {
+          spacing: 7,
+          children: [
+            textAlignGroup.createBox( new Text( `Level ${levelNumber}`, {
+              font: new PhetFont( {
+                size: 14,
+                weight: 'bold'
+              } )
+            } ) ),
+            iconAlignGroup.createBox( LevelIcons.getIcon( levelNumber ) )
+          ]
+        } ),
+        scoreProperty: level.scoreProperty,
         options: {
+
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: levelNumber - 1,
