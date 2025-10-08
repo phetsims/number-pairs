@@ -376,7 +376,7 @@
           "value": "equal"
         }
       },
-      "organizeObjects": {
+      "tenFrameButton": {
         "accessibleName": {
           "value": "Organize { $representation } Into Groups"
         },

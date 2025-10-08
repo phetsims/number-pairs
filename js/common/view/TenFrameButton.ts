@@ -29,7 +29,7 @@ export default class TenFrameButton extends RectangularPushButton {
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
         content: tenFrameIcon,
-        accessibleContextResponse: NumberPairsFluent.a11y.controls.organizeObjects.accessibleContextResponseStringProperty
+        accessibleContextResponse: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseStringProperty
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

@@ -190,10 +190,10 @@ export default class NumberPairsScreenView extends ScreenView {
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: representationType => representationType.accessibleName
     } );
-    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjects.accessibleName.createProperty( {
+    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleName.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
-    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.organizeObjects.accessibleHelpText.createProperty( {
+    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleHelpText.createProperty( {
       representation: representationTypeAccessibleNameProperty
     } );
 

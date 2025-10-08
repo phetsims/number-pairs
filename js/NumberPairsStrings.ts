@@ -173,7 +173,7 @@ type StringsType = {
         'smallerAndLargerStringProperty': LocalizedStringProperty;
         'equalStringProperty': LocalizedStringProperty;
       };
-      'organizeObjects': {
+      'tenFrameButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
