@@ -59,8 +59,8 @@ export default class LevelIcons {
   }
 
   private static getNumberLineIcon(): Node {
-    const NUMBER_LINE_LENGTH = 95;
-    const numberLine = new Line( 0, 0, NUMBER_LINE_LENGTH, 0, {
+    const numberLineLength = 95;
+    const numberLine = new Line( 0, 0, numberLineLength, 0, {
       stroke: 'black',
       lineWidth: 2
     } );
@@ -70,23 +70,23 @@ export default class LevelIcons {
       stroke: 'black',
       lineWidth: 2
     } );
-    const rightEdge = new Line( NUMBER_LINE_LENGTH, -majorTickExtent, NUMBER_LINE_LENGTH, majorTickExtent, {
+    const rightEdge = new Line( numberLineLength, -majorTickExtent, numberLineLength, majorTickExtent, {
       stroke: 'black',
       lineWidth: 2
     } );
 
-    const leftMidEdge = new Line( NUMBER_LINE_LENGTH / 3, -minorTickExtent, NUMBER_LINE_LENGTH / 3, minorTickExtent, {
+    const leftMidEdge = new Line( numberLineLength / 3, -minorTickExtent, numberLineLength / 3, minorTickExtent, {
       stroke: 'black',
       lineWidth: 2
     } );
 
-    const rightMidEdge = new Line( 2 * NUMBER_LINE_LENGTH / 3, -minorTickExtent, 2 * NUMBER_LINE_LENGTH / 3, minorTickExtent, {
+    const rightMidEdge = new Line( 2 * numberLineLength / 3, -minorTickExtent, 2 * numberLineLength / 3, minorTickExtent, {
       stroke: 'black',
       lineWidth: 2
     } );
 
     const circleRadius = 8;
-    const circleCenterX = NUMBER_LINE_LENGTH / 3;
+    const circleCenterX = numberLineLength / 3;
     const circle = new Circle( circleRadius, {
       fill: '#fffec7',
       stroke: 'black',
@@ -94,22 +94,30 @@ export default class LevelIcons {
       center: new Vector2( circleCenterX, 0 )
     } );
 
+    const arrowControlYOffset = 24 * 1.2;
     const arrowHeadLength = 12;
-    const arrowControlYOffset = 40;
+    const arrowHeadWidth = 10;
+    const arrowControlPoint = new Vector2( ( circleCenterX + numberLineLength ) / 2, -arrowControlYOffset );
+    const arrowTip = new Vector2( numberLineLength, 0 );
     const tailShape = new Shape()
       .moveTo( circleCenterX, 0 )
-      .quadraticCurveTo( ( circleCenterX + NUMBER_LINE_LENGTH ) / 2, -arrowControlYOffset, NUMBER_LINE_LENGTH, 0 );
+      .quadraticCurveTo( arrowControlPoint.x, arrowControlPoint.y, arrowTip.x, arrowTip.y );
     const arrowTail = new Path( tailShape, {
       stroke: 'black',
       lineWidth: 2,
       lineCap: 'round'
     } );
 
-    const arrowHeadWidth = 10;
+    const tailDerivative = arrowTip.minus( arrowControlPoint ).timesScalar( 2 );
+    const tangentDirection = tailDerivative.normalized();
+    const arrowHeadBaseCenter = arrowTip.minus( tangentDirection.timesScalar( arrowHeadLength ) );
+    const perpendicular = new Vector2( -tangentDirection.y, tangentDirection.x ).normalized().timesScalar( arrowHeadWidth / 2 );
+    const arrowHeadBasePoint1 = arrowHeadBaseCenter.plus( perpendicular );
+    const arrowHeadBasePoint2 = arrowHeadBaseCenter.minus( perpendicular );
     const arrowHeadShape = new Shape()
-      .moveTo( NUMBER_LINE_LENGTH, 0 )
-      .lineTo( NUMBER_LINE_LENGTH - arrowHeadLength, arrowHeadWidth / 2 )
-      .lineTo( NUMBER_LINE_LENGTH - arrowHeadLength, -arrowHeadWidth / 2 )
+      .moveTo( arrowTip.x, arrowTip.y )
+      .lineTo( arrowHeadBasePoint1.x, arrowHeadBasePoint1.y )
+      .lineTo( arrowHeadBasePoint2.x, arrowHeadBasePoint2.y )
       .close();
     const arrowHead = new Path( arrowHeadShape, {
       fill: 'black'
