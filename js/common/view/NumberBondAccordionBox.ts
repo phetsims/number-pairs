@@ -31,11 +31,48 @@ type NumberBondAccordionBoxOptions = SelfOptions & StrictOmit<TotalRepresentatio
 export default class NumberBondAccordionBox extends TotalRepresentationAccordionBox {
 
   public constructor( model: NumberPairsModel, providedOptions: NumberBondAccordionBoxOptions ) {
-    const accordionBoxTitleStringProperty = new DerivedProperty( [ NumberPairsPreferences.numberModelTypeProperty, NumberPairsFluent.numberBondStringProperty, NumberPairsFluent.barModelStringProperty ],
+    const accordionBoxTitleStringProperty = new DerivedProperty( [
+        NumberPairsPreferences.numberModelTypeProperty,
+        NumberPairsFluent.numberBondStringProperty,
+        NumberPairsFluent.barModelStringProperty ],
       ( numberModelType, numberBondString, barModelString ) => {
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
       } );
     const titleNode = new Text( accordionBoxTitleStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
+
+    const representationStringProperty = new DerivedProperty( [
+        NumberPairsPreferences.numberModelTypeProperty,
+        NumberPairsFluent.a11y.controls.numberModel.numberBondStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.barModelStringProperty ],
+      ( numberModelType, numberBondString, barModelString ) => {
+        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
+      } );
+
+    const numberBondAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
+      left: model.leftAddendProperty,
+      right: model.rightAddendProperty,
+      total: model.totalProperty
+    } );
+    const proportionStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
+      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
+        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
+      } );
+    const barModelAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
+      left: model.leftAddendProperty,
+      right: model.rightAddendProperty,
+      total: model.totalProperty,
+      proportion: proportionStringProperty
+    } );
+    const accessibleParagraphStringProperty = new DerivedProperty( [
+        NumberPairsPreferences.numberModelTypeProperty,
+        numberBondAccessibleParagraphProperty,
+        barModelAccessibleParagraphProperty ],
+      ( numberModelType, numberBondParagraph, barModelParagraph ) => {
+        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondParagraph : barModelParagraph;
+      } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
       titleNode: titleNode,
@@ -43,6 +80,10 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       contentXSpacing: 0,
       contentYSpacing: 0,
       showTitleWhenExpanded: true,
+      accessibleHelpText: NumberPairsFluent.a11y.controls.numberModel.accessibleHelpText.createProperty( {
+        representation: representationStringProperty
+      } ),
+      accessibleParagraph: accessibleParagraphStringProperty,
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );
 

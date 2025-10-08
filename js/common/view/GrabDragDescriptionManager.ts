@@ -33,9 +33,9 @@ export default class GrabDragDescriptionManager {
    *
    * @param leftItemProperty - the string used to describe items that are part of the left addend
    * @param rightItemProperty - the string used to describe items that are part of the right addend
-   * @param itemsProperty - the string used to describe plural items
+   * @param itemProperty - the string used to describe a singular item
    */
-  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemsProperty: TReadOnlyProperty<string> ) {
+  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string> ) {
 
     this.firstLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.firstLeftItemPattern.createProperty( {
       item: leftItemProperty
@@ -64,9 +64,11 @@ export default class GrabDragDescriptionManager {
     } );
 
     this.grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
-      item: itemsProperty
+      item: itemProperty
     } );
-    this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty;
+    this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
+      item: itemProperty
+    } );
   }
 
   public createItemDescriptionProperty( selectedGroupItemProperty: TReadOnlyProperty<CountingObject | null>,

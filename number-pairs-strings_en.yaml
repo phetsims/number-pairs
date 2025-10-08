@@ -63,10 +63,10 @@ a11y:
   movableRoleDescription:   movable
   countingAreaEmpty:        Counting Area Empty
   grabOrReleaseInteraction:
-    releasedHelpText:           Press Space to grab or release.
-    grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas
-    grabbedAccessibleResponse:  grabbed, in { $addend } counting area.
-    releasedAccessibleResponse: released, in { $addend } counting area.
+    releasedHelpText:           Use arrows to navigate and choose which { $item } to move. Space or enter to grab.
+    grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas.
+    grabbedAccessibleResponse:  Grabbed, in { $addend } counting area.
+    releasedAccessibleResponse: Released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
     firstLeftItemPattern:            First { $item } on left side
     leftItemPattern:                 >- 
@@ -78,7 +78,6 @@ a11y:
       { $item } on right side
     lastRightItemPattern:            Last { $item } on right side
     onlyRightItemPattern:            Only { $item } on right side
-
   countingArea:
     accessibleHeading: Counting Area
     leadingParagraph: |-
@@ -144,6 +143,8 @@ a11y:
   # Controls and interactions
   controls:
     accessibleHeading: Counting Area Controls
+    phrase:
+      accessibleHelpText: Phrase tells how total is decomposed.
     speechSynthesis:
       accessibleName:             Hear Phrase
       noVoiceAccessibleName:      No Voice Found
@@ -151,7 +152,7 @@ a11y:
         There is no voice found on this device for the selected language. Your device may support downloading additional
         voices for this language.
       #TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200
-      accessibleHelpText:         Hear decomposition phrase aloud.
+      accessibleHelpText:         Read decomposition phrase aloud.
     localeSwitch:
         accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
@@ -159,10 +160,13 @@ a11y:
       barModel:                       proportional bar model
       accessibleHelpText:             Represent decomposition as a { $representation }.
       numberBondAccessibleParagraph:  >-
-        { $total } in top total circle. { $leftAddend } and { $rightAddend } in bottom addend circles.
+        Number bond has three circles arranged with one circle on top and two underneath like a triangle. Top circle
+        tells total number of objects, left circle is left addend, right circle is right addend. Right now, { $total }
+        in top circle. { $left } in left circle, { $right } in right circle.
       barModelAccessibleParagraph:    >-
-        { $total } in top total rectangle. { $leftAddend } and { $rightAddend } in bottom addends rectangle, split into
-        { $size } sections.
+        Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
+        objects, bottom rectangle is split into two sections that adjust based on size of addends. Right now, { $total }
+        in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportion } sections.
       largerAndSmaller:               larger and smaller
       smallerAndLarger:               smaller and larger
       equal:                          equal
@@ -172,7 +176,7 @@ a11y:
       accessibleContextResponse: Organized.
     commutativeButton:
       accessibleName:             Swap Addends
-      accessibleHelpTextPattern:  Switch { $items } from left counting are to right and right counting area to left.
+      accessibleHelpTextPattern:  Switch { $items } from left counting area to right and right counting area to left.
       accessibleContextResponse:  >- 
         { $leftAddend } on left, { $rightAddend } on right, { $total } total.
     addendVisible:

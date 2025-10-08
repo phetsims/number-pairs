@@ -154,6 +154,9 @@ type StringsType = {
     };
     'controls': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
+      'phrase': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
       'speechSynthesis': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'noVoiceAccessibleNameStringProperty': LocalizedStringProperty;
