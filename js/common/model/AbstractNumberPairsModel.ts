@@ -119,121 +119,147 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    *
    * TODO: Seperate into two different functions based on if/else logic. https://github.com/phetsims/number-pairs/issues/240
    */
-  public setLocationPositions( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[], animate: boolean ): void {
 
+  /**
+   * Set the location positions of the counting objects based on the provided left and right location positions. The
+   * left counting objects and right counting objects should be split by addend type and will animate inside the
+   * counting area to their new positions
+   * @param leftLocationPositions
+   * @param rightLocationPositions
+   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightAddendObjects
+   */
+  public setLocationPositionsAnimated( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
     affirm( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
     affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
 
-    if ( animate ) {
-      const animationTargets = [ ...AbstractNumberPairsModel.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
-        ...AbstractNumberPairsModel.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions ) ];
-      this.countingObjectsAnimation?.stop();
+    const animationTargets = [
+      ...AbstractNumberPairsModel.getAnimationTargets( leftAddendObjects.map( countingObject => countingObject.locationPositionProperty ), leftLocationPositions ),
+      ...AbstractNumberPairsModel.getAnimationTargets( rightAddendObjects.map( countingObject => countingObject.locationPositionProperty ), rightLocationPositions )
+    ];
 
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-    else {
-      const fadeOutTargets = this.countingObjects.map( countingObject => {
-        return {
-          property: countingObject.locationOpacityProperty,
-          to: 0
-        };
-      } );
-      const fadeInTargets = this.countingObjects.map( countingObject => {
-        return {
-          property: countingObject.locationOpacityProperty,
-          to: 1
-        };
-      } );
+    this.countingObjectsAnimation?.stop();
 
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.04,
-        targets: fadeOutTargets
-      } );
-
-      // Save a copy of the counting objects observable array so that we do not iterate over a different array
-      // once the animation has ended.
-      const copyOfLeftAddendObjects = leftAddendObjects.slice();
-      const copyOfRightAddendObjects = rightAddendObjects.slice();
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        copyOfLeftAddendObjects.forEach( ( countingObject, index ) => {
-          countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
-        } );
-        copyOfRightAddendObjects.forEach( ( countingObject, index ) => {
-          countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
-        } );
-      } );
-
-      // If the fade out animation is manually stopped we do not want to start the fade in animation, instead we want
-      // to immediately set the target Properties to the fade in target "to" values.
-      this.countingObjectsAnimation.stopEmitter.addListener( () => {
-        fadeInTargets.forEach( target => {
-          target.property.value = target.to;
-        } );
-        this.countingObjectsAnimation = null;
-      } );
-
-      // If the fade out animation is finished we want to start the fade in animation.
-      this.countingObjectsAnimation.finishEmitter.addListener( () => {
-        this.countingObjectsAnimation = new Animation( {
-          duration: 0.3,
-          targets: fadeInTargets
-        } );
-        this.countingObjectsAnimation.endedEmitter.addListener( () => {
-          this.countingObjectsAnimation = null;
-        } );
-        this.countingObjectsAnimation.start();
-      } );
-
-      this.countingObjectsAnimation.start();
-    }
+    this.countingObjectsAnimation = new Animation( {
+      duration: 0.4,
+      targets: animationTargets
+    } );
+    this.countingObjectsAnimation.endedEmitter.addListener( () => {
+      this.countingObjectsAnimation = null;
+    } );
+    this.countingObjectsAnimation.start();
   }
 
   /**
-   * Set the attribute positions of the counting objects based on the provided left and right positions.
+   * Set the location positions of the counting objects based on the provided left and right location positions. The
+   * objects will fade out, move to their new positions, and then fade back in.
+   * @param leftLocationPositions
+   * @param rightLocationPositions
+   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightAddendObjects
+   */
+  public setLocationPositionsFaded( leftAddendObjects: CountingObject[], rightAddendObjects: CountingObject[], leftLocationPositions: Vector2[], rightLocationPositions: Vector2[] ): void {
+    affirm( leftAddendObjects.length === leftLocationPositions.length, 'leftAddendObjects should be the same length as the rightLocationPositions.' );
+    affirm( rightAddendObjects.length === rightLocationPositions.length, 'rightAddendObjects should be the same length as the leftLocationPositions.' );
+
+    const fadeOutTargets = this.countingObjects.map( countingObject => {
+      return {
+        property: countingObject.locationOpacityProperty,
+        to: 0
+      };
+    } );
+    const fadeInTargets = this.countingObjects.map( countingObject => {
+      return {
+        property: countingObject.locationOpacityProperty,
+        to: 1
+      };
+    } );
+
+    this.countingObjectsAnimation?.stop();
+    this.countingObjectsAnimation = new Animation( {
+      duration: 0.04,
+      targets: fadeOutTargets
+    } );
+
+    // Save a copy of the counting objects observable array so that we do not iterate over a different array
+    // once the animation has ended.
+    const copyOfLeftAddendObjects = leftAddendObjects.slice();
+    const copyOfRightAddendObjects = rightAddendObjects.slice();
+    this.countingObjectsAnimation.endedEmitter.addListener( () => {
+      copyOfLeftAddendObjects.forEach( ( countingObject, index ) => {
+        countingObject.locationPositionProperty.value = leftLocationPositions[ index ];
+      } );
+      copyOfRightAddendObjects.forEach( ( countingObject, index ) => {
+        countingObject.locationPositionProperty.value = rightLocationPositions[ index ];
+      } );
+    } );
+
+    // If the fade out animation is manually stopped we do not want to start the fade in animation, instead we want
+    // to immediately set the target Properties to the fade in target "to" values.
+    this.countingObjectsAnimation.stopEmitter.addListener( () => {
+      fadeInTargets.forEach( target => {
+        target.property.value = target.to;
+      } );
+      this.countingObjectsAnimation = null;
+    } );
+
+    // If the fade out animation is finished we want to start the fade in animation.
+    this.countingObjectsAnimation.finishEmitter.addListener( () => {
+      this.countingObjectsAnimation = new Animation( {
+        duration: 0.3,
+        targets: fadeInTargets
+      } );
+      this.countingObjectsAnimation.endedEmitter.addListener( () => {
+        this.countingObjectsAnimation = null;
+      } );
+      this.countingObjectsAnimation.start();
+    } );
+
+    this.countingObjectsAnimation.start();
+  }
+
+  /**
+   * Set the attribute positions of the counting objects based on the provided left and right positions. The counting
+   * objects will animate inside the counting area to their new positions
    * @param leftObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
    * @param rightObjects
    * @param leftAttributePositions
    * @param rightAttributePositions
-   * @param animate - whether to animate the movement of the counting objects.
    *
-   * TODO: Seperate into two different functions based on if/else logic. https://github.com/phetsims/number-pairs/issues/240
    */
-  public setAttributePositions( leftObjects: CountingObject[], rightObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[], animate = false ): void {
-    affirm( leftObjects.length === leftAttributePositions.length,
-      `leftAddendObjects length: ${leftObjects.length}  should be the same leftAttributePositions length: ${leftAttributePositions.length} and the left value is: ${this.leftAddendProperty.value}.` );
-    affirm( rightObjects.length === rightAttributePositions.length,
-      `rightAddendObjects length: ${rightObjects.length}  should be the same rightAttributePositions length: ${rightAttributePositions.length} and the right value is: ${this.rightAddendProperty.value}.` );
+  public setAttributePositionsAnimated( leftObjects: CountingObject[], rightObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
+    const animationTargets = [
+      ...AbstractNumberPairsModel.getAnimationTargets( leftObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
+      ...AbstractNumberPairsModel.getAnimationTargets( rightObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions )
+    ];
 
-    if ( animate ) {
-      const animationTargets = [ ...AbstractNumberPairsModel.getAnimationTargets( leftObjects.map( countingObject => countingObject.attributePositionProperty ), leftAttributePositions ),
-        ...AbstractNumberPairsModel.getAnimationTargets( rightObjects.map( countingObject => countingObject.attributePositionProperty ), rightAttributePositions ) ];
+    this.countingObjectsAnimation?.stop();
+    this.countingObjectsAnimation = new Animation( {
+      duration: 0.4,
+      targets: animationTargets
+    } );
+    this.countingObjectsAnimation.endedEmitter.addListener( () => {
+      this.countingObjectsAnimation = null;
+    } );
+    this.countingObjectsAnimation.start();
+  }
 
-      this.countingObjectsAnimation?.stop();
-      this.countingObjectsAnimation = new Animation( {
-        duration: 0.4,
-        targets: animationTargets
-      } );
-      this.countingObjectsAnimation.endedEmitter.addListener( () => {
-        this.countingObjectsAnimation = null;
-      } );
-      this.countingObjectsAnimation.start();
-    }
-    else {
-      leftObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
-      } );
-      rightObjects.forEach( ( countingObject, index ) => {
-        countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
-      } );
-    }
+  /**
+   * Set the attribute positions of the counting objects based on the provided left and right positions. The counting
+   * objects will immediately move to their new positions without animation.
+   * @param leftObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
+   * @param rightObjects
+   * @param leftAttributePositions
+   * @param rightAttributePositions
+   *
+   */
+  public setAttributePositionsImmediate( leftObjects: CountingObject[], rightObjects: CountingObject[], leftAttributePositions: Vector2[], rightAttributePositions: Vector2[] ): void {
+    leftObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = leftAttributePositions[ index ];
+    } );
+    rightObjects.forEach( ( countingObject, index ) => {
+      countingObject.attributePositionProperty.value = rightAttributePositions[ index ];
+    } );
   }
 
   /**
@@ -249,10 +275,10 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     const rightGridCoordinates = CountingObjectsManager.getGridCoordinates( tenFrameBounds[ 1 ], 35, 35 ).slice( 0, rightObjects.length );
 
     if ( positionType === 'attribute' ) {
-      this.setAttributePositions( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates, true );
+      this.setAttributePositionsAnimated( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates );
     }
     else {
-      this.setLocationPositions( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates, true );
+      this.setLocationPositionsAnimated( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates );
     }
   }
 
@@ -269,10 +295,10 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     const rightGridCoordinates = gridCoordinates.slice( leftObjects.length, leftObjects.length + rightObjects.length );
 
     if ( positionType === 'attribute' ) {
-      this.setAttributePositions( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates, true );
+      this.setAttributePositionsAnimated( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates );
     }
     else {
-      this.setLocationPositions( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates, true );
+      this.setLocationPositionsAnimated( leftObjects, rightObjects, leftGridCoordinates, rightGridCoordinates );
     }
   }
 

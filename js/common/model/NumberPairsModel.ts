@@ -241,14 +241,14 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
     // This is not how the model handles movement between addends so we must do that artificially here.
     // The last two arguments are flip-flopped. rightAttributePositions is assigned to leftAttributePositions in the
     // function and vice versa.
-    this.setAttributePositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, rightAttributePositions, leftAttributePositions );
+    this.setAttributePositionsImmediate( copyOfLeftAddendObjects, copyOfRightAddendObjects, rightAttributePositions, leftAttributePositions );
 
     // All location counting objects should be a mirrored translation across the counting area of their previous position.
     const newRightLocationPositions = leftLocationPositions.map( position =>
       NumberPairsUtils.mirrorPositionAcrossCountingArea( position, 1 ) );
     const newLeftLocationPositions = rightLocationPositions.map( position =>
       NumberPairsUtils.mirrorPositionAcrossCountingArea( position, -1 ) );
-    this.setLocationPositions( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions, false );
+    this.setLocationPositionsFaded( copyOfLeftAddendObjects, copyOfRightAddendObjects, newLeftLocationPositions, newRightLocationPositions );
 
     if ( this.representationTypeProperty.validValues?.includes( RepresentationType.BEADS ) ) {
 
