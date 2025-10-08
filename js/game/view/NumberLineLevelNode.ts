@@ -14,13 +14,16 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Shape from '../../../../kite/js/Shape.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
-import Level from '../model/Level.js';
+import NumberLineLevel from '../model/NumberLineLevel.js';
 import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
@@ -28,7 +31,7 @@ import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 export default class NumberLineLevelNode extends LevelNode {
 
   public constructor( model: GameModel,
-                      level: Level,
+                      level: NumberLineLevel,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       returnToSelection: () => void,
@@ -43,12 +46,12 @@ export default class NumberLineLevelNode extends LevelNode {
     const numberLineModel = {
       leftAddendProperty: new NumberProperty( 0 ),
       numberLineSliderEnabledRangeProperty: new Property( new Range( 0, 20 ) ),
-      tickValuesVisibleProperty: new BooleanProperty( true ),
+      tickValuesVisibleProperty: level.showTickNumbersProperty,
       rightAddendProperty: new NumberProperty( 0 ),
       totalProperty: new NumberProperty( 0 ),
       totalJumpVisibleProperty: new BooleanProperty( false ),
       numberLineCountFromZeroProperty: new BooleanProperty( true ),
-      numberLineAddendValuesVisibleProperty: new BooleanProperty( true )
+      numberLineAddendValuesVisibleProperty: level.showAddendsProperty
     } as const;
 
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
@@ -98,15 +101,35 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( border );
 
-    this.challengeResetButton.moveToFront(); // awkward
+    const checkboxGroup = new VerticalCheckboxGroup( [ {
+      property: level.showAddendsProperty,
+      createNode: () => new Text( 'Addends', {
+        font: new PhetFont( 18 )
+      } ),
+      tandemName: 'showAddendsCheckbox'
+    }, {
+      property: level.showTickNumbersProperty,
+      createNode: () => new Text( 'Tick Numbers', {
+        font: new PhetFont( 18 )
+      } ),
+      tandemName: 'showTickNumbersCheckbox'
+    } ], {
+      top: 10,
+      right: countingAreaNode.width - 10,
+      tandem: tandem.createTandem( 'checkboxGroup' )
+    } );
+
+    this.challengeResetButton.right = countingAreaNode.right - 10;
+    this.challengeResetButton.bottom = countingAreaNode.bottom - 10;
+    this.challengeResetButton.moveToFront();
+    countingAreaNode.addChild( checkboxGroup );
 
     ManualConstraint.create( this, [
-        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
+        equationNode, this.wrongMark, this.checkMark, this.tryAgainText,
         equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.checkButton, this.nextButton ],
-      ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        resetButtonProxy, equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
+      ( equationNodeProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
+        equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
 
-        resetButtonProxy.rightBottom = countingAreaNode.rightBottom.plusXY( -10, -10 );
         equationNodeProxy.center = layoutBounds.center.plusXY( -40, -100 );
 
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );

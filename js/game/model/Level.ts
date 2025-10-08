@@ -29,7 +29,7 @@ import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
 type SelfOptions = {
   representationType: RepresentationType;
 };
-type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
 

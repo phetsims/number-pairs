@@ -20,6 +20,7 @@ import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
+import NumberLineLevel from './NumberLineLevel.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -200,7 +201,7 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new Level( 8, level8Color, 'Equations with the number line (0-20)', 'zeroToTwenty', 'numberLine', isFirst => {
+      new NumberLineLevel( 8, level8Color, 'Equations with the number line (0-20)', 'zeroToTwenty', 'numberLine', isFirst => {
 
         // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
         const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );

@@ -19,6 +19,7 @@ import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.
 import numberPairs from '../../numberPairs.js';
 import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
+import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
@@ -64,7 +65,7 @@ export default class GameScreenView extends ScreenView {
              new BondBarLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
              ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) ?
              new EquationLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
-             new NumberLineLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
+             new NumberLineLevelNode( model, level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
     };
 
     const focusNodes: Record<Mode, Node | null> = {
