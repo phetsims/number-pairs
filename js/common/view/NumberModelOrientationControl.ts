@@ -22,7 +22,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import BarModelNode from './BarModelNode.js';
+import BarModelIconNode from './BarModelIconNode.js';
 import NumberBondIconNode from './NumberBondIconNode.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
@@ -52,8 +52,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
               value: NumberModelType.NUMBER_BOND_MODEL
             },
             {
-              createNode: () => new BarModelNode( syntheticNumberPairsModel, {
-                iconOnly: true,
+              createNode: () => new BarModelIconNode( syntheticNumberPairsModel, {
                 totalOnTopProperty: new BooleanProperty( false )
               } ),
               value: NumberModelType.BAR_MODEL
@@ -72,9 +71,7 @@ export default class NumberModelOrientationControl extends PreferencesControl {
               value: NumberModelType.NUMBER_BOND_MODEL
             },
             {
-              createNode: () => new BarModelNode( syntheticNumberPairsModel, {
-                iconOnly: true
-              } ),
+              createNode: () => new BarModelIconNode( syntheticNumberPairsModel, {} ),
               value: NumberModelType.BAR_MODEL
             }
           ] ),

@@ -11,13 +11,14 @@ import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
-import BarModelNode, { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
+import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
+import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import NumberStyles from './NumberStyles.js';
 
-export default class GameNumberBarModelNode extends BarModelNode {
+export default class GameNumberBarModelNode extends BarModelMutableNode {
 
   public constructor( level: Level ) {
 
