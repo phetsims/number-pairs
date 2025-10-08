@@ -8,7 +8,10 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import StarNode from '../../../scenery-phet/js/StarNode.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
@@ -27,7 +30,15 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
       name: NumberPairsFluent.screen.gameStringProperty,
       createKeyboardHelpNode: () => new Text( 'hello world' ),
-      backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty
+      backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty,
+      homeScreenIcon: new ScreenIcon( new Rectangle( 0, 0, 100, 100, {
+        fill: null, stroke: null, children: [
+          new StarNode( {
+            scale: 2.5,
+            centerX: 50, centerY: 50
+          } )
+        ]
+      } ) )
     }, providedOptions );
 
     super(
