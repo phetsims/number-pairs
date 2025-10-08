@@ -209,7 +209,7 @@ export default class GameModel implements TModel {
         const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
         return new Challenge( missingComponent, a, b, y );
       }, {
-        representationType: RepresentationType.NUMBER_LINE, // TODO: Show the number line, see https://github.com/phetsims/number-pairs/issues/215
+        representationType: RepresentationType.NUMBER_LINE,
         tandem: tandem.createTandem( 'level8' )
       } )
     ];
