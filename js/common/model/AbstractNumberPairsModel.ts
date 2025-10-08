@@ -109,19 +109,6 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
 
   /**
    * Set the location positions of the counting objects based on the provided left and right location positions. The
-   * left counting objects and right counting objects should be split by addend type.
-   * @param leftLocationPositions
-   * @param rightLocationPositions
-   * @param leftAddendObjects - prevent incorrect intermediary values by using the same counting objects as the call site.
-   * @param rightAddendObjects
-   * @param animate - whether to animate the movement of the counting objects. If we are not animating the movement
-   *  we are fading the counting objects in and out to their new spots to prevent a jarring UX.
-   *
-   * TODO: Seperate into two different functions based on if/else logic. https://github.com/phetsims/number-pairs/issues/240
-   */
-
-  /**
-   * Set the location positions of the counting objects based on the provided left and right location positions. The
    * left counting objects and right counting objects should be split by addend type and will animate inside the
    * counting area to their new positions
    * @param leftLocationPositions
