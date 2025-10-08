@@ -20,6 +20,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Node, { NodeOptions, NodeTransformOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import numberPairs from '../../numberPairs.js';
 import NumberLineNode from './NumberLineNode.js';
 
@@ -40,12 +41,14 @@ const ARROW_START_ANGLE = Math.PI;
 const CALCULATION_ELLIPSE_END_ANGLE = Math.PI * 2;
 const ARROW_HEAD_BASE_WIDTH = 14;
 const ARROW_HEAD_HEIGHT = 16;
-const ARROW_TAIL_LINE_WIDTH = 3;
+export const ARROW_TAIL_LINE_WIDTH = 3;
 const ARROW_HEAD_OFFSET = 2; // The amount we want the arrow head to overlap the number line point graphic
 
 export default class CurvedArrowNode extends Node {
 
   private readonly tailNode: Path;
+
+  // For drawing the "outline" around the arrow.
   private readonly backgroundTailNode: Path;
   private readonly arrowHeadNode: Path;
   private readonly antiClockwise: boolean;
@@ -183,7 +186,7 @@ export default class CurvedArrowNode extends Node {
       );
       const baseMidpoint = this.getIntersection( tailCurve, baseMidpointArc );
 
-      // Our arrow tail elliptical arc should end at the arrow head triangle's center, which we can find by
+      // Our arrow tail elliptical arc should end at the arrow head triangle's center, which we can find
       // by averaging the arrow head point and the base intersection point
       const ellipseEndPoint = baseMidpoint.average( arrowHeadPoint );
 
@@ -244,6 +247,19 @@ export default class CurvedArrowNode extends Node {
     const intersections = Segment.intersect( arcA, arcB );
     affirm( intersections.length > 0, 'An intersection should be defined' );
     return intersections[ intersections.length - 1 ].point;
+  }
+
+  public setTailStyle( stroke: TColor, lineDash: number[] ): void {
+    const color = Color.toColor( stroke );
+    const outlineStroke = color.darkerColor( 0.85 );
+
+    this.tailNode.stroke = stroke;
+    this.arrowHeadNode.fill = stroke;
+    this.backgroundTailNode.stroke = outlineStroke;
+    this.arrowHeadNode.stroke = outlineStroke;
+
+    this.tailNode.lineDash = lineDash;
+    this.backgroundTailNode.lineDash = lineDash;
   }
 
   public get pointsToItself(): boolean {

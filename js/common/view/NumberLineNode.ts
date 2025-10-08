@@ -26,20 +26,24 @@ import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberLineSlider from './NumberLineSlider.js';
 import NumberRectangle from './NumberRectangle.js';
 
+export const NUMBER_LINE_POINT_RADIUS = 8;
+const LABEL_DIMENSION = 21;
+const LABEL_MARGIN = 5; // distance between the label and the arrow
+
 type SelfOptions = {
   numberLineRange: Range;
 };
-type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
-
-const NUMBER_LINE_POINT_RADIUS = 8;
-const LABEL_DIMENSION = 21;
-const LABEL_MARGIN = 5; // distance between the label and the arrow
+export type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
 
 export default class NumberLineNode extends Node {
   public static readonly POINT_RADIUS = NUMBER_LINE_POINT_RADIUS;
 
   public readonly slider: NumberLineSlider;
+  protected readonly leftAddendHighlight: Line;
+  protected readonly rightAddendHighlight: Line;
+  protected readonly leftAddendArrow: CurvedArrowNode;
+  protected readonly rightAddendArrow: CurvedArrowNode;
 
   public constructor( model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' | 'tickValuesVisibleProperty' |
     'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' | 'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty'
@@ -159,6 +163,11 @@ export default class NumberLineNode extends Node {
       totalLabel
     ];
     super( options );
+
+    this.leftAddendHighlight = leftAddendHighlight;
+    this.rightAddendHighlight = rightAddendHighlight;
+    this.leftAddendArrow = leftAddendArrow;
+    this.rightAddendArrow = rightAddendArrow;
 
     // Position the total circle at the total value on the number line.
     model.totalProperty.link( total => {

@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -20,13 +21,14 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberLineNode from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
+import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
+import NumberStyles from './NumberStyles.js';
 
 export default class NumberLineLevelNode extends LevelNode {
 
@@ -54,8 +56,12 @@ export default class NumberLineLevelNode extends LevelNode {
       numberLineAddendValuesVisibleProperty: level.showAddendsProperty
     } as const;
 
+    // On the number line level, the challenge is always missing an addend.
+    const missingAddendProperty = derived( level.challengeProperty, challenge => challenge.missing as 'a' | 'b' );
+    const feedbackStyleProperty = derived( level.modeProperty, mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
+
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
-      const numericGuess = guess || 0;
+      const numericGuess = guess ?? 0;
 
       if ( challenge.missing === 'a' ) {
         numberLineModel.leftAddendProperty.value = numericGuess;
@@ -82,7 +88,7 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( countingAreaNode );
 
-    const numberLineNode = new NumberLineNode( numberLineModel, layoutBounds.width - 200, {
+    const numberLineNode = new GameNumberLineNode( numberLineModel, layoutBounds.width - 200, missingAddendProperty, feedbackStyleProperty, {
       tandem: tandem.createTandem( 'numberLineNode' ),
       numberLineRange: new Range( 0, 20 ),
       bottom: countingAreaNode.height - 20,
