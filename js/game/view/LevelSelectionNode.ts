@@ -76,11 +76,11 @@ export default class LevelSelectionNode extends Node {
       const level = model.getLevel( levelNumber );
       items.push( {
         icon: new VBox( {
-          spacing: 7,
+          spacing: 5,
           children: [
             textAlignGroup.createBox( new Text( `Level ${levelNumber}`, {
               font: new PhetFont( {
-                size: 14,
+                size: 17,
                 weight: 'bold'
               } )
             } ) ),
