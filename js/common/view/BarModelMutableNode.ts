@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * A mutable bar model that displays the total and two addends as proportional rectangles with numbers.

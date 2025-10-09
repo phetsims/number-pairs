@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 
 /**
  * An icon version of the bar model that displays simplified rectangles without numbers.
