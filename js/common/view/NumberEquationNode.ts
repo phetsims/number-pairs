@@ -74,7 +74,7 @@ export default class NumberEquationNode extends Node {
       spacing: 10,
 
       // Do not relayout when the stroke changes on the game screen.
-      resize: false // TODO: Is this safe for the whole sim? See https://github.com/phetsims/number-pairs/issues/224
+      resize: false
     } );
 
     super( options );
