@@ -17,9 +17,16 @@ import BarModelNode, { BarModelDimensions, BarModelNodeOptions, DEFAULT_BAR_MODE
 import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
+
+  // If provided, the value to display for the total, left addend, and right addend. If not provided, the model properties will be used.
   displayTotalNumberProperty?: TReadOnlyProperty<number> | null;
+
+  // If provided, the value to display for the left addend. If not provided, the model property will be used.
   displayLeftAddendNumberProperty?: TReadOnlyProperty<number> | null;
+
+  // If provided, the value to display for the right addend. If not provided, the model property will be used.
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
+
   dimensions?: BarModelDimensions;
 };
 
