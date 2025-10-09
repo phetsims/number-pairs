@@ -17,9 +17,13 @@ import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import AccessibleInteractiveOptions from '../../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
+import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
+import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -55,7 +59,65 @@ export default class NumberButtonGrid extends Node {
     tandem: Tandem,
     providedOptions?: NodeOptions
   ) {
-    super();
+    super( {
+
+      // eslint-disable-next-line phet/no-object-spread-on-non-literals
+      ...AccessibleInteractiveOptions,
+      focusable: false,
+      groupFocusHighlight: true
+    } );
+
+    // Buttons are not focusable until the user tabs into the group, then only one button is focusable at a time.
+    // WASD and arrow keys can be used to move focus forward and backward (in 1-D)
+    this.addInputListener( new KeyboardListener( {
+      tandem: tandem,
+      keyStringProperties: [
+
+        // TODO factor out like: ...NetForceHotkeyData.PULLER_NODE.navigation.keyStringProperties,
+        // https://github.com/phetsims/number-pairs/issues/256
+        new Property<OneKeyStroke>( 'arrowRight' ),
+        new Property<OneKeyStroke>( 'arrowLeft' ),
+        new Property<OneKeyStroke>( 'arrowUp' ),
+        new Property<OneKeyStroke>( 'arrowDown' ),
+        new Property<OneKeyStroke>( 'w' ),
+        new Property<OneKeyStroke>( 'a' ),
+        new Property<OneKeyStroke>( 's' ),
+        new Property<OneKeyStroke>( 'd' )
+      ],
+      fireOnDown: false,
+
+      fire: ( _event, keysPressed ) => {
+
+        // find the currently focused button
+        const focusedNode = pdomFocusProperty.value?.trail.lastNode();
+        if ( focusedNode ) {
+          const element = this.elements.find( e => e.button === focusedNode );
+          if ( element ) {
+            const index = this.elements.indexOf( element );
+            let newIndex = index;
+
+            if ( keysPressed === 'arrowRight' || keysPressed === 'arrowUp' || keysPressed === 'w' || keysPressed === 'd' ) {
+              newIndex = index + 1;
+            }
+            else if ( keysPressed === 'arrowLeft' || keysPressed === 'arrowDown' || keysPressed === 's' || keysPressed === 'a' ) {
+              newIndex = index - 1;
+            }
+
+            if ( newIndex < 0 ) {
+              newIndex = this.elements.length - 1;
+            }
+            else if ( newIndex >= this.elements.length ) {
+              newIndex = 0;
+            }
+
+            if ( newIndex !== index ) {
+              this.elements[ newIndex ].button.focusable = true;
+              this.elements[ newIndex ].button.focus();
+            }
+          }
+        }
+      }
+    } ) );
 
     const alignGroup = new AlignGroup();
 
@@ -140,6 +202,21 @@ export default class NumberButtonGrid extends Node {
     }
 
     this.mutate( providedOptions );
+
+    // When one item in the group gets focus, make all other elements in the group non-focusable
+    pdomFocusProperty.link( focus => {
+      if ( focus ) {
+        const node = focus.trail.lastNode();
+        const element = this.elements.find( e => e.button === node );
+        if ( element ) {
+          this.elements.forEach( e => {
+            if ( e !== element ) {
+              e.button.focusable = false;
+            }
+          } );
+        }
+      }
+    } );
   }
 
   /**
