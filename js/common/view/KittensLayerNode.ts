@@ -73,7 +73,7 @@ export default class KittensLayerNode extends Node {
     this.kittenNodes = kittenNodes;
     this.kittenPDOMOrderProperty = kittenPDOMOrderProperty;
     this.kittenPDOMOrderProperty.link( pdomOrder => {
-      this.setPDOMOrder( pdomOrder );
+      this.setPDOMOrder( _.uniq( pdomOrder ) );
     } );
   }
 }
