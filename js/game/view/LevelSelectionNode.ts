@@ -88,24 +88,24 @@ export default class LevelSelectionNode extends Node {
           ]
         } ),
         scoreProperty: level.scoreProperty,
+        buttonListener: () => {
+          model.modeProperty.value =
+            levelNumber === 1 ? 'level1' :
+            levelNumber === 2 ? 'level2' :
+            levelNumber === 3 ? 'level3' :
+            levelNumber === 4 ? 'level4' :
+            levelNumber === 5 ? 'level5' :
+            levelNumber === 6 ? 'level6' :
+            levelNumber === 7 ? 'level7' :
+            levelNumber === 8 ? 'level8' :
+            ( () => { throw new Error( `Unhandled level: ${levelNumber}` ); } )(); // IIFE to throw error
+        },
         options: {
 
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: levelNumber - 1,
-          baseColor: level.color,
-          listener: () => {
-            model.modeProperty.value =
-              levelNumber === 1 ? 'level1' :
-              levelNumber === 2 ? 'level2' :
-              levelNumber === 3 ? 'level3' :
-              levelNumber === 4 ? 'level4' :
-              levelNumber === 5 ? 'level5' :
-              levelNumber === 6 ? 'level6' :
-              levelNumber === 7 ? 'level7' :
-              levelNumber === 8 ? 'level8' :
-              ( () => { throw new Error( `Unhandled level: ${levelNumber}` ); } )(); // IIFE to throw error
-          }
+          baseColor: level.color
         }
       } );
     }
