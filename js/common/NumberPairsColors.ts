@@ -75,7 +75,7 @@ const NumberPairsColors = {
     default: '#F2F2F2'
   } ),
   checkButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkButton', {
-    default: 'white'
+    default: '#FFB19E'
   } )
 };
 
