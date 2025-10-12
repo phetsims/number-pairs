@@ -88,7 +88,7 @@ export default class GameModel implements TModel {
     };
 
     // Hex for status bar & level selection icon
-    const level1Color = '#B7EAE7';
+    const level1Color = '#EFBEBD';
     const level234Color = '#BCA4F7';
     const level567Color = '#9EDCEF';
     const level8Color = '#F2928B';
