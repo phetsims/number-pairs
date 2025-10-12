@@ -76,6 +76,20 @@ const NumberPairsColors = {
   } ),
   checkButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkButton', {
     default: '#FFB19E'
+  } ),
+
+  // Status bar & level selection colors
+  level1StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level1StatusBar', {
+    default: '#EFBEBD'
+  } ),
+  level234StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level234StatusBar', {
+    default: '#BCA4F7'
+  } ),
+  level567StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level567StatusBar', {
+    default: '#9EDCEF'
+  } ),
+  level8StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level8StatusBar', {
+    default: '#F2928B'
   } )
 };
 

@@ -12,9 +12,11 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -73,7 +75,7 @@ export default class Level {
 
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
-    public readonly color: string, // Color used for the status bar and level selection button
+    public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     public readonly description: string, // Appears in the bar at the top of the screen
     public readonly range: InputRange,
     public readonly type: ChallengeType,

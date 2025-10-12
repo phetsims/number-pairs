@@ -7,6 +7,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
@@ -19,7 +21,7 @@ export default class NumberLineLevel extends Level {
 
   public constructor(
     levelNumber: number, // 1-indexed level number
-    color: string, // Color used for the status bar and level selection button
+    color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     description: string, // Appears in the bar at the top of the screen
     range: InputRange,
     type: ChallengeType,

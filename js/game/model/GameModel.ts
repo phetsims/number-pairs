@@ -17,6 +17,7 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
@@ -87,12 +88,6 @@ export default class GameModel implements TModel {
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
     };
 
-    // Hex for status bar & level selection icon
-    const level1Color = '#EFBEBD';
-    const level234Color = '#BCA4F7';
-    const level567Color = '#9EDCEF';
-    const level8Color = '#F2928B';
-
     this.levels = [
 
       /**
@@ -100,7 +95,7 @@ export default class GameModel implements TModel {
        * Number Bond
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
-      new Level( 1, level1Color, 'Missing addend in a number bond (0-10)', 'zeroToTen', 'bond', isFirst => {
+      new Level( 1, NumberPairsColors.level1StatusBarColorProperty, 'Missing addend in a number bond (0-10)', 'zeroToTen', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 2, 10 );
         const a = dotRandom.nextIntBetween( 1, y - 1 );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
@@ -116,7 +111,7 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 2, level234Color, 'Missing addend in a number bond (10 only)', 'zeroToTen', 'bond', createLevel23Challenge, {
+      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a number bond (10 only)', 'zeroToTen', 'bond', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level2' )
       } ),
@@ -126,7 +121,7 @@ export default class GameModel implements TModel {
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, level234Color, 'Missing addend in a decomposition equation (10 only)', 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
+      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a decomposition equation (10 only)', 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level3' )
       } ),
@@ -136,7 +131,7 @@ export default class GameModel implements TModel {
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( 4, level234Color, 'Missing addend in a sum equation (10 only)', 'zeroToTen', 'sumEquation', isFirst => {
+      new Level( 4, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a sum equation (10 only)', 'zeroToTen', 'sumEquation', isFirst => {
         const y = 10;
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -151,7 +146,7 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
-      new Level( 5, level567Color, 'Missing addend in a number bond (11-20)', 'zeroToTwenty', 'bond', isFirst => {
+      new Level( 5, NumberPairsColors.level567StatusBarColorProperty, 'Missing addend in a number bond (11-20)', 'zeroToTwenty', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -168,7 +163,7 @@ export default class GameModel implements TModel {
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        *   ![][image185]
        */
-      new Level( 6, level567Color, 'Missing addend in a decomposition equation (11-20)', 'zeroToTwenty', 'decompositionEquation', isFirst => {
+      new Level( 6, NumberPairsColors.level567StatusBarColorProperty, 'Missing addend in a decomposition equation (11-20)', 'zeroToTwenty', 'decompositionEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -185,7 +180,7 @@ export default class GameModel implements TModel {
        * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * Value range for y is from 11-20
        */
-      new Level( 7, level567Color, 'Missing addend or total in a sum equation (11-20)', 'zeroToTwenty', 'sumEquation', isFirst => {
+      new Level( 7, NumberPairsColors.level567StatusBarColorProperty, 'Missing addend or total in a sum equation (11-20)', 'zeroToTwenty', 'sumEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, isFirst );
         return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
@@ -201,7 +196,7 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new NumberLineLevel( 8, level8Color, 'Equations with the number line (0-20)', 'zeroToTwenty', 'numberLine', isFirst => {
+      new NumberLineLevel( 8, NumberPairsColors.level8StatusBarColorProperty, 'Equations with the number line (0-20)', 'zeroToTwenty', 'numberLine', isFirst => {
 
         // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
         const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );
