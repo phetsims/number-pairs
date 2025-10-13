@@ -43,7 +43,7 @@ export default class LevelSelectionNode extends Node {
       accessibleParagraph: 'Choose Your Level',
       font: TITLE_FONT,
       maxWidth: 0.8 * layoutBounds.width,
-      centerY: layoutBounds.centerY - ( layoutBounds.height * 0.25 )
+      centerY: 125
     } );
 
     const infoDialog = new GameInfoDialog( model.levels.map( level => `Level ${level.levelNumber}: ${level.description}` ), {
@@ -132,7 +132,7 @@ export default class LevelSelectionNode extends Node {
       gameLevels: Array.from( { length: NUMBER_OF_LEVELS }, ( _, i ) => i + 1 ),
       tandem: tandem.createTandem( 'buttonGroup' ),
       phetioVisiblePropertyInstrumented: false,
-      top: titleText.bottom + 30
+      top: titleText.bottom + 45
     } );
 
     // Center the button group under the title.
