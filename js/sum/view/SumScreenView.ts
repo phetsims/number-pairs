@@ -160,7 +160,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         // to any other counting object and find a new point if so.
         const positions = countingObjects.map( countingObject => countingObject.attributePositionProperty.value );
         if ( positions.some( position => position.distance( removedCountingObject.attributePositionProperty.value ) < NumberPairsConstants.KITTEN_PANEL_WIDTH / 2 ) ) {
-          removedCountingObject.attributePositionProperty.value = CountingAreaNode.getRandomEmptyPoint( positions, KittenNode.DRAG_BOUNDS );
+          removedCountingObject.attributePositionProperty.value = CountingAreaNode.getRandomEmptyPoint( positions, KittenNode.DEFAULT_DRAG_BOUNDS );
         }
       }
     } );

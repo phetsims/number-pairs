@@ -62,7 +62,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
   // Erode by slightly more than half of the widest and tallest dimensions so that there is a little buffer between
   // the dragged object and the counting area boundary.
-  public static readonly DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
+  public static readonly DEFAULT_DRAG_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS.erodedXY(
     KITTEN_PANEL_WIDTH / 2 + KITTEN_PANEL_MARGIN,
     KITTEN_PANEL_HEIGHT / 2 + KITTEN_PANEL_MARGIN
   );
@@ -80,7 +80,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
       focusable: true,
       includeAttributeSwitch: true,
-      dragBounds: KittenNode.DRAG_BOUNDS
+      dragBounds: KittenNode.DEFAULT_DRAG_BOUNDS
     }, providedOptions );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
