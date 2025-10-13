@@ -92,23 +92,22 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     this.rightAddendObjects = rightAddendObjects;
     this.countingAreaBounds = options.countingAreaBounds;
 
+    // The order of these operations is important during construction, so please do not change without careful consideration.
     this.distributeCountingObjects();
-    CountingObjectsManager.setAddendType( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
     this.registerObservableArrays( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
-
-    this.challengeProperty.link( () => {
-      this.distributeCountingObjects();
-
-      // We only want to change the position of the counting objects that have not been added to the counting area yet.
-      this.setCountingObjectPositions( countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
-    } );
-
     this.setupAddendPropertyLink( leftAddendProperty, this.leftAddendObjects, this.inactiveCountingObjects );
     this.setupAddendPropertyLink( rightAddendProperty, this.rightAddendObjects, this.inactiveCountingObjects );
 
     // Link to the countingObject.addendTypeProperty at the end of construction to avoid triggering duplicate work
     // that is handled manually above.
     this.initializeCountingObjectLinks();
+
+    this.challengeProperty.lazyLink( () => {
+      this.distributeCountingObjects();
+
+      // We only want to change the position of the counting objects that have not been added to the counting area yet.
+      this.setCountingObjectPositions( countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
+    } );
   }
 
   /**
