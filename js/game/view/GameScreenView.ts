@@ -14,6 +14,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import { getPDOMFocusedNode } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
@@ -29,6 +30,8 @@ import NumberPairsRewardNode from './NumberPairsRewardNode.js';
 
 type SelfOptions = EmptySelfOptions;
 type GameScreenViewOptions = PickRequired<ScreenViewOptions, 'tandem'>;
+
+const gameAudioPlayer = new GameAudioPlayer();
 
 export default class GameScreenView extends ScreenView {
   private readonly rewardNode: NumberPairsRewardNode;
@@ -122,6 +125,7 @@ export default class GameScreenView extends ScreenView {
     this.addChild( this.rewardNode );
 
     model.rewardAchievedEmitter.addListener( () => {
+      gameAudioPlayer.gameOverPerfectScore();
       this.numberPairsRewardDialog.show();
     } );
   }
