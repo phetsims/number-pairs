@@ -109,7 +109,8 @@ export default class Level {
 
     const countingAreaBounds = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS, COUNTING_AREA_SCALE );
 
-    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty, {
+    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
+      range, {
       tandem: tandem,
       countingAreaBounds: countingAreaBounds,
       initialRepresentationType: options.representationType,

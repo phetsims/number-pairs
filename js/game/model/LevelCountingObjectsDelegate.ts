@@ -16,20 +16,26 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
-import CountingObject from '../../common/model/CountingObject.js';
+import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import InputRange from './InputRange.js';
 
 type SelfOptions = EmptySelfOptions & {
   countingAreaBounds?: Bounds2;
 };
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
+
+// constants
+const ZERO_TO_TEN_MAX = 20;
+const ZERO_TO_TWENTY_MAX = 40;
 
 export default class LevelCountingObjectsDelegate extends AbstractNumberPairsModel {
 
@@ -41,6 +47,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
   public constructor(
     private readonly challengeProperty: Property<Challenge>,
     selectedGuessProperty: Property<number | null>,
+    range: InputRange,
     providedOptions: CountingObjectsDelegateOptions ) {
 
     const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {
@@ -56,7 +63,8 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const rightAddendProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
 
-    const countingObjects = CountingObjectsManager.createCountingObjects( 40, leftAddendProperty.value, rightAddendProperty.value, options.tandem, options.countingAreaBounds );
+    const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
+    const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value, rightAddendProperty.value, options.tandem, options.countingAreaBounds );
     const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice(),
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -102,12 +110,44 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     // that is handled manually above.
     this.initializeCountingObjectLinks();
 
+    // When a counting object becomes active, we want to update its position and ensure it does not overlap
+    // with other active counting objects.
+    countingObjects.forEach( countingObject => {
+      countingObject.addendTypeProperty.link( addendType => {
+        if ( addendType !== AddendType.INACTIVE ) {
+          const activeCountingObjects = countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE );
+
+          // We do not want to worry about overlapping with itself.
+          arrayRemove( activeCountingObjects, countingObject );
+          const gridCoordinates = this.getAvailableGridCoordinates( activeCountingObjects,
+            this.countingAreaBounds );
+          countingObject.attributePositionProperty.value = dotRandom.sample( gridCoordinates );
+        }
+      } );
+    } );
+
     this.challengeProperty.lazyLink( () => {
       this.distributeCountingObjects();
 
       // We only want to change the position of the counting objects that have not been added to the counting area yet.
       this.setCountingObjectPositions( countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
     } );
+  }
+
+  /**
+   * We referenced getAvailableLocationGridCoordinates to create this function. Here we want to use attribute positions,
+   * and also need more columns to fit all possible counting objects in the counting area.
+   * @param countingObjects - the counting objects to avoid overlapping with
+   * @param addendBounds
+   */
+  private getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
+    const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
+    const columnCount = CountingObjectsManager.getColumnCount( this.countingObjects.length );
+    const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, columnCount );
+    return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {
+      const dropZoneBounds = NumberPairsConstants.GET_DROP_ZONE_BOUNDS( countingObject.attributePositionProperty.value );
+      return !dropZoneBounds.containsPoint( gridCoordinate );
+    } ) );
   }
 
   /**

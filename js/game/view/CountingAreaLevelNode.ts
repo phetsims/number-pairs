@@ -75,15 +75,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.addChild( this.kittensLayerNode );
     this.addChild( this.tenFrameButton );
 
-    // When dropped, animate underlying kittens out of the way so they don't overlap the dropped kitten.
-    level.countingObjectsDelegate.countingObjects.forEach( countingObject => {
-      countingObject.isDraggingProperty.lazyLink( isDragging => {
-        if ( !isDragging && !level.countingObjectsDelegate.countingObjectsAnimation ) {
-          this.countingAreaNode.dropCountingObject( countingObject, 'attribute' );
-        }
-      } );
-    } );
-
     // If the user clicks outside the kittens, then remove focus from all the counting objects.
     this.addInputListener( new ClickToDeselectKittensPressListener( this.kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
 

@@ -363,11 +363,11 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
         const dilatedAddendBounds = addendBounds.dilated( -20 );
 
         if ( addendType === AddendType.LEFT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
+          const gridCoordinates = this.getAvailableLocationGridCoordinates( leftAddendCountingObjects, dilatedAddendBounds );
           countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
         }
         else if ( addendType === AddendType.RIGHT && !addendBounds.containsPoint( countingObject.locationPositionProperty.value ) ) {
-          const gridCoordinates = this.getAvailableGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
+          const gridCoordinates = this.getAvailableLocationGridCoordinates( rightAddendCountingObjects, dilatedAddendBounds );
           countingObject.locationPositionProperty.value = dotRandom.sample( gridCoordinates );
         }
       }
@@ -381,7 +381,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
    * @param countingObjects
    * @param addendBounds
    */
-  protected getAvailableGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
+  private getAvailableLocationGridCoordinates( countingObjects: CountingObject[], addendBounds: Bounds2 ): Vector2[] {
     const countingAreaMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const gridCoordinates = CountingObjectsManager.getGridCoordinates( addendBounds, countingAreaMargin, countingAreaMargin, 6 );
     return gridCoordinates.filter( gridCoordinate => countingObjects.every( countingObject => {

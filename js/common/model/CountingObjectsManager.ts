@@ -63,6 +63,10 @@ export const CountingObjectsManager = {
     inactiveCountingObjects.forEach( countingObject => { countingObject.addendTypeProperty.value = AddendType.INACTIVE; } );
   },
 
+  getColumnCount: ( numberOfCountingObjects: number ): number => {
+    return numberOfCountingObjects > 20 ? 10 : 8;
+  },
+
   /**
    * Creates and places the counting objects for the screen based on the provided parameters.
    * This should only be called during start up.
@@ -88,7 +92,7 @@ export const CountingObjectsManager = {
     const kittenPanelWidth = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 
     // We can have up to 40 counting objects in the game screen and will need more columns to fit them all in the counting area.
-    const attributeColumns = numberOfCountingObjects > 20 ? 10 : 8;
+    const attributeColumns = CountingObjectsManager.getColumnCount( numberOfCountingObjects );
 
     // Get the possible positions for each representation.
     const availableAttributeGridPositions = CountingObjectsManager.getGridCoordinates( countingAreaBounds, kittenPanelWidth, kittenPanelWidth, attributeColumns );
