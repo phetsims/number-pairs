@@ -27,8 +27,8 @@ import LevelIcons from './LevelIcons.js';
 const TITLE_FONT = new PhetFont( 36 );
 
 // Buttons in 2 rows of 4 using LevelSelectionButtonGroup.
-const BUTTON_WIDTH = 130;
-const BUTTON_HEIGHT = 130;
+const BUTTON_WIDTH = 150;
+const BUTTON_HEIGHT = 150;
 const BUTTON_LINE_WIDTH = 2;
 const X_SPACING = 24;
 const Y_SPACING = 24;
