@@ -138,7 +138,9 @@ export default class Level {
    */
   public checkAnswer( guess: number ): boolean {
 
-    this.addGuess( guess );
+    if ( !this.guessedNumbers.includes( guess ) ) {
+      this.guessedNumbers.push( guess );
+    }
 
     const isCorrect = this.challengeProperty.value.isCorrect( guess );
 
@@ -162,12 +164,6 @@ export default class Level {
    */
   public clearFeedback(): void {
     this.modeProperty.value = 'idle';
-  }
-
-  private addGuess( guess: number ): void {
-    if ( !this.guessedNumbers.includes( guess ) ) {
-      this.guessedNumbers.push( guess );
-    }
   }
 
   public reset(): void {
