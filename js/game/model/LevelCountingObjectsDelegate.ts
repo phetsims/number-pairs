@@ -13,6 +13,8 @@ import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
@@ -96,6 +98,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
     this.challengeProperty.link( () => {
       this.distributeCountingObjects();
+
+      // We only want to change the position of the counting objects that have not been added to the counting area yet.
+      this.setCountingObjectPositions( countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
     } );
 
     this.setupAddendPropertyLink( leftAddendProperty, this.leftAddendObjects, this.inactiveCountingObjects );
@@ -132,6 +137,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     this.distributeCountingObjects();
   }
 
+  /**
+   * Distribute the counting objects to the appropriate arrays based on the current addend properties.
+   */
   private distributeCountingObjects(): void {
     this.inactiveCountingObjects.reset();
     this.leftAddendObjects.reset();
@@ -148,6 +156,19 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     } );
 
     CountingObjectsManager.setAddendType( this.leftAddendObjects, this.rightAddendObjects, this.inactiveCountingObjects );
+  }
+
+  /**
+   * Sets the positions of the counting objects to random grid positions within the counting area bounds.
+   * @param countingObjectPositionProperties
+   */
+  private setCountingObjectPositions( countingObjectPositionProperties: Property<Vector2>[] ): void {
+    const availableGridCoordinates = CountingObjectsManager.getGridCoordinates( this.countingAreaBounds, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, 10 );
+    countingObjectPositionProperties.forEach( positionProperty => {
+      const position = dotRandom.sample( availableGridCoordinates );
+      availableGridCoordinates.splice( availableGridCoordinates.indexOf( position ), 1 );
+      positionProperty.value = position;
+    } );
   }
 }
 

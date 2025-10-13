@@ -64,7 +64,8 @@ export const CountingObjectsManager = {
   },
 
   /**
-   * Creates and places the counting objects for the screen based on the provided parameters
+   * Creates and places the counting objects for the screen based on the provided parameters.
+   * This should only be called during start up.
    */
   createCountingObjects: (
     numberOfCountingObjects: number,
