@@ -16,7 +16,6 @@ import numberPairs from '../../numberPairs.js';
 type NumberLineFeedbackStyle = {
   stroke: string;
   lineDash: number[];
-  lineWidth: number;
 };
 
 type MissingAddend = 'a' | 'b';

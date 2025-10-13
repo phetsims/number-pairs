@@ -15,6 +15,7 @@ import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../commo
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
+import GameConstants from './GameConstants.js';
 import NumberStyles from './NumberStyles.js';
 
 export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
@@ -31,10 +32,15 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
     super( level.countingObjectsDelegate, options );
 
-    const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth: number ) => {
+    this.total.lineWidth = GameConstants.LINE_WIDTH;
+    this.leftAddend.lineWidth = GameConstants.LINE_WIDTH;
+    this.rightAddend.lineWidth = GameConstants.LINE_WIDTH;
+    this.leftLine.lineWidth = GameConstants.LINE_WIDTH;
+    this.rightLine.lineWidth = GameConstants.LINE_WIDTH;
+
+    const stylize = ( path: Path, stroke: Color | string, lineDash: number[] ) => {
       path.stroke = stroke;
       path.lineDash = lineDash;
-      path.lineWidth = lineWidth;
     };
 
     Multilink.multilink(
@@ -43,16 +49,16 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
         const missing = challenge.missing;
 
-        [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [], 1 ) );
-        [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [], 1 ) );
+        [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [] ) );
+        [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [] ) );
 
         const missingCircle = missing === 'a' ? this.leftAddend : missing === 'b' ? this.rightAddend : this.total;
         const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
-        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
-        stylize( missingCircle, stroke, lineDash, lineWidth );
-        stylize( missingLine, stroke, lineDash, lineWidth );
+        stylize( missingCircle, stroke, lineDash );
+        stylize( missingLine, stroke, lineDash );
       }
     );
   }

@@ -16,6 +16,7 @@ import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
+import GameConstants from './GameConstants.js';
 import NumberStyles from './NumberStyles.js';
 
 export default class GameNumberBarModelNode extends BarModelMutableNode {
@@ -34,13 +35,16 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
       } )
     } );
 
-    const stylize = ( rectangle: Rectangle, stroke: string, lineDash: number[], lineWidth: number ) => {
+    this.totalRectangle.lineWidth = GameConstants.LINE_WIDTH;
+    this.leftAddendRectangle.lineWidth = GameConstants.LINE_WIDTH;
+    this.rightAddendRectangle.lineWidth = GameConstants.LINE_WIDTH;
+
+    const stylize = ( rectangle: Rectangle, stroke: string, lineDash: number[] ) => {
       rectangle.stroke = stroke;
       rectangle.lineDash = lineDash;
-      rectangle.lineWidth = lineWidth;
     };
 
-    const setDefaultStyle = ( rectangle: Rectangle ) => stylize( rectangle, 'black', [], 1 );
+    const setDefaultStyle = ( rectangle: Rectangle ) => stylize( rectangle, 'black', [] );
 
     Multilink.multilink( [ level.modeProperty, level.challengeProperty ], ( mode, challenge ) => {
       [ this.totalRectangle, this.leftAddendRectangle, this.rightAddendRectangle ].forEach( setDefaultStyle );
@@ -49,9 +53,9 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
                                challenge.missing === 'b' ? this.rightAddendRectangle :
                                this.totalRectangle;
 
-      const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+      const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
-      stylize( missingRectangle, stroke, lineDash, lineWidth );
+      stylize( missingRectangle, stroke, lineDash );
     } );
   }
 }

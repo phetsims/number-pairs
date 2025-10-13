@@ -28,7 +28,6 @@ export default class GameNumberEquationNode extends NumberEquationNode {
     const setDefaultStyle = ( square: Rectangle ) => {
       square.stroke = 'black';
       square.lineDash = [];
-      square.lineWidth = 1;
     };
 
     Multilink.multilink(
@@ -37,11 +36,10 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         [ this.leftAddendSquare, this.rightAddendSquare, this.totalSquare ].forEach( setDefaultStyle );
 
         const missingSquare = this.getMissingSquare();
-        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
         missingSquare.stroke = stroke;
         missingSquare.lineDash = lineDash;
-        missingSquare.lineWidth = lineWidth;
       }
     );
   }

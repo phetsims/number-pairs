@@ -15,6 +15,8 @@ export default class GameConstants {
   public static getCheckButtonCenterX( layoutBounds: Bounds2 ): number {
     return layoutBounds.right - 230;
   }
+
+  public static readonly LINE_WIDTH = 2;
 }
 
 numberPairs.register( 'GameConstants', GameConstants );
