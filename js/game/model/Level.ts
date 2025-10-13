@@ -191,7 +191,9 @@ export default class Level {
     const totalObjectCount = leftAddendObjects.length + rightAddendObjects.length;
 
     // When less than or equal to 20 objects, use a single combined ten frame, otherwise split into two ten frames.
-    if ( totalObjectCount <= 20 ) {
+    // Combine into a single ten frame on these levels.
+    const COMBINE = this.levelNumber === 4 || this.levelNumber === 7;
+    if ( totalObjectCount <= 20 && COMBINE ) {
       const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( this.countingObjectsDelegate.countingAreaBounds );
       this.countingObjectsDelegate.organizeIntoSingleTenFrame(
         centeredTenFrameBounds,
@@ -204,7 +206,7 @@ export default class Level {
       let leftCountingObjects: CountingObject[];
       let rightCountingObjects: CountingObject[];
 
-      if ( this.levelNumber === 7 ) {
+      if ( COMBINE ) {
         const activeCountingObjects = [ ...leftAddendObjects, ...rightAddendObjects ];
         leftCountingObjects = activeCountingObjects.slice( 0, 20 );
         rightCountingObjects = activeCountingObjects.slice( 20 );
