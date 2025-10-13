@@ -101,7 +101,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                                         missing === 'b' ? barRightAddendProxy :
                                         barTotalProxy;
 
-          wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 5 );
+          wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 0 );
 
           tryAgainTextProxy.left = wrongMarkProxy.right + 10;
           tryAgainTextProxy.centerY = wrongMarkProxy.centerY;

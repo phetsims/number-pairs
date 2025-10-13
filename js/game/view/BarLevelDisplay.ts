@@ -4,8 +4,8 @@
  * BarLevelDisplay provides a TGenericNumberPairsModel where the numeric values used for sizing are always
  * the correct decomposition (i.e., the known addend plus the remainder), independent of the user's guess.
  *
- * Use this for BarModelNode so bar widths do not reflect guessed values. Pair it with separate display number
- * properties when constructing BarModelNode to show guessed numbers if desired.
+ * Use this for GameNumberBarModelNode so bar widths do not reflect guessed values. Pair it with separate display number
+ * properties when constructing GameNumberBarModelNode to show guessed numbers if desired.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
