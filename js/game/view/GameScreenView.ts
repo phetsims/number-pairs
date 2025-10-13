@@ -124,6 +124,15 @@ export default class GameScreenView extends ScreenView {
 
     this.addChild( this.rewardNode );
 
+    model.levelAnswerFeedbackEmitter.addListener( ( feedback, _level ) => {
+      if ( feedback === 'correct' ) {
+        gameAudioPlayer.correctAnswer();
+      }
+      else {
+        gameAudioPlayer.wrongAnswer();
+      }
+    } );
+
     model.rewardAchievedEmitter.addListener( () => {
       gameAudioPlayer.gameOverPerfectScore();
       this.numberPairsRewardDialog.show();

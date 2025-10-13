@@ -40,6 +40,7 @@ export default class GameModel implements TModel {
 
   // Emits when a level reaches the reward score for the first time.
   public readonly rewardAchievedEmitter: Emitter<[ number, number ]>;
+  public readonly levelAnswerFeedbackEmitter: Emitter<[ 'correct' | 'incorrect', Level ]>;
 
   public constructor( providedOptions: GameModelOptions ) {
 
@@ -60,6 +61,12 @@ export default class GameModel implements TModel {
           valueType: 'number',
           phetioDocumentation: 'Score value that triggered the reward'
         }
+      ]
+    } );
+    this.levelAnswerFeedbackEmitter = new Emitter<[ 'correct' | 'incorrect', Level ]>( {
+      parameters: [
+        { valueType: 'string' },
+        { valueType: Level }
       ]
     } );
 
@@ -215,6 +222,9 @@ export default class GameModel implements TModel {
           level.hasShownReward = true;
           this.rewardAchievedEmitter.emit( level.levelNumber, score );
         }
+      } );
+      level.answerFeedbackEmitter.addListener( feedback => {
+        this.levelAnswerFeedbackEmitter.emit( feedback, level );
       } );
     } );
   }

@@ -72,6 +72,11 @@ export default class Level {
 
   public hasShownReward = false;
   public readonly challengeResetEmitter = new Emitter();
+  public readonly answerFeedbackEmitter = new Emitter<[ 'correct' | 'incorrect' ]>( {
+    parameters: [
+      { valueType: 'string' }
+    ]
+  } );
 
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
@@ -150,11 +155,11 @@ export default class Level {
       if ( this.guessedNumbers.length === 1 ) {
         this.scoreProperty.value++;
       }
-      this.modeProperty.value = 'correct';
     }
-    else {
-      this.modeProperty.value = 'incorrect';
-    }
+
+    const feedback = isCorrect ? 'correct' : 'incorrect';
+    this.modeProperty.value = feedback;
+    this.answerFeedbackEmitter.emit( feedback );
 
     return isCorrect;
   }
