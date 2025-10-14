@@ -17,7 +17,10 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
@@ -26,31 +29,60 @@ import NumberStyles from './NumberStyles.js';
 
 export default class LevelIcons {
 
-  private static createModel( total: number ): TGenericNumberPairsModel {
+  private static createModel( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean ): TGenericNumberPairsModel {
     return {
       totalProperty: new Property( total ),
       totalColorProperty: new Property( new Color( '#9ffda9' ) ),
       totalVisibleProperty: new Property( true ),
-      leftAddendProperty: new Property( 3 ),
+      leftAddendProperty: new Property( left ),
       leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
-      leftAddendVisibleProperty: new Property( false ),
-      rightAddendProperty: new Property( 4 ),
+      leftAddendVisibleProperty: new Property( leftAddendVisible ),
+      rightAddendProperty: new Property( right ),
       rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
-      rightAddendVisibleProperty: new Property( false )
+      rightAddendVisibleProperty: new Property( rightAddendVisible )
     };
   }
 
-  private static getNumberBondIcon( total: number ): Node {
+  private static getNumberBondIcon( total: number, left: number, right: number ): Node {
 
-    const level1Icon = new NumberBondMutableNode( LevelIcons.createModel( total ), { scale: 0.5 } );
-    level1Icon.leftAddend.children = []; // awkward
-    level1Icon.rightAddend.lineDash = NumberStyles.DASHED_LINE;
-    level1Icon.rightLine.lineDash = NumberStyles.DASHED_LINE;
-    return level1Icon;
+    const model = LevelIcons.createModel( total, left, right, true, false );
+
+    const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5 } );
+    numberBondNode.leftAddend.children = []; // awkward
+    numberBondNode.rightAddend.lineDash = NumberStyles.DASHED_LINE;
+    numberBondNode.rightLine.lineDash = NumberStyles.DASHED_LINE;
+    return numberBondNode;
   }
 
-  private static getNumberEquationIcon( total: number, addendsOnRight = true ): Node {
-    const numberEquationNode = new NumberEquationNode( LevelIcons.createModel( total ), 66, 46.2, GAME_DIMENSION.fontSize, {
+  private static getNumberBarIcon( total: number, left: number, right: number ): Node {
+    const levelModel = LevelIcons.createModel( total, left, right, true, false );
+
+    const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55 } );
+    barModelNode.leftAddendRectangle.children = []; // awkward
+
+    // Display the known addend value, and keep the unknown addend dashed.
+    barModelNode.rightAddendRectangle.lineDash = NumberStyles.DASHED_LINE;
+
+    return barModelNode;
+  }
+
+  private static getNumberModelToggleIcon( total: number, left: number, right: number ): Node {
+    return new ToggleNode<NumberModelType, Node>( NumberPairsPreferences.numberModelTypeProperty, [
+      {
+        value: NumberModelType.NUMBER_BOND_MODEL,
+        createNode: () => LevelIcons.getNumberBondIcon( total, left, right )
+      },
+      {
+        value: NumberModelType.BAR_MODEL,
+        createNode: () => LevelIcons.getNumberBarIcon( total, left, right )
+      }
+    ], {
+      alignChildren: ToggleNode.CENTER
+    } );
+  }
+
+  private static getNumberEquationIcon( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean, addendsOnRight = true ): Node {
+    const numberEquationNode = new NumberEquationNode( LevelIcons.createModel( total, left, right, leftAddendVisible, rightAddendVisible ), 66, 46.2, GAME_DIMENSION.fontSize, {
       totalColorProperty: new Property( new Color( '#9ffda9' ) ),
       leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
       rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
@@ -147,13 +179,13 @@ export default class LevelIcons {
   }
 
   public static getIcon( levelNumber: number ): Node {
-    return levelNumber === 1 ? LevelIcons.getNumberBondIcon( 7 ) :
-           levelNumber === 2 ? LevelIcons.getNumberBondIcon( 10 ) :
-           levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10 ) :
-           levelNumber === 4 ? LevelIcons.getNumberEquationIcon( 10, false ) :
-           levelNumber === 5 ? LevelIcons.getNumberBondIcon( 15 ) :
-           levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16 ) :
-           levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, false ) :
+    return levelNumber === 1 ? LevelIcons.getNumberModelToggleIcon( 7, 3, 4 ) :
+           levelNumber === 2 ? LevelIcons.getNumberModelToggleIcon( 10, 3, 7 ) :
+           levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, false ) :
+           levelNumber === 4 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, false, false ) :
+           levelNumber === 5 ? LevelIcons.getNumberModelToggleIcon( 15, 3, 12 ) :
+           levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16, 13, 3, false, false ) :
+           levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, 5, 12, false, false, false ) :
            LevelIcons.getNumberLineIcon();
   }
 }
