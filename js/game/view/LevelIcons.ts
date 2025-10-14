@@ -16,14 +16,14 @@ import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import NumberStyles from './NumberStyles.js';
 
@@ -32,13 +32,13 @@ export default class LevelIcons {
   private static createModel( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean ): TGenericNumberPairsModel {
     return {
       totalProperty: new Property( total ),
-      totalColorProperty: new Property( new Color( '#9ffda9' ) ),
+      totalColorProperty: NumberPairsColors.levelSelectionIconTotalColorProperty,
       totalVisibleProperty: new Property( true ),
       leftAddendProperty: new Property( left ),
-      leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
       leftAddendVisibleProperty: new Property( leftAddendVisible ),
       rightAddendProperty: new Property( right ),
-      rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      rightAddendColorProperty: NumberPairsColors.levelSelectionIconRightAddendColorProperty,
       rightAddendVisibleProperty: new Property( rightAddendVisible )
     };
   }
@@ -83,9 +83,9 @@ export default class LevelIcons {
 
   private static getNumberEquationIcon( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean, addendsOnRight = true ): Node {
     const numberEquationNode = new NumberEquationNode( LevelIcons.createModel( total, left, right, leftAddendVisible, rightAddendVisible ), 66, 46.2, GAME_DIMENSION.fontSize, {
-      totalColorProperty: new Property( new Color( '#9ffda9' ) ),
-      leftAddendColorProperty: new Property( new Color( '#fffec7' ) ),
-      rightAddendColorProperty: new Property( new Color( '#fffec7' ) ),
+      totalColorProperty: NumberPairsColors.levelSelectionIconTotalColorProperty,
+      leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
+      rightAddendColorProperty: NumberPairsColors.levelSelectionIconRightAddendColorProperty,
       scale: 0.42,
       addendsOnRight: addendsOnRight
     } );
@@ -123,7 +123,7 @@ export default class LevelIcons {
     const circleRadius = 8;
     const circleCenterX = numberLineLength / 3;
     const circle = new Circle( circleRadius, {
-      fill: '#fffec7',
+      fill: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
       stroke: 'black',
       lineWidth: 1,
       center: new Vector2( circleCenterX, 0 )

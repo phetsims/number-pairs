@@ -90,6 +90,17 @@ const NumberPairsColors = {
   } ),
   level8StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level8StatusBar', {
     default: '#F2928B'
+  } ),
+
+  // Level selection icon palette
+  levelSelectionIconTotalColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconTotal', {
+    default: '#9FFDA9'
+  } ),
+  levelSelectionIconLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconLeftAddend', {
+    default: '#FFFEC7'
+  } ),
+  levelSelectionIconRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconRightAddend', {
+    default: '#FFFEC7'
   } )
 };
 
