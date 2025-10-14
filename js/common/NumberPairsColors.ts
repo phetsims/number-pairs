@@ -94,13 +94,13 @@ const NumberPairsColors = {
 
   // Level selection icon palette
   levelSelectionIconTotalColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconTotal', {
-    default: '#9FFDA9'
+    default: '#FCE9AE'
   } ),
   levelSelectionIconLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconLeftAddend', {
-    default: '#FFFEC7'
+    default: '#FCE9AE'
   } ),
   levelSelectionIconRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconRightAddend', {
-    default: '#FFFEC7'
+    default: '#FCE9AE'
   } )
 };
 
