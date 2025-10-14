@@ -211,8 +211,6 @@ export default class SumModel extends NumberPairsModel {
     } );
     this.leftAddendProperty.link( leftAddend => {
       const newRange = new Range( leftAddend, totalProperty.range.max );
-
-      // TODO: Would it be acceptable to always setValueAndRange? If so, that may be simpler, see https://github.com/phetsims/number-pairs/issues/237
       newRange.contains( this.totalProperty.value ) ? this.totalProperty.rangeProperty.value = newRange : this.totalProperty.setValueAndRange( leftAddend, newRange );
     } );
 
