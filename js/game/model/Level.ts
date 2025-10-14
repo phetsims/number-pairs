@@ -219,6 +219,8 @@ export default class Level {
     // hide the missing addend again
     this.selectedGuessProperty.value = null;
 
+    this.countingObjectsDelegate.randomizeCountingObjectPositions();
+
     this.challengeResetEmitter.emit();
   }
 }

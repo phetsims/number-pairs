@@ -121,9 +121,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
     this.challengeProperty.lazyLink( () => {
       this.distributeCountingObjects();
-
-      // We only want to change the position of the counting objects that have not been added to the counting area yet.
-      this.setCountingObjectPositions( countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
+      this.randomizeCountingObjectPositions();
     } );
   }
 
@@ -201,6 +199,13 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
       availableGridCoordinates.splice( availableGridCoordinates.indexOf( position ), 1 );
       positionProperty.value = position;
     } );
+  }
+
+  /**
+   * Randomizes the attribute positions for all counting objects in the level.
+   */
+  public randomizeCountingObjectPositions(): void {
+    this.setCountingObjectPositions( this.countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
   }
 }
 
