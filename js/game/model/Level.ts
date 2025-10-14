@@ -39,12 +39,13 @@ export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | '
 // Reduce size to fit in the game area. It is smaller since the double rows of number buttons takes up horizontal space.
 const COUNTING_AREA_SCALE = 0.97;
 
+// Make room for the extra buttons on the sides of the counting area
 const scaleBounds = ( bounds: Bounds2, scale: number ): Bounds2 => {
   return new Bounds2(
     bounds.minX * scale,
-    bounds.minY * scale,
+    bounds.minY,
     bounds.maxX * scale,
-    bounds.maxY * scale
+    bounds.maxY
   );
 };
 
@@ -111,11 +112,11 @@ export default class Level {
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
       range, {
-      tandem: tandem,
-      countingAreaBounds: countingAreaBounds,
-      initialRepresentationType: options.representationType,
-      representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
-    } );
+        tandem: tandem,
+        countingAreaBounds: countingAreaBounds,
+        initialRepresentationType: options.representationType,
+        representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
+      } );
     this.representationTypeProperty = this.countingObjectsDelegate.representationTypeProperty;
 
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
