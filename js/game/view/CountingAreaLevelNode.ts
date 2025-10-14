@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
-import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
@@ -24,8 +24,10 @@ import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
+
+type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
+
 export default abstract class CountingAreaLevelNode extends LevelNode {
-  protected readonly countingAreaNode: CountingAreaNode;
   protected readonly kittensLayerNode: KittensLayerNode;
   protected readonly tenFrameButton: TenFrameButton;
   protected readonly preferencesNode: Rectangle;
@@ -38,29 +40,22 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
                          tandem: Tandem,
                          providedOptions?: LevelNodeOptions ) {
 
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+    const options = optionize<CountingAreaLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
+      countingAreaBackgroundColorProperty: NumberPairsColors.attributeSumColorProperty
+    }, providedOptions );
 
-    const leftAddendsVisibleProperty = new BooleanProperty( true );
-    const rightAddendsVisibleProperty = new BooleanProperty( true );
-    const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
-
-    this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
-      countingRepresentationTypeProperty: level.representationTypeProperty,
-      backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
-      tandem: tandem.createTandem( 'countingAreaNode' ),
-      countingAreaBounds: GameModelConstants.GAME_COUNTING_AREA_BOUNDS
-    } );
+    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {
       tandem: tandem.createTandem( 'kittensLayerNode' ),
       includeKittenAttributeSwitch: false,
-      visibleProperty: addendsVisibleProperty
+      visibleProperty: this.addendsVisibleProperty
     } );
 
     this.tenFrameButton = new TenFrameButton( {
       tandem: tandem.createTandem( 'tenFrameButton' ),
-      right: this.countingAreaNode.left,
-      top: this.countingAreaNode.top,
+      left: layoutBounds.left + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+      top: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top,
       listener: () => {
         this.interruptSubtreeInput();
         level.deselectAllKittens();
@@ -69,7 +64,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/217
     } );
 
-    this.addChild( this.countingAreaNode );
     this.addChild( this.kittensLayerNode );
     this.addChild( this.tenFrameButton );
 

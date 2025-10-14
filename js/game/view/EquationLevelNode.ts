@@ -10,11 +10,13 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
-import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutCountingAreaBlock, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
+import { getEquationMissingProxy, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
 
@@ -35,25 +37,17 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
     this.challengeResetButton.moveToFront(); // awkward
 
     ManualConstraint.create( this, [
-        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
-        this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare,
-        this.preferencesNode, this.checkButton, this.nextButton ],
+        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText,
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.preferencesNode ],
       ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy,
-        preferencesNodeProxy, checkButtonProxy, nextButtonProxy ) => {
+        equationLeftProxy, equationRightProxy, equationTopProxy, preferencesNodeProxy ) => {
+
+        // We want the number bond and bar model to adjust based on the status bar.
+        const top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN );
+        const bottom = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top;
+        const middle = ( top + bottom ) / 2;
 
         equationNodeProxy.centerX = layoutBounds.centerX;
-
-        const { middle } = layoutCountingAreaBlock(
-          layoutBounds,
-          statusBarProxy,
-          myTenFrameButtonProxy,
-          countingAreaNodeProxy,
-          myKittensLayerNodeProxy,
-          resetButtonProxy
-        );
 
         equationNodeProxy.centerY = middle;
 
@@ -61,8 +55,6 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
         layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, -1, 5 );
 
         layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, -1 );
-
-        layoutCheckAndNextButtons( layoutBounds, equationNodeProxy, checkButtonProxy, nextButtonProxy );
       } );
   }
 }

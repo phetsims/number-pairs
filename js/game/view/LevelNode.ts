@@ -7,30 +7,36 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
+import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import NumberButtonGrid from './NumberButtonGrid.js';
 import StatusBar from './StatusBar.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  countingAreaBackgroundColorProperty: TReadOnlyProperty<TColor>;
+};
 export type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
-
-const MARGIN = 10;
 
 export default abstract class LevelNode extends Node {
   protected readonly statusBar: StatusBar;
@@ -39,8 +45,8 @@ export default abstract class LevelNode extends Node {
   protected readonly tryAgainText: Text;
   protected readonly challengeResetButton: ResetButton;
   protected readonly numberButtonGrid: NumberButtonGrid;
-  protected readonly checkButton: RectangularPushButton;
-  protected readonly nextButton: RectangularPushButton;
+  protected readonly countingAreaNode: CountingAreaNode;
+  protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -78,10 +84,24 @@ export default abstract class LevelNode extends Node {
       level.guessedNumbers,
       buttonColorProperty,
       tandem.createTandem( 'numberButtonGrid' ), {
-        right: layoutBounds.right - MARGIN,
-        bottom: layoutBounds.bottom - MARGIN
+        right: layoutBounds.right - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+        bottom: layoutBounds.bottom - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
       } );
     this.addChild( this.numberButtonGrid );
+
+    // Create Counting Area. This acts as the background for the kittens and number line.
+    const leftAddendsVisibleProperty = new BooleanProperty( true );
+    const rightAddendsVisibleProperty = new BooleanProperty( true );
+    this.addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
+
+    // TODO: Counting area should be wider for number line levels https://github.com/phetsims/number-pairs/issues/232
+    this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
+      countingRepresentationTypeProperty: level.representationTypeProperty,
+      backgroundColorProperty: options.countingAreaBackgroundColorProperty,
+      tandem: tandem.createTandem( 'countingAreaNode' ),
+      countingAreaBounds: GameModelConstants.GAME_COUNTING_AREA_BOUNDS
+    } );
+    this.addChild( this.countingAreaNode );
 
     // When a challenge is reset, or when we move to the next challenge, clear the number grid selection
     level.challengeResetEmitter.addListener( () => this.numberButtonGrid.resetAll() );
@@ -101,11 +121,13 @@ export default abstract class LevelNode extends Node {
     this.addChild( this.wrongMark );
     this.addChild( this.checkMark );
 
-    const buttonContentAlignGroup = new AlignGroup();
 
     // Buttons row: Check / Next
     const FONT_SIZE = 26;
-    const checkText = buttonContentAlignGroup.createBox( new Text( 'Check', { fontSize: FONT_SIZE } ) );
+
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+
+    // TODO: i18n https://github.com/phetsims/number-pairs/issues/232
     this.tryAgainText = new Text( 'Try Again', {
       fill: 'red',
       fontSize: FONT_SIZE,
@@ -117,12 +139,14 @@ export default abstract class LevelNode extends Node {
       listener: () => {
         level.resetChallenge();
       },
+      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      bottom: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' )
     } );
 
-    this.checkButton = new RectangularPushButton( {
-      content: checkText,
+    const checkButton = new RectangularPushButton( {
+      content: new Text( 'Check', { fontSize: FONT_SIZE } ),
       tandem: tandem.createTandem( 'checkButton' ),
       baseColor: NumberPairsColors.checkButtonColorProperty,
       listener: () => {
@@ -136,8 +160,8 @@ export default abstract class LevelNode extends Node {
       } )
     } );
 
-    this.nextButton = new RectangularPushButton( {
-      content: buttonContentAlignGroup.createBox( new Text( 'Next', { fontSize: FONT_SIZE } ) ),
+    const nextButton = new RectangularPushButton( {
+      content: new Text( 'Next', { fontSize: FONT_SIZE } ),
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
@@ -145,14 +169,18 @@ export default abstract class LevelNode extends Node {
       }
     } );
 
-    this.addChild( this.checkButton );
-    this.addChild( this.nextButton );
+    const buttonContentAlignBox = new AlignBox( new Node( { children: [ checkButton, nextButton ] } ), {
+      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      centerY: bondBarCenterY
+    } );
+
+    this.addChild( buttonContentAlignBox );
     this.addChild( this.tryAgainText );
     this.addChild( this.challengeResetButton );
 
-    this.nextButton.visibleProperty.lazyLink( visible => {
+    nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
-        this.nextButton.focus();
+        nextButton.focus();
       }
     } );
 
@@ -165,8 +193,8 @@ export default abstract class LevelNode extends Node {
 
     this.pdomOrder = [
       this.numberButtonGrid,
-      this.checkButton,
-      this.nextButton,
+      checkButton,
+      nextButton,
       this.statusBar
     ];
 

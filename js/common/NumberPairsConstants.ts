@@ -80,6 +80,9 @@ const NumberPairsConstants = {
   KITTEN_PANEL_HEIGHT: 84,
   KITTEN_PANEL_MARGIN: 3,
 
+  // Number line specific values:
+  NUMBER_LINE_X_MARGIN: 40,
+
   GET_DROP_ZONE_BOUNDS: ( zoneCenter: Vector2 ): Bounds2 => {
     const margin = KITTEN_PANEL_WIDTH / 2;
     return new Bounds2(

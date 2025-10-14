@@ -380,7 +380,7 @@ export default class NumberPairsScreenView extends ScreenView {
         RepresentationType.NUMBER_LINE
       );
 
-      const numberLineNode = new NumberLineNode( model, COUNTING_AREA_BOUNDS.width - 40, {
+      const numberLineNode = new NumberLineNode( model, COUNTING_AREA_BOUNDS.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN, {
         visibleProperty: numberLineVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,

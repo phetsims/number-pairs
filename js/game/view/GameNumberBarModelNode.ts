@@ -7,11 +7,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
-import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
+import BarModelMutableNode, { BarModelMutableNodeOptions } from '../../common/view/BarModelMutableNode.js';
 import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
@@ -19,21 +19,19 @@ import BarLevelDisplay from './BarLevelDisplay.js';
 import GameConstants from './GameConstants.js';
 import NumberStyles from './NumberStyles.js';
 
+type GameNumberBarModelNodeOptions = StrictOmit<BarModelMutableNodeOptions, 'dimensions' | 'displayTotalNumberProperty' | 'displayLeftAddendNumberProperty' | 'displayRightAddendNumberProperty'>;
 export default class GameNumberBarModelNode extends BarModelMutableNode {
 
-  public constructor( level: Level ) {
-
-    const barLevelDisplay = new BarLevelDisplay( level, level.selectedGuessProperty );
-
-    super( barLevelDisplay, {
+  public constructor( level: Level, providedOptions?: GameNumberBarModelNodeOptions ) {
+    const options = optionize<GameNumberBarModelNodeOptions, EmptySelfOptions, BarModelMutableNodeOptions>()( {
       dimensions: GAME_BAR_MODEL_DIMENSIONS,
       displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
       displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
-      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
-      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
-        return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
-      } )
-    } );
+      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty
+    }, providedOptions );
+    const barLevelDisplay = new BarLevelDisplay( level, level.selectedGuessProperty );
+
+    super( barLevelDisplay, options );
 
     this.totalRectangle.lineWidth = GameConstants.LINE_WIDTH;
     this.leftAddendRectangle.lineWidth = GameConstants.LINE_WIDTH;

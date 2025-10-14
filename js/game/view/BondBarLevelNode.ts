@@ -9,15 +9,14 @@
 import derived from '../../../../axon/js/derived.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
-import { layoutCheckAndNextButtons, layoutCountingAreaBlock } from './GameLayout.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
@@ -32,14 +31,23 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
+      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerY: bondBarCenterY,
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
-    const barNode = new GameNumberBarModelNode( level );
+    const barNode = new GameNumberBarModelNode( level, {
+      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerY: bondBarCenterY,
+      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
+        return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
+      } )
+    } );
     this.addChild( bondNode );
     this.addChild( barNode );
 
@@ -60,26 +68,14 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
       }
     } );
 
-    this.challengeResetButton.moveToFront(); // awkward
 
     ManualConstraint.create( this, [
-        bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, this.challengeResetButton,
-        this.tenFrameButton, this.countingAreaNode, this.kittensLayerNode,
-        barNode.leftAddendRectangle, barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode, this.checkButton, this.nextButton ],
+        bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, barNode.leftAddendRectangle,
+        barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode ],
       ( bondNodeProxy, barNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        resetButtonProxy, myTenFrameButtonProxy, countingAreaNodeProxy, myKittensLayerNodeProxy,
-        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy, checkButtonProxy, nextButtonProxy ) => {
-
-        const { middle } = layoutCountingAreaBlock(
-          layoutBounds, statusBarProxy, myTenFrameButtonProxy,
-          countingAreaNodeProxy, myKittensLayerNodeProxy, resetButtonProxy
-        );
-
-        layoutCheckAndNextButtons( layoutBounds, bondNodeProxy, checkButtonProxy, nextButtonProxy );
+        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy ) => {
 
         if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
-
-          bondNodeProxy.center = new Vector2( layoutBounds.centerX, middle );
 
           wrongMarkProxy.bottom = bondNodeProxy.bottom - 23; // Manually tuned based on the size of the circles and the height of the text.
 
@@ -93,8 +89,6 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
           }
         }
         else {
-
-          barNodeProxy.center = new Vector2( layoutBounds.centerX, middle );
 
           const missing = level.challengeProperty.value.missing;
           const missingRectangleProxy = missing === 'a' ? barLeftAddendProxy :

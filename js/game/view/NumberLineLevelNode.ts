@@ -15,22 +15,27 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Shape from '../../../../kite/js/Shape.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
-import { getEquationMissingProxy, layoutCheckAndNextButtons, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
+import { getEquationMissingProxy, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 import NumberStyles from './NumberStyles.js';
 
+type NumberLineLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
 export default class NumberLineLevelNode extends LevelNode {
 
   public constructor( model: GameModel,
@@ -41,7 +46,10 @@ export default class NumberLineLevelNode extends LevelNode {
                       tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+    const options = optionize<NumberLineLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
+      countingAreaBackgroundColorProperty: NumberPairsColors.gameNumberLineBackgroundColorProperty
+    }, providedOptions );
+    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     const equationNode = new GameNumberEquationNode( level );
     this.addChild( equationNode );
@@ -76,59 +84,40 @@ export default class NumberLineLevelNode extends LevelNode {
       }
     } );
 
-    const CORNER_RADIUS = 5;
-    const clipShape = Shape.roundedRectangleWithRadii( 0, 0, layoutBounds.width - 120, 300, {
-      topLeft: CORNER_RADIUS, topRight: CORNER_RADIUS, bottomLeft: CORNER_RADIUS, bottomRight: CORNER_RADIUS
-    } );
+    const CORNER_RADIUS = NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS;
+    const clipShape = Shape.boundsOffsetWithRadii( GameModelConstants.GAME_COUNTING_AREA_BOUNDS,
+      { left: 0, bottom: 0, right: 0, top: 0 },
+      {
+        topLeft: CORNER_RADIUS,
+        topRight: CORNER_RADIUS,
+        bottomRight: CORNER_RADIUS,
+        bottomLeft: CORNER_RADIUS
+      } );
 
-    const countingAreaNode = new Path( clipShape, {
-      fill: '#e9e9f3',
-      left: 10,
-      bottom: layoutBounds.bottom - 10,
-      clipArea: clipShape
-    } );
-    this.addChild( countingAreaNode );
-
-    const numberLineVisibleProperty = level.numberLineVisibleProperty;
-
-    const numberLineNode = new GameNumberLineNode( numberLineModel, layoutBounds.width - 200, missingAddendProperty, feedbackStyleProperty, {
-      tandem: tandem.createTandem( 'numberLineNode' ),
-      numberLineRange: new Range( 0, 20 ),
-      bottom: countingAreaNode.height - 20,
-      centerX: countingAreaNode.width / 2
-    } );
+    const numberLineNode = new GameNumberLineNode( numberLineModel,
+      GameModelConstants.GAME_COUNTING_AREA_BOUNDS.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN,
+      missingAddendProperty, feedbackStyleProperty, {
+        tandem: tandem.createTandem( 'numberLineNode' ),
+        numberLineRange: new Range( 0, 20 ),
+        centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+        bottom: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.bottom - 50,
+        visibleProperty: this.addendsVisibleProperty
+      } );
     numberLineNode.slider.pickable = false;
     numberLineNode.slider.thumbNode.visible = false;
-    countingAreaNode.addChild( numberLineNode );
-
-    numberLineVisibleProperty.link( visible => {
-      numberLineNode.visible = visible;
+    const clipAreaNode = new Path( clipShape, {
+      children: [ numberLineNode ],
+      clipArea: clipShape
     } );
-
-    const clipBounds = clipShape.bounds;
-    const hiddenNumberLineText = new Text( '?', {
-      font: new PhetFont( 80 ),
-      centerX: clipBounds.width / 2,
-      centerY: clipBounds.height / 2,
-      visibleProperty: derived( numberLineVisibleProperty, visible => !visible )
-    } );
-    countingAreaNode.addChild( hiddenNumberLineText );
+    this.addChild( clipAreaNode );
 
     // In z-order, "sandwich" the content between the background and the border so the content doesn't "bleed" across the border.
     const border = new Path( clipShape, {
       stroke: 'gray',
-      lineWidth: 1,
-      x: countingAreaNode.x,
-      y: countingAreaNode.y
+      lineWidth: 1
     } );
     this.addChild( border );
 
-    const numberLineEyeToggleButton = new AddendEyeToggleButton( numberLineVisibleProperty, {
-      tandem: tandem.createTandem( 'numberLineEyeToggleButton' ),
-      left: 10,
-      bottom: countingAreaNode.height - 10
-    } );
-    countingAreaNode.addChild( numberLineEyeToggleButton );
 
     const checkboxGroup = new VerticalCheckboxGroup( [ {
       property: level.showAddendsProperty,
@@ -144,31 +133,27 @@ export default class NumberLineLevelNode extends LevelNode {
       tandemName: 'showTickNumbersCheckbox'
     } ], {
       phetioFeatured: true,
-      top: 10,
-      right: countingAreaNode.width - 10,
-      visibleProperty: numberLineVisibleProperty,
+      top: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      visibleProperty: this.addendsVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
 
-    this.challengeResetButton.right = countingAreaNode.right - 10;
-    this.challengeResetButton.bottom = countingAreaNode.bottom - 10;
-    this.challengeResetButton.moveToFront();
-    countingAreaNode.addChild( checkboxGroup );
+    this.addChild( checkboxGroup );
 
     ManualConstraint.create( this, [
         equationNode, this.wrongMark, this.checkMark, this.tryAgainText,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.checkButton, this.nextButton ],
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
       ( equationNodeProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
 
-        equationNodeProxy.center = layoutBounds.center.plusXY( -40, -100 );
+        equationNodeProxy.centerX = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX;
+        equationNodeProxy.centerY = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top - 80; // TODO https://github.com/phetsims/number-pairs/issues/232
 
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, 5, 5 );
 
         layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, 5 );
-
-        layoutCheckAndNextButtons( layoutBounds, equationNodeProxy, checkButtonProxy, nextButtonProxy );
       } );
   }
 }
