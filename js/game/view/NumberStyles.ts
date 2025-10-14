@@ -12,10 +12,10 @@ export default class NumberStyles {
   public static readonly DASHED_LINE = [ 6, 6 ];
 
   public static readonly FEEDBACK_STYLES = {
-    idle: { stroke: 'black', lineDash: NumberStyles.DASHED_LINE },
+    idle: { stroke: 'gray', lineDash: NumberStyles.DASHED_LINE },
     incorrect: { stroke: 'red', lineDash: NumberStyles.DASHED_LINE },
     correct: { stroke: 'black', lineDash: [] },
-    guessSelected: { stroke: 'black', lineDash: NumberStyles.DASHED_LINE }
+    guessSelected: { stroke: 'gray', lineDash: NumberStyles.DASHED_LINE }
   };
 }
 
