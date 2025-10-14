@@ -17,13 +17,13 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
+import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
 import NumberStyles from './NumberStyles.js';
 
@@ -90,6 +90,11 @@ export default class LevelIcons {
       addendsOnRight: addendsOnRight
     } );
     numberEquationNode.rightAddendSquare.children = []; // awkward
+    if ( !leftAddendVisible ) {
+      numberEquationNode.leftAddendSquare.lineDash = NumberStyles.DASHED_LINE;
+      numberEquationNode.leftAddendSquare.stroke = 'black';
+      numberEquationNode.leftAddendSquare.lineWidth = 1.5;
+    }
     return numberEquationNode;
   }
 
