@@ -68,7 +68,7 @@ export default class NumberButtonGrid extends Node {
 
     // Buttons are not focusable until the user tabs into the group, then only one button is focusable at a time.
     // WASD and arrow keys can be used to move focus forward and backward (in 1-D)
-    this.addInputListener( new KeyboardListener( {
+    KeyboardListener.createGlobal( this, {
       tandem: tandem,
       keyStringProperties: [
 
@@ -116,7 +116,7 @@ export default class NumberButtonGrid extends Node {
           }
         }
       }
-    } ) );
+    } );
 
     const alignGroup = new AlignGroup();
 
