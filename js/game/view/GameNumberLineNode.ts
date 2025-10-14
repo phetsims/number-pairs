@@ -12,6 +12,7 @@ import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberStyles from './NumberStyles.js';
 
 type NumberLineFeedbackStyle = {
   stroke: string;
@@ -36,11 +37,16 @@ export default class GameNumberLineNode extends NumberLineNode {
       [ missingAddendProperty, feedbackStyleProperty ],
       ( missingAddend, feedbackStyle ) => {
 
+        const isCorrect = feedbackStyle === NumberStyles.FEEDBACK_STYLES.correct;
+
         if ( missingAddend === 'a' ) {
-          this.leftAddendArrow.setTailStyle( feedbackStyle.stroke, feedbackStyle.lineDash );
+          const stroke = isCorrect ? NumberPairsColors.attributeLeftAddendColorProperty : feedbackStyle.stroke;
+          const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
+
+          this.leftAddendArrow.setTailStyle( stroke, lineDash );
           this.leftAddendHighlight.mutate( {
-            stroke: feedbackStyle.stroke,
-            lineDash: feedbackStyle.lineDash,
+            stroke: stroke,
+            lineDash: lineDash,
             lineWidth: 1 // TODO: Not respected, why? https://github.com/phetsims/number-pairs/issues/249
           } );
 
@@ -52,10 +58,13 @@ export default class GameNumberLineNode extends NumberLineNode {
           } );
         }
         else if ( missingAddend === 'b' ) {
-          this.rightAddendArrow.setTailStyle( feedbackStyle.stroke, feedbackStyle.lineDash );
+          const stroke = isCorrect ? NumberPairsColors.attributeRightAddendColorProperty : feedbackStyle.stroke;
+          const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
+
+          this.rightAddendArrow.setTailStyle( stroke, lineDash );
           this.rightAddendHighlight.mutate( {
-            stroke: feedbackStyle.stroke,
-            lineDash: feedbackStyle.lineDash
+            stroke: stroke,
+            lineDash: lineDash
           } );
 
           this.leftAddendArrow.setTailStyle( NumberPairsColors.attributeLeftAddendColorProperty, [] );
