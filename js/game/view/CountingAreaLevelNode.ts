@@ -78,6 +78,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
     // Layout must be done through ManualConstraint. However, we also require a way to trigger the manual constraint
     // when the preferences change, hence this fakeNode.
+    // TODO: See https://github.com/phetsims/number-pairs/issues/232
     this.preferencesNode = new Rectangle( 0, 0, 1, 1, {
       opacity: 0,
       pickable: false
