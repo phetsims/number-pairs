@@ -28,22 +28,21 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
-import BooleanRectangularStickyToggleButton from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
-import { FlatAppearanceStrategy } from '../../../../sun/js/buttons/ButtonNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import InputRange from '../model/InputRange.js';
+import NumberToggleButton from './NumberToggleButton.js';
 
-const BUTTON_SIZE = new Dimension2( 42, 42 );
 const X_SPACING = 8;
 const Y_SPACING = 8;
 const FONT = new PhetFont( 24 );
+const BUTTON_SIZE = NumberToggleButton.BUTTON_SIZE;
 
 export default class NumberButtonGrid extends Node {
 
   public readonly elements: Array<{
-    button: BooleanRectangularStickyToggleButton;
+    button: NumberToggleButton;
     toggleNode: BooleanToggleNode;
     stateProperty: BooleanProperty;
     correctAnswerNode: NumberRectangle;
@@ -133,12 +132,10 @@ export default class NumberButtonGrid extends Node {
 
       const stateProperty = new BooleanProperty( false );
 
-      const button = new BooleanRectangularStickyToggleButton( stateProperty, {
-        buttonAppearanceStrategy: FlatAppearanceStrategy,
+      const numberToggleButton = new NumberToggleButton( stateProperty, {
         accessibleName: value.toString(),
         tandem: tandem.createTandem( `number${value}Button` ),
         content: labelBox,
-        size: BUTTON_SIZE,
         baseColor: buttonColorProperty,
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty, ( isCorrect, selectedNumber ) => {
 
@@ -152,21 +149,27 @@ export default class NumberButtonGrid extends Node {
         } )
       } );
 
-      const correctAnswerNode = new NumberRectangle( new Dimension2( button.width, button.height ), new Property( value ), {
+      const correctAnswerNode = new NumberRectangle( new Dimension2( numberToggleButton.width, numberToggleButton.height ), new Property( value ), {
         stroke: 'black',
         fill: buttonColorProperty
       } );
 
       const toggleProperty = derived( isCorrectProperty, selectedNumberProperty, ( isCorrect, selectedNumber ) => isCorrect && selectedNumber === value );
-      const toggleNode = new BooleanToggleNode( toggleProperty, correctAnswerNode, button, {
+      const toggleNode = new BooleanToggleNode( toggleProperty, correctAnswerNode, numberToggleButton, {
         left: columnIndex * ( BUTTON_SIZE.width + X_SPACING ),
         top: rowIndex * ( BUTTON_SIZE.height + Y_SPACING )
       } );
 
-      // When the button is pressed, tell the model about it.
-      stateProperty.lazyLink( state => {
+      // When the button is pressed (or unpressed) via a user interaction, tell the model about it.
+      // NOTE: Do not wire up directly to the stateProperty, because it can be changed programmatically and would cause
+      // a re-entrant loop/bug
+      numberToggleButton.numberToggleButtonModel.fireCompleteEmitter.addListener( () => {
+        const state = stateProperty.value;
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
+        }
+        else {
+          selectedNumberProperty.value = null;
         }
       } );
 
@@ -176,7 +179,7 @@ export default class NumberButtonGrid extends Node {
       } );
 
       const element = {
-        button: button,
+        button: numberToggleButton,
         toggleNode: toggleNode,
         correctAnswerNode: correctAnswerNode,
         stateProperty: stateProperty,
