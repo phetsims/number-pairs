@@ -78,11 +78,12 @@ export default abstract class LevelNode extends Node {
 
     // Number selection grid and selection state
     this.numberButtonGrid = new NumberButtonGrid(
-      derived( level.modeProperty, mode => mode === 'correct' ),
+      level.modeProperty,
       level.selectedGuessProperty,
       level.range,
       level.guessedNumbers,
       buttonColorProperty,
+      level.challengeProperty,
       tandem.createTandem( 'numberButtonGrid' ), {
         right: layoutBounds.right - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
         bottom: layoutBounds.bottom - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN

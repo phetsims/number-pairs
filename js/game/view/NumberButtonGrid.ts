@@ -31,6 +31,7 @@ import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
+import Challenge from '../model/Challenge.js';
 import InputRange from '../model/InputRange.js';
 import NumberToggleButton from './NumberToggleButton.js';
 
@@ -47,14 +48,17 @@ export default class NumberButtonGrid extends Node {
     stateProperty: BooleanProperty;
     correctAnswerNode: NumberRectangle;
     value: number;
+    wrongMark: Text;
+    checkMark: Text;
   }> = [];
 
   public constructor(
-    isCorrectProperty: TReadOnlyProperty<boolean>,
+    modeProperty: TReadOnlyProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>,
     selectedNumberProperty: Property<number | null>,
     range: InputRange,
     guessedNumbers: ObservableArray<number>,
     buttonColorProperty: TReadOnlyProperty<Color>,
+    challengeProperty: TReadOnlyProperty<Challenge>,
     tandem: Tandem,
     providedOptions?: NodeOptions
   ) {
@@ -65,6 +69,8 @@ export default class NumberButtonGrid extends Node {
       focusable: false,
       groupFocusHighlight: true
     } );
+
+    const isCorrectProperty = derived( modeProperty, mode => mode === 'correct' );
 
     // Buttons are not focusable until the user tabs into the group, then only one button is focusable at a time.
     // WASD and arrow keys can be used to move focus forward and backward (in 1-D)
@@ -178,12 +184,44 @@ export default class NumberButtonGrid extends Node {
         stateProperty.value = selectedNumber === value;
       } );
 
+      // Checkmark/X feedback marks positioned by the missing slot
+      const wrongMark = new Text( '✗', {
+        font: new PhetFont( 20 ),
+        fill: 'red',
+        pickable: false,
+        visibleProperty: derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
+          return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
+        } )
+      } );
+      const checkMark = new Text( '✓', {
+        font: new PhetFont( 20 ),
+        fill: '#059e05',
+        pickable: false,
+        visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
+          return mode === 'correct' && challenge.answer === value;
+        } )
+      } );
+
+      const MARK_OFFSET_X = 0;
+      const MARK_OFFSET_Y = -2;
+      wrongMark.left = MARK_OFFSET_X;
+      wrongMark.top = MARK_OFFSET_Y;
+      checkMark.left = MARK_OFFSET_X;
+      checkMark.top = MARK_OFFSET_Y;
+
+      toggleNode.addChild( wrongMark );
+      toggleNode.addChild( checkMark );
+      wrongMark.moveToFront();
+      checkMark.moveToFront();
+
       const element = {
         button: numberToggleButton,
         toggleNode: toggleNode,
         correctAnswerNode: correctAnswerNode,
         stateProperty: stateProperty,
-        value: value
+        value: value,
+        wrongMark: wrongMark,
+        checkMark: checkMark
       };
       this.elements.push( element );
 
