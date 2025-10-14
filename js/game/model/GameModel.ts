@@ -104,8 +104,8 @@ export default class GameModel implements TModel {
        */
       new Level( 1, NumberPairsColors.level1StatusBarColorProperty, 'Missing addend in a number bond (0-10)', 'zeroToTen', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 2, 10 );
-        const a = dotRandom.nextIntBetween( 1, y - 1 );
-        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
+        const { a, b } = generateAddends( y, true );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
       }, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level1' )
