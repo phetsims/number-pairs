@@ -15,7 +15,7 @@ import numberPairs from '../../numberPairs.js';
 export default class NumberPairsRewardDialog extends RewardDialog {
 
   public constructor(
-    levelNumberProperty: TReadOnlyProperty<number>,
+    levelNumberProperty: TReadOnlyProperty<number>, // A number indicating the current level number. 1-indexed. 0 when not on a challenge level (like the levelSelectionScreen).
     returnToHomeScreen: () => void,
     rewardNode: RewardNode,
     rewardScore: number,

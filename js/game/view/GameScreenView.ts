@@ -7,6 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -118,7 +119,17 @@ export default class GameScreenView extends ScreenView {
     } );
 
     this.rewardNode = new NumberPairsRewardNode();
-    this.numberPairsRewardDialog = new NumberPairsRewardDialog( model.levelNumberProperty, () => {
+    this.numberPairsRewardDialog = new NumberPairsRewardDialog( derived( model.modeProperty, mode =>
+      mode === 'level1' ? 1 :
+      mode === 'level2' ? 2 :
+      mode === 'level3' ? 3 :
+      mode === 'level4' ? 4 :
+      mode === 'level5' ? 5 :
+      mode === 'level6' ? 6 :
+      mode === 'level7' ? 7 :
+      mode === 'level8' ? 8 :
+      0
+    ), () => {
       model.modeProperty.value = 'levelSelectionScreen';
     }, this.rewardNode, NumberPairsQueryParameters.rewardScore, options.tandem.createTandem( 'numberPairsRewardDialog' ) );
 
