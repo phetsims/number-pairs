@@ -111,12 +111,12 @@ export default abstract class LevelNode extends Node {
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
-      fill: 'red',
+      fill: NumberPairsColors.wrongMarkColorProperty,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
     } );
     this.checkMark = new Text( '✓', {
       font: new PhetFont( 54 ),
-      fill: '#059e05',
+      fill: NumberPairsColors.checkMarkColorProperty,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
     } );
     this.addChild( this.wrongMark );

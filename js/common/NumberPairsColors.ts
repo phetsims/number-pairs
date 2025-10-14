@@ -105,6 +105,13 @@ const NumberPairsColors = {
   } ),
   levelSelectionIconRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconRightAddend', {
     default: '#FCE9AE'
+  } ),
+
+  checkMarkColorProperty: new ProfileColorProperty( numberPairs, 'checkMark', {
+    default: '#059e05'
+  } ),
+  wrongMarkColorProperty: new ProfileColorProperty( numberPairs, 'wrongMark', {
+    default: 'red'
   } )
 };
 

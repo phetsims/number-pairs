@@ -29,6 +29,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from '../model/Challenge.js';
@@ -187,15 +188,15 @@ export default class NumberButtonGrid extends Node {
       // Checkmark/X feedback marks positioned by the missing slot
       const wrongMark = new Text( '✗', {
         font: new PhetFont( 20 ),
-        fill: 'red',
+        fill: NumberPairsColors.wrongMarkColorProperty,
         pickable: false,
         visibleProperty: derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
           return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
         } )
       } );
       const checkMark = new Text( '✓', {
-        font: new PhetFont( 20 ),
-        fill: '#059e05',
+        font: new PhetFont( 23 ),
+        fill: NumberPairsColors.checkMarkColorProperty,
         pickable: false,
         visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
           return mode === 'correct' && challenge.answer === value;
