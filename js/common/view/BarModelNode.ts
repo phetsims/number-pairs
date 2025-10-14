@@ -17,7 +17,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPairs from '../../numberPairs.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
-import { GAME_DIMENSION } from './NumberBondNode.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
@@ -57,7 +56,7 @@ export const GAME_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight * BAR_MODEL_GAME_SCALE,
   lineWidth: DEFAULT_BAR_MODEL_DIMENSIONS.lineWidth,
   spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing * BAR_MODEL_GAME_SCALE,
-  numberFontSize: GAME_DIMENSION.fontSize
+  numberFontSize: 25
 };
 
 export default abstract class BarModelNode extends VBox {
