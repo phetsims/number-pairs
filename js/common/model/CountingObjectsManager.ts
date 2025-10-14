@@ -80,14 +80,8 @@ export const CountingObjectsManager = {
   ): CountingObject[] => {
 
     // Constants
-    const leftCountingAreaBounds = countingAreaBounds === NumberPairsConstants.COUNTING_AREA_BOUNDS ?
-                                   NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS :
-                                   new Bounds2( countingAreaBounds.minX, countingAreaBounds.minY, countingAreaBounds.centerX, countingAreaBounds.maxY );
-
-    const rightCountingAreaBounds = countingAreaBounds === NumberPairsConstants.COUNTING_AREA_BOUNDS ?
-                                    NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS :
-                                    new Bounds2( countingAreaBounds.centerX, countingAreaBounds.minY, countingAreaBounds.maxX, countingAreaBounds.maxY );
-
+    const leftCountingAreaBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
+    const rightCountingAreaBounds = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
     const countingAreaInnerMargin = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
     const kittenPanelWidth = NumberPairsConstants.KITTEN_PANEL_WIDTH;
 
