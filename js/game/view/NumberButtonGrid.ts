@@ -73,7 +73,7 @@ export default class NumberButtonGrid extends Node {
       keyStringProperties: [
 
         // TODO factor out like: ...NetForceHotkeyData.PULLER_NODE.navigation.keyStringProperties,
-        // https://github.com/phetsims/number-pairs/issues/256
+        // https://github.com/phetsims/number-pairs/issues/278
         new Property<OneKeyStroke>( 'arrowRight' ),
         new Property<OneKeyStroke>( 'arrowLeft' ),
         new Property<OneKeyStroke>( 'arrowUp' ),
