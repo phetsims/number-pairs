@@ -118,7 +118,7 @@ export default class GameScreenView extends ScreenView {
     } );
 
     this.rewardNode = new NumberPairsRewardNode();
-    this.numberPairsRewardDialog = new NumberPairsRewardDialog( () => {
+    this.numberPairsRewardDialog = new NumberPairsRewardDialog( model.levelNumberProperty, () => {
       model.modeProperty.value = 'levelSelectionScreen';
     }, this.rewardNode, NumberPairsQueryParameters.rewardScore, options.tandem.createTandem( 'numberPairsRewardDialog' ) );
 

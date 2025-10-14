@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RewardDialog from '../../../../vegas/js/RewardDialog.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
@@ -14,13 +15,14 @@ import numberPairs from '../../numberPairs.js';
 export default class NumberPairsRewardDialog extends RewardDialog {
 
   public constructor(
+    levelNumberProperty: TReadOnlyProperty<number>,
     returnToHomeScreen: () => void,
     rewardNode: RewardNode,
     rewardScore: number,
     tandem: Tandem
   ) {
 
-    super( rewardScore, {
+    super( levelNumberProperty, rewardScore, {
 
       // 'Keep Going' hides the dialog, but doesn't change the current challenge.
       keepGoingButtonListener: () => this.hide(),

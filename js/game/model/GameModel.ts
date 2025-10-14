@@ -7,8 +7,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -33,6 +35,9 @@ export type Mode = ( typeof ModeValues )[number];
 export default class GameModel implements TModel {
 
   public readonly modeProperty: StringUnionProperty<Mode>;
+
+  // A number indicating the current level number. 1-indexed. 0 when not on a challenge level (like the levelSelectionScreen).
+  public readonly levelNumberProperty: TReadOnlyProperty<number>;
 
   // Individual level models (persistent across session lifetime)
   // indexed 0..N-1 for levels 1..N
@@ -77,6 +82,18 @@ export default class GameModel implements TModel {
 
       // In GameScreenView, we rely on listener order dispatch for recording and restoring focus
       hasListenerOrderDependencies: true
+    } );
+
+    this.levelNumberProperty = new DerivedProperty( [ this.modeProperty ], mode => {
+      return mode === 'level1' ? 1 :
+             mode === 'level2' ? 2 :
+             mode === 'level3' ? 3 :
+             mode === 'level4' ? 4 :
+             mode === 'level5' ? 5 :
+             mode === 'level6' ? 6 :
+             mode === 'level7' ? 7 :
+             mode === 'level8' ? 8 :
+             0;
     } );
 
     /**
