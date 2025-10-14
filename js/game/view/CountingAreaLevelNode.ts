@@ -20,6 +20,7 @@ import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
+import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -43,14 +44,11 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     const rightAddendsVisibleProperty = new BooleanProperty( true );
     const addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
 
-    // TODO: layout, see https://github.com/phetsims/number-pairs/issues/231
-    const countingAreaBounds = level.countingObjectsDelegate.countingAreaBounds;
-
     this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: NumberPairsColors.attributeSumColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
-      countingAreaBounds: countingAreaBounds
+      countingAreaBounds: GameModelConstants.GAME_COUNTING_AREA_BOUNDS
     } );
 
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {

@@ -17,7 +17,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../../common/model/AbstractNumberPairsModel.js';
@@ -26,11 +26,10 @@ import { CountingObjectsManager } from '../../common/model/CountingObjectsManage
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import GameModelConstants from './GameModelConstants.js';
 import InputRange from './InputRange.js';
 
-type SelfOptions = EmptySelfOptions & {
-  countingAreaBounds?: Bounds2;
-};
+type SelfOptions = EmptySelfOptions;
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
 
 // constants
@@ -42,17 +41,12 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
   private readonly leftAddendObjects: ObservableArray<CountingObject>;
   private readonly rightAddendObjects: ObservableArray<CountingObject>;
-  public readonly countingAreaBounds: Bounds2;
 
   public constructor(
     private readonly challengeProperty: Property<Challenge>,
     selectedGuessProperty: Property<number | null>,
     range: InputRange,
-    providedOptions: CountingObjectsDelegateOptions ) {
-
-    const options = optionize<CountingObjectsDelegateOptions, CountingObjectsDelegateOptions, AbstractNumberPairsModelOptions>()( {
-      countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS
-    }, providedOptions );
+    options: CountingObjectsDelegateOptions ) {
 
     const totalProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'y' ? ( guess === null ? 0 : guess ) : challenge.y
@@ -63,8 +57,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const rightAddendProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
 
+
     const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
-    const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value, rightAddendProperty.value, options.tandem, options.countingAreaBounds );
+    const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value, rightAddendProperty.value, options.tandem, GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
     const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice(),
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -98,7 +93,6 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     this.inactiveCountingObjects = inactiveCountingObjects;
     this.leftAddendObjects = leftAddendObjects;
     this.rightAddendObjects = rightAddendObjects;
-    this.countingAreaBounds = options.countingAreaBounds;
 
     // The order of these operations is important during construction, so please do not change without careful consideration.
     this.distributeCountingObjects();
@@ -119,8 +113,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
           // We do not want to worry about overlapping with itself.
           arrayRemove( activeCountingObjects, countingObject );
-          const gridCoordinates = this.getAvailableGridCoordinates( activeCountingObjects,
-            this.countingAreaBounds );
+          const gridCoordinates = this.getAvailableGridCoordinates( activeCountingObjects, GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
           countingObject.attributePositionProperty.value = dotRandom.sample( gridCoordinates );
         }
       } );
@@ -202,7 +195,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
    * @param countingObjectPositionProperties
    */
   private setCountingObjectPositions( countingObjectPositionProperties: Property<Vector2>[] ): void {
-    const availableGridCoordinates = CountingObjectsManager.getGridCoordinates( this.countingAreaBounds, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, 10 );
+    const availableGridCoordinates = CountingObjectsManager.getGridCoordinates( GameModelConstants.GAME_COUNTING_AREA_BOUNDS, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, 10 );
     countingObjectPositionProperties.forEach( positionProperty => {
       const position = dotRandom.sample( availableGridCoordinates );
       availableGridCoordinates.splice( availableGridCoordinates.indexOf( position ), 1 );

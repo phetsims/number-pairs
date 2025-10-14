@@ -13,7 +13,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -23,9 +22,9 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import GameModelConstants from './GameModelConstants.js';
 import InputRange from './InputRange.js';
 import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
 
@@ -35,19 +34,6 @@ type SelfOptions = {
 export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
-
-// Reduce size to fit in the game area. It is smaller since the double rows of number buttons takes up horizontal space.
-const COUNTING_AREA_SCALE = 0.97;
-
-// Make room for the extra buttons on the sides of the counting area
-const scaleBounds = ( bounds: Bounds2, scale: number ): Bounds2 => {
-  return new Bounds2(
-    bounds.minX * scale,
-    bounds.minY,
-    bounds.maxX * scale,
-    bounds.maxY
-  );
-};
 
 export default class Level {
 
@@ -108,12 +94,9 @@ export default class Level {
 
     this.selectedGuessProperty = new Property<number | null>( null );
 
-    const countingAreaBounds = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS, COUNTING_AREA_SCALE );
-
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
       range, {
         tandem: tandem,
-        countingAreaBounds: countingAreaBounds,
         initialRepresentationType: options.representationType,
         representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
       } );
@@ -197,7 +180,7 @@ export default class Level {
     // Combine into a single ten frame on these levels.
     const COMBINE = this.levelNumber === 4 || this.levelNumber === 7;
     if ( totalObjectCount <= 20 && COMBINE ) {
-      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( this.countingObjectsDelegate.countingAreaBounds );
+      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
       this.countingObjectsDelegate.organizeIntoSingleTenFrame(
         centeredTenFrameBounds,
         leftAddendObjects,
@@ -220,7 +203,7 @@ export default class Level {
       }
 
       this.countingObjectsDelegate.organizeIntoSplitTenFrame(
-        NumberPairsUtils.splitBoundsInHalf( this.countingObjectsDelegate.countingAreaBounds ),
+        NumberPairsUtils.splitBoundsInHalf( GameModelConstants.GAME_COUNTING_AREA_BOUNDS ),
         leftCountingObjects,
         rightCountingObjects,
         'attribute'
