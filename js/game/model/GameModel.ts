@@ -16,8 +16,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
@@ -87,9 +87,9 @@ export default class GameModel implements TModel {
      */
 
     /**
-     * Shared logic for levels 2, 3, and 4 (y=10)
+     * Shared logic for levels 2 and 3 (y=10)
      */
-    const createLevel23Challenge = () => {
+    const createNonzeroSumTo10Challenge = () => {
       const y = 10;
       const a = dotRandom.nextIntBetween( 1, y - 1 );
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
@@ -118,7 +118,7 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a number bond (10 only)', 'zeroToTen', 'bond', createLevel23Challenge, {
+      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a number bond (10 only)', 'zeroToTen', 'bond', createNonzeroSumTo10Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level2' )
       } ),
@@ -128,7 +128,7 @@ export default class GameModel implements TModel {
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a decomposition equation (10 only)', 'zeroToTen', 'decompositionEquation', createLevel23Challenge, {
+      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, 'Missing addend in a decomposition equation (10 only)', 'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level3' )
       } ),
@@ -155,7 +155,7 @@ export default class GameModel implements TModel {
        */
       new Level( 5, NumberPairsColors.level567StatusBarColorProperty, 'Missing addend in a number bond (11-20)', 'zeroToTwenty', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
-        const { a, b } = generateAddends( y, isFirst );
+        const { a, b } = generateAddends( y, true );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
       }, {
         representationType: RepresentationType.KITTENS,
@@ -168,7 +168,6 @@ export default class GameModel implements TModel {
        * * See logic for [decomposition
        * equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
-       *   ![][image185]
        */
       new Level( 6, NumberPairsColors.level567StatusBarColorProperty, 'Missing addend in a decomposition equation (11-20)', 'zeroToTwenty', 'decompositionEquation', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
@@ -182,7 +181,6 @@ export default class GameModel implements TModel {
       /**
        * ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
        *
-       * See logic for [sum equations](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.o9d55p201mw3)
        * Ten frame (organize) button arranges into a single ten frame in the center of the field since this is a “combine” or sum skill
        * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * Value range for y is from 11-20
@@ -199,7 +197,6 @@ export default class GameModel implements TModel {
       /**
        * ### Level 8 (0-20): missing both addends, fact fluency,
        *
-       * - See logic for [sum equations](#heading=h.o9d55p201mw3)
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
@@ -250,12 +247,12 @@ export default class GameModel implements TModel {
 /**
  * Helper to generate (a,b) for a given y, honoring first-challenge constraint (no zeros) when possible.
  */
-const generateAddends = ( y: number, isFirst: boolean ): { a: number; b: number } => {
+const generateAddends = ( y: number, zeroIsNotAllowed: boolean ): { a: number; b: number } => {
   if ( y === 0 ) {
     // Only valid pair when y=0
     return { a: 0, b: 0 };
   }
-  const minA = isFirst ? 1 : 0;
+  const minA = zeroIsNotAllowed ? 1 : 0;
   const maxA = Math.max( minA, y - 1 ); // ensure valid range even for small y
   const a = dotRandom.nextIntBetween( minA, maxA );
   const b = y - a;
