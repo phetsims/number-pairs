@@ -127,7 +127,7 @@ export default abstract class LevelNode extends Node {
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
     } );
     this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
-      fill: NumberPairsColors.tryAgainColorProperty,
+      fill: NumberPairsColors.wrongMarkColorProperty,
       font: TEXT_OPTIONS.font,
       maxWidth: TEXT_OPTIONS.maxWidth,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
