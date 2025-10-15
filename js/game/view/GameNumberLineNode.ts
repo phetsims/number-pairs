@@ -46,15 +46,13 @@ export default class GameNumberLineNode extends NumberLineNode {
           this.leftAddendArrow.setTailStyle( stroke, lineDash );
           this.leftAddendHighlight.mutate( {
             stroke: stroke,
-            lineDash: lineDash,
-            lineWidth: 1 // TODO: Not respected, why? https://github.com/phetsims/number-pairs/issues/249
+            lineDash: lineDash
           } );
 
           this.rightAddendArrow.setTailStyle( NumberPairsColors.attributeRightAddendColorProperty, [] );
           this.rightAddendHighlight.mutate( {
             stroke: NumberPairsColors.attributeRightAddendColorProperty,
-            lineDash: [],
-            lineWidth: 1 // TODO: Not respected, why? https://github.com/phetsims/number-pairs/issues/249
+            lineDash: []
           } );
         }
         else if ( missingAddend === 'b' ) {
