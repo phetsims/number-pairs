@@ -81,6 +81,12 @@ const NumberPairsColors = {
   gameNumberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'gameNumberLineBackground', {
     default: '#e9e9f3'
   } ),
+  tryAgainColorProperty: new ProfileColorProperty( numberPairs, 'tryAgain', {
+    default: 'red'
+  } ),
+  correctAnswerColorProperty: new ProfileColorProperty( numberPairs, 'correctAnswer', {
+    default: '#059e05'
+  } ),
 
   // Status bar & level selection colors
   level1StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level1StatusBar', {

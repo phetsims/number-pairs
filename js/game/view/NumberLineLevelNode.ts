@@ -51,9 +51,6 @@ export default class NumberLineLevelNode extends LevelNode {
     }, providedOptions );
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
-    const equationNode = new GameNumberEquationNode( level );
-    this.addChild( equationNode );
-
     const numberLineModel = {
       leftAddendProperty: new NumberProperty( 0 ),
       numberLineSliderEnabledRangeProperty: new Property( new Range( 0, 20 ) ),
@@ -141,14 +138,18 @@ export default class NumberLineLevelNode extends LevelNode {
 
     this.addChild( checkboxGroup );
 
-    ManualConstraint.create( this, [
-        equationNode, this.wrongMark, this.checkMark, this.tryAgainText,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
-      ( equationNodeProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+    const equationNode = new GameNumberEquationNode( level, {
+      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerY: bondBarCenterY
+    } );
+    this.addChild( equationNode );
 
-        equationNodeProxy.centerX = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX;
-        equationNodeProxy.centerY = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top - 80; // TODO https://github.com/phetsims/number-pairs/issues/232
+    ManualConstraint.create( this, [
+        this.wrongMark, this.checkMark, this.tryAgainText,
+        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
+      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
+        equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
 
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, 5, 5 );

@@ -10,7 +10,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
@@ -31,25 +30,18 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
 
-    const equationNode = new GameNumberEquationNode( level );
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+    const equationNode = new GameNumberEquationNode( level, {
+      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerY: bondBarCenterY
+    } );
     this.addChild( equationNode );
 
-    this.challengeResetButton.moveToFront(); // awkward
-
     ManualConstraint.create( this, [
-        equationNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare, this.preferencesNode ],
-      ( equationNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
+        this.wrongMark, this.checkMark, this.tryAgainText, equationNode.leftAddendSquare,
+        equationNode.rightAddendSquare, equationNode.totalSquare, this.preferencesNode ],
+      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
         equationLeftProxy, equationRightProxy, equationTopProxy, preferencesNodeProxy ) => {
-
-        // We want the number bond and bar model to adjust based on the status bar.
-        const top = Math.max( statusBarProxy.bottom + 5, layoutBounds.top + NumberPairsConstants.SCREEN_VIEW_Y_MARGIN );
-        const bottom = GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top;
-        const middle = ( top + bottom ) / 2;
-
-        equationNodeProxy.centerX = layoutBounds.centerX;
-
-        equationNodeProxy.centerY = middle;
 
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, -1, 5 );

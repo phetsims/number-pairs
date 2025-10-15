@@ -9,6 +9,7 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
@@ -24,7 +25,7 @@ type SelfOptions = {
   leftAddendColorProperty: TReadOnlyProperty<Color>;
   rightAddendColorProperty: TReadOnlyProperty<Color>;
 };
-export type NumberEquationNodeOptions = SelfOptions & NodeOptions;
+export type NumberEquationNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
 export default class NumberEquationNode extends Node {
   public readonly totalSquare: NumberRectangle;
@@ -77,8 +78,8 @@ export default class NumberEquationNode extends Node {
       resize: false
     } );
 
+    options.children = [ contentNode ];
     super( options );
-    this.addChild( contentNode );
 
     // Expose references so callers (e.g., LevelNode) can adjust stroke/lineDash
     this.totalSquare = totalSquare;

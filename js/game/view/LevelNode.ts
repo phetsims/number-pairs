@@ -27,6 +27,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
@@ -37,6 +38,12 @@ type SelfOptions = {
   countingAreaBackgroundColorProperty: TReadOnlyProperty<TColor>;
 };
 export type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+
+// constants
+const TEXT_OPTIONS = {
+  font: new PhetFont( 26 ),
+  maxWidth: 150
+};
 
 export default abstract class LevelNode extends Node {
   protected readonly statusBar: StatusBar;
@@ -119,22 +126,18 @@ export default abstract class LevelNode extends Node {
       fill: NumberPairsColors.checkMarkColorProperty,
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
     } );
+    this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
+      fill: NumberPairsColors.tryAgainColorProperty,
+      font: TEXT_OPTIONS.font,
+      maxWidth: TEXT_OPTIONS.maxWidth,
+      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
+    } );
+    this.addChild( this.tryAgainText );
     this.addChild( this.wrongMark );
     this.addChild( this.checkMark );
 
-
-    // Buttons row: Check / Next
-    const FONT_SIZE = 26;
-
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
-
-    // TODO: i18n https://github.com/phetsims/number-pairs/issues/232
-    this.tryAgainText = new Text( 'Try Again', {
-      fill: 'red',
-      fontSize: FONT_SIZE,
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
-    } );
-
+    // Reset button for the current challenge. It does not reset the entire level or screen, only the selected guess,
+    // and accompanying UI components.
     this.challengeResetButton = new ResetButton( {
       baseColor: 'white',
       listener: () => {
@@ -145,10 +148,11 @@ export default abstract class LevelNode extends Node {
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' )
     } );
+    this.addChild( this.challengeResetButton );
 
+    // Create check answer and next challenge buttons. These are visible at different times and in the same location.
     const checkButton = new RectangularPushButton( {
-      content: new Text( 'Check', { fontSize: FONT_SIZE } ),
-      tandem: tandem.createTandem( 'checkButton' ),
+      content: new Text( NumberPairsFluent.checkAnswerStringProperty, TEXT_OPTIONS ),
       baseColor: NumberPairsColors.checkButtonColorProperty,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
@@ -158,11 +162,12 @@ export default abstract class LevelNode extends Node {
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
       enabledProperty: derived( level.modeProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
         return selectedGuess !== null && !level.guessedNumbers.includes( selectedGuess ) && mode !== 'correct';
-      } )
+      } ),
+      tandem: tandem.createTandem( 'checkButton' )
     } );
 
     const nextButton = new RectangularPushButton( {
-      content: new Text( 'Next', { fontSize: FONT_SIZE } ),
+      content: new Text( NumberPairsFluent.nextChallengeStringProperty, TEXT_OPTIONS ),
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
@@ -170,20 +175,21 @@ export default abstract class LevelNode extends Node {
       }
     } );
 
-    const buttonContentAlignBox = new AlignBox( new Node( { children: [ checkButton, nextButton ] } ), {
-      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      centerY: bondBarCenterY
-    } );
-
-    this.addChild( buttonContentAlignBox );
-    this.addChild( this.tryAgainText );
-    this.addChild( this.challengeResetButton );
-
+    // When the next button appears, focus it so that keyboard users can easily continue to the next challenge
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
         nextButton.focus();
       }
     } );
+
+    const buttonContentAlignBox = new AlignBox( new Node( { children: [ checkButton, nextButton ] } ), {
+      alignBounds: new Bounds2( GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+        layoutBounds.top + this.statusBar.height, GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right,
+        GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ),
+      xAlign: 'right',
+      yAlign: 'center'
+    } );
+    this.addChild( buttonContentAlignBox );
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     level.selectedGuessProperty.link( () => {

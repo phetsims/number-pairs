@@ -8,22 +8,26 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
-import NumberEquationNode from '../../common/view/NumberEquationNode.js';
+import NumberEquationNode, { NumberEquationNodeOptions } from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
 
+type GameNumberEquationNodeOptions = StrictOmit<NumberEquationNodeOptions, 'addendsOnRight' | 'totalColorProperty' | 'leftAddendColorProperty' | 'rightAddendColorProperty'>;
 export default class GameNumberEquationNode extends NumberEquationNode {
-  public constructor( private readonly level: Level ) {
-    super( level.countingObjectsDelegate, 66, 46.2, GAME_DIMENSION.fontSize, {
+  public constructor( private readonly level: Level, providedOptions?: GameNumberEquationNodeOptions ) {
+    const options = optionize<GameNumberEquationNodeOptions, EmptySelfOptions, NumberEquationNodeOptions>()( {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
       rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
-    } );
+    }, providedOptions );
+    super( level.countingObjectsDelegate, 66, 46.2, GAME_DIMENSION.fontSize, options );
 
     const setDefaultStyle = ( square: Rectangle ) => {
       square.stroke = 'black';

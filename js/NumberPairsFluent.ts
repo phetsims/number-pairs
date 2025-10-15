@@ -67,6 +67,9 @@ addToMapIfDefined( 'numberModelType', 'numberModelTypeStringProperty' );
 addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
+addToMapIfDefined( 'checkAnswer', 'checkAnswerStringProperty' );
+addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
+addToMapIfDefined( 'nextChallenge', 'nextChallengeStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
@@ -236,6 +239,9 @@ const NumberPairsFluent = {
   numberModelTypeDescriptionStringProperty: _.get( NumberPairsStrings, 'numberModelTypeDescriptionStringProperty' ),
   sumScreenNumberModelOrientationStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ),
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
+  checkAnswerStringProperty: _.get( NumberPairsStrings, 'checkAnswerStringProperty' ),
+  tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
+  nextChallengeStringProperty: _.get( NumberPairsStrings, 'nextChallengeStringProperty' ),
   a11y: {
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),
     leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),
