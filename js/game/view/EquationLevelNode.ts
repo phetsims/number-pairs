@@ -12,7 +12,6 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
-import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
 import { getEquationMissingProxy, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
@@ -30,9 +29,9 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
 
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
     const equationNode = new GameNumberEquationNode( level, {
-      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerX: this.countingAreaBounds.centerX,
       centerY: bondBarCenterY
     } );
     this.addChild( equationNode );

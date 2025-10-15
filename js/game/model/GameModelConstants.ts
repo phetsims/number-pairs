@@ -14,14 +14,18 @@ import numberPairs from '../../numberPairs.js';
 const COUNTING_AREA_SCALE = 0.95;
 
 // Make room for the extra buttons on the sides of the counting area, and shift down to make room for the status bar.
-const scaleBounds = ( bounds: Bounds2 ): Bounds2 => {
-  return new Bounds2( bounds.minX * COUNTING_AREA_SCALE, bounds.minY + 60, bounds.maxX * COUNTING_AREA_SCALE, bounds.maxY + 60 );
+const scaleBounds = ( bounds: Bounds2, xScale: number, leftOffset: number ): Bounds2 => {
+  return new Bounds2( ( bounds.minX * xScale ) - leftOffset, bounds.minY + 60, bounds.maxX * xScale, bounds.maxY + 60 );
 };
-const GAME_COUNTING_AREA_BOUNDS = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
+
+// Reduce size to fit in the game area. It is smaller since the double rows of number buttons takes up horizontal space.
+const DEFAULT_COUNTING_AREA_BOUNDS = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS, COUNTING_AREA_SCALE, 0 );
+const NUMBER_LINE_COUNTING_AREA_BOUNDS = scaleBounds( NumberPairsConstants.COUNTING_AREA_BOUNDS, COUNTING_AREA_SCALE, 50 );
 
 export default class GameModelConstants {
 
-  public static readonly GAME_COUNTING_AREA_BOUNDS = GAME_COUNTING_AREA_BOUNDS;
+  public static readonly DEFAULT_COUNTING_AREA_BOUNDS = DEFAULT_COUNTING_AREA_BOUNDS;
+  public static readonly NUMBER_LINE_COUNTING_AREA_BOUNDS = NUMBER_LINE_COUNTING_AREA_BOUNDS;
 }
 
 numberPairs.register( 'GameModelConstants', GameModelConstants );

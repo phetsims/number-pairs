@@ -14,7 +14,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
-import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
@@ -31,18 +30,18 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
-      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerX: this.countingAreaBounds.centerX,
       centerY: bondBarCenterY,
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new GameNumberBarModelNode( level, {
-      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerX: this.countingAreaBounds.centerX,
       centerY: bondBarCenterY,
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;

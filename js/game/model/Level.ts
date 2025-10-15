@@ -65,6 +65,13 @@ export default class Level {
     ]
   } );
 
+  /**
+   * Only the default bounds are needed to calculate positions of counting objects in the counting area.
+   * Other representations in the game screen (number line) do not use counting objects and therefore that
+   * positioning logic is irrelevant in those scenarios.
+   */
+  public static readonly COUNTING_AREA_BOUNDS = GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS;
+
   public constructor(
     public readonly levelNumber: number, // 1-indexed level number
     public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
@@ -180,7 +187,7 @@ export default class Level {
     // Combine into a single ten frame on these levels.
     const COMBINE = this.levelNumber === 4 || this.levelNumber === 7;
     if ( totalObjectCount <= 20 && COMBINE ) {
-      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
+      const centeredTenFrameBounds = NumberPairsUtils.createCenteredTenFrameBounds( Level.COUNTING_AREA_BOUNDS );
       this.countingObjectsDelegate.organizeIntoSingleTenFrame(
         centeredTenFrameBounds,
         leftAddendObjects,
@@ -203,7 +210,7 @@ export default class Level {
       }
 
       this.countingObjectsDelegate.organizeIntoSplitTenFrame(
-        NumberPairsUtils.splitBoundsInHalf( GameModelConstants.GAME_COUNTING_AREA_BOUNDS ),
+        NumberPairsUtils.splitBoundsInHalf( Level.COUNTING_AREA_BOUNDS ),
         leftCountingObjects,
         rightCountingObjects,
         'attribute'

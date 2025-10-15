@@ -47,7 +47,8 @@ export default class NumberLineLevelNode extends LevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     const options = optionize<NumberLineLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
-      countingAreaBackgroundColorProperty: NumberPairsColors.gameNumberLineBackgroundColorProperty
+      countingAreaBackgroundColorProperty: NumberPairsColors.gameNumberLineBackgroundColorProperty,
+      countingAreaBounds: GameModelConstants.NUMBER_LINE_COUNTING_AREA_BOUNDS
     }, providedOptions );
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
@@ -82,7 +83,7 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
 
     const CORNER_RADIUS = NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS;
-    const clipShape = Shape.boundsOffsetWithRadii( GameModelConstants.GAME_COUNTING_AREA_BOUNDS,
+    const clipShape = Shape.boundsOffsetWithRadii( this.countingAreaBounds,
       { left: 0, bottom: 0, right: 0, top: 0 },
       {
         topLeft: CORNER_RADIUS,
@@ -92,12 +93,12 @@ export default class NumberLineLevelNode extends LevelNode {
       } );
 
     const numberLineNode = new GameNumberLineNode( numberLineModel,
-      GameModelConstants.GAME_COUNTING_AREA_BOUNDS.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN,
+      this.countingAreaBounds.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN,
       missingAddendProperty, feedbackStyleProperty, {
         tandem: tandem.createTandem( 'numberLineNode' ),
         numberLineRange: new Range( 0, 20 ),
-        centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
-        bottom: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.bottom - 50,
+        centerX: this.countingAreaBounds.centerX,
+        bottom: this.countingAreaBounds.bottom - 50,
         visibleProperty: this.addendsVisibleProperty
       } );
     numberLineNode.slider.pickable = false;
@@ -130,17 +131,17 @@ export default class NumberLineLevelNode extends LevelNode {
       tandemName: 'showTickNumbersCheckbox'
     } ], {
       phetioFeatured: true,
-      top: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       visibleProperty: this.addendsVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
 
     this.addChild( checkboxGroup );
 
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ) / 2;
+    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
     const equationNode = new GameNumberEquationNode( level, {
-      centerX: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
+      centerX: this.countingAreaBounds.centerX,
       centerY: bondBarCenterY
     } );
     this.addChild( equationNode );

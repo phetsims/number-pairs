@@ -55,7 +55,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.tenFrameButton = new TenFrameButton( {
       tandem: tandem.createTandem( 'tenFrameButton' ),
       left: layoutBounds.left + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      top: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top,
+      top: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS.top,
       listener: () => {
         this.interruptSubtreeInput();
         level.deselectAllKittens();

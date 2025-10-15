@@ -26,8 +26,8 @@ import { CountingObjectsManager } from '../../common/model/CountingObjectsManage
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
-import GameModelConstants from './GameModelConstants.js';
 import InputRange from './InputRange.js';
+import Level from './Level.js';
 
 type SelfOptions = EmptySelfOptions;
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
@@ -59,7 +59,8 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
 
     const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
-    const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value, rightAddendProperty.value, options.tandem, GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
+    const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value,
+      rightAddendProperty.value, options.tandem, Level.COUNTING_AREA_BOUNDS );
     const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice(),
       phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
@@ -109,11 +110,12 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     countingObjects.forEach( countingObject => {
       countingObject.addendTypeProperty.link( addendType => {
         if ( addendType !== AddendType.INACTIVE ) {
-          const activeCountingObjects = countingObjects.filter( countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE );
+          const activeCountingObjects = countingObjects.filter(
+            countingObject => countingObject.addendTypeProperty.value !== AddendType.INACTIVE );
 
           // We do not want to worry about overlapping with itself.
           arrayRemove( activeCountingObjects, countingObject );
-          const gridCoordinates = this.getAvailableGridCoordinates( activeCountingObjects, GameModelConstants.GAME_COUNTING_AREA_BOUNDS );
+          const gridCoordinates = this.getAvailableGridCoordinates( activeCountingObjects, Level.COUNTING_AREA_BOUNDS );
           countingObject.attributePositionProperty.value = dotRandom.sample( gridCoordinates );
         }
       } );
@@ -147,7 +149,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
    * @param addendObjects
    * @param inactiveObjects
    */
-  private setupAddendPropertyLink( addendProperty: TReadOnlyProperty<number>, addendObjects: ObservableArray<CountingObject>, inactiveObjects: ObservableArray<CountingObject> ): void {
+  private setupAddendPropertyLink( addendProperty: TReadOnlyProperty<number>,
+                                   addendObjects: ObservableArray<CountingObject>,
+                                   inactiveObjects: ObservableArray<CountingObject> ): void {
     addendProperty.link( addend => {
       if ( isResettingAllProperty.value || isSettingPhetioStateProperty.value ) {
         return;
@@ -193,7 +197,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
    * @param countingObjectPositionProperties
    */
   private setCountingObjectPositions( countingObjectPositionProperties: Property<Vector2>[] ): void {
-    const availableGridCoordinates = CountingObjectsManager.getGridCoordinates( GameModelConstants.GAME_COUNTING_AREA_BOUNDS, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, 10 );
+    const availableGridCoordinates = CountingObjectsManager.getGridCoordinates( Level.COUNTING_AREA_BOUNDS,
+      NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      NumberPairsConstants.COUNTING_AREA_INNER_MARGIN, 10 );
     countingObjectPositionProperties.forEach( positionProperty => {
       const position = dotRandom.sample( availableGridCoordinates );
       availableGridCoordinates.splice( availableGridCoordinates.indexOf( position ), 1 );

@@ -36,6 +36,7 @@ import StatusBar from './StatusBar.js';
 
 type SelfOptions = {
   countingAreaBackgroundColorProperty: TReadOnlyProperty<TColor>;
+  countingAreaBounds?: Bounds2; // if not provided, GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS is used
 };
 export type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -55,6 +56,8 @@ export default abstract class LevelNode extends Node {
   protected readonly countingAreaNode: CountingAreaNode;
   protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
+  protected readonly countingAreaBounds: Bounds2;
+
   protected constructor( model: GameModel,
                          level: Level,
                          layoutBounds: Bounds2,
@@ -63,8 +66,11 @@ export default abstract class LevelNode extends Node {
                          tandem: Tandem,
                          providedOptions?: LevelNodeOptions ) {
 
-    const options = optionize<LevelNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<LevelNodeOptions, SelfOptions, NodeOptions>()( {
+      countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS
+    }, providedOptions );
     super( options );
+    this.countingAreaBounds = options.countingAreaBounds;
 
     this.statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, model, () => {
       this.interruptSubtreeInput();
@@ -107,7 +113,7 @@ export default abstract class LevelNode extends Node {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: options.countingAreaBackgroundColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
-      countingAreaBounds: GameModelConstants.GAME_COUNTING_AREA_BOUNDS
+      countingAreaBounds: this.countingAreaBounds
     } );
     this.addChild( this.countingAreaNode );
 
@@ -143,8 +149,8 @@ export default abstract class LevelNode extends Node {
       listener: () => {
         level.resetChallenge();
       },
-      right: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      bottom: GameModelConstants.GAME_COUNTING_AREA_BOUNDS.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      bottom: this.countingAreaBounds.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' )
     } );
@@ -183,9 +189,9 @@ export default abstract class LevelNode extends Node {
     } );
 
     const buttonContentAlignBox = new AlignBox( new Node( { children: [ checkButton, nextButton ] } ), {
-      alignBounds: new Bounds2( GameModelConstants.GAME_COUNTING_AREA_BOUNDS.centerX,
-        layoutBounds.top + this.statusBar.height, GameModelConstants.GAME_COUNTING_AREA_BOUNDS.right,
-        GameModelConstants.GAME_COUNTING_AREA_BOUNDS.top ),
+      alignBounds: new Bounds2( this.countingAreaBounds.centerX,
+        layoutBounds.top + this.statusBar.height, this.countingAreaBounds.right,
+        this.countingAreaBounds.top ),
       xAlign: 'right',
       yAlign: 'center'
     } );
