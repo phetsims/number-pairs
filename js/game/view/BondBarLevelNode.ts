@@ -16,6 +16,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
+import { layoutNumberBarFeedback, layoutNumberBondFeedback } from './GameLayout.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
@@ -67,41 +68,25 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
       }
     } );
 
-
-    ManualConstraint.create( this, [
-        bondNode, barNode, this.statusBar, this.wrongMark, this.checkMark, this.tryAgainText, barNode.leftAddendRectangle,
-        barNode.rightAddendRectangle, barNode.totalRectangle, this.preferencesNode ],
-      ( bondNodeProxy, barNodeProxy, statusBarProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        barLeftAddendProxy, barRightAddendProxy, barTotalProxy, fakeNodeProxy ) => {
-
-        if ( NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ) {
-
-          wrongMarkProxy.bottom = bondNodeProxy.bottom - 23; // Manually tuned based on the size of the circles and the height of the text.
-
-          if ( level.challengeProperty.value.missing === 'a' ) {
-            wrongMarkProxy.right = bondNodeProxy.left - 5;
-            tryAgainTextProxy.rightCenter = wrongMarkProxy.leftCenter.plusXY( -5, 0 );
-          }
-          else if ( level.challengeProperty.value.missing === 'b' ) {
-            wrongMarkProxy.left = bondNodeProxy.right + 5;
-            tryAgainTextProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
-          }
-        }
-        else {
-
-          const missing = level.challengeProperty.value.missing;
-          const missingRectangleProxy = missing === 'a' ? barLeftAddendProxy :
-                                        missing === 'b' ? barRightAddendProxy :
-                                        barTotalProxy;
-
-          wrongMarkProxy.centerTop = missingRectangleProxy.centerBottom.plusXY( 0, 0 );
-
-          tryAgainTextProxy.left = wrongMarkProxy.right + 10;
-          tryAgainTextProxy.centerY = wrongMarkProxy.centerY;
-        }
-
-        checkMarkProxy.center = wrongMarkProxy.center; // keep them aligned if one is hidden
+    // Update the feedback layout whenever the bounds of our feedback or target changes, and whenever the model type
+    // changes. We do not use the barNodeProxy in the callback since layoutNumberBarFeedback needs the real node for
+    // proper bounds calculations.
+    ManualConstraint.create( this, [ bondNode, barNode, this.wrongMark, this.checkMark, this.tryAgainText ],
+      ( bondNodeProxy, barNodeProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) => {
+        NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ?
+        layoutNumberBondFeedback( bondNodeProxy, level.challengeProperty.value.missing, wrongMarkProxy,
+          checkMarkProxy, tryAgainTextProxy ) :
+        layoutNumberBarFeedback( barNode, level.challengeProperty.value.missing, wrongMarkProxy,
+          checkMarkProxy, tryAgainTextProxy );
       } );
+
+    NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
+      numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
+      layoutNumberBondFeedback( bondNode, level.challengeProperty.value.missing, this.wrongMark,
+        this.checkMark, this.tryAgainText ) :
+      layoutNumberBarFeedback( barNode,
+        level.challengeProperty.value.missing, this.wrongMark, this.checkMark, this.tryAgainText );
+    } );
   }
 }
 

@@ -10,9 +10,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
@@ -30,7 +28,6 @@ type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBa
 export default abstract class CountingAreaLevelNode extends LevelNode {
   protected readonly kittensLayerNode: KittensLayerNode;
   protected readonly tenFrameButton: TenFrameButton;
-  protected readonly preferencesNode: Rectangle;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -69,19 +66,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
     // If the user clicks outside the kittens, then remove focus from all the counting objects.
     this.addInputListener( new ClickToDeselectKittensPressListener( this.kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
-
-    // Layout must be done through ManualConstraint. However, we also require a way to trigger the manual constraint
-    // when the preferences change, hence this fakeNode.
-    // TODO: See https://github.com/phetsims/number-pairs/issues/232
-    this.preferencesNode = new Rectangle( 0, 0, 1, 1, {
-      opacity: 0,
-      pickable: false
-    } );
-    this.addChild( this.preferencesNode );
-
-    NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
-      this.preferencesNode.rectWidth++;
-    } );
   }
 }
 

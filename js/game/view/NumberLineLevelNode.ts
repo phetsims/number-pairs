@@ -29,7 +29,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
-import { getEquationMissingProxy, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
+import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
@@ -146,16 +146,13 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( equationNode );
 
+    // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [
-        this.wrongMark, this.checkMark, this.tryAgainText,
-        equationNode.leftAddendSquare, equationNode.rightAddendSquare, equationNode.totalSquare ],
-      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy, checkButtonProxy, nextButtonProxy ) => {
-
+        this.wrongMark, this.checkMark, this.tryAgainText, equationNode.leftAddendSquare,
+        equationNode.rightAddendSquare, equationNode.totalSquare ],
+      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, 5, 5 );
-
-        layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, 5 );
+        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, 5, 5 );
       } );
   }
 }

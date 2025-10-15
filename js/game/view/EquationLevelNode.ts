@@ -14,7 +14,7 @@ import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
-import { getEquationMissingProxy, layoutEquationFeedbackMarks, layoutTryAgainLabel } from './GameLayout.js';
+import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
 
@@ -36,16 +36,13 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
     } );
     this.addChild( equationNode );
 
+    // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [
         this.wrongMark, this.checkMark, this.tryAgainText, equationNode.leftAddendSquare,
-        equationNode.rightAddendSquare, equationNode.totalSquare, this.preferencesNode ],
-      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy,
-        equationLeftProxy, equationRightProxy, equationTopProxy, preferencesNodeProxy ) => {
-
+        equationNode.rightAddendSquare, equationNode.totalSquare ],
+      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        layoutEquationFeedbackMarks( equationTargetProxy, wrongMarkProxy, checkMarkProxy, -1, 5 );
-
-        layoutTryAgainLabel( wrongMarkProxy, tryAgainTextProxy, -1 );
+        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, -1, 5 );
       } );
   }
 }
