@@ -11,12 +11,16 @@ import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Shape from '../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -34,6 +38,7 @@ type SelfOptions = {
   showLabels?: boolean;
   pointFillColor?: TColor;
   trackLineWidth?: number;
+  isGame?: boolean;
 };
 type NumberLineIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'excludeInvisibleChildrenFromBounds'>;
 const ICON_RANGE = new Range( 0, 3 );
@@ -41,6 +46,8 @@ const NUMBER_SQUARE_DIMENSION = 7;
 const MAJOR_TICK_LENGTH = 14;
 const MINOR_TICK_LENGTH = 9;
 const NUMBER_SQUARE_MARGIN = 2;
+const POINT_RADIUS = 3;
+const GAME_SCALE_FACTOR = 2.3;
 const ARROW_NODE_OPTIONS: EllipticalArrowNodeOptions = {
   arrowColorProperty: null,
   arrowTailLineWidth: 1.5,
@@ -64,6 +71,7 @@ export default class NumberLineIcon extends Node {
       showLabels: true,
       pointFillColor: NumberPairsColors.attributeSumColorProperty,
       trackLineWidth: 1,
+      isGame: false,
       excludeInvisibleChildrenFromBounds: true,
       pickable: false // This is an icon so it should not be pickable
     }, providedOptions );
@@ -116,11 +124,15 @@ export default class NumberLineIcon extends Node {
 
     // We only want to show the left addend number square on the bottom of the number line if there is no
     // arrow for the left addend.
+    const majorTickLength = options.isGame ? MAJOR_TICK_LENGTH * GAME_SCALE_FACTOR : MAJOR_TICK_LENGTH;
+    const minorTickLength = options.isGame ? MINOR_TICK_LENGTH * GAME_SCALE_FACTOR : MINOR_TICK_LENGTH;
+    const pointRadius = options.isGame ? POINT_RADIUS * GAME_SCALE_FACTOR : POINT_RADIUS;
+
     if ( options.showRightArrow && !options.showLeftArrow ) {
       const numberSquareOptions = combineOptions<NumberSquareOptions>( {
         centerX: modelViewTransform.modelToViewX( iconNumberLineValue ),
         fill: NumberPairsColors.attributeLeftAddendColorProperty,
-        top: MINOR_TICK_LENGTH / 2 + NUMBER_SQUARE_MARGIN
+        top: minorTickLength / 2 + NUMBER_SQUARE_MARGIN
       }, NUMBER_SQUARE_OPTIONS );
       options.showLabels &&
       this.addChild( new NumberRectangle( new Dimension2( NUMBER_SQUARE_DIMENSION, NUMBER_SQUARE_DIMENSION ), new Property( iconNumberLineValue ), numberSquareOptions ) );
@@ -138,21 +150,66 @@ export default class NumberLineIcon extends Node {
     const numberLine = new NumberLineSliderTrack( valueProperty, this, modelViewTransform, new Property( false ), {
       size: new Dimension2( iconWidth, 0 ),
       numberLineRange: ICON_RANGE,
-      majorTickLength: MAJOR_TICK_LENGTH,
-      minorTickLength: MINOR_TICK_LENGTH,
+      majorTickLength: majorTickLength,
+      minorTickLength: minorTickLength,
       trackLineWidth: options.trackLineWidth,
       tandem: Tandem.OPT_OUT
     } );
     this.addChild( numberLine );
 
     if ( options.showPoint ) {
-      const valuePoint = new Circle( 3, {
+      const valuePoint = new Circle( pointRadius, {
         fill: options.pointFillColor,
         stroke: Color.BLACK,
         lineWidth: 0.5,
         centerX: modelViewTransform.modelToViewX( iconNumberLineValue )
       } );
       this.addChild( valuePoint );
+    }
+
+    if ( options.isGame ) {
+      const arrowTailLineWidth = 2;
+      const arrowHeadLength = 12;
+      const arrowHeadWidth = 10;
+      const arrowControlYOffset = 24 * 1.2;
+      const pointX = modelViewTransform.modelToViewX( iconNumberLineValue );
+      const arrowTip = new Vector2( modelViewTransform.modelToViewX( ICON_RANGE.max ), 0 );
+      const arrowControlPoint = new Vector2( ( pointX + arrowTip.x ) / 2, -arrowControlYOffset );
+      const tailShape = new Shape()
+        .moveTo( pointX, 0 )
+        .quadraticCurveTo( arrowControlPoint.x, arrowControlPoint.y, arrowTip.x, arrowTip.y );
+      const arrowTail = new Path( tailShape, {
+        stroke: 'black',
+        lineWidth: arrowTailLineWidth,
+        lineCap: 'round'
+      } );
+
+      const tailDerivative = arrowTip.minus( arrowControlPoint ).timesScalar( 2 );
+      const tangentDirection = tailDerivative.normalized();
+      const arrowHeadBaseCenter = arrowTip.minus( tangentDirection.timesScalar( arrowHeadLength ) );
+      const perpendicular = new Vector2( -tangentDirection.y, tangentDirection.x ).normalized().timesScalar( arrowHeadWidth / 2 );
+      const arrowHeadShape = new Shape()
+        .moveTo( arrowTip.x, arrowTip.y )
+        .lineTo( arrowHeadBaseCenter.x + perpendicular.x, arrowHeadBaseCenter.y + perpendicular.y )
+        .lineTo( arrowHeadBaseCenter.x - perpendicular.x, arrowHeadBaseCenter.y - perpendicular.y )
+        .close();
+      const arrowHead = new Path( arrowHeadShape, {
+        fill: 'black'
+      } );
+
+      this.addChild( arrowTail );
+      this.addChild( arrowHead );
+      arrowTail.moveToBack();
+
+      const questionMark = new Text( '?', {
+        font: new PhetFont( {
+          size: 16,
+          weight: 'bold'
+        } )
+      } );
+      questionMark.bottom = -majorTickLength / 2 - 5;
+      questionMark.centerX = modelViewTransform.modelToViewX( 2 );
+      this.addChild( questionMark );
     }
   }
 }
