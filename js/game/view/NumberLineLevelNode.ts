@@ -36,6 +36,10 @@ import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 import NumberStyles from './NumberStyles.js';
 
 type NumberLineLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
+
+// constants
+const CORNER_RADIUS = NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS;
+
 export default class NumberLineLevelNode extends LevelNode {
 
   public constructor( model: GameModel,
@@ -52,6 +56,12 @@ export default class NumberLineLevelNode extends LevelNode {
     }, providedOptions );
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
+    const equationNode = new GameNumberEquationNode( level, {
+      center: this.numberModelCenter
+    } );
+    this.addChild( equationNode );
+
+    // Create the number line and accompanying features
     const numberLineModel = {
       leftAddendProperty: new NumberProperty( 0 ),
       numberLineSliderEnabledRangeProperty: new Property( new Range( 0, 20 ) ),
@@ -82,7 +92,7 @@ export default class NumberLineLevelNode extends LevelNode {
       }
     } );
 
-    const CORNER_RADIUS = NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS;
+    // Create a clip area to cut off guesses that may draw arrows and lines outside the counting area.
     const clipShape = Shape.boundsOffsetWithRadii( this.countingAreaBounds,
       { left: 0, bottom: 0, right: 0, top: 0 },
       {
@@ -116,7 +126,7 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( border );
 
-
+    // Checkbox group for showing/hiding addends and tick numbers
     const checkboxGroup = new VerticalCheckboxGroup( [ {
       property: level.showAddendsProperty,
       createNode: () => new Text( 'Addends', {
@@ -136,15 +146,7 @@ export default class NumberLineLevelNode extends LevelNode {
       visibleProperty: this.addendsVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
-
     this.addChild( checkboxGroup );
-
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
-    const equationNode = new GameNumberEquationNode( level, {
-      centerX: this.countingAreaBounds.centerX,
-      centerY: bondBarCenterY
-    } );
-    this.addChild( equationNode );
 
     // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [

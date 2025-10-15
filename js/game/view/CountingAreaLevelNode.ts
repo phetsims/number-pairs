@@ -17,8 +17,8 @@ import ClickToDeselectKittensPressListener from '../../common/view/ClickToDesele
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
-import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -52,13 +52,15 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.tenFrameButton = new TenFrameButton( {
       tandem: tandem.createTandem( 'tenFrameButton' ),
       left: layoutBounds.left + NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      top: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS.top,
+      top: this.countingAreaBounds.top,
       listener: () => {
         this.interruptSubtreeInput();
         level.deselectAllKittens();
         level.organizeIntoTenFrame();
       },
-      accessibleName: 'Ten frame' // TODO i18n https://github.com/phetsims/number-pairs/issues/217
+      accessibleName: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleName.createProperty( {
+        representation: level.representationTypeProperty.value.accessibleName
+      } )
     } );
 
     this.addChild( this.kittensLayerNode );

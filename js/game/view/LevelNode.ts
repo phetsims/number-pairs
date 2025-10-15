@@ -12,6 +12,7 @@ import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -56,7 +57,9 @@ export default abstract class LevelNode extends Node {
   protected readonly countingAreaNode: CountingAreaNode;
   protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
+  // For layout
   protected readonly countingAreaBounds: Bounds2;
+  protected readonly numberModelCenter: Vector2;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -70,7 +73,6 @@ export default abstract class LevelNode extends Node {
       countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS
     }, providedOptions );
     super( options );
-    this.countingAreaBounds = options.countingAreaBounds;
 
     this.statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, model, () => {
       this.interruptSubtreeInput();
@@ -78,6 +80,10 @@ export default abstract class LevelNode extends Node {
     }, tandem.createTandem( 'statusBar' ) );
     this.addChild( this.statusBar );
 
+    this.countingAreaBounds = options.countingAreaBounds;
+    this.numberModelCenter = new Vector2( this.countingAreaBounds.centerX, ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2 );
+
+    // Create the number buttons for selecting answers. The color depends on which value is missing.
     const buttonColorProperty = derived(
       level.challengeProperty,
       level.countingObjectsDelegate.leftAddendColorProperty,
@@ -89,7 +95,6 @@ export default abstract class LevelNode extends Node {
                totalColor;
       } );
 
-    // Number selection grid and selection state
     this.numberButtonGrid = new NumberButtonGrid(
       level.modeProperty,
       level.selectedGuessProperty,
@@ -103,12 +108,15 @@ export default abstract class LevelNode extends Node {
       } );
     this.addChild( this.numberButtonGrid );
 
+    // When a challenge is reset, or when we move to the next challenge, clear the number grid selection
+    level.challengeResetEmitter.addListener( () => this.numberButtonGrid.resetAll() );
+    level.challengeProperty.link( () => this.numberButtonGrid.resetAll() );
+
     // Create Counting Area. This acts as the background for the kittens and number line.
     const leftAddendsVisibleProperty = new BooleanProperty( true );
     const rightAddendsVisibleProperty = new BooleanProperty( true );
     this.addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
 
-    // TODO: Counting area should be wider for number line levels https://github.com/phetsims/number-pairs/issues/232
     this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: options.countingAreaBackgroundColorProperty,
@@ -116,10 +124,6 @@ export default abstract class LevelNode extends Node {
       countingAreaBounds: this.countingAreaBounds
     } );
     this.addChild( this.countingAreaNode );
-
-    // When a challenge is reset, or when we move to the next challenge, clear the number grid selection
-    level.challengeResetEmitter.addListener( () => this.numberButtonGrid.resetAll() );
-    level.challengeProperty.link( () => this.numberButtonGrid.resetAll() );
 
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {

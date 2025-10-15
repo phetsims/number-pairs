@@ -31,19 +31,16 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
-      centerX: this.countingAreaBounds.centerX,
-      centerY: bondBarCenterY,
+      center: this.numberModelCenter,
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new GameNumberBarModelNode( level, {
-      centerX: this.countingAreaBounds.centerX,
-      centerY: bondBarCenterY,
+      center: this.numberModelCenter,
       visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
@@ -73,19 +70,19 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     // proper bounds calculations.
     ManualConstraint.create( this, [ bondNode, barNode, this.wrongMark, this.checkMark, this.tryAgainText ],
       ( bondNodeProxy, barNodeProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) => {
+        const missingValue = level.challengeProperty.value.missing;
+
         NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ?
-        layoutNumberBondFeedback( bondNodeProxy, level.challengeProperty.value.missing, wrongMarkProxy,
-          checkMarkProxy, tryAgainTextProxy ) :
-        layoutNumberBarFeedback( barNode, level.challengeProperty.value.missing, wrongMarkProxy,
-          checkMarkProxy, tryAgainTextProxy );
+        layoutNumberBondFeedback( bondNodeProxy, missingValue, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) :
+        layoutNumberBarFeedback( barNode, missingValue, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy );
       } );
 
     NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
+      const missingValue = level.challengeProperty.value.missing;
+
       numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
-      layoutNumberBondFeedback( bondNode, level.challengeProperty.value.missing, this.wrongMark,
-        this.checkMark, this.tryAgainText ) :
-      layoutNumberBarFeedback( barNode,
-        level.challengeProperty.value.missing, this.wrongMark, this.checkMark, this.tryAgainText );
+      layoutNumberBondFeedback( bondNode, missingValue, this.wrongMark, this.checkMark, this.tryAgainText ) :
+      layoutNumberBarFeedback( barNode, missingValue, this.wrongMark, this.checkMark, this.tryAgainText );
     } );
   }
 }

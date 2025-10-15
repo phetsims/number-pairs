@@ -28,11 +28,8 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
-
-    const bondBarCenterY = ( layoutBounds.top + this.statusBar.height + this.countingAreaBounds.top ) / 2;
     const equationNode = new GameNumberEquationNode( level, {
-      centerX: this.countingAreaBounds.centerX,
-      centerY: bondBarCenterY
+      center: this.numberModelCenter
     } );
     this.addChild( equationNode );
 

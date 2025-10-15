@@ -4,6 +4,7 @@
  * Shared layout helpers for game view nodes.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
