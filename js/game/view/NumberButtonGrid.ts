@@ -39,8 +39,10 @@ import Challenge from '../model/Challenge.js';
 import InputRange from '../model/InputRange.js';
 import NumberToggleButton from './NumberToggleButton.js';
 
+const MARK_OFFSET_X = 0;
+const MARK_OFFSET_Y = -2;
 const X_SPACING = 8;
-const Y_SPACING = 8;
+const Y_SPACING = X_SPACING + MARK_OFFSET_Y * 2; // compensate for check/X mark height outside of button bounds
 const FONT = new PhetFont( 24 );
 
 type NumberButtonElements = {
@@ -148,8 +150,6 @@ export default class NumberButtonGrid extends GridBox {
         } )
       } );
 
-      const MARK_OFFSET_X = 0;
-      const MARK_OFFSET_Y = -2;
       wrongMark.left = MARK_OFFSET_X;
       wrongMark.top = MARK_OFFSET_Y;
       checkMark.left = MARK_OFFSET_X;
