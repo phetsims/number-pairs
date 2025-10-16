@@ -63,13 +63,13 @@ export default class GameScreenView extends ScreenView {
       model.modeProperty.value = 'levelSelectionScreen';
     };
 
-    const createLevelNode = ( i: number ) => {
-      const level = model.getLevel( i + 1 );
+    const createLevelNode = ( levelNumber: number ) => {
+      const level = model.getLevel( levelNumber );
       return level.type === 'bond' ?
-             new BondBarLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
+             new BondBarLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) ) :
              ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) ?
-             new EquationLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) ) :
-             new NumberLineLevelNode( model, level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${i + 1}` ) );
+             new EquationLevelNode( model, level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) ) :
+             new NumberLineLevelNode( model, level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 
     const focusNodes: Record<Mode, Node | null> = {
@@ -98,14 +98,14 @@ export default class GameScreenView extends ScreenView {
           } ), levelSelectionNode, resetAllButton ]
         } )
       },
-      { value: 'level1', createNode: () => createLevelNode( 0 ) },
-      { value: 'level2', createNode: () => createLevelNode( 1 ) },
-      { value: 'level3', createNode: () => createLevelNode( 2 ) },
-      { value: 'level4', createNode: () => createLevelNode( 3 ) },
-      { value: 'level5', createNode: () => createLevelNode( 4 ) },
-      { value: 'level6', createNode: () => createLevelNode( 5 ) },
-      { value: 'level7', createNode: () => createLevelNode( 6 ) },
-      { value: 'level8', createNode: () => createLevelNode( 7 ) }
+      { value: 'level1', createNode: () => createLevelNode( 1 ) },
+      { value: 'level2', createNode: () => createLevelNode( 2 ) },
+      { value: 'level3', createNode: () => createLevelNode( 3 ) },
+      { value: 'level4', createNode: () => createLevelNode( 4 ) },
+      { value: 'level5', createNode: () => createLevelNode( 5 ) },
+      { value: 'level6', createNode: () => createLevelNode( 6 ) },
+      { value: 'level7', createNode: () => createLevelNode( 7 ) },
+      { value: 'level8', createNode: () => createLevelNode( 8 ) }
     ], {
       alignChildren: ToggleNode.NONE
     } );
