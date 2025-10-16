@@ -70,6 +70,7 @@ addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumbe
 addToMapIfDefined( 'checkAnswer', 'checkAnswerStringProperty' );
 addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
 addToMapIfDefined( 'nextChallenge', 'nextChallengeStringProperty' );
+addToMapIfDefined( 'levelSelectionTitle', 'levelSelectionTitleStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
@@ -242,6 +243,8 @@ const NumberPairsFluent = {
   checkAnswerStringProperty: _.get( NumberPairsStrings, 'checkAnswerStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
   nextChallengeStringProperty: _.get( NumberPairsStrings, 'nextChallengeStringProperty' ),
+  levelSelectionTitleStringProperty: _.get( NumberPairsStrings, 'levelSelectionTitleStringProperty' ),
+  levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
   a11y: {
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),
     leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),

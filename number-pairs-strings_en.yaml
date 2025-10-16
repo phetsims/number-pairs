@@ -56,6 +56,8 @@ sumScreenNumberModelOrientationDescription:               >-
 checkAnswer:                                              Check
 tryAgain:                                                 Try Again
 nextChallenge:                                            Next
+levelSelectionTitle:                                      Choose Your Level
+levelPattern:                                             Level {{level}}
 a11y:
 
   # Basic terms and interactions

@@ -7,10 +7,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -21,10 +23,12 @@ import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import LevelIcons from './LevelIcons.js';
 
 const TITLE_FONT = new PhetFont( 36 );
+const TITLE_MARGIN = 90; // empirically determined
 
 // Buttons in 2 rows of 4 using LevelSelectionButtonGroup.
 const BUTTON_WIDTH = 150;
@@ -38,12 +42,10 @@ export default class LevelSelectionNode extends Node {
 
   public constructor( model: GameModel, layoutBounds: Bounds2, tandem: Tandem ) {
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/217 i18n
-    const titleText = new Text( 'Choose Your Level', {
-      accessibleParagraph: 'Choose Your Level',
+    const titleText = new Text( NumberPairsFluent.levelSelectionTitleStringProperty, {
+      accessibleParagraph: NumberPairsFluent.levelSelectionTitleStringProperty,
       font: TITLE_FONT,
-      maxWidth: 0.8 * layoutBounds.width,
-      centerY: 125
+      maxWidth: 0.8 * layoutBounds.width
     } );
 
     const infoDialog = new GameInfoDialog( model.levels.map( level => `Level ${level.levelNumber}: ${level.description}` ), {
@@ -59,11 +61,6 @@ export default class LevelSelectionNode extends Node {
       tandem: tandem.createTandem( 'infoButton' )
     } );
 
-    // Position the title centered near the top, keeping it centered as bounds change.
-    titleText.localBoundsProperty.link( () => {
-      titleText.centerX = layoutBounds.centerX;
-    } );
-
     const items: LevelSelectionButtonGroupItem[] = [];
     const NUMBER_OF_LEVELS = model.getLevelCount();
 
@@ -74,31 +71,23 @@ export default class LevelSelectionNode extends Node {
 
       // Use the actual score property for this level from the model
       const level = model.getLevel( levelNumber );
+      const levelPatternStringProperty = new PatternStringProperty( NumberPairsFluent.levelPatternStringProperty, {
+        level: levelNumber
+      } );
       items.push( {
         icon: new VBox( {
           spacing: 5,
           children: [
-            textAlignGroup.createBox( new Text( `Level ${levelNumber}`, {
-              font: new PhetFont( {
-                size: 17,
-                weight: 'bold'
-              } )
+            textAlignGroup.createBox( new Text( levelPatternStringProperty, {
+              maxWidth: BUTTON_WIDTH - 10,
+              font: new PhetFont( { size: 17, weight: 'bold' } )
             } ) ),
             iconAlignGroup.createBox( LevelIcons.getIcon( levelNumber ) )
           ]
         } ),
         scoreProperty: level.scoreProperty,
         buttonListener: () => {
-          model.modeProperty.value =
-            levelNumber === 1 ? 'level1' :
-            levelNumber === 2 ? 'level2' :
-            levelNumber === 3 ? 'level3' :
-            levelNumber === 4 ? 'level4' :
-            levelNumber === 5 ? 'level5' :
-            levelNumber === 6 ? 'level6' :
-            levelNumber === 7 ? 'level7' :
-            levelNumber === 8 ? 'level8' :
-            ( () => { throw new Error( `Unhandled level: ${levelNumber}` ); } )(); // IIFE to throw error
+          model.setLevel( levelNumber );
         },
         options: {
 
@@ -117,7 +106,6 @@ export default class LevelSelectionNode extends Node {
 
     const buttonGroup = new LevelSelectionButtonGroup( items, {
       levelSelectionButtonOptions: {
-        baseColor: '#d9ebff',
         lineWidth: BUTTON_LINE_WIDTH
       },
       flowBoxOptions: {
@@ -131,18 +119,22 @@ export default class LevelSelectionNode extends Node {
       groupButtonHeight: BUTTON_HEIGHT,
       gameLevels: Array.from( { length: NUMBER_OF_LEVELS }, ( _, i ) => i + 1 ),
       tandem: tandem.createTandem( 'buttonGroup' ),
-      phetioVisiblePropertyInstrumented: false,
-      top: titleText.bottom + 45
+      phetioVisiblePropertyInstrumented: false
     } );
 
-    // Center the button group under the title.
-    buttonGroup.localBoundsProperty.link( () => {
-      buttonGroup.centerX = layoutBounds.centerX;
+    const levelSelectionAlignBox = new AlignBox( new VBox( {
+      children: [ titleText, buttonGroup ],
+      minContentHeight: titleText.height,
+      spacing: TITLE_MARGIN
+    } ), {
+      alignBounds: layoutBounds,
+      yAlign: 'top',
+      yMargin: TITLE_MARGIN
     } );
 
     super( {
       isDisposable: false,
-      children: [ titleText, buttonGroup, infoButton ],
+      children: [ levelSelectionAlignBox, infoButton ],
       tandem: tandem,
       phetioDocumentation: 'UI for choosing a game level.',
       phetioVisiblePropertyInstrumented: false

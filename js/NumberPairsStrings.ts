@@ -76,6 +76,8 @@ type StringsType = {
   'checkAnswerStringProperty': LocalizedStringProperty;
   'tryAgainStringProperty': LocalizedStringProperty;
   'nextChallengeStringProperty': LocalizedStringProperty;
+  'levelSelectionTitleStringProperty': LocalizedStringProperty;
+  'levelPatternStringProperty': LocalizedStringProperty;
   'a11y': {
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;

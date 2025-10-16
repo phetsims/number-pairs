@@ -11,6 +11,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -227,8 +228,15 @@ export default class GameModel implements TModel {
   }
 
   public getLevel( levelNumber: number ): Level {
+    affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
     const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
     return this.levels[ index ];
+  }
+
+  public setLevel( levelNumber: number ): void {
+    affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
+    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
+    this.modeProperty.value = ModeValues[ index ];
   }
 
   public getLevelCount(): number {
