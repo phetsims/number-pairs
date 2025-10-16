@@ -29,6 +29,8 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
     const equationNode = new GameNumberEquationNode( level, {
+
+      // Equation sizes do not change, so does not require dynamic layout.
       center: this.numberModelCenter
     } );
     this.addChild( equationNode );

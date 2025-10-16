@@ -10,7 +10,6 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Layoutable } from '../../../../scenery/js/layout/LayoutProxy.js';
 import { MissingComponent } from '../model/Challenge.js';
-import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 
 /**
@@ -81,21 +80,26 @@ export function layoutNumberBondFeedback( bondNode: Layoutable,
 
 /**
  * Layouts the feedback elements (wrong mark, check mark, try again text) for a number bar.
- * @param barNode
+ * @param barNodeLeftAddendRectangle
+ * @param barNodeRightAddendRectangle
  * @param missingValue
  * @param wrongMark
  * @param checkMark
  * @param tryAgainText
  */
-export function layoutNumberBarFeedback( barNode: GameNumberBarModelNode,
+export function layoutNumberBarFeedback( barNodeLeftAddendRectangle: Layoutable,
+                                         barNodeRightAddendRectangle: Layoutable,
                                          missingValue: MissingComponent,
                                          wrongMark: Layoutable,
                                          checkMark: Layoutable,
                                          tryAgainText: Layoutable ): void {
-  const centerX = missingValue === 'a' ? barNode.localToParentBounds( barNode.leftAddendRectangle.bounds ).centerX :
-                  missingValue === 'b' ? barNode.localToParentBounds( barNode.rightAddendRectangle.bounds ).centerX :
-                  barNode.centerX; // The total spans the entire bar node.
-  const y = barNode.bottom;
+
+  const center = ( barNodeLeftAddendRectangle.left + barNodeRightAddendRectangle.right ) / 2;
+
+  const centerX = missingValue === 'a' ? barNodeLeftAddendRectangle.centerX :
+                  missingValue === 'b' ? barNodeRightAddendRectangle.centerX :
+                  center; // The total spans the entire bar node.
+  const y = barNodeRightAddendRectangle.bottom;
 
   wrongMark.centerTop = new Vector2( centerX, y );
 

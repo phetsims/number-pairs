@@ -31,7 +31,8 @@ type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'
 export const LevelValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8' ] as const;
 export type LevelType = ( typeof LevelValues )[number];
 
-const ModeValues = [ ...LevelValues, 'levelSelectionScreen' ] as const;
+// NOTE: This order is important since the modeProperty value is set from the level number.
+const ModeValues = [ 'levelSelectionScreen', ...LevelValues ] as const;
 export type Mode = ( typeof ModeValues )[number];
 
 export default class GameModel implements TModel {
@@ -232,14 +233,12 @@ export default class GameModel implements TModel {
 
   public getLevel( levelNumber: number ): Level {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
-    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
-    return this.levels[ index ];
+    return this.levels[ levelNumber - 1 ];
   }
 
   public setLevel( levelNumber: number ): void {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
-    const index = Math.max( 1, Math.min( 8, levelNumber ) ) - 1;
-    this.modeProperty.value = ModeValues[ index ];
+    this.modeProperty.value = ModeValues[ levelNumber ];
   }
 
   public getLevelCount(): number {
