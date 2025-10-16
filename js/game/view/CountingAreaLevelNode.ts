@@ -76,10 +76,10 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
       this.kittensLayerNode,
 
-      this.countingAreaNode,
-      this.challengeResetButton,
-
       this.tenFrameButton,
+      this.countingAreaNode,
+
+      this.challengeResetButton,
       this.statusBar
     ];
   }
