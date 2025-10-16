@@ -19,7 +19,6 @@ import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
-import type { Mode } from '../model/GameModel.js';
 import GameModel from '../model/GameModel.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
@@ -72,22 +71,13 @@ export default class GameScreenView extends ScreenView {
              new NumberLineLevelNode( model, level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 
-    const focusNodes: Record<Mode, Node | null> = {
-      level1: null,
-      level2: null,
-      level3: null,
-      level4: null,
-      level5: null,
-      level6: null,
-      level7: null,
-      level8: null,
-      levelSelectionScreen: null
-    };
-
-    // Keep track of the last focused Node within each mode so that when we return to it, focus goes back to where it was.
+    // Keep track of the last focused Node on the level selection screen to restore focus when you return.
     // NOTE: Must be done before the ToggleNode is created, so that we capture the focus before the Node is removed from the PDOM.
+    let levelSelectionScreenFocus: Node | null = null;
     model.modeProperty.lazyLink( ( mode, oldMode ) => {
-      focusNodes[ oldMode ] = getPDOMFocusedNode();
+      if ( oldMode === 'levelSelectionScreen' ) {
+        levelSelectionScreenFocus = getPDOMFocusedNode();
+      }
     } );
 
     const toggleNode = new ToggleNode( model.modeProperty, [
@@ -115,7 +105,9 @@ export default class GameScreenView extends ScreenView {
     // Restore the last focused Node for the mode that became active after the ToggleNode is created.
     // NOTE: Must be done after the ToggleNode is created, so that we restore the focus after the Node is added to the PDOM.
     model.modeProperty.lazyLink( mode => {
-      focusNodes[ mode ]?.focus();
+      if ( mode === 'levelSelectionScreen' ) {
+        levelSelectionScreenFocus?.focus();
+      }
     } );
 
     this.rewardNode = new NumberPairsRewardNode();
