@@ -67,9 +67,7 @@ addToMapIfDefined( 'numberModelType', 'numberModelTypeStringProperty' );
 addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
-addToMapIfDefined( 'checkAnswer', 'checkAnswerStringProperty' );
 addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
-addToMapIfDefined( 'nextChallenge', 'nextChallengeStringProperty' );
 addToMapIfDefined( 'levelSelectionTitle', 'levelSelectionTitleStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
@@ -240,9 +238,7 @@ const NumberPairsFluent = {
   numberModelTypeDescriptionStringProperty: _.get( NumberPairsStrings, 'numberModelTypeDescriptionStringProperty' ),
   sumScreenNumberModelOrientationStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ),
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
-  checkAnswerStringProperty: _.get( NumberPairsStrings, 'checkAnswerStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
-  nextChallengeStringProperty: _.get( NumberPairsStrings, 'nextChallengeStringProperty' ),
   levelSelectionTitleStringProperty: _.get( NumberPairsStrings, 'levelSelectionTitleStringProperty' ),
   levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
   a11y: {

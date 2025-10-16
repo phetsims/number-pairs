@@ -53,9 +53,7 @@ sumScreenNumberModelOrientation:                          Sum Screen Number Mode
 sumScreenNumberModelOrientationDescription:               >-
                                                           On the sum screen only, this changes the orientation of the total in the
                                                           number decomposition model.
-checkAnswer:                                              Check
 tryAgain:                                                 Try Again
-nextChallenge:                                            Next
 levelSelectionTitle:                                      Choose Your Level
 levelPattern:                                             Level {{level}}
 a11y:

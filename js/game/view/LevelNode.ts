@@ -24,6 +24,8 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import CheckButton from '../../../../vegas/js/buttons/CheckButton.js';
+import NextButton from '../../../../vegas/js/buttons/NextButton.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
@@ -163,8 +165,9 @@ export default abstract class LevelNode extends Node {
     this.addChild( this.challengeResetButton );
 
     // Create check answer and next challenge buttons. These are visible at different times and in the same location.
-    this.checkButton = new RectangularPushButton( {
-      content: new Text( NumberPairsFluent.checkAnswerStringProperty, TEXT_OPTIONS ),
+    this.checkButton = new CheckButton( {
+      font: TEXT_OPTIONS.font,
+      maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkButtonColorProperty,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
@@ -178,8 +181,9 @@ export default abstract class LevelNode extends Node {
       tandem: tandem.createTandem( 'checkButton' )
     } );
 
-    this.nextButton = new RectangularPushButton( {
-      content: new Text( NumberPairsFluent.nextChallengeStringProperty, TEXT_OPTIONS ),
+    this.nextButton = new NextButton( {
+      font: TEXT_OPTIONS.font,
+      maxTextWidth: TEXT_OPTIONS.maxWidth,
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
