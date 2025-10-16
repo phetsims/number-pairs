@@ -70,7 +70,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.addInputListener( new ClickToDeselectKittensPressListener( this.kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
 
     this.pdomOrder = [
-      this.numberButtonGrid,
+      this.answerButtonGroup,
       this.checkButton,
       this.nextButton,
 

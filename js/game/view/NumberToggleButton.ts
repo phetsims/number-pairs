@@ -1,7 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * NumberToggleButton configures a BooleanRectangularStickyToggleButton with the defaults that NumberButtonGrid needs.
+ * NumberToggleButton configures a BooleanRectangularStickyToggleButton with the defaults that AnswerButtonGroup needs.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

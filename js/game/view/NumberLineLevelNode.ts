@@ -161,7 +161,7 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.focusable = false;
 
     this.pdomOrder = [
-      this.numberButtonGrid,
+      this.answerButtonGroup,
       this.checkButton,
       this.nextButton,
 

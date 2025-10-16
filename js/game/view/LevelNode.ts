@@ -34,7 +34,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
-import NumberButtonGrid from './NumberButtonGrid.js';
+import AnswerButtonGroup from './AnswerButtonGroup.js';
 import StatusBar from './StatusBar.js';
 
 type SelfOptions = {
@@ -55,7 +55,7 @@ export default abstract class LevelNode extends Node {
   protected readonly checkMark: Text;
   protected readonly tryAgainText: Text;
   protected readonly challengeResetButton: ResetButton;
-  protected readonly numberButtonGrid: NumberButtonGrid;
+  protected readonly answerButtonGroup: AnswerButtonGroup;
   protected readonly countingAreaNode: CountingAreaNode;
   protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
@@ -99,7 +99,7 @@ export default abstract class LevelNode extends Node {
                totalColor;
       } );
 
-    this.numberButtonGrid = new NumberButtonGrid(
+    this.answerButtonGroup = new AnswerButtonGroup(
       level.modeProperty,
       level.selectedGuessProperty,
       level.range,
@@ -108,13 +108,13 @@ export default abstract class LevelNode extends Node {
       level.challengeProperty, {
         right: layoutBounds.right - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
         bottom: layoutBounds.bottom - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-        tandem: tandem.createTandem( 'numberButtonGrid' )
+        tandem: tandem.createTandem( 'answerButtonGroup' )
       } );
-    this.addChild( this.numberButtonGrid );
+    this.addChild( this.answerButtonGroup );
 
     // When a challenge is reset, or when we move to the next challenge, clear the number grid selection
-    level.challengeResetEmitter.addListener( () => this.numberButtonGrid.resetAll() );
-    level.challengeProperty.link( () => this.numberButtonGrid.resetAll() );
+    level.challengeResetEmitter.addListener( () => this.answerButtonGroup.resetAll() );
+    level.challengeProperty.link( () => this.answerButtonGroup.resetAll() );
 
     // Create Counting Area. This acts as the background for the kittens and number line.
     const leftAddendsVisibleProperty = new BooleanProperty( true );
@@ -193,7 +193,7 @@ export default abstract class LevelNode extends Node {
 
     // when the challenge changes, focus on the number button grid so that keyboard users can easily continue
     level.challengeProperty.link( () => {
-      this.numberButtonGrid.focusFirstElement();
+      this.answerButtonGroup.focusFirstElement();
     } );
 
     model.modeProperty.link( mode => {

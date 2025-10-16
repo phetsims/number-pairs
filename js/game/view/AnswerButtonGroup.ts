@@ -1,7 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * NumberButtonGrid lays out identically sized number buttons in one or two vertical columns.
+ * AnswerButtonGroup lays out identically sized number buttons in one or two vertical columns.
  * Left column: 0..10 (low numbers at the bottom)
  * Right column (for zeroToTwenty): 11..20, aligned so 1 and 11 are side-by-side and 0 has no neighbor.
  *
@@ -56,7 +56,7 @@ type NumberButtonElements = {
 }[];
 type NumberButtonGridOptions = StrictOmit<GridBoxOptions, 'columns' | 'rows' | 'xSpacing' | 'ySpacing'> &
   PickRequired<GridBoxOptions, 'tandem'>;
-export default class NumberButtonGrid extends GridBox {
+export default class AnswerButtonGroup extends GridBox {
 
   public readonly elements: NumberButtonElements;
 
@@ -286,4 +286,4 @@ export default class NumberButtonGrid extends GridBox {
   }
 }
 
-numberPairs.register( 'NumberButtonGrid', NumberButtonGrid );
+numberPairs.register( 'AnswerButtonGroup', AnswerButtonGroup );
