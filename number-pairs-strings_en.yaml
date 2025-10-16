@@ -117,6 +117,7 @@ a11y:
     singularAccessibleName: One
   kittens:
     accessibleName:            Kittens
+    singularAccessibleName:    Kitten
     changeColorAccessibleName: Change Color
     leftAddendColor:           Yellow
     rightAddendColor:          Blue

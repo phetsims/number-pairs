@@ -107,6 +107,7 @@ addToMapIfDefined( 'a11y_butterflies_singularAccessibleName', 'a11y.butterflies.
 addToMapIfDefined( 'a11y_ones_accessibleName', 'a11y.ones.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_ones_singularAccessibleName', 'a11y.ones.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleName', 'a11y.kittens.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_kittens_singularAccessibleName', 'a11y.kittens.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_changeColorAccessibleName', 'a11y.kittens.changeColorAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_leftAddendColor', 'a11y.kittens.leftAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_kittens_rightAddendColor', 'a11y.kittens.rightAddendColorStringProperty' );
@@ -297,6 +298,7 @@ const NumberPairsFluent = {
     },
     kittens: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleName', _.get( NumberPairsStrings, 'a11y.kittens.accessibleNameStringProperty' ) ),
+      singularAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_singularAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.singularAccessibleNameStringProperty' ) ),
       changeColorAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.changeColorAccessibleNameStringProperty' ) ),
       leftAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendColorStringProperty' ) ),
       rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendColorStringProperty' ) ),

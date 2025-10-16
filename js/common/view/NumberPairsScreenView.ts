@@ -21,7 +21,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
@@ -73,7 +72,7 @@ export default class NumberPairsScreenView extends ScreenView {
   private readonly resetAccordionBoxes: () => void;
 
   // For pdom order.
-  protected readonly countingAreaRepresentationsHeading = new Node( { accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty } );
+  protected readonly countingRepresentationNodes: Node[] = [];
   protected readonly countingAreaNodes: Node[] = [];
   protected readonly representationRadioButtonGroup: Node;
   protected readonly controlNodes: Node[] = [];
@@ -276,51 +275,6 @@ export default class NumberPairsScreenView extends ScreenView {
     this.addChild( countingAreaNode );
     this.countingAreaNodes.push( countingAreaNode );
 
-    /**
-     * Create the description for the counting area representations.
-     */
-    const leftValueStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-      ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString );
-    const rightValueStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-      ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString );
-    const countingAreaAccessibleListNode = new AccessibleListNode( [
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } )
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } )
-      }
-    ], {
-      leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
-        total: model.totalProperty,
-
-        // TODO: How do we want to handle this for number line? https://github.com/phetsims/number-pairs/issues/206
-        item: new DynamicProperty( model.representationTypeProperty, {
-          derive: 'accessibleName'
-        } ),
-        items: new DynamicProperty( model.representationTypeProperty, {
-          derive: 'accessibleName'
-        } )
-      } )
-    } );
-
-    // TODO: Add dynamic handling for number model change in preferences https://github.com/phetsims/number-pairs/issues/206
-    const numberModelAccessibleListNode = new AccessibleListNode( [
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftCircleListItemPattern.createProperty( { value: leftValueStringProperty } )
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightCircleListItemPattern.createProperty( { value: rightValueStringProperty } )
-      }
-    ], {
-      leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.numberBondLeadingParagraph.createProperty( {
-        total: model.totalProperty
-      } )
-    } );
-    this.countingAreaRepresentationsHeading.addChild( countingAreaAccessibleListNode );
-    this.countingAreaRepresentationsHeading.addChild( numberModelAccessibleListNode );
-    this.addChild( this.countingAreaRepresentationsHeading );
-
     // All the location representations at least include One Cards
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
       const locationLayerVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
@@ -334,7 +288,8 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
-      this.countingAreaRepresentationsHeading.addChild( locationCountingObjectsLayerNode );
+      this.addChild( locationCountingObjectsLayerNode );
+      this.countingRepresentationNodes.push( locationCountingObjectsLayerNode );
     }
 
     // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
@@ -342,7 +297,8 @@ export default class NumberPairsScreenView extends ScreenView {
     const countingRepresentationsLayer = new Node( {
       visibleProperty: DerivedProperty.and( [ model.leftAddendVisibleProperty, model.rightAddendVisibleProperty ] )
     } );
-    this.countingAreaRepresentationsHeading.addChild( countingRepresentationsLayer );
+    this.addChild( countingRepresentationsLayer );
+    this.countingRepresentationNodes.push( countingRepresentationsLayer );
 
     /**
      * Create the attribute based kitten node layer and accompanying features.

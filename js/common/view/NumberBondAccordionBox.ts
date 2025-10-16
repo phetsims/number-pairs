@@ -73,6 +73,19 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       ( numberModelType, numberBondParagraph, barModelParagraph ) => {
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondParagraph : barModelParagraph;
       } );
+
+    // const numberModelAccessibleListNode = new AccessibleListNode( [
+    //   {
+    //     stringProperty: NumberPairsFluent.a11y.countingArea.leftCircleListItemPattern.createProperty( { value: leftValueStringProperty } )
+    //   },
+    //   {
+    //     stringProperty: NumberPairsFluent.a11y.countingArea.rightCircleListItemPattern.createProperty( { value: rightValueStringProperty } )
+    //   }
+    // ], {
+    //   leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.numberBondLeadingParagraph.createProperty( {
+    //     total: model.totalProperty
+    //   } )
+    // } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
       titleNode: titleNode,

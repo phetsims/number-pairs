@@ -24,7 +24,7 @@ type SelfOptions = {
 
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
 export default class DecompositionScreenView extends NumberPairsScreenView {
-  protected constructor( model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
+  protected constructor( private readonly model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );
 
     // Add the total radio button group if the scene range is provided. Each radio button represents a total value
@@ -82,7 +82,7 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
    */
   private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
     this.pdomPlayAreaNode.setPDOMOrder( [
-        this.countingAreaRepresentationsHeading,
+        ...this.countingRepresentationNodes,
         this.representationRadioButtonGroup,
         this.countingAreaButtonsVBox,
         ...this.countingAreaNodes,

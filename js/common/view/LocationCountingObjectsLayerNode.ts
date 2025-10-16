@@ -8,34 +8,58 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
-import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
-import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import NumberPairsSounds from './NumberPairsSounds.js';
+import LocationGroupSelectDragInteractionView from './LocationGroupSelectDragInteractionView.js';
 
-type LocationCountingObjectsLayerNodeOptions = WithRequired<NodeOptions, 'tandem'>;
+type LocationCountingObjectsLayerNodeOptions = StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
 
-const LEFT_COUNTING_AREA_BOUNDS = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
-const RIGHT_COUNTING_AREA_BOUNDS = NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS;
 export default class LocationCountingObjectsLayerNode extends Node {
   private readonly countingObjectModelToNodeMap = new Map<CountingObject, LocationCountingObjectNode>();
 
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
-    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {}, providedOptions );
+    const leftValueStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
+      ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString );
+    const rightValueStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
+      ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString );
+    const countingAreaAccessibleListNode = new AccessibleListNode( [
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } )
+      },
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } )
+      }
+    ], {
+      leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
+        total: model.totalProperty,
+        item: new DynamicProperty( model.representationTypeProperty, {
+          derive: 'singularAccessibleName'
+        } ),
+        items: new DynamicProperty( model.representationTypeProperty, {
+          derive: 'accessibleName'
+        } )
+      } )
+    } );
+
+    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
+      accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
+      children: [ countingAreaAccessibleListNode ]
+    }, providedOptions );
+
     super( options );
 
     /**
@@ -62,79 +86,14 @@ export default class LocationCountingObjectsLayerNode extends Node {
      * the counting object nodes so that we have access to them within the GroupSelectView.
      */
     const groupSelectModel = model.groupSelectLocationObjectsModel;
-    const selectedItemPositionProperty = new DynamicProperty<Vector2, Vector2, CountingObject>( groupSelectModel.selectedGroupItemProperty, {
-      derive: countingObject => countingObject.locationPositionProperty,
-      bidirectional: true
-    } );
-    const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, selectedItemPositionProperty,
-      this.countingObjectModelToNodeMap, {
-        soundKeyboardDragListenerOptions: {
-          dragDelta: 15,
-          shiftDragDelta: 8,
-          dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
-        },
-        getGroupItemToSelect: () => {
-          const leftCountingObjects = model.leftAddendCountingObjectsProperty.value;
-          const rightCountingObjects = model.rightAddendCountingObjectsProperty.value;
-
-          // We want to start with the left addend counting objects.
-          if ( leftCountingObjects.length > 0 ) {
-            return leftCountingObjects[ 0 ];
-          }
-          else if ( rightCountingObjects.length > 0 ) {
-            return rightCountingObjects[ 0 ];
-          }
-          else {
-            return null;
-          }
-        },
-        getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) => {
-          affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
-          const addendType = groupItem.addendTypeProperty.value;
-          const addendCountingObjects = addendType === AddendType.LEFT ?
-                                        model.leftAddendCountingObjectsProperty.value :
-                                        model.rightAddendCountingObjectsProperty.value;
-          const otherAddendCountingObjects = addendType === AddendType.LEFT ?
-                                             model.rightAddendCountingObjectsProperty.value :
-                                             model.leftAddendCountingObjectsProperty.value;
-          const keysDelta = this.getKeysDelta( keysPressed );
-
-          if ( keysDelta === 0 ) {
-            return groupItem;
-          }
-
-          const orderedCountingObjects = addendCountingObjects.concat( otherAddendCountingObjects );
-          const currentIndex = orderedCountingObjects.indexOf( groupItem );
-          affirm( currentIndex !== -1, 'Group item not found in combined counting objects' );
-
-          const totalObjects = orderedCountingObjects.length;
-          affirm( totalObjects > 0, 'No counting objects available for navigation' );
-          const nextIndex = ( currentIndex + keysDelta + totalObjects ) % totalObjects;
-
-          const nextCountingObject = orderedCountingObjects[ nextIndex ];
-          NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, keysDelta > 0 );
-
-          return nextCountingObject;
-        },
-        handleHomeEndKeysDuringDrag: ( keysPressed, groupItem ) => {
-          const currentPosition = groupItem.locationPositionProperty.value;
-          if ( keysPressed.includes( 'home' ) ) {
-
-            // move to the left addend area.
-            if ( !LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-              groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, -1 );
-            }
-          }
-          else if ( keysPressed.includes( 'end' ) ) {
-
-            // move to the right addend area.
-            if ( !RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
-              groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, 1 );
-            }
-          }
-        },
-        tandem: options.tandem.createTandem( 'groupSelectView' )
-      } );
+    const groupSelectView = new LocationGroupSelectDragInteractionView(
+      groupSelectModel,
+      this,
+      model.leftAddendCountingObjectsProperty,
+      model.rightAddendCountingObjectsProperty,
+      this.countingObjectModelToNodeMap,
+      options.tandem.createTandem( 'groupSelectView' )
+    );
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( NumberPairsConstants.COUNTING_AREA_BOUNDS );
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
@@ -204,25 +163,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
       rightAddendCountingObjects.add( countingObject );
       leftAddendCountingObjects.remove( countingObject );
       countingObject.traverseInactiveObjects = true;
-    }
-  }
-
-  private getKeysDelta( keysPressed: string ): number {
-    switch( keysPressed ) {
-      case 'd':
-      case 'arrowRight':
-        return 1;
-      case 'a':
-      case 'arrowLeft':
-        return -1;
-      case 'w':
-      case 'arrowUp':
-        return 1;
-      case 's':
-      case 'arrowDown':
-        return -1;
-      default:
-        return 0;
     }
   }
 }

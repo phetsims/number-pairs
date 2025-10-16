@@ -74,7 +74,8 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
+    new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
+    NumberPairsFluent.a11y.kittens.singularAccessibleNameStringProperty
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
@@ -91,7 +92,8 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } )
+    new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } ),
+    NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty
   );
   public static readonly enumeration = new Enumeration( RepresentationType );
 
@@ -102,7 +104,7 @@ export default class RepresentationType extends EnumerationValue {
     public readonly leftAddendColorProperty: Property<Color>,
     public readonly rightAddendColorProperty: Property<Color>,
     public readonly icon: Node,
-    public readonly singularAccessibleName?: TReadOnlyProperty<string>
+    public readonly singularAccessibleName: TReadOnlyProperty<string>
   ) {
     super();
   }

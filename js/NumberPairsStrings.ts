@@ -130,6 +130,7 @@ type StringsType = {
     };
     'kittens': {
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'singularAccessibleNameStringProperty': LocalizedStringProperty;
       'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
       'leftAddendColorStringProperty': LocalizedStringProperty;
       'rightAddendColorStringProperty': LocalizedStringProperty;

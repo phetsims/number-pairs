@@ -279,6 +279,9 @@
       "accessibleName": {
         "value": "Kittens"
       },
+      "singularAccessibleName": {
+        "value": "Kitten"
+      },
       "changeColorAccessibleName": {
         "value": "Change Color"
       },
