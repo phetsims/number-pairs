@@ -83,9 +83,9 @@ export default class NumberButtonGrid extends GridBox {
         yAlign: 'center'
       } );
 
-      const stateProperty = new BooleanProperty( false );
+      const pressedProperty = new BooleanProperty( false );
 
-      const numberToggleButton = new NumberToggleButton( stateProperty, {
+      const numberToggleButton = new NumberToggleButton( pressedProperty, {
         accessibleName: value.toString(),
         tandem: providedOptions.tandem.createTandem( `number${value}Button` ),
         content: labelBox,
@@ -115,10 +115,10 @@ export default class NumberButtonGrid extends GridBox {
       const toggleNode = new BooleanToggleNode( toggleProperty, correctAnswerNode, numberToggleButton );
 
       // When the button is pressed (or unpressed) via a user interaction, tell the model about it.
-      // NOTE: Do not wire up directly to the stateProperty, because it can be changed programmatically and would cause
+      // NOTE: Do not wire up directly to the pressedProperty, because it can be changed programmatically and would cause
       // a re-entrant loop/bug
       numberToggleButton.numberToggleButtonModel.fireCompleteEmitter.addListener( () => {
-        const state = stateProperty.value;
+        const state = pressedProperty.value;
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
         }
@@ -129,7 +129,7 @@ export default class NumberButtonGrid extends GridBox {
 
       // When the model changes, update the button state.
       selectedNumberProperty.lazyLink( selectedNumber => {
-        stateProperty.value = selectedNumber === value;
+        pressedProperty.value = selectedNumber === value;
       } );
 
       // Checkmark/X feedback marks positioned by the missing slot
@@ -162,7 +162,7 @@ export default class NumberButtonGrid extends GridBox {
         button: numberToggleButton,
         toggleNode: toggleNode,
         correctAnswerNode: correctAnswerNode,
-        stateProperty: stateProperty,
+        stateProperty: pressedProperty,
         value: value,
         wrongMark: wrongMark,
         checkMark: checkMark
@@ -174,18 +174,18 @@ export default class NumberButtonGrid extends GridBox {
     // Two vertical columns with low numbers at the bottom.
     // Left column 0..10, bottom-to-top.
     // Right column 11..20 aligned with 1..10, so 11 is beside 1 and 0 has no neighbor.
-    const leftColumn: ( Node | null )[] = [];
-    const rightColumn: ( Node | null )[] = [];
+    const leftColumn: Node[] = [];
+    const rightColumn: Node[] = [];
 
     // Build left column (0..10, bottom to top means reversed array)
-    for ( let n = 10; n >= 0; n-- ) {
-      leftColumn.push( createElement( n ).toggleNode );
+    for ( let n = 0; n <= 10; n++ ) {
+      leftColumn.unshift( createElement( n ).toggleNode );
     }
 
     // Build right column for zeroToTwenty range, 20..11 from top to bottom
     if ( range === 'zeroToTwenty' ) {
-      for ( let n = 20; n >= 11; n-- ) {
-        rightColumn.push( createElement( n ).toggleNode );
+      for ( let n = 11; n <= 20; n++ ) {
+        rightColumn.unshift( createElement( n ).toggleNode );
       }
     }
 
@@ -199,9 +199,12 @@ export default class NumberButtonGrid extends GridBox {
       }, providedOptions );
     super( options );
     this.elements = elements;
+    this.pdomOrder = elements.map( element => element.button );
 
     // Buttons are not focusable until the user tabs into the group, then only one button is focusable at a time.
     // WASD and arrow keys can be used to move focus forward and backward (in 1-D)
+    // We need to create a global listener here to avoid a focus trap when buttons become disabled.
+    // https://github.com/phetsims/number-pairs/issues/256#issuecomment-3402746293
     KeyboardListener.createGlobal( this, {
       tandem: providedOptions.tandem,
       keyStringProperties: [
