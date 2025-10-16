@@ -57,9 +57,11 @@ export default abstract class LevelNode extends Node {
   protected readonly countingAreaNode: CountingAreaNode;
   protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
-  // For layout
+  // For layout and pdom order
   protected readonly countingAreaBounds: Bounds2;
   protected readonly numberModelCenter: Vector2;
+  protected readonly checkButton: RectangularPushButton;
+  protected readonly nextButton: RectangularPushButton;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -161,7 +163,7 @@ export default abstract class LevelNode extends Node {
     this.addChild( this.challengeResetButton );
 
     // Create check answer and next challenge buttons. These are visible at different times and in the same location.
-    const checkButton = new RectangularPushButton( {
+    this.checkButton = new RectangularPushButton( {
       content: new Text( NumberPairsFluent.checkAnswerStringProperty, TEXT_OPTIONS ),
       baseColor: NumberPairsColors.checkButtonColorProperty,
       listener: () => {
@@ -176,7 +178,7 @@ export default abstract class LevelNode extends Node {
       tandem: tandem.createTandem( 'checkButton' )
     } );
 
-    const nextButton = new RectangularPushButton( {
+    this.nextButton = new RectangularPushButton( {
       content: new Text( NumberPairsFluent.nextChallengeStringProperty, TEXT_OPTIONS ),
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
@@ -197,13 +199,13 @@ export default abstract class LevelNode extends Node {
     } );
 
     // When the next button appears, focus it so that keyboard users can easily continue to the next challenge
-    nextButton.visibleProperty.lazyLink( visible => {
+    this.nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {
-        nextButton.focus();
+        this.nextButton.focus();
       }
     } );
 
-    const buttonContentAlignBox = new AlignBox( new Node( { children: [ checkButton, nextButton ] } ), {
+    const buttonContentAlignBox = new AlignBox( new Node( { children: [ this.checkButton, this.nextButton ] } ), {
       alignBounds: new Bounds2( this.countingAreaBounds.centerX,
         layoutBounds.top + this.statusBar.height, this.countingAreaBounds.right,
         this.countingAreaBounds.top ),
@@ -218,14 +220,6 @@ export default abstract class LevelNode extends Node {
         level.clearFeedback();
       }
     } );
-
-    this.pdomOrder = [
-      this.numberButtonGrid,
-      checkButton,
-      nextButton,
-      this.statusBar
-    ];
-
   }
 }
 

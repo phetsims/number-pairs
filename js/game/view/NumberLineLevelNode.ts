@@ -156,6 +156,22 @@ export default class NumberLineLevelNode extends LevelNode {
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
         layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, 5, 5 );
       } );
+
+    // Control via the number buttons only
+    numberLineNode.slider.focusable = false;
+
+    this.pdomOrder = [
+      this.numberButtonGrid,
+      this.checkButton,
+      this.nextButton,
+
+      this.countingAreaNode,
+      this.challengeResetButton,
+
+      checkboxGroup,
+
+      this.statusBar
+    ];
   }
 }
 

@@ -49,6 +49,7 @@ const COUNTING_AREA_MARGIN = NumberPairsConstants.COUNTING_AREA_INNER_MARGIN;
 
 export default class CountingAreaNode extends Node {
   public readonly attributeDragBounds: Bounds2;
+  public readonly bothAddendsEyeToggleButton: AddendEyeToggleButton;
 
   public constructor(
     leftAddendVisibleProperty: BooleanProperty,
@@ -100,7 +101,7 @@ export default class CountingAreaNode extends Node {
     const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ?
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
-    const bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
+    this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty,
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
@@ -109,7 +110,7 @@ export default class CountingAreaNode extends Node {
       tandem: bothAddendsEyeToggleButtonTandem
     } );
     this.addChild( backgroundRectangle );
-    this.addChild( bothAddendsEyeToggleButton );
+    this.addChild( this.bothAddendsEyeToggleButton );
 
     const splitCountingAreaBackground = new SplitCountingAreaNode(
       countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
