@@ -11,6 +11,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
+import { LevelType } from './GameModel.js';
 import InputRange from './InputRange.js';
 import Level, { ChallengeType, LevelOptions } from './Level.js';
 
@@ -20,6 +21,7 @@ export default class NumberLineLevel extends Level {
   public readonly numberLineVisibleProperty: BooleanProperty;
 
   public constructor(
+    levelType: LevelType,
     levelNumber: number, // 1-indexed level number
     color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     description: string, // Appears in the bar at the top of the screen
@@ -28,7 +30,7 @@ export default class NumberLineLevel extends Level {
     createChallenge: ( isFirst: boolean ) => Challenge,
     providedOptions: LevelOptions
   ) {
-    super( levelNumber, color, description, range, type, createChallenge, providedOptions );
+    super( levelType, levelNumber, color, description, range, type, createChallenge, providedOptions );
 
     this.numberLineVisibleProperty = new BooleanProperty( true, {
       tandem: providedOptions.tandem.createTandem( 'numberLineVisibleProperty' ),

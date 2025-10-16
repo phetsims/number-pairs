@@ -185,6 +185,17 @@ export default abstract class LevelNode extends Node {
       }
     } );
 
+    // when the challenge changes, focus on the number button grid so that keyboard users can easily continue
+    level.challengeProperty.link( () => {
+      this.numberButtonGrid.focusFirstElement();
+    } );
+
+    model.modeProperty.link( mode => {
+      if ( mode === level.levelName ) {
+        // TODO: https://github.com/phetsims/number-pairs/issues/228 there is a descriptive heading we will focus
+      }
+    } );
+
     // When the next button appears, focus it so that keyboard users can easily continue to the next challenge
     nextButton.visibleProperty.lazyLink( visible => {
       if ( visible ) {

@@ -269,6 +269,11 @@ export default class NumberButtonGrid extends Node {
       element.stateProperty.value = false;
     } );
   }
+
+  public focusFirstElement(): void {
+    this.elements[ 0 ].button.focusable = true;
+    this.elements[ 0 ].button.focus();
+  }
 }
 
 numberPairs.register( 'NumberButtonGrid', NumberButtonGrid );
