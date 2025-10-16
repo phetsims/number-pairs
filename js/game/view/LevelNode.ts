@@ -105,10 +105,10 @@ export default abstract class LevelNode extends Node {
       level.range,
       level.guessedNumbers,
       buttonColorProperty,
-      level.challengeProperty,
-      tandem.createTandem( 'numberButtonGrid' ), {
+      level.challengeProperty, {
         right: layoutBounds.right - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-        bottom: layoutBounds.bottom - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN
+        bottom: layoutBounds.bottom - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+        tandem: tandem.createTandem( 'numberButtonGrid' )
       } );
     this.addChild( this.numberButtonGrid );
 
