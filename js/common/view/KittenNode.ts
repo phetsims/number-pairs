@@ -57,6 +57,8 @@ const KITTEN_PANEL_HEIGHT = NumberPairsConstants.KITTEN_PANEL_HEIGHT;
 const KITTEN_PANEL_MARGIN = NumberPairsConstants.KITTEN_PANEL_MARGIN;
 const KITTEN_OFFSET = 3; // The kitten tail makes it look off center when it's really not.
 
+const TOGGLE_SWITCH_DIMENSION = new Dimension2( 26, 13 );
+
 export default class KittenNode extends InteractiveHighlightingNode {
   private readonly focusPanel: Node;
 
@@ -100,7 +102,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
 
     const kittenAttributeSwitch = new ToggleSwitch( isLeftAddendProperty, true, false, {
-      size: new Dimension2( 26, 13 ),
+      size: TOGGLE_SWITCH_DIMENSION,
       focusable: false,
       tandem: options.includeAttributeSwitch ? options.tandem.createTandem( 'kittenAttributeSwitch' ) : Tandem.OPT_OUT,
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
@@ -119,7 +121,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } );
 
     // When a countingObject is focused the panel with a switch is visible
-    const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT );
+    const panelHeightReduction = options.includeAttributeSwitch ? 0 : TOGGLE_SWITCH_DIMENSION.height;
+    const panelBounds = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - panelHeightReduction );
     const panelAlignBoxBoundsProperty = new Property( panelBounds );
     const panelAlignBox = new AlignBox( kittenAttributeSwitch, {
       alignBoundsProperty: panelAlignBoxBoundsProperty,
@@ -164,17 +167,20 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     // Panel bounds will change if the kittenAttributeSwitch is set to visible = false in PhET-iO. In that situation
     // we also want to update the position of the kitten images.
-    kittenAttributeSwitch.visibleProperty.link( visible => {
-        if ( !visible ) {
-          panelAlignBoxBoundsProperty.value = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - kittenAttributeSwitch.height - KITTEN_PANEL_MARGIN );
-          focusPanel.y = kittenAttributeSwitch.height + KITTEN_PANEL_MARGIN;
+    if ( options.includeAttributeSwitch ) {
+      kittenAttributeSwitch.visibleProperty.link( visible => {
+          if ( !visible ) {
+            panelAlignBoxBoundsProperty.value = new Bounds2( 0, 0, KITTEN_PANEL_WIDTH, KITTEN_PANEL_HEIGHT - kittenAttributeSwitch.height - KITTEN_PANEL_MARGIN );
+            focusPanel.y = kittenAttributeSwitch.height + KITTEN_PANEL_MARGIN;
+          }
+          else {
+            panelAlignBoxBoundsProperty.value = panelBounds;
+            focusPanel.y = 0;
+          }
         }
-        else {
-          panelAlignBoxBoundsProperty.value = panelBounds;
-          focusPanel.y = 0;
-        }
-      }
-    );
+      );
+    }
+
     ManualConstraint.create( this, [ focusPanel, leftAddendKittenImage, rightAddendKittenImage ], ( focusPanel, leftAddendKittenImage, rightAddendKittenImage ) => {
       leftAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
       rightAddendKittenImage.centerBottom = focusPanel.centerBottom.plusXY( KITTEN_OFFSET, -KITTEN_PANEL_MARGIN );
