@@ -36,9 +36,10 @@ export default class KittensLayerNode extends Node {
   ) {
     const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
+
+    // The order will be set in a Multilink in NumberPairsScreenView
     const kittenPDOMOrderProperty = new Property<KittenNode[]>( [] );
 
-    const kittenPDOMOrder: KittenNode[] = [];
     countingObjects.forEach( ( countingObject, i ) => {
       const kittenNode = new KittenNode( countingObject, newKittenSelectedEmitter, {
         includeAttributeSwitch: providedOptions.includeKittenAttributeSwitch,
@@ -58,15 +59,7 @@ export default class KittensLayerNode extends Node {
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } );
       kittenNodes.push( kittenNode );
-      if ( countingObject.addendTypeProperty.value === AddendType.LEFT ) {
-        kittenPDOMOrder.unshift( kittenNode );
-      }
-      else if ( countingObject.addendTypeProperty.value === AddendType.RIGHT ) {
-        kittenPDOMOrder.push( kittenNode );
-      }
     } );
-
-    kittenPDOMOrderProperty.value = kittenPDOMOrder;
 
     const options = optionize<KittensLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
       children: kittenNodes
