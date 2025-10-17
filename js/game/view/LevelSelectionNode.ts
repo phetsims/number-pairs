@@ -92,6 +92,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
           model.setLevel( levelNumber );
         },
         options: {
+          accessibleHelpText: level.description,
 
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
