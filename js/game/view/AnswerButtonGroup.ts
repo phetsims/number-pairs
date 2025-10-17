@@ -93,22 +93,22 @@ export default class AnswerButtonGroup extends GridBox {
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty,
           ( isCorrect, selectedNumber ) => {
 
-          // when the correct answer is showing, disable all buttons
-          if ( isCorrect ) {
-            return false;
-          }
+            // when the correct answer is showing, disable all buttons
+            if ( isCorrect ) {
+              return false;
+            }
 
-          // disable buttons that have already been guessed
-          return !guessedNumbers.includes( value );
-        } )
+            // disable buttons that have already been guessed
+            return !guessedNumbers.includes( value );
+          } )
       } );
 
       const correctAnswerNode = new NumberRectangle(
         new Dimension2( numberToggleButton.width, numberToggleButton.height ),
         new Property( value ), {
-        stroke: 'black',
-        fill: buttonColorProperty
-      } );
+          stroke: 'black',
+          fill: buttonColorProperty
+        } );
 
       const toggleProperty = derived( isCorrectProperty, selectedNumberProperty, ( isCorrect, selectedNumber ) =>
         isCorrect && selectedNumber === value );
