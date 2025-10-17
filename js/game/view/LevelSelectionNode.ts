@@ -160,7 +160,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
 
     this.addChild( resetAllButton );
 
-    this.accessibleControlsSectionNode.pdomOrder = [
+    this.accessibleOptionsSectionNode.pdomOrder = [
       resetAllButton
     ];
 
