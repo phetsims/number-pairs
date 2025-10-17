@@ -9,18 +9,21 @@
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GameInfoButton from '../../../../vegas/js/buttons/GameInfoButton.js';
 import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
+import LevelSelectionScreenNode from '../../../../vegas/js/LevelSelectionScreenNode.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
+import VegasFluent from '../../../../vegas/js/VegasFluent.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -38,12 +41,11 @@ const X_SPACING = 24;
 const Y_SPACING = 24;
 const BUTTONS_PER_ROW = 4;
 
-export default class LevelSelectionNode extends Node {
+export default class LevelSelectionNode extends LevelSelectionScreenNode {
 
   public constructor( model: GameModel, layoutBounds: Bounds2, tandem: Tandem ) {
 
-    const titleText = new Text( NumberPairsFluent.levelSelectionTitleStringProperty, {
-      accessibleParagraph: NumberPairsFluent.levelSelectionTitleStringProperty,
+    const titleText = new Text( VegasFluent.chooseYourLevelStringProperty, {
       font: TITLE_FONT,
       maxWidth: 0.8 * layoutBounds.width
     } );
@@ -132,13 +134,34 @@ export default class LevelSelectionNode extends Node {
       yMargin: TITLE_MARGIN
     } );
 
-    super( {
+    super( NumberPairsFluent.screen.gameStringProperty, buttonGroup, {
       isDisposable: false,
       children: [ levelSelectionAlignBox, infoButton ],
       tandem: tandem,
       phetioDocumentation: 'UI for choosing a game level.',
       phetioVisiblePropertyInstrumented: false
     } );
+
+    // This is what clients might do in their LevelsScreenView.
+    this.accessibleLevelsSectionNode.pdomOrder = [
+      buttonGroup,
+      infoButton
+    ];
+
+    const resetAllButton = new ResetAllButton( {
+      listener: () => {
+        model.reset();
+      },
+      right: layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
+      bottom: layoutBounds.maxY - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
+      tandem: tandem.createTandem( 'resetAllButton' )
+    } );
+
+    this.addChild( resetAllButton );
+
+    this.accessibleControlsSectionNode.pdomOrder = [
+      resetAllButton
+    ];
 
     ManualConstraint.create( this, [ titleText, infoButton ], ( titleTextProxy, infoButtonProxy ) => {
       infoButtonProxy.leftCenter = titleTextProxy.rightCenter.plusXY( 40, 0 );

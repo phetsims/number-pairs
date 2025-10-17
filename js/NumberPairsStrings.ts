@@ -74,7 +74,6 @@ type StringsType = {
   'sumScreenNumberModelOrientationStringProperty': LocalizedStringProperty;
   'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
   'tryAgainStringProperty': LocalizedStringProperty;
-  'levelSelectionTitleStringProperty': LocalizedStringProperty;
   'levelPatternStringProperty': LocalizedStringProperty;
   'a11y': {
     'leftStringProperty': LocalizedStringProperty;

@@ -143,9 +143,6 @@
   "tryAgain": {
     "value": "Try Again"
   },
-  "levelSelectionTitle": {
-    "value": "Choose Your Level"
-  },
   "levelPattern": {
     "value": "Level {{level}}"
   },

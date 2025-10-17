@@ -11,12 +11,10 @@ import derived from '../../../../axon/js/derived.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { getPDOMFocusedNode } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
@@ -49,14 +47,6 @@ export default class GameScreenView extends ScreenView {
     super( options );
 
     const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        model.reset();
-      },
-      right: this.layoutBounds.maxX - NumberPairsConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - NumberPairsConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
-    } );
 
     const returnToLevelSelection = () => {
       model.modeProperty.value = 'levelSelectionScreen';
@@ -81,13 +71,7 @@ export default class GameScreenView extends ScreenView {
     } );
 
     const toggleNode = new ToggleNode( model.modeProperty, [
-      {
-        value: 'levelSelectionScreen', createNode: () => new Node( {
-          children: [ new Node( {
-            accessibleParagraph: 'Game Screen. Select a level to begin playing. Choose the number that adds to the target number for each challenge.'
-          } ), levelSelectionNode, resetAllButton ]
-        } )
-      },
+      { value: 'levelSelectionScreen', createNode: () => new Node( { children: [ levelSelectionNode ] } ) },
       { value: 'level1', createNode: () => createLevelNode( 1 ) },
       { value: 'level2', createNode: () => createLevelNode( 2 ) },
       { value: 'level3', createNode: () => createLevelNode( 3 ) },

@@ -68,7 +68,6 @@ addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStri
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
 addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
-addToMapIfDefined( 'levelSelectionTitle', 'levelSelectionTitleStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
@@ -239,7 +238,6 @@ const NumberPairsFluent = {
   sumScreenNumberModelOrientationStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationStringProperty' ),
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
-  levelSelectionTitleStringProperty: _.get( NumberPairsStrings, 'levelSelectionTitleStringProperty' ),
   levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
   a11y: {
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),
