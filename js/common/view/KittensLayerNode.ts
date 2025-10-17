@@ -36,9 +36,9 @@ export default class KittensLayerNode extends Node {
   ) {
     const newKittenSelectedEmitter = new Emitter<[ CountingObject ]>( { parameters: [ { valueType: CountingObject } ] } );
     const kittenNodes: KittenNode[] = [];
-    const kittenPDOMOrder: KittenNode[] = [];
-    const kittenPDOMOrderProperty = new Property( kittenPDOMOrder );
+    const kittenPDOMOrderProperty = new Property<KittenNode[]>( [] );
 
+    const kittenPDOMOrder: KittenNode[] = [];
     countingObjects.forEach( ( countingObject, i ) => {
       const kittenNode = new KittenNode( countingObject, newKittenSelectedEmitter, {
         includeAttributeSwitch: providedOptions.includeKittenAttributeSwitch,
@@ -49,6 +49,7 @@ export default class KittensLayerNode extends Node {
           firstKitten.focus();
         },
         switchFocusToLastKitten: () => {
+          const kittenPDOMOrder = kittenPDOMOrderProperty.value;
           const lastActiveKitten = kittenPDOMOrder[ kittenPDOMOrder.length - 1 ];
           lastActiveKitten.focus();
         },
@@ -64,6 +65,8 @@ export default class KittensLayerNode extends Node {
         kittenPDOMOrder.push( kittenNode );
       }
     } );
+
+    kittenPDOMOrderProperty.value = kittenPDOMOrder;
 
     const options = optionize<KittensLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
       children: kittenNodes
