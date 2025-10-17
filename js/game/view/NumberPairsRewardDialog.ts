@@ -17,6 +17,7 @@ export default class NumberPairsRewardDialog extends RewardDialog {
   public constructor(
     levelNumberProperty: TReadOnlyProperty<number>, // A number indicating the current level number. 1-indexed. 0 when not on a challenge level (like the levelSelectionScreen).
     returnToHomeScreen: () => void,
+    focusNextButton: () => void,
     rewardNode: RewardNode,
     rewardScore: number,
     tandem: Tandem
@@ -25,7 +26,10 @@ export default class NumberPairsRewardDialog extends RewardDialog {
     super( levelNumberProperty, rewardScore, {
 
       // 'Keep Going' hides the dialog, but doesn't change the current challenge.
-      dismissListener: () => this.hide(),
+      dismissListener: () => {
+        this.hide();
+        focusNextButton();
+      },
 
       // 'New Level' takes us back to the level-selection interface, and keeps the solved challenge loaded if we return
       // to this level to be consistent with the back button.

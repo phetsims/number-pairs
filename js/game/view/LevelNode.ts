@@ -26,6 +26,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CheckButton from '../../../../vegas/js/buttons/CheckButton.js';
 import NextButton from '../../../../vegas/js/buttons/NextButton.js';
+import ChallengeScreenNode from '../../../../vegas/js/ChallengeScreenNode.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
@@ -49,7 +50,7 @@ const TEXT_OPTIONS = {
   maxWidth: 150
 };
 
-export default abstract class LevelNode extends Node {
+export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly statusBar: StatusBar;
   protected readonly wrongMark: Text;
   protected readonly checkMark: Text;
@@ -63,7 +64,7 @@ export default abstract class LevelNode extends Node {
   protected readonly countingAreaBounds: Bounds2;
   protected readonly numberModelCenter: Vector2;
   protected readonly checkButton: RectangularPushButton;
-  protected readonly nextButton: RectangularPushButton;
+  public readonly nextButton: RectangularPushButton;
 
   protected constructor( model: GameModel,
                          level: Level,
@@ -194,12 +195,6 @@ export default abstract class LevelNode extends Node {
     // when the challenge changes, focus on the number button grid so that keyboard users can easily continue
     level.challengeProperty.link( () => {
       this.answerButtonGroup.focusFirstElement();
-    } );
-
-    model.modeProperty.link( mode => {
-      if ( mode === level.levelName ) {
-        // TODO: https://github.com/phetsims/number-pairs/issues/228 there is a descriptive heading we will focus
-      }
     } );
 
     // When the next button appears, focus it so that keyboard users can easily continue to the next challenge

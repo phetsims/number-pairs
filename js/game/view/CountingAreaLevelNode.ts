@@ -69,17 +69,20 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     // If the user clicks outside the kittens, then remove focus from all the counting objects.
     this.addInputListener( new ClickToDeselectKittensPressListener( this.kittensLayerNode, tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
 
-    this.pdomOrder = [
+    this.accessibleAnswerSectionNode.pdomOrder = [
       this.answerButtonGroup,
       this.checkButton,
-      this.nextButton,
+      this.nextButton
+    ];
 
+    this.accessibleChallengeSectionNode.pdomOrder = [
       this.kittensLayerNode,
-
       this.tenFrameButton,
       this.countingAreaNode,
+      this.challengeResetButton
+    ];
 
-      this.challengeResetButton,
+    this.accessibleStatusSectionNode.pdomOrder = [
       this.statusBar
     ];
   }

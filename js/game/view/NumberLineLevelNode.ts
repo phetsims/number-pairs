@@ -160,16 +160,20 @@ export default class NumberLineLevelNode extends LevelNode {
     // Control via the number buttons only
     numberLineNode.slider.focusable = false;
 
-    this.pdomOrder = [
+    this.accessibleAnswerSectionNode.pdomOrder = [
       this.answerButtonGroup,
       this.checkButton,
-      this.nextButton,
+      this.nextButton
+    ];
 
+    this.accessibleChallengeSectionNode.pdomOrder = [
       this.countingAreaNode,
-      this.challengeResetButton,
-
+      numberLineNode,
       checkboxGroup,
+      this.challengeResetButton
+    ];
 
+    this.accessibleStatusSectionNode.pdomOrder = [
       this.statusBar
     ];
   }
