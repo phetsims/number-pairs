@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -85,6 +86,16 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.accessibleStatusSectionNode.pdomOrder = [
       this.statusBar
     ];
+
+    // We only want to update the pdom order when we are in the kitten representation.
+    // NOTE: this is similar to code in NumberPairsScreenView
+    Multilink.multilink( [ level.selectedGuessProperty ], () => {
+      const leftAddendObjects = level.countingObjectsDelegate.leftAddendCountingObjectsProperty.value;
+      const rightAddendObjects = level.countingObjectsDelegate.rightAddendCountingObjectsProperty.value;
+      const leftAddendKittenNodes = leftAddendObjects.map( countingObject => this.kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
+      const rightAddendKittenNodes = rightAddendObjects.map( countingObject => this.kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
+      this.kittensLayerNode.kittenPDOMOrderProperty.value = leftAddendKittenNodes.concat( rightAddendKittenNodes );
+    } );
   }
 }
 

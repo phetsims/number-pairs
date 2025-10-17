@@ -311,6 +311,7 @@ export default class NumberPairsScreenView extends ScreenView {
       } );
 
       // We only want to update the pdom order when we are in the kitten representation.
+      // NOTE: This is similar to code in CountingAreaLevelNode
       Multilink.multilink( [ model.leftAddendCountingObjectsLengthProperty, model.rightAddendCountingObjectsLengthProperty, model.totalProperty, model.representationTypeProperty ],
         ( leftAddendLength, rightAddendLength, total, representationType ) => {
           if ( representationType === RepresentationType.KITTENS && leftAddendLength + rightAddendLength === total ) {
