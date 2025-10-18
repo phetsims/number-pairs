@@ -71,13 +71,9 @@ a11y:
                            [one] Currently, { $count } object is in the counting areas.
                           *[other] Currently, { $count } objects are in the counting areas.
                          }
-      hiddenAreaPattern: >-
-                         Currently, the { $hiddenAddend } counting area is hidden.
-      bothHidden:        >-
-                         Currently, both counting areas are hidden.
-    interactionHint: >-
-                     Count or choose an object. Organize or move objects in a counting area to play. If needed, check out keyboard
-                     shortcuts under Sim Resources.
+      hiddenAreaPattern: Currently, the { $hiddenAddend } counting area is hidden.
+      bothHidden:        Currently, both counting areas are hidden.
+    interactionHint: Count or choose an object. Organize or move objects in counting area to play.
 
   # Basic terms and interactions
   left:                   left
