@@ -89,13 +89,11 @@ a11y:
     releasedAccessibleResponse: Released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
     firstLeftItemPattern:       First { $item } on left side
-    leftItemPattern:            >-
-                                { $item } on left side
+    leftItemPattern:            '{ $item } on left side'
     lastLeftItemPattern:        Last { $item } on left side
     onlyLeftItemPattern:        Only { $item } on left side
     firstRightItemPattern:      First { $item } on right side
-    rightItemPattern:           >-
-                                { $item } on right side
+    rightItemPattern:           '{ $item } on right side'
     lastRightItemPattern:       Last { $item } on right side
     onlyRightItemPattern:       Only { $item } on right side
   countingArea:
@@ -107,14 +105,10 @@ a11y:
                                 }
     numberBondLeadingParagraph: Number bond has { $total } in top circle
     barModelLeadingParagraph:   Bar model has { $total } in top rectangle
-    leftSideListItemPattern:    >-
-                                { $value } on left side
-    rightSideListItemPattern:   >-
-                                { $value } on right side
-    leftCircleListItemPattern:  >-
-                                { $value } in left circle
-    rightCircleListItemPattern: >-
-                                { $value } in right circle
+    leftSideListItemPattern:    '{ $value } on left side'
+    rightSideListItemPattern:   '{ $value } on right side'
+    leftCircleListItemPattern:  '{ $value } in left circle'
+    rightCircleListItemPattern: '{ $value } in right circle'
     valueHidden:                some
 
   # Representation types
@@ -198,11 +192,9 @@ a11y:
     commutativeButton:
       accessibleName:            Swap Addends
       accessibleHelpTextPattern: Switch { $items } from left counting area to right and right counting area to left.
-      accessibleContextResponse: >-
-                                 { $leftAddend } on left, { $rightAddend } on right, { $total } total.
+      accessibleContextResponse: '{ $leftAddend } on left, { $rightAddend } on right, { $total } total.'
     addendVisible:
-      accessibleNamePattern:     >-
-                                 { $addend } Counting Area Visibility
+      accessibleNamePattern:     '{ $addend } Counting Area Visibility'
       accessibleHelpTextPattern: Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
       accessibleContextResponse:
         hidden:  contents hidden
