@@ -41,6 +41,7 @@ import BeadsOnWireNode from './BeadsOnWireNode.js';
 import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressListener.js';
 import CommutativeButton from './CommutativeButton.js';
 import CountingAreaNode from './CountingAreaNode.js';
+import NumberPairsScreenSummaryContent from './NumberPairsScreenSummaryContent.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import NumberLineIcon from './NumberLineIcon.js';
@@ -88,7 +89,8 @@ export default class NumberPairsScreenView extends ScreenView {
       equationAccordionBox: null,
       sceneRange: null,
       sumScreen: false,
-      children: [ representationRadioButtonGroup ]
+      children: [ representationRadioButtonGroup ],
+      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
     }, providedOptions );
     super( options );
     this.representationRadioButtonGroup = representationRadioButtonGroup;

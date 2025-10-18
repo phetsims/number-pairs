@@ -57,6 +57,28 @@ tryAgain:                                                 Try Again
 levelPattern:                                             Level {{level}}
 a11y:
 
+  # Screen summary
+  screenSummary:
+    playArea: >-
+      There are left and right counting areas with fun objects. You can organize objects inside a counting
+      area or move them between counting areas to break a total apart in different ways. A decomposition phrase and a
+      number bond represent the total number broken apart into two addends. Additionally, change total number of objects,
+      automatically organize objects, or swap addends.
+    controlArea: Reset the sim to start over.
+    currentDetails:
+      objectsPattern: |-
+        { $count ->
+          [one] Currently, { $count } object is in the counting areas.
+         *[other] Currently, { $count } objects are in the counting areas.
+        }
+      hiddenAreaPattern: >-
+        The { $hiddenAddend } counting area is hidden.
+      bothHidden: >-
+        Both counting areas are hidden.
+    interactionHint: >-
+      Count or choose an object. Organize or move objects in a counting area to play. If needed, check out keyboard
+      shortcuts under Sim Resources.
+
   # Basic terms and interactions
   left:                     left
   right:                    right

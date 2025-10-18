@@ -76,6 +76,16 @@ type StringsType = {
   'tryAgainStringProperty': LocalizedStringProperty;
   'levelPatternStringProperty': LocalizedStringProperty;
   'a11y': {
+    'screenSummary': {
+      'playAreaStringProperty': LocalizedStringProperty;
+      'controlAreaStringProperty': LocalizedStringProperty;
+      'currentDetails': {
+        'objectsPatternStringProperty': LocalizedStringProperty;
+        'hiddenAreaPatternStringProperty': LocalizedStringProperty;
+        'bothHiddenStringProperty': LocalizedStringProperty;
+      };
+      'interactionHintStringProperty': LocalizedStringProperty;
+    };
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
     'leftCapitalizedStringProperty': LocalizedStringProperty;
