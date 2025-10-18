@@ -12,6 +12,7 @@ import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 
 export default class NumberPairsScreenSummaryContent extends ScreenSummaryContent {
 
@@ -51,8 +52,17 @@ export default class NumberPairsScreenSummaryContent extends ScreenSummaryConten
         }
       } );
 
+    const numberBarOrNumberBondProperty = derived(
+      NumberPairsPreferences.numberModelTypeProperty,
+      NumberPairsFluent.numberBondStringProperty,
+      NumberPairsFluent.barModelStringProperty,
+      numberModelType => numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
+                         NumberPairsFluent.numberBondStringProperty.value.toLowerCase() :
+                         NumberPairsFluent.barModelStringProperty.value.toLowerCase()
+    );
+
     super( {
-      playAreaContent: NumberPairsFluent.a11y.screenSummary.playAreaStringProperty,
+      playAreaContent: NumberPairsFluent.a11y.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBarOrNumberBondProperty } ),
       controlAreaContent: NumberPairsFluent.a11y.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,
       interactionHintContent: NumberPairsFluent.a11y.screenSummary.interactionHintStringProperty

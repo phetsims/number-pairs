@@ -250,7 +250,7 @@ const NumberPairsFluent = {
   a11y: {
     _comment_0: new FluentComment( {"comment":"Screen summary","associatedKey":"screenSummary"} ),
     screenSummary: {
-      playAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.screenSummary.playAreaStringProperty' ) ),
+      playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"}] ),
       controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.screenSummary.controlAreaStringProperty' ) ),
       currentDetails: {
         objectsPattern: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_screenSummary_currentDetails_objectsPattern', _.get( NumberPairsStrings, 'a11y.screenSummary.currentDetails.objectsPatternStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
