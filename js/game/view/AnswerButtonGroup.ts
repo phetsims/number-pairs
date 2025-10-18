@@ -85,8 +85,14 @@ export default class AnswerButtonGroup extends GridBox {
 
       const pressedProperty = new BooleanProperty( false );
 
+      const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
+        return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
+      } );
+
       const numberToggleButton = new NumberToggleButton( pressedProperty, {
-        accessibleName: value.toString(),
+        accessibleName: derived( isWrongProperty, isWrong => {
+          return isWrong ? `${value}, wrong answer` : `${value}`; // TODO: i18n https://github.com/phetsims/number-pairs/issues/217
+        } ),
         tandem: providedOptions.tandem.createTandem( `number${value}Button` ),
         content: labelBox,
         baseColor: buttonColorProperty,
@@ -137,9 +143,7 @@ export default class AnswerButtonGroup extends GridBox {
         font: new PhetFont( 20 ),
         fill: NumberPairsColors.wrongMarkColorProperty,
         pickable: false,
-        visibleProperty: derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
-          return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
-        } )
+        visibleProperty: isWrongProperty
       } );
       const checkMark = new Text( '✓', {
         font: new PhetFont( 23 ),
