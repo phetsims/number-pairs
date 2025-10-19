@@ -17,7 +17,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
@@ -93,7 +93,7 @@ export default class Level {
 
     this.modeProperty = new StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>( 'idle', {
       validValues: [ 'idle', 'guessSelected', 'incorrect', 'correct' ],
-      tandem: Tandem.OPT_OUT
+      tandem: tandem.createTandem( 'modeProperty' )
     } );
 
     this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
@@ -101,7 +101,10 @@ export default class Level {
       phetioValueType: Challenge.ChallengeIO
     } );
 
-    this.selectedGuessProperty = new Property<number | null>( null );
+    this.selectedGuessProperty = new Property<number | null>( null, {
+      tandem: tandem.createTandem( 'selectedGuessProperty' ),
+      phetioValueType: NullableIO( NumberIO )
+    } );
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
       range, {
