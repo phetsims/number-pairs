@@ -14,6 +14,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
@@ -42,7 +43,6 @@ import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressLi
 import CommutativeButton from './CommutativeButton.js';
 import CountingAreaDescriptionNode from './CountingAreaDescriptionNode.js';
 import CountingAreaNode from './CountingAreaNode.js';
-import NumberPairsScreenSummaryContent from './NumberPairsScreenSummaryContent.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import NumberLineIcon from './NumberLineIcon.js';
@@ -60,6 +60,7 @@ type SelfOptions = {
   equationAccordionBox?: AccordionBox | null;
   sceneRange?: Range | null;
   sumScreen?: boolean;
+  screenSummaryContent: ScreenSummaryContent;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'> &
   StrictOmit<ScreenViewOptions, 'children'>;
@@ -90,8 +91,7 @@ export default class NumberPairsScreenView extends ScreenView {
       equationAccordionBox: null,
       sceneRange: null,
       sumScreen: false,
-      children: [ representationRadioButtonGroup ],
-      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
+      children: [ representationRadioButtonGroup ]
     }, providedOptions );
     super( options );
     this.representationRadioButtonGroup = representationRadioButtonGroup;

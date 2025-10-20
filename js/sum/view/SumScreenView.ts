@@ -24,6 +24,7 @@ import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import KittenNode from '../../common/view/KittenNode.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberPairsScreenSummaryContent from '../../common/view/NumberPairsScreenSummaryContent.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
@@ -34,7 +35,7 @@ import AddendControlPanel from './AddendControlPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox'>
+type SumScreenViewOptions = SelfOptions & StrictOmit<NumberPairsScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'screenSummaryContent'>
   & PickRequired<NumberPairsScreenViewOptions, 'tandem'>;
 
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
@@ -67,7 +68,8 @@ export default class SumScreenView extends NumberPairsScreenView {
         addendsOnRight: false,
         expandedDefaultValue: true,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
-      } )
+      } ),
+      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
     }, providedOptions );
 
     super( model, options );

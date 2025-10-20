@@ -12,6 +12,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberPairsScreenSummaryContent from '../../common/view/NumberPairsScreenSummaryContent.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
@@ -20,9 +21,8 @@ import IntroModel from '../model/IntroModel.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
+type IntroScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange' | 'screenSummaryContent'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
-
 
 export default class IntroScreenView extends DecompositionScreenView {
 
@@ -38,7 +38,8 @@ export default class IntroScreenView extends DecompositionScreenView {
       numberBondAccordionBox: new NumberBondAccordionBox( model, {
         tandem: providedOptions.tandem.createTandem( 'numberBondAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
+      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
     }, providedOptions );
 
     super( model, options );

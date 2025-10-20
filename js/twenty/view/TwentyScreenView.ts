@@ -13,6 +13,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
+import NumberPairsScreenSummaryContent from '../../common/view/NumberPairsScreenSummaryContent.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
@@ -21,7 +22,7 @@ import TwentyModel from '../model/TwentyModel.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange'>
+type TwentyScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange' | 'screenSummaryContent'>
   & PickRequired<DecompositionScreenViewOptions, 'tandem'>;
 
 export default class TwentyScreenView extends DecompositionScreenView {
@@ -44,7 +45,8 @@ export default class TwentyScreenView extends DecompositionScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE
+      sceneRange: NumberPairsConstants.TWENTY_TOTAL_RANGE,
+      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
     }, providedOptions );
 
     super( model, options );
