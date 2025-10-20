@@ -147,6 +147,7 @@ type StringsType = {
       'leftAddendKittenStringProperty': LocalizedStringProperty;
       'rightAddendKittenStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'withoutAttributeSwitchHelpTextStringProperty': LocalizedStringProperty;
     };
     'beads': {
       'accessibleNameStringProperty': LocalizedStringProperty;

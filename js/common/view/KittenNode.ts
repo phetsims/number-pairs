@@ -13,6 +13,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -75,15 +76,23 @@ export default class KittenNode extends InteractiveHighlightingNode {
     providedOptions: KittenNodeOptions
   ) {
 
+    const DEFAULT_INCLUDE_ATTRIBUTE_SWITCH = true;
+
+    // Lightweight option for includeAttributeSwitch since it determines accessibleHelpText
+    const includeAttributeSwitch = providedOptions.includeAttributeSwitch === undefined ? DEFAULT_INCLUDE_ATTRIBUTE_SWITCH : providedOptions.includeAttributeSwitch;
+
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
       accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty,
+      accessibleHelpText: includeAttributeSwitch ? NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty :
+                          NumberPairsFluent.a11y.kittens.withoutAttributeSwitchHelpTextStringProperty,
       focusable: true,
-      includeAttributeSwitch: true,
+      includeAttributeSwitch: DEFAULT_INCLUDE_ATTRIBUTE_SWITCH,
       dragBounds: KittenNode.DEFAULT_DRAG_BOUNDS
     }, providedOptions );
+
+    affirm( includeAttributeSwitch === options.includeAttributeSwitch, 'includeAttributeSwitch must match' );
 
     // The kittenAttributeSwitch must receive a mutable boolean Property to toggle between two options. Here we create
     // a Property that allows us to toggle between the left and right addend while also still respecting the

@@ -128,14 +128,15 @@ a11y:
     accessibleName:         Ones
     singularAccessibleName: One
   kittens:
-    accessibleName:            Kittens
-    singularAccessibleName:    Kitten
-    changeColorAccessibleName: Change Color
-    leftAddendColor:           Yellow
-    rightAddendColor:          Blue
-    leftAddendKitten:          Yellow Kitten
-    rightAddendKitten:         Blue Kitten
-    accessibleHelpText:        Change kitten color and move kittens around to play.
+    accessibleName:                 Kittens
+    singularAccessibleName:         Kitten
+    changeColorAccessibleName:      Change Color
+    leftAddendColor:                Yellow
+    rightAddendColor:               Blue
+    leftAddendKitten:               Yellow Kitten
+    rightAddendKitten:              Blue Kitten
+    accessibleHelpText:             Change kitten color and move kittens around to play.
+    withoutAttributeSwitchHelpText: Move kittens around to play.
 
   beads:
     accessibleName:         Beads
