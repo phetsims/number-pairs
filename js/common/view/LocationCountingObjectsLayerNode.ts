@@ -8,13 +8,16 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -104,6 +107,18 @@ export default class LocationCountingObjectsLayerNode extends Node {
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty(
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
     );
+
+    const responseDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
+    Multilink.multilinkAny( responseDependencies, () => {
+      if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {
+        affirm( groupSelectModel.selectedGroupItemProperty.value, 'selectedGroupItem should not be null' );
+        const addendStringProperty = groupSelectModel.selectedGroupItemProperty.value.addendTypeProperty.value === AddendType.LEFT ?
+          NumberPairsFluent.a11y.leftStringProperty : NumberPairsFluent.a11y.rightStringProperty;
+        this.addAccessibleContextResponse( NumberPairsFluent.a11y.grabOrReleaseInteraction.movedAccessibleResponse.format( {
+          addend: addendStringProperty
+        } ) );
+      }
+    } );
   }
 
   /**
