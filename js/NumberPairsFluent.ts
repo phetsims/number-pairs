@@ -69,6 +69,14 @@ addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStri
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
 addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level1', 'gameScreen.levelDescriptions.level1StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level2', 'gameScreen.levelDescriptions.level2StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level3', 'gameScreen.levelDescriptions.level3StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level4', 'gameScreen.levelDescriptions.level4StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level5', 'gameScreen.levelDescriptions.level5StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level6', 'gameScreen.levelDescriptions.level6StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level7', 'gameScreen.levelDescriptions.level7StringProperty' );
+addToMapIfDefined( 'gameScreen_levelDescriptions_level8', 'gameScreen.levelDescriptions.level8StringProperty' );
 addToMapIfDefined( 'a11y_screenSummary_playArea', 'a11y.screenSummary.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_screenSummary_controlArea', 'a11y.screenSummary.controlAreaStringProperty' );
 addToMapIfDefined( 'a11y_screenSummary_currentDetails_objectsPattern', 'a11y.screenSummary.currentDetails.objectsPatternStringProperty' );
@@ -251,6 +259,22 @@ const NumberPairsFluent = {
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
   levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
+  _comment_1: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+  gameScreen: {
+    levelDescriptions: {
+      level1StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level1StringProperty' ),
+      level2StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level2StringProperty' ),
+      level3StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level3StringProperty' ),
+      level4StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level4StringProperty' ),
+      level5StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level5StringProperty' ),
+      level6StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level6StringProperty' ),
+      level7StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level7StringProperty' ),
+      level8StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level8StringProperty' )
+    },
+    infoDialog: {
+      levelWithDescriptionStringProperty: _.get( NumberPairsStrings, 'gameScreen.infoDialog.levelWithDescriptionStringProperty' )
+    }
+  },
   a11y: {
     _comment_0: new FluentComment( {"comment":"Screen summary","associatedKey":"screenSummary"} ),
     screenSummary: {

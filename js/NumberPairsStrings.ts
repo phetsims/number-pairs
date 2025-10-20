@@ -75,6 +75,21 @@ type StringsType = {
   'sumScreenNumberModelOrientationDescriptionStringProperty': LocalizedStringProperty;
   'tryAgainStringProperty': LocalizedStringProperty;
   'levelPatternStringProperty': LocalizedStringProperty;
+  'gameScreen': {
+    'levelDescriptions': {
+      'level1StringProperty': LocalizedStringProperty;
+      'level2StringProperty': LocalizedStringProperty;
+      'level3StringProperty': LocalizedStringProperty;
+      'level4StringProperty': LocalizedStringProperty;
+      'level5StringProperty': LocalizedStringProperty;
+      'level6StringProperty': LocalizedStringProperty;
+      'level7StringProperty': LocalizedStringProperty;
+      'level8StringProperty': LocalizedStringProperty;
+    };
+    'infoDialog': {
+      'levelWithDescriptionStringProperty': LocalizedStringProperty;
+    }
+  };
   'a11y': {
     'screenSummary': {
       'playAreaStringProperty': LocalizedStringProperty;

@@ -24,7 +24,7 @@ export default class NumberLineLevel extends Level {
     levelType: LevelType,
     levelNumber: number, // 1-indexed level number
     color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
-    description: string, // Appears in the bar at the top of the screen
+    description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
     range: InputRange,
     type: ChallengeType,
     createChallenge: ( isFirst: boolean ) => Challenge,

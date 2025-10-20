@@ -50,7 +50,11 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       maxWidth: 0.8 * layoutBounds.width
     } );
 
-    const infoDialog = new GameInfoDialog( model.levels.map( level => `Level ${level.levelNumber}: ${level.description}` ), {
+    const infoDialog = new GameInfoDialog( model.levels.map( level => new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
+        level: level.levelNumber,
+        description: level.description
+      } )
+    ), {
       gameLevels: NumberPairsQueryParameters.gameLevels,
       tandem: tandem.createTandem( 'infoDialog' )
     } );

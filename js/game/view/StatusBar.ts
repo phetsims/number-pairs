@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import StringProperty from '../../../../axon/js/StringProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -16,6 +16,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 
@@ -38,7 +39,10 @@ export default class StatusBar extends InfiniteStatusBar {
       floatToTop: true,
       spacing: 20,
       backButtonListener: backButtonListener,
-      accessibleMessageStringProperty: new StringProperty( `Level ${level.levelNumber}. ${level.description}` ), // updates when level changes
+      accessibleMessageStringProperty: new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
+        level: level.levelNumber,
+        description: level.description
+      } ),
       tandem: tandem
     } );
   }
