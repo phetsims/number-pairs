@@ -24,7 +24,7 @@ import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import KittenNode from '../../common/view/KittenNode.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import NumberPairsScreenSummaryContent from '../../common/view/NumberPairsScreenSummaryContent.js';
+import IntroScreenSummaryContent from '../../common/view/IntroScreenSummaryContent.js';
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
@@ -69,7 +69,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         expandedDefaultValue: true,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      screenSummaryContent: new NumberPairsScreenSummaryContent( model )
+      screenSummaryContent: new IntroScreenSummaryContent( model )
     }, providedOptions );
 
     super( model, options );

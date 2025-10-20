@@ -1,7 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * NumberPairsScreenSummaryContent describes the play and control areas, current state, and interaction hint for every
+ * IntroScreenSummaryContent describes the play and control areas, current state, and interaction hint for every
  * Number Pairs screen. Strings are sourced from number-pairs-strings_en.yaml via NumberPairsFluent.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -14,7 +14,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 
-export default class NumberPairsScreenSummaryContent extends ScreenSummaryContent {
+export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 
   public constructor( model: NumberPairsModel ) {
 
@@ -70,4 +70,4 @@ export default class NumberPairsScreenSummaryContent extends ScreenSummaryConten
   }
 }
 
-numberPairs.register( 'NumberPairsScreenSummaryContent', NumberPairsScreenSummaryContent );
+numberPairs.register( 'IntroScreenSummaryContent', IntroScreenSummaryContent );
