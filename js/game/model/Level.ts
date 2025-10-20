@@ -138,7 +138,7 @@ export default class Level {
   /**
    * Checks if the provided guess is correct for the current challenge and updates level state.
    */
-  public checkAnswer( guess: number ): boolean {
+  public checkAnswer( guess: number ): { isCorrect: boolean; firstTry: boolean } {
 
     if ( !this.guessedNumbers.includes( guess ) ) {
       this.guessedNumbers.push( guess );
@@ -158,7 +158,7 @@ export default class Level {
     this.modeProperty.value = feedback;
     this.answerFeedbackEmitter.emit( feedback );
 
-    return isCorrect;
+    return { isCorrect: isCorrect, firstTry: this.guessedNumbers.length === 1 };
   }
 
   /**

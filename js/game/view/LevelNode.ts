@@ -173,7 +173,19 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
-        level.checkAnswer( guess );
+        const { isCorrect, firstTry } = level.checkAnswer( guess );
+
+        if ( isCorrect ) {
+          if ( firstTry ) {
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.correctAnswerOnFirstTry.format( { guess: guess, score: level.scoreProperty.value } ) );
+          }
+          else {
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.correctAnswer.format( { guess: guess } ) );
+          }
+        }
+        else {
+          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.incorrectAnswer.format( { guess: guess } ) );
+        }
       },
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
       enabledProperty: derived( level.modeProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {

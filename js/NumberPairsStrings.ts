@@ -231,6 +231,11 @@ type StringsType = {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       }
     };
+    'gameScreen': {
+      'correctAnswerStringProperty': LocalizedStringProperty;
+      'incorrectAnswerStringProperty': LocalizedStringProperty;
+      'correctAnswerOnFirstTryStringProperty': LocalizedStringProperty;
+    };
     'preferences': {
       'sumScreenModelOrientation': {
         'totalOnTopStringProperty': LocalizedStringProperty;

@@ -164,6 +164,9 @@ addToMapIfDefined( 'a11y_controls_countingObjectControl_accessibleHelpText', 'a1
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleHelpText', 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_correctAnswer', 'a11y.gameScreen.correctAnswerStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_incorrectAnswer', 'a11y.gameScreen.incorrectAnswerStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_correctAnswerOnFirstTry', 'a11y.gameScreen.correctAnswerOnFirstTryStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnTop', 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' );
@@ -422,14 +425,20 @@ const NumberPairsFluent = {
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' ) )
       }
     },
-    _comment_6: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),
+    _comment_6: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+    gameScreen: {
+      correctAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_correctAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.correctAnswerStringProperty' ), [{"name":"guess"}] ),
+      incorrectAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_incorrectAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.incorrectAnswerStringProperty' ), [{"name":"guess"}] ),
+      correctAnswerOnFirstTry: new FluentPattern<{ guess: FluentVariable, score: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_correctAnswerOnFirstTry', _.get( NumberPairsStrings, 'a11y.gameScreen.correctAnswerOnFirstTryStringProperty' ), [{"name":"guess"},{"name":"score"}] )
+    },
+    _comment_7: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),
     preferences: {
       sumScreenModelOrientation: {
         totalOnTopStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_preferences_sumScreenModelOrientation_totalOnTop', _.get( NumberPairsStrings, 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' ) ),
         totalOnBottomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', _.get( NumberPairsStrings, 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' ) )
       }
     },
-    _comment_7: new FluentComment( {"comment":"Keyboard help dialog","associatedKey":"keyboardHelpDialog"} ),
+    _comment_8: new FluentComment( {"comment":"Keyboard help dialog","associatedKey":"keyboardHelpDialog"} ),
     keyboardHelpDialog: {
       moveAcrossDescription: {
         labelInnerContent: new FluentPattern<{ addend: FluentVariable, item: FluentVariable, key: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' ), [{"name":"addend"},{"name":"item"},{"name":"key"}] )

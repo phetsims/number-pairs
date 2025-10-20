@@ -216,6 +216,12 @@ a11y:
     totalCheckbox:
       accessibleHelpText: Show or hide the sum of the two addends.
 
+  # Game
+  gameScreen:
+    correctAnswer:           '{ $guess } is correct.'
+    incorrectAnswer:         '{ $guess } is incorrect.'
+    correctAnswerOnFirstTry: '{ $guess } is correct. Stars increased to { $score }.'
+
   # Preferences
   preferences:
     sumScreenModelOrientation:
