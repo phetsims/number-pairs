@@ -98,6 +98,18 @@ export default class NumberPairsScreenView extends ScreenView {
     super( options );
     this.representationRadioButtonGroup = representationRadioButtonGroup;
 
+    // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
+    const countingAreaDescriptionNode = new CountingAreaDescriptionNode( {
+      leftAddendProperty: model.leftAddendProperty,
+      leftAddendVisibleProperty: model.leftAddendVisibleProperty,
+      rightAddendProperty: model.rightAddendProperty,
+      rightAddendVisibleProperty: model.rightAddendVisibleProperty,
+      representationTypeProperty: model.representationTypeProperty,
+      totalProperty: model.totalProperty,
+      tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
+    } );
+    this.countingAreaDescriptionNode = countingAreaDescriptionNode;
+
     /**
      * Set the layout of the accordion boxes along the top of each screen.
      */
@@ -232,8 +244,8 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
 
     const commutativeButtonContextResponseProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
-      leftAddend: model.leftAddendProperty,
-      rightAddend: model.rightAddendProperty,
+      leftAddend: this.countingAreaDescriptionNode.leftValueStringProperty,
+      rightAddend: this.countingAreaDescriptionNode.rightValueStringProperty,
       total: model.totalProperty
     } );
     const commutativeButton = new CommutativeButton( {
@@ -281,19 +293,6 @@ export default class NumberPairsScreenView extends ScreenView {
 
     this.countingAreaNode = countingAreaNode;
     this.countingAreaNodes.push( countingAreaNode );
-
-    // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
-    const countingAreaDescriptionNode = new CountingAreaDescriptionNode( {
-      leftAddendProperty: model.leftAddendProperty,
-      leftAddendVisibleProperty: model.leftAddendVisibleProperty,
-      rightAddendProperty: model.rightAddendProperty,
-      rightAddendVisibleProperty: model.rightAddendVisibleProperty,
-      representationTypeProperty: model.representationTypeProperty,
-      totalProperty: model.totalProperty,
-      tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
-    } );
-    this.addChild( countingAreaDescriptionNode );
-    this.countingAreaDescriptionNode = countingAreaDescriptionNode;
 
     // All the location representations at least include One Cards
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
@@ -431,6 +430,7 @@ export default class NumberPairsScreenView extends ScreenView {
 
       beadsOnWireNode.center = COUNTING_AREA_BOUNDS.center;
     }
+    this.addChild( countingAreaDescriptionNode );
 
     /**
      * Add in the rest of the nodes as part of the control area

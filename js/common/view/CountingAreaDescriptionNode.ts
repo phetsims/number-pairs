@@ -33,6 +33,9 @@ type CountingAreaDescriptionNodeOptions = SelfOptions & PickRequired<NodeOptions
 
 export default class CountingAreaDescriptionNode extends Node {
 
+  public readonly leftValueStringProperty: TReadOnlyProperty<string>;
+  public readonly rightValueStringProperty: TReadOnlyProperty<string>;
+
   public constructor( providedOptions: CountingAreaDescriptionNodeOptions ) {
 
     const leftValueStringProperty = new DerivedProperty(
@@ -70,6 +73,9 @@ export default class CountingAreaDescriptionNode extends Node {
     }, providedOptions );
 
     super( options );
+
+    this.leftValueStringProperty = leftValueStringProperty;
+    this.rightValueStringProperty = rightValueStringProperty;
   }
 }
 
