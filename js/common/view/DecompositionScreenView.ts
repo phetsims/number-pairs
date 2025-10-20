@@ -23,6 +23,7 @@ type SelfOptions = {
 };
 
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
+
 export default class DecompositionScreenView extends NumberPairsScreenView {
   protected constructor( private readonly model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );

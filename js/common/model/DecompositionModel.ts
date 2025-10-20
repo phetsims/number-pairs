@@ -37,7 +37,6 @@ export type DecompositionModelOptions = SelfOptions & StrictOmit<NumberPairsMode
 
 export default class DecompositionModel extends NumberPairsModel {
 
-
   // Each scene is associated with a readonly total. The selected scene model is determined by the totalProperty.
   // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
   public readonly selectedSceneProperty: Property<NumberPairsScene>;
