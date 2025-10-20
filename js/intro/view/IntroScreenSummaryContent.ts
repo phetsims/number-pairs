@@ -11,8 +11,8 @@ import derived from '../../../../axon/js/derived.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberPairsModel from '../model/NumberPairsModel.js';
-import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
+import NumberPairsModel from '../../common/model/NumberPairsModel.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 
 export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 

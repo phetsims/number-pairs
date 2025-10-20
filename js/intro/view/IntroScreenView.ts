@@ -12,7 +12,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import IntroScreenSummaryContent from '../../common/view/IntroScreenSummaryContent.js';
+import IntroScreenSummaryContent from '../../intro/view/IntroScreenSummaryContent.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
