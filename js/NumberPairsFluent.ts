@@ -172,9 +172,11 @@ addToMapIfDefined( 'a11y_controls_countingObjectControl_accessibleHelpText', 'a1
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleHelpText', 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_correctAnswer', 'a11y.gameScreen.correctAnswerStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_incorrectAnswer', 'a11y.gameScreen.incorrectAnswerStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_correctAnswerOnFirstTry', 'a11y.gameScreen.correctAnswerOnFirstTryStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswerOnFirstTry', 'a11y.gameScreen.responses.correctAnswerOnFirstTryStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleName', 'a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnTop', 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' );
@@ -451,9 +453,16 @@ const NumberPairsFluent = {
     },
     _comment_6: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
-      correctAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_correctAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.correctAnswerStringProperty' ), [{"name":"guess"}] ),
-      incorrectAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_incorrectAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.incorrectAnswerStringProperty' ), [{"name":"guess"}] ),
-      correctAnswerOnFirstTry: new FluentPattern<{ guess: FluentVariable, score: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_correctAnswerOnFirstTry', _.get( NumberPairsStrings, 'a11y.gameScreen.correctAnswerOnFirstTryStringProperty' ), [{"name":"guess"},{"name":"score"}] )
+      responses: {
+        correctAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerStringProperty' ), [{"name":"guess"}] ),
+        incorrectAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_incorrectAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.incorrectAnswerStringProperty' ), [{"name":"guess"}] ),
+        correctAnswerOnFirstTry: new FluentPattern<{ guess: FluentVariable, score: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswerOnFirstTry', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerOnFirstTryStringProperty' ), [{"name":"guess"},{"name":"score"}] )
+      },
+      resetChallengeButton: {
+        accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty' ) ),
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' ) )
+      }
     },
     _comment_7: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),
     preferences: {

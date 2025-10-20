@@ -232,9 +232,13 @@ a11y:
 
   # Game
   gameScreen:
-    correctAnswer:           '{ $guess } is correct.'
-    incorrectAnswer:         '{ $guess } is incorrect.'
-    correctAnswerOnFirstTry: '{ $guess } is correct. Stars increased to { $score }.'
+    responses:
+      correctAnswer:           '{ $guess } is correct.'
+      incorrectAnswer:         '{ $guess } is incorrect.'
+      correctAnswerOnFirstTry: '{ $guess } is correct. Stars increased to { $score }.'
+    resetChallengeButton:
+      accessibleName:     Reset Challenge
+      accessibleHelpText: Reset the current challenge to try again.
 
   # Preferences
   preferences:

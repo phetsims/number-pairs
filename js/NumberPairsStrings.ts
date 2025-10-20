@@ -247,9 +247,15 @@ type StringsType = {
       }
     };
     'gameScreen': {
-      'correctAnswerStringProperty': LocalizedStringProperty;
-      'incorrectAnswerStringProperty': LocalizedStringProperty;
-      'correctAnswerOnFirstTryStringProperty': LocalizedStringProperty;
+      'responses': {
+        'correctAnswerStringProperty': LocalizedStringProperty;
+        'incorrectAnswerStringProperty': LocalizedStringProperty;
+        'correctAnswerOnFirstTryStringProperty': LocalizedStringProperty;
+      };
+      'resetChallengeButton': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      }
     };
     'preferences': {
       'sumScreenModelOrientation': {

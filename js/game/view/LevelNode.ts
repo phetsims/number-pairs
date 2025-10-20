@@ -161,7 +161,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       bottom: this.countingAreaBounds.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
-      tandem: tandem.createTandem( 'challengeResetButton' )
+      tandem: tandem.createTandem( 'challengeResetButton' ),
+      accessibleName: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty
     } );
     this.addChild( this.challengeResetButton );
 
@@ -177,14 +179,14 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
         if ( isCorrect ) {
           if ( firstTry ) {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.correctAnswerOnFirstTry.format( { guess: guess, score: level.scoreProperty.value } ) );
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( { guess: guess, score: level.scoreProperty.value } ) );
           }
           else {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.correctAnswer.format( { guess: guess } ) );
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( { guess: guess } ) );
           }
         }
         else {
-          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.incorrectAnswer.format( { guess: guess } ) );
+          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( { guess: guess } ) );
         }
       },
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
