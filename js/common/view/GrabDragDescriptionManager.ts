@@ -10,7 +10,7 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import CountingObject from '../model/CountingObject.js';
+import CountingObject, { AddendType } from '../model/CountingObject.js';
 
 
 export default class GrabDragDescriptionManager {
@@ -75,19 +75,39 @@ export default class GrabDragDescriptionManager {
                                         getLeftAddendCountingObjects: () => CountingObject[],
                                         getRightAddendCountingObjects: () => CountingObject[],
                                         leftAddendObjectsLengthProperty: TReadOnlyProperty<number>,
-                                        rightAddendObjectsLengthProperty: TReadOnlyProperty<number> ): TReadOnlyProperty<string> {
+                                        rightAddendObjectsLengthProperty: TReadOnlyProperty<number>,
+                                        addendTypeProperties: TReadOnlyProperty<AddendType>[]
+  ): TReadOnlyProperty<string> {
 
     // We set the value as null at startup. Once a group item is selected, the description will be set appropriately,
     // and if the selected item is cleared, the description will remain as it was (until another item is selected).
     let stringProperty: TReadOnlyProperty<string> = new Property( 'null' );
-    stringProperty = new DerivedProperty( [ leftAddendObjectsLengthProperty, rightAddendObjectsLengthProperty,
+
+    // Must use deriveAny here because addendTypeProperties is of unknown length.
+    stringProperty = DerivedProperty.deriveAny( [
+        leftAddendObjectsLengthProperty,
+        rightAddendObjectsLengthProperty,
         selectedGroupItemProperty,
         this.onlyLeftItemDescriptionProperty, this.onlyRightItemDescriptionProperty,
         this.lastLeftItemDescriptionProperty, this.lastRightItemDescriptionProperty,
         this.firstLeftItemDescriptionProperty, this.firstRightItemDescriptionProperty,
-        this.leftItemDescriptionProperty, this.rightItemDescriptionProperty ],
-      ( leftAddendObjectsLength, rightAddendObjectsLength, selectedObject,
-        onlyLeftItem, onlyRightItem, lastLeftItem, lastRightItem, firstLeftItem, firstRightItem, leftItem, rightItem ) => {
+        this.leftItemDescriptionProperty, this.rightItemDescriptionProperty,
+        ...addendTypeProperties ],
+      () => {
+
+        // Convenience variables for the DerivedProperty dependencies
+        const leftAddendObjectsLength = leftAddendObjectsLengthProperty.value;
+        const rightAddendObjectsLength = rightAddendObjectsLengthProperty.value;
+        const selectedObject = selectedGroupItemProperty.value;
+        const onlyLeftItem = this.onlyLeftItemDescriptionProperty.value;
+        const onlyRightItem = this.onlyRightItemDescriptionProperty.value;
+        const lastLeftItem = this.lastLeftItemDescriptionProperty.value;
+        const lastRightItem = this.lastRightItemDescriptionProperty.value;
+        const firstLeftItem = this.firstLeftItemDescriptionProperty.value;
+        const firstRightItem = this.firstRightItemDescriptionProperty.value;
+        const leftItem = this.leftItemDescriptionProperty.value;
+        const rightItem = this.rightItemDescriptionProperty.value;
+
         const leftAddendCountingObjects = getLeftAddendCountingObjects();
         const rightAddendCountingObjects = getRightAddendCountingObjects();
 

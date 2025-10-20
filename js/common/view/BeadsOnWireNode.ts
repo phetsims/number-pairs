@@ -303,9 +303,12 @@ export default class BeadsOnWireNode extends Node {
       () => this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.RIGHT )
         .map( beadNode => beadNode.countingObject ),
       model.leftAddendCountingObjectsLengthProperty,
-      model.rightAddendCountingObjectsLengthProperty );
-    this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty( groupSelectModel.isGroupItemKeyboardGrabbedProperty );
+      model.rightAddendCountingObjectsLengthProperty,
 
+      // Update when any addendTypeProperty changes, since that could change the getLeftAddendCountingObjects or getRightAddendCountingObjects closures above.
+      Array.from( this.beadModelToNodeMap.keys() ).map( countingObject => countingObject.addendTypeProperty )
+    );
+    this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty( groupSelectModel.isGroupItemKeyboardGrabbedProperty );
   }
 
   private handleBeadDrop( beadNode: BeadNode ): void {

@@ -102,7 +102,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
       () => model.leftAddendCountingObjectsProperty.value,
       () => model.rightAddendCountingObjectsProperty.value,
       model.leftAddendCountingObjectsLengthProperty,
-      model.rightAddendCountingObjectsLengthProperty
+      model.rightAddendCountingObjectsLengthProperty,
+
+      // Since the closures above return the exact array, they do not get out of sync, and we don't need further dependencies here.
+      []
     );
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty(
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
