@@ -13,10 +13,8 @@ import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -32,33 +30,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
   public constructor( private readonly model: NumberPairsModel, countingAreaNode: CountingAreaNode, providedOptions: LocationCountingObjectsLayerNodeOptions ) {
 
-    const leftValueStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-      ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString );
-    const rightValueStringProperty = new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-      ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString );
-    const countingAreaAccessibleListNode = new AccessibleListNode( [
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } )
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } )
-      }
-    ], {
-      leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
-        total: model.totalProperty,
-        item: new DynamicProperty( model.representationTypeProperty, {
-          derive: 'singularAccessibleName'
-        } ),
-        items: new DynamicProperty( model.representationTypeProperty, {
-          derive: 'accessibleName'
-        } )
-      } )
-    } );
-
-    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
-      accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
-      children: [ countingAreaAccessibleListNode ]
-    }, providedOptions );
+    const options = optionize<LocationCountingObjectsLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {}, providedOptions );
 
     super( options );
 

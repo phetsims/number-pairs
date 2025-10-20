@@ -40,6 +40,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadsOnWireNode from './BeadsOnWireNode.js';
 import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressListener.js';
 import CommutativeButton from './CommutativeButton.js';
+import CountingAreaDescriptionNode from './CountingAreaDescriptionNode.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import NumberPairsScreenSummaryContent from './NumberPairsScreenSummaryContent.js';
 import KittensLayerNode from './KittensLayerNode.js';
@@ -73,10 +74,10 @@ export default class NumberPairsScreenView extends ScreenView {
   private readonly resetAccordionBoxes: () => void;
 
   // For pdom order.
-  protected readonly countingRepresentationNodes: Node[] = [];
   protected readonly countingAreaNodes: Node[] = [];
   protected readonly representationRadioButtonGroup: Node;
   protected readonly controlNodes: Node[] = [];
+  protected readonly countingAreaDescriptionNode: CountingAreaDescriptionNode;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -277,6 +278,19 @@ export default class NumberPairsScreenView extends ScreenView {
     this.addChild( countingAreaNode );
     this.countingAreaNodes.push( countingAreaNode );
 
+    // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
+    const countingAreaDescriptionNode = new CountingAreaDescriptionNode( {
+      leftAddendProperty: model.leftAddendProperty,
+      leftAddendVisibleProperty: model.leftAddendVisibleProperty,
+      rightAddendProperty: model.rightAddendProperty,
+      rightAddendVisibleProperty: model.rightAddendVisibleProperty,
+      representationTypeProperty: model.representationTypeProperty,
+      totalProperty: model.totalProperty,
+      tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
+    } );
+    this.addChild( countingAreaDescriptionNode );
+    this.countingAreaDescriptionNode = countingAreaDescriptionNode;
+
     // All the location representations at least include One Cards
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
       const locationLayerVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
@@ -290,8 +304,9 @@ export default class NumberPairsScreenView extends ScreenView {
         visibleProperty: locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
-      this.addChild( locationCountingObjectsLayerNode );
-      this.countingRepresentationNodes.push( locationCountingObjectsLayerNode );
+
+      // Add as child of countingAreaDescriptionNode for proper PDOM structure
+      countingAreaDescriptionNode.addChild( locationCountingObjectsLayerNode );
     }
 
     // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
@@ -299,8 +314,9 @@ export default class NumberPairsScreenView extends ScreenView {
     const countingRepresentationsLayer = new Node( {
       visibleProperty: DerivedProperty.and( [ model.leftAddendVisibleProperty, model.rightAddendVisibleProperty ] )
     } );
-    this.addChild( countingRepresentationsLayer );
-    this.countingRepresentationNodes.push( countingRepresentationsLayer );
+
+    // Add as child of countingAreaDescriptionNode for proper PDOM structure
+    countingAreaDescriptionNode.addChild( countingRepresentationsLayer );
 
     /**
      * Create the attribute based kitten node layer and accompanying features.
