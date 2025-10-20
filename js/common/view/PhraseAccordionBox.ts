@@ -142,9 +142,9 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       return isPrimaryLocale ? primaryLocalePatternString : secondaryLocalePatternString;
     } );
 
-    let totalHighlight: Rectangle;
-    let leftAddendHighlight: Rectangle;
-    let rightAddendHighlight: Rectangle;
+    let totalHighlight: Rectangle | null = null;
+    let leftAddendHighlight: Rectangle | null = null;
+    let rightAddendHighlight: Rectangle | null = null;
     const richText = new RichText( phraseStringProperty, {
       lineWrap: LINE_WRAP,
       maxHeight: 115,
@@ -216,13 +216,19 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
      * Ensure that the highlights exist in scenarios where translations or string changes remove the appropriate tags.
      */
     model.totalColorProperty.link( color => {
-      totalHighlight.fill = color;
+      if ( totalHighlight ) {
+        totalHighlight.fill = color;
+      }
     } );
     model.leftAddendColorProperty.link( color => {
-      leftAddendHighlight.fill = color;
+      if ( leftAddendHighlight ) {
+        leftAddendHighlight.fill = color;
+      }
     } );
     model.rightAddendColorProperty.link( color => {
-      rightAddendHighlight.fill = color;
+      if ( rightAddendHighlight ) {
+        rightAddendHighlight.fill = color;
+      }
     } );
 
     const titleTextOptions = optionize3<TextOptions, EmptySelfOptions, TextOptions>()( {},
