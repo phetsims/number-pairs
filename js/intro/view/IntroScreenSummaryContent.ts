@@ -9,24 +9,24 @@
 
 import derived from '../../../../axon/js/derived.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
+import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberPairsModel from '../../common/model/NumberPairsModel.js';
-import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
+import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
 
 export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 
   public constructor( model: NumberPairsModel ) {
 
-    const objectsPatternStringProperty = NumberPairsFluent.a11y.screenSummary.currentDetails.objectsPattern.createProperty( {
+    const objectsPatternStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.objectsPattern.createProperty( {
       count: model.totalProperty
     } );
 
-    const hiddenLeftStringProperty = NumberPairsFluent.a11y.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
+    const hiddenLeftStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
       hiddenAddend: NumberPairsFluent.a11y.leftStringProperty
     } );
 
-    const hiddenRightStringProperty = NumberPairsFluent.a11y.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
+    const hiddenRightStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
       hiddenAddend: NumberPairsFluent.a11y.rightStringProperty
     } );
 
@@ -36,7 +36,7 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
       objectsPatternStringProperty,
       hiddenLeftStringProperty,
       hiddenRightStringProperty,
-      NumberPairsFluent.a11y.screenSummary.currentDetails.bothHiddenStringProperty,
+      NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.bothHiddenStringProperty,
       ( leftVisible, rightVisible, objectsString, hiddenLeftString, hiddenRightString, bothHiddenString ) => {
         if ( leftVisible && rightVisible ) {
           return objectsString;
@@ -52,20 +52,11 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
         }
       } );
 
-    const numberBarOrNumberBondProperty = derived(
-      NumberPairsPreferences.numberModelTypeProperty,
-      NumberPairsFluent.numberBondStringProperty,
-      NumberPairsFluent.barModelStringProperty,
-      numberModelType => numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
-                         NumberPairsFluent.numberBondStringProperty.value.toLowerCase() :
-                         NumberPairsFluent.barModelStringProperty.value.toLowerCase()
-    );
-
     super( {
-      playAreaContent: NumberPairsFluent.a11y.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBarOrNumberBondProperty } ),
-      controlAreaContent: NumberPairsFluent.a11y.screenSummary.controlAreaStringProperty,
+      playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBondOrBarModelStringProperty } ),
+      controlAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,
-      interactionHintContent: NumberPairsFluent.a11y.screenSummary.interactionHintStringProperty
+      interactionHintContent: NumberPairsFluent.a11y.introScreen.screenSummary.interactionHintStringProperty
     } );
   }
 }

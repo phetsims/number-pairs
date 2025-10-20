@@ -13,12 +13,12 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import DecompositionScreenView, { DecompositionScreenViewOptions } from '../../common/view/DecompositionScreenView.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
-import IntroScreenSummaryContent from '../../intro/view/IntroScreenSummaryContent.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TenModel from '../model/TenModel.js';
+import TenScreenSummaryContent from './TenScreenSummaryContent.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange' | 'screenSummaryContent'>
@@ -28,7 +28,7 @@ export default class TenScreenView extends DecompositionScreenView {
 
   public constructor( model: TenModel, providedOptions: TenScreenViewOptions ) {
 
-    const options = optionize<TenScreenViewOptions, SelfOptions, DecompositionScreenViewOptions>()( {
+    const options = optionize<TenScreenViewOptions, SelfOptions, StrictOmit<DecompositionScreenViewOptions, 'screenSummaryContent'>>()( {
       phraseAccordionBox: new PhraseAccordionBox( model, {
         phraseStringProperty: NumberPairsFluent.decompositionPhrasePatternStringProperty,
         phraseSpeechStringProperty: NumberPairsFluent.decompositionPhraseSpeechPatternStringProperty,
@@ -44,11 +44,12 @@ export default class TenScreenView extends DecompositionScreenView {
         rightAddendColorProperty: model.rightAddendColorProperty,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE,
-      screenSummaryContent: new IntroScreenSummaryContent( model )
+      sceneRange: NumberPairsConstants.TEN_TOTAL_RANGE
     }, providedOptions );
 
     super( model, options );
+
+    this.setScreenSummaryContent( new TenScreenSummaryContent( model, this.countingAreaNode.bothAddendsEyeToggleButton.addendVisibleProperty! ) );
   }
 }
 

@@ -24,6 +24,9 @@ type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOp
 const HEIGHT = 40; // empirically determined
 export default class AddendEyeToggleButton extends EyeToggleButton {
 
+  // Make available for core description, see https://github.com/phetsims/number-pairs/issues/206
+  public readonly addendVisibleProperty: BooleanProperty | null = null;
+
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: AddendEyeToggleButtonOptions ) {
 
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
@@ -68,6 +71,8 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     }
 
     super( addendToggleVisibleProperty, options );
+
+    this.addendVisibleProperty = addendToggleVisibleProperty;
   }
 }
 

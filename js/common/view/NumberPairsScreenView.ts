@@ -14,7 +14,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
@@ -60,13 +59,13 @@ type SelfOptions = {
   equationAccordionBox?: AccordionBox | null;
   sceneRange?: Range | null;
   sumScreen?: boolean;
-  screenSummaryContent: ScreenSummaryContent;
 };
 export type NumberPairsScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'> &
   StrictOmit<ScreenViewOptions, 'children'>;
 
 const COUNTING_AREA_Y_MARGIN = NumberPairsConstants.COUNTING_AREA_Y_MARGIN;
 const COUNTING_AREA_BOUNDS = NumberPairsConstants.COUNTING_AREA_BOUNDS;
+
 export default class NumberPairsScreenView extends ScreenView {
   private recursionDepth = 0;
   protected readonly resetAllButton: Node;
@@ -79,6 +78,9 @@ export default class NumberPairsScreenView extends ScreenView {
   protected readonly representationRadioButtonGroup: Node;
   protected readonly controlNodes: Node[] = [];
   protected readonly countingAreaDescriptionNode: CountingAreaDescriptionNode;
+
+  // Make available for core description, see https://github.com/phetsims/number-pairs/issues/206
+  public readonly countingAreaNode: CountingAreaNode;
 
   public constructor( model: NumberPairsModel, providedOptions: NumberPairsScreenViewOptions ) {
 
@@ -276,6 +278,8 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'countingAreaNode' )
     } );
     this.addChild( countingAreaNode );
+
+    this.countingAreaNode = countingAreaNode;
     this.countingAreaNodes.push( countingAreaNode );
 
     // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure

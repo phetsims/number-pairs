@@ -71,23 +71,39 @@ gameScreen:
 
 a11y:
 
-  # Screen summary
-  screenSummary:
-    playArea:        >-
-                     There are left and right counting areas with fun objects. You can organize objects inside a counting
-                     area or move them between counting areas to break a total apart in different ways. A decomposition phrase and a 
-                     { $numberBarOrBarModel} represent the total number broken apart into two addends. Additionally, change total number of objects,
-                     automatically organize objects, or swap addends.
-    controlArea:     Reset the sim to start over.
-    currentDetails:
-      objectsPattern:    |-
-                         { $count ->
-                           [one] Currently, { $count } object is in the counting areas.
-                          *[other] Currently, { $count } objects are in the counting areas.
-                         }
-      hiddenAreaPattern: Currently, the { $hiddenAddend } counting area is hidden.
-      bothHidden:        Currently, both counting areas are hidden.
-    interactionHint: Count or choose an object. Organize or move objects in counting area to play.
+  introScreen:
+    screenSummary:
+      playArea:        >-
+                       There are left and right counting areas with fun objects. You can organize objects inside a counting
+                       area or move them between counting areas to break a total apart in different ways. A decomposition phrase and a 
+                       { $numberBarOrBarModel} represent the total number broken apart into two addends. Additionally, change total number of objects,
+                       automatically organize objects, or swap addends.
+      controlArea:     Reset the sim to start over.
+      currentDetails:
+        objectsPattern:    |-
+                           { $count ->
+                             [one] Currently, { $count } object is in the counting areas.
+                            *[other] Currently, { $count } objects are in the counting areas.
+                           }
+        hiddenAreaPattern: Currently, the { $hiddenAddend } counting area is hidden.
+        bothHidden:        Currently, both counting areas are hidden.
+      interactionHint: Count or choose an object. Organize or move objects in counting area to play.
+
+  tenScreen:
+    screenSummary:
+      playArea:    >-
+                   There are yellow and blue objects you can move, change color, or organize. Drag objects to 
+                   change how total is broken apart. A decomposition phrase, a { $numberBarOrBarModel}, and equation 
+                   represent how total is broken apart into two addends. Additionally, change total number of 
+                   objects, automatically organize objects, or swap addends.
+      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
+      currentDetails:
+        countingAreaShown:  Currently, counting area shows { $count } { $itemType } broken into one or two colors. A phrase, { $numberBarOrBarModel} and equation show how the total is broken apart.
+        countingAreaHidden: Currently, the counting area is hidden. A phrase, { $numberBarOrBarModel } and equation show how the total is broken apart.
+      interactionHint:
+        beads:      Navigate to and grab bead to create groups, or move it across divider to change color.
+        kittens:    Choose kitten to move, organize, or change its color.
+        numberLine: Navigate to addend splitter knob and move it to change how total is broken apart.
 
   # Basic terms and interactions
   left:                   left

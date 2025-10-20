@@ -91,15 +91,32 @@ type StringsType = {
     }
   };
   'a11y': {
-    'screenSummary': {
-      'playAreaStringProperty': LocalizedStringProperty;
-      'controlAreaStringProperty': LocalizedStringProperty;
-      'currentDetails': {
-        'objectsPatternStringProperty': LocalizedStringProperty;
-        'hiddenAreaPatternStringProperty': LocalizedStringProperty;
-        'bothHiddenStringProperty': LocalizedStringProperty;
-      };
-      'interactionHintStringProperty': LocalizedStringProperty;
+    'introScreen': {
+      'screenSummary': {
+        'playAreaStringProperty': LocalizedStringProperty;
+        'controlAreaStringProperty': LocalizedStringProperty;
+        'currentDetails': {
+          'objectsPatternStringProperty': LocalizedStringProperty;
+          'hiddenAreaPatternStringProperty': LocalizedStringProperty;
+          'bothHiddenStringProperty': LocalizedStringProperty;
+        };
+        'interactionHintStringProperty': LocalizedStringProperty;
+      }
+    };
+    'tenScreen': {
+      'screenSummary': {
+        'playAreaStringProperty': LocalizedStringProperty;
+        'controlAreaStringProperty': LocalizedStringProperty;
+        'currentDetails': {
+          'countingAreaShownStringProperty': LocalizedStringProperty;
+          'countingAreaHiddenStringProperty': LocalizedStringProperty;
+        };
+        'interactionHint': {
+          'beadsStringProperty': LocalizedStringProperty;
+          'kittensStringProperty': LocalizedStringProperty;
+          'numberLineStringProperty': LocalizedStringProperty;
+        }
+      }
     };
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
