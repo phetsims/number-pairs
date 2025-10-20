@@ -26,6 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -129,13 +130,13 @@ export default class NumberLineLevelNode extends LevelNode {
     // Checkbox group for showing/hiding addends and tick numbers
     const checkboxGroup = new VerticalCheckboxGroup( [ {
       property: level.showAddendsProperty,
-      createNode: () => new Text( 'Addends', {
+      createNode: () => new Text( NumberPairsFluent.addendsStringProperty, {
         font: new PhetFont( 18 )
       } ),
       tandemName: 'showAddendsCheckbox'
     }, {
       property: level.showTickNumbersProperty,
-      createNode: () => new Text( 'Tick Numbers', {
+      createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, {
         font: new PhetFont( 18 )
       } ),
       tandemName: 'showTickNumbersCheckbox'
