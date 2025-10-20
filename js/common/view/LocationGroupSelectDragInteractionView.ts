@@ -7,6 +7,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -16,6 +17,7 @@ import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-so
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -41,6 +43,14 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
       derive: countingObject => countingObject.locationPositionProperty,
       bidirectional: true
     } );
+
+    // Create a DerivedProperty for the addend string of the selected item for accessibility responses.
+    const addendStringPropertyDependencies = [ ...countingObjectModelToNodeMap.keys() ].map( countingObject => countingObject.addendTypeProperty );
+    const selectedItemAddendStringProperty = DerivedProperty.deriveAny( [ ...addendStringPropertyDependencies,
+        groupSelectModel.selectedGroupItemProperty, NumberPairsFluent.a11y.leftStringProperty,
+        NumberPairsFluent.a11y.rightStringProperty ],
+      () => groupSelectModel.selectedGroupItemProperty.value?.addendTypeProperty.value === AddendType.LEFT ?
+            NumberPairsFluent.a11y.leftStringProperty.value : NumberPairsFluent.a11y.rightStringProperty.value );
 
     super( groupSelectModel, targetNode, selectedItemPositionProperty, countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
@@ -108,7 +118,13 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
           }
         }
       },
-      tandem: tandem
+      tandem: tandem,
+      grabbedAccessibleContextResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedAccessibleResponse.createProperty( {
+        addend: selectedItemAddendStringProperty
+      } ),
+      releasedAccessibleContextResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedAccessibleResponse.createProperty( {
+        addend: selectedItemAddendStringProperty
+      } )
     } );
   }
 
