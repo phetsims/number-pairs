@@ -78,7 +78,8 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       contentAlign: 'left',
       minWidth: PhraseAccordionBox.WIDTH,
       maxWidth: PhraseAccordionBox.WIDTH,
-      expandedDefaultValue: false
+      expandedDefaultValue: false,
+      accessibleHelpText: NumberPairsFluent.a11y.controls.phrase.accessibleHelpTextStringProperty
     }, providedOptions );
 
     /**
