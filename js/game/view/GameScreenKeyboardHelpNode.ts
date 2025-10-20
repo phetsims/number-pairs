@@ -1,4 +1,5 @@
 // Copyright 2025, University of Colorado Boulder
+
 /**
  * Keyboard help content for the intro screen
  *
@@ -10,7 +11,6 @@ import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/k
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-
 
 export default class GameScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNode {
 
