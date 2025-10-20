@@ -202,20 +202,20 @@ a11y:
     localeSwitch:
       accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
-      numberBond:                    number bond
-      barModel:                      proportional bar model
-      accessibleHelpText:            Represent decomposition as a { $representation }.
-      numberBondAccessibleParagraph: >-
-                                     Number bond has three circles arranged with one circle on top and two underneath like a triangle. Top circle
-                                     tells total number of objects, left circle is left addend, right circle is right addend. Right now, { $total }
-                                     in top circle. { $left } in left circle, { $right } in right circle.
-      barModelAccessibleParagraph:   >-
-                                     Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
-                                     objects, bottom rectangle is split into two sections that adjust based on size of addends. Right now, { $total }
-                                     in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportion } sections.
-      largerAndSmaller:              larger and smaller
-      smallerAndLarger:              smaller and larger
-      equal:                         equal
+      numberBond:                                 number bond
+      barModel:                                   proportional bar model
+      accessibleHelpText:                         Represent decomposition as a { $representation }.
+      numberBondAccessibleParagraph:              >-
+                                                  Number bond has three circles arranged with one circle on top and two underneath like a triangle. Top circle
+                                                  tells total number of objects, left circle is left addend, right circle is right addend.
+      currentNumberBondStateAccessibleParagraph:  Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
+      barModelAccessibleParagraph:                >-
+                                                  Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
+                                                  objects, bottom rectangle is split into two sections that adjust based on size of addends.
+      currentBarModelStateAccessibleParagraph:    Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportion } sections.
+      largerAndSmaller:                           larger and smaller
+      smallerAndLarger:                           smaller and larger
+      equal:                                      equal
     tenFrameButton:
       accessibleName:            Organize { $representation } Into Groups
       accessibleHelpText:        Each group has a maximum of 5 { $representation }.

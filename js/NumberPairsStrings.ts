@@ -217,7 +217,9 @@ type StringsType = {
         'barModelStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'numberBondAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'currentNumberBondStateAccessibleParagraphStringProperty': LocalizedStringProperty;
         'barModelAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'currentBarModelStateAccessibleParagraphStringProperty': LocalizedStringProperty;
         'largerAndSmallerStringProperty': LocalizedStringProperty;
         'smallerAndLargerStringProperty': LocalizedStringProperty;
         'equalStringProperty': LocalizedStringProperty;

@@ -48,7 +48,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
       } );
 
-    const numberBondAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
+    const numberBondAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty
@@ -60,7 +60,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
         return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
       } );
-    const barModelAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
+    const barModelAccessibleParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentBarModelStateAccessibleParagraph.createProperty( {
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty,
@@ -68,24 +68,13 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     } );
     const accessibleParagraphStringProperty = new DerivedProperty( [
         NumberPairsPreferences.numberModelTypeProperty,
-        numberBondAccessibleParagraphProperty,
-        barModelAccessibleParagraphProperty ],
+        NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraphStringProperty ],
       ( numberModelType, numberBondParagraph, barModelParagraph ) => {
-        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondParagraph : barModelParagraph;
+        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
+               numberBondParagraph : barModelParagraph;
       } );
 
-    // const numberModelAccessibleListNode = new AccessibleListNode( [
-    //   {
-    //     stringProperty: NumberPairsFluent.a11y.countingArea.leftCircleListItemPattern.createProperty( { value: leftValueStringProperty } )
-    //   },
-    //   {
-    //     stringProperty: NumberPairsFluent.a11y.countingArea.rightCircleListItemPattern.createProperty( { value: rightValueStringProperty } )
-    //   }
-    // ], {
-    //   leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.numberBondLeadingParagraph.createProperty( {
-    //     total: model.totalProperty
-    //   } )
-    // } );
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
       titleNode: titleNode,
@@ -101,12 +90,14 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     }, providedOptions );
 
     const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
-      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL )
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL ),
+      accessibleParagraph: numberBondAccessibleParagraphProperty
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );
     const barModelNode = new BarModelMutableNode( model, {
       totalOnTopProperty: options.numberBondNodeOptions.totalOnTopProperty, // It should match the number bond
-      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL )
+      visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL ),
+      accessibleParagraph: barModelAccessibleParagraphProperty
     } );
     const contentNode = new Node( {
       children: [ numberBondNode, barModelNode ],
