@@ -34,7 +34,9 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
     groupSelectModel: GroupSelectModel<CountingObject>,
     targetNode: Node,
     leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
+    leftAddendVisibleProperty: TReadOnlyProperty<boolean>,
     rightAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
+    rightAddendVisibleProperty: TReadOnlyProperty<boolean>,
     countingObjectModelToNodeMap: Map<CountingObject, LocationCountingObjectNode>,
     tandem: Tandem
   ) {
@@ -62,11 +64,11 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
         const leftCountingObjects = leftAddendCountingObjectsProperty.value;
         const rightCountingObjects = rightAddendCountingObjectsProperty.value;
 
-        // We want to start with the left addend counting objects.
-        if ( leftCountingObjects.length > 0 ) {
+        // We want to start with the left addend counting objects, but only if they are visible.
+        if ( leftCountingObjects.length > 0 && leftAddendVisibleProperty.value ) {
           return leftCountingObjects[ 0 ];
         }
-        else if ( rightCountingObjects.length > 0 ) {
+        else if ( rightCountingObjects.length > 0 && rightAddendVisibleProperty.value ) {
           return rightCountingObjects[ 0 ];
         }
         else {
@@ -88,7 +90,14 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
           return groupItem;
         }
 
-        const orderedCountingObjects = addendCountingObjects.concat( otherAddendCountingObjects );
+        const allOrderedCountingObjects = addendCountingObjects.concat( otherAddendCountingObjects );
+
+        // Only select visible counting objects.
+        const orderedCountingObjects = allOrderedCountingObjects.filter( countingObject => {
+          return countingObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendVisibleProperty.value :
+                 countingObject.addendTypeProperty.value === AddendType.RIGHT ? rightAddendVisibleProperty.value :
+                 false;
+        } );
         const currentIndex = orderedCountingObjects.indexOf( groupItem );
         affirm( currentIndex !== -1, 'Group item not found in combined counting objects' );
 

@@ -62,7 +62,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
       groupSelectModel,
       this,
       model.leftAddendCountingObjectsProperty,
+      model.leftAddendVisibleProperty,
       model.rightAddendCountingObjectsProperty,
+      model.rightAddendVisibleProperty,
       this.countingObjectModelToNodeMap,
       options.tandem.createTandem( 'groupSelectView' )
     );
