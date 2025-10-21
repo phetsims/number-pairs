@@ -48,10 +48,29 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       ( numberModelType, numberBondString, barModelString ) => {
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
       } );
+
+    const proportionStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
+      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
+        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
+      } );
+    const barModelParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentBarModelStateAccessibleParagraph.createProperty( {
+      left: model.leftAddendProperty,
+      right: model.rightAddendProperty,
+      total: model.totalProperty,
+      proportion: proportionStringProperty
+    } );
+    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
+      left: model.leftAddendProperty,
+      right: model.rightAddendProperty,
+      total: model.totalProperty
+    } );
     const accessibleParagraphStringProperty = new DerivedProperty( [
         NumberPairsPreferences.numberModelTypeProperty,
-        NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraphStringProperty ],
+        numberBondParagraphProperty,
+        barModelParagraphProperty ],
       ( numberModelType, numberBondParagraph, barModelParagraph ) => {
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
                numberBondParagraph : barModelParagraph;
@@ -67,42 +86,27 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       accessibleHelpText: NumberPairsFluent.a11y.controls.numberModel.accessibleHelpText.createProperty( {
         representation: representationStringProperty
       } ),
-      accessibleParagraph: accessibleParagraphStringProperty,
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );
 
     // Create the number bond number model representation.
     const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL ),
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
-        left: model.leftAddendProperty,
-        right: model.rightAddendProperty,
-        total: model.totalProperty
-      } )
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );
 
     // Create the bar model number model representation.
-    const proportionStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
-        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
-      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
-        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
-      } );
+
     const barModelNode = new BarModelMutableNode( model, {
       totalOnTopProperty: options.numberBondNodeOptions.totalOnTopProperty, // It should match the number bond
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL ),
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentBarModelStateAccessibleParagraph.createProperty( {
-        left: model.leftAddendProperty,
-        right: model.rightAddendProperty,
-        total: model.totalProperty,
-        proportion: proportionStringProperty
-      } )
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraphStringProperty
     } );
     const contentNode = new Node( {
       children: [ numberBondNode, barModelNode ],
-      excludeInvisibleChildrenFromBounds: true
+      excludeInvisibleChildrenFromBounds: true,
+      accessibleParagraph: accessibleParagraphStringProperty
     } );
     super( contentNode, options );
   }

@@ -249,7 +249,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
         // We only want to update the speechDataProperty if the math checks out.
         if ( leftAddend + rightAddend === total ) {
           options.speechDataProperty.value = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
-          this.accessibleParagraph = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
+          richText.accessibleParagraph = isPrimaryLocale ? primaryLocaleSpeechPattern : secondaryLocaleSpeechPattern;
         }
       } );
   }
