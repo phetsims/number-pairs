@@ -8,7 +8,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import createObservableArray, { ObservableArray, ObservableArrayIO } from '../../../../axon/js/createObservableArray.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import derived from '../../../../axon/js/derived.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -62,18 +62,10 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value,
       rightAddendProperty.value, options.tandem, Level.COUNTING_AREA_BOUNDS );
     const inactiveCountingObjects = createObservableArray( {
-      elements: countingObjects.slice(),
-      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: options.tandem.createTandem( 'inactiveCountingObjects' )
+      elements: countingObjects.slice()
     } );
-    const leftAddendObjects = createObservableArray<CountingObject>( {
-      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: options.tandem.createTandem( 'leftAddendObjects' )
-    } );
-    const rightAddendObjects = createObservableArray<CountingObject>( {
-      phetioType: ObservableArrayIO( CountingObject.CountingObjectIO ),
-      tandem: options.tandem.createTandem( 'rightAddendObjects' )
-    } );
+    const leftAddendObjects = createObservableArray<CountingObject>( {} );
+    const rightAddendObjects = createObservableArray<CountingObject>( {} );
 
     const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );

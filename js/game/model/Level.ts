@@ -108,7 +108,7 @@ export default class Level {
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
       range, {
-        tandem: tandem,
+        tandem: tandem.createTandem( 'countingObjectsDelegate' ),
         initialRepresentationType: options.representationType,
         representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
       } );

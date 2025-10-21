@@ -20,6 +20,7 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import Color from '../../../../scenery/js/util/Color.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -66,7 +67,7 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
 
     this.representationTypeProperty = new EnumerationProperty( options.initialRepresentationType, {
       validValues: options.representationTypeValidValues,
-      tandem: options.tandem.createTandem( 'representationTypeProperty' ),
+      tandem: options.representationTypeValidValues.length > 1 ? options.tandem.createTandem( 'representationTypeProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
     } );
 
