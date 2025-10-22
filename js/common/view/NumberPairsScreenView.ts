@@ -5,6 +5,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
@@ -233,7 +234,8 @@ export default class NumberPairsScreenView extends ScreenView {
       representation: representationTypeAccessibleNameProperty
     } );
     const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleHelpText.createProperty( {
-      representation: representationTypeAccessibleNameProperty
+      representation: representationTypeAccessibleNameProperty,
+      representationType: derived( model.representationTypeProperty, representationType => representationType.label as 'kittens' | 'beads' | 'other' )
     } );
 
     const buttonVBoxSpacing = 10;

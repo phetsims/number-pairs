@@ -245,7 +245,12 @@ a11y:
       equal:                                     equal
     tenFrameButton:
       accessibleName:            Organize { $representation } Into Groups
-      accessibleHelpText:        Each group has a maximum of 5 { $representation }.
+      accessibleHelpText:        |-
+                                 { $representationType ->
+                                   [kittens] Group by color, up to 5 kittens per row.
+                                   [beads] Group by color, up to 5 beads per group.
+                                   *[other] Each group has a maximum of 5 { $representation }.
+                                 }
       accessibleContextResponse: Organized.
     commutativeButton:
       accessibleName:            Swap Addends

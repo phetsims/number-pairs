@@ -494,7 +494,7 @@ const NumberPairsFluent = {
       tenFrameButton: {
         accessibleName: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleNameStringProperty' ), [{"name":"representation"}] ),
         _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
-        accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' ), [{"name":"representation"}] ),
+        accessibleHelpText: new FluentPattern<{ representation: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' ), [{"name":"representation"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
         accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' ) )
       },
       commutativeButton: {
