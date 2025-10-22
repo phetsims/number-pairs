@@ -194,6 +194,7 @@ addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleContextResponse', 'a1
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleName', 'a11y.controls.commutativeButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpTextPattern', 'a11y.controls.commutativeButton.accessibleHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponse', 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' );
+addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponseHidden', 'a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisible_accessibleNamePattern', 'a11y.controls.addendVisible.accessibleNamePatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisible_accessibleHelpTextPattern', 'a11y.controls.addendVisible.accessibleHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisible_accessibleContextResponse_hidden', 'a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty' );
@@ -502,7 +503,8 @@ const NumberPairsFluent = {
       commutativeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleNameStringProperty' ) ),
         accessibleHelpTextPattern: new FluentPattern<{ items: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleHelpTextPatternStringProperty' ), [{"name":"items"}] ),
-        accessibleContextResponse: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
+        accessibleContextResponse: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+        accessibleContextResponseHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponseHidden', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty' ) )
       },
       addendVisible: {
         accessibleNamePattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisible_accessibleNamePattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisible.accessibleNamePatternStringProperty' ), [{"name":"addend"}] ),

@@ -268,10 +268,23 @@ export default class NumberPairsScreenView extends ScreenView {
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 
-    const commutativeButtonContextResponseProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
+    const commutativeButtonAccessibleContextDefaultProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
       leftAddend: this.countingAreaDescriptionNode.leftValueStringProperty,
       rightAddend: this.countingAreaDescriptionNode.rightValueStringProperty,
       total: model.totalProperty
+    } );
+    const commutativeButtonContextResponseProperty = new DerivedProperty( [
+      commutativeButtonAccessibleContextDefaultProperty,
+      NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty,
+      model.representationTypeProperty,
+      model.leftAddendVisibleProperty,
+      model.rightAddendVisibleProperty
+    ], ( defaultResponse, hiddenResponse, representationType, leftVisible, rightVisible ) => {
+      const bothHidden = !leftVisible && !rightVisible;
+      const usesHiddenOverride = representationType === RepresentationType.BEADS ||
+                                 representationType === RepresentationType.KITTENS ||
+                                 representationType === RepresentationType.NUMBER_LINE;
+      return usesHiddenOverride && bothHidden ? hiddenResponse : defaultResponse;
     } );
     const commutativeButton = new CommutativeButton( {
       accessibleName: NumberPairsFluent.a11y.controls.commutativeButton.accessibleNameStringProperty,

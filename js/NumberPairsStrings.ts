@@ -264,6 +264,7 @@ type StringsType = {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseHiddenStringProperty': LocalizedStringProperty;
       };
       'addendVisible': {
         'accessibleNamePatternStringProperty': LocalizedStringProperty;
