@@ -65,11 +65,13 @@ export default class NumberLineNode extends Node {
 
     const slider = new NumberLineSlider(
       model.leftAddendProperty,
+      model.rightAddendProperty,
+      model.totalProperty,
       model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
-      model.tickValuesVisibleProperty,
-      {
-        accessibleName: NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty,
+      model.tickValuesVisibleProperty, {
+        accessibleName: NumberPairsFluent.a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty,
         numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
         tandem: options.tandem.createTandem( 'slider' )

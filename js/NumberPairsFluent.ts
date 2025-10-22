@@ -148,6 +148,9 @@ addToMapIfDefined( 'a11y_beads_leftAddendBead', 'a11y.beads.leftAddendBeadString
 addToMapIfDefined( 'a11y_beads_rightAddendBead', 'a11y.beads.rightAddendBeadStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleHelpText', 'a11y.beads.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_numberLine_accessibleName', 'a11y.numberLine.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_addendSplitterKnob_accessibleName', 'a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_addendSplitterKnob_accessibleHelpText', 'a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_numberLine_contextResponse', 'a11y.numberLine.contextResponseStringProperty' );
 addToMapIfDefined( 'a11y_numberLineDescription_leadingCountOn', 'a11y.numberLineDescription.leadingCountOnStringProperty' );
 addToMapIfDefined( 'a11y_numberLineDescription_leadingCountFromZero', 'a11y.numberLineDescription.leadingCountFromZeroStringProperty' );
 addToMapIfDefined( 'a11y_numberLineDescription_leadingHidden', 'a11y.numberLineDescription.leadingHiddenStringProperty' );
@@ -421,7 +424,13 @@ const NumberPairsFluent = {
     },
     _comment_2: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
     numberLine: {
-      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.accessibleNameStringProperty' ) )
+      accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.accessibleNameStringProperty' ) ),
+      addendSplitterKnob: {
+        accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_addendSplitterKnob_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty' ) ),
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_addendSplitterKnob_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty' ) )
+      },
+      contextResponse: new FluentPattern<{ left: FluentVariable, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLine_contextResponse', _.get( NumberPairsStrings, 'a11y.numberLine.contextResponseStringProperty' ), [{"name":"left"},{"name":"right"},{"name":"total"}] )
     },
     numberLineDescription: {
       leadingCountOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_leadingCountOn', _.get( NumberPairsStrings, 'a11y.numberLineDescription.leadingCountOnStringProperty' ) ),

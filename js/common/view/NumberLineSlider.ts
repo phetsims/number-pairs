@@ -18,6 +18,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import numberPairs from '../../numberPairs.js';
+import NumberLineContextResponse from './description/NumberLineContextResponse.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
 import ThumbNode from './ThumbNode.js';
@@ -35,6 +36,8 @@ export default class NumberLineSlider extends HSlider {
 
   public constructor(
     leftAddendProperty: PhetioProperty<number>,
+    rightAddendProperty: TReadOnlyProperty<number>,
+    totalProperty: TReadOnlyProperty<number>,
     enabledRangeProperty: TReadOnlyProperty<Range>,
     trackModelViewTransform: ModelViewTransform2,
     tickValuesVisibleProperty: Property<boolean>,
@@ -60,6 +63,12 @@ export default class NumberLineSlider extends HSlider {
         tandem: providedOptions.tandem.createTandem( 'trackNode' )
       } );
 
+    const numberLineContextResponse = new NumberLineContextResponse( {
+      leftAddendProperty: leftAddendProperty,
+      rightAddendProperty: rightAddendProperty,
+      totalProperty: totalProperty
+    } );
+
     const options = optionize<NumberLineSliderOptions, SelfOptions, HSliderOptions>()( {
       thumbNode: thumbNode,
       trackNode: trackNode,
@@ -72,7 +81,10 @@ export default class NumberLineSlider extends HSlider {
       valueChangeSoundGeneratorOptions: {
         numberOfMiddleThresholds: numberLineRange.getLength()
       },
-      phetioVisiblePropertyInstrumented: false
+      phetioVisiblePropertyInstrumented: false,
+      drag: () => {
+        numberLineContextResponse.sliderDragged( this );
+      }
     }, providedOptions );
     super( leftAddendProperty, numberLineRange, options );
 

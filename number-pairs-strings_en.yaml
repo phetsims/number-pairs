@@ -183,7 +183,11 @@ a11y:
 
   # Number line
   numberLine:
-    accessibleName: Number Line
+    accessibleName:  Number Line
+    addendSplitterKnob:
+      accessibleName:     Addend Splitter Knob
+      accessibleHelpText: Move knob to change how addends are split.
+    contextResponse: '{ $total } is split into { $left } and { $right }.'
   numberLineDescription:
     leadingCountOn:                  'Number line shows a green line to represent total and a blue jump from knob to total:'
     leadingCountFromZero:            'Number line shows a green line to represent total, a yellow jump from left edge to knob, and a blue jump from knob to total:'

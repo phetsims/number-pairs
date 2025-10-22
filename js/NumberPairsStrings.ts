@@ -197,6 +197,11 @@ type StringsType = {
     };
     'numberLine': {
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'addendSplitterKnob': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'contextResponseStringProperty': LocalizedStringProperty;
     };
     'numberLineDescription': {
       'leadingCountOnStringProperty': LocalizedStringProperty;
