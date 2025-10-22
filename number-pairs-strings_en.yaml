@@ -138,8 +138,8 @@ a11y:
     barModelLeadingParagraph:   Bar model has { $total } in top rectangle
     leftSideListItemPattern:    '{ $value } on left side'
     rightSideListItemPattern:   '{ $value } on right side'
-    leftSideBeadsPattern:       '{ $value } yellow on left'
-    rightSideBeadsPattern:      '{ $value } blue on right'
+    leftSideBeadsPattern:       '{ $value } yellow on left side'
+    rightSideBeadsPattern:      '{ $value } blue on right side'
     yellowListItemPattern:      '{ $value } yellow'
     blueListItemPattern:        '{ $value } blue'
     leftCircleListItemPattern:  '{ $value } in left circle'
