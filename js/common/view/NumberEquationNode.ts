@@ -1,5 +1,6 @@
 // Copyright 2024-2025, University of Colorado Boulder
 
+import derived from '../../../../axon/js/derived.js';
 /**
  * NumberEquationNode displays an equation that represents the decomposition of a total into two addends,
  * without any surrounding accordion UI. Intended for reuse in places that need only the equation visuals.
@@ -16,6 +17,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberRectangle from './NumberRectangle.js';
 
@@ -68,6 +70,22 @@ export default class NumberEquationNode extends Node {
     const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
     const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
 
+    const accessibleParagraphVisibleProperty = NumberPairsFluent.a11y.equation.accessibleParagraphPattern.createProperty( {
+      total: model.totalProperty,
+      leftAddend: model.leftAddendProperty,
+      rightAddend: model.rightAddendProperty
+    } );
+    const accessibleParagraphHiddenProperty = NumberPairsFluent.a11y.equation.accessibleParagraphHiddenPattern.createProperty( {
+      total: model.totalProperty,
+      leftPlaceholder: NumberPairsFluent.aNumberStringProperty,
+      rightPlaceholder: NumberPairsFluent.anotherNumberStringProperty
+    } );
+    const accessibleParagraphProperty = derived(
+      model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, accessibleParagraphVisibleProperty, accessibleParagraphHiddenProperty,
+      ( leftVisible, rightVisible, visibleParagraph, hiddenParagraph ) => {
+        return leftVisible && rightVisible ? visibleParagraph : hiddenParagraph;
+      } );
+
     const contentChildren = options.addendsOnRight ? [ totalSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
     const contentNode = new HBox( {
@@ -78,6 +96,7 @@ export default class NumberEquationNode extends Node {
       resize: false
     } );
 
+    options.accessibleParagraph = accessibleParagraphProperty;
     options.children = [ contentNode ];
     super( options );
 

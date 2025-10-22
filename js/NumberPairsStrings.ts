@@ -320,6 +320,10 @@ type StringsType = {
         'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
       }
     };
+    'equation': {
+      'accessibleParagraphPatternStringProperty': LocalizedStringProperty;
+      'accessibleParagraphHiddenPatternStringProperty': LocalizedStringProperty;
+    };
     'gameScreen': {
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;

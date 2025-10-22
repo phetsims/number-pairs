@@ -695,6 +695,14 @@
         }
       }
     },
+    "equation": {
+      "accessibleParagraphPattern": {
+        "value": "{ $total } = { $leftAddend } + { $rightAddend }"
+      },
+      "accessibleParagraphHiddenPattern": {
+        "value": "{ $total } = { $leftPlaceholder } + { $rightPlaceholder }"
+      }
+    },
     "gameScreen": {
       "answerButton": {
         "wrongAccessibleName": {

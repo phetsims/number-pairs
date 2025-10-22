@@ -220,6 +220,8 @@ addToMapIfDefined( 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseU
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleHelpText', 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
+addToMapIfDefined( 'a11y_equation_accessibleParagraphPattern', 'a11y.equation.accessibleParagraphPatternStringProperty' );
+addToMapIfDefined( 'a11y_equation_accessibleParagraphHiddenPattern', 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
@@ -579,6 +581,10 @@ const NumberPairsFluent = {
         accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       }
+    },
+    equation: {
+      accessibleParagraphPattern: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphPatternStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+      accessibleParagraphHiddenPattern: new FluentPattern<{ leftPlaceholder: FluentVariable, rightPlaceholder: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphHiddenPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' ), [{"name":"leftPlaceholder"},{"name":"rightPlaceholder"},{"name":"total"}] )
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
