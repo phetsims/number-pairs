@@ -178,8 +178,10 @@ type StringsType = {
       'rightAddendColorStringProperty': LocalizedStringProperty;
       'leftAddendKittenStringProperty': LocalizedStringProperty;
       'rightAddendKittenStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      'withoutAttributeSwitchHelpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpText': {
+        'withAttributeSwitchStringProperty': LocalizedStringProperty;
+        'withoutAttributeSwitchStringProperty': LocalizedStringProperty;
+      }
     };
     'beads': {
       'accessibleNameStringProperty': LocalizedStringProperty;

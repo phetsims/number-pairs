@@ -135,8 +135,8 @@ addToMapIfDefined( 'a11y_kittens_leftAddendColor', 'a11y.kittens.leftAddendColor
 addToMapIfDefined( 'a11y_kittens_rightAddendColor', 'a11y.kittens.rightAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_kittens_leftAddendKitten', 'a11y.kittens.leftAddendKittenStringProperty' );
 addToMapIfDefined( 'a11y_kittens_rightAddendKitten', 'a11y.kittens.rightAddendKittenStringProperty' );
-addToMapIfDefined( 'a11y_kittens_accessibleHelpText', 'a11y.kittens.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_kittens_withoutAttributeSwitchHelpText', 'a11y.kittens.withoutAttributeSwitchHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withAttributeSwitch', 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' );
+addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleName', 'a11y.beads.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_beads_singularAccessibleName', 'a11y.beads.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_beads_leftAddendBead', 'a11y.beads.leftAddendBeadStringProperty' );
@@ -379,8 +379,10 @@ const NumberPairsFluent = {
       leftAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendKittenStringProperty' ) ),
       rightAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendKittenStringProperty' ) ),
       _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
-      accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpTextStringProperty' ) ),
-      withoutAttributeSwitchHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_withoutAttributeSwitchHelpText', _.get( NumberPairsStrings, 'a11y.kittens.withoutAttributeSwitchHelpTextStringProperty' ) )
+      accessibleHelpText: {
+        withAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' ) ),
+        withoutAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' ) )
+      }
     },
     beads: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_accessibleName', _.get( NumberPairsStrings, 'a11y.beads.accessibleNameStringProperty' ) ),

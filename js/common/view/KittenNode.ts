@@ -80,8 +80,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       cursor: 'pointer',
       accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
       accessibleHelpText: providedOptions.includeAttributeSwitch === undefined || providedOptions.includeAttributeSwitch ?
-                          NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty :
-                          NumberPairsFluent.a11y.kittens.withoutAttributeSwitchHelpTextStringProperty,
+                          NumberPairsFluent.a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty :
+                          NumberPairsFluent.a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty,
       focusable: true,
       includeAttributeSwitch: true,
       dragBounds: KittenNode.DEFAULT_DRAG_BOUNDS
