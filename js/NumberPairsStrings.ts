@@ -268,6 +268,9 @@ type StringsType = {
       }
     };
     'gameScreen': {
+      'answerButton': {
+        'wrongAccessibleNameStringProperty': LocalizedStringProperty;
+      };
       'responses': {
         'correctAnswerStringProperty': LocalizedStringProperty;
         'incorrectAnswerStringProperty': LocalizedStringProperty;

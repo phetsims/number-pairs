@@ -249,6 +249,8 @@ a11y:
 
   # Game
   gameScreen:
+    answerButton:
+      wrongAccessibleName:     '{$value}, wrong answer'
     responses:
       correctAnswer:           '{ $guess } is correct.'
       incorrectAnswer:         '{ $guess } is incorrect. Try a different number.'

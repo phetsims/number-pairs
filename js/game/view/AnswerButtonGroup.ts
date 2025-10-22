@@ -35,6 +35,7 @@ import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from '../model/Challenge.js';
 import InputRange from '../model/InputRange.js';
 import NumberToggleButton from './NumberToggleButton.js';
@@ -89,9 +90,13 @@ export default class AnswerButtonGroup extends GridBox {
         return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
       } );
 
+      const wrongAccessibleNameProperty = NumberPairsFluent.a11y.gameScreen.answerButton.wrongAccessibleName.createProperty( {
+        value: value
+      } );
+
       const numberToggleButton = new NumberToggleButton( pressedProperty, {
-        accessibleName: derived( isWrongProperty, isWrong => {
-          return isWrong ? `${value}, wrong answer` : `${value}`; // TODO: i18n https://github.com/phetsims/number-pairs/issues/217
+        accessibleName: derived( isWrongProperty, wrongAccessibleNameProperty, ( isWrong, wrongAccessibleName ) => {
+          return isWrong ? wrongAccessibleName : `${value}`;
         } ),
         tandem: providedOptions.tandem.createTandem( `number${value}Button` ),
         content: labelBox,
