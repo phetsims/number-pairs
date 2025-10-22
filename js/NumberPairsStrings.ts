@@ -156,6 +156,9 @@ type StringsType = {
       'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
       'valueHiddenStringProperty': LocalizedStringProperty;
     };
+    'equationAccordionBox': {
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;

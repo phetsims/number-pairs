@@ -339,6 +339,11 @@
         "value": "some"
       }
     },
+    "equationAccordionBox": {
+      "accessibleHelpText": {
+        "value": "View decomposition equation."
+      }
+    },
     "representationType": {
       "accessibleName": {
         "value": "Representation Type"

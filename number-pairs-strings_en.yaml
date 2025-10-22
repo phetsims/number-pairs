@@ -147,6 +147,9 @@ a11y:
     rightCircleListItemPattern: '{ $value } in right circle'
     valueHidden:                some
 
+  equationAccordionBox:
+    accessibleHelpText: View decomposition equation.
+
   # Representation types
   representationType:
     accessibleName:     Representation Type
