@@ -12,10 +12,10 @@ import derived from '../../../../axon/js/derived.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
+import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TenModel from '../model/TenModel.js';
-import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
 
 export default class TenScreenSummaryContent extends ScreenSummaryContent {
 
@@ -29,14 +29,20 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
       itemType: itemTypeProperty,
       numberBarOrBarModel: numberBondOrBarModelStringProperty
     } );
+    const numberLineShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLine.createProperty( {
+      numberBarOrBarModel: numberBondOrBarModelStringProperty
+    } );
 
     const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHidden.createProperty( {
       numberBarOrBarModel: numberBondOrBarModelStringProperty
     } );
 
-    const currentDetailsContentProperty = derived( showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, ( showingAddends, countingAreaShown, countingAreaHidden ) => {
-      return showingAddends ? countingAreaShown : countingAreaHidden;
-    } );
+    const currentDetailsContentProperty = derived(
+      showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, model.representationTypeProperty, numberLineShownProperty,
+      ( showingAddends, countingAreaShown, countingAreaHidden, representationType, numberLineText ) => {
+        const shownProperty = representationType === RepresentationType.NUMBER_LINE ? numberLineText : countingAreaShown;
+        return showingAddends ? shownProperty : countingAreaHidden;
+      } );
 
     const interactionHintContentProperty = derived( model.representationTypeProperty,
       NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty,

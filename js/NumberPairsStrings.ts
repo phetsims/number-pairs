@@ -109,6 +109,7 @@ type StringsType = {
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetails': {
           'countingAreaShownStringProperty': LocalizedStringProperty;
+          'countingAreaShownWithNumberLineStringProperty': LocalizedStringProperty;
           'countingAreaHiddenStringProperty': LocalizedStringProperty;
         };
         'interactionHint': {

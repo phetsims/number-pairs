@@ -98,8 +98,9 @@ a11y:
                    automatically organize objects, or swap addends.
       controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
-        countingAreaShown:  Currently, counting area shows { $count } { $itemType } broken into colors. A phrase, { $numberBarOrBarModel} and equation show how total is broken apart.
-        countingAreaHidden: Currently, the counting area is hidden. A phrase, { $numberBarOrBarModel } and equation show how total is broken apart.
+        countingAreaShown:               Currently, counting area shows { $count } { $itemType } broken into colors. A phrase, { $numberBarOrBarModel} and equation show how total is broken apart.
+        countingAreaShownWithNumberLine: Currently, counting area shows a total of 3 broken into two addends with the addend splitter. A phrase, { $numberBarOrBarModel }, and equation show how total is broken apart.
+        countingAreaHidden:              Currently, the counting area is hidden. A phrase, { $numberBarOrBarModel } and equation show how total is broken apart.
       interactionHint:
         beads:      Navigate to and grab bead to create groups, or move it across divider to change color.
         kittens:    Choose kitten to move, organize, or change its color.
@@ -250,7 +251,7 @@ a11y:
   # Game
   gameScreen:
     answerButton:
-      wrongAccessibleName:     '{$value}, wrong answer'
+      wrongAccessibleName: '{$value}, wrong answer'
     responses:
       correctAnswer:           '{ $guess } is correct.'
       incorrectAnswer:         '{ $guess } is incorrect. Try a different number.'
