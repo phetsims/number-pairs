@@ -305,6 +305,16 @@ type StringsType = {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
         'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
+      };
+      'tickNumbersCheckbox': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
+      };
+      'totalJumpCheckbox': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
       }
     };
     'gameScreen': {

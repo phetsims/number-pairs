@@ -213,6 +213,12 @@ addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleHelpText', 'a11y.contr
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleHelpText', 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_tickNumbersCheckbox_accessibleHelpText', 'a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseChecked', 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleHelpText', 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
@@ -555,6 +561,18 @@ const NumberPairsFluent = {
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' ) ),
         accessibleContextResponseChecked: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"}] ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
+      },
+      tickNumbersCheckbox: {
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
+        accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
+      },
+      totalJumpCheckbox: {
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
+        accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       }
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),

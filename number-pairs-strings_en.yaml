@@ -287,6 +287,14 @@ a11y:
       accessibleHelpText: Show or hide addend values.
       accessibleContextResponseChecked: 'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'
       accessibleContextResponseUnchecked: Addends hidden.
+    tickNumbersCheckbox:
+      accessibleHelpText: Show or hide tick mark numbers on number line.
+      accessibleContextResponseChecked: Tick marks are labeled.
+      accessibleContextResponseUnchecked: Tick mark labels are blank.
+    totalJumpCheckbox:
+      accessibleHelpText: Show or hide total jump on number line.
+      accessibleContextResponseChecked: Total jump is shown and labeled.
+      accessibleContextResponseUnchecked: No total jump is shown.
 
   # Game
   gameScreen:

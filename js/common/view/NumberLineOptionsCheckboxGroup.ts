@@ -48,12 +48,22 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
       {
         createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.tickValuesVisibleProperty,
-        tandemName: 'tickValuesCheckbox'
+        tandemName: 'tickValuesCheckbox',
+        options: {
+          accessibleHelpText: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty,
+          accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty,
+          accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty
+        }
       },
       {
         createNode: () => new Text( NumberPairsFluent.totalJumpStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.totalJumpVisibleProperty,
-        tandemName: 'totalJumpCheckbox'
+        tandemName: 'totalJumpCheckbox',
+        options: {
+          accessibleHelpText: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty,
+          accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty,
+          accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty
+        }
       }
     ];
     super( checkboxGroupItems, options );

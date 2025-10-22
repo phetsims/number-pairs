@@ -147,7 +147,12 @@ export default class NumberLineLevelNode extends LevelNode {
       createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, {
         font: new PhetFont( 18 )
       } ),
-      tandemName: 'showTickNumbersCheckbox'
+      tandemName: 'showTickNumbersCheckbox',
+      options: {
+        accessibleHelpText: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty,
+        accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty,
+        accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty
+      }
     } ], {
       phetioFeatured: true,
       top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
