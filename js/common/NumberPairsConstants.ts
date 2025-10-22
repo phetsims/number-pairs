@@ -93,6 +93,9 @@ const NumberPairsConstants = {
     );
   },
 
+  // Game screen specific values
+  GAME_LINE_WIDTH: 3,
+
   // URL to the {REPO}_all.html file for this simulation.
   ALL_URL: 'https://phet.colorado.edu/sims/html/number-pairs/latest/number-pairs_all.html'
 };

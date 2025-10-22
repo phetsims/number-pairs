@@ -41,9 +41,7 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         [ this.leftAddendSquare, this.rightAddendSquare, this.totalSquare ].forEach( setDefaultStyle );
 
         const missingSquare = this.getMissingSquare();
-        const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
-
-        const lineWidth = mode !== 'correct' ? 2 : 1;
+        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
         missingSquare.stroke = stroke;
         missingSquare.lineDash = lineDash;

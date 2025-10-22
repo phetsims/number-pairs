@@ -11,11 +11,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import GameConstants from './GameConstants.js';
 import NumberStyles from './NumberStyles.js';
 
 export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
@@ -32,15 +32,16 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
     super( level.countingObjectsDelegate, options );
 
-    this.total.lineWidth = GameConstants.LINE_WIDTH;
-    this.leftAddend.lineWidth = GameConstants.LINE_WIDTH;
-    this.rightAddend.lineWidth = GameConstants.LINE_WIDTH;
-    this.leftLine.lineWidth = GameConstants.LINE_WIDTH;
-    this.rightLine.lineWidth = GameConstants.LINE_WIDTH;
+    this.total.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.leftAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.rightAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.leftLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.rightLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
-    const stylize = ( path: Path, stroke: Color | string, lineDash: number[] ) => {
+    const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth = 1 ) => {
       path.stroke = stroke;
       path.lineDash = lineDash;
+      path.lineWidth = lineWidth;
     };
 
     Multilink.multilink(
@@ -55,10 +56,10 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
         const missingCircle = missing === 'a' ? this.leftAddend : missing === 'b' ? this.rightAddend : this.total;
         const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
-        const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
-        stylize( missingCircle, stroke, lineDash );
-        stylize( missingLine, stroke, lineDash );
+        stylize( missingCircle, stroke, lineDash, lineWidth );
+        stylize( missingLine, stroke, lineDash, lineWidth );
       }
     );
   }

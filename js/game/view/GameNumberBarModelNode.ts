@@ -11,12 +11,12 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelMutableNode, { BarModelMutableNodeOptions } from '../../common/view/BarModelMutableNode.js';
 import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
-import GameConstants from './GameConstants.js';
 import NumberStyles from './NumberStyles.js';
 
 type GameNumberBarModelNodeOptions = StrictOmit<BarModelMutableNodeOptions, 'dimensions' | 'displayTotalNumberProperty' | 'displayLeftAddendNumberProperty' | 'displayRightAddendNumberProperty'>;
@@ -33,13 +33,14 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
 
     super( barLevelDisplay, options );
 
-    this.totalRectangle.lineWidth = GameConstants.LINE_WIDTH;
-    this.leftAddendRectangle.lineWidth = GameConstants.LINE_WIDTH;
-    this.rightAddendRectangle.lineWidth = GameConstants.LINE_WIDTH;
+    this.totalRectangle.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.leftAddendRectangle.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.rightAddendRectangle.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
-    const stylize = ( rectangle: Rectangle, stroke: string, lineDash: number[] ) => {
+    const stylize = ( rectangle: Rectangle, stroke: string, lineDash: number[], lineWidth = 1 ) => {
       rectangle.stroke = stroke;
       rectangle.lineDash = lineDash;
+      rectangle.lineWidth = lineWidth;
     };
 
     const setDefaultStyle = ( rectangle: Rectangle ) => stylize( rectangle, 'black', [] );
@@ -51,9 +52,9 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
                                challenge.missing === 'b' ? this.rightAddendRectangle :
                                this.totalRectangle;
 
-      const { stroke, lineDash } = NumberStyles.FEEDBACK_STYLES[ mode ];
+      const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
 
-      stylize( missingRectangle, stroke, lineDash );
+      stylize( missingRectangle, stroke, lineDash, lineWidth );
     } );
   }
 }

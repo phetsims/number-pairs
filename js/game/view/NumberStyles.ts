@@ -6,16 +6,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 
 export default class NumberStyles {
   public static readonly DASHED_LINE = [ 6, 6 ];
 
   public static readonly FEEDBACK_STYLES = {
-    idle: { stroke: 'gray', lineDash: NumberStyles.DASHED_LINE },
-    incorrect: { stroke: 'red', lineDash: NumberStyles.DASHED_LINE },
-    correct: { stroke: 'black', lineDash: [] },
-    guessSelected: { stroke: 'gray', lineDash: NumberStyles.DASHED_LINE }
+    idle: { stroke: 'gray', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
+    incorrect: { stroke: 'red', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
+    correct: { stroke: 'black', lineWidth: 1, lineDash: [] },
+    guessSelected: { stroke: 'gray', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE }
   };
 }
 
