@@ -110,6 +110,7 @@ addToMapIfDefined( 'a11y_grabOrReleaseInteraction_firstRightItemPattern', 'a11y.
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_rightItemPattern', 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_lastRightItemPattern', 'a11y.grabOrReleaseInteraction.lastRightItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_onlyRightItemPattern', 'a11y.grabOrReleaseInteraction.onlyRightItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_grabOrReleaseInteraction_noItemSelected', 'a11y.grabOrReleaseInteraction.noItemSelectedStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_accessibleHeading', 'a11y.countingArea.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_leadingParagraph', 'a11y.countingArea.leadingParagraphStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_numberBondLeadingParagraph', 'a11y.countingArea.numberBondLeadingParagraphStringProperty' );
@@ -361,7 +362,8 @@ const NumberPairsFluent = {
       firstRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_firstRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.firstRightItemPatternStringProperty' ), [{"name":"item"}] ),
       rightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_rightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.rightItemPatternStringProperty' ), [{"name":"item"}] ),
       lastRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_lastRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.lastRightItemPatternStringProperty' ), [{"name":"item"}] ),
-      onlyRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_onlyRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.onlyRightItemPatternStringProperty' ), [{"name":"item"}] )
+      onlyRightItemPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_onlyRightItemPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.onlyRightItemPatternStringProperty' ), [{"name":"item"}] ),
+      noItemSelectedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_noItemSelected', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.noItemSelectedStringProperty' ) )
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),

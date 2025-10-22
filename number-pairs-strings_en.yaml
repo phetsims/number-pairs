@@ -127,6 +127,7 @@ a11y:
     rightItemPattern:           '{ $item } on right side'
     lastRightItemPattern:       Last { $item } on right side
     onlyRightItemPattern:       Only { $item } on right side
+    noItemSelected:             No item selected
   countingArea:
     accessibleHeading:          Counting Area
     leadingParagraph:           |-

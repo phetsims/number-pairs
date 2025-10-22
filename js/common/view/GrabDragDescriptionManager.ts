@@ -6,7 +6,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -28,6 +27,8 @@ export default class GrabDragDescriptionManager {
   // String Properties used for describing the help text when an item is grabbed or released
   private readonly grabbedHelpTextStringProperty: TReadOnlyProperty<string>;
   private readonly releasedHelpTextStringProperty: TReadOnlyProperty<string>;
+
+  private static readonly noItemSelectedStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.noItemSelectedStringProperty;
 
   /**
    *
@@ -79,9 +80,9 @@ export default class GrabDragDescriptionManager {
                                         addendTypeProperties: TReadOnlyProperty<AddendType>[]
   ): TReadOnlyProperty<string> {
 
-    // We set the value as null at startup. Once a group item is selected, the description will be set appropriately,
+    // Once a group item is selected, the description will be set appropriately,
     // and if the selected item is cleared, the description will remain as it was (until another item is selected).
-    let stringProperty: TReadOnlyProperty<string> = new Property( 'null' );
+    let stringProperty: TReadOnlyProperty<string> = GrabDragDescriptionManager.noItemSelectedStringProperty;
 
     // Must use deriveAny here because addendTypeProperties is of unknown length.
     stringProperty = DerivedProperty.deriveAny( [

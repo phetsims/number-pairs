@@ -139,6 +139,7 @@ type StringsType = {
       'rightItemPatternStringProperty': LocalizedStringProperty;
       'lastRightItemPatternStringProperty': LocalizedStringProperty;
       'onlyRightItemPatternStringProperty': LocalizedStringProperty;
+      'noItemSelectedStringProperty': LocalizedStringProperty;
     };
     'countingArea': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;

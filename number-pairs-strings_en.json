@@ -293,6 +293,9 @@
       },
       "onlyRightItemPattern": {
         "value": "Only { $item } on right side"
+      },
+      "noItemSelected": {
+        "value": "No item selected"
       }
     },
     "countingArea": {
