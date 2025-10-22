@@ -147,6 +147,8 @@ type StringsType = {
       'barModelLeadingParagraphStringProperty': LocalizedStringProperty;
       'leftSideListItemPatternStringProperty': LocalizedStringProperty;
       'rightSideListItemPatternStringProperty': LocalizedStringProperty;
+      'leftSideBeadsPatternStringProperty': LocalizedStringProperty;
+      'rightSideBeadsPatternStringProperty': LocalizedStringProperty;
       'leftCircleListItemPatternStringProperty': LocalizedStringProperty;
       'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
       'valueHiddenStringProperty': LocalizedStringProperty;

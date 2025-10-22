@@ -116,6 +116,8 @@ addToMapIfDefined( 'a11y_countingArea_numberBondLeadingParagraph', 'a11y.countin
 addToMapIfDefined( 'a11y_countingArea_barModelLeadingParagraph', 'a11y.countingArea.barModelLeadingParagraphStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_leftSideListItemPattern', 'a11y.countingArea.leftSideListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_rightSideListItemPattern', 'a11y.countingArea.rightSideListItemPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_leftSideBeadsPattern', 'a11y.countingArea.leftSideBeadsPatternStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_rightSideBeadsPattern', 'a11y.countingArea.rightSideBeadsPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_leftCircleListItemPattern', 'a11y.countingArea.leftCircleListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_rightCircleListItemPattern', 'a11y.countingArea.rightCircleListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_valueHidden', 'a11y.countingArea.valueHiddenStringProperty' );
@@ -347,6 +349,8 @@ const NumberPairsFluent = {
       barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       leftSideListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftSideListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftSideListItemPatternStringProperty' ), [{"name":"value"}] ),
       rightSideListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightSideListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightSideListItemPatternStringProperty' ), [{"name":"value"}] ),
+      leftSideBeadsPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftSideBeadsPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftSideBeadsPatternStringProperty' ), [{"name":"value"}] ),
+      rightSideBeadsPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightSideBeadsPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightSideBeadsPatternStringProperty' ), [{"name":"value"}] ),
       leftCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
       rightCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
       valueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_valueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.valueHiddenStringProperty' ) )

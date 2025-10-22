@@ -8,6 +8,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -50,10 +51,20 @@ export default class CountingAreaDescriptionNode extends Node {
 
     const countingAreaAccessibleListNode = new AccessibleListNode( [
       {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } )
+        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
+        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType !== RepresentationType.BEADS )
       },
       {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } )
+        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } ),
+        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType !== RepresentationType.BEADS )
+      },
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideBeadsPattern.createProperty( { value: leftValueStringProperty } ),
+        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS )
+      },
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideBeadsPattern.createProperty( { value: rightValueStringProperty } ),
+        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS )
       }
     ], {
       leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
