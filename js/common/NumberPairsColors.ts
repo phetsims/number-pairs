@@ -74,7 +74,7 @@ const NumberPairsColors = {
   wireHighlightColorProperty: new ProfileColorProperty( numberPairs, 'wireHighlightColor', {
     default: '#F2F2F2'
   } ),
-  checkButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkButton', {
+  checkNextButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkNextButtonColor', {
     default: '#FFB19E'
   } ),
 

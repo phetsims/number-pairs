@@ -171,7 +171,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.checkButton = new CheckButton( {
       font: TEXT_OPTIONS.font,
       maxTextWidth: TEXT_OPTIONS.maxWidth,
-      baseColor: NumberPairsColors.checkButtonColorProperty,
+      baseColor: NumberPairsColors.checkNextButtonColorProperty,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
@@ -199,6 +199,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.nextButton = new NextButton( {
       font: TEXT_OPTIONS.font,
       maxTextWidth: TEXT_OPTIONS.maxWidth,
+      baseColor: NumberPairsColors.checkNextButtonColorProperty,
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
       listener: () => {
