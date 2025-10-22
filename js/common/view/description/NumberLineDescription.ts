@@ -8,7 +8,6 @@
 
 import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
-import DerivedStringProperty from '../../../../../axon/js/DerivedStringProperty.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import AccessibleListNode, { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import numberPairs from '../../../numberPairs.js';
@@ -30,32 +29,17 @@ export default class NumberLineDescription extends AccessibleListNode {
 
   public constructor( options: NumberLineDescriptionOptions ) {
 
-    const leftAddendStringProperty = new DerivedStringProperty(
-      [ options.leftAddendProperty ],
-      leftAddend => `${leftAddend}`
-    );
-
-    const rightAddendStringProperty = new DerivedStringProperty(
-      [ options.rightAddendProperty ],
-      rightAddend => `${rightAddend}`
-    );
-
-    const totalStringProperty = new DerivedStringProperty(
-      [ options.totalProperty ],
-      total => `${total}`
-    );
-
     const leftEdgeLabelStringProperty = NumberPairsFluent.a11y.numberLineDescription.leftEdgeLabelStringProperty;
     const totalLabelStringProperty = NumberPairsFluent.a11y.numberLineDescription.totalLabelStringProperty;
     const knobLabelStringProperty = NumberPairsFluent.a11y.numberLineDescription.knobLabelStringProperty;
 
-    const totalStartStringProperty = new DerivedStringProperty(
-      [ options.tickValuesVisibleProperty, leftEdgeLabelStringProperty ],
+    const totalStartStringProperty = derived(
+      options.tickValuesVisibleProperty, leftEdgeLabelStringProperty,
       ( tickMarksVisible, leftEdgeLabel ) => tickMarksVisible ? '0' : leftEdgeLabel
     );
 
-    const totalEndStringProperty = new DerivedStringProperty(
-      [ options.tickValuesVisibleProperty, totalLabelStringProperty, totalStringProperty ],
+    const totalEndStringProperty = derived(
+      options.tickValuesVisibleProperty, totalLabelStringProperty, options.totalProperty,
       ( tickMarksVisible, totalLabel, totalString ) => tickMarksVisible ? totalString : totalLabel
     );
 
@@ -77,61 +61,52 @@ export default class NumberLineDescription extends AccessibleListNode {
     );
 
     const knobIsAtPatternProperty = NumberPairsFluent.a11y.numberLineDescription.knobIsAtPattern.createProperty( {
-      value: leftAddendStringProperty
+      value: options.leftAddendProperty
     } );
 
     const knobSplitsStringProperty = NumberPairsFluent.a11y.numberLineDescription.knobSplitsStringProperty;
 
-    const knobDescriptionStringProperty = new DerivedStringProperty(
-      [
-        options.tickValuesVisibleProperty,
-        knobIsAtPatternProperty,
-        knobSplitsStringProperty
-      ],
+    const knobDescriptionStringProperty = derived(
+      options.tickValuesVisibleProperty,
+      knobIsAtPatternProperty,
+      knobSplitsStringProperty,
       ( tickMarksVisible, knobIsAtString, knobSplitsString ) => tickMarksVisible ? knobIsAtString : knobSplitsString
     );
 
     const countOnLeftAddendStringProperty = NumberPairsFluent.a11y.numberLineDescription.countOnLeftAddendPattern.createProperty( {
-      left: leftAddendStringProperty
+      left: options.leftAddendProperty
     } );
 
-    const leftAddendOrKnobStringProperty = new DerivedStringProperty(
-      [
-        options.tickValuesVisibleProperty,
-        leftAddendStringProperty,
-        knobLabelStringProperty
-      ],
+    const leftAddendOrKnobStringProperty = derived(
+      options.tickValuesVisibleProperty,
+      options.leftAddendProperty,
+      knobLabelStringProperty,
       ( tickMarksVisible, leftAddendString, knobLabel ) => tickMarksVisible ? leftAddendString : knobLabel
     );
 
     const countOnJumpStringProperty = NumberPairsFluent.a11y.numberLineDescription.countOnJumpPattern.createProperty( {
-      right: rightAddendStringProperty,
+      right: options.rightAddendProperty,
       start: leftAddendOrKnobStringProperty
     } );
 
     const countFromZeroLeftAddendStringProperty = NumberPairsFluent.a11y.numberLineDescription.countFromZeroLeftAddendPattern.createProperty( {
-      left: leftAddendStringProperty
+      left: options.leftAddendProperty
     } );
 
     const countFromZeroRightAddendStringProperty = NumberPairsFluent.a11y.numberLineDescription.countFromZeroRightAddendPattern.createProperty( {
-      right: rightAddendStringProperty,
+      right: options.rightAddendProperty,
       start: leftAddendOrKnobStringProperty
     } );
 
     const countOnTotalJumpStringProperty = NumberPairsFluent.a11y.numberLineDescription.countOnTotalJumpPattern.createProperty( {
-      total: totalStringProperty
+      total: options.totalProperty
     } );
 
     const countFromZeroTotalJumpStringProperty = NumberPairsFluent.a11y.numberLineDescription.countFromZeroTotalJumpPattern.createProperty( {
-      total: totalStringProperty
+      total: options.totalProperty
     } );
 
-    const totalJumpStringProperty = new DerivedStringProperty(
-      [
-        options.numberLineCountFromZeroProperty,
-        countFromZeroTotalJumpStringProperty,
-        countOnTotalJumpStringProperty
-      ],
+    const totalJumpStringProperty = derived( options.numberLineCountFromZeroProperty, countFromZeroTotalJumpStringProperty, countOnTotalJumpStringProperty,
       ( countFromZero, countFromZeroString, countOnString ) => countFromZero ? countFromZeroString : countOnString
     );
 
@@ -139,14 +114,9 @@ export default class NumberLineDescription extends AccessibleListNode {
     const leadingCountFromZeroStringProperty = NumberPairsFluent.a11y.numberLineDescription.leadingCountFromZeroStringProperty;
     const leadingHiddenStringProperty = NumberPairsFluent.a11y.numberLineDescription.leadingHiddenStringProperty;
 
-    const leadingParagraphStringProperty = new DerivedStringProperty(
-      [
-        options.numberLineVisibleProperty,
-        options.numberLineCountFromZeroProperty,
-        leadingCountOnStringProperty,
-        leadingCountFromZeroStringProperty,
-        leadingHiddenStringProperty
-      ],
+    const leadingParagraphStringProperty = derived(
+      options.numberLineVisibleProperty, options.numberLineCountFromZeroProperty, leadingCountOnStringProperty,
+      leadingCountFromZeroStringProperty, leadingHiddenStringProperty,
       ( numberLineVisible, countFromZero, countOnString, countFromZeroString, hiddenString ) => {
         if ( !numberLineVisible ) {
           return hiddenString;
