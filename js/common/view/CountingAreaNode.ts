@@ -27,6 +27,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { AnimationTarget } from '../model/NumberPairsModel.js';
@@ -34,6 +35,7 @@ import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
+import { numberBondOrBarModelStringProperty } from './numberBondOrBarModelStringProperty.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -94,15 +96,17 @@ export default class CountingAreaNode extends Node {
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
-      accessibleName: 'Counting Area Visibility',
-      accessibleHelpText: 'Show or hide counting area and both addends in {{number bond | bar model}}.',
+      accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisible.accessibleNameStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.controls.bothAddendsVisible.accessibleHelpTextPattern.createProperty( {
+        modelRepresentation: numberBondOrBarModelStringProperty
+      } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       secondAddendVisibleProperty: rightAddendVisibleProperty,
       visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
       tandem: bothAddendsEyeToggleButtonTandem,
-      accessibleContextResponseOff: 'Contents visible.',
-      accessibleContextResponseOn: 'Contents hidden.'
+      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.visibleStringProperty,
+      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty
     } );
     this.addChild( backgroundRectangle );
     this.addChild( this.bothAddendsEyeToggleButton );

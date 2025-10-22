@@ -258,6 +258,9 @@ a11y:
       accessibleHelpTextPattern: Switch { $items } from left counting area to right and right counting area to left.
       accessibleContextResponse: '{ $leftAddend } on left, { $rightAddend } on right, { $total } total.'
       accessibleContextResponseHidden: Addends swapped, contents hidden.
+    bothAddendsVisible:
+      accessibleName: Counting Area Visibility
+      accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
     addendVisible:
       accessibleNamePattern:     '{ $addend } Counting Area Visibility'
       accessibleHelpTextPattern: Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
