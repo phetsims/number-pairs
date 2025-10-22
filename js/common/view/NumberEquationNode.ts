@@ -1,12 +1,13 @@
 // Copyright 2024-2025, University of Colorado Boulder
 
-import derived from '../../../../axon/js/derived.js';
 /**
  * NumberEquationNode displays an equation that represents the decomposition of a total into two addends,
  * without any surrounding accordion UI. Intended for reuse in places that need only the equation visuals.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
+
+import derived from '../../../../axon/js/derived.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
