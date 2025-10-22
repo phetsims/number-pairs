@@ -140,6 +140,8 @@ a11y:
     rightSideListItemPattern:   '{ $value } on right side'
     leftSideBeadsPattern:       '{ $value } yellow on left'
     rightSideBeadsPattern:      '{ $value } blue on right'
+    yellowListItemPattern:      '{ $value } yellow'
+    blueListItemPattern:        '{ $value } blue'
     leftCircleListItemPattern:  '{ $value } in left circle'
     rightCircleListItemPattern: '{ $value } in right circle'
     valueHidden:                some

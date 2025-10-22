@@ -37,7 +37,7 @@ export default class CountingAreaDescriptionNode extends Node {
   public readonly leftValueStringProperty: TReadOnlyProperty<string>;
   public readonly rightValueStringProperty: TReadOnlyProperty<string>;
 
-  public constructor( providedOptions: CountingAreaDescriptionNodeOptions ) {
+  public constructor( locationLayerVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
 
     const leftValueStringProperty = new DerivedProperty(
       [ providedOptions.leftAddendProperty, providedOptions.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
@@ -49,22 +49,35 @@ export default class CountingAreaDescriptionNode extends Node {
       ( rightAddend: number, rightAddendVisible: boolean, valueHiddenString: string ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
     );
 
+    const showObjectLocationsProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty, ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
+    const showObjectSidesProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty, ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
+    const showBeadsProperty = derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS );
+
+    // TODO: For review, is there a better way to make sure these pairs are mutually exclusive, or is this a good approach? See https://github.com/phetsims/number-pairs/issues/206
     const countingAreaAccessibleListNode = new AccessibleListNode( [
       {
         stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
-        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType !== RepresentationType.BEADS )
+        visibleProperty: showObjectLocationsProperty
       },
       {
         stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } ),
-        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType !== RepresentationType.BEADS )
+        visibleProperty: showObjectLocationsProperty
+      },
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.yellowListItemPattern.createProperty( { value: leftValueStringProperty } ),
+        visibleProperty: showObjectSidesProperty
+      },
+      {
+        stringProperty: NumberPairsFluent.a11y.countingArea.blueListItemPattern.createProperty( { value: rightValueStringProperty } ),
+        visibleProperty: showObjectSidesProperty
       },
       {
         stringProperty: NumberPairsFluent.a11y.countingArea.leftSideBeadsPattern.createProperty( { value: leftValueStringProperty } ),
-        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS )
+        visibleProperty: showBeadsProperty
       },
       {
         stringProperty: NumberPairsFluent.a11y.countingArea.rightSideBeadsPattern.createProperty( { value: rightValueStringProperty } ),
-        visibleProperty: derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS )
+        visibleProperty: showBeadsProperty
       }
     ], {
       leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {

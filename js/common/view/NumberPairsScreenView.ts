@@ -99,15 +99,17 @@ export default class NumberPairsScreenView extends ScreenView {
     this.representationRadioButtonGroup = representationRadioButtonGroup;
 
     // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
-    const countingAreaDescriptionNode = new CountingAreaDescriptionNode( {
-      leftAddendProperty: model.leftAddendProperty,
-      leftAddendVisibleProperty: model.leftAddendVisibleProperty,
-      rightAddendProperty: model.rightAddendProperty,
-      rightAddendVisibleProperty: model.rightAddendVisibleProperty,
-      representationTypeProperty: model.representationTypeProperty,
-      totalProperty: model.totalProperty,
-      tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
-    } );
+    const countingAreaDescriptionNode = new CountingAreaDescriptionNode(
+      model.locationLayerVisibleProperty,
+      {
+        leftAddendProperty: model.leftAddendProperty,
+        leftAddendVisibleProperty: model.leftAddendVisibleProperty,
+        rightAddendProperty: model.rightAddendProperty,
+        rightAddendVisibleProperty: model.rightAddendVisibleProperty,
+        representationTypeProperty: model.representationTypeProperty,
+        totalProperty: model.totalProperty,
+        tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
+      } );
     this.countingAreaDescriptionNode = countingAreaDescriptionNode;
 
     /**

@@ -149,6 +149,8 @@ type StringsType = {
       'rightSideListItemPatternStringProperty': LocalizedStringProperty;
       'leftSideBeadsPatternStringProperty': LocalizedStringProperty;
       'rightSideBeadsPatternStringProperty': LocalizedStringProperty;
+      'yellowListItemPatternStringProperty': LocalizedStringProperty;
+      'blueListItemPatternStringProperty': LocalizedStringProperty;
       'leftCircleListItemPatternStringProperty': LocalizedStringProperty;
       'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
       'valueHiddenStringProperty': LocalizedStringProperty;
