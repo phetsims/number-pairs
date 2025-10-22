@@ -93,7 +93,8 @@ export default class Level {
 
     this.modeProperty = new StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>( 'idle', {
       validValues: [ 'idle', 'guessSelected', 'incorrect', 'correct' ],
-      tandem: tandem.createTandem( 'modeProperty' )
+      tandem: tandem.createTandem( 'modeProperty' ),
+      phetioReadOnly: true
     } );
 
     this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
