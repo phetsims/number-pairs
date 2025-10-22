@@ -87,9 +87,8 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.statusBar
     ];
 
-    // We only want to update the pdom order when we are in the kitten representation.
-    // NOTE: this is similar to code in NumberPairsScreenView
-    Multilink.multilink( [ level.selectedGuessProperty ], () => {
+    // Update the pdom order for the kitten representation.
+    Multilink.multilink( [ level.selectedGuessProperty, level.challengeProperty ], () => {
       const leftAddendObjects = level.countingObjectsDelegate.leftAddendCountingObjectsProperty.value;
       const rightAddendObjects = level.countingObjectsDelegate.rightAddendCountingObjectsProperty.value;
       const leftAddendKittenNodes = leftAddendObjects.map( countingObject => this.kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
