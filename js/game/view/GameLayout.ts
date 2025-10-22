@@ -66,16 +66,20 @@ export function layoutNumberBondFeedback( bondNode: Layoutable,
                                           tryAgainTextProxy: Layoutable ): void {
   wrongMark.bottom = bondNode.bottom - 23; // Manually tuned based on the size of the circles and the height of the text.
 
+  const CHECK_HORIZONTAL_OFFSET = 3;
+
   // NumberBond levels cannot have the total missing, so only 'a' or 'b' is possible.
   if ( missingValue === 'a' ) {
     wrongMark.right = bondNode.left - 5;
+    checkMark.right = bondNode.left + CHECK_HORIZONTAL_OFFSET;
     tryAgainTextProxy.rightCenter = wrongMark.leftCenter.plusXY( -5, 0 );
   }
   else if ( missingValue === 'b' ) {
     wrongMark.left = bondNode.right + 5;
+    checkMark.left = bondNode.right + CHECK_HORIZONTAL_OFFSET;
     tryAgainTextProxy.leftCenter = wrongMark.rightCenter.plusXY( 5, 0 );
   }
-  checkMark.center = wrongMark.center; // keep them aligned if one is hidden
+  checkMark.centerY = wrongMark.centerY; // keep them aligned if one is hidden
 }
 
 /**
