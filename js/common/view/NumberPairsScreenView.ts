@@ -98,6 +98,21 @@ export default class NumberPairsScreenView extends ScreenView {
     super( options );
     this.representationRadioButtonGroup = representationRadioButtonGroup;
 
+    const numberLineRepresentationVisibleProperty = DerivedProperty.valueEqualsConstant(
+      model.representationTypeProperty,
+      RepresentationType.NUMBER_LINE
+    );
+
+    const countingRepresentationsVisibleProperty = DerivedProperty.and( [
+      model.leftAddendVisibleProperty,
+      model.rightAddendVisibleProperty
+    ] );
+
+    const numberLineContentVisibleProperty = DerivedProperty.and( [
+      numberLineRepresentationVisibleProperty,
+      countingRepresentationsVisibleProperty
+    ] );
+
     // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
     const countingAreaDescriptionNode = new CountingAreaDescriptionNode(
       model.locationLayerVisibleProperty,
@@ -108,6 +123,12 @@ export default class NumberPairsScreenView extends ScreenView {
         rightAddendVisibleProperty: model.rightAddendVisibleProperty,
         representationTypeProperty: model.representationTypeProperty,
         totalProperty: model.totalProperty,
+        numberLineRepresentationVisibleProperty: numberLineRepresentationVisibleProperty,
+        numberLineVisibleProperty: numberLineContentVisibleProperty,
+        numberLineCountFromZeroProperty: model.numberLineCountFromZeroProperty,
+        numberLineAddendValuesVisibleProperty: model.numberLineAddendValuesVisibleProperty,
+        numberLineTickValuesVisibleProperty: model.tickValuesVisibleProperty,
+        totalJumpVisibleProperty: model.totalJumpVisibleProperty,
         tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
       } );
     this.countingAreaDescriptionNode = countingAreaDescriptionNode;
@@ -311,7 +332,7 @@ export default class NumberPairsScreenView extends ScreenView {
     // Group all the non-location based counting representations into one Node. If either the leftAddendVisibleProperty
     // or rightAddendVisibleProperty is false, then none of the other counting representations should be visible.
     const countingRepresentationsLayer = new Node( {
-      visibleProperty: DerivedProperty.and( [ model.leftAddendVisibleProperty, model.rightAddendVisibleProperty ] )
+      visibleProperty: countingRepresentationsVisibleProperty
     } );
 
     // Add as child of countingAreaDescriptionNode for proper PDOM structure
@@ -349,13 +370,8 @@ export default class NumberPairsScreenView extends ScreenView {
      * Create the number line and accompanying features.
      */
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.NUMBER_LINE ) ) {
-      const numberLineVisibleProperty = DerivedProperty.valueEqualsConstant(
-        model.representationTypeProperty,
-        RepresentationType.NUMBER_LINE
-      );
-
       const numberLineNode = new NumberLineNode( model, COUNTING_AREA_BOUNDS.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN, {
-        visibleProperty: numberLineVisibleProperty,
+        visibleProperty: numberLineRepresentationVisibleProperty,
         numberLineRange: options.sceneRange?.max === NumberPairsConstants.TEN_TOTAL_RANGE.max ?
                          NumberPairsConstants.TEN_NUMBER_LINE_RANGE : NumberPairsConstants.TWENTY_NUMBER_LINE_RANGE,
         tandem: options.tandem.createTandem( 'numberLineNode' )
@@ -372,7 +388,7 @@ export default class NumberPairsScreenView extends ScreenView {
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
         left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
-        visibleProperty: numberLineVisibleProperty,
+        visibleProperty: numberLineRepresentationVisibleProperty,
         tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
       } );
       this.addChild( this.numberLineCheckboxGroup );
@@ -380,7 +396,7 @@ export default class NumberPairsScreenView extends ScreenView {
       const iconWidth = 35;
       const iconValue = 1;
       const numberLineCountFromZeroSwitchTandem = options.tandem.createTandem( 'numberLineCountFromZeroSwitch' );
-      const numberLineCountFromZeroSwitchVisibleProperty = new GatedVisibleProperty( numberLineVisibleProperty,
+      const numberLineCountFromZeroSwitchVisibleProperty = new GatedVisibleProperty( numberLineRepresentationVisibleProperty,
         numberLineCountFromZeroSwitchTandem );
       const numberLineCountFromZeroSwitch = new ABSwitch(
         model.numberLineCountFromZeroProperty,

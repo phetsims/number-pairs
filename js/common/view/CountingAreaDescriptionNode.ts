@@ -2,7 +2,7 @@
 
 /**
  * CountingAreaDescriptionNode provides the accessibility description for the Counting Area.
- * It includes an accessible heading and an AccessibleListNode that describes the left and right addends.
+ * It includes an accessible heading and switches between the general counting area list and the number line description.
  * Counting representation nodes should be added as children to maintain proper PDOM structure.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
@@ -20,6 +20,7 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import RepresentationType from '../model/RepresentationType.js';
+import NumberLineDescription from './description/NumberLineDescription.js';
 
 type SelfOptions = {
   leftAddendProperty: TReadOnlyProperty<number>;
@@ -28,6 +29,12 @@ type SelfOptions = {
   rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
   representationTypeProperty: Property<RepresentationType>;
   totalProperty: TReadOnlyProperty<number>;
+  numberLineRepresentationVisibleProperty: TReadOnlyProperty<boolean>;
+  numberLineVisibleProperty: TReadOnlyProperty<boolean>;
+  numberLineCountFromZeroProperty: TReadOnlyProperty<boolean>;
+  numberLineAddendValuesVisibleProperty: TReadOnlyProperty<boolean>;
+  numberLineTickValuesVisibleProperty: TReadOnlyProperty<boolean>;
+  totalJumpVisibleProperty: TReadOnlyProperty<boolean>;
 };
 
 type CountingAreaDescriptionNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -53,7 +60,8 @@ export default class CountingAreaDescriptionNode extends Node {
     const showObjectSidesProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty, ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
     const showBeadsProperty = derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS );
 
-    // TODO: For review, is there a better way to make sure these pairs are mutually exclusive, or is this a good approach? See https://github.com/phetsims/number-pairs/issues/206
+    const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( providedOptions.numberLineRepresentationVisibleProperty );
+
     const countingAreaAccessibleListNode = new AccessibleListNode( [
       {
         stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
@@ -88,12 +96,28 @@ export default class CountingAreaDescriptionNode extends Node {
         items: new DynamicProperty( providedOptions.representationTypeProperty, {
           derive: 'accessibleName'
         } )
-      } )
+      } ),
+      visibleProperty: countingAreaAccessibleListVisibleProperty
+    } );
+
+    const numberLineDescription = new NumberLineDescription( {
+      numberLineVisibleProperty: providedOptions.numberLineVisibleProperty,
+      numberLineRepresentationVisibleProperty: providedOptions.numberLineRepresentationVisibleProperty,
+      numberLineCountFromZeroProperty: providedOptions.numberLineCountFromZeroProperty,
+      tickValuesVisibleProperty: providedOptions.numberLineTickValuesVisibleProperty,
+      numberLineAddendValuesVisibleProperty: providedOptions.numberLineAddendValuesVisibleProperty,
+      totalJumpVisibleProperty: providedOptions.totalJumpVisibleProperty,
+      leftAddendProperty: providedOptions.leftAddendProperty,
+      rightAddendProperty: providedOptions.rightAddendProperty,
+      totalProperty: providedOptions.totalProperty
     } );
 
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
-      children: [ countingAreaAccessibleListNode ]
+      children: [
+        countingAreaAccessibleListNode,
+        numberLineDescription
+      ]
     }, providedOptions );
 
     super( options );

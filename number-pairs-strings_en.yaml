@@ -184,6 +184,23 @@ a11y:
   # Number line
   numberLine:
     accessibleName: Number Line
+  numberLineDescription:
+    leadingCountOn:                  'Number line shows a green line to represent total and a blue jump from knob to total:'
+    leadingCountFromZero:            'Number line shows a green line to represent total, a yellow jump from left edge to knob, and a blue jump from knob to total:'
+    leadingHidden:                   Number line is hidden.
+    totalStartsPattern:              Total starts at { $start }, ends at { $end }
+    totalSpansPattern:               Total spans from { $start } to { $end }
+    knobIsAtPattern:                 Knob is at { $value }
+    knobSplits:                      Knob splits total into 2 sections
+    leftEdgeLabel:                   left edge
+    totalLabel:                      total
+    knobLabel:                       knob
+    countOnLeftAddendPattern:        Left addend, { $left }, marked on number line
+    countOnJumpPattern:              Jump of length { $right } starts at { $start } and ends at total
+    countFromZeroLeftAddendPattern:  Left addend, { $left }, is shown above jump from left edge to knob
+    countFromZeroRightAddendPattern: Right addend, { $right }, is shown above jump from { $start } to total
+    countOnTotalJumpPattern:         Jump of length { $total } is labeled
+    countFromZeroTotalJumpPattern:   Jump spans total length, { $total }
 
   # Total/Number model
   totalSceneSelection:

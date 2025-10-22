@@ -148,6 +148,22 @@ addToMapIfDefined( 'a11y_beads_leftAddendBead', 'a11y.beads.leftAddendBeadString
 addToMapIfDefined( 'a11y_beads_rightAddendBead', 'a11y.beads.rightAddendBeadStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleHelpText', 'a11y.beads.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_numberLine_accessibleName', 'a11y.numberLine.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_leadingCountOn', 'a11y.numberLineDescription.leadingCountOnStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_leadingCountFromZero', 'a11y.numberLineDescription.leadingCountFromZeroStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_leadingHidden', 'a11y.numberLineDescription.leadingHiddenStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_totalStartsPattern', 'a11y.numberLineDescription.totalStartsPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_totalSpansPattern', 'a11y.numberLineDescription.totalSpansPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_knobIsAtPattern', 'a11y.numberLineDescription.knobIsAtPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_knobSplits', 'a11y.numberLineDescription.knobSplitsStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_leftEdgeLabel', 'a11y.numberLineDescription.leftEdgeLabelStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_totalLabel', 'a11y.numberLineDescription.totalLabelStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_knobLabel', 'a11y.numberLineDescription.knobLabelStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countOnLeftAddendPattern', 'a11y.numberLineDescription.countOnLeftAddendPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countOnJumpPattern', 'a11y.numberLineDescription.countOnJumpPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countFromZeroLeftAddendPattern', 'a11y.numberLineDescription.countFromZeroLeftAddendPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countFromZeroRightAddendPattern', 'a11y.numberLineDescription.countFromZeroRightAddendPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countOnTotalJumpPattern', 'a11y.numberLineDescription.countOnTotalJumpPatternStringProperty' );
+addToMapIfDefined( 'a11y_numberLineDescription_countFromZeroTotalJumpPattern', 'a11y.numberLineDescription.countFromZeroTotalJumpPatternStringProperty' );
 addToMapIfDefined( 'a11y_totalSceneSelection_totalNumberPattern', 'a11y.totalSceneSelection.totalNumberPatternStringProperty' );
 addToMapIfDefined( 'a11y_totalSceneSelection_accessibleHelpText', 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_totalCheckbox_accessibleHelpText', 'a11y.totalCheckbox.accessibleHelpTextStringProperty' );
@@ -406,6 +422,24 @@ const NumberPairsFluent = {
     _comment_2: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
     numberLine: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.accessibleNameStringProperty' ) )
+    },
+    numberLineDescription: {
+      leadingCountOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_leadingCountOn', _.get( NumberPairsStrings, 'a11y.numberLineDescription.leadingCountOnStringProperty' ) ),
+      leadingCountFromZeroStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_leadingCountFromZero', _.get( NumberPairsStrings, 'a11y.numberLineDescription.leadingCountFromZeroStringProperty' ) ),
+      leadingHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_leadingHidden', _.get( NumberPairsStrings, 'a11y.numberLineDescription.leadingHiddenStringProperty' ) ),
+      totalStartsPattern: new FluentPattern<{ end: FluentVariable, start: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_totalStartsPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.totalStartsPatternStringProperty' ), [{"name":"end"},{"name":"start"}] ),
+      totalSpansPattern: new FluentPattern<{ end: FluentVariable, start: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_totalSpansPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.totalSpansPatternStringProperty' ), [{"name":"end"},{"name":"start"}] ),
+      knobIsAtPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_knobIsAtPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.knobIsAtPatternStringProperty' ), [{"name":"value"}] ),
+      knobSplitsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_knobSplits', _.get( NumberPairsStrings, 'a11y.numberLineDescription.knobSplitsStringProperty' ) ),
+      leftEdgeLabelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_leftEdgeLabel', _.get( NumberPairsStrings, 'a11y.numberLineDescription.leftEdgeLabelStringProperty' ) ),
+      totalLabelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_totalLabel', _.get( NumberPairsStrings, 'a11y.numberLineDescription.totalLabelStringProperty' ) ),
+      knobLabelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLineDescription_knobLabel', _.get( NumberPairsStrings, 'a11y.numberLineDescription.knobLabelStringProperty' ) ),
+      countOnLeftAddendPattern: new FluentPattern<{ left: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countOnLeftAddendPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countOnLeftAddendPatternStringProperty' ), [{"name":"left"}] ),
+      countOnJumpPattern: new FluentPattern<{ right: FluentVariable, start: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countOnJumpPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countOnJumpPatternStringProperty' ), [{"name":"right"},{"name":"start"}] ),
+      countFromZeroLeftAddendPattern: new FluentPattern<{ left: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countFromZeroLeftAddendPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countFromZeroLeftAddendPatternStringProperty' ), [{"name":"left"}] ),
+      countFromZeroRightAddendPattern: new FluentPattern<{ right: FluentVariable, start: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countFromZeroRightAddendPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countFromZeroRightAddendPatternStringProperty' ), [{"name":"right"},{"name":"start"}] ),
+      countOnTotalJumpPattern: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countOnTotalJumpPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countOnTotalJumpPatternStringProperty' ), [{"name":"total"}] ),
+      countFromZeroTotalJumpPattern: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countFromZeroTotalJumpPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countFromZeroTotalJumpPatternStringProperty' ), [{"name":"total"}] )
     },
     _comment_3: new FluentComment( {"comment":"Total/Number model","associatedKey":"totalSceneSelection"} ),
     totalSceneSelection: {

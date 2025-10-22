@@ -198,6 +198,24 @@ type StringsType = {
     'numberLine': {
       'accessibleNameStringProperty': LocalizedStringProperty;
     };
+    'numberLineDescription': {
+      'leadingCountOnStringProperty': LocalizedStringProperty;
+      'leadingCountFromZeroStringProperty': LocalizedStringProperty;
+      'leadingHiddenStringProperty': LocalizedStringProperty;
+      'totalStartsPatternStringProperty': LocalizedStringProperty;
+      'totalSpansPatternStringProperty': LocalizedStringProperty;
+      'knobIsAtPatternStringProperty': LocalizedStringProperty;
+      'knobSplitsStringProperty': LocalizedStringProperty;
+      'leftEdgeLabelStringProperty': LocalizedStringProperty;
+      'totalLabelStringProperty': LocalizedStringProperty;
+      'knobLabelStringProperty': LocalizedStringProperty;
+      'countOnLeftAddendPatternStringProperty': LocalizedStringProperty;
+      'countOnJumpPatternStringProperty': LocalizedStringProperty;
+      'countFromZeroLeftAddendPatternStringProperty': LocalizedStringProperty;
+      'countFromZeroRightAddendPatternStringProperty': LocalizedStringProperty;
+      'countOnTotalJumpPatternStringProperty': LocalizedStringProperty;
+      'countFromZeroTotalJumpPatternStringProperty': LocalizedStringProperty;
+    };
     'totalSceneSelection': {
       'totalNumberPatternStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
