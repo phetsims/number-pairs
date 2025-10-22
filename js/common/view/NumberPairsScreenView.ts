@@ -296,15 +296,9 @@ export default class NumberPairsScreenView extends ScreenView {
 
     // All the location representations at least include One Cards
     if ( model.representationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ) {
-      const locationLayerVisibleProperty = new DerivedProperty( [ model.representationTypeProperty ],
-        countingRepresentationType =>
-          countingRepresentationType === RepresentationType.APPLES ||
-          countingRepresentationType === RepresentationType.ONE_CARDS ||
-          countingRepresentationType === RepresentationType.BUTTERFLIES ||
-          countingRepresentationType === RepresentationType.SOCCER_BALLS );
 
       const locationCountingObjectsLayerNode = new LocationCountingObjectsLayerNode( model, countingAreaNode, {
-        visibleProperty: locationLayerVisibleProperty,
+        visibleProperty: model.locationLayerVisibleProperty,
         tandem: options.tandem.createTandem( 'locationCountingObjectsLayerNode' )
       } );
 

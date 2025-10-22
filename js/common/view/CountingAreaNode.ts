@@ -71,13 +71,6 @@ export default class CountingAreaNode extends Node {
 
     // The split counting area is only visible when we are in a location based counting representation.
     // i.e. Apples, Soccer Balls, Butterflies, One Cards
-    const splitCountingAreaVisibleProperty = new DerivedProperty( [ options.countingRepresentationTypeProperty ],
-      countingRepresentationType => {
-        return countingRepresentationType === RepresentationType.APPLES ||
-               countingRepresentationType === RepresentationType.ONE_CARDS ||
-               countingRepresentationType === RepresentationType.SOCCER_BALLS ||
-               countingRepresentationType === RepresentationType.BUTTERFLIES;
-      } );
 
     const backgroundRectangle = new Rectangle( countingAreaBounds, {
       fill: options.backgroundColorProperty.value,
@@ -100,7 +93,7 @@ export default class CountingAreaNode extends Node {
 
     const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ?
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
-    const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( splitCountingAreaVisibleProperty ), bothAddendsEyeToggleButtonTandem );
+    const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.hideAddends.accessibleNameStringProperty,
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
@@ -114,7 +107,7 @@ export default class CountingAreaNode extends Node {
 
     const splitCountingAreaBackground = new SplitCountingAreaNode(
       countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
-        visibleProperty: splitCountingAreaVisibleProperty,
+        visibleProperty: model.locationLayerVisibleProperty,
         tandem: options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ?
                 options.tandem.createTandem( 'splitCountingAreaBackground' ) : Tandem.OPT_OUT
       } );

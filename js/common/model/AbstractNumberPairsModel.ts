@@ -6,6 +6,7 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -51,6 +52,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
   // The BEADS and NUMBER_LINE representations additionally support different user interactions.
   public readonly representationTypeProperty: Property<RepresentationType>;
 
+  public readonly locationLayerVisibleProperty: TReadOnlyProperty<boolean>;
+
   protected constructor(
     public readonly totalProperty: TReadOnlyProperty<number>,
     public readonly leftAddendProperty: TReadOnlyProperty<number>,
@@ -80,6 +83,14 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     this.rightAddendColorProperty = new DynamicProperty( this.representationTypeProperty, {
       derive: 'rightAddendColorProperty'
     } );
+
+    this.locationLayerVisibleProperty = new DerivedProperty( [ this.representationTypeProperty ],
+      countingRepresentationType =>
+        countingRepresentationType === RepresentationType.APPLES ||
+        countingRepresentationType === RepresentationType.ONE_CARDS ||
+        countingRepresentationType === RepresentationType.BUTTERFLIES ||
+        countingRepresentationType === RepresentationType.SOCCER_BALLS
+    );
   }
 
   /**
