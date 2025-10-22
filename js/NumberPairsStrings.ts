@@ -296,9 +296,15 @@ type StringsType = {
       'countFromZeroSwitch': {
         'valueAAccessibleNameStringProperty': LocalizedStringProperty;
         'valueBAccessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
       'totalCheckbox': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'addendsCheckbox': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
       }
     };
     'gameScreen': {

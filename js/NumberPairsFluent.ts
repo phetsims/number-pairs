@@ -208,7 +208,11 @@ addToMapIfDefined( 'a11y_controls_rightObjects_accessibleName', 'a11y.controls.r
 addToMapIfDefined( 'a11y_controls_countingObjectControl_accessibleHelpText', 'a11y.controls.countingObjectControl.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_accessibleHelpText', 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleHelpText', 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleHelpText', 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
@@ -538,11 +542,19 @@ const NumberPairsFluent = {
       },
       countFromZeroSwitch: {
         valueAAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' ) ),
-        valueBAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' ) )
+        valueBAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' ) ),
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' ) )
       },
       totalCheckbox: {
         _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' ) )
+      },
+      addendsCheckbox: {
+        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseChecked: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"}] ),
+        accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       }
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),

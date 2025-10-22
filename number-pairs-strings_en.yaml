@@ -254,12 +254,12 @@ a11y:
                                  }
       accessibleContextResponse: Organized.
     commutativeButton:
-      accessibleName:            Swap Addends
-      accessibleHelpTextPattern: Switch { $items } from left counting area to right and right counting area to left.
-      accessibleContextResponse: '{ $leftAddend } on left, { $rightAddend } on right, { $total } total.'
+      accessibleName:                  Swap Addends
+      accessibleHelpTextPattern:       Switch { $items } from left counting area to right and right counting area to left.
+      accessibleContextResponse:       '{ $leftAddend } on left, { $rightAddend } on right, { $total } total.'
       accessibleContextResponseHidden: Addends swapped, contents hidden.
     bothAddendsVisible:
-      accessibleName: Counting Area Visibility
+      accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
     addendVisible:
       accessibleNamePattern:     '{ $addend } Counting Area Visibility'
@@ -280,8 +280,13 @@ a11y:
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero
+      accessibleHelpText:   Choose where to start counting. Count on from first addend to get total or count to first addend starting at zero.
     totalCheckbox:
       accessibleHelpText: Show or hide the sum of the two addends.
+    addendsCheckbox:
+      accessibleHelpText: Show or hide addend values.
+      accessibleContextResponseChecked: 'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'
+      accessibleContextResponseUnchecked: Addends hidden.
 
   # Game
   gameScreen:

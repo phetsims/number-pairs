@@ -133,7 +133,15 @@ export default class NumberLineLevelNode extends LevelNode {
       createNode: () => new Text( NumberPairsFluent.addendsStringProperty, {
         font: new PhetFont( 18 )
       } ),
-      tandemName: 'showAddendsCheckbox'
+      tandemName: 'showAddendsCheckbox',
+      options: {
+        accessibleHelpText: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty,
+        accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseChecked.createProperty( {
+          leftAddend: numberLineModel.leftAddendProperty,
+          rightAddend: numberLineModel.rightAddendProperty
+        } ),
+        accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty
+      }
     }, {
       property: level.showTickNumbersProperty,
       createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, {

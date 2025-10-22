@@ -423,6 +423,7 @@ export default class NumberPairsScreenView extends ScreenView {
           visibleProperty: numberLineCountFromZeroSwitchVisibleProperty,
           valueAAccessibleName: NumberPairsFluent.a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty,
           valueBAccessibleName: NumberPairsFluent.a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty,
+          accessibleHelpText: NumberPairsFluent.a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 ),
             enabledPropertyOptions: {

@@ -31,9 +31,19 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     }, providedOptions );
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
+
+        // TODO: Duplicated between here and NumberLineLevelNode, factor out, see https://github.com/phetsims/number-pairs/issues/206
         createNode: () => new Text( NumberPairsFluent.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.numberLineAddendValuesVisibleProperty,
-        tandemName: 'addendsCheckbox'
+        tandemName: 'addendsCheckbox',
+        options: {
+          accessibleHelpText: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty,
+          accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseChecked.createProperty( {
+            leftAddend: model.leftAddendProperty,
+            rightAddend: model.rightAddendProperty
+          } ),
+          accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty
+        }
       },
       {
         createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
