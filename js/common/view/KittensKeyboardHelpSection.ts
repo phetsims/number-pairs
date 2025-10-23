@@ -13,17 +13,23 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
-  public constructor() {
+  public constructor( toggleKittenColor: boolean ) {
     const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
       labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty
     } );
     const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
       labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToLastLabelInnerContentStringProperty
     } );
-    const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
-      labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty
-    } );
-    super( NumberPairsFluent.keyboardHelpDialog.kittenSectionHeadingStringProperty, [ homeRow, endRow, toggleKittenColorRow ] );
+    const array = [ homeRow, endRow ];
+
+    if ( toggleKittenColor ) {
+      const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
+        labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty
+      } );
+      array.push( toggleKittenColorRow );
+    }
+
+    super( NumberPairsFluent.keyboardHelpDialog.kittenSectionHeadingStringProperty, array );
   }
 }
 

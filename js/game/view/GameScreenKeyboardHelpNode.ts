@@ -6,8 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import GrabReleaseKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/GrabReleaseKeyboardHelpSection.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
+import KittensKeyboardHelpSection from '../../common/view/KittensKeyboardHelpSection.js';
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -16,11 +16,11 @@ export default class GameScreenKeyboardHelpNode extends NumberPairsKeyboardHelpN
 
   public constructor() {
     super( [
-      new GrabReleaseKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.objectHeadingStringProperty,
-        NumberPairsFluent.keyboardHelpDialog.objectStringProperty ),
       new MoveDraggableItemsKeyboardHelpSection( {
-        headingStringProperty: NumberPairsFluent.keyboardHelpDialog.introScreen.moveGrabbableItemHeadingStringProperty
-      } )
+        headingStringProperty: NumberPairsFluent.keyboardHelpDialog.gameScreen.moveKittenItemHeadingStringProperty
+      } ),
+
+      new KittensKeyboardHelpSection( false )
     ] );
   }
 }

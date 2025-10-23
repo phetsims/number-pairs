@@ -14,6 +14,7 @@ keyboardHelpDialog.introScreen.moveGrabbableItemHeading:  Move Grabbed Object
 keyboardHelpDialog.tenScreen.moveGrabbableItemHeading:    Move Kitten or Grabbed Bead
 keyboardHelpDialog.twentyScreen.moveGrabbableItemHeading: Move Grabbed Object in Counting Area
 keyboardHelpDialog.sumScreen.moveGrabbableItemHeading:    Move Kitten or Grabbed Bead
+keyboardHelpDialog.gameScreen.moveKittenItemHeading:      Move Kitten
 keyboardHelpDialog.jumpToLastKitten:                      Jump to last kitten
 keyboardHelpDialog.jumpToFirstKitten:                     Jump to first kitten
 keyboardHelpDialog.changeKittenColor:                     Change kitten color

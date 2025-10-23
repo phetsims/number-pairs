@@ -25,7 +25,7 @@ export default class TwentyScreenKeyboardHelpNode extends NumberPairsKeyboardHel
         } ),
         new MoveAcrossAreaKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.moveGrabbedObjectToOppositeSideStringProperty,
           NumberPairsFluent.keyboardHelpDialog.objectStringProperty ),
-        new KittensKeyboardHelpSection() ],
+        new KittensKeyboardHelpSection( true ) ],
       new SliderControlsKeyboardHelpSection() );
   }
 }

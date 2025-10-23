@@ -43,6 +43,7 @@ addToMapIfDefined( 'keyboardHelpDialog_introScreen_moveGrabbableItemHeading', 'k
 addToMapIfDefined( 'keyboardHelpDialog_tenScreen_moveGrabbableItemHeading', 'keyboardHelpDialog.tenScreen.moveGrabbableItemHeadingStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_twentyScreen_moveGrabbableItemHeading', 'keyboardHelpDialog.twentyScreen.moveGrabbableItemHeadingStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_sumScreen_moveGrabbableItemHeading', 'keyboardHelpDialog.sumScreen.moveGrabbableItemHeadingStringProperty' );
+addToMapIfDefined( 'keyboardHelpDialog_gameScreen_moveKittenItemHeading', 'keyboardHelpDialog.gameScreen.moveKittenItemHeadingStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_jumpToLastKitten', 'keyboardHelpDialog.jumpToLastKittenStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_jumpToFirstKitten', 'keyboardHelpDialog.jumpToFirstKittenStringProperty' );
 addToMapIfDefined( 'keyboardHelpDialog_changeKittenColor', 'keyboardHelpDialog.changeKittenColorStringProperty' );
@@ -278,6 +279,10 @@ const NumberPairsFluent = {
     },
     sumScreen: {
       moveGrabbableItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.sumScreen.moveGrabbableItemHeadingStringProperty' )
+    },
+    _comment_0: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+    gameScreen: {
+      moveKittenItemHeadingStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.gameScreen.moveKittenItemHeadingStringProperty' )
     },
     jumpToLastKittenStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToLastKittenStringProperty' ),
     jumpToFirstKittenStringProperty: _.get( NumberPairsStrings, 'keyboardHelpDialog.jumpToFirstKittenStringProperty' ),

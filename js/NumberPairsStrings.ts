@@ -41,6 +41,9 @@ type StringsType = {
     'sumScreen': {
       'moveGrabbableItemHeadingStringProperty': LocalizedStringProperty;
     };
+    'gameScreen': {
+      'moveKittenItemHeadingStringProperty': LocalizedStringProperty;
+    };
     'jumpToLastKittenStringProperty': LocalizedStringProperty;
     'jumpToFirstKittenStringProperty': LocalizedStringProperty;
     'changeKittenColorStringProperty': LocalizedStringProperty;

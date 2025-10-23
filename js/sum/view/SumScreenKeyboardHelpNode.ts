@@ -25,7 +25,7 @@ export default class SumScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNo
         } ),
         new MoveAcrossAreaKeyboardHelpSection( NumberPairsFluent.keyboardHelpDialog.moveBeadsToOppositeSideStringProperty,
           NumberPairsFluent.keyboardHelpDialog.beadStringProperty ),
-        new KittensKeyboardHelpSection(), new CountingObjectSpinnersKeyboardHelpSection() ],
+        new KittensKeyboardHelpSection( true ), new CountingObjectSpinnersKeyboardHelpSection() ],
       new SliderControlsKeyboardHelpSection() );
   }
 }
