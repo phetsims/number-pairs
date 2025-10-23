@@ -8,6 +8,7 @@
 
 import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import AccessibleListNode, { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import numberPairs from '../../../numberPairs.js';
@@ -53,12 +54,10 @@ export default class NumberLineDescription extends AccessibleListNode {
       end: totalEndStringProperty
     } );
 
-    const totalDescriptionStringProperty = derived(
-      options.numberLineCountFromZeroProperty,
-      totalSpansPatternProperty,
-      totalStartsPatternProperty,
-      ( countFromZero, totalSpansString, totalStartsString ) => countFromZero ? totalSpansString : totalStartsString
-    );
+    const totalDescriptionStringProperty = derivedTernary( options.numberLineCountFromZeroProperty, {
+      true: totalSpansPatternProperty,
+      false: totalStartsPatternProperty
+    } );
 
     const knobIsAtPatternProperty = NumberPairsFluent.a11y.numberLineDescription.knobIsAtPattern.createProperty( {
       value: options.leftAddendProperty
@@ -66,23 +65,19 @@ export default class NumberLineDescription extends AccessibleListNode {
 
     const knobSplitsStringProperty = NumberPairsFluent.a11y.numberLineDescription.knobSplitsStringProperty;
 
-    const knobDescriptionStringProperty = derived(
-      options.tickValuesVisibleProperty,
-      knobIsAtPatternProperty,
-      knobSplitsStringProperty,
-      ( tickMarksVisible, knobIsAtString, knobSplitsString ) => tickMarksVisible ? knobIsAtString : knobSplitsString
-    );
+    const knobDescriptionStringProperty = derivedTernary( options.tickValuesVisibleProperty, {
+      true: knobIsAtPatternProperty,
+      false: knobSplitsStringProperty
+    } );
 
     const countOnLeftAddendStringProperty = NumberPairsFluent.a11y.numberLineDescription.countOnLeftAddendPattern.createProperty( {
       left: options.leftAddendProperty
     } );
 
-    const leftAddendOrKnobStringProperty = derived(
-      options.tickValuesVisibleProperty,
-      options.leftAddendProperty,
-      knobLabelStringProperty,
-      ( tickMarksVisible, leftAddendString, knobLabel ) => tickMarksVisible ? leftAddendString : knobLabel
-    );
+    const leftAddendOrKnobStringProperty = derivedTernary<number | string>( options.tickValuesVisibleProperty, {
+      true: options.leftAddendProperty,
+      false: knobLabelStringProperty
+    } );
 
     const countOnJumpStringProperty = NumberPairsFluent.a11y.numberLineDescription.countOnJumpPattern.createProperty( {
       right: options.rightAddendProperty,

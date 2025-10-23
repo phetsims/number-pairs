@@ -39,7 +39,7 @@ export default class NumberRectangle extends Rectangle {
     }, providedOptions );
     super( options );
 
-    const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
+    const numberStringProperty = new DerivedProperty( [ numberProperty ], number => number.toString() );
     const numberText = new Text( numberStringProperty, {
       font: new PhetFont( options.numberFontSize ),
       center: this.center,

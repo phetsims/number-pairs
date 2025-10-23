@@ -8,11 +8,11 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import derivedTernary from '../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
-
 
 export default class GrabDragDescriptionManager {
 
@@ -144,12 +144,10 @@ export default class GrabDragDescriptionManager {
   }
 
   public createHelpTextProperty( isGroupItemKeyboardGrabbedProperty: TReadOnlyProperty<boolean> ): TReadOnlyProperty<string> {
-
-    // TODO: https://github.com/phetsims/number-pairs/issues/307 I have seen this pattern many times, is there a way to streamline it or factor it out? Or move to a fluent selector?
-    return new DerivedProperty( [ isGroupItemKeyboardGrabbedProperty, this.grabbedHelpTextStringProperty, this.releasedHelpTextStringProperty ],
-      ( isGrabbed, grabbedHelpText, releasedHelpText ) => {
-        return isGrabbed ? grabbedHelpText : releasedHelpText;
-      } );
+    return derivedTernary( isGroupItemKeyboardGrabbedProperty, {
+      true: this.grabbedHelpTextStringProperty,
+      false: this.releasedHelpTextStringProperty
+    } );
   }
 }
 

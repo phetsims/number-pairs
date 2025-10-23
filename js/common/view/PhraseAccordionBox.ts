@@ -6,6 +6,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import derivedTernary from '../../../../axon/js/derivedTernary.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
@@ -124,6 +125,8 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       leftAddend: leftAddendDynamicProperty,
       rightAddend: rightAddendDynamicProperty
     } );
+
+    // TODO: Why is a new DynamicProperty wrapped around a new DerivedProperty? see https://github.com/phetsims/number-pairs/issues/200
     const secondaryLocaleStringProperty: TReadOnlyProperty<string> = new DynamicProperty( new DerivedProperty( [ secondLocaleProperty ], secondLocale => {
       return options.phraseStringProperty.getTranslatedStringProperty( secondLocale );
     } ) );
@@ -135,12 +138,9 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
 
     // This is the final Property that the RichText will listen to. At this point all decisions about what locale
     // to display based on translation have been filtered down.
-    const phraseStringProperty = new DerivedProperty( [
-      isPrimaryLocaleProperty,
-      primaryLocalePatternStringProperty,
-      secondaryLocalePatternStringProperty
-    ], ( isPrimaryLocale, primaryLocalePatternString, secondaryLocalePatternString ) => {
-      return isPrimaryLocale ? primaryLocalePatternString : secondaryLocalePatternString;
+    const phraseStringProperty = derivedTernary( isPrimaryLocaleProperty, {
+      true: primaryLocalePatternStringProperty,
+      false: secondaryLocalePatternStringProperty
     } );
 
     let totalHighlight: Rectangle | null = null;

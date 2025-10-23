@@ -6,7 +6,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import derived from '../../../../axon/js/derived.js';
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -28,7 +28,7 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
 
   public constructor( selectedSceneModelProperty: PhetioProperty<NumberPairsScene>, sceneModels: NumberPairsScene[], providedOptions: SceneSelectionRadioButtonGroupOptions ) {
     const totalNumberPatternStringProperty = NumberPairsFluent.a11y.totalSceneSelection.totalNumberPattern.createProperty( {
-      value: new DerivedProperty( [ selectedSceneModelProperty ], sceneModel => sceneModel.total )
+      value: derived( selectedSceneModelProperty, sceneModel => sceneModel.total )
     } );
     const options = optionize<SceneSelectionRadioButtonGroupOptions, SelfOptions, RectangularRadioButtonGroupOptions>()( {
       accessibleName: totalNumberPatternStringProperty,
