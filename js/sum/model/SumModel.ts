@@ -91,7 +91,7 @@ export default class SumModel extends NumberPairsModel {
         tandem: options.tandem.createTandem( 'rightAddendProperty' )
       } );
 
-    const countingObjects = CountingObjectsManager.createCountingObjects( SCENE_RANGE.max, leftAddendProperty.value, rightAddendProperty.value, options.tandem );
+    const countingObjects = CountingObjectsManager.createCountingObjects( SCENE_RANGE.max, leftAddendProperty.value, rightAddendProperty.value, options.tandem, false );
     const inactiveCountingObjects = countingObjects.slice();
     const initialLeftAddendObjects: CountingObject[] = [];
     const initialRightAddendObjects: CountingObject[] = [];

@@ -51,7 +51,7 @@ export default class DecompositionModel extends NumberPairsModel {
     const changingScenesProperty = new BooleanProperty( false ); // does not need to be instrumented.
 
     const countingObjects = CountingObjectsManager.createCountingObjects(
-      options.sceneRange.max, options.initialTotalValue - INITIAL_VALUES_DIFFERENCE, INITIAL_VALUES_DIFFERENCE, options.tandem );
+      options.sceneRange.max, options.initialTotalValue - INITIAL_VALUES_DIFFERENCE, INITIAL_VALUES_DIFFERENCE, options.tandem, false );
 
     // We need to create a scene model for each scene in the scene range including both the max and min values.
     const sceneModels = [];

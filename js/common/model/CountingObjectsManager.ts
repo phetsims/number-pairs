@@ -76,6 +76,7 @@ export const CountingObjectsManager = {
     initialLeftAddend: number,
     initialRightAddend: number,
     tandem: Tandem,
+    gameScreen: boolean,
     countingAreaBounds = NumberPairsConstants.COUNTING_AREA_BOUNDS
   ): CountingObject[] => {
 
@@ -123,7 +124,8 @@ export const CountingObjectsManager = {
         initialBeadXPosition: initialBeadXPosition,
         initialAttributePosition: initialAttributePosition,
         initialLocationPosition: initialLocationPosition,
-        tandem: countingObjectsTandem.createTandem( `countingObject${countingObjectID}` )
+        tandem: countingObjectsTandem.createTandem( `countingObject${countingObjectID}` ),
+        gameScreen: gameScreen
       } ) );
     } );
 

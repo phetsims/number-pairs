@@ -60,7 +60,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
     const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
     const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value,
-      rightAddendProperty.value, options.tandem, Level.COUNTING_AREA_BOUNDS );
+      rightAddendProperty.value, options.tandem, true, Level.COUNTING_AREA_BOUNDS );
     const inactiveCountingObjects = createObservableArray( {
       elements: countingObjects.slice()
     } );

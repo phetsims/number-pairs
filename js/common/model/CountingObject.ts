@@ -17,6 +17,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import numberPairs from '../../numberPairs.js';
@@ -37,6 +38,7 @@ type SelfOptions = {
   initialBeadXPosition: number;
   initialAttributePosition: Vector2;
   initialLocationPosition: Vector2;
+  gameScreen: boolean;
 };
 type CountingObjectOptions = SelfOptions & StrictOmit<PhetioObjectOptions, 'phetioState'>;
 
@@ -82,7 +84,7 @@ export default class CountingObject extends PhetioObject {
     } );
     this.locationPositionProperty = new Property( options.initialLocationPosition, {
       phetioValueType: Vector2.Vector2IO,
-      tandem: this.tandem.createTandem( 'locationPositionProperty' ),
+      tandem: options.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'locationPositionProperty' ),
       phetioReadOnly: true
     } );
 
@@ -93,23 +95,23 @@ export default class CountingObject extends PhetioObject {
     } );
 
     this.beadXPositionProperty = new NumberProperty( options.initialBeadXPosition, {
-      tandem: this.tandem.createTandem( 'beadXPositionProperty' ),
+      tandem: options.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'beadXPositionProperty' ),
       phetioReadOnly: true
     } );
 
     // This Property should not reset. It is managed by the addend array and manually set at the end of the reset call.
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       hasListenerOrderDependencies: true,
-      tandem: this.tandem.createTandem( 'addendTypeProperty' ),
+      tandem: providedOptions.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'addendTypeProperty' ),
       phetioReadOnly: true,
       phetioFeatured: false
     } );
     this.kittenSelectedProperty = new BooleanProperty( false, {
-      tandem: this.tandem.createTandem( 'focusedProperty' ),
+      tandem: options.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'focusedProperty' ),
       phetioReadOnly: true
     } );
     this.isDraggingProperty = new BooleanProperty( false, {
-      tandem: this.tandem.createTandem( 'isDraggingProperty' ),
+      tandem: options.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'isDraggingProperty' ),
       phetioReadOnly: true
     } );
 
