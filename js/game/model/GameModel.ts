@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
+import derivedMap from '../../../../axon/js/derivedMap.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
@@ -103,10 +103,10 @@ export default class GameModel implements TModel {
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
     };
 
-    const numberModelTypeStringProperty = derived( NumberPairsPreferences.numberModelTypeProperty, NumberPairsFluent.barModelLowercaseStringProperty, NumberPairsFluent.numberBondLowercaseStringProperty,
-      ( modelType, barModel, numberBond ) => {
-        return modelType === NumberModelType.BAR_MODEL ? barModel : numberBond;
-      } );
+    const numberModelTypeStringProperty = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
+      [ NumberModelType.BAR_MODEL, NumberPairsFluent.barModelLowercaseStringProperty ],
+      [ NumberModelType.NUMBER_BOND_MODEL, NumberPairsFluent.numberBondLowercaseStringProperty ]
+    ] ) );
 
     const level1DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level1StringProperty, {
       numberModelType: numberModelTypeStringProperty

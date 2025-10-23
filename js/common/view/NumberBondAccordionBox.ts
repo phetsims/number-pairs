@@ -6,6 +6,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derivedMap from '../../../../axon/js/derivedMap.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -69,15 +70,10 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       total: model.totalProperty
     } );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/307 Here is another case like the last one I mentioned where this pattern occurred.
-    const accessibleParagraphStringProperty = new DerivedProperty( [
-        NumberPairsPreferences.numberModelTypeProperty,
-        numberBondParagraphProperty,
-        barModelParagraphProperty ],
-      ( numberModelType, numberBondParagraph, barModelParagraph ) => {
-        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
-               numberBondParagraph : barModelParagraph;
-      } );
+    const accessibleParagraphStringProperty = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
+      [ NumberModelType.NUMBER_BOND_MODEL, numberBondParagraphProperty ],
+      [ NumberModelType.BAR_MODEL, barModelParagraphProperty ]
+    ] ) );
 
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},

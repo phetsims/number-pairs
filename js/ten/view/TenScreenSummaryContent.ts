@@ -9,6 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
+import derivedMap from '../../../../axon/js/derivedMap.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
@@ -44,14 +45,11 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
         return showingAddends ? shownProperty : countingAreaHidden;
       } );
 
-    const interactionHintContentProperty = derived( model.representationTypeProperty,
-      NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty,
-      NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty,
-      NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty, ( type, beadsString, kittensString, numberLineString ) => {
-        return type === RepresentationType.BEADS ? beadsString :
-               type === RepresentationType.KITTENS ? kittensString :
-               numberLineString;
-      } );
+    const interactionHintContentProperty = derivedMap( model.representationTypeProperty, new Map( [
+      [ RepresentationType.BEADS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty ],
+      [ RepresentationType.KITTENS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty ],
+      [ RepresentationType.NUMBER_LINE, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty ]
+    ] ) );
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBondOrBarModelStringProperty } ),
