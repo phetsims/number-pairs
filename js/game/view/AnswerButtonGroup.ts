@@ -32,6 +32,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
+import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
@@ -95,6 +96,7 @@ export default class AnswerButtonGroup extends GridBox {
       } );
 
       const numberToggleButton = new NumberToggleButton( pressedProperty, {
+        soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
         accessibleName: derived( isWrongProperty, wrongAccessibleNameProperty, ( isWrong, wrongAccessibleName ) => {
           return isWrong ? wrongAccessibleName : `${value}`;
         } ),
