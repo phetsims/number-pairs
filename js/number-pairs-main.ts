@@ -8,7 +8,7 @@
 
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
-import Sim, { SimOptions } from '../../joist/js/Sim.js';
+import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import DisplayGlobals from '../../scenery/js/display/DisplayGlobals.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
@@ -29,15 +29,13 @@ simLauncher.launch( () => {
 
   const titleStringProperty = NumberPairsFluent[ 'number-pairs' ].titleStringProperty;
 
-  const screens = [
+  const sim = new Sim( titleStringProperty, [
     new IntroScreen( { tandem: Tandem.ROOT.createTandem( 'introScreen' ) } ),
     new TenScreen( { tandem: Tandem.ROOT.createTandem( 'tenScreen' ) } ),
     new TwentyScreen( { tandem: Tandem.ROOT.createTandem( 'twentyScreen' ) } ),
     new SumScreen( { tandem: Tandem.ROOT.createTandem( 'sumScreen' ) } ),
     new GameScreen( { tandem: Tandem.ROOT.createTandem( 'gameScreen' ) } )
-  ];
-
-  const options: SimOptions = {
+  ], {
     credits: {
       leadDesign: 'Cathy Carter',
       softwareDevelopment: 'Marla Schulz',
@@ -49,16 +47,6 @@ simLauncher.launch( () => {
       thanks: ''
     },
     preferencesModel: new NumberPairsPreferencesModel()
-  };
-
-  const sim = new Sim( titleStringProperty, screens, options );
-
-  // For unit testing, report when the sim is launched.
-  // TODO: https://github.com/phetsims/number-pairs/issues/307 remove
-  sim.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
-    if ( isConstructionComplete ) {
-      console.log( 'sim launched successfully' );
-    }
   } );
   sim.start();
 
