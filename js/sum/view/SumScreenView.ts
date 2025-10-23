@@ -106,7 +106,7 @@ export default class SumScreenView extends NumberPairsScreenView {
           leftAddendProperty: model.leftAddendProperty,
           interruptPointers: this.interruptSubtreeInput.bind( this ),
           addendVisibleProperty: model.leftAddendVisibleProperty,
-          redactedValueStringProperty: NumberPairsFluent.someNumberStringProperty,
+          redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
           accessibleName: NumberPairsFluent.a11y.controls.leftObjects.accessibleNameStringProperty,
           accessibleHelpText: leftAddendHelpTextPatternStringProperty
         },
@@ -125,7 +125,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         countingObjectControlOptions: {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
           addendVisibleProperty: model.rightAddendVisibleProperty,
-          redactedValueStringProperty: NumberPairsFluent.anotherNumberStringProperty,
+          redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
           accessibleName: NumberPairsFluent.a11y.controls.rightObjects.accessibleNameStringProperty,
           accessibleHelpText: rightAddendHelpTextPatternStringProperty
         },

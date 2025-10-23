@@ -93,7 +93,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
     const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
       leftAddendProperty: null,
-      redactedValueStringProperty: NumberPairsFluent.someNumberStringProperty,
+      redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
       focusable: true,
       tagName: 'input',
       inputType: 'range',

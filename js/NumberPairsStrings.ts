@@ -130,6 +130,7 @@ type StringsType = {
     'rightCapitalizedStringProperty': LocalizedStringProperty;
     'movableRoleDescriptionStringProperty': LocalizedStringProperty;
     'countingAreaEmptyStringProperty': LocalizedStringProperty;
+    'unknownNumberStringProperty': LocalizedStringProperty;
     'grabOrReleaseInteraction': {
       'releasedHelpTextStringProperty': LocalizedStringProperty;
       'grabbedHelpTextPatternStringProperty': LocalizedStringProperty;

@@ -116,6 +116,7 @@ a11y:
   rightCapitalized:       Right
   movableRoleDescription: movable
   countingAreaEmpty:      Counting Area Empty
+  unknownNumber:          unknown number
   grabOrReleaseInteraction:
     releasedHelpText:           Use arrows to navigate and choose which { $item } to move. Space or enter to grab.
     grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas.

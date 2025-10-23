@@ -97,6 +97,7 @@ addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' 
 addToMapIfDefined( 'a11y_rightCapitalized', 'a11y.rightCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_movableRoleDescription', 'a11y.movableRoleDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_countingAreaEmpty', 'a11y.countingAreaEmptyStringProperty' );
+addToMapIfDefined( 'a11y_unknownNumber', 'a11y.unknownNumberStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_releasedHelpText', 'a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_grabbedHelpTextPattern', 'a11y.grabOrReleaseInteraction.grabbedHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_grabOrReleaseInteraction_grabbedAccessibleResponse', 'a11y.grabOrReleaseInteraction.grabbedAccessibleResponseStringProperty' );
@@ -372,6 +373,7 @@ const NumberPairsFluent = {
     rightCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightCapitalized', _.get( NumberPairsStrings, 'a11y.rightCapitalizedStringProperty' ) ),
     movableRoleDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_movableRoleDescription', _.get( NumberPairsStrings, 'a11y.movableRoleDescriptionStringProperty' ) ),
     countingAreaEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingAreaEmpty', _.get( NumberPairsStrings, 'a11y.countingAreaEmptyStringProperty' ) ),
+    unknownNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_unknownNumber', _.get( NumberPairsStrings, 'a11y.unknownNumberStringProperty' ) ),
     grabOrReleaseInteraction: {
       releasedHelpText: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedHelpText', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty' ), [{"name":"item"}] ),
       grabbedHelpTextPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_grabbedHelpTextPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.grabbedHelpTextPatternStringProperty' ), [{"name":"item"}] ),
