@@ -129,6 +129,9 @@ export default class GrabDragDescriptionManager {
           }
         }
         else if ( leftAddendObjectsLength === 0 && rightAddendObjectsLength === 0 ) {
+
+          // TODO: https://github.com/phetsims/number-pairs/issues/200 We must add NumberPairsFluent.a11y.countingAreaEmptyStringProperty as a dependency
+          // so this will be re-evaluated when that string changes, otherwise we could end up with a stale string value
           return NumberPairsFluent.a11y.countingAreaEmptyStringProperty.value;
         }
         else {

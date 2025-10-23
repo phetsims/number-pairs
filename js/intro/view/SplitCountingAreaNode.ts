@@ -110,7 +110,7 @@ export default class SplitCountingAreaNode extends Node {
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisible.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.leftStringProperty,
         modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
-          derive: 'stringProperty'  //eslint-disable-line phet/bad-sim-text
+          derive: numberModelType => numberModelType.stringProperty
         } )
       } ),
       tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
@@ -124,7 +124,7 @@ export default class SplitCountingAreaNode extends Node {
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisible.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.rightStringProperty,
         modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
-          derive: 'stringProperty'  //eslint-disable-line phet/bad-sim-text
+          derive: numberModelType => numberModelType.stringProperty
         } )
       } ),
       tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )

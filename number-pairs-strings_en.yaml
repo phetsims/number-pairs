@@ -117,6 +117,11 @@ a11y:
   movableRoleDescription: movable
   countingAreaEmpty:      Counting Area Empty
   unknownNumber:          unknown number
+
+  # TODO: https://github.com/phetsims/number-pairs/issues/200 this section could benefit from substructure
+  # TODO: Or consider collapsing it like so:
+  #       orderItemPattern: { $order } { $item } on { $side } side
+  #       itemPattern: { $item } on { $side } side
   grabOrReleaseInteraction:
     releasedHelpText:           Use arrows to navigate and choose which { $item } to move. Space or enter to grab.
     grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas.
@@ -134,6 +139,8 @@ a11y:
     noItemSelected:             No item selected
   countingArea:
     accessibleHeading:          Counting Area
+
+    # TODO: https://github.com/phetsims/number-pairs/issues/200 What does the NUMBER syntax do here, and what would go wrong without it?
     leadingParagraph:           |-
                                 { NUMBER($total) ->
                                 [1] Counting area has 1 total { $item }
@@ -233,12 +240,13 @@ a11y:
       noVoiceAccessibleParagraph: >-
                                   There is no voice found on this device for the selected language. Your device may support downloading additional
                                   voices for this language.
-      #TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200
-      accessibleHelpText:         Read decomposition phrase aloud.
+      accessibleHelpText:         Hear phrase read aloud.
     localeSwitch:
       accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
       numberBond:                                number bond
+
+      # TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key
       barModel:                                  proportional bar model
       accessibleHelpText:                        Represent decomposition as a { $representation }.
       numberBondAccessibleParagraph:             >-
@@ -248,6 +256,8 @@ a11y:
       barModelAccessibleParagraph:               >-
                                                  Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
                                                  objects, bottom rectangle is split into two sections that adjust based on size of addends.
+
+      # TODO https://github.com/phetsims/number-pairs/issues/200 should proportion be changed to proportions?
       currentBarModelStateAccessibleParagraph:   Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportion } sections.
       largerAndSmaller:                          larger and smaller
       smallerAndLarger:                          smaller and larger
@@ -269,6 +279,8 @@ a11y:
     bothAddendsVisible:
       accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
+
+    # TODO: Should this yaml key have a "button" or "toggleButton" suffix? see https://github.com/phetsims/number-pairs/issues/200
     addendVisible:
       accessibleNamePattern:     '{ $addend } Counting Area Visibility'
       accessibleHelpTextPattern: Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.

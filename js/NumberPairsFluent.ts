@@ -298,6 +298,7 @@ const NumberPairsFluent = {
   phraseStringProperty: _.get( NumberPairsStrings, 'phraseStringProperty' ),
   numberBondStringProperty: _.get( NumberPairsStrings, 'numberBondStringProperty' ),
   numberBondLowercaseStringProperty: _.get( NumberPairsStrings, 'numberBondLowercaseStringProperty' ),
+  _comment_1: new FluentComment( {"comment":"TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key","associatedKey":"barModel"} ),
   barModelStringProperty: _.get( NumberPairsStrings, 'barModelStringProperty' ),
   barModelLowercaseStringProperty: _.get( NumberPairsStrings, 'barModelLowercaseStringProperty' ),
   equationStringProperty: _.get( NumberPairsStrings, 'equationStringProperty' ),
@@ -320,7 +321,7 @@ const NumberPairsFluent = {
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
   levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
-  _comment_1: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+  _comment_2: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
   gameScreen: {
     levelDescriptions: {
       level1StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level1StringProperty' ),
@@ -374,6 +375,10 @@ const NumberPairsFluent = {
     movableRoleDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_movableRoleDescription', _.get( NumberPairsStrings, 'a11y.movableRoleDescriptionStringProperty' ) ),
     countingAreaEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingAreaEmpty', _.get( NumberPairsStrings, 'a11y.countingAreaEmptyStringProperty' ) ),
     unknownNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_unknownNumber', _.get( NumberPairsStrings, 'a11y.unknownNumberStringProperty' ) ),
+    _comment_1: new FluentComment( {"comment":"TODO: https://github.com/phetsims/number-pairs/issues/200 this section could benefit from substructure","associatedKey":"grabOrReleaseInteraction"} ),
+    _comment_2: new FluentComment( {"comment":"TODO: Or consider collapsing it like so:","associatedKey":"grabOrReleaseInteraction"} ),
+    _comment_3: new FluentComment( {"comment":"orderItemPattern: { $order } { $item } on { $side } side","associatedKey":"grabOrReleaseInteraction"} ),
+    _comment_4: new FluentComment( {"comment":"itemPattern: { $item } on { $side } side","associatedKey":"grabOrReleaseInteraction"} ),
     grabOrReleaseInteraction: {
       releasedHelpText: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedHelpText', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty' ), [{"name":"item"}] ),
       grabbedHelpTextPattern: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_grabbedHelpTextPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.grabbedHelpTextPatternStringProperty' ), [{"name":"item"}] ),
@@ -392,6 +397,7 @@ const NumberPairsFluent = {
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
+      _comment_0: new FluentComment( {"comment":"TODO: https://github.com/phetsims/number-pairs/issues/200 What does the NUMBER syntax do here, and what would go wrong without it?","associatedKey":"leadingParagraph"} ),
       leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total"}] ),
       numberBondLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_numberBondLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.numberBondLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
@@ -409,10 +415,9 @@ const NumberPairsFluent = {
       accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ) ),
       accessibleHelpTextExpandedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextExpanded', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextExpandedStringProperty' ) )
     },
-    _comment_1: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
+    _comment_5: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationType_accessibleName', _.get( NumberPairsStrings, 'a11y.representationType.accessibleNameStringProperty' ) ),
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_representationType_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.representationType.accessibleHelpTextStringProperty' ) )
     },
     apples: {
@@ -439,7 +444,6 @@ const NumberPairsFluent = {
       rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendColorStringProperty' ) ),
       leftAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendKittenStringProperty' ) ),
       rightAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendKittenStringProperty' ) ),
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
       accessibleHelpText: {
         withAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' ) ),
         withoutAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' ) )
@@ -450,15 +454,13 @@ const NumberPairsFluent = {
       singularAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_singularAccessibleName', _.get( NumberPairsStrings, 'a11y.beads.singularAccessibleNameStringProperty' ) ),
       leftAddendBeadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_leftAddendBead', _.get( NumberPairsStrings, 'a11y.beads.leftAddendBeadStringProperty' ) ),
       rightAddendBeadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_rightAddendBead', _.get( NumberPairsStrings, 'a11y.beads.rightAddendBeadStringProperty' ) ),
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.beads.accessibleHelpTextStringProperty' ) )
     },
-    _comment_2: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
+    _comment_6: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
     numberLine: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.accessibleNameStringProperty' ) ),
       addendSplitterKnob: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_addendSplitterKnob_accessibleName', _.get( NumberPairsStrings, 'a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_numberLine_addendSplitterKnob_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty' ) )
       },
       contextResponse: new FluentPattern<{ left: FluentVariable, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLine_contextResponse', _.get( NumberPairsStrings, 'a11y.numberLine.contextResponseStringProperty' ), [{"name":"left"},{"name":"right"},{"name":"total"}] )
@@ -481,42 +483,38 @@ const NumberPairsFluent = {
       countOnTotalJumpPattern: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countOnTotalJumpPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countOnTotalJumpPatternStringProperty' ), [{"name":"total"}] ),
       countFromZeroTotalJumpPattern: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_numberLineDescription_countFromZeroTotalJumpPattern', _.get( NumberPairsStrings, 'a11y.numberLineDescription.countFromZeroTotalJumpPatternStringProperty' ), [{"name":"total"}] )
     },
-    _comment_3: new FluentComment( {"comment":"Total/Number model","associatedKey":"totalSceneSelection"} ),
+    _comment_7: new FluentComment( {"comment":"Total/Number model","associatedKey":"totalSceneSelection"} ),
     totalSceneSelection: {
       totalNumberPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.totalNumberPatternStringProperty' ), [{"name":"value"}] ),
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' ) )
     },
     totalCheckbox: {
-      _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.totalCheckbox.accessibleHelpTextStringProperty' ) )
     },
-    _comment_4: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
+    _comment_8: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
     controls: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_accessibleHeading', _.get( NumberPairsStrings, 'a11y.controls.accessibleHeadingStringProperty' ) ),
       phrase: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_phrase_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.phrase.accessibleHelpTextStringProperty' ) )
       },
       speechSynthesis: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.accessibleNameStringProperty' ) ),
         noVoiceAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_noVoiceAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty' ) ),
         noVoiceAccessibleParagraphStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_noVoiceAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.noVoiceAccessibleParagraphStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.accessibleHelpTextStringProperty' ) )
       },
       localeSwitch: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_localeSwitch_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.localeSwitch.accessibleHelpTextStringProperty' ) )
       },
       numberModel: {
         numberBondStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBond', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondStringProperty' ) ),
+        _comment_0: new FluentComment( {"comment":"TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key","associatedKey":"barModel"} ),
         barModelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_barModel', _.get( NumberPairsStrings, 'a11y.controls.numberModel.barModelStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.numberModel.accessibleHelpTextStringProperty' ), [{"name":"representation"}] ),
         numberBondAccessibleParagraphStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBondAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty' ) ),
         currentNumberBondStateAccessibleParagraph: new FluentPattern<{ left: FluentVariable, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_currentNumberBondStateAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.currentNumberBondStateAccessibleParagraphStringProperty' ), [{"name":"left"},{"name":"right"},{"name":"total"}] ),
         barModelAccessibleParagraphStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_barModelAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.barModelAccessibleParagraphStringProperty' ) ),
+        _comment_1: new FluentComment( {"comment":"TODO https://github.com/phetsims/number-pairs/issues/200 should proportion be changed to proportions?","associatedKey":"currentBarModelStateAccessibleParagraph"} ),
         currentBarModelStateAccessibleParagraph: new FluentPattern<{ left: FluentVariable, proportion: FluentVariable, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_currentBarModelStateAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.currentBarModelStateAccessibleParagraphStringProperty' ), [{"name":"left"},{"name":"proportion"},{"name":"right"},{"name":"total"}] ),
         largerAndSmallerStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_largerAndSmaller', _.get( NumberPairsStrings, 'a11y.controls.numberModel.largerAndSmallerStringProperty' ) ),
         smallerAndLargerStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_smallerAndLarger', _.get( NumberPairsStrings, 'a11y.controls.numberModel.smallerAndLargerStringProperty' ) ),
@@ -524,7 +522,6 @@ const NumberPairsFluent = {
       },
       tenFrameButton: {
         accessibleName: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleNameStringProperty' ), [{"name":"representation"}] ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpText: new FluentPattern<{ representation: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' ), [{"name":"representation"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
         accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' ) )
       },
@@ -538,6 +535,7 @@ const NumberPairsFluent = {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisible_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisible.accessibleNameStringProperty' ) ),
         accessibleHelpTextPattern: new FluentPattern<{ modelRepresentation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisible_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisible.accessibleHelpTextPatternStringProperty' ), [{"name":"modelRepresentation"}] )
       },
+      _comment_0: new FluentComment( {"comment":"TODO: Should this yaml key have a \"button\" or \"toggleButton\" suffix? see https://github.com/phetsims/number-pairs/issues/200","associatedKey":"addendVisible"} ),
       addendVisible: {
         accessibleNamePattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisible_accessibleNamePattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisible.accessibleNamePatternStringProperty' ), [{"name":"addend"}] ),
         accessibleHelpTextPattern: new FluentPattern<{ addend: FluentVariable, modelRepresentation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisible_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisible.accessibleHelpTextPatternStringProperty' ), [{"name":"addend"},{"name":"modelRepresentation"}] ),
@@ -559,33 +557,27 @@ const NumberPairsFluent = {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_rightObjects_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.rightObjects.accessibleNameStringProperty' ) )
       },
       countingObjectControl: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpText: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.accessibleHelpTextStringProperty' ), [{"name":"addend"}] )
       },
       countFromZeroSwitch: {
         valueAAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' ) ),
         valueBAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' ) )
       },
       totalCheckbox: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' ) )
       },
       addendsCheckbox: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' ) ),
         accessibleContextResponseChecked: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"}] ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       },
       tickNumbersCheckbox: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty' ) ),
         accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       },
       totalJumpCheckbox: {
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' ) ),
         accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
@@ -595,7 +587,7 @@ const NumberPairsFluent = {
       accessibleParagraphPattern: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphPatternStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
       accessibleParagraphHiddenPattern: new FluentPattern<{ leftPlaceholder: FluentVariable, rightPlaceholder: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphHiddenPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' ), [{"name":"leftPlaceholder"},{"name":"rightPlaceholder"},{"name":"total"}] )
     },
-    _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+    _comment_9: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
       answerButton: {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )
@@ -607,18 +599,17 @@ const NumberPairsFluent = {
       },
       resetChallengeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO Can we remove the word decomposition here so it can be reused in other screens? https://github.com/phetsims/number-pairs/issues/200","associatedKey":"accessibleHelpText"} ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' ) )
       }
     },
-    _comment_6: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),
+    _comment_10: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),
     preferences: {
       sumScreenModelOrientation: {
         totalOnTopStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_preferences_sumScreenModelOrientation_totalOnTop', _.get( NumberPairsStrings, 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' ) ),
         totalOnBottomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', _.get( NumberPairsStrings, 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' ) )
       }
     },
-    _comment_7: new FluentComment( {"comment":"Keyboard help dialog","associatedKey":"keyboardHelpDialog"} ),
+    _comment_11: new FluentComment( {"comment":"Keyboard help dialog","associatedKey":"keyboardHelpDialog"} ),
     keyboardHelpDialog: {
       moveAcrossDescription: {
         labelInnerContent: new FluentPattern<{ addend: FluentVariable, item: FluentVariable, key: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' ), [{"name":"addend"},{"name":"item"},{"name":"key"}] )

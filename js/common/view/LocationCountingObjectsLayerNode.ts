@@ -90,10 +90,11 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
     /**
      * Create the a11y description and help text.
+     * TODO: https://github.com/phetsims/number-pairs/issues/200 why is this wrapped in a DerivedProperty then an DynamicProperty?
      */
     const itemStringProperty = new DynamicProperty<string, unknown, unknown>(
-      new DerivedProperty( [ this.model.representationTypeProperty ],
-        representation => representation.singularAccessibleName ) );
+        new DerivedProperty( [ this.model.representationTypeProperty ],
+          representation => representation.singularAccessibleName ) );
 
     // There is no distinction between left and right item names, so we can use the same property for both.
     const grabDragDescriptionManager = new GrabDragDescriptionManager( itemStringProperty, itemStringProperty, itemStringProperty );
@@ -116,7 +117,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {
         affirm( groupSelectModel.selectedGroupItemProperty.value, 'selectedGroupItem should not be null' );
         const addendStringProperty = groupSelectModel.selectedGroupItemProperty.value.addendTypeProperty.value === AddendType.LEFT ?
-          NumberPairsFluent.a11y.leftStringProperty : NumberPairsFluent.a11y.rightStringProperty;
+                                     NumberPairsFluent.a11y.leftStringProperty : NumberPairsFluent.a11y.rightStringProperty;
         this.addAccessibleContextResponse( NumberPairsFluent.a11y.grabOrReleaseInteraction.movedAccessibleResponse.format( {
           addend: addendStringProperty
         } ) );
