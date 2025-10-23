@@ -85,8 +85,10 @@ export default class AnswerButtonGroup extends GridBox {
         yAlign: 'center'
       } );
 
-      const pressedProperty = new BooleanProperty( false, {
-        tandem: providedOptions.tandem.createTandem( `number${value}PressedProperty` )
+      const buttonTandem = providedOptions.tandem.createTandem( `number${value}Button` );
+
+      const isPressedProperty = new BooleanProperty( false, {
+        tandem: buttonTandem.createTandem( 'isPressedProperty' )
       } );
 
       const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
@@ -97,12 +99,13 @@ export default class AnswerButtonGroup extends GridBox {
         value: value
       } );
 
-      const numberToggleButton = new NumberToggleButton( pressedProperty, {
+
+      const numberToggleButton = new NumberToggleButton( isPressedProperty, {
         soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
         accessibleName: derived( isWrongProperty, wrongAccessibleNameProperty, ( isWrong, wrongAccessibleName ) => {
           return isWrong ? wrongAccessibleName : `${value}`;
         } ),
-        tandem: providedOptions.tandem.createTandem( `number${value}Button` ),
+        tandem: buttonTandem,
         content: labelBox,
         baseColor: buttonColorProperty,
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty,
@@ -130,10 +133,10 @@ export default class AnswerButtonGroup extends GridBox {
       const toggleNode = new BooleanToggleNode( toggleProperty, correctAnswerNode, numberToggleButton );
 
       // When the button is pressed (or unpressed) via a user interaction, tell the model about it.
-      // NOTE: Do not wire up directly to the pressedProperty, because it can be changed programmatically and would cause
+      // NOTE: Do not wire up directly to the isPressedProperty, because it can be changed programmatically and would cause
       // a re-entrant loop/bug
       numberToggleButton.numberToggleButtonModel.fireCompleteEmitter.addListener( () => {
-        const state = pressedProperty.value;
+        const state = isPressedProperty.value;
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
         }
@@ -144,7 +147,7 @@ export default class AnswerButtonGroup extends GridBox {
 
       // When the model changes, update the button state.
       selectedNumberProperty.lazyLink( selectedNumber => {
-        pressedProperty.value = selectedNumber === value;
+        isPressedProperty.value = selectedNumber === value;
       } );
 
       // Checkmark/X feedback marks positioned by the missing slot
@@ -175,7 +178,7 @@ export default class AnswerButtonGroup extends GridBox {
         button: numberToggleButton,
         toggleNode: toggleNode,
         correctAnswerNode: correctAnswerNode,
-        stateProperty: pressedProperty,
+        stateProperty: isPressedProperty,
         value: value,
         wrongMark: wrongMark,
         checkMark: checkMark
