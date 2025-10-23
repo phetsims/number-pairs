@@ -13,11 +13,13 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
+import NumberPairsSounds from './NumberPairsSounds.js';
 
 type SelfOptions = {
   includeKittenAttributeSwitch?: boolean;
@@ -59,6 +61,23 @@ export default class KittensLayerNode extends Node {
         tandem: providedOptions.tandem.createTandem( `kittenNode${i}` )
       } );
       kittenNodes.push( kittenNode );
+    } );
+
+    // Play the same kind of sound effects as the other objects, see usages of playSelectAddendSound
+    pdomFocusProperty.lazyLink( ( focus, oldFocus ) => {
+      if ( focus && oldFocus ) {
+        const node = focus.trail.lastNode() as KittenNode;
+        const oldNode = oldFocus.trail.lastNode() as KittenNode;
+
+        if ( kittenNodes.includes( node ) && kittenNodes.includes( oldNode ) ) {
+
+          const nodeOrder = kittenPDOMOrderProperty.value.indexOf( node );
+          const oldNodeOrder = kittenPDOMOrderProperty.value.indexOf( oldNode );
+          const delta = nodeOrder - oldNodeOrder;
+
+          NumberPairsSounds.playSelectAddendSound( node.countingObject.addendTypeProperty.value, delta > 0 );
+        }
+      }
     } );
 
     const options = optionize<KittensLayerNodeOptions, EmptySelfOptions, NodeOptions>()( {
