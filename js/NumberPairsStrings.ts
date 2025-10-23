@@ -157,7 +157,8 @@ type StringsType = {
       'valueHiddenStringProperty': LocalizedStringProperty;
     };
     'equationAccordionBox': {
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextExpandedStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;

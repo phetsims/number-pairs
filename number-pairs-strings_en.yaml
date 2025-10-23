@@ -148,7 +148,8 @@ a11y:
     valueHidden:                some
 
   equationAccordionBox:
-    accessibleHelpText: View decomposition equation.
+    accessibleHelpTextCollapsed: View decomposition equation.
+    accessibleHelpTextExpanded:  Hide decomposition equation.
 
   # Representation types
   representationType:
@@ -287,19 +288,19 @@ a11y:
     totalCheckbox:
       accessibleHelpText: Show or hide the sum of the two addends.
     addendsCheckbox:
-      accessibleHelpText: Show or hide addend values.
-      accessibleContextResponseChecked: 'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'
+      accessibleHelpText:                 Show or hide addend values.
+      accessibleContextResponseChecked:   'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'
       accessibleContextResponseUnchecked: Addends hidden.
     tickNumbersCheckbox:
-      accessibleHelpText: Show or hide tick mark numbers on number line.
-      accessibleContextResponseChecked: Tick marks are labeled.
+      accessibleHelpText:                 Show or hide tick mark numbers on number line.
+      accessibleContextResponseChecked:   Tick marks are labeled.
       accessibleContextResponseUnchecked: Tick mark labels are blank.
     totalJumpCheckbox:
-      accessibleHelpText: Show or hide total jump on number line.
-      accessibleContextResponseChecked: Total jump is shown and labeled.
+      accessibleHelpText:                 Show or hide total jump on number line.
+      accessibleContextResponseChecked:   Total jump is shown and labeled.
       accessibleContextResponseUnchecked: No total jump is shown.
   equation:
-    accessibleParagraphPattern: '{ $total } = { $leftAddend } + { $rightAddend }'
+    accessibleParagraphPattern:       '{ $total } = { $leftAddend } + { $rightAddend }'
     accessibleParagraphHiddenPattern: '{ $total } = { $leftPlaceholder } + { $rightPlaceholder }'
 
   # Game

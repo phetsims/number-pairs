@@ -37,7 +37,8 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       contentYMargin: 18,
       minWidth: PhraseAccordionBox.WIDTH, // Match the minWidth of the PhraseAccordionBox
       expandedDefaultValue: false,
-      accessibleHelpText: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextStringProperty
+      accessibleHelpTextExpanded: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextExpandedStringProperty,
+      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty
     }, providedOptions );
 
     const equationNode = new NumberEquationNode( model, 40, 28, 24, {
