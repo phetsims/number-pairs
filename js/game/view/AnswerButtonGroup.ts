@@ -88,7 +88,8 @@ export default class AnswerButtonGroup extends GridBox {
       const buttonTandem = providedOptions.tandem.createTandem( `number${value}Button` );
 
       const isPressedProperty = new BooleanProperty( false, {
-        tandem: buttonTandem.createTandem( 'isPressedProperty' )
+        tandem: buttonTandem.createTandem( 'isPressedProperty' ),
+        phetioReadOnly: true
       } );
 
       const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {

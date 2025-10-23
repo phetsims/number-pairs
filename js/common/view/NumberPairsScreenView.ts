@@ -378,7 +378,7 @@ export default class NumberPairsScreenView extends ScreenView {
       countingRepresentationsLayer.addChild( kittensLayerNode );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
-      this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode, options.tandem.createTandem( 'kittensLayerNodePressListener' ) ) );
+      this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode ) );
     }
 
     /**

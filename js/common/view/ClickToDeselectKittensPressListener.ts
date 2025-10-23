@@ -12,7 +12,7 @@ import numberPairs from '../../numberPairs.js';
 import KittensLayerNode from './KittensLayerNode.js';
 
 export default class ClickToDeselectKittensPressListener extends PressListener {
-  public constructor( kittensLayerNode: KittensLayerNode, tandem: Tandem ) {
+  public constructor( kittensLayerNode: KittensLayerNode ) {
     super( {
       attach: false,
       pressCursor: null,
@@ -23,7 +23,7 @@ export default class ClickToDeselectKittensPressListener extends PressListener {
           } );
         }
       },
-      tandem: tandem.createTandem( 'kittensLayerNodePressListener' )
+      tandem: Tandem.OPT_OUT
     } );
   }
 }
