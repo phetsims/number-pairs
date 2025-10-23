@@ -85,7 +85,9 @@ export default class AnswerButtonGroup extends GridBox {
         yAlign: 'center'
       } );
 
-      const pressedProperty = new BooleanProperty( false );
+      const pressedProperty = new BooleanProperty( false, {
+        tandem: providedOptions.tandem.createTandem( `number${value}PressedProperty` )
+      } );
 
       const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
         return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
