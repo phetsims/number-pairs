@@ -5,6 +5,8 @@
  * It includes an accessible heading and switches between the general counting area list and the number line description.
  * Counting representation nodes should be added as children to maintain proper PDOM structure.
  *
+ * TODO: https://github.com/phetsims/number-pairs/issues/200 Move into description/, preserving git history
+ *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
@@ -46,13 +48,19 @@ export default class CountingAreaDescriptionNode extends Node {
 
   public constructor( locationLayerVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
 
+    // TODO: https://github.com/phetsims/number-pairs/issues/200 Use derived?
     const leftValueStringProperty = new DerivedProperty(
       [ providedOptions.leftAddendProperty, providedOptions.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
+
+      // TODO: https://github.com/phetsims/number-pairs/issues/200 omit redundant type declarations
       ( leftAddend: number, leftAddendVisible: boolean, valueHiddenString: string ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString
     );
 
+    // TODO: https://github.com/phetsims/number-pairs/issues/200 Use derived
     const rightValueStringProperty = new DerivedProperty(
       [ providedOptions.rightAddendProperty, providedOptions.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
+
+      // TODO: https://github.com/phetsims/number-pairs/issues/200 omit redundant type declarations
       ( rightAddend: number, rightAddendVisible: boolean, valueHiddenString: string ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
     );
 

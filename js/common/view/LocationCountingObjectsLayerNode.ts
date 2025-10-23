@@ -112,6 +112,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
     );
 
+    // TODO: https://github.com/phetsims/number-pairs/issues/200 Document what is happening here
     const responseDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
     Multilink.multilinkAny( responseDependencies, () => {
       if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {

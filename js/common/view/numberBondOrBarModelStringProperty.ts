@@ -11,6 +11,7 @@ import derived from '../../../../axon/js/derived.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 
+// TODO: https://github.com/phetsims/number-pairs/issues/307 Here is that pattern again
 export const numberBondOrBarModelStringProperty = derived(
   NumberPairsPreferences.numberModelTypeProperty,
   NumberPairsFluent.numberBondStringProperty,

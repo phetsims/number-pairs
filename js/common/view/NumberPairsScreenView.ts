@@ -118,6 +118,7 @@ export default class NumberPairsScreenView extends ScreenView {
     const countingAreaDescriptionNode = new CountingAreaDescriptionNode(
       model.locationLayerVisibleProperty,
       {
+        // TODO: https://github.com/phetsims/number-pairs/issues/200 Passing in 10 things from model and renaming some of them.... maybe we should just pass the model?
         leftAddendProperty: model.leftAddendProperty,
         leftAddendVisibleProperty: model.leftAddendVisibleProperty,
         rightAddendProperty: model.rightAddendProperty,
@@ -238,6 +239,7 @@ export default class NumberPairsScreenView extends ScreenView {
       representationType: derived( model.representationTypeProperty, representationType => representationType.label as 'kittens' | 'beads' | 'other' )
     } );
 
+    // TODO: https://github.com/phetsims/number-pairs/issues/307 should we use derived throughout the whole sim?
     const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,

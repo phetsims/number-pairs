@@ -68,6 +68,7 @@ export default abstract class BarModelNode extends VBox {
 
   protected constructor(
     model: TGenericNumberPairsModel,
+    // TODO: https://github.com/phetsims/number-pairs/issues/200 make the following 3 parameters be constructor properties?
     totalRectangle: Rectangle,
     leftAddendRectangle: Rectangle,
     rightAddendRectangle: Rectangle,

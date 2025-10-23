@@ -54,6 +54,7 @@ simLauncher.launch( () => {
   const sim = new Sim( titleStringProperty, screens, options );
 
   // For unit testing, report when the sim is launched.
+  // TODO: https://github.com/phetsims/number-pairs/issues/307 remove
   sim.isConstructionCompleteProperty.lazyLink( isConstructionComplete => {
     if ( isConstructionComplete ) {
       console.log( 'sim launched successfully' );

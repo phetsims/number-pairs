@@ -49,6 +49,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
         return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
       } );
 
+    // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
     const proportionStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
         NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
         NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
@@ -67,6 +68,8 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       right: model.rightAddendProperty,
       total: model.totalProperty
     } );
+
+    // TODO: https://github.com/phetsims/number-pairs/issues/307 Here is another case like the last one I mentioned where this pattern occurred.
     const accessibleParagraphStringProperty = new DerivedProperty( [
         NumberPairsPreferences.numberModelTypeProperty,
         numberBondParagraphProperty,
@@ -97,7 +100,6 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );
 
     // Create the bar model number model representation.
-
     const barModelNode = new BarModelMutableNode( model, {
       totalOnTopProperty: options.numberBondNodeOptions.totalOnTopProperty, // It should match the number bond
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL ),

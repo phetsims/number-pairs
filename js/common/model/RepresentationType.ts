@@ -93,6 +93,8 @@ export default class RepresentationType extends EnumerationValue {
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
     new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } ),
+
+    // Note that for the number line, we use the singular for the plural because there is only one number line
     NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty
   );
   public static readonly enumeration = new Enumeration( RepresentationType );

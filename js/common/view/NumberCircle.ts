@@ -43,6 +43,8 @@ export default class NumberCircle extends Circle {
     const { radius: resolvedRadius, fontSize: resolvedFontSize, ...circleOptions } = options;
     const radius = resolvedRadius;
     const fontSize = resolvedFontSize;
+
+    // TODO: https://github.com/phetsims/number-pairs/issues/307 Types are a bit odd here
     super( radius, circleOptions as CircleOptions );
 
     const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );

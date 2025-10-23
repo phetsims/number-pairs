@@ -2,6 +2,8 @@
 /**
  * This file manages the creation of the a11y description strings for grab and drag interactions in Number Pairs.
  *
+ * TODO: Move to description/, preserving git history, see https://github.com/phetsims/number-pairs/issues/200
+ *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
@@ -142,6 +144,8 @@ export default class GrabDragDescriptionManager {
   }
 
   public createHelpTextProperty( isGroupItemKeyboardGrabbedProperty: TReadOnlyProperty<boolean> ): TReadOnlyProperty<string> {
+
+    // TODO: https://github.com/phetsims/number-pairs/issues/307 I have seen this pattern many times, is there a way to streamline it or factor it out? Or move to a fluent selector?
     return new DerivedProperty( [ isGroupItemKeyboardGrabbedProperty, this.grabbedHelpTextStringProperty, this.releasedHelpTextStringProperty ],
       ( isGrabbed, grabbedHelpText, releasedHelpText ) => {
         return isGrabbed ? grabbedHelpText : releasedHelpText;

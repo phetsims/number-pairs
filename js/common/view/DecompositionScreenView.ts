@@ -25,6 +25,8 @@ type SelfOptions = {
 export type DecompositionScreenViewOptions = NumberPairsScreenViewOptions & SelfOptions;
 
 export default class DecompositionScreenView extends NumberPairsScreenView {
+
+  // TODO: https://github.com/phetsims/number-pairs/issues/200 Unused parameter
   protected constructor( private readonly model: DecompositionModel, providedOptions: DecompositionScreenViewOptions ) {
     super( model, providedOptions );
 
