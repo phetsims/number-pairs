@@ -34,12 +34,15 @@ export default class NumberLineDescription extends AccessibleListNode {
     const totalLabelStringProperty = NumberPairsFluent.a11y.numberLineDescription.totalLabelStringProperty;
     const knobLabelStringProperty = NumberPairsFluent.a11y.numberLineDescription.knobLabelStringProperty;
 
-    const totalStartStringProperty = derived(
-      options.tickValuesVisibleProperty, leftEdgeLabelStringProperty,
-      ( tickMarksVisible, leftEdgeLabel ) => tickMarksVisible ? '0' : leftEdgeLabel
-    );
+    const totalStartStringProperty = derivedTernary( options.tickValuesVisibleProperty, {
+      true: '0',
+      false: leftEdgeLabelStringProperty
+    } );
 
-    const totalEndStringProperty = derivedTernary( options.tickValuesVisibleProperty, { true: options.totalProperty, false: totalLabelStringProperty } );
+    const totalEndStringProperty = derivedTernary( options.tickValuesVisibleProperty, {
+      true: options.totalProperty,
+      false: totalLabelStringProperty
+    } );
 
     const totalStartsPatternProperty = NumberPairsFluent.a11y.numberLineDescription.totalStartsPattern.createProperty( {
       start: totalStartStringProperty,

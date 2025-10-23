@@ -14,6 +14,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import derived from '../../../../axon/js/derived.js';
+import derivedTernary from '../../../../axon/js/derivedTernary.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -103,8 +104,9 @@ export default class AnswerButtonGroup extends GridBox {
 
       const numberToggleButton = new NumberToggleButton( isPressedProperty, {
         soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
-        accessibleName: derived( isWrongProperty, wrongAccessibleNameProperty, ( isWrong, wrongAccessibleName ) => {
-          return isWrong ? wrongAccessibleName : `${value}`;
+        accessibleName: derivedTernary( isWrongProperty, {
+          true: wrongAccessibleNameProperty,
+          false: `${value}`
         } ),
         tandem: buttonTandem,
         content: labelBox,
