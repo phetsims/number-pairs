@@ -220,9 +220,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     } );
 
     const buttonContentAlignBox = new AlignBox( new Node( { children: [ this.checkButton, this.nextButton ] } ), {
-      alignBounds: new Bounds2( this.countingAreaBounds.centerX,
-        layoutBounds.top + this.statusBar.height, this.countingAreaBounds.right,
-        this.countingAreaBounds.top ),
+      alignBounds: new Bounds2(
+        this.countingAreaBounds.centerX, layoutBounds.top + this.statusBar.height,
+        layoutBounds.right - 185, this.countingAreaBounds.top ),
       xAlign: 'right',
       yAlign: 'center'
     } );
