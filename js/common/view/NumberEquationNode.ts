@@ -37,8 +37,28 @@ export default class NumberEquationNode extends Node {
 
   public constructor( model: TGenericNumberPairsModel, squareDimension: number, symbolFontSize: number, numberFontSize: number, providedOptions: NumberEquationNodeOptions ) {
 
+    const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
+    const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
+
+    const accessibleParagraphVisibleProperty = NumberPairsFluent.a11y.equation.accessibleParagraphPattern.createProperty( {
+      total: model.totalProperty,
+      leftAddend: model.leftAddendProperty,
+      rightAddend: model.rightAddendProperty
+    } );
+    const accessibleParagraphHiddenProperty = NumberPairsFluent.a11y.equation.accessibleParagraphHiddenPattern.createProperty( {
+      total: model.totalProperty,
+      leftPlaceholder: NumberPairsFluent.aNumberStringProperty,
+      rightPlaceholder: NumberPairsFluent.anotherNumberStringProperty
+    } );
+    const accessibleParagraphProperty = derived(
+      model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, accessibleParagraphVisibleProperty, accessibleParagraphHiddenProperty,
+      ( leftVisible, rightVisible, visibleParagraph, hiddenParagraph ) => {
+        return leftVisible && rightVisible ? visibleParagraph : hiddenParagraph;
+      } );
+
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
-      addendsOnRight: true
+      addendsOnRight: true,
+      accessibleParagraph: accessibleParagraphProperty
     }, providedOptions );
 
     const totalSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.totalProperty, {
@@ -68,24 +88,6 @@ export default class NumberEquationNode extends Node {
       rightAddendSquare.stroke = rightAddendColor.darkerColor();
     } );
 
-    const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
-    const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
-
-    const accessibleParagraphVisibleProperty = NumberPairsFluent.a11y.equation.accessibleParagraphPattern.createProperty( {
-      total: model.totalProperty,
-      leftAddend: model.leftAddendProperty,
-      rightAddend: model.rightAddendProperty
-    } );
-    const accessibleParagraphHiddenProperty = NumberPairsFluent.a11y.equation.accessibleParagraphHiddenPattern.createProperty( {
-      total: model.totalProperty,
-      leftPlaceholder: NumberPairsFluent.aNumberStringProperty,
-      rightPlaceholder: NumberPairsFluent.anotherNumberStringProperty
-    } );
-    const accessibleParagraphProperty = derived(
-      model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, accessibleParagraphVisibleProperty, accessibleParagraphHiddenProperty,
-      ( leftVisible, rightVisible, visibleParagraph, hiddenParagraph ) => {
-        return leftVisible && rightVisible ? visibleParagraph : hiddenParagraph;
-      } );
 
     const contentChildren = options.addendsOnRight ? [ totalSquare, equalSign, leftAddendSquare, plusSign, rightAddendSquare ]
                                                    : [ leftAddendSquare, plusSign, rightAddendSquare, equalSign, totalSquare ];
@@ -97,7 +99,6 @@ export default class NumberEquationNode extends Node {
       resize: false
     } );
 
-    options.accessibleParagraph = accessibleParagraphProperty;
     options.children = [ contentNode ];
     super( options );
 

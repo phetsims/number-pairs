@@ -80,7 +80,10 @@ export default class LevelIcons {
       leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
       rightAddendColorProperty: NumberPairsColors.levelSelectionIconRightAddendColorProperty,
       scale: 0.42,
-      addendsOnRight: addendsOnRight
+      addendsOnRight: addendsOnRight,
+
+      // Omit description from icons so it doesn't appear in the button, see https://github.com/phetsims/number-pairs/issues/303
+      accessibleParagraph: null
     } );
     numberEquationNode.rightAddendSquare.children = []; // awkward
     if ( !leftAddendVisible ) {
