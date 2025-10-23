@@ -5,6 +5,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -40,22 +41,17 @@ export default class NumberCircle extends Circle {
       excludeInvisibleChildrenFromBounds: true
     }, providedOptions );
 
-    const { radius: resolvedRadius, fontSize: resolvedFontSize, ...circleOptions } = options;
-    const radius = resolvedRadius;
-    const fontSize = resolvedFontSize;
+    super( options.radius, options );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/307 Types are a bit odd here
-    super( radius, circleOptions as CircleOptions );
-
-    const numberStringProperty = new DerivedProperty( [ numberProperty ], ( number: number ) => number.toString() );
+    const numberStringProperty = derived( numberProperty, number => number.toString() );
     const numberText = new Text( numberStringProperty, {
-      font: new PhetFont( fontSize ),
+      font: new PhetFont( options.fontSize ),
       center: this.center,
       visibleProperty: numberVisibleProperty
     } );
 
     const questionMark = new Text( '?', {
-      font: new PhetFont( fontSize ),
+      font: new PhetFont( options.fontSize ),
       center: this.center,
       visibleProperty: DerivedProperty.not( numberVisibleProperty )
     } );
