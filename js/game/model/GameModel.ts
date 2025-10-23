@@ -7,7 +7,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
@@ -16,6 +18,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
@@ -100,6 +103,23 @@ export default class GameModel implements TModel {
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
     };
 
+    const numberModelTypeStringProperty = derived( NumberPairsPreferences.numberModelTypeProperty, NumberPairsFluent.barModelLowercaseStringProperty, NumberPairsFluent.numberBondLowercaseStringProperty,
+      ( modelType, barModel, numberBond ) => {
+        return modelType === NumberModelType.BAR_MODEL ? barModel : numberBond;
+      } );
+
+    const level1DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level1StringProperty, {
+      numberModelType: numberModelTypeStringProperty
+    } );
+
+    const level2DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level2StringProperty, {
+      numberModelType: numberModelTypeStringProperty
+    } );
+
+    const level5DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level5StringProperty, {
+      numberModelType: numberModelTypeStringProperty
+    } );
+
     this.levels = [
 
       /**
@@ -107,7 +127,7 @@ export default class GameModel implements TModel {
        * Number Bond
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
-      new Level( 'level1', 1, NumberPairsColors.level1StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level1StringProperty, 'zeroToTen', 'bond', isFirst => {
+      new Level( 'level1', 1, NumberPairsColors.level1StatusBarColorProperty, level1DescriptionProperty, 'zeroToTen', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 2, 10 );
         const { a, b } = generateAddends( y, true );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
@@ -123,7 +143,7 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 'level2', 2, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level2StringProperty, 'zeroToTen', 'bond', createNonzeroSumTo10Challenge, {
+      new Level( 'level2', 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty, 'zeroToTen', 'bond', createNonzeroSumTo10Challenge, {
         representationType: RepresentationType.KITTENS,
         tandem: tandem.createTandem( 'level2' )
       } ),
@@ -158,7 +178,7 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
-      new Level( 'level5', 5, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level5StringProperty, 'zeroToTwenty', 'bond', isFirst => {
+      new Level( 'level5', 5, NumberPairsColors.level567StatusBarColorProperty, level5DescriptionProperty, 'zeroToTwenty', 'bond', isFirst => {
         const y = dotRandom.nextIntBetween( 11, 20 );
         const { a, b } = generateAddends( y, true );
         return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );

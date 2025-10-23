@@ -57,7 +57,9 @@ type StringsType = {
   };
   'phraseStringProperty': LocalizedStringProperty;
   'numberBondStringProperty': LocalizedStringProperty;
+  'numberBondLowercaseStringProperty': LocalizedStringProperty;
   'barModelStringProperty': LocalizedStringProperty;
+  'barModelLowercaseStringProperty': LocalizedStringProperty;
   'equationStringProperty': LocalizedStringProperty;
   'decompositionPhrasePatternStringProperty': LocalizedStringProperty;
   'decompositionPhraseSpeechPatternStringProperty': LocalizedStringProperty;

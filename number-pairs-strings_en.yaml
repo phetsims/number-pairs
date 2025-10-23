@@ -27,7 +27,9 @@ keyboardHelpDialog.adjustObjectsTitle:                    Adjust Number of Color
 keyboardHelpDialog.numberOfObjects:                       number of objects
 phrase:                                                   Phrase
 numberBond:                                               Number Bond
+numberBondLowercase:                                      number bond
 barModel:                                                 Bar Model
+barModelLowercase:                                        bar model
 equation:                                                 Equation
 decompositionPhrasePattern:                               >-
                                                           <total>{{total}}</total> can be decomposed into <left>{{leftAddend}}</left>
@@ -59,11 +61,11 @@ levelPattern:                                             Level {{level}}
 
 gameScreen:
   levelDescriptions:
-    level1: 'Missing addend in a number bond (0-10)'
-    level2: 'Missing addend in a number bond (10 only)'
+    level1: 'Missing addend in a {{numberModelType}} (0-10)'
+    level2: 'Missing addend in a {{numberModelType}} (10 only)'
     level3: 'Missing addend in a decomposition equation (10 only)'
     level4: 'Missing addend in a sum equation (10 only)'
-    level5: 'Missing addend in a number bond (11-20)'
+    level5: 'Missing addend in a {{numberModelType}} (11-20)'
     level6: 'Missing addend in a decomposition equation (11-20)'
     level7: 'Missing addend or total in a sum equation (11-20)'
     level8: 'Equations with the number line (0-20)'

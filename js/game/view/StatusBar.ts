@@ -28,7 +28,10 @@ export default class StatusBar extends InfiniteStatusBar {
                       backButtonListener: () => void,
                       tandem: Tandem ) {
 
-    const levelLabel = new Text( `Level ${level.levelNumber}`, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
+    const levelStringProperty = new PatternStringProperty( NumberPairsFluent.levelPatternStringProperty, {
+      level: level.levelNumber
+    } );
+    const levelLabel = new Text( levelStringProperty, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
     const descriptionText = new Text( level.description, { font: new PhetFont( 21 ) } );
     const levelDescriptionText = new HBox( {
       spacing: 12, children: [ levelLabel, descriptionText ]

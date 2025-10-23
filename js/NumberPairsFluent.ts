@@ -54,7 +54,9 @@ addToMapIfDefined( 'keyboardHelpDialog_adjustObjectsTitle', 'keyboardHelpDialog.
 addToMapIfDefined( 'keyboardHelpDialog_numberOfObjects', 'keyboardHelpDialog.numberOfObjectsStringProperty' );
 addToMapIfDefined( 'phrase', 'phraseStringProperty' );
 addToMapIfDefined( 'numberBond', 'numberBondStringProperty' );
+addToMapIfDefined( 'numberBondLowercase', 'numberBondLowercaseStringProperty' );
 addToMapIfDefined( 'barModel', 'barModelStringProperty' );
+addToMapIfDefined( 'barModelLowercase', 'barModelLowercaseStringProperty' );
 addToMapIfDefined( 'equation', 'equationStringProperty' );
 addToMapIfDefined( 'aNumber', 'aNumberStringProperty' );
 addToMapIfDefined( 'someNumber', 'someNumberStringProperty' );
@@ -70,11 +72,8 @@ addToMapIfDefined( 'numberModelTypeDescription', 'numberModelTypeDescriptionStri
 addToMapIfDefined( 'sumScreenNumberModelOrientation', 'sumScreenNumberModelOrientationStringProperty' );
 addToMapIfDefined( 'sumScreenNumberModelOrientationDescription', 'sumScreenNumberModelOrientationDescriptionStringProperty' );
 addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
-addToMapIfDefined( 'gameScreen_levelDescriptions_level1', 'gameScreen.levelDescriptions.level1StringProperty' );
-addToMapIfDefined( 'gameScreen_levelDescriptions_level2', 'gameScreen.levelDescriptions.level2StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level3', 'gameScreen.levelDescriptions.level3StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level4', 'gameScreen.levelDescriptions.level4StringProperty' );
-addToMapIfDefined( 'gameScreen_levelDescriptions_level5', 'gameScreen.levelDescriptions.level5StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level6', 'gameScreen.levelDescriptions.level6StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level7', 'gameScreen.levelDescriptions.level7StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level8', 'gameScreen.levelDescriptions.level8StringProperty' );
@@ -297,7 +296,9 @@ const NumberPairsFluent = {
   },
   phraseStringProperty: _.get( NumberPairsStrings, 'phraseStringProperty' ),
   numberBondStringProperty: _.get( NumberPairsStrings, 'numberBondStringProperty' ),
+  numberBondLowercaseStringProperty: _.get( NumberPairsStrings, 'numberBondLowercaseStringProperty' ),
   barModelStringProperty: _.get( NumberPairsStrings, 'barModelStringProperty' ),
+  barModelLowercaseStringProperty: _.get( NumberPairsStrings, 'barModelLowercaseStringProperty' ),
   equationStringProperty: _.get( NumberPairsStrings, 'equationStringProperty' ),
   decompositionPhrasePatternStringProperty: _.get( NumberPairsStrings, 'decompositionPhrasePatternStringProperty' ),
   decompositionPhraseSpeechPatternStringProperty: _.get( NumberPairsStrings, 'decompositionPhraseSpeechPatternStringProperty' ),
