@@ -46,13 +46,13 @@ class NumberPairsSounds {
     }
   }
 
-  public static playStepForwardSound( destinationAddend: AddendType ): void {
+  private static playStepForwardSound( destinationAddend: AddendType ): void {
     const pitch = destinationAddend === AddendType.RIGHT ? rightAddendPitchFactor : leftAddendPitchFactor;
     stepForwardSound.setPlaybackRate( pitch );
     stepForwardSound.play();
   }
 
-  public static playStepBackSound( destinationAddend: AddendType ): void {
+  private static playStepBackSound( destinationAddend: AddendType ): void {
     const pitch = destinationAddend === AddendType.RIGHT ? rightAddendPitchFactor : leftAddendPitchFactor;
     stepBackSound.setPlaybackRate( pitch );
     stepBackSound.play();
