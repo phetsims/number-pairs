@@ -39,10 +39,7 @@ export default class NumberLineDescription extends AccessibleListNode {
       ( tickMarksVisible, leftEdgeLabel ) => tickMarksVisible ? '0' : leftEdgeLabel
     );
 
-    const totalEndStringProperty = derived(
-      options.tickValuesVisibleProperty, totalLabelStringProperty, options.totalProperty,
-      ( tickMarksVisible, totalLabel, totalString ) => tickMarksVisible ? totalString : totalLabel
-    );
+    const totalEndStringProperty = derivedTernary( options.tickValuesVisibleProperty, { true: options.totalProperty, false: totalLabelStringProperty } );
 
     const totalStartsPatternProperty = NumberPairsFluent.a11y.numberLineDescription.totalStartsPattern.createProperty( {
       start: totalStartStringProperty,
@@ -74,7 +71,7 @@ export default class NumberLineDescription extends AccessibleListNode {
       left: options.leftAddendProperty
     } );
 
-    const leftAddendOrKnobStringProperty = derivedTernary<number | string>( options.tickValuesVisibleProperty, {
+    const leftAddendOrKnobStringProperty = derivedTernary( options.tickValuesVisibleProperty, {
       true: options.leftAddendProperty,
       false: knobLabelStringProperty
     } );
@@ -101,9 +98,10 @@ export default class NumberLineDescription extends AccessibleListNode {
       total: options.totalProperty
     } );
 
-    const totalJumpStringProperty = derived( options.numberLineCountFromZeroProperty, countFromZeroTotalJumpStringProperty, countOnTotalJumpStringProperty,
-      ( countFromZero, countFromZeroString, countOnString ) => countFromZero ? countFromZeroString : countOnString
-    );
+    const totalJumpStringProperty = derivedTernary( options.numberLineCountFromZeroProperty, {
+      true: countFromZeroTotalJumpStringProperty,
+      false: countOnTotalJumpStringProperty
+    } );
 
     const leadingCountOnStringProperty = NumberPairsFluent.a11y.numberLineDescription.leadingCountOnStringProperty;
     const leadingCountFromZeroStringProperty = NumberPairsFluent.a11y.numberLineDescription.leadingCountFromZeroStringProperty;
