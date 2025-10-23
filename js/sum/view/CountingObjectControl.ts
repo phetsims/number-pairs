@@ -221,7 +221,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     this.redactedValueStringProperty = options.redactedValueStringProperty!;
 
     Multilink.multilink( [ this.addendVisibleProperty, this.redactedValueStringProperty ], () => {
-      this.updateAriaValueText()
+      this.updateAriaValueText();
     } );
 
     const keyboardInputListener = new KeyboardListener( {
