@@ -10,6 +10,7 @@
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -37,6 +38,7 @@ import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -44,6 +46,8 @@ type SelfOptions = {
   // If this Property is null we are controlling the right addend which is a derived Property. This prevents
   // reentrant behavior as we interact with all the numbers throughout the different representations in the sim.
   leftAddendProperty?: Property<number> | null;
+  addendVisibleProperty: TReadOnlyProperty<boolean>;
+  redactedValueStringProperty?: TReadOnlyProperty<string>;
 };
 export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
 
@@ -75,6 +79,9 @@ const RIGHT_ADDEND_ICONS = {
 
 const ARROW_HEIGHT = 12;
 export default class CountingObjectControl extends InteractiveHighlightingNode {
+  private readonly addendVisibleProperty: TReadOnlyProperty<boolean>;
+  private readonly redactedValueStringProperty: TReadOnlyProperty<string>;
+  private ariaValueNow = '0';
 
   public constructor(
     totalProperty: NumberProperty,
@@ -86,6 +93,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
     const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
       leftAddendProperty: null,
+      redactedValueStringProperty: NumberPairsFluent.someNumberStringProperty,
       focusable: true,
       tagName: 'input',
       inputType: 'range',
@@ -209,6 +217,13 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     }, options );
     super( superOptions );
 
+    this.addendVisibleProperty = options.addendVisibleProperty;
+    this.redactedValueStringProperty = options.redactedValueStringProperty!;
+
+    Multilink.multilink( [ this.addendVisibleProperty, this.redactedValueStringProperty ], () => {
+      this.updateAriaValueText()
+    } );
+
     const keyboardInputListener = new KeyboardListener( {
       keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
       fire: ( event, keysPressed ) => {
@@ -229,9 +244,15 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
   }
 
   public setAriaValues( value: string ): void {
+    this.ariaValueNow = value;
     this.setInputValue( value );
-    this.setPDOMAttribute( 'aria-valuetext', value );
     this.setPDOMAttribute( 'aria-valuenow', value );
+    this.updateAriaValueText();
+  }
+
+  private updateAriaValueText(): void {
+    const ariaValueText = this.addendVisibleProperty.value ? this.ariaValueNow : this.redactedValueStringProperty.value;
+    this.setPDOMAttribute( 'aria-valuetext', ariaValueText );
   }
 }
 
