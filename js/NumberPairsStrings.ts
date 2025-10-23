@@ -164,7 +164,6 @@ type StringsType = {
     };
     'equationAccordionBox': {
       'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextExpandedStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
@@ -242,7 +241,7 @@ type StringsType = {
     'controls': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
       'phrase': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
       };
       'speechSynthesis': {
         'accessibleNameStringProperty': LocalizedStringProperty;

@@ -83,7 +83,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       contentXSpacing: 0,
       contentYSpacing: 0,
       showTitleWhenExpanded: true,
-      accessibleHelpText: NumberPairsFluent.a11y.controls.numberModel.accessibleHelpText.createProperty( {
+      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.controls.numberModel.accessibleHelpText.createProperty( {
         representation: representationStringProperty
       } ),
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty

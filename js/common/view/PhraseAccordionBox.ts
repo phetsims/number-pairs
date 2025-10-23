@@ -79,7 +79,7 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       minWidth: PhraseAccordionBox.WIDTH,
       maxWidth: PhraseAccordionBox.WIDTH,
       expandedDefaultValue: false,
-      accessibleHelpText: NumberPairsFluent.a11y.controls.phrase.accessibleHelpTextStringProperty
+      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty
     }, providedOptions );
 
     /**

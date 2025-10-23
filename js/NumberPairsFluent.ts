@@ -126,7 +126,6 @@ addToMapIfDefined( 'a11y_countingArea_leftCircleListItemPattern', 'a11y.counting
 addToMapIfDefined( 'a11y_countingArea_rightCircleListItemPattern', 'a11y.countingArea.rightCircleListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_valueHidden', 'a11y.countingArea.valueHiddenStringProperty' );
 addToMapIfDefined( 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' );
-addToMapIfDefined( 'a11y_equationAccordionBox_accessibleHelpTextExpanded', 'a11y.equationAccordionBox.accessibleHelpTextExpandedStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleName', 'a11y.representationType.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleHelpText', 'a11y.representationType.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_apples_accessibleName', 'a11y.apples.accessibleNameStringProperty' );
@@ -175,7 +174,7 @@ addToMapIfDefined( 'a11y_totalSceneSelection_totalNumberPattern', 'a11y.totalSce
 addToMapIfDefined( 'a11y_totalSceneSelection_accessibleHelpText', 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_totalCheckbox_accessibleHelpText', 'a11y.totalCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_accessibleHeading', 'a11y.controls.accessibleHeadingStringProperty' );
-addToMapIfDefined( 'a11y_controls_phrase_accessibleHelpText', 'a11y.controls.phrase.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_phrase_accessibleHelpTextCollapsed', 'a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_accessibleName', 'a11y.controls.speechSynthesis.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_noVoiceAccessibleName', 'a11y.controls.speechSynthesis.noVoiceAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_noVoiceAccessibleParagraph', 'a11y.controls.speechSynthesis.noVoiceAccessibleParagraphStringProperty' );
@@ -412,8 +411,7 @@ const NumberPairsFluent = {
       valueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_valueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.valueHiddenStringProperty' ) )
     },
     equationAccordionBox: {
-      accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ) ),
-      accessibleHelpTextExpandedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextExpanded', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextExpandedStringProperty' ) )
+      accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ) )
     },
     _comment_5: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {
@@ -495,7 +493,7 @@ const NumberPairsFluent = {
     controls: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_accessibleHeading', _.get( NumberPairsStrings, 'a11y.controls.accessibleHeadingStringProperty' ) ),
       phrase: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_phrase_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.phrase.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_phrase_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty' ) )
       },
       speechSynthesis: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.accessibleNameStringProperty' ) ),

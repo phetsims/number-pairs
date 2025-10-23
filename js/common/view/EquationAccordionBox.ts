@@ -37,7 +37,6 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       contentYMargin: 18,
       minWidth: PhraseAccordionBox.WIDTH, // Match the minWidth of the PhraseAccordionBox
       expandedDefaultValue: false,
-      accessibleHelpTextExpanded: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextExpandedStringProperty,
       accessibleHelpTextCollapsed: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty
     }, providedOptions );
 

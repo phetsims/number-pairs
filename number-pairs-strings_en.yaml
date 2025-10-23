@@ -160,7 +160,6 @@ a11y:
 
   equationAccordionBox:
     accessibleHelpTextCollapsed: View decomposition equation.
-    accessibleHelpTextExpanded:  Hide decomposition equation.
 
   # Representation types
   representationType:
@@ -233,7 +232,7 @@ a11y:
   controls:
     accessibleHeading: Counting Area Controls
     phrase:
-      accessibleHelpText: Phrase tells how total is decomposed.
+      accessibleHelpTextCollapsed: Phrase tells how total is decomposed.
     speechSynthesis:
       accessibleName:             Hear Phrase
       noVoiceAccessibleName:      No Voice Found
