@@ -57,6 +57,7 @@ export default class CountingAreaDescriptionNode extends Node {
     );
 
     // TODO: https://github.com/phetsims/number-pairs/issues/200 Use derived
+    // TODO: https://github.com/phetsims/number-pairs/issues/200 ok to `derived` instead of new DerivedProperty throughout the whole sim?
     const rightValueStringProperty = new DerivedProperty(
       [ providedOptions.rightAddendProperty, providedOptions.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
 

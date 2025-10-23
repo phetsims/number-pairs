@@ -239,7 +239,6 @@ export default class NumberPairsScreenView extends ScreenView {
       representationType: derived( model.representationTypeProperty, representationType => representationType.label as 'kittens' | 'beads' | 'other' )
     } );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/307 should we use derived throughout the whole sim?
     const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
       accessibleName: organizeObjectsPatternStringProperty,
