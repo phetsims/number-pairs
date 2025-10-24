@@ -53,17 +53,11 @@ export default class NumberRectangle extends Rectangle {
     this.addChild( questionMark );
     this.addChild( numberText );
 
-    const rectWidthProperty = new Property( dimension.width );
-    this.localBoundsProperty.link( bounds => {
-      rectWidthProperty.value = this.rectWidth;
-    } );
-
-    // From https://github.com/phetsims/number-pairs/issues/239#issuecomment-3443959053, shrink the number if it is too wide
-    Multilink.multilink( [ numberProperty, rectWidthProperty ], ( number, rectangleBounds ) => {
-      numberText.setScaleMagnitude( numberText.width > this.rectWidth ? 0.75 : 1 );
-    } );
 
     Multilink.multilink( [ numberProperty, this.localBoundsProperty ], ( number, rectangleBounds ) => {
+
+      // From https://github.com/phetsims/number-pairs/issues/239#issuecomment-3443959053, shrink the number if it is too wide
+      numberText.setScaleMagnitude( numberText.width > this.rectWidth ? 0.75 : 1 );
 
       numberText.center = rectangleBounds.center;
       questionMark.center = rectangleBounds.center;
