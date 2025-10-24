@@ -175,7 +175,6 @@ export default class NumberLineLevelNode extends LevelNode {
     numberLineNode.slider.focusable = false;
 
     this.accessibleAnswerSectionNode.pdomOrder = [
-      this.answerButtonGroup,
       this.checkButton,
       this.nextButton
     ];
@@ -184,7 +183,8 @@ export default class NumberLineLevelNode extends LevelNode {
       this.countingAreaNode,
       numberLineNode,
       checkboxGroup,
-      this.challengeResetButton
+      this.challengeResetButton,
+      this.answerButtonGroup
     ];
 
     this.accessibleStatusSectionNode.pdomOrder = [

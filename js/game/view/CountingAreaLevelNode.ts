@@ -71,7 +71,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.addInputListener( new ClickToDeselectKittensPressListener( this.kittensLayerNode ) );
 
     this.accessibleAnswerSectionNode.pdomOrder = [
-      this.answerButtonGroup,
       this.checkButton,
       this.nextButton
     ];
@@ -80,7 +79,8 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.kittensLayerNode,
       this.tenFrameButton,
       this.countingAreaNode,
-      this.challengeResetButton
+      this.challengeResetButton,
+      this.answerButtonGroup
     ];
 
     this.accessibleStatusSectionNode.pdomOrder = [
