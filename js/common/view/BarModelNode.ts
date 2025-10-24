@@ -49,7 +49,7 @@ export const ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize
 };
 
-const BAR_MODEL_GAME_SCALE = 1.3;
+const BAR_MODEL_GAME_SCALE = 1.1;
 
 export const GAME_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   totalWidth: DEFAULT_BAR_MODEL_DIMENSIONS.totalWidth * BAR_MODEL_GAME_SCALE,
