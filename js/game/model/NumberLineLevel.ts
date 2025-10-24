@@ -35,7 +35,7 @@ export default class NumberLineLevel extends Level {
       tandem: providedOptions.tandem.createTandem( 'showTickNumbersProperty' ),
       phetioFeatured: true
     } );
-    this.showAddendsProperty = new BooleanProperty( false, {
+    this.showAddendsProperty = new BooleanProperty( true, {
       tandem: providedOptions.tandem.createTandem( 'showAddendsProperty' ),
       phetioFeatured: true
     } );
