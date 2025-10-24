@@ -191,8 +191,7 @@ type StringsType = {
       'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
       'leftAddendColorStringProperty': LocalizedStringProperty;
       'rightAddendColorStringProperty': LocalizedStringProperty;
-      'leftAddendKittenStringProperty': LocalizedStringProperty;
-      'rightAddendKittenStringProperty': LocalizedStringProperty;
+      'kittenPatternStringProperty': LocalizedStringProperty;
       'accessibleHelpText': {
         'withAttributeSwitchStringProperty': LocalizedStringProperty;
         'withoutAttributeSwitchStringProperty': LocalizedStringProperty;

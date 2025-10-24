@@ -3,6 +3,8 @@
 /**
  * KittenNode displays a kitten who's color and coat pattern changes depending on the addend it is associated with.
  *
+ * NOTE: the accessibleName is set by the KittenLayerNode that contains all the KittenNodes.
+ *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
@@ -78,7 +80,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
-      accessibleName: NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty,
       accessibleHelpText: providedOptions.includeAttributeSwitch === undefined || providedOptions.includeAttributeSwitch ?
                           NumberPairsFluent.a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty :
                           NumberPairsFluent.a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty,
@@ -161,9 +162,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     this.focusPanel = focusPanel;
     this.countingObject = countingObject;
-    isLeftAddendProperty.link( isLeftAddend => {
-      this.accessibleName = isLeftAddend ? NumberPairsFluent.a11y.kittens.leftAddendKittenStringProperty : NumberPairsFluent.a11y.kittens.rightAddendKittenStringProperty;
-    } );
 
     focusPanel.center = this.center;
 

@@ -8,6 +8,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -16,6 +17,7 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittenNode from './KittenNode.js';
@@ -89,6 +91,30 @@ export default class KittensLayerNode extends Node {
     this.kittenPDOMOrderProperty = kittenPDOMOrderProperty;
     this.kittenPDOMOrderProperty.link( pdomOrder => {
       this.setPDOMOrder( _.uniq( pdomOrder ) );
+    } );
+
+    Multilink.multilinkAny( [
+      this.kittenPDOMOrderProperty,
+      NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
+      NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
+      ...NumberPairsFluent.a11y.kittens.kittenPattern.getDependentProperties(),
+      ...this.countingObjects.map( countingObject => countingObject.addendTypeProperty )
+    ], () => {
+
+      const pdomOrder = this.kittenPDOMOrderProperty.value;
+      const leftAddendColor = NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty.value;
+      const rightAddendColor = NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty.value;
+
+      pdomOrder.forEach( ( value, index ) => {
+        const descriptor = pdomOrder.length === 1 ? 'only' :
+                           index === 0 ? 'first' :
+                           index === pdomOrder.length - 1 ? 'last' : 'other';
+
+        value.accessibleName = NumberPairsFluent.a11y.kittens.kittenPattern.format( {
+          color: value.countingObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendColor : rightAddendColor,
+          descriptor: descriptor
+        } );
+      } );
     } );
   }
 }

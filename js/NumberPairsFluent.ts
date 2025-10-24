@@ -141,8 +141,7 @@ addToMapIfDefined( 'a11y_kittens_singularAccessibleName', 'a11y.kittens.singular
 addToMapIfDefined( 'a11y_kittens_changeColorAccessibleName', 'a11y.kittens.changeColorAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_leftAddendColor', 'a11y.kittens.leftAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_kittens_rightAddendColor', 'a11y.kittens.rightAddendColorStringProperty' );
-addToMapIfDefined( 'a11y_kittens_leftAddendKitten', 'a11y.kittens.leftAddendKittenStringProperty' );
-addToMapIfDefined( 'a11y_kittens_rightAddendKitten', 'a11y.kittens.rightAddendKittenStringProperty' );
+addToMapIfDefined( 'a11y_kittens_kittenPattern', 'a11y.kittens.kittenPatternStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withAttributeSwitch', 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleName', 'a11y.beads.accessibleNameStringProperty' );
@@ -440,8 +439,7 @@ const NumberPairsFluent = {
       changeColorAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.changeColorAccessibleNameStringProperty' ) ),
       leftAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendColorStringProperty' ) ),
       rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendColorStringProperty' ) ),
-      leftAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendKittenStringProperty' ) ),
-      rightAddendKittenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendKitten', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendKittenStringProperty' ) ),
+      kittenPattern: new FluentPattern<{ color: FluentVariable, descriptor: 'first' | 'last' | 'only' | number | 'other' | TReadOnlyProperty<'first' | 'last' | 'only' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_kittens_kittenPattern', _.get( NumberPairsStrings, 'a11y.kittens.kittenPatternStringProperty' ), [{"name":"color"},{"name":"descriptor","variants":["first","last","only",{"type":"number","value":"other"}]}] ),
       accessibleHelpText: {
         withAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' ) ),
         withoutAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' ) )

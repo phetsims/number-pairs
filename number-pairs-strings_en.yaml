@@ -183,8 +183,13 @@ a11y:
     changeColorAccessibleName: Change Color
     leftAddendColor:           Yellow
     rightAddendColor:          Blue
-    leftAddendKitten:          Yellow Kitten
-    rightAddendKitten:         Blue Kitten
+    kittenPattern:             |-
+                               { $descriptor ->
+                                   [first] First Kitten, { $color } 
+                                   [last] Last Kitten, { $color } 
+                                   [only] Only Kitten, { $color } 
+                                   *[other] { $color } Kitten
+                               }
     accessibleHelpText:
       withAttributeSwitch:    Change kitten color and move kittens around to play.
       withoutAttributeSwitch: Move kittens around to play.
