@@ -185,9 +185,9 @@ a11y:
     rightAddendColor:          Blue
     kittenPattern:             |-
                                { $descriptor ->
-                                   [first] First Kitten, { $color } 
-                                   [last] Last Kitten, { $color } 
-                                   [only] Only Kitten, { $color } 
+                                   [first] First { $color} Kitten 
+                                   [last] Last { $color } Kitten 
+                                   [only] Only { $color } Kitten 
                                    *[other] { $color } Kitten
                                }
     accessibleHelpText:

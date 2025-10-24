@@ -105,13 +105,50 @@ export default class KittensLayerNode extends Node {
       const leftAddendColor = NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty.value;
       const rightAddendColor = NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty.value;
 
+      const leftKittenIndices: number[] = [];
+      const rightKittenIndices: number[] = [];
+
       pdomOrder.forEach( ( value, index ) => {
-        const descriptor = pdomOrder.length === 1 ? 'only' :
-                           index === 0 ? 'first' :
-                           index === pdomOrder.length - 1 ? 'last' : 'other';
+        const addendType = value.countingObject.addendTypeProperty.value;
+        if ( addendType === AddendType.LEFT ) {
+          leftKittenIndices.push( index );
+        }
+        else if ( addendType === AddendType.RIGHT ) {
+          rightKittenIndices.push( index );
+        }
+      } );
+
+      const lastLeftIndex = leftKittenIndices.length ? leftKittenIndices[ leftKittenIndices.length - 1 ] : null;
+      const firstRightIndex = rightKittenIndices.length ? rightKittenIndices[ 0 ] : null;
+      const hasBothAddends = leftKittenIndices.length > 0 && rightKittenIndices.length > 0;
+
+      pdomOrder.forEach( ( value, index ) => {
+        const addendType = value.countingObject.addendTypeProperty.value;
+
+        let descriptor: 'first' | 'last' | 'other' | 'only';
+        if ( pdomOrder.length === 1 ||
+             ( addendType === AddendType.LEFT && leftKittenIndices.length === 1 ) ||
+             ( addendType === AddendType.RIGHT && rightKittenIndices.length === 1 ) ) {
+          descriptor = 'only';
+        }
+        else if ( index === 0 ) {
+          descriptor = 'first';
+        }
+        else if ( index === pdomOrder.length - 1 ) {
+          descriptor = 'last';
+        }
+        else if ( hasBothAddends && addendType === AddendType.LEFT && index === lastLeftIndex ) {
+          descriptor = 'last';
+        }
+        else if ( hasBothAddends && addendType === AddendType.RIGHT && index === firstRightIndex ) {
+          descriptor = 'first';
+        }
+        else {
+          descriptor = 'other';
+        }
 
         value.accessibleName = NumberPairsFluent.a11y.kittens.kittenPattern.format( {
-          color: value.countingObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendColor : rightAddendColor,
+          color: addendType === AddendType.LEFT ? leftAddendColor : rightAddendColor,
           descriptor: descriptor
         } );
       } );
