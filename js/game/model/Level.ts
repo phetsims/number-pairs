@@ -99,7 +99,8 @@ export default class Level {
 
     this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
       tandem: tandem.createTandem( 'challengeProperty' ),
-      phetioValueType: Challenge.ChallengeIO
+      phetioValueType: Challenge.ChallengeIO,
+      phetioDocumentation: 'Challenge type: ' + this.type
     } );
 
     this.selectedGuessProperty = new Property<number | null>( null, {
