@@ -102,7 +102,7 @@ export default class CountingObject extends PhetioObject {
     // This Property should not reset. It is managed by the addend array and manually set at the end of the reset call.
     this.addendTypeProperty = new EnumerationProperty( AddendType.INACTIVE, {
       hasListenerOrderDependencies: true,
-      tandem: providedOptions.gameScreen ? Tandem.OPT_OUT : this.tandem.createTandem( 'addendTypeProperty' ),
+      tandem: this.tandem.createTandem( 'addendTypeProperty' ),
       phetioReadOnly: true,
       phetioFeatured: false
     } );

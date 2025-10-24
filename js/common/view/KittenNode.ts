@@ -257,6 +257,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
     if ( phet.chipper.queryParameters.dev ) {
       this.addCountingObjectID( countingObject.id );
     }
+
+    this.addLinkedElement( countingObject );
   }
 
   /**
