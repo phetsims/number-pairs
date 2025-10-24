@@ -317,8 +317,8 @@ a11y:
       accessibleContextResponseUnchecked: Tick mark labels not labeled.
     totalJumpCheckbox:
       accessibleHelpText:                 Show or hide total jump on number line.
-      accessibleContextResponseChecked:   Total jump is shown and labeled.
-      accessibleContextResponseUnchecked: Total jump is not shown.
+      accessibleContextResponseChecked:   Total jump shown and labeled.
+      accessibleContextResponseUnchecked: Total jump not shown.
   equation:
     accessibleParagraphPattern:       '{ $total } = { $leftAddend } + { $rightAddend }'
     accessibleParagraphHiddenPattern: '{ $total } = { $leftPlaceholder } + { $rightPlaceholder }'
