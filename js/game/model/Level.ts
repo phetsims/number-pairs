@@ -174,6 +174,9 @@ export default class Level {
     this.challengeProperty.value = this.createChallenge( true );
     this.countingObjectsDelegate.resetCountingObjects();
     this.hasShownReward = false;
+    this.guessedNumbers.clear();
+    this.selectedGuessProperty.value = null;
+    this.modeProperty.value = 'idle';
   }
 
   public deselectAllKittens(): void {
