@@ -35,12 +35,12 @@ type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'
 export const LevelValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8' ] as const;
 export type LevelType = ( typeof LevelValues )[number];
 
-const ModeValues = [ 'levelSelectionScreen', ...LevelValues ] as const;
-export type Mode = ( typeof ModeValues )[number];
+const LevelSelectionValues = [ 'levelSelectionScreen', ...LevelValues ] as const;
+export type LevelSelection = ( typeof LevelSelectionValues )[number];
 
 export default class GameModel implements TModel {
 
-  public readonly modeProperty: StringUnionProperty<Mode>;
+  public readonly selectedLevelProperty: StringUnionProperty<LevelSelection>;
 
   // Individual level models (persistent across session lifetime)
   // indexed 0..N-1 for levels 1..N
@@ -78,9 +78,9 @@ export default class GameModel implements TModel {
       ]
     } );
 
-    this.modeProperty = new StringUnionProperty<Mode>( 'levelSelectionScreen', {
-      validValues: ModeValues,
-      tandem: tandem.createTandem( 'modeProperty' ),
+    this.selectedLevelProperty = new StringUnionProperty<LevelSelection>( 'levelSelectionScreen', {
+      validValues: LevelSelectionValues,
+      tandem: tandem.createTandem( 'selectedLevelProperty' ),
       phetioDocumentation: 'the current level, or "levelSelectionScreen" if the level selection screen is showing',
 
       // In GameScreenView, we rely on listener order dispatch for recording and restoring focus
@@ -258,7 +258,7 @@ export default class GameModel implements TModel {
 
   public setLevel( levelNumber: number ): void {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
-    this.modeProperty.value = LevelValues[ levelNumber - 1 ];
+    this.selectedLevelProperty.value = LevelValues[ levelNumber - 1 ];
   }
 
   public getLevelCount(): number {

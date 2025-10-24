@@ -16,7 +16,7 @@ import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel, { Mode } from '../model/GameModel.js';
+import GameModel, { LevelSelection } from '../model/GameModel.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
@@ -49,7 +49,7 @@ export default class GameScreenView extends ScreenView {
     const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
 
     const returnToLevelSelection = () => {
-      model.modeProperty.value = 'levelSelectionScreen';
+      model.selectedLevelProperty.value = 'levelSelectionScreen';
     };
 
     const createLevelNode = ( levelNumber: number ) => {
@@ -61,7 +61,7 @@ export default class GameScreenView extends ScreenView {
              new NumberLineLevelNode( model, level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 
-    const toggleNode = new ToggleNode<Mode, Node>( model.modeProperty, [
+    const toggleNode = new ToggleNode<LevelSelection, Node>( model.selectedLevelProperty, [
       { value: 'levelSelectionScreen', createNode: () => levelSelectionNode },
       { value: 'level1', createNode: () => createLevelNode( 1 ) },
       { value: 'level2', createNode: () => createLevelNode( 2 ) },
@@ -78,7 +78,7 @@ export default class GameScreenView extends ScreenView {
     this.addChild( toggleNode );
 
     this.rewardNode = new NumberPairsRewardNode();
-    this.numberPairsRewardDialog = new NumberPairsRewardDialog( derived( model.modeProperty, mode =>
+    this.numberPairsRewardDialog = new NumberPairsRewardDialog( derived( model.selectedLevelProperty, mode =>
         mode === 'level1' ? 1 :
         mode === 'level2' ? 2 :
         mode === 'level3' ? 3 :
@@ -89,7 +89,7 @@ export default class GameScreenView extends ScreenView {
         mode === 'level8' ? 8 :
         0
       ), () => {
-        model.modeProperty.value = 'levelSelectionScreen';
+        model.selectedLevelProperty.value = 'levelSelectionScreen';
       }, () => {
 
         // TODO: Better way to move focus to the level button? Possibly pre-allocating level nodes.
