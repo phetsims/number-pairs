@@ -31,7 +31,8 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
       numberBarOrBarModel: numberBondOrBarModelStringProperty
     } );
     const numberLineShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLine.createProperty( {
-      numberBarOrBarModel: numberBondOrBarModelStringProperty
+      numberBarOrBarModel: numberBondOrBarModelStringProperty,
+      count: model.totalProperty
     } );
 
     const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHidden.createProperty( {
