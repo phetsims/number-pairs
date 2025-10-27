@@ -64,7 +64,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       total: model.totalProperty,
       proportion: proportionStringProperty
     } );
-    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
+    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( { //
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty
@@ -91,7 +91,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     // Create the number bond number model representation.
     const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL ),
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty //
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );
 
@@ -102,9 +102,10 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraphStringProperty
     } );
     const contentNode = new Node( {
-      children: [ numberBondNode, barModelNode ],
-      excludeInvisibleChildrenFromBounds: true,
-      accessibleParagraph: accessibleParagraphStringProperty
+      children: [ new Node( {
+        accessibleParagraph: accessibleParagraphStringProperty
+      } ), numberBondNode, barModelNode ],
+      excludeInvisibleChildrenFromBounds: true
     } );
     super( contentNode, options );
   }
