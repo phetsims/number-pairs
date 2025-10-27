@@ -111,7 +111,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
       accessibleContextResponseLeftValue: NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
       accessibleContextResponseRightValue: NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
-      accessibleSwitch: false, // This switch does not use boolean values. Read accessibleSwitch documentation for more.
+      accessibleRoleConfiguration: 'button', // This switch does not use boolean values. Read accessibleSwitch documentation for more.
       thumbFill: new DerivedProperty( [
           countingObject.addendTypeProperty,
           NumberPairsColors.attributeLeftAddendColorProperty,
