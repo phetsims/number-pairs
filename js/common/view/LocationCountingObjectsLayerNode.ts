@@ -90,7 +90,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
     /**
      * Create the a11y description and help text.
-     * TODO: https://github.com/phetsims/number-pairs/issues/200 why is this wrapped in a DerivedProperty then an DynamicProperty?
      */
     const itemStringProperty = new DynamicProperty<string, unknown, unknown>(
         new DerivedProperty( [ this.model.representationTypeProperty ],
@@ -112,7 +111,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
     );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 Document what is happening here
+    // Create accessible context responses for when an item is grabbed or released. The context response will need
+    // to be updated as the selected counting object changes it's addend type while being grabbed.
     const responseDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
     Multilink.multilinkAny( responseDependencies, () => {
       if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {

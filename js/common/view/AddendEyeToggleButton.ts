@@ -35,10 +35,8 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       baseColor: Color.WHITE,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
-
-      // TODO: https://github.com/phetsims/number-pairs/issues/200 Match yaml key to the scenery option
-      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty,
-      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.visibleStringProperty
+      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty,
+      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty
     }, providedOptions );
 
     let addendToggleVisibleProperty = addendVisibleProperty;

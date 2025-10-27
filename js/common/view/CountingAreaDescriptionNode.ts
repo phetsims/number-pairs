@@ -48,26 +48,22 @@ export default class CountingAreaDescriptionNode extends Node {
 
   public constructor( locationLayerVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 Use derived?
-    const leftValueStringProperty = new DerivedProperty(
-      [ providedOptions.leftAddendProperty, providedOptions.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-
-      // TODO: https://github.com/phetsims/number-pairs/issues/200 omit redundant type declarations
-      ( leftAddend: number, leftAddendVisible: boolean, valueHiddenString: string ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString
+    const leftValueStringProperty = derived( providedOptions.leftAddendProperty,
+      providedOptions.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+      ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString
     );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 Use derived
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 ok to `derived` instead of new DerivedProperty throughout the whole sim?
-    const rightValueStringProperty = new DerivedProperty(
-      [ providedOptions.rightAddendProperty, providedOptions.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty ],
-
-      // TODO: https://github.com/phetsims/number-pairs/issues/200 omit redundant type declarations
-      ( rightAddend: number, rightAddendVisible: boolean, valueHiddenString: string ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
+    const rightValueStringProperty = derived( providedOptions.rightAddendProperty,
+      providedOptions.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+      ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
     );
 
-    const showObjectLocationsProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty, ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
-    const showObjectSidesProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty, ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
-    const showBeadsProperty = derived( providedOptions.representationTypeProperty, representationType => representationType === RepresentationType.BEADS );
+    const showObjectLocationsProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty,
+      ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
+    const showObjectSidesProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty,
+      ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
+    const showBeadsProperty = derived( providedOptions.representationTypeProperty,
+        representationType => representationType === RepresentationType.BEADS );
 
     const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( providedOptions.numberLineRepresentationVisibleProperty );
 

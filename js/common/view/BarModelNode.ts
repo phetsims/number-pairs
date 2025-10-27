@@ -60,18 +60,13 @@ export const GAME_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
 };
 
 export default abstract class BarModelNode extends VBox {
-
-  public readonly totalRectangle: Rectangle;
-  public readonly leftAddendRectangle: Rectangle;
-  public readonly rightAddendRectangle: Rectangle;
   protected readonly addendsNode: Node;
 
   protected constructor(
     model: TGenericNumberPairsModel,
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 make the following 3 parameters be constructor properties?
-    totalRectangle: Rectangle,
-    leftAddendRectangle: Rectangle,
-    rightAddendRectangle: Rectangle,
+    public readonly totalRectangle: Rectangle,
+    public readonly leftAddendRectangle: Rectangle,
+    public readonly rightAddendRectangle: Rectangle,
     providedOptions?: BarModelNodeOptions ) {
 
     const options = optionize<BarModelNodeOptions, SelfOptions, VBoxOptions>()( {

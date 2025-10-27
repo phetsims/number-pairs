@@ -126,7 +126,6 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       rightAddend: rightAddendDynamicProperty
     } );
 
-    // TODO: Why is a new DynamicProperty wrapped around a new DerivedProperty? see https://github.com/phetsims/number-pairs/issues/200
     const secondaryLocaleStringProperty: TReadOnlyProperty<string> = new DynamicProperty( new DerivedProperty( [ secondLocaleProperty ], secondLocale => {
       return options.phraseStringProperty.getTranslatedStringProperty( secondLocale );
     } ) );

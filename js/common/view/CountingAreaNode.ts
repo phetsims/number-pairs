@@ -96,8 +96,8 @@ export default class CountingAreaNode extends Node {
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
-      accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisible.accessibleNameStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.controls.bothAddendsVisible.accessibleHelpTextPattern.createProperty( {
+      accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
+      accessibleHelpText: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
         modelRepresentation: numberBondOrBarModelStringProperty
       } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
@@ -105,8 +105,8 @@ export default class CountingAreaNode extends Node {
       secondAddendVisibleProperty: rightAddendVisibleProperty,
       visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
       tandem: bothAddendsEyeToggleButtonTandem,
-      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.visibleStringProperty,
-      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisible.accessibleContextResponse.hiddenStringProperty
+      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty,
+      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty
     } );
     this.addChild( backgroundRectangle );
     this.addChild( this.bothAddendsEyeToggleButton );

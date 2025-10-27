@@ -288,7 +288,6 @@ export default class NumberPairsScreenView extends ScreenView {
       return usesHiddenOverride && bothHidden ? hiddenResponse : defaultResponse;
     } );
 
-    // TODO: https://github.com/phetsims/number-pairs/issues/200 why does the commutative button have accessible name "swap addends"? Should they be aligned?
     const commutativeButton = new CommutativeButton( {
       accessibleName: NumberPairsFluent.a11y.controls.commutativeButton.accessibleNameStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.controls.commutativeButton.accessibleHelpTextPattern.createProperty( {

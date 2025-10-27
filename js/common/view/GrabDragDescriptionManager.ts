@@ -43,29 +43,29 @@ export default class GrabDragDescriptionManager {
   public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string>,
                       representationTypeProperty: TReadOnlyProperty<RepresentationType> ) {
 
-    this.firstLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.firstLeftItemPattern.createProperty( {
+    this.firstLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftSide.firstItemPattern.createProperty( {
       item: leftItemProperty
     } );
-    this.leftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftItemPattern.createProperty( {
+    this.leftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftSide.itemPattern.createProperty( {
       item: leftItemProperty
     } );
-    this.lastLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.lastLeftItemPattern.createProperty( {
+    this.lastLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftSide.lastItemPattern.createProperty( {
       item: leftItemProperty
     } );
-    this.onlyLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.onlyLeftItemPattern.createProperty( {
+    this.onlyLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftSide.onlyItemPattern.createProperty( {
       item: leftItemProperty
     } );
 
-    this.firstRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.firstRightItemPattern.createProperty( {
+    this.firstRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightSide.firstItemPattern.createProperty( {
       item: rightItemProperty
     } );
-    this.rightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightItemPattern.createProperty( {
+    this.rightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightSide.itemPattern.createProperty( {
       item: rightItemProperty
     } );
-    this.lastRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.lastRightItemPattern.createProperty( {
+    this.lastRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightSide.lastItemPattern.createProperty( {
       item: rightItemProperty
     } );
-    this.onlyRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.onlyRightItemPattern.createProperty( {
+    this.onlyRightItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.rightSide.onlyItemPattern.createProperty( {
       item: rightItemProperty
     } );
 
@@ -99,6 +99,7 @@ export default class GrabDragDescriptionManager {
         this.lastLeftItemDescriptionProperty, this.lastRightItemDescriptionProperty,
         this.firstLeftItemDescriptionProperty, this.firstRightItemDescriptionProperty,
         this.leftItemDescriptionProperty, this.rightItemDescriptionProperty,
+        NumberPairsFluent.a11y.countingAreaEmptyStringProperty,
         ...addendTypeProperties ],
       () => {
 
@@ -135,9 +136,6 @@ export default class GrabDragDescriptionManager {
           }
         }
         else if ( leftAddendObjectsLength === 0 && rightAddendObjectsLength === 0 ) {
-
-          // TODO: https://github.com/phetsims/number-pairs/issues/200 We must add NumberPairsFluent.a11y.countingAreaEmptyStringProperty as a dependency
-          // so this will be re-evaluated when that string changes, otherwise we could end up with a stale string value
           return NumberPairsFluent.a11y.countingAreaEmptyStringProperty.value;
         }
         else {

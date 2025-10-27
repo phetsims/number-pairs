@@ -139,14 +139,18 @@ type StringsType = {
       'grabbedAccessibleResponseStringProperty': LocalizedStringProperty;
       'releasedAccessibleResponseStringProperty': LocalizedStringProperty;
       'movedAccessibleResponseStringProperty': LocalizedStringProperty;
-      'firstLeftItemPatternStringProperty': LocalizedStringProperty;
-      'leftItemPatternStringProperty': LocalizedStringProperty;
-      'lastLeftItemPatternStringProperty': LocalizedStringProperty;
-      'onlyLeftItemPatternStringProperty': LocalizedStringProperty;
-      'firstRightItemPatternStringProperty': LocalizedStringProperty;
-      'rightItemPatternStringProperty': LocalizedStringProperty;
-      'lastRightItemPatternStringProperty': LocalizedStringProperty;
-      'onlyRightItemPatternStringProperty': LocalizedStringProperty;
+      'leftSide': {
+        'firstItemPatternStringProperty': LocalizedStringProperty;
+        'itemPatternStringProperty': LocalizedStringProperty;
+        'lastItemPatternStringProperty': LocalizedStringProperty;
+        'onlyItemPatternStringProperty': LocalizedStringProperty;
+      };
+      'rightSide': {
+        'firstItemPatternStringProperty': LocalizedStringProperty;
+        'itemPatternStringProperty': LocalizedStringProperty;
+        'lastItemPatternStringProperty': LocalizedStringProperty;
+        'onlyItemPatternStringProperty': LocalizedStringProperty;
+      };
       'noItemSelectedStringProperty': LocalizedStringProperty;
     };
     'countingArea': {
@@ -278,17 +282,15 @@ type StringsType = {
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
         'accessibleContextResponseHiddenStringProperty': LocalizedStringProperty;
       };
-      'bothAddendsVisible': {
+      'bothAddendsVisibleButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
       };
-      'addendVisible': {
+      'addendVisibleButton': {
         'accessibleNamePatternStringProperty': LocalizedStringProperty;
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
-        'accessibleContextResponse': {
-          'hiddenStringProperty': LocalizedStringProperty;
-          'visibleStringProperty': LocalizedStringProperty;
-        }
+        'accessibleContextResponseOnStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseOffStringProperty': LocalizedStringProperty;
       };
       'showAddends': {
         'accessibleNameStringProperty': LocalizedStringProperty;
