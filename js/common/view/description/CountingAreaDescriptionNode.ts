@@ -5,8 +5,6 @@
  * It includes an accessible heading and switches between the general counting area list and the number line description.
  * Counting representation nodes should be added as children to maintain proper PDOM structure.
  *
- * TODO: https://github.com/phetsims/number-pairs/issues/200 Move into description/, preserving git history
- *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 

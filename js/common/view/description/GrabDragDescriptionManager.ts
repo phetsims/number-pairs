@@ -2,8 +2,6 @@
 /**
  * This file manages the creation of the a11y description strings for grab and drag interactions in Number Pairs.
  *
- * TODO: Move to description/, preserving git history, see https://github.com/phetsims/number-pairs/issues/200
- *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
@@ -39,6 +37,7 @@ export default class GrabDragDescriptionManager {
    * @param leftItemProperty - the string used to describe items that are part of the left addend
    * @param rightItemProperty - the string used to describe items that are part of the right addend
    * @param itemProperty - the string used to describe a singular item
+   * @param representationTypeProperty - the representation type property, used to determine specific wording for certain representations
    */
   public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string>,
                       representationTypeProperty: TReadOnlyProperty<RepresentationType> ) {
