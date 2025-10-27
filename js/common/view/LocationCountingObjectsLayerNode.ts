@@ -20,6 +20,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
+import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import GrabDragDescriptionManager from './description/GrabDragDescriptionManager.js';
@@ -91,9 +92,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
     /**
      * Create the a11y description and help text.
      */
-    const itemStringProperty = new DynamicProperty<string, unknown, unknown>(
-        new DerivedProperty( [ this.model.representationTypeProperty ],
-          representation => representation.singularAccessibleName ) );
+    const itemStringProperty = new DynamicProperty<string, unknown, RepresentationType>(
+      this.model.representationTypeProperty, {
+        derive: 'singularAccessibleName'
+      } );
 
     // There is no distinction between left and right item names, so we can use the same property for both.
     const grabDragDescriptionManager = new GrabDragDescriptionManager( itemStringProperty, itemStringProperty, itemStringProperty, model.representationTypeProperty );
