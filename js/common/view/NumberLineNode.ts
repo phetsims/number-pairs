@@ -69,7 +69,8 @@ export default class NumberLineNode extends Node {
       model.totalProperty,
       model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
-      model.tickValuesVisibleProperty, {
+      model.tickValuesVisibleProperty,
+      model.numberLineAddendValuesVisibleProperty, {
         accessibleName: NumberPairsFluent.a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty,
         accessibleHelpText: NumberPairsFluent.a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty,
         numberLineRange: options.numberLineRange,
