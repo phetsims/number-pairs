@@ -143,10 +143,8 @@ a11y:
     noItemSelected:           No item selected
   countingArea:
     accessibleHeading:          Counting Area
-
-    # TODO: https://github.com/phetsims/number-pairs/issues/200 What does the NUMBER syntax do here, and what would go wrong without it?
     leadingParagraph:           |-
-                                { NUMBER($total) ->
+                                { $total ->
                                 [1] Counting area has 1 total { $item }
                                 *[other] Counting area has { $total } total { $items }
                                 }
@@ -285,9 +283,7 @@ a11y:
       barModelAccessibleParagraph:               >-
                                                  Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
                                                  objects, bottom rectangle is split into two sections that adjust based on size of addends.
-
-      # TODO https://github.com/phetsims/number-pairs/issues/200 should proportion be changed to proportions?
-      currentBarModelStateAccessibleParagraph:   Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportion } sections.
+      currentBarModelStateAccessibleParagraph:   Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
       largerAndSmaller:                          larger and smaller
       smallerAndLarger:                          smaller and larger
       equal:                                     equal

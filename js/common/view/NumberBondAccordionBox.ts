@@ -51,7 +51,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       } );
 
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
-    const proportionStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+    const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
         NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
         NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
         NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
@@ -62,7 +62,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty,
-      proportion: proportionStringProperty
+      proportions: proportionsStringProperty
     } );
     const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( { //
       left: model.leftAddendProperty,
