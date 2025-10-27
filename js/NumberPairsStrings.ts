@@ -112,8 +112,6 @@ type StringsType = {
       'screenSummary': {
         'playArea': {
           'descriptionStringProperty': LocalizedStringProperty;
-          'numberLineStringProperty': LocalizedStringProperty;
-          'otherStringProperty': LocalizedStringProperty;
         };
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetails': {
