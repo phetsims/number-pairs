@@ -41,7 +41,7 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadsOnWireNode from './BeadsOnWireNode.js';
 import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressListener.js';
 import CommutativeButton from './CommutativeButton.js';
-import CountingAreaDescriptionNode from './CountingAreaDescriptionNode.js';
+import CountingAreaDescriptionNode from './description/CountingAreaDescriptionNode.js';
 import CountingAreaNode from './CountingAreaNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';

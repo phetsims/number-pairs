@@ -10,19 +10,19 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
-import RepresentationType from '../model/RepresentationType.js';
-import NumberLineDescription from './description/NumberLineDescription.js';
+import derived from '../../../../../axon/js/derived.js';
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
+import Property from '../../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
+import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
+import AccessibleListNode from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
+import numberPairs from '../../../numberPairs.js';
+import NumberPairsFluent from '../../../NumberPairsFluent.js';
+import RepresentationType from '../../model/RepresentationType.js';
+import NumberLineDescription from './NumberLineDescription.js';
 
 type SelfOptions = {
   leftAddendProperty: TReadOnlyProperty<number>;
