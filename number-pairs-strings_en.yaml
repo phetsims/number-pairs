@@ -127,7 +127,11 @@ a11y:
   #       itemPattern: { $item } on { $side } side
   grabOrReleaseInteraction:
     releasedHelpText:           Use arrows or W, A, S, D keys to navigate and choose { $item } to move. Space or enter to grab or release.
-    grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas.
+    grabbedHelpTextPattern:     |-
+                                { $representationType ->
+                                    [beads]   Move one or more beads to create groups.
+                                    *[other]  Move { $item } in or between left and right counting areas.
+                                }
     grabbedAccessibleResponse:  Grabbed, in { $addend } counting area.
     releasedAccessibleResponse: Released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area

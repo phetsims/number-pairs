@@ -321,7 +321,9 @@ export default class BeadsOnWireNode extends Node {
     const grabDragDescriptionManager = new GrabDragDescriptionManager(
       NumberPairsFluent.a11y.beads.leftAddendBeadStringProperty,
       NumberPairsFluent.a11y.beads.rightAddendBeadStringProperty,
-      NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty );
+      NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty,
+      model.representationTypeProperty
+    );
     this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
       groupSelectModel.selectedGroupItemProperty,
       () => this.getSortedBeadNodes().filter( beadNode => beadNode.countingObject.addendTypeProperty.value === AddendType.LEFT )

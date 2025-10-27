@@ -7,12 +7,14 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
+import RepresentationType from '../model/RepresentationType.js';
 
 export default class GrabDragDescriptionManager {
 
@@ -38,7 +40,8 @@ export default class GrabDragDescriptionManager {
    * @param rightItemProperty - the string used to describe items that are part of the right addend
    * @param itemProperty - the string used to describe a singular item
    */
-  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string> ) {
+  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string>,
+                      representationTypeProperty: TReadOnlyProperty<RepresentationType> ) {
 
     this.firstLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.firstLeftItemPattern.createProperty( {
       item: leftItemProperty
@@ -67,6 +70,7 @@ export default class GrabDragDescriptionManager {
     } );
 
     this.grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
+      representationType: derived( representationTypeProperty, representationType => representationType === RepresentationType.BEADS ? 'beads' : 'other' ),
       item: itemProperty
     } );
     this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
