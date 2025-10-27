@@ -110,7 +110,11 @@ type StringsType = {
     };
     'tenScreen': {
       'screenSummary': {
-        'playAreaStringProperty': LocalizedStringProperty;
+        'playArea': {
+          'descriptionStringProperty': LocalizedStringProperty;
+          'numberLineStringProperty': LocalizedStringProperty;
+          'otherStringProperty': LocalizedStringProperty;
+        };
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetails': {
           'countingAreaShownStringProperty': LocalizedStringProperty;

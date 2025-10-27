@@ -52,8 +52,18 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
       [ RepresentationType.NUMBER_LINE, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty ]
     ] ) );
 
+    const firstSentenceProperty = derived(
+      model.representationTypeProperty,
+      NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.numberLineStringProperty,
+      NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.otherStringProperty,
+      ( representationType, numberLineString, otherString ) => {
+        return representationType === RepresentationType.NUMBER_LINE ? numberLineString : otherString;
+      } );
     super( {
-      playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBondOrBarModelStringProperty } ),
+      playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.description.createProperty( {
+        firstSentence: firstSentenceProperty,
+        numberBarOrBarModel: numberBondOrBarModelStringProperty
+      } ),
       controlAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,
       interactionHintContent: interactionHintContentProperty
