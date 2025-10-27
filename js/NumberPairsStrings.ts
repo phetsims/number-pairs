@@ -205,6 +205,7 @@ type StringsType = {
       'leftAddendBeadStringProperty': LocalizedStringProperty;
       'rightAddendBeadStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'contextResponseStringProperty': LocalizedStringProperty;
     };
     'numberLine': {
       'accessibleNameStringProperty': LocalizedStringProperty;

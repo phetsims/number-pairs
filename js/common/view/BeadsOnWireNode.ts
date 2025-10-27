@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -184,6 +185,29 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
+    const sideProperty = DerivedProperty.deriveAny( [
+      model.groupSelectBeadsModel.selectedGroupItemProperty,
+      model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+      ...model.countingObjects.map( countingObject => countingObject.addendTypeProperty )
+    ], () => {
+      const selectedGroupItem = model.groupSelectBeadsModel.selectedGroupItemProperty.value;
+      if ( selectedGroupItem === null ) {
+        return 'left';
+      }
+      else {
+        return selectedGroupItem.addendTypeProperty.value === AddendType.LEFT ? 'left' : 'right';
+      }
+    } );
+
+    const grabbedAccessibleContextResponseProperty = NumberPairsFluent.a11y.beads.contextResponse.createProperty( {
+      grabbedOrReleased: 'grabbed',
+      side: sideProperty
+    } );
+    const releasedAccessibleContextResponseProperty = NumberPairsFluent.a11y.beads.contextResponse.createProperty( {
+      grabbedOrReleased: 'released',
+      side: sideProperty
+    } );
+
     const groupSelectView = new GroupSelectDragInteractionView( groupSelectModel, this, this.keyboardProposedBeadPositionProperty, this.beadModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         dragDelta: 30,
@@ -252,7 +276,9 @@ export default class BeadsOnWireNode extends Node {
           }
         } );
       },
-      tandem: options.tandem.createTandem( 'groupSelectView' )
+      tandem: options.tandem.createTandem( 'groupSelectView' ),
+      grabbedAccessibleContextResponse: grabbedAccessibleContextResponseProperty,
+      releasedAccessibleContextResponse: releasedAccessibleContextResponseProperty
     } );
 
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );

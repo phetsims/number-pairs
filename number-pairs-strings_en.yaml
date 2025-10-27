@@ -203,6 +203,14 @@ a11y:
     leftAddendBead:         Yellow Bead
     rightAddendBead:        Blue Bead
     accessibleHelpText:     Counting area with grabbable and movable beads.
+    contextResponse:        |-
+                            { $grabbedOrReleased ->
+                              [ grabbed ]  Grabbed
+                             *[ released ] Released
+                            }, { $side -> 
+                              [left] left
+                             *[right] right
+                            } of divider.
 
   # Number line
   numberLine:
