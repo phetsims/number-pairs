@@ -115,24 +115,9 @@ export default class NumberPairsScreenView extends ScreenView {
     ] );
 
     // Create the CountingAreaDescriptionNode that will contain all counting representations for proper PDOM structure
-    const countingAreaDescriptionNode = new CountingAreaDescriptionNode(
-      model.locationLayerVisibleProperty,
-      {
-        // TODO: https://github.com/phetsims/number-pairs/issues/200 Passing in 10 things from model and renaming some of them.... maybe we should just pass the model?
-        leftAddendProperty: model.leftAddendProperty,
-        leftAddendVisibleProperty: model.leftAddendVisibleProperty,
-        rightAddendProperty: model.rightAddendProperty,
-        rightAddendVisibleProperty: model.rightAddendVisibleProperty,
-        representationTypeProperty: model.representationTypeProperty,
-        totalProperty: model.totalProperty,
-        numberLineRepresentationVisibleProperty: numberLineRepresentationVisibleProperty,
-        numberLineVisibleProperty: numberLineContentVisibleProperty,
-        numberLineCountFromZeroProperty: model.numberLineCountFromZeroProperty,
-        numberLineAddendValuesVisibleProperty: model.numberLineAddendValuesVisibleProperty,
-        numberLineTickValuesVisibleProperty: model.tickValuesVisibleProperty,
-        totalJumpVisibleProperty: model.totalJumpVisibleProperty,
-        tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' )
-      } );
+    const countingAreaDescriptionNode = new CountingAreaDescriptionNode( model, numberLineRepresentationVisibleProperty,
+      numberLineContentVisibleProperty,
+      { tandem: options.tandem.createTandem( 'countingAreaDescriptionNode' ) } );
     this.countingAreaDescriptionNode = countingAreaDescriptionNode;
 
     /**

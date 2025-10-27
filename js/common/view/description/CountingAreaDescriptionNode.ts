@@ -11,7 +11,6 @@
 import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
-import Property from '../../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
@@ -19,23 +18,11 @@ import AccessibleListNode from '../../../../../scenery-phet/js/accessibility/Acc
 import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
+import NumberPairsModel from '../../model/NumberPairsModel.js';
 import RepresentationType from '../../model/RepresentationType.js';
 import NumberLineDescription from './NumberLineDescription.js';
 
-type SelfOptions = {
-  leftAddendProperty: TReadOnlyProperty<number>;
-  leftAddendVisibleProperty: TReadOnlyProperty<boolean>;
-  rightAddendProperty: TReadOnlyProperty<number>;
-  rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
-  representationTypeProperty: Property<RepresentationType>;
-  totalProperty: TReadOnlyProperty<number>;
-  numberLineRepresentationVisibleProperty: TReadOnlyProperty<boolean>;
-  numberLineVisibleProperty: TReadOnlyProperty<boolean>;
-  numberLineCountFromZeroProperty: TReadOnlyProperty<boolean>;
-  numberLineAddendValuesVisibleProperty: TReadOnlyProperty<boolean>;
-  numberLineTickValuesVisibleProperty: TReadOnlyProperty<boolean>;
-  totalJumpVisibleProperty: TReadOnlyProperty<boolean>;
-};
+type SelfOptions = EmptySelfOptions;
 
 type CountingAreaDescriptionNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -44,26 +31,35 @@ export default class CountingAreaDescriptionNode extends Node {
   public readonly leftValueStringProperty: TReadOnlyProperty<string>;
   public readonly rightValueStringProperty: TReadOnlyProperty<string>;
 
-  public constructor( locationLayerVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
-
-    const leftValueStringProperty = derived( providedOptions.leftAddendProperty,
-      providedOptions.leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+  public constructor( model: NumberPairsModel, numberLineRepresentationVisibleProperty: TReadOnlyProperty<boolean>,
+                      numberLineVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
+    const leftAddendProperty = model.leftAddendProperty;
+    const leftAddendVisibleProperty = model.leftAddendVisibleProperty;
+    const rightAddendProperty = model.rightAddendProperty;
+    const rightAddendVisibleProperty = model.rightAddendVisibleProperty;
+    const representationTypeProperty = model.representationTypeProperty;
+    const totalProperty = model.totalProperty;
+    const numberLineCountFromZeroProperty = model.numberLineCountFromZeroProperty;
+    const numberLineAddendValuesVisibleProperty = model.numberLineAddendValuesVisibleProperty;
+    const numberLineTickValuesVisibleProperty = model.tickValuesVisibleProperty;
+    const totalJumpVisibleProperty = model.totalJumpVisibleProperty;
+    const locationLayerVisibleProperty = model.locationLayerVisibleProperty;
+    const leftValueStringProperty = derived( leftAddendProperty, leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
       ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString
     );
 
-    const rightValueStringProperty = derived( providedOptions.rightAddendProperty,
-      providedOptions.rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+    const rightValueStringProperty = derived( rightAddendProperty, rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
       ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
     );
 
-    const showObjectLocationsProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty,
+    const showObjectLocationsProperty = derived( representationTypeProperty, locationLayerVisibleProperty,
       ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
-    const showObjectSidesProperty = derived( providedOptions.representationTypeProperty, locationLayerVisibleProperty,
+    const showObjectSidesProperty = derived( representationTypeProperty, locationLayerVisibleProperty,
       ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
-    const showBeadsProperty = derived( providedOptions.representationTypeProperty,
-        representationType => representationType === RepresentationType.BEADS );
+    const showBeadsProperty = derived( representationTypeProperty,
+      representationType => representationType === RepresentationType.BEADS );
 
-    const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( providedOptions.numberLineRepresentationVisibleProperty );
+    const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( numberLineRepresentationVisibleProperty );
 
     const countingAreaAccessibleListNode = new AccessibleListNode( [
       {
@@ -92,11 +88,11 @@ export default class CountingAreaDescriptionNode extends Node {
       }
     ], {
       leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
-        total: providedOptions.totalProperty,
-        item: new DynamicProperty( providedOptions.representationTypeProperty, {
+        total: totalProperty,
+        item: new DynamicProperty( representationTypeProperty, {
           derive: 'singularAccessibleName'
         } ),
-        items: new DynamicProperty( providedOptions.representationTypeProperty, {
+        items: new DynamicProperty( representationTypeProperty, {
           derive: 'accessibleName'
         } )
       } ),
@@ -104,15 +100,15 @@ export default class CountingAreaDescriptionNode extends Node {
     } );
 
     const numberLineDescription = new NumberLineDescription( {
-      numberLineVisibleProperty: providedOptions.numberLineVisibleProperty,
-      numberLineRepresentationVisibleProperty: providedOptions.numberLineRepresentationVisibleProperty,
-      numberLineCountFromZeroProperty: providedOptions.numberLineCountFromZeroProperty,
-      tickValuesVisibleProperty: providedOptions.numberLineTickValuesVisibleProperty,
-      numberLineAddendValuesVisibleProperty: providedOptions.numberLineAddendValuesVisibleProperty,
-      totalJumpVisibleProperty: providedOptions.totalJumpVisibleProperty,
-      leftAddendProperty: providedOptions.leftAddendProperty,
-      rightAddendProperty: providedOptions.rightAddendProperty,
-      totalProperty: providedOptions.totalProperty
+      numberLineVisibleProperty: numberLineVisibleProperty,
+      numberLineRepresentationVisibleProperty: numberLineRepresentationVisibleProperty,
+      numberLineCountFromZeroProperty: numberLineCountFromZeroProperty,
+      tickValuesVisibleProperty: numberLineTickValuesVisibleProperty,
+      numberLineAddendValuesVisibleProperty: numberLineAddendValuesVisibleProperty,
+      totalJumpVisibleProperty: totalJumpVisibleProperty,
+      leftAddendProperty: leftAddendProperty,
+      rightAddendProperty: rightAddendProperty,
+      totalProperty: totalProperty
     } );
 
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
