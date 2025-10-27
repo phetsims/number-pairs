@@ -194,7 +194,7 @@ a11y:
                                    *[other] { $color } Kitten
                                }
     accessibleHelpText:
-      withAttributeSwitch:    Change kitten color and move kittens around to play.
+      withAttributeSwitch:    Move freely to create groups with arrows or W, A, S, D keys. Change color with space or enter.
       withoutAttributeSwitch: Move kittens around to play.
 
   beads:
