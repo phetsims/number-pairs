@@ -126,7 +126,7 @@ a11y:
   #       orderItemPattern: { $order } { $item } on { $side } side
   #       itemPattern: { $item } on { $side } side
   grabOrReleaseInteraction:
-    releasedHelpText:           Use arrows to navigate and choose which { $item } to move. Space or enter to grab.
+    releasedHelpText:           Use arrows or W, A, S, D keys to navigate and choose { $item } to move. Space or enter to grab or release.
     grabbedHelpTextPattern:     Move { $item } in or between left and right counting areas.
     grabbedAccessibleResponse:  Grabbed, in { $addend } counting area.
     releasedAccessibleResponse: Released, in { $addend } counting area.
