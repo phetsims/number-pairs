@@ -215,6 +215,11 @@ a11y:
                               [left] left
                              *[right] right
                             } of divider.
+    crossedDividerContextResponse: |-
+                            { $side ->
+                              [left] Bead now yellow on left.
+                             *[right] Bead now blue on right.
+                            }
 
   # Number line
   numberLine:

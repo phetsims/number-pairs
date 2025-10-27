@@ -559,6 +559,9 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition + i * BEAD_WIDTH );
         } );
       }
+      else {
+        this.announceBeadSideChange( beadNode );
+      }
     }
   }
 
@@ -589,6 +592,23 @@ export default class BeadsOnWireNode extends Node {
           beadNode.countingObject.beadXPositionProperty.value = BeadManager.BEAD_MODEL_VIEW_TRANSFORM.viewToModelX( xPosition - i * BEAD_WIDTH );
         } );
       }
+      else {
+        this.announceBeadSideChange( beadNode );
+      }
+    }
+  }
+
+  private announceBeadSideChange( beadNode: BeadNode ): void {
+    const addendType = beadNode.countingObject.addendTypeProperty.value;
+    if ( addendType === AddendType.LEFT ) {
+      beadNode.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
+        side: 'left'
+      } ) );
+    }
+    else if ( addendType === AddendType.RIGHT ) {
+      beadNode.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
+        side: 'right'
+      } ) );
     }
   }
 

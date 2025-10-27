@@ -150,6 +150,7 @@ addToMapIfDefined( 'a11y_beads_leftAddendBead', 'a11y.beads.leftAddendBeadString
 addToMapIfDefined( 'a11y_beads_rightAddendBead', 'a11y.beads.rightAddendBeadStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleHelpText', 'a11y.beads.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_beads_contextResponse', 'a11y.beads.contextResponseStringProperty' );
+addToMapIfDefined( 'a11y_beads_crossedDividerContextResponse', 'a11y.beads.crossedDividerContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_numberLine_accessibleName', 'a11y.numberLine.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_numberLine_addendSplitterKnob_accessibleName', 'a11y.numberLine.addendSplitterKnob.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_numberLine_addendSplitterKnob_accessibleHelpText', 'a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty' );
@@ -454,7 +455,8 @@ const NumberPairsFluent = {
       leftAddendBeadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_leftAddendBead', _.get( NumberPairsStrings, 'a11y.beads.leftAddendBeadStringProperty' ) ),
       rightAddendBeadStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_rightAddendBead', _.get( NumberPairsStrings, 'a11y.beads.rightAddendBeadStringProperty' ) ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_beads_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.beads.accessibleHelpTextStringProperty' ) ),
-      contextResponse: new FluentPattern<{ grabbedOrReleased: 'grabbed' | 'released' | TReadOnlyProperty<'grabbed' | 'released'>, side: 'left' | 'right' | TReadOnlyProperty<'left' | 'right'> }>( fluentSupport.bundleProperty, 'a11y_beads_contextResponse', _.get( NumberPairsStrings, 'a11y.beads.contextResponseStringProperty' ), [{"name":"grabbedOrReleased","variants":["grabbed","released"]},{"name":"side","variants":["left","right"]}] )
+      contextResponse: new FluentPattern<{ grabbedOrReleased: 'grabbed' | 'released' | TReadOnlyProperty<'grabbed' | 'released'>, side: 'left' | 'right' | TReadOnlyProperty<'left' | 'right'> }>( fluentSupport.bundleProperty, 'a11y_beads_contextResponse', _.get( NumberPairsStrings, 'a11y.beads.contextResponseStringProperty' ), [{"name":"grabbedOrReleased","variants":["grabbed","released"]},{"name":"side","variants":["left","right"]}] ),
+      crossedDividerContextResponse: new FluentPattern<{ side: 'left' | 'right' | TReadOnlyProperty<'left' | 'right'> }>( fluentSupport.bundleProperty, 'a11y_beads_crossedDividerContextResponse', _.get( NumberPairsStrings, 'a11y.beads.crossedDividerContextResponseStringProperty' ), [{"name":"side","variants":["left","right"]}] )
     },
     _comment_6: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
     numberLine: {
