@@ -99,18 +99,18 @@ a11y:
                      { $representationType ->
                        [numberLine] There is a number line broken into yellow and blue sections that can change with a movable knob to show how total is broken apart.
                       *[other] There are yellow and blue objects you can move to organize or change color to change how total is broken apart.
-                     }. A decomposition phrase, a { $numberBarOrBarModel }, and equation 
+                     } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
                      represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
                      automatically organize objects, or swap addends.
       controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         countingAreaShown:               Currently, counting area shows { $count } { $itemType } broken into colors. A phrase, { $numberBarOrBarModel} and equation show how total is broken apart.
-        countingAreaShownWithNumberLine: Currently, counting area shows total of { $count } broken into two addends with addend splitter. A phrase, { $numberBarOrBarModel }, and equation show how total is broken apart.
-        countingAreaHidden:              Currently, the counting area is hidden. A phrase, { $numberBarOrBarModel } and equation show how total is broken apart.
+        countingAreaShownWithNumberLine: Currently, counting area shows total of { $count } broken into two sections with addend splitter. A phrase, { $numberBarOrBarModel }, and equation show how total is broken apart.
+        countingAreaHidden:              Currently, counting area is hidden. A phrase, { $numberBarOrBarModel } and equation show how total is broken apart.
       interactionHint:
         beads:      Navigate to and grab bead to create groups, or move it across divider to change color.
         kittens:    Choose kitten to move, organize, or change its color.
-        numberLine: Navigate to addend splitter knob and move it to change how total is broken apart.
+        numberLine: Move addend splitter knob to change how total is broken apart.
 
   # Basic terms and interactions
   left:                   left
@@ -194,7 +194,7 @@ a11y:
                                }
     accessibleHelpText:
       withAttributeSwitch:    Move freely to create groups with arrows or W, A, S, D keys. Change color with space or enter.
-      withoutAttributeSwitch: Move kittens around to play.
+      withoutAttributeSwitch: Optionally, count or organize kittens to help solve challenge.
 
   beads:
     accessibleName:         Beads
