@@ -22,7 +22,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingAreaNode from './CountingAreaNode.js';
-import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
+import GrabDragDescriptionManager from './description/GrabDragDescriptionManager.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
 import LocationGroupSelectDragInteractionView from './LocationGroupSelectDragInteractionView.js';
 

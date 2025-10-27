@@ -42,7 +42,7 @@ import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadNode from './BeadNode.js';
-import GrabDragDescriptionManager from './GrabDragDescriptionManager.js';
+import GrabDragDescriptionManager from './description/GrabDragDescriptionManager.js';
 import GroupSelectDragInteractionView from './GroupSelectDragInteractionView.js';
 import NumberPairsSounds from './NumberPairsSounds.js';
 

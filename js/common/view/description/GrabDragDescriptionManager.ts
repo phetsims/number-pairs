@@ -7,14 +7,14 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import derivedTernary from '../../../../axon/js/derivedTernary.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
-import CountingObject, { AddendType } from '../model/CountingObject.js';
-import RepresentationType from '../model/RepresentationType.js';
+import derived from '../../../../../axon/js/derived.js';
+import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
+import derivedTernary from '../../../../../axon/js/derivedTernary.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
+import numberPairs from '../../../numberPairs.js';
+import NumberPairsFluent from '../../../NumberPairsFluent.js';
+import CountingObject, { AddendType } from '../../model/CountingObject.js';
+import RepresentationType from '../../model/RepresentationType.js';
 
 export default class GrabDragDescriptionManager {
 
