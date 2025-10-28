@@ -118,41 +118,27 @@ export default class KittensLayerNode extends Node {
         }
       } );
 
-      const lastLeftIndex = leftKittenIndices.length ? leftKittenIndices[ leftKittenIndices.length - 1 ] : null;
-      const firstRightIndex = rightKittenIndices.length ? rightKittenIndices[ 0 ] : null;
-      const hasBothAddends = leftKittenIndices.length > 0 && rightKittenIndices.length > 0;
+      leftKittenIndices.forEach( ( index, i ) => {
+        pdomOrder[ index ].accessibleName = NumberPairsFluent.a11y.kittens.kittenPattern.format( {
+          color: leftAddendColor,
+          descriptor: KittensLayerNode.getDescriptor( i, leftKittenIndices.length )
+        } );
+      } );
 
-      pdomOrder.forEach( ( value, index ) => {
-        const addendType = value.countingObject.addendTypeProperty.value;
-
-        let descriptor: 'first' | 'last' | 'other' | 'only';
-        if ( pdomOrder.length === 1 ||
-             ( addendType === AddendType.LEFT && leftKittenIndices.length === 1 ) ||
-             ( addendType === AddendType.RIGHT && rightKittenIndices.length === 1 ) ) {
-          descriptor = 'only';
-        }
-        else if ( index === 0 ) {
-          descriptor = 'first';
-        }
-        else if ( index === pdomOrder.length - 1 ) {
-          descriptor = 'last';
-        }
-        else if ( hasBothAddends && addendType === AddendType.LEFT && index === lastLeftIndex ) {
-          descriptor = 'last';
-        }
-        else if ( hasBothAddends && addendType === AddendType.RIGHT && index === firstRightIndex ) {
-          descriptor = 'first';
-        }
-        else {
-          descriptor = 'other';
-        }
-
-        value.accessibleName = NumberPairsFluent.a11y.kittens.kittenPattern.format( {
-          color: addendType === AddendType.LEFT ? leftAddendColor : rightAddendColor,
-          descriptor: descriptor
+      rightKittenIndices.forEach( ( index, i ) => {
+        pdomOrder[ index ].accessibleName = NumberPairsFluent.a11y.kittens.kittenPattern.format( {
+          color: rightAddendColor,
+          descriptor: KittensLayerNode.getDescriptor( i, rightKittenIndices.length )
         } );
       } );
     } );
+  }
+
+  private static getDescriptor( index: number, length: number ): 'first' | 'last' | 'other' | 'only' {
+    return index === 0 && length === 1 ? 'only' :
+           index === 0 ? 'first' :
+           index === length - 1 ? 'last' :
+           'other';
   }
 }
 
