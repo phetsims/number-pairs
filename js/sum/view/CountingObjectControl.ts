@@ -82,7 +82,8 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
   private readonly addendVisibleProperty: TReadOnlyProperty<boolean>;
   private readonly redactedValueStringProperty: TReadOnlyProperty<string>;
 
-  // TODO: document airiaValueNow https://github.com/phetsims/number-pairs/issues/156
+  // Store the number as a string which will be shown as aria-valuetext (if addends are shown), so that on updates
+  // we have access to the current value
   private ariaValueNow = '0';
 
   public constructor(
