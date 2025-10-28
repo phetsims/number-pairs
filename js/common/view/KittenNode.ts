@@ -7,7 +7,7 @@
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Henry Katz
+ * @author Henry Katz (Random Cat Company)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
