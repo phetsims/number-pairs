@@ -75,7 +75,7 @@ const NumberPairsColors = {
     default: '#F2F2F2'
   } ),
   checkNextButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkNextButtonColor', {
-    default: '#FFB19E'
+    default: '#85FFF7'
   } ),
 
   gameNumberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'gameNumberLineBackground', {
@@ -84,16 +84,16 @@ const NumberPairsColors = {
 
   // Status bar & level selection colors
   level1StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level1StatusBar', {
-    default: '#EFBEBD'
+    default: '#EFB0AF'
   } ),
   level234StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level234StatusBar', {
     default: '#BCA4F7'
   } ),
   level567StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level567StatusBar', {
-    default: '#9EDCEF'
+    default: '#96D5E8'
   } ),
   level8StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level8StatusBar', {
-    default: '#F2928B'
+    default: '#FFA9A3'
   } ),
 
   // Level selection icon palette
@@ -108,7 +108,7 @@ const NumberPairsColors = {
   } ),
 
   checkMarkColorProperty: new ProfileColorProperty( numberPairs, 'checkMark', {
-    default: '#059e05'
+    default: '#0F710F'
   } ),
   wrongMarkColorProperty: new ProfileColorProperty( numberPairs, 'wrongMark', {
     default: 'red'
