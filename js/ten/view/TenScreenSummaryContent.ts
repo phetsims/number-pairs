@@ -28,21 +28,26 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
     const itemTypeProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
     } );
+
+    const representationTypeProperty = derived( model.representationTypeProperty,
+      representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
+                            representationType === RepresentationType.APPLES ? 'apples' :
+                            representationType === RepresentationType.ONE_CARDS ? 'oneCards' :
+                            'other'
+    );
+
     const countingAreaShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShown.createProperty( {
       count: model.totalProperty,
-      itemType: itemTypeProperty
-    } );
-    const numberLineShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLine.createProperty( {
-      count: model.totalProperty
+      itemType: itemTypeProperty,
+      representationType: representationTypeProperty
     } );
 
     const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHiddenStringProperty;
 
     const currentDetailsContentProperty = derived(
-      showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, model.representationTypeProperty, numberLineShownProperty,
-      ( showingAddends, countingAreaShown, countingAreaHidden, representationType, numberLineText ) => {
-        const shownProperty = representationType === RepresentationType.NUMBER_LINE ? numberLineText : countingAreaShown;
-        return showingAddends ? shownProperty : countingAreaHidden;
+      showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, model.representationTypeProperty,
+      ( showingAddends, countingAreaShown, countingAreaHidden ) => {
+        return showingAddends ? countingAreaShown : countingAreaHidden;
       } );
 
     const interactionHintContentProperty = derivedMap( model.representationTypeProperty, new Map<RepresentationType, TReadOnlyProperty<string>>( [
@@ -53,12 +58,6 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
       [ RepresentationType.ONE_CARDS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.applesStringProperty ]
     ] ) );
 
-    const representationTypeProperty = derived( model.representationTypeProperty,
-      representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
-                            representationType === RepresentationType.APPLES ? 'apples' :
-                            representationType === RepresentationType.ONE_CARDS ? 'oneCards' :
-                            'other'
-    );
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
