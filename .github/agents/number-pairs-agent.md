@@ -33,3 +33,4 @@ Colors are defined in js/common/NumberPairsColors.ts
 
 Commit messages must end with the phrase, "see https://github.com/phetsims/number-pairs/issues/{{ISSUE_NUMBER}}"
 The committer must be the developer that assigned you this task.
+Do not use "Fixes" in the github issue since the original issues must be left open until the designer verifies it.
