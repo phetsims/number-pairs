@@ -14,13 +14,13 @@ import NumberPairsModel from '../../model/NumberPairsModel.js';
 export default class NumberLineContextResponse {
 
   // Do not play a context response on the first drag event, only on subsequent changes.
-  private lastAddendProperty: number | null = null;
+  private lastAddendValue: number | null = null;
 
   public constructor( private readonly model: Pick<NumberPairsModel, 'leftAddendProperty' | 'rightAddendProperty' | 'totalProperty' | 'numberLineAddendValuesVisibleProperty'> ) {
 
     // Clear out status when changing scenes, so we don't hear a context response on 1st pixel of drag
     model.totalProperty.link( () => {
-      this.lastAddendProperty = null;
+      this.lastAddendValue = null;
     } );
   }
 
@@ -28,12 +28,12 @@ export default class NumberLineContextResponse {
    * Play an accessible context response when a drag triggers a change in addend.
    */
   public sliderDragged( node: Node ): void {
-    if ( this.lastAddendProperty === null ) {
-      this.lastAddendProperty = this.model.leftAddendProperty.value;
+    if ( this.lastAddendValue === null ) {
+      this.lastAddendValue = this.model.leftAddendProperty.value;
       return;
     }
 
-    if ( this.lastAddendProperty !== this.model.leftAddendProperty.value ) {
+    if ( this.lastAddendValue !== this.model.leftAddendProperty.value ) {
 
       const sections = this.model.leftAddendProperty.value < this.model.rightAddendProperty.value ? 'smallerAndLarger' :
                        this.model.leftAddendProperty.value > this.model.rightAddendProperty.value ? 'largerAndSmaller' :
@@ -47,7 +47,7 @@ export default class NumberLineContextResponse {
           sections: sections
         } )
       );
-      this.lastAddendProperty = this.model.leftAddendProperty.value;
+      this.lastAddendValue = this.model.leftAddendProperty.value;
     }
   }
 }
