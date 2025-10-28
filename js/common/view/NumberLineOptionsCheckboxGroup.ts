@@ -32,7 +32,7 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
       {
 
-        // TODO: Duplicated between here and NumberLineLevelNode, factor out, see https://github.com/phetsims/number-pairs/issues/206
+        // TODO: Duplicated between here and NumberLineLevelNode, factor out, see https://github.com/phetsims/number-pairs/issues/316
         createNode: () => new Text( NumberPairsFluent.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.numberLineAddendValuesVisibleProperty,
         tandemName: 'addendsCheckbox',
