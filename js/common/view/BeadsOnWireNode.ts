@@ -560,7 +560,9 @@ export default class BeadsOnWireNode extends Node {
         } );
       }
       else {
-        this.announceBeadSideChange( beadNode );
+        this.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
+          side: 'right'
+        } ) );
       }
     }
   }
@@ -593,22 +595,10 @@ export default class BeadsOnWireNode extends Node {
         } );
       }
       else {
-        this.announceBeadSideChange( beadNode );
+        this.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
+          side: 'left'
+        } ) );
       }
-    }
-  }
-
-  private announceBeadSideChange( beadNode: BeadNode ): void {
-    const addendType = beadNode.countingObject.addendTypeProperty.value;
-    if ( addendType === AddendType.LEFT ) {
-      beadNode.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
-        side: 'left'
-      } ) );
-    }
-    else if ( addendType === AddendType.RIGHT ) {
-      beadNode.addAccessibleContextResponse( NumberPairsFluent.a11y.beads.crossedDividerContextResponse.format( {
-        side: 'right'
-      } ) );
     }
   }
 
