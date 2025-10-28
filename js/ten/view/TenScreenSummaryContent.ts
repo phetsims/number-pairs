@@ -4,6 +4,8 @@
  * TenScreenSummaryContent describes the play and control areas, current state, and interaction hint for every
  * Number Pairs screen. Strings are sourced from number-pairs-strings_en.yaml via NumberPairsFluent.
  *
+ * TODO: Used in both Ten Screen and Twenty Screen, see https://github.com/phetsims/number-pairs/issues/314
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
@@ -11,6 +13,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
 import derivedMap from '../../../../axon/js/derivedMap.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
@@ -46,17 +49,19 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
         return showingAddends ? shownProperty : countingAreaHidden;
       } );
 
-    const interactionHintContentProperty = derivedMap( model.representationTypeProperty, new Map( [
+    const interactionHintContentProperty = derivedMap( model.representationTypeProperty, new Map<RepresentationType, TReadOnlyProperty<string>>( [
       [ RepresentationType.BEADS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty ],
       [ RepresentationType.KITTENS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty ],
-      [ RepresentationType.NUMBER_LINE, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty ]
+      [ RepresentationType.NUMBER_LINE, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty ],
+      [ RepresentationType.APPLES, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.applesStringProperty ],
+      [ RepresentationType.ONE_CARDS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.applesStringProperty ]
     ] ) );
 
     const representationTypeProperty = derived( model.representationTypeProperty,
       representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other'
     );
     super( {
-      playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.description.createProperty( {
+      playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
         numberBarOrBarModel: numberBondOrBarModelStringProperty
       } ),

@@ -110,9 +110,7 @@ type StringsType = {
     };
     'tenScreen': {
       'screenSummary': {
-        'playArea': {
-          'descriptionStringProperty': LocalizedStringProperty;
-        };
+        'playAreaStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetails': {
           'countingAreaShownStringProperty': LocalizedStringProperty;
@@ -123,6 +121,8 @@ type StringsType = {
           'beadsStringProperty': LocalizedStringProperty;
           'kittensStringProperty': LocalizedStringProperty;
           'numberLineStringProperty': LocalizedStringProperty;
+          'applesStringProperty': LocalizedStringProperty;
+          'oneCardsStringProperty': LocalizedStringProperty;
         }
       }
     };

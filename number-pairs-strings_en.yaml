@@ -94,14 +94,13 @@ a11y:
 
   tenScreen:
     screenSummary:
-      playArea:
-        description: >-
-                     { $representationType ->
-                       [numberLine] There is a number line broken into yellow and blue sections that can change with a movable knob to show how total is broken apart.
-                      *[other] There are yellow and blue objects you can move to organize or change color to change how total is broken apart.
-                     } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
-                     represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
-                     automatically organize objects, or swap addends.
+      playArea:    >-
+                   { $representationType ->
+                     [numberLine] There is a number line broken into yellow and blue sections that can change with a movable knob to show how total is broken apart.
+                    *[other] There are yellow and blue objects you can move to organize or change color to change how total is broken apart.
+                   } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
+                   represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
+                   automatically organize objects, or swap addends.
       controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         countingAreaShown:               Currently, counting area shows { $count } { $itemType } broken into colors. A phrase, { $numberBarOrBarModel} and equation show how total is broken apart.
@@ -111,6 +110,8 @@ a11y:
         beads:      Navigate to and grab bead to create groups, or move it across divider to change color.
         kittens:    Choose kitten to move, organize, or change its color.
         numberLine: Move addend splitter knob to change how total is broken apart.
+        apples:     '{ a11y.introScreen.screenSummary.interactionHint }'
+        oneCards:   '{ a11y.introScreen.screenSummary.interactionHint }'
 
   # Basic terms and interactions
   left:                   left
@@ -131,16 +132,16 @@ a11y:
     releasedAccessibleResponse: Released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
     leftSide:
-      firstItemPattern:       First { $item } on left side
-      itemPattern:            '{ $item } on left side'
-      lastItemPattern:        Last { $item } on left side
-      onlyItemPattern:        Only { $item } on left side
+      firstItemPattern: First { $item } on left side
+      itemPattern:      '{ $item } on left side'
+      lastItemPattern:  Last { $item } on left side
+      onlyItemPattern:  Only { $item } on left side
     rightSide:
-      firstItemPattern:       First { $item } on right side
-      itemPattern:            '{ $item } on right side'
-      lastItemPattern:        Last { $item } on right side
-      onlyItemPattern:        Only { $item } on right side
-    noItemSelected:           No item selected
+      firstItemPattern: First { $item } on right side
+      itemPattern:      '{ $item } on right side'
+      lastItemPattern:  Last { $item } on right side
+      onlyItemPattern:  Only { $item } on right side
+    noItemSelected:             No item selected
   countingArea:
     accessibleHeading:          Counting Area
     leadingParagraph:           |-
@@ -197,24 +198,24 @@ a11y:
       withoutAttributeSwitch: Optionally, count or organize kittens to help solve challenge.
 
   beads:
-    accessibleName:         Beads
-    singularAccessibleName: Bead
-    leftAddendBead:         Yellow Bead
-    rightAddendBead:        Blue Bead
-    accessibleHelpText:     Counting area with grabbable and movable beads.
-    contextResponse:        |-
-                            { $grabbedOrReleased ->
-                              [ grabbed ]  Grabbed
-                             *[ released ] Released
-                            }, { $side -> 
-                              [left] left
-                             *[right] right
-                            } of divider.
+    accessibleName:                Beads
+    singularAccessibleName:        Bead
+    leftAddendBead:                Yellow Bead
+    rightAddendBead:               Blue Bead
+    accessibleHelpText:            Counting area with grabbable and movable beads.
+    contextResponse:               |-
+                                   { $grabbedOrReleased ->
+                                     [ grabbed ]  Grabbed
+                                    *[ released ] Released
+                                   }, { $side -> 
+                                     [left] left
+                                    *[right] right
+                                   } of divider.
     crossedDividerContextResponse: |-
-                            { $side ->
-                              [left] Bead now yellow on left.
-                             *[right] Bead now blue on right.
-                            }
+                                   { $side ->
+                                     [left] Bead now yellow on left.
+                                    *[right] Bead now blue on right.
+                                   }
 
   # Number line
   numberLine:
@@ -305,9 +306,9 @@ a11y:
       accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
     addendVisibleButton:
-      accessibleNamePattern:     '{ $addend } Counting Area Visibility'
-      accessibleHelpTextPattern: Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
-      accessibleContextResponseOn: contents hidden
+      accessibleNamePattern:        '{ $addend } Counting Area Visibility'
+      accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
+      accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
     showAddends:
       accessibleName: Show addends

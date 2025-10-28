@@ -83,7 +83,7 @@ addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_objectsPattern
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_hiddenAreaPattern', 'a11y.introScreen.screenSummary.currentDetails.hiddenAreaPatternStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_bothHidden', 'a11y.introScreen.screenSummary.currentDetails.bothHiddenStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_interactionHint', 'a11y.introScreen.screenSummary.interactionHintStringProperty' );
-addToMapIfDefined( 'a11y_tenScreen_screenSummary_playArea_description', 'a11y.tenScreen.screenSummary.playArea.descriptionStringProperty' );
+addToMapIfDefined( 'a11y_tenScreen_screenSummary_playArea', 'a11y.tenScreen.screenSummary.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_controlArea', 'a11y.tenScreen.screenSummary.controlAreaStringProperty' );
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShown', 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownStringProperty' );
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShownWithNumberLine', 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLineStringProperty' );
@@ -91,6 +91,8 @@ addToMapIfDefined( 'a11y_tenScreen_screenSummary_currentDetails_countingAreaHidd
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint_beads', 'a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty' );
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint_kittens', 'a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty' );
 addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint_numberLine', 'a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty' );
+addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint_apples', 'a11y.tenScreen.screenSummary.interactionHint.applesStringProperty' );
+addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint_oneCards', 'a11y.tenScreen.screenSummary.interactionHint.oneCardsStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
@@ -352,9 +354,7 @@ const NumberPairsFluent = {
     },
     tenScreen: {
       screenSummary: {
-        playArea: {
-          description: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | number | 'other' | TReadOnlyProperty<'numberLine' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_playArea_description', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.playArea.descriptionStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine",{"type":"number","value":"other"}]}] )
-        },
+        playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | number | 'other' | TReadOnlyProperty<'numberLine' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine",{"type":"number","value":"other"}]}] ),
         controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.controlAreaStringProperty' ) ),
         currentDetails: {
           countingAreaShown: new FluentPattern<{ count: FluentVariable, itemType: FluentVariable, numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShown', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownStringProperty' ), [{"name":"count"},{"name":"itemType"},{"name":"numberBarOrBarModel"}] ),
@@ -365,7 +365,9 @@ const NumberPairsFluent = {
           beadsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_beads', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty' ) ),
           kittensStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_kittens', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty' ) ),
           _comment_0: new FluentComment( {"comment":"Number line","associatedKey":"numberLine"} ),
-          numberLineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_numberLine', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty' ) )
+          numberLineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_numberLine', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty' ) ),
+          applesStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_apples', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.applesStringProperty' ) ),
+          oneCardsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_oneCards', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.oneCardsStringProperty' ) )
         }
       }
     },
