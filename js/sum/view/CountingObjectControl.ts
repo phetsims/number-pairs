@@ -81,6 +81,8 @@ const ARROW_HEIGHT = 12;
 export default class CountingObjectControl extends InteractiveHighlightingNode {
   private readonly addendVisibleProperty: TReadOnlyProperty<boolean>;
   private readonly redactedValueStringProperty: TReadOnlyProperty<string>;
+
+  // TODO: document airiaValueNow https://github.com/phetsims/number-pairs/issues/156
   private ariaValueNow = '0';
 
   public constructor(
