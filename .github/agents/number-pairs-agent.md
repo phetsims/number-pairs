@@ -28,3 +28,8 @@ perennial-alias/bin/watch-strings.zsh which is watch process that automatically 
 ## Color Scheme
 
 Colors are defined in js/common/NumberPairsColors.ts
+
+## Commits
+
+Commit messages must end with the phrase, "see https://github.com/phetsims/number-pairs/issues/{{ISSUE_NUMBER}}"
+The committer must be the developer that assigned you this task.
