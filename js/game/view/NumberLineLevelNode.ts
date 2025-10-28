@@ -20,13 +20,12 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
+import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from '../../common/view/NumberLineCheckboxItems.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -128,32 +127,22 @@ export default class NumberLineLevelNode extends LevelNode {
     this.addChild( border );
 
     // Checkbox group for showing/hiding addends and tick numbers
-    const checkboxGroup = new VerticalCheckboxGroup( [ {
-      property: level.showAddendsProperty,
-      createNode: () => new Text( NumberPairsFluent.addendsStringProperty, {
-        font: new PhetFont( 18 )
+    const checkboxGroup = new VerticalCheckboxGroup( [
+      createAddendsCheckboxItem( {
+        property: level.showAddendsProperty,
+        textOptions: {
+          font: new PhetFont( 18 )
+        },
+        leftAddendProperty: numberLineModel.leftAddendProperty,
+        rightAddendProperty: numberLineModel.rightAddendProperty
       } ),
-      tandemName: 'showAddendsCheckbox',
-      options: {
-        accessibleHelpText: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty,
-        accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseChecked.createProperty( {
-          leftAddend: numberLineModel.leftAddendProperty,
-          rightAddend: numberLineModel.rightAddendProperty
-        } ),
-        accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty
-      }
-    }, {
-      property: level.showTickNumbersProperty,
-      createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, {
-        font: new PhetFont( 18 )
-      } ),
-      tandemName: 'showTickNumbersCheckbox',
-      options: {
-        accessibleHelpText: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty,
-        accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty,
-        accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty
-      }
-    } ], {
+      createTickNumbersCheckboxItem( {
+        property: level.showTickNumbersProperty,
+        textOptions: {
+          font: new PhetFont( 18 )
+        }
+      } )
+    ], {
       phetioFeatured: true,
       top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,

@@ -14,6 +14,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from './NumberLineCheckboxItems.js';
 
 type NumberLineOptionsCheckboxGroupOptions = WithRequired<VerticalCheckboxGroupOptions, 'tandem'>;
 export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGroup {
@@ -30,31 +31,16 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
       checkboxOptions: NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS
     }, providedOptions );
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
-      {
-
-        // TODO: Duplicated between here and NumberLineLevelNode, factor out, see https://github.com/phetsims/number-pairs/issues/316
-        createNode: () => new Text( NumberPairsFluent.addendsStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
+      createAddendsCheckboxItem( {
         property: model.numberLineAddendValuesVisibleProperty,
-        tandemName: 'addendsCheckbox',
-        options: {
-          accessibleHelpText: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty,
-          accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseChecked.createProperty( {
-            leftAddend: model.leftAddendProperty,
-            rightAddend: model.rightAddendProperty
-          } ),
-          accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty
-        }
-      },
-      {
-        createNode: () => new Text( NumberPairsFluent.tickNumbersStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
+        textOptions: NumberPairsConstants.CHECKBOX_LABEL_OPTIONS,
+        leftAddendProperty: model.leftAddendProperty,
+        rightAddendProperty: model.rightAddendProperty
+      } ),
+      createTickNumbersCheckboxItem( {
         property: model.tickValuesVisibleProperty,
-        tandemName: 'tickValuesCheckbox',
-        options: {
-          accessibleHelpText: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleHelpTextStringProperty,
-          accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseCheckedStringProperty,
-          accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.tickNumbersCheckbox.accessibleContextResponseUncheckedStringProperty
-        }
-      },
+        textOptions: NumberPairsConstants.CHECKBOX_LABEL_OPTIONS
+      } ),
       {
         createNode: () => new Text( NumberPairsFluent.totalJumpStringProperty, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS ),
         property: model.totalJumpVisibleProperty,
