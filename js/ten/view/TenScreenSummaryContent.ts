@@ -30,17 +30,13 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
     } );
     const countingAreaShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShown.createProperty( {
       count: model.totalProperty,
-      itemType: itemTypeProperty,
-      numberBarOrBarModel: numberBondOrBarModelStringProperty
+      itemType: itemTypeProperty
     } );
     const numberLineShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLine.createProperty( {
-      numberBarOrBarModel: numberBondOrBarModelStringProperty,
       count: model.totalProperty
     } );
 
-    const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHidden.createProperty( {
-      numberBarOrBarModel: numberBondOrBarModelStringProperty
-    } );
+    const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHiddenStringProperty;
 
     const currentDetailsContentProperty = derived(
       showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, model.representationTypeProperty, numberLineShownProperty,
@@ -58,7 +54,10 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
     ] ) );
 
     const representationTypeProperty = derived( model.representationTypeProperty,
-      representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other'
+      representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
+                            representationType === RepresentationType.APPLES ? 'apples' :
+                            representationType === RepresentationType.ONE_CARDS ? 'oneCards' :
+                            'other'
     );
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( {

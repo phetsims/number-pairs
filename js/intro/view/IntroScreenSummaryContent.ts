@@ -23,11 +23,13 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
     } );
 
     const hiddenLeftStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
-      hiddenAddend: NumberPairsFluent.a11y.leftStringProperty
+      hiddenAddend: NumberPairsFluent.a11y.leftStringProperty,
+      count: model.totalProperty
     } );
 
     const hiddenRightStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
-      hiddenAddend: NumberPairsFluent.a11y.rightStringProperty
+      hiddenAddend: NumberPairsFluent.a11y.rightStringProperty,
+      count: model.totalProperty
     } );
 
     const currentDetailsContentProperty = derived(

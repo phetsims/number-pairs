@@ -96,6 +96,7 @@ type StringsType = {
     }
   };
   'a11y': {
+    'playAreaIntroSentenceStringProperty': LocalizedStringProperty;
     'introScreen': {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;

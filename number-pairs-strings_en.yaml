@@ -73,12 +73,12 @@ gameScreen:
     levelWithDescription: 'Level {{level}}: {{description}}'
 
 a11y:
-
+  playAreaIntroSentence: There are left and right counting areas with fun objects. You can organize objects inside a counting
+                         area or move them between counting areas to break total apart in different ways.
   introScreen:
     screenSummary:
       playArea:        >-
-                       There are left and right counting areas with fun objects. You can organize objects inside a counting
-                       area or move them between counting areas to break total apart in different ways. A decomposition phrase and a 
+                       { a11y.playAreaIntroSentence } A decomposition phrase and a 
                        { $numberBarOrBarModel} represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
                        automatically organize objects into rows, or swap addends.
       controlArea:     Reset the sim to start over.
@@ -97,6 +97,8 @@ a11y:
       playArea:    >-
                    { $representationType ->
                      [numberLine] There is a number line broken into yellow and blue sections and a movable knob to change how total is broken apart.
+                     [apples] { a11y.playAreaIntroSentence }
+                     [oneCards] { a11y.playAreaIntroSentence }
                     *[other] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
                    } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
                    represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 

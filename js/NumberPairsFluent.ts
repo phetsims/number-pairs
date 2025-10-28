@@ -77,6 +77,7 @@ addToMapIfDefined( 'gameScreen_levelDescriptions_level4', 'gameScreen.levelDescr
 addToMapIfDefined( 'gameScreen_levelDescriptions_level6', 'gameScreen.levelDescriptions.level6StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level7', 'gameScreen.levelDescriptions.level7StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level8', 'gameScreen.levelDescriptions.level8StringProperty' );
+addToMapIfDefined( 'a11y_playAreaIntroSentence', 'a11y.playAreaIntroSentenceStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_playArea', 'a11y.introScreen.screenSummary.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_controlArea', 'a11y.introScreen.screenSummary.controlAreaStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_objectsPattern', 'a11y.introScreen.screenSummary.currentDetails.objectsPatternStringProperty' );
@@ -340,13 +341,14 @@ const NumberPairsFluent = {
     }
   },
   a11y: {
+    playAreaIntroSentenceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playAreaIntroSentence', _.get( NumberPairsStrings, 'a11y.playAreaIntroSentenceStringProperty' ) ),
     introScreen: {
       screenSummary: {
         playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"}] ),
         controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.controlAreaStringProperty' ) ),
         currentDetails: {
           objectsPattern: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_currentDetails_objectsPattern', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.currentDetails.objectsPatternStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
-          hiddenAreaPattern: new FluentPattern<{ hiddenAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_currentDetails_hiddenAreaPattern', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.currentDetails.hiddenAreaPatternStringProperty' ), [{"name":"hiddenAddend"}] ),
+          hiddenAreaPattern: new FluentPattern<{ count: FluentVariable, hiddenAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_currentDetails_hiddenAreaPattern', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.currentDetails.hiddenAreaPatternStringProperty' ), [{"name":"count"},{"name":"hiddenAddend"}] ),
           bothHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_currentDetails_bothHidden', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.currentDetails.bothHiddenStringProperty' ) )
         },
         interactionHintStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_interactionHint', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.interactionHintStringProperty' ) )
@@ -354,12 +356,12 @@ const NumberPairsFluent = {
     },
     tenScreen: {
       screenSummary: {
-        playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | number | 'other' | TReadOnlyProperty<'numberLine' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine",{"type":"number","value":"other"}]}] ),
+        playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | 'apples' | 'oneCards' | number | 'other' | TReadOnlyProperty<'numberLine' | 'apples' | 'oneCards' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine","apples","oneCards",{"type":"number","value":"other"}]}] ),
         controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.controlAreaStringProperty' ) ),
         currentDetails: {
-          countingAreaShown: new FluentPattern<{ count: FluentVariable, itemType: FluentVariable, numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShown', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownStringProperty' ), [{"name":"count"},{"name":"itemType"},{"name":"numberBarOrBarModel"}] ),
-          countingAreaShownWithNumberLine: new FluentPattern<{ count: FluentVariable, numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShownWithNumberLine', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLineStringProperty' ), [{"name":"count"},{"name":"numberBarOrBarModel"}] ),
-          countingAreaHidden: new FluentPattern<{ numberBarOrBarModel: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaHidden', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaHiddenStringProperty' ), [{"name":"numberBarOrBarModel"}] )
+          countingAreaShown: new FluentPattern<{ count: FluentVariable, itemType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShown', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownStringProperty' ), [{"name":"count"},{"name":"itemType"}] ),
+          countingAreaShownWithNumberLine: new FluentPattern<{ count: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaShownWithNumberLine', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaShownWithNumberLineStringProperty' ), [{"name":"count"}] ),
+          countingAreaHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails_countingAreaHidden', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetails.countingAreaHiddenStringProperty' ) )
         },
         interactionHint: {
           beadsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint_beads', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty' ) ),
