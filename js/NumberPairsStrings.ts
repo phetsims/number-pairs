@@ -117,13 +117,7 @@ type StringsType = {
           'countingAreaShownStringProperty': LocalizedStringProperty;
           'countingAreaHiddenStringProperty': LocalizedStringProperty;
         };
-        'interactionHint': {
-          'beadsStringProperty': LocalizedStringProperty;
-          'kittensStringProperty': LocalizedStringProperty;
-          'numberLineStringProperty': LocalizedStringProperty;
-          'applesStringProperty': LocalizedStringProperty;
-          'oneCardsStringProperty': LocalizedStringProperty;
-        }
+        'interactionHintStringProperty': LocalizedStringProperty;
       }
     };
     'leftStringProperty': LocalizedStringProperty;

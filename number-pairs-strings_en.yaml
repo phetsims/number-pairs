@@ -94,31 +94,32 @@ a11y:
 
   tenScreen:
     screenSummary:
-      playArea:    >-
-                   { $representationType ->
-                     [numberLine] There is a number line broken into yellow and blue sections and a movable knob to change how total is broken apart.
-                     [apples] { a11y.playAreaIntroSentence }
-                     [oneCards] { a11y.playAreaIntroSentence }
-                    *[other] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
-                   } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
-                   represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
-                   automatically organize objects, or swap addends.
-      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
+      playArea:        >-
+                       { $representationType ->
+                         [numberLine] There is a number line broken into yellow and blue sections and a movable knob to change how total is broken apart.
+                         [beads] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
+                         [kittens] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
+                        *[location] { a11y.playAreaIntroSentence }
+                       } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
+                       represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
+                       automatically organize objects, or swap addends.
+      controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         countingAreaShown:  |-
                             { $representationType ->
                               [numberLine] Currently, total of { $count } split with addend splitter knob in counting area.
-                              [apples] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
-                              [oneCards] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
-                             *[other] Currently, { $count } total { $itemType } split by color in counting area.
+                              [beads] Currently, { $count } total { $itemType } split by color in counting area.
+                              [kittens] Currently, { $count } total { $itemType } split by color in counting area.
+                             *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
                             }
         countingAreaHidden: Counting area currently hidden.
-      interactionHint:
-        beads:      Navigate to and grab bead to create groups, or move it across divider to change color.
-        kittens:    Choose kitten to move, organize, or change its color.
-        numberLine: Move addend splitter knob to change how total is broken apart.
-        apples:     '{ a11y.introScreen.screenSummary.interactionHint }'
-        oneCards:   '{ a11y.introScreen.screenSummary.interactionHint }'
+      interactionHint: |-
+                       { $representationType ->
+                         [ beads ]      Navigate to and grab bead to create groups, or move it across divider to change color.
+                         [ kittens ]    Choose kitten to move, organize, or change its color.
+                         [ numberLine ] Move addend splitter knob to change how total is broken apart.
+                         *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
+                       }
 
   # Basic terms and interactions
   left:                   left

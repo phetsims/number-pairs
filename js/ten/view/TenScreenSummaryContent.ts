@@ -11,9 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
-import derivedMap from '../../../../axon/js/derivedMap.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
@@ -31,9 +29,9 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
 
     const representationTypeProperty = derived( model.representationTypeProperty,
       representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
-                            representationType === RepresentationType.APPLES ? 'apples' :
-                            representationType === RepresentationType.ONE_CARDS ? 'oneCards' :
-                            'other'
+                            representationType === RepresentationType.BEADS ? 'beads' :
+                            representationType === RepresentationType.KITTENS ? 'kittens' :
+                            'location' // Location representation all use the same description.
     );
 
     const countingAreaShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShown.createProperty( {
@@ -50,13 +48,9 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
         return showingAddends ? countingAreaShown : countingAreaHidden;
       } );
 
-    const interactionHintContentProperty = derivedMap( model.representationTypeProperty, new Map<RepresentationType, TReadOnlyProperty<string>>( [
-      [ RepresentationType.BEADS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.beadsStringProperty ],
-      [ RepresentationType.KITTENS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.kittensStringProperty ],
-      [ RepresentationType.NUMBER_LINE, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.numberLineStringProperty ],
-      [ RepresentationType.APPLES, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.applesStringProperty ],
-      [ RepresentationType.ONE_CARDS, NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.applesStringProperty ]
-    ] ) );
+    const interactionHintContentProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.createProperty( {
+      representationType: representationTypeProperty
+    } );
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( {
