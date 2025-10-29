@@ -110,7 +110,6 @@ export default class CountingAreaNode extends Node {
     this.addChild( backgroundRectangle );
     this.addChild( this.bothAddendsEyeToggleButton );
 
-    // TODO: SplitCountingAreaNode should be a subtype of CountingAreaNode so we don't need this conditional. https://github.com/phetsims/number-pairs/issues/294
     if ( options.leftAddendVisibleProperty && options.rightAddendVisibleProperty ) {
       const splitCountingAreaBackground = new SplitCountingAreaNode(
         countingAreaBounds, options.leftAddendVisibleProperty, options.rightAddendVisibleProperty, {

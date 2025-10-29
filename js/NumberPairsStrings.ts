@@ -113,10 +113,7 @@ type StringsType = {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
-        'currentDetails': {
-          'countingAreaShownStringProperty': LocalizedStringProperty;
-          'countingAreaHiddenStringProperty': LocalizedStringProperty;
-        };
+        'currentDetailsStringProperty': LocalizedStringProperty;
         'interactionHintStringProperty': LocalizedStringProperty;
       }
     };

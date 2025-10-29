@@ -9,7 +9,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
@@ -21,7 +20,7 @@ import TenModel from '../model/TenModel.js';
 
 export default class TenScreenSummaryContent extends ScreenSummaryContent {
 
-  public constructor( model: TenModel, showingAddendsProperty: BooleanProperty ) {
+  public constructor( model: TenModel ) {
 
     const itemTypeProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
@@ -34,19 +33,17 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
                             'location' // Location representation all use the same description.
     );
 
-    const countingAreaShownProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaShown.createProperty( {
+    const currentDetailsProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.createProperty( {
       count: model.totalProperty,
       itemType: itemTypeProperty,
-      representationType: representationTypeProperty
+      representationType: representationTypeProperty,
+      shownSides: derived( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, ( leftVisible, rightVisible ) => {
+        return leftVisible && !rightVisible ? 'left' :
+               !leftVisible && rightVisible ? 'right' :
+               leftVisible && rightVisible ? 'both' :
+               'none';
+      } )
     } );
-
-    const countingAreaHiddenProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.countingAreaHiddenStringProperty;
-
-    const currentDetailsContentProperty = derived(
-      showingAddendsProperty, countingAreaShownProperty, countingAreaHiddenProperty, model.representationTypeProperty,
-      ( showingAddends, countingAreaShown, countingAreaHidden ) => {
-        return showingAddends ? countingAreaShown : countingAreaHidden;
-      } );
 
     const interactionHintContentProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.createProperty( {
       representationType: representationTypeProperty
@@ -58,7 +55,7 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
         numberBarOrBarModel: numberBondOrBarModelStringProperty
       } ),
       controlAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: currentDetailsContentProperty,
+      currentDetailsContent: currentDetailsProperty,
       interactionHintContent: interactionHintContentProperty
     } );
   }

@@ -104,15 +104,19 @@ a11y:
                        represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
                        automatically organize objects, or swap addends.
       controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
-      currentDetails:
-        countingAreaShown:  |-
-                            { $representationType ->
-                              [numberLine] Currently, total of { $count } split with addend splitter knob in counting area.
-                              [beads] Currently, { $count } total { $itemType } split by color in counting area.
-                              [kittens] Currently, { $count } total { $itemType } split by color in counting area.
-                             *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
-                            }
-        countingAreaHidden: Counting area currently hidden.
+      currentDetails: |-
+                      { $shownSides -> 
+                          [ none ]   Counting area currently hidden.
+                          [ right ]  Currently, { $count } total, left counting area hidden.
+                          [ left ]   Currently, { $count } total, right counting area hidden.
+                         *[ both ]   { $representationType ->
+                                   [numberLine] Currently, total of { $count } split with addend splitter knob in counting area.
+                                   [beads] Currently, { $count } total { $itemType } split by color in counting area.
+                                   [kittens] Currently, { $count } total { $itemType } split by color in counting area.
+                                  *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
+                                 }
+                          }
+
       interactionHint: |-
                        { $representationType ->
                          [ beads ]      Navigate to and grab bead to create groups, or move it across divider to change color.

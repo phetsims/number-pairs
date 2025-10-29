@@ -52,8 +52,7 @@ export default class TwentyScreenView extends DecompositionScreenView {
 
     super( model, options );
 
-    // TODO: Can we just pass in the model? Description is broken, only listening to bothAddends. https://github.com/phetsims/number-pairs/issues/294
-    this.setScreenSummaryContent( new TenScreenSummaryContent( model, model.bothAddendsVisibleProperty ) );
+    this.setScreenSummaryContent( new TenScreenSummaryContent( model ) );
   }
 }
 
