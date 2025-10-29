@@ -49,7 +49,8 @@ export default class TenScreenView extends DecompositionScreenView {
 
     super( model, options );
 
-    this.setScreenSummaryContent( new TenScreenSummaryContent( model, this.countingAreaNode.bothAddendsEyeToggleButton.addendVisibleProperty! ) );
+    // TODO: Can we just pass in the model? https://github.com/phetsims/number-pairs/issues/294
+    this.setScreenSummaryContent( new TenScreenSummaryContent( model, model.bothAddendsVisibleProperty ) );
   }
 }
 

@@ -6,9 +6,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phet/js/buttons/EyeToggleButton.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -16,22 +15,16 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
-type SelfOptions = {
-  secondAddendVisibleProperty?: BooleanProperty | null;
-};
+type SelfOptions = EmptySelfOptions;
 type AddendEyeToggleButtonOptions = SelfOptions & WithRequired<EyeToggleButtonOptions, 'tandem'>;
 
 const HEIGHT = 40; // empirically determined
 export default class AddendEyeToggleButton extends EyeToggleButton {
 
-  // Make available for core description, see https://github.com/phetsims/number-pairs/issues/206
-  public readonly addendVisibleProperty: BooleanProperty | null = null;
-
   public constructor( addendVisibleProperty: BooleanProperty, providedOptions: AddendEyeToggleButtonOptions ) {
 
     const options = optionize<AddendEyeToggleButtonOptions, SelfOptions, EyeToggleButtonOptions>()( {
       size: new Dimension2( NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS.size.width, HEIGHT ),
-      secondAddendVisibleProperty: null,
       baseColor: Color.WHITE,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
@@ -39,40 +32,7 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
       accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty
     }, providedOptions );
 
-    let addendToggleVisibleProperty = addendVisibleProperty;
-    if ( options.secondAddendVisibleProperty ) {
-      addendToggleVisibleProperty = new BooleanProperty( addendVisibleProperty.value && options.secondAddendVisibleProperty.value, {
-        reentrant: true,
-        tandem: options.tandem.createTandem( 'doubleVisibleProperty' ),
-        phetioFeatured: true
-      } );
-
-      // Track if our addend visible properties are updating to avoid circular updates.
-      let updatingAddendVisibleProperties = false;
-      addendToggleVisibleProperty.link( value => {
-        if ( !updatingAddendVisibleProperties ) {
-          updatingAddendVisibleProperties = true;
-
-          // No matter what the addendToggleVisibleProperty is set to, the other Properties must follow suit.
-          addendVisibleProperty.value = value;
-          options.secondAddendVisibleProperty!.value = value;
-          updatingAddendVisibleProperties = false;
-        }
-      } );
-
-      // If either addendVisibleProperty or secondAddendVisibleProperty changes, update the addendToggleVisibleProperty.
-      Multilink.multilink( [ addendVisibleProperty, options.secondAddendVisibleProperty ], ( addendVisible, secondAddendVisible ) => {
-        if ( !updatingAddendVisibleProperties ) {
-          updatingAddendVisibleProperties = true;
-          addendToggleVisibleProperty.set( addendVisible && secondAddendVisible );
-          updatingAddendVisibleProperties = false;
-        }
-      } );
-    }
-
-    super( addendToggleVisibleProperty, options );
-
-    this.addendVisibleProperty = addendToggleVisibleProperty;
+    super( addendVisibleProperty, options );
   }
 }
 

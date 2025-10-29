@@ -41,6 +41,8 @@ type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
   countingRepresentationTypeProperty: Property<RepresentationType>;
   countingAreaBounds?: Bounds2;
+  leftAddendVisibleProperty?: BooleanProperty | null;
+  rightAddendVisibleProperty?: BooleanProperty | null;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
@@ -53,14 +55,15 @@ export default class CountingAreaNode extends Node {
   public readonly bothAddendsEyeToggleButton: AddendEyeToggleButton;
 
   public constructor(
-    leftAddendVisibleProperty: BooleanProperty,
-    rightAddendVisibleProperty: BooleanProperty,
+    bothAddendsVisibleProperty: BooleanProperty,
     private readonly model: AbstractNumberPairsModel,
     providedOptions: CountingAreaNodeOptions ) {
 
     const options = optionize<CountingAreaNodeOptions, SelfOptions, NodeOptions>()( {
       phetioVisiblePropertyInstrumented: false,
-      countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS
+      countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS,
+      leftAddendVisibleProperty: null,
+      rightAddendVisibleProperty: null
     }, providedOptions );
     super( options );
 
@@ -82,10 +85,7 @@ export default class CountingAreaNode extends Node {
     const addendsNotVisibleNode = new Text( '?', {
       font: new PhetFont( 80 ),
       center: backgroundRectangle.center,
-      visibleProperty: new DerivedProperty( [ leftAddendVisibleProperty, rightAddendVisibleProperty ],
-        ( leftAddendVisible, rightAddendVisible ) => {
-          return !leftAddendVisible || !rightAddendVisible;
-        } )
+      visibleProperty: DerivedProperty.not( bothAddendsVisibleProperty )
     } );
     backgroundRectangle.addChild( addendsNotVisibleNode );
     options.backgroundColorProperty.link( backgroundColor => {
@@ -95,14 +95,13 @@ export default class CountingAreaNode extends Node {
     const bothAddendsEyeToggleButtonTandem = options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.KITTENS ) ?
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
-    this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
+    this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( bothAddendsVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
         modelRepresentation: numberBondOrBarModelStringProperty
       } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      secondAddendVisibleProperty: rightAddendVisibleProperty,
       visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
       tandem: bothAddendsEyeToggleButtonTandem,
       accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty,
@@ -111,14 +110,18 @@ export default class CountingAreaNode extends Node {
     this.addChild( backgroundRectangle );
     this.addChild( this.bothAddendsEyeToggleButton );
 
-    const splitCountingAreaBackground = new SplitCountingAreaNode(
-      countingAreaBounds, leftAddendVisibleProperty, rightAddendVisibleProperty, {
-        visibleProperty: model.locationLayerVisibleProperty,
-        tandem: options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ?
-                options.tandem.createTandem( 'splitCountingAreaBackground' ) : Tandem.OPT_OUT
-      } );
+    // TODO: SplitCountingAreaNode should be a subtype of CountingAreaNode so we don't need this conditional. https://github.com/phetsims/number-pairs/issues/294
+    if ( options.leftAddendVisibleProperty && options.rightAddendVisibleProperty ) {
+      const splitCountingAreaBackground = new SplitCountingAreaNode(
+        countingAreaBounds, options.leftAddendVisibleProperty, options.rightAddendVisibleProperty, {
+          visibleProperty: model.locationLayerVisibleProperty,
+          tandem: options.countingRepresentationTypeProperty.validValues?.includes( RepresentationType.ONE_CARDS ) ?
+                  options.tandem.createTandem( 'splitCountingAreaBackground' ) : Tandem.OPT_OUT
+        } );
 
-    this.addChild( splitCountingAreaBackground );
+      this.addChild( splitCountingAreaBackground );
+    }
+
   }
 
   /**

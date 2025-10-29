@@ -47,7 +47,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {
       tandem: tandem.createTandem( 'kittensLayerNode' ),
       includeKittenAttributeSwitch: false,
-      visibleProperty: this.addendsVisibleProperty
+      visibleProperty: level.addendsVisibleProperty
     } );
 
     this.tenFrameButton = new TenFrameButton( {

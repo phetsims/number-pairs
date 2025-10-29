@@ -309,7 +309,9 @@ export default class NumberPairsScreenView extends ScreenView {
         return totalColor;
       }
     } );
-    const countingAreaNode = new CountingAreaNode( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, model, {
+    const countingAreaNode = new CountingAreaNode( model.bothAddendsVisibleProperty, model, {
+      leftAddendVisibleProperty: model.leftAddendVisibleProperty,
+      rightAddendVisibleProperty: model.rightAddendVisibleProperty,
       countingRepresentationTypeProperty: model.representationTypeProperty,
       backgroundColorProperty: countingAreaBackgroundColorProperty,
       tandem: options.tandem.createTandem( 'countingAreaNode' )

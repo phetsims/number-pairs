@@ -109,7 +109,7 @@ export default class NumberLineLevelNode extends LevelNode {
         numberLineRange: new Range( 0, 20 ),
         centerX: this.countingAreaBounds.centerX,
         bottom: this.countingAreaBounds.bottom - 50,
-        visibleProperty: this.addendsVisibleProperty
+        visibleProperty: level.addendsVisibleProperty
       } );
     numberLineNode.slider.pickable = false;
     numberLineNode.slider.thumbNode.visible = false;
@@ -146,7 +146,7 @@ export default class NumberLineLevelNode extends LevelNode {
       phetioFeatured: true,
       top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      visibleProperty: this.addendsVisibleProperty,
+      visibleProperty: level.addendsVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
     this.addChild( checkboxGroup );

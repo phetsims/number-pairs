@@ -61,6 +61,8 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     public readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<ObservableArray<CountingObject>>,
     public readonly totalVisibleProperty: TReadOnlyProperty<boolean>,
+
+    // TODO: Are these needed at this level? https://github.com/phetsims/number-pairs/issues/294
     public readonly leftAddendVisibleProperty: TReadOnlyProperty<boolean>,
     public readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>,
     public readonly countingObjects: CountingObject[],

@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -58,6 +59,8 @@ export default class Level {
 
   public readonly countingObjectsDelegate: LevelCountingObjectsDelegate;
 
+  public readonly addendsVisibleProperty: BooleanProperty;
+
   public hasShownReward = false;
   public readonly challengeResetEmitter = new Emitter();
   public readonly answerFeedbackEmitter = new Emitter<[ 'correct' | 'incorrect' ]>( {
@@ -87,6 +90,9 @@ export default class Level {
     const tandem = options.tandem;
 
     // Create game play related Properties
+    this.addendsVisibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'addendsVisibleProperty' )
+    } );
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' )
     } );
@@ -171,6 +177,7 @@ export default class Level {
   }
 
   public reset(): void {
+    this.addendsVisibleProperty.reset();
     this.scoreProperty.reset();
     this.challengeProperty.value = this.createChallenge( true );
     this.countingObjectsDelegate.resetCountingObjects();

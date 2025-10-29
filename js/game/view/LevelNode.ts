@@ -7,9 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import derived from '../../../../axon/js/derived.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -58,7 +56,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly challengeResetButton: ResetButton;
   protected readonly answerButtonGroup: AnswerButtonGroup;
   protected readonly countingAreaNode: CountingAreaNode;
-  protected readonly addendsVisibleProperty: TReadOnlyProperty<boolean>;
 
   // For layout and pdom order
   protected readonly countingAreaBounds: Bounds2;
@@ -118,11 +115,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     level.challengeProperty.link( () => this.answerButtonGroup.resetAll() );
 
     // Create Counting Area. This acts as the background for the kittens and number line.
-    const leftAddendsVisibleProperty = new BooleanProperty( true );
-    const rightAddendsVisibleProperty = new BooleanProperty( true );
-    this.addendsVisibleProperty = DerivedProperty.and( [ leftAddendsVisibleProperty, rightAddendsVisibleProperty ] );
-
-    this.countingAreaNode = new CountingAreaNode( leftAddendsVisibleProperty, rightAddendsVisibleProperty, level.countingObjectsDelegate, {
+    this.countingAreaNode = new CountingAreaNode( level.addendsVisibleProperty, level.countingObjectsDelegate, {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: options.countingAreaBackgroundColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
@@ -179,7 +172,10 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
         if ( isCorrect ) {
           if ( firstTry ) {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( { guess: guess, score: level.scoreProperty.value } ) );
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
+              guess: guess,
+              score: level.scoreProperty.value
+            } ) );
           }
           else {
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( { guess: guess } ) );

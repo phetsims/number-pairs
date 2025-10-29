@@ -70,6 +70,7 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
   public override readonly totalVisibleProperty: Property<boolean>;
   public override readonly leftAddendVisibleProperty: BooleanProperty;
   public override readonly rightAddendVisibleProperty: BooleanProperty;
+  public readonly bothAddendsVisibleProperty: BooleanProperty;
 
   protected constructor(
     // The totalProperty is derived from the left and right addend numbers.
@@ -111,6 +112,40 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
     this.totalVisibleProperty = totalVisibleProperty;
     this.leftAddendVisibleProperty = leftAddendVisibleProperty;
     this.rightAddendVisibleProperty = rightAddendVisibleProperty;
+
+    // In non-location representations, we need a visible property that controls both addends at once.
+    // As of this writing, any screen that needs this functionality includes the kittens representation.
+    const trackBothAddendsVisible = options.representationTypeValidValues.includes( RepresentationType.KITTENS );
+    this.bothAddendsVisibleProperty = new BooleanProperty( leftAddendVisibleProperty.value && rightAddendVisibleProperty.value, {
+      tandem: trackBothAddendsVisible ?
+              visiblePropertiesTandem.createTandem( 'bothAddendsVisibleProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
+    } );
+    if ( trackBothAddendsVisible ) {
+
+      // Track if our addend visible properties are updating to avoid circular updates.
+      let updatingAddendVisibleProperties = false;
+      this.bothAddendsVisibleProperty.link( value => {
+        if ( !updatingAddendVisibleProperties ) {
+          updatingAddendVisibleProperties = true;
+
+          // No matter what the bothAddendsVisibleProperty is set to, the other Properties must follow suit.
+          this.leftAddendVisibleProperty.value = value;
+          this.rightAddendVisibleProperty.value = value;
+          updatingAddendVisibleProperties = false;
+        }
+      } );
+
+      // If either the leftAddendVisibleProperty or rightAddendVisibleProperty changes, update the bothAddendsVisibleProperty.
+      Multilink.multilink( [ this.leftAddendVisibleProperty, this.rightAddendVisibleProperty ],
+        ( leftAddendVisible, rightAddendVisible ) => {
+        if ( !updatingAddendVisibleProperties ) {
+          updatingAddendVisibleProperties = true;
+          this.bothAddendsVisibleProperty.set( leftAddendVisible && rightAddendVisible );
+          updatingAddendVisibleProperties = false;
+        }
+      } );
+    }
 
     this.beadManager = new BeadManager( leftAddendCountingObjectsProperty, rightAddendCountingObjectsProperty, this.countingObjects );
 
