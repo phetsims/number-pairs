@@ -56,8 +56,7 @@ export default class CountingAreaDescriptionNode extends Node {
       ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
     const showObjectSidesProperty = derived( representationTypeProperty, locationLayerVisibleProperty,
       ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && !locationLayerVisible );
-    const showBeadsProperty = derived( representationTypeProperty,
-      representationType => representationType === RepresentationType.BEADS );
+    const showBeadsProperty = representationTypeProperty.derived( representationType => representationType === RepresentationType.BEADS );
 
     const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( numberLineRepresentationVisibleProperty );
 

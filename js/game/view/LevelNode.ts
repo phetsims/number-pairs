@@ -127,18 +127,18 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
       fill: NumberPairsColors.wrongMarkColorProperty,
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
     this.checkMark = new Text( '✓', {
       font: new PhetFont( 54 ),
       fill: NumberPairsColors.checkMarkColorProperty,
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' )
+      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' )
     } );
     this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
       fill: NumberPairsColors.wrongMarkColorProperty,
       font: TEXT_OPTIONS.font,
       maxWidth: TEXT_OPTIONS.maxWidth,
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
     this.addChild( this.tryAgainText );
     this.addChild( this.wrongMark );
@@ -153,7 +153,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       },
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       bottom: this.countingAreaBounds.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      enabledProperty: derived( level.modeProperty, mode => mode !== 'correct' ),
+      enabledProperty: level.modeProperty.derived( mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' ),
       accessibleName: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty
@@ -185,7 +185,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( { guess: guess } ) );
         }
       },
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
+      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
       enabledProperty: derived( level.modeProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
         return selectedGuess !== null && !level.guessedNumbers.includes( selectedGuess ) && mode !== 'correct';
       } ),
@@ -197,7 +197,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
       tandem: tandem.createTandem( 'nextButton' ),
-      visibleProperty: derived( level.modeProperty, feedbackState => feedbackState === 'correct' ),
+      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
       }

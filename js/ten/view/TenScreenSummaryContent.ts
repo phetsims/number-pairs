@@ -26,11 +26,11 @@ export default class TenScreenSummaryContent extends ScreenSummaryContent {
       derive: 'accessibleName'
     } );
 
-    const representationTypeProperty = derived( model.representationTypeProperty,
-      representationType => representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
-                            representationType === RepresentationType.BEADS ? 'beads' :
-                            representationType === RepresentationType.KITTENS ? 'kittens' :
-                            'location' // Location representation all use the same description.
+    const representationTypeProperty = model.representationTypeProperty.derived( representationType =>
+      representationType === RepresentationType.NUMBER_LINE ? 'numberLine' :
+      representationType === RepresentationType.BEADS ? 'beads' :
+      representationType === RepresentationType.KITTENS ? 'kittens' :
+      'location' // Location representation all use the same description.
     );
 
     const currentDetailsProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.createProperty( {

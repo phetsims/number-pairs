@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
@@ -43,7 +42,7 @@ export default class NumberCircle extends Circle {
 
     super( options.radius, options );
 
-    const numberStringProperty = derived( numberProperty, number => number.toString() );
+    const numberStringProperty = numberProperty.derived( number => number.toString() );
     const numberText = new Text( numberStringProperty, {
       font: new PhetFont( options.fontSize ),
       center: this.center,

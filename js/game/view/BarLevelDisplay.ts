@@ -33,9 +33,9 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
 
     // Correct values for bar widths (independent of guess)
-    this.leftAddendProperty = derived( level.challengeProperty, ch => ch.a );
-    this.rightAddendProperty = derived( level.challengeProperty, ch => ch.b );
-    this.totalProperty = derived( level.challengeProperty, ch => ch.y );
+    this.leftAddendProperty = level.challengeProperty.derived( ch => ch.a );
+    this.rightAddendProperty = level.challengeProperty.derived( ch => ch.b );
+    this.totalProperty = level.challengeProperty.derived( ch => ch.y );
 
     // Visibility mirrors GameNumberBondNodeViewModel behavior: show the missing number when solved or when there's a guess
     const visibleForSlot = ( slot: MissingComponent ) => derived( level.challengeProperty, selectedGuessProperty, level.modeProperty,

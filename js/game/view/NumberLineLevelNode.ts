@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -24,8 +23,8 @@ import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from '../../common/view/NumberLineCheckboxItems.js';
+import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -74,8 +73,8 @@ export default class NumberLineLevelNode extends LevelNode {
     } as const;
 
     // On the number line level, the challenge is always missing an addend.
-    const missingAddendProperty = derived( level.challengeProperty, challenge => challenge.missing as 'a' | 'b' );
-    const feedbackStyleProperty = derived( level.modeProperty, mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
+    const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missing as 'a' | 'b' );
+    const feedbackStyleProperty = level.modeProperty.derived( mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
 
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
       const numericGuess = guess ?? 0;

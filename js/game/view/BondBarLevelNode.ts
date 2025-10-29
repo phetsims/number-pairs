@@ -6,7 +6,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
@@ -35,13 +34,13 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
       center: this.numberModelCenter,
-      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
+      visibleProperty: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new GameNumberBarModelNode( level, {
       center: this.numberModelCenter,
-      visibleProperty: derived( NumberPairsPreferences.numberModelTypeProperty, numberModelType => {
+      visibleProperty: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );

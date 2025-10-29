@@ -72,7 +72,7 @@ export default class AnswerButtonGroup extends GridBox {
     challengeProperty: TReadOnlyProperty<Challenge>,
     providedOptions: NumberButtonGridOptions
   ) {
-    const isCorrectProperty = derived( modeProperty, mode => mode === 'correct' );
+    const isCorrectProperty = modeProperty.derived( mode => mode === 'correct' );
     const alignGroup = new AlignGroup();
     const elements: NumberButtonElements = [];
 

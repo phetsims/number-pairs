@@ -9,7 +9,6 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -118,7 +117,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
 
     const arrowButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
 
-    const incrementEnabledProperty = derived( inactiveCountingObjects.lengthProperty, length => length > 0 );
+    const incrementEnabledProperty = inactiveCountingObjects.lengthProperty.derived( length => length > 0 );
     const handleIncrement = () => {
       options.interruptPointers();
 
@@ -151,7 +150,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       }
     } );
 
-    const decrementEnabledProperty = derived( addendCountingObjects.lengthProperty, length => length > 0 );
+    const decrementEnabledProperty = addendCountingObjects.lengthProperty.derived( length => length > 0 );
     const handleDecrement = () => {
       options.interruptPointers();
       arrowButtonSoundPlayer.play();

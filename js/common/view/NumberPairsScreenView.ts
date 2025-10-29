@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
@@ -41,8 +40,8 @@ import NumberPairsConstants from '../NumberPairsConstants.js';
 import BeadsOnWireNode from './BeadsOnWireNode.js';
 import ClickToDeselectKittensPressListener from './ClickToDeselectKittensPressListener.js';
 import CommutativeButton from './CommutativeButton.js';
-import CountingAreaDescriptionNode from './description/CountingAreaDescriptionNode.js';
 import CountingAreaNode from './CountingAreaNode.js';
+import CountingAreaDescriptionNode from './description/CountingAreaDescriptionNode.js';
 import KittensLayerNode from './KittensLayerNode.js';
 import LocationCountingObjectsLayerNode from './LocationCountingObjectsLayerNode.js';
 import NumberLineIcon from './NumberLineIcon.js';
@@ -221,7 +220,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleHelpText.createProperty( {
       representation: representationTypeAccessibleNameProperty,
-      representationType: derived( model.representationTypeProperty, representationType => representationType.label as 'kittens' | 'beads' | 'other' )
+      representationType: model.representationTypeProperty.derived( representationType => representationType.label as 'kittens' | 'beads' | 'other' )
     } );
 
     const buttonVBoxSpacing = 10;

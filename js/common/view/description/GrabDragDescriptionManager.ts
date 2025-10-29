@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
@@ -69,7 +68,7 @@ export default class GrabDragDescriptionManager {
     } );
 
     this.grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
-      representationType: derived( representationTypeProperty, representationType => representationType === RepresentationType.BEADS ? 'beads' : 'other' ),
+      representationType: representationTypeProperty.derived( representationType => representationType === RepresentationType.BEADS ? 'beads' : 'other' ),
       item: itemProperty
     } );
     this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
