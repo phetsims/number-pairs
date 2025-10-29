@@ -15,22 +15,31 @@ or a proportional bar model. This sim contains 4 screens including: Intro, Ten, 
 
 ## Total Scenes
 
-All screens except for the sum screen save the total number of objects shown as a "scene". Meaning, that each exploration
+All screens save the total number of objects shown as a "scene". Meaning, that each exploration
 is contained within that total number and the addend values will not change when exploring a different representation
 (e.g., changing from kittens to beads will not impact how the total number is decomposed). It is important to note that
 the exact position of items may be different from how a student left it when moving between scenes, but the addends will
-be remembered between scenes. The Sum screen changes this paradigm by not fixing a total number of objects. On the Sum screen, students add or remove objects dynamically, thereby changing the total number of objects that appear in the counting area. Students can still interact with and change the addends.
+be remembered between when returning to a previous scene. The Sum screen changes this paradigm by not fixing a total 
+number of objects. On the Sum screen, students add or remove objects dynamically, thereby changing the total number 
+of objects that appear in the counting area, but the decomposition will remain constant when changing representations (beads, 
+kittens, and number line). Students can still interact with and change the addends.
 
 
 ## Counting Area
 
-The counting area is the main space where students can interact with the decomposition of a number. Actions that students take in the counting area directly affect the decomposition therefore visualizations of this decomposition update in real time in accordion boxes at the top of the screen. This area can also be partially or fully hidden with the eye toggle buttons in the corner.
+The counting area is the main space where students can interact with the decomposition of a number. Actions that students 
+take in the counting area directly affect the decomposition therefore visualizations of this decomposition update in real 
+time in accordion boxes at the top of the screen. This area can also be partially or fully hidden with the eye toggle 
+buttons in the corner.
 
 ### Organize and Commutative Buttons
 
-There are various controls outside of the counting area that can affect, or decorate the objects inside the counting area. One such control is the "organize button." This button will organize objects into rows five (or groups of five where appropriate).
-
-Additionally, students can also "swap" the addends by using the Commutative Button. This allows students to see the commutative property being modeled in real time by switching the addends.
+There are various controls outside of the counting area that can affect the objects inside the counting area. Two of these include 
+the "organize" and "commutative" buttons located to the left of the counting area. The organize button instantly organizes all objects
+inside the counting area(s) into ten-frame pattern, meaning the objects will create rows of (up to) 5. The except is the beads,
+which are organized into groups of 5 starting from the outside working inward. The "commutative" button swaps addends instantly, 
+mirroring the location of objects for the apples (etc.) and beads, and directly swapping each kitten of one color for the other color, 
+allowing students to see the commutative property being modeled in real time by switching the addends.
 
 In both cases the objects will also follow the decomposition or sum, always matching the number bond or bar model.
 
