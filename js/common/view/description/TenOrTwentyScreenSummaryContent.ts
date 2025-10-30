@@ -31,7 +31,7 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
       'location' // Location representation all use the same description.
     );
 
-    const currentDetailsProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.currentDetails.createProperty( {
+    const currentDetailsProperty = NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.currentDetails.createProperty( {
       count: model.totalProperty,
       itemType: itemTypeProperty,
       representationType: representationTypeProperty,
@@ -43,16 +43,16 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
       } )
     } );
 
-    const interactionHintContentProperty = NumberPairsFluent.a11y.tenScreen.screenSummary.interactionHint.createProperty( {
+    const interactionHintContentProperty = NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.interactionHint.createProperty( {
       representationType: representationTypeProperty
     } );
 
     super( {
-      playAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.playArea.createProperty( {
+      playAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
         numberBarOrBarModel: numberBondOrBarModelStringProperty
       } ),
-      controlAreaContent: NumberPairsFluent.a11y.tenScreen.screenSummary.controlAreaStringProperty,
+      controlAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,
       interactionHintContent: interactionHintContentProperty
     } );

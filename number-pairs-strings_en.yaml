@@ -92,7 +92,7 @@ a11y:
         bothHidden:        Currently, both counting areas are hidden.
       interactionHint: Count or grab an object. Organize or move objects in counting area to play.
 
-  tenScreen:
+  tenOrTwentyScreen:
     screenSummary:
       playArea:        >-
                        { $representationType ->

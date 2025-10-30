@@ -84,10 +84,10 @@ addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_objectsPattern
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_hiddenAreaPattern', 'a11y.introScreen.screenSummary.currentDetails.hiddenAreaPatternStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_bothHidden', 'a11y.introScreen.screenSummary.currentDetails.bothHiddenStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_interactionHint', 'a11y.introScreen.screenSummary.interactionHintStringProperty' );
-addToMapIfDefined( 'a11y_tenScreen_screenSummary_playArea', 'a11y.tenScreen.screenSummary.playAreaStringProperty' );
-addToMapIfDefined( 'a11y_tenScreen_screenSummary_controlArea', 'a11y.tenScreen.screenSummary.controlAreaStringProperty' );
-addToMapIfDefined( 'a11y_tenScreen_screenSummary_currentDetails', 'a11y.tenScreen.screenSummary.currentDetailsStringProperty' );
-addToMapIfDefined( 'a11y_tenScreen_screenSummary_interactionHint', 'a11y.tenScreen.screenSummary.interactionHintStringProperty' );
+addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_playArea', 'a11y.tenOrTwentyScreen.screenSummary.playAreaStringProperty' );
+addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_controlArea', 'a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty' );
+addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_currentDetails', 'a11y.tenOrTwentyScreen.screenSummary.currentDetailsStringProperty' );
+addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_interactionHint', 'a11y.tenOrTwentyScreen.screenSummary.interactionHintStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
@@ -348,12 +348,12 @@ const NumberPairsFluent = {
         interactionHintStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_interactionHint', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.interactionHintStringProperty' ) )
       }
     },
-    tenScreen: {
+    tenOrTwentyScreen: {
       screenSummary: {
-        playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | 'beads' | 'kittens' | 'location' | TReadOnlyProperty<'numberLine' | 'beads' | 'kittens' | 'location'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine","beads","kittens","location"]}] ),
-        controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.controlAreaStringProperty' ) ),
-        currentDetails: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'>, itemType: FluentVariable, representationType: 'numberLine' | 'beads' | 'kittens' | 'location' | TReadOnlyProperty<'numberLine' | 'beads' | 'kittens' | 'location'>, shownSides: 'none' | 'right' | 'left' | 'both' | TReadOnlyProperty<'none' | 'right' | 'left' | 'both'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_currentDetails', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.currentDetailsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]},{"name":"itemType"},{"name":"representationType","variants":["numberLine","beads","kittens","location"]},{"name":"shownSides","variants":["none","right","left","both"]}] ),
-        interactionHint: new FluentPattern<{ representationType: 'beads' | 'kittens' | 'numberLine' | 'location' | TReadOnlyProperty<'beads' | 'kittens' | 'numberLine' | 'location'> }>( fluentSupport.bundleProperty, 'a11y_tenScreen_screenSummary_interactionHint', _.get( NumberPairsStrings, 'a11y.tenScreen.screenSummary.interactionHintStringProperty' ), [{"name":"representationType","variants":["beads","kittens","numberLine","location"]}] )
+        playArea: new FluentPattern<{ numberBarOrBarModel: FluentVariable, representationType: 'numberLine' | 'beads' | 'kittens' | 'location' | TReadOnlyProperty<'numberLine' | 'beads' | 'kittens' | 'location'> }>( fluentSupport.bundleProperty, 'a11y_tenOrTwentyScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.tenOrTwentyScreen.screenSummary.playAreaStringProperty' ), [{"name":"numberBarOrBarModel"},{"name":"representationType","variants":["numberLine","beads","kittens","location"]}] ),
+        controlAreaStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_tenOrTwentyScreen_screenSummary_controlArea', _.get( NumberPairsStrings, 'a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty' ) ),
+        currentDetails: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'>, itemType: FluentVariable, representationType: 'numberLine' | 'beads' | 'kittens' | 'location' | TReadOnlyProperty<'numberLine' | 'beads' | 'kittens' | 'location'>, shownSides: 'none' | 'right' | 'left' | 'both' | TReadOnlyProperty<'none' | 'right' | 'left' | 'both'> }>( fluentSupport.bundleProperty, 'a11y_tenOrTwentyScreen_screenSummary_currentDetails', _.get( NumberPairsStrings, 'a11y.tenOrTwentyScreen.screenSummary.currentDetailsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]},{"name":"itemType"},{"name":"representationType","variants":["numberLine","beads","kittens","location"]},{"name":"shownSides","variants":["none","right","left","both"]}] ),
+        interactionHint: new FluentPattern<{ representationType: 'beads' | 'kittens' | 'numberLine' | 'location' | TReadOnlyProperty<'beads' | 'kittens' | 'numberLine' | 'location'> }>( fluentSupport.bundleProperty, 'a11y_tenOrTwentyScreen_screenSummary_interactionHint', _.get( NumberPairsStrings, 'a11y.tenOrTwentyScreen.screenSummary.interactionHintStringProperty' ), [{"name":"representationType","variants":["beads","kittens","numberLine","location"]}] )
       }
     },
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),

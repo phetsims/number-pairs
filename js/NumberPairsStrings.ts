@@ -109,7 +109,7 @@ type StringsType = {
         'interactionHintStringProperty': LocalizedStringProperty;
       }
     };
-    'tenScreen': {
+    'tenOrTwentyScreen': {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
