@@ -18,7 +18,7 @@ import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQue
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import TenScreenSummaryContent from '../../ten/view/TenScreenSummaryContent.js';
+import TenOrTwentyScreenSummaryContent from '../../common/view/description/TenOrTwentyScreenSummaryContent.js';
 import TwentyModel from '../model/TwentyModel.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -52,7 +52,7 @@ export default class TwentyScreenView extends DecompositionScreenView {
 
     super( model, options );
 
-    this.setScreenSummaryContent( new TenScreenSummaryContent( model ) );
+    this.setScreenSummaryContent( new TenOrTwentyScreenSummaryContent( model ) );
   }
 }
 

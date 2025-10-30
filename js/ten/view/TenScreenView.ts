@@ -18,7 +18,7 @@ import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TenModel from '../model/TenModel.js';
-import TenScreenSummaryContent from './TenScreenSummaryContent.js';
+import TenOrTwentyScreenSummaryContent from '../../common/view/description/TenOrTwentyScreenSummaryContent.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenScreenViewOptions = SelfOptions & StrictOmit<DecompositionScreenViewOptions, 'phraseAccordionBox' | 'numberBondAccordionBox' | 'sceneRange' | 'screenSummaryContent'>
@@ -49,7 +49,7 @@ export default class TenScreenView extends DecompositionScreenView {
 
     super( model, options );
 
-    this.setScreenSummaryContent( new TenScreenSummaryContent( model ) );
+    this.setScreenSummaryContent( new TenOrTwentyScreenSummaryContent( model ) );
   }
 }
 
