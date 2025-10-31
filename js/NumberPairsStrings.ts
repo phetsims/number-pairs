@@ -119,6 +119,8 @@ type StringsType = {
     };
     'leftStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
+    'leftAddendColorStringProperty': LocalizedStringProperty;
+    'rightAddendColorStringProperty': LocalizedStringProperty;
     'leftCapitalizedStringProperty': LocalizedStringProperty;
     'rightCapitalizedStringProperty': LocalizedStringProperty;
     'movableRoleDescriptionStringProperty': LocalizedStringProperty;
@@ -186,8 +188,6 @@ type StringsType = {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
       'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
-      'leftAddendColorStringProperty': LocalizedStringProperty;
-      'rightAddendColorStringProperty': LocalizedStringProperty;
       'kittenPatternStringProperty': LocalizedStringProperty;
       'accessibleHelpText': {
         'withAttributeSwitchStringProperty': LocalizedStringProperty;
@@ -296,7 +296,10 @@ type StringsType = {
         'accessibleNameStringProperty': LocalizedStringProperty;
       };
       'countingObjectControl': {
+        'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'addedAccessibleContextResponseStringProperty': LocalizedStringProperty;
+        'removedAccessibleContextResponseStringProperty': LocalizedStringProperty;
       };
       'countFromZeroSwitch': {
         'valueAAccessibleNameStringProperty': LocalizedStringProperty;

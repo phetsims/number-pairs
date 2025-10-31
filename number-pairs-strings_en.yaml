@@ -128,6 +128,8 @@ a11y:
   # Basic terms and interactions
   left:                   left
   right:                  right
+  leftAddendColor:        Yellow
+  rightAddendColor:       Blue
   leftCapitalized:        Left
   rightCapitalized:       Right
   movableRoleDescription: movable
@@ -196,8 +198,6 @@ a11y:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
     changeColorAccessibleName: Change Color
-    leftAddendColor:           Yellow
-    rightAddendColor:          Blue
     kittenPattern:             |-
                                { $descriptor ->
                                    [first] First { $color} Kitten 
@@ -331,7 +331,30 @@ a11y:
     rightObjects:
       accessibleName: Blue Objects
     countingObjectControl:
-      accessibleHelpText: Add or remove from the { $addend } addend.
+      accessibleName: |-
+        { $representationType ->
+          [kittens] { $color } Kitten
+          [beads]   { $color } Bead
+          *[other]  { $color } Section
+        }
+      accessibleHelpText: |-
+        { $representationType ->
+          [kittens] Add or remove one { $color } kitten.
+          [beads]   Add or remove one { $color } bead.
+          *[other]  Add or remove one from { $addend } addend.
+        }
+      addedAccessibleContextResponse: |-
+        { $representationType ->
+          [kittens] One { $color } kitten added to counting area.
+          [beads]   One { $color } bead added to counting area.
+          *[other]  One added to { $addend } section of number line.
+        }
+      removedAccessibleContextResponse: |-
+        { $representationType ->
+          [kittens] One { $color } kitten removed from counting area.
+          [beads]   One { $color } bead removed from counting area.
+          *[other]  One removed from { $addend } section of number line.
+        }
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero

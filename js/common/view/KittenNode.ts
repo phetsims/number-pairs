@@ -110,8 +110,8 @@ export default class KittenNode extends InteractiveHighlightingNode {
       focusable: false,
       tandem: options.includeAttributeSwitch ? options.tandem.createTandem( 'kittenAttributeSwitch' ) : Tandem.OPT_OUT,
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
-      accessibleContextResponseLeftValue: NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
-      accessibleContextResponseRightValue: NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
+      accessibleContextResponseLeftValue: NumberPairsFluent.a11y.leftAddendColorStringProperty,
+      accessibleContextResponseRightValue: NumberPairsFluent.a11y.rightAddendColorStringProperty,
       accessibleRoleConfiguration: 'button', // This switch does not use boolean values. Read accessibleSwitch documentation for more.
       thumbFill: new DerivedProperty( [
           countingObject.addendTypeProperty,

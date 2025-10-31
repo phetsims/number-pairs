@@ -7,6 +7,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -19,6 +20,7 @@ import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import TenOrTwentyScreenSummaryContent from '../../common/view/description/TenOrTwentyScreenSummaryContent.js';
@@ -93,9 +95,9 @@ export default class SumScreenView extends NumberPairsScreenView {
      * Create the counting object controls. These look and act like NumberSpinners but due to their implementation needs,
      * are not NumberSpinners.
      */
-    const leftAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
-      addend: NumberPairsFluent.a11y.leftStringProperty
-    } );
+    const representationTypeLabelProperty = derived( model.representationTypeProperty,
+      representationType => representationType === RepresentationType.KITTENS ? 'kittens' :
+                            representationType === RepresentationType.BEADS ? 'beads' : 'other' );
     const leftAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.leftAddendCountingObjectsProperty.value,
@@ -107,15 +109,19 @@ export default class SumScreenView extends NumberPairsScreenView {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
           addendVisibleProperty: model.leftAddendVisibleProperty,
           redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
-          accessibleName: NumberPairsFluent.a11y.controls.leftObjects.accessibleNameStringProperty,
-          accessibleHelpText: leftAddendHelpTextPatternStringProperty
+          accessibleName: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleName.createProperty( {
+            representationType: representationTypeLabelProperty,
+            color: NumberPairsFluent.a11y.leftAddendColorStringProperty
+            } ),
+          accessibleHelpText: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
+            representationType: representationTypeLabelProperty,
+            color: NumberPairsFluent.a11y.leftAddendColorStringProperty,
+            addend: NumberPairsFluent.a11y.leftStringProperty
+          } )
         },
         tandem: providedOptions.tandem.createTandem( 'leftAddendControlPanel' )
       } );
 
-    const rightAddendHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
-      addend: NumberPairsFluent.a11y.rightStringProperty
-    } );
     const rightAddendControlPanel = new AddendControlPanel(
       model.totalProperty,
       model.rightAddendCountingObjectsProperty.value,
@@ -126,8 +132,15 @@ export default class SumScreenView extends NumberPairsScreenView {
           interruptPointers: this.interruptSubtreeInput.bind( this ),
           addendVisibleProperty: model.rightAddendVisibleProperty,
           redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
-          accessibleName: NumberPairsFluent.a11y.controls.rightObjects.accessibleNameStringProperty,
-          accessibleHelpText: rightAddendHelpTextPatternStringProperty
+          accessibleName: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleName.createProperty( {
+            representationType: representationTypeLabelProperty,
+            color: NumberPairsFluent.a11y.rightAddendColorStringProperty
+          } ),
+          accessibleHelpText: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
+            representationType: representationTypeLabelProperty,
+            color: NumberPairsFluent.a11y.rightAddendColorStringProperty,
+            addend: NumberPairsFluent.a11y.rightStringProperty
+          } )
         },
         tandem: providedOptions.tandem.createTandem( 'rightAddendControlPanel' )
       } );

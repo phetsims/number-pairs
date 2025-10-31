@@ -95,15 +95,15 @@ export default class KittensLayerNode extends Node {
 
     Multilink.multilinkAny( [
       this.kittenPDOMOrderProperty,
-      NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty,
-      NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty,
+      NumberPairsFluent.a11y.leftAddendColorStringProperty,
+      NumberPairsFluent.a11y.rightAddendColorStringProperty,
       ...NumberPairsFluent.a11y.kittens.kittenPattern.getDependentProperties(),
       ...this.countingObjects.map( countingObject => countingObject.addendTypeProperty )
     ], () => {
 
       const pdomOrder = this.kittenPDOMOrderProperty.value;
-      const leftAddendColor = NumberPairsFluent.a11y.kittens.leftAddendColorStringProperty.value;
-      const rightAddendColor = NumberPairsFluent.a11y.kittens.rightAddendColorStringProperty.value;
+      const leftAddendColor = NumberPairsFluent.a11y.leftAddendColorStringProperty.value;
+      const rightAddendColor = NumberPairsFluent.a11y.rightAddendColorStringProperty.value;
 
       const leftKittenIndices: number[] = [];
       const rightKittenIndices: number[] = [];

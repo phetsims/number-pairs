@@ -90,6 +90,8 @@ addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_currentDetails', 'a11y.
 addToMapIfDefined( 'a11y_tenOrTwentyScreen_screenSummary_interactionHint', 'a11y.tenOrTwentyScreen.screenSummary.interactionHintStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
+addToMapIfDefined( 'a11y_leftAddendColor', 'a11y.leftAddendColorStringProperty' );
+addToMapIfDefined( 'a11y_rightAddendColor', 'a11y.rightAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_rightCapitalized', 'a11y.rightCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_movableRoleDescription', 'a11y.movableRoleDescriptionStringProperty' );
@@ -136,8 +138,6 @@ addToMapIfDefined( 'a11y_ones_singularAccessibleName', 'a11y.ones.singularAccess
 addToMapIfDefined( 'a11y_kittens_accessibleName', 'a11y.kittens.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_singularAccessibleName', 'a11y.kittens.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_changeColorAccessibleName', 'a11y.kittens.changeColorAccessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_kittens_leftAddendColor', 'a11y.kittens.leftAddendColorStringProperty' );
-addToMapIfDefined( 'a11y_kittens_rightAddendColor', 'a11y.kittens.rightAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_kittens_kittenPattern', 'a11y.kittens.kittenPatternStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withAttributeSwitch', 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' );
@@ -205,7 +205,10 @@ addToMapIfDefined( 'a11y_controls_showAddends_accessibleName', 'a11y.controls.sh
 addToMapIfDefined( 'a11y_controls_hideAddends_accessibleName', 'a11y.controls.hideAddends.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_leftObjects_accessibleName', 'a11y.controls.leftObjects.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_rightObjects_accessibleName', 'a11y.controls.rightObjects.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_controls_countingObjectControl_accessibleName', 'a11y.controls.countingObjectControl.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countingObjectControl_accessibleHelpText', 'a11y.controls.countingObjectControl.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_countingObjectControl_addedAccessibleContextResponse', 'a11y.controls.countingObjectControl.addedAccessibleContextResponseStringProperty' );
+addToMapIfDefined( 'a11y_controls_countingObjectControl_removedAccessibleContextResponse', 'a11y.controls.countingObjectControl.removedAccessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_accessibleHelpText', 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' );
@@ -367,6 +370,8 @@ const NumberPairsFluent = {
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),
     leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),
     rightStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_right', _.get( NumberPairsStrings, 'a11y.rightStringProperty' ) ),
+    leftAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_leftAddendColor', _.get( NumberPairsStrings, 'a11y.leftAddendColorStringProperty' ) ),
+    rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightAddendColor', _.get( NumberPairsStrings, 'a11y.rightAddendColorStringProperty' ) ),
     leftCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_leftCapitalized', _.get( NumberPairsStrings, 'a11y.leftCapitalizedStringProperty' ) ),
     rightCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightCapitalized', _.get( NumberPairsStrings, 'a11y.rightCapitalizedStringProperty' ) ),
     movableRoleDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_movableRoleDescription', _.get( NumberPairsStrings, 'a11y.movableRoleDescriptionStringProperty' ) ),
@@ -435,8 +440,6 @@ const NumberPairsFluent = {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleName', _.get( NumberPairsStrings, 'a11y.kittens.accessibleNameStringProperty' ) ),
       singularAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_singularAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.singularAccessibleNameStringProperty' ) ),
       changeColorAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.changeColorAccessibleNameStringProperty' ) ),
-      leftAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_leftAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.leftAddendColorStringProperty' ) ),
-      rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_rightAddendColor', _.get( NumberPairsStrings, 'a11y.kittens.rightAddendColorStringProperty' ) ),
       kittenPattern: new FluentPattern<{ color: FluentVariable, descriptor: 'first' | 'last' | 'only' | number | 'other' | TReadOnlyProperty<'first' | 'last' | 'only' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_kittens_kittenPattern', _.get( NumberPairsStrings, 'a11y.kittens.kittenPatternStringProperty' ), [{"name":"color"},{"name":"descriptor","variants":["first","last","only",{"type":"number","value":"other"}]}] ),
       accessibleHelpText: {
         withAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' ) ),
@@ -549,7 +552,10 @@ const NumberPairsFluent = {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_rightObjects_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.rightObjects.accessibleNameStringProperty' ) )
       },
       countingObjectControl: {
-        accessibleHelpText: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.accessibleHelpTextStringProperty' ), [{"name":"addend"}] )
+        accessibleName: new FluentPattern<{ color: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.accessibleNameStringProperty' ), [{"name":"color"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
+        accessibleHelpText: new FluentPattern<{ addend: FluentVariable, color: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.accessibleHelpTextStringProperty' ), [{"name":"addend"},{"name":"color"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
+        addedAccessibleContextResponse: new FluentPattern<{ addend: FluentVariable, color: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_addedAccessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.addedAccessibleContextResponseStringProperty' ), [{"name":"addend"},{"name":"color"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
+        removedAccessibleContextResponse: new FluentPattern<{ addend: FluentVariable, color: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_countingObjectControl_removedAccessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.countingObjectControl.removedAccessibleContextResponseStringProperty' ), [{"name":"addend"},{"name":"color"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] )
       },
       countFromZeroSwitch: {
         valueAAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.valueAAccessibleNameStringProperty' ) ),
