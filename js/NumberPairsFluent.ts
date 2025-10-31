@@ -221,6 +221,14 @@ addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChe
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_equation_accessibleParagraphPattern', 'a11y.equation.accessibleParagraphPatternStringProperty' );
 addToMapIfDefined( 'a11y_equation_accessibleParagraphHiddenPattern', 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level1_accessibleHelpText', 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level2_accessibleHelpText', 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level3_accessibleHelpText', 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level4_accessibleHelpText', 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level5_accessibleHelpText', 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level6_accessibleHelpText', 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level7_accessibleHelpText', 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level8_accessibleHelpText', 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
@@ -573,6 +581,30 @@ const NumberPairsFluent = {
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
+      level1: {
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+      },
+      level2: {
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level2_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+      },
+      level3: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level3_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' ) )
+      },
+      level4: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level4_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' ) )
+      },
+      level5: {
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level5_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+      },
+      level6: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level6_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' ) )
+      },
+      level7: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level7_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' ) )
+      },
+      level8: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level8_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' ) )
+      },
       answerButton: {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )
       },

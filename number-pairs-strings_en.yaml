@@ -104,18 +104,18 @@ a11y:
                        represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
                        automatically organize objects, or swap addends.
       controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
-      currentDetails: |-
-                      { $shownSides -> 
-                          [ none ]   Counting area currently hidden.
-                          [ right ]  Currently, { $count } total, left counting area hidden.
-                          [ left ]   Currently, { $count } total, right counting area hidden.
-                         *[ both ]   { $representationType ->
-                                   [numberLine] Currently, total of { $count } split with addend splitter knob in counting area.
-                                   [beads] Currently, { $count } total { $itemType } split by color in counting area.
-                                   [kittens] Currently, { $count } total { $itemType } split by color in counting area.
-                                  *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
-                                 }
-                          }
+      currentDetails:  |-
+                       { $shownSides -> 
+                           [ none ]   Counting area currently hidden.
+                           [ right ]  Currently, { $count } total, left counting area hidden.
+                           [ left ]   Currently, { $count } total, right counting area hidden.
+                          *[ both ]   { $representationType ->
+                                    [numberLine] Currently, total of { $count } split with addend splitter knob in counting area.
+                                    [beads] Currently, { $count } total { $itemType } split by color in counting area.
+                                    [kittens] Currently, { $count } total { $itemType } split by color in counting area.
+                                   *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
+                                  }
+                           }
 
       interactionHint: |-
                        { $representationType ->
@@ -356,6 +356,22 @@ a11y:
 
   # Game
   gameScreen:
+    level1:
+      accessibleHelpText:  Find a missing addend in a { $numberModelType } with total between 2 and 10.
+    level2:
+      accessibleHelpText: Find a missing addend in a { $numberModelType } with total always 10.
+    level3:
+      accessibleHelpText: Find a missing addend in a decomposition equation with total always 10.
+    level4:
+      accessibleHelpText: Find a missing addend in a sum equation with total always 10.
+    level5:
+      accessibleHelpText: Find a missing addend in a { $numberModelType } with total between 11 and 20.
+    level6:
+      accessibleHelpText: Find a missing addend in a decomposition equation with total between 11 and 20.
+    level7:
+      accessibleHelpText: Missing addend or total in a sum equation (11-20)
+    level8:
+      accessibleHelpText: Equations with the number line (0-20)
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     responses:

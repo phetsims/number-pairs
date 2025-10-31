@@ -327,6 +327,30 @@ type StringsType = {
       'accessibleParagraphHiddenPatternStringProperty': LocalizedStringProperty;
     };
     'gameScreen': {
+      'level1': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level2': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level3': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level4': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level5': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level6': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level7': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'level8': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;
       };
