@@ -16,6 +16,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -161,10 +162,12 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.addChild( this.challengeResetButton );
 
     // Create check answer and next challenge buttons. These are visible at different times and in the same location.
+    const buttonAlignGroup = new AlignGroup();
     this.checkButton = new CheckButton( {
       font: TEXT_OPTIONS.font,
       maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
+      alignGroup: buttonAlignGroup,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
@@ -196,6 +199,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       font: TEXT_OPTIONS.font,
       maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
+      alignGroup: buttonAlignGroup,
       tandem: tandem.createTandem( 'nextButton' ),
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' ),
       listener: () => {
