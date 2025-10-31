@@ -119,7 +119,7 @@ a11y:
 
       interactionHint: |-
                        { $representationType ->
-                         [ beads ]      Navigate to and grab bead to create groups, or move it across divider to change color.
+                         [ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
                          [ kittens ]    Choose kitten to move, organize, or change its color.
                          [ numberLine ] Move addend splitter knob to change how total is broken apart.
                          *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
@@ -207,7 +207,7 @@ a11y:
                                }
     accessibleHelpText:
       withAttributeSwitch:    Move freely to create groups with arrows or W, A, S, D keys. Change color with space or enter.
-      withoutAttributeSwitch: Optionally, count or organize kittens to help solve challenge.
+      withoutAttributeSwitch: Count or organize kittens to help solve challenge if needed.
 
   beads:
     accessibleName:                Beads
@@ -369,9 +369,9 @@ a11y:
     level6:
       accessibleHelpText: Find a missing addend in a decomposition equation with total between 11 and 20.
     level7:
-      accessibleHelpText: Missing addend or total in a sum equation (11-20)
+      accessibleHelpText: Find a missing addend or total in a sum equation with total between 11 and 20.
     level8:
-      accessibleHelpText: Equations with the number line (0-20)
+      accessibleHelpText: Find a missing addend in a sum equations using the number line for totals between 0 and 20.
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     responses:
