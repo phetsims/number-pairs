@@ -12,13 +12,13 @@ import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
-import TenModel from '../../../ten/model/TenModel.js';
+import NumberPairsModel from '../../model/NumberPairsModel.js';
 import RepresentationType from '../../model/RepresentationType.js';
 import { numberBondOrBarModelStringProperty } from '../numberBondOrBarModelStringProperty.js';
 
 export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryContent {
 
-  public constructor( model: TenModel ) {
+  public constructor( model: NumberPairsModel ) {
 
     const itemTypeProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
