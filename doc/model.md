@@ -123,3 +123,89 @@ whole number in an implied or explicit addition or subtraction problem relating 
 number bond and bar model are flipped upside down to model putting two numbers together to create a total. The phrase is also
 adjusted to mimic the flip in the number bond (or bar model) to also highlight putting two numbers together. The available representations
 on the sum screen are Bead, Kitten, and Number Line.
+
+### Game
+
+The Game screen provides an interactive challenge-based learning experience where students answer arithmetic questions to
+test and strengthen their number sense fluency. Unlike the exploration screens (Intro, Ten, Twenty, Sum), the Game screen
+presents specific problems that students must solve, tracking their progress with a scoring system and providing immediate
+feedback.
+
+#### Challenge Structure
+
+Each challenge is an arithmetic problem of the form `a + b = y` where one of the three components (a, b, or y) is missing.
+Students must identify the missing value by selecting from a grid of number buttons. The challenge automatically checks
+the student's answer and provides feedback:
+
+* **Correct on first try**: Student earns a star (contributes to their score)
+* **Correct on subsequent tries**: Challenge is solved but no star is awarded
+* **Incorrect**: Student can continue attempting until they find the correct answer
+
+Students select answers from a grid of number buttons displayed on the right side of the screen. For levels using numbers
+0-10, a single column of buttons is shown. For levels using numbers 0-20, two columns are displayed (0-10 on the left,
+11-20 on the right).
+
+#### Level Selection and Progression
+
+The Game screen contains 8 distinct levels, each designed to build upon previously learned concepts:
+
+**Level 1 (0-10): Missing addends – Number Bond**
+* Practice finding missing addends in number bond format
+* Uses kitten representation in the counting area
+* Neither addend can be zero (ensures visual representation works well)
+* Example: 3 + ? = 7
+
+**Level 2 (10 only): Missing addends – Number Bond with hidden counting area**
+* Identical to Level 1, except the total is always 10
+* The counting area can be hidden to encourage mental math
+* Example: 4 + ? = 10
+
+**Level 3 (10 only): Missing addends – Decomposition Equation**
+* Same as Level 2, but shows the decomposition as an equation instead of a number bond
+* Example: 10 = 6 + ?
+
+**Level 4 (10 only): Missing addends – Sum Equation**
+* Same as Level 3, but the equation is written as a sum rather than decomposition
+* Example: 3 + ? = 10
+
+**Level 5 (11-20): Missing addends – Number Bond**
+* Extends Level 1 concepts to larger numbers (11-20)
+* Example: 7 + ? = 15
+
+**Level 6 (11-20): Missing addends – Decomposition Equation**
+* Extends Level 3 concepts to larger numbers (11-20)
+* Example: 18 = 12 + ?
+
+**Level 7 (11-20): Missing addend OR total – Sum Equation**
+* Increases difficulty by sometimes hiding the total instead of an addend
+* Example: 8 + 9 = ? or 8 + ? = 17
+
+**Level 8 (0-20): Missing addends – Number Line**
+* Uses number line representation instead of counting objects
+* First challenge shows the left addend, subsequent challenges can hide either addend
+* Students drag a point on the number line to indicate their answer
+* Example: ? + 7 = 13
+
+#### Scoring and Rewards
+
+Students accumulate a score (stars) for each level by answering challenges correctly on the first try. When a student
+reaches a target score threshold (configurable, default is 10 stars), they unlock a reward celebration featuring animated
+objects and a reward dialog. This reward can only be earned once per level during a session.
+
+#### Visual Feedback
+
+The game provides clear visual feedback for student answers:
+* **Selected state**: Number button highlights when student selects it
+* **Incorrect**: A red "X" mark appears next to incorrect guesses, and those numbers become grayed out
+* **Correct**: A green checkmark appears, and the correct answer is revealed in the number bond/equation
+* After solving correctly, students can proceed to the next challenge or reset to try the same problem again
+
+#### Counting Area Behavior
+
+Most levels include a counting area showing kitten representations (Level 8 uses a number line). The counting area
+dynamically updates as students select different answer values, allowing them to visualize the arithmetic relationship.
+Students can:
+* Toggle visibility of the counting area (to practice mental math)
+* Organize objects into ten-frame patterns using the organize button
+* Interact directly with counting objects (though the answer must be submitted via the number buttons)
+* 

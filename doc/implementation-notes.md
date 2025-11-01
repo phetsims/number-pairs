@@ -118,6 +118,33 @@ drag as a group depending on proximity. Most of this logic is contained in `hand
 method ensures that beads do not overlap, stay within the counting area bounds, and update model data as needed
 according to each bead's position.
 
+## Game Screen
+
+The Game screen introduces a challenge-based gameplay layer on top of the simulation's existing representation system. Unlike the exploration screens, the Game screen does not use scenes and instead generates challenges dynamically.
+
+### Model
+
+See [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md)
+
+`GameModel` contains an array of 8 `Level` instances, each configured at startup with a challenge type (`bond`, `decompositionEquation`, `sumEquation`, or `numberLine`), input range (`zeroToTen` or `zeroToTwenty`), and a function that generates random `Challenge` instances.
+
+`Challenge` is a simple data class representing `a + b = y` with one component missing. It validates guesses via `isCorrect(guess)`.
+
+`Level` manages state for a single game level including score, current challenge, guessed numbers, and selected guess. It uses `LevelCountingObjectsDelegate` to manage counting objects. The key difference from exploration screens is the **inactive pool pattern**: counting objects exist in three observable arrays (left addend, right addend, and inactive). As the student selects different answers, objects dynamically move between these pools. The delegate uses derived properties to compute addend values from the current challenge and selected guess, then listeners automatically redistribute objects between the arrays. `NumberLineLevel` extends `Level` with additional properties for tick number and addend label visibility.
+
+### View
+
+`GameScreenView` uses a `ToggleNode` to switch between level selection and individual level views, creating level nodes on demand based on type. It manages reward animations via `NumberPairsRewardNode` and `NumberPairsRewardDialog` when the score threshold is reached.
+
+`LevelSelectionNode` displays 8 level buttons in a 2x4 grid using the common-code `LevelSelectionButtonGroup` from the vegas library.
+
+Three level node types extend the base `LevelNode`:
+- `BondBarLevelNode` - Shows number bond/bar model with kitten counting area
+- `EquationLevelNode` - Shows equation (decomposition or sum format) with kitten counting area
+- `NumberLineLevelNode` - Shows interactive number line without traditional counting area
+
+All level nodes share common components: `StatusBar` for level/score display, `AnswerButtonGroup` for number selection with visual feedback (checkmarks, X marks, graying out), and navigation buttons. The `AnswerButtonGroup` uses `BooleanToggleNode` to switch between normal, correct, and incorrect states for each number button.
+
 ## PhET-iO
 
 The PhET-iO instrumentation of this simulation is relatively straightforward. Everything is created at startup, and
