@@ -302,7 +302,7 @@ a11y:
       smallerAndLarger:                          smaller and larger
       equal:                                     equal
     tenFrameButton:
-      accessibleName:            Organize { $representation } Into Groups
+      accessibleName:            Organize { $representation }
       accessibleHelpText:        Create groups of 5 { $representation }.
       sumDistribution:              One array combines color
       decompositionDistribution:    Two arrays separated by color

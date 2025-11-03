@@ -577,7 +577,7 @@
       },
       "tenFrameButton": {
         "accessibleName": {
-          "value": "Organize { $representation } Into Groups"
+          "value": "Organize { $representation }"
         },
         "accessibleHelpText": {
           "value": "Create groups of 5 { $representation }."
