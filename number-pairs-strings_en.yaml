@@ -394,7 +394,7 @@ a11y:
     level7:
       accessibleHelpText: Find a missing addend or total in a sum equation with total between 11 and 20.
     level8:
-      accessibleHelpText: Find a missing addend in a sum equations using the number line for totals between 0 and 20.
+      accessibleHelpText: Find a missing addend in a sum equation using the number line with total between 0 and 20.
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     responses:
