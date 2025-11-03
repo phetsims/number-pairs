@@ -96,9 +96,11 @@ a11y:
     screenSummary:
       playArea:        >-
                        { $representationType ->
-                         [numberLine] There is a number line broken into yellow and blue sections and a movable knob to change how total is broken apart.
-                         [beads] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
-                         [kittens] There are movable yellow and blue objects you can organize or change color to change how total is broken apart.
+                         [numberLine] There is a number line showing total as a green line broken into two sections, a yellow section on left and blue 
+                         section on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
+                         [beads] There are movable yellow and blue beads you can slide along a wire to organize or change color to change how 
+                         total is broken apart.
+                         [kittens] There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart.
                         *[location] { a11y.playAreaIntroSentence }
                        } A decomposition phrase, a { $numberBarOrBarModel }, and equation 
                        represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
@@ -120,7 +122,7 @@ a11y:
       interactionHint: |-
                        { $representationType ->
                          [ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                         [ kittens ]    Choose kitten to move, organize, or change its color.
+                         [ kittens ]    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
                          [ numberLine ] Move addend splitter knob to change how total is broken apart.
                          *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
                        }
