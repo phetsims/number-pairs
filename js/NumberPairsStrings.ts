@@ -389,6 +389,7 @@ type StringsType = {
       'resetChallengeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseStringProperty': LocalizedStringProperty;
       }
     };
     'preferences': {

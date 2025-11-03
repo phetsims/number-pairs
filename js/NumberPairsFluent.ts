@@ -258,6 +258,7 @@ addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswerOnFirstTry', 'a11y.gameScreen.responses.correctAnswerOnFirstTryStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleName', 'a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleContextResponse', 'a11y.gameScreen.resetChallengeButton.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnTop', 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' );
@@ -660,13 +661,14 @@ const NumberPairsFluent = {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )
       },
       responses: {
-        correctAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerStringProperty' ), [{"name":"guess"}] ),
-        incorrectAnswer: new FluentPattern<{ guess: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_incorrectAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.incorrectAnswerStringProperty' ), [{"name":"guess"}] ),
-        correctAnswerOnFirstTry: new FluentPattern<{ guess: FluentVariable, score: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswerOnFirstTry', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerOnFirstTryStringProperty' ), [{"name":"guess"},{"name":"score"}] )
+        correctAnswer: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+        incorrectAnswer: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_incorrectAnswer', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.incorrectAnswerStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+        correctAnswerOnFirstTry: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, score: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_responses_correctAnswerOnFirstTry', _.get( NumberPairsStrings, 'a11y.gameScreen.responses.correctAnswerOnFirstTryStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"score"},{"name":"total"}] )
       },
       resetChallengeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty' ) ),
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_resetChallengeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.gameScreen.resetChallengeButton.accessibleContextResponseStringProperty' ) )
       }
     },
     _comment_6: new FluentComment( {"comment":"Preferences","associatedKey":"preferences"} ),

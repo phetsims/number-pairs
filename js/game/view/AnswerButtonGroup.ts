@@ -142,9 +142,12 @@ export default class AnswerButtonGroup extends GridBox {
         const state = isPressedProperty.value;
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
+
+          this.addAccessibleContextResponse( value + ' chosen for answer' );
         }
         else {
           selectedNumberProperty.value = null;
+          this.addAccessibleContextResponse( 'Answer cleared' );
         }
       } );
 
@@ -215,7 +218,10 @@ export default class AnswerButtonGroup extends GridBox {
         focusable: false,
         groupFocusHighlight: true,
         columns: [ leftColumn, rightColumn ],
-        accessibleRoleDescription: 'button group' // do not translate
+        accessibleRoleDescription: 'button group', // do not translate
+        accessibleHeading: 'Answer Choice Number Stack', // TODO: i18n and rename to "Answer Button Group", see https://github.com/phetsims/number-pairs/issues/336
+        accessibleName: 'Answer Choice Number Stack', // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/336
+        accessibleHelpText: 'Arrows or W,A,S,D keys navigate to choice, space or enter selects answer.' // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/336
       }, providedOptions );
     super( options );
     this.elements = elements;

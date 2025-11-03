@@ -128,31 +128,31 @@ a11y:
                        }
   sumScreen:
     screenSummary:
-        playArea:        >-
-                         { $representationType ->
-                             [numberLine] Total is shown on number line with a green line broken into two sections, a yellow section on left and blue section on right.
-                              A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
-                            *[other] There are yellow and blue objects you can move to organize or change color to find different ways to add two numbers to create a total. 
-                         } An addition phrase, a { $numberBarOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
-                          automatically organize objects, or swap addends.
-        controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
-        currentDetails:  |-
-                         { $shownSides -> 
-                             [ none ]   Counting area currently hidden.
-                            *[ both ]   { $representationType ->
-                                      [numberLine] Currently, total of { $total } created by adding lengths of two sections on number line.
-                                     *[other] Currently, { $total } total { $itemType } created by adding { $itemType } of two colors.
-                                    }
-                             }
+      playArea:        >-
+                       { $representationType ->
+                           [numberLine] Total is shown on number line with a green line broken into two sections, a yellow section on left and blue section on right.
+                            A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
+                          *[other] There are yellow and blue objects you can move to organize or change color to find different ways to add two numbers to create a total. 
+                       } An addition phrase, a { $numberBarOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
+                        automatically organize objects, or swap addends.
+      controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
+      currentDetails:  |-
+                       { $shownSides -> 
+                           [ none ]   Counting area currently hidden.
+                          *[ both ]   { $representationType ->
+                                    [numberLine] Currently, total of { $total } created by adding lengths of two sections on number line.
+                                   *[other] Currently, { $total } total { $itemType } created by adding { $itemType } of two colors.
+                                  }
+                           }
 
-        interactionHint: >-
-                         { $representationType ->
-                             *[ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                              Add or remove beads with number spinners to change total.
-                             [ kittens ]    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
-                             [ numberLine ] Move addend splitter knob to change length of yellow and blue sections that create total.
-                              Add or remove one from yellow section on left or blue section on right to change total.
-                         }
+      interactionHint: >-
+                       { $representationType ->
+                           *[ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
+                            Add or remove beads with number spinners to change total.
+                           [ kittens ]    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
+                           [ numberLine ] Move addend splitter knob to change length of yellow and blue sections that create total.
+                            Add or remove one from yellow section on left or blue section on right to change total.
+                       }
 
   # Basic terms and interactions
   left:                   left
@@ -455,12 +455,13 @@ a11y:
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     responses:
-      correctAnswer:           '{ $guess } is correct.'
-      incorrectAnswer:         '{ $guess } is incorrect. Try a different number.'
-      correctAnswerOnFirstTry: '{ $guess } is correct. Stars increased to { $score }.'
+      correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
+      incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
+      correctAnswerOnFirstTry: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. Stars increased to { $score }.'
     resetChallengeButton:
-      accessibleName:     Reset Challenge
-      accessibleHelpText: Reset the current challenge to try again.
+      accessibleName:            Reset Challenge
+      accessibleHelpText:        Reset challenge back to beginning.
+      accessibleContextResponse: Challenge reset.
 
   # Preferences
   preferences:

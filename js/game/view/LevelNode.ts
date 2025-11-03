@@ -163,7 +163,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       enabledProperty: level.modeProperty.derived( mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' ),
       accessibleName: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty
+      accessibleHelpText: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty,
+      accessibleContextResponse: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleContextResponseStringProperty
     } );
     this.addChild( this.challengeResetButton );
 
@@ -179,19 +180,30 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
         const { isCorrect, firstTry } = level.checkAnswer( guess );
 
+        const challenge = level.challengeProperty.value;
         if ( isCorrect ) {
           if ( firstTry ) {
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
-              guess: guess,
+              leftAddend: challenge.a,
+              rightAddend: challenge.b,
+              total: challenge.y,
               score: level.scoreProperty.value
             } ) );
           }
           else {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( { guess: guess } ) );
+            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( {
+              leftAddend: challenge.a,
+              rightAddend: challenge.b,
+              total: challenge.y
+            } ) );
           }
         }
         else {
-          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( { guess: guess } ) );
+          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( {
+            leftAddend: challenge.missing !== 'a' ? challenge.a : guess,
+            rightAddend: challenge.missing !== 'b' ? challenge.b : guess,
+            total: challenge.missing !== 'y' ? challenge.y : guess
+          } ) );
         }
       },
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
