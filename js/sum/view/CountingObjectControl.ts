@@ -9,6 +9,7 @@
  */
 
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import derived from '../../../../axon/js/derived.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -47,6 +48,10 @@ type SelfOptions = {
   leftAddendProperty?: Property<number> | null;
   addendVisibleProperty: TReadOnlyProperty<boolean>;
   redactedValueStringProperty?: TReadOnlyProperty<string>;
+
+  // a11y strings
+  addendStringProperty: TReadOnlyProperty<string>;
+  colorStringProperty: TReadOnlyProperty<string>;
 };
 export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
 
@@ -93,9 +98,22 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     providedOptions: CountingObjectControlOptions
   ) {
 
+    const representationTypeLabelProperty = derived( countingRepresentationTypeProperty,
+      representationType => representationType === RepresentationType.KITTENS ? 'kittens' :
+                            representationType === RepresentationType.BEADS ? 'beads' : 'other' );
+
     const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
       leftAddendProperty: null,
       redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleName.createProperty( {
+        representationType: representationTypeLabelProperty,
+        color: providedOptions.addendStringProperty
+      } ),
+      accessibleHelpText: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
+        representationType: representationTypeLabelProperty,
+        color: providedOptions.colorStringProperty,
+        addend: providedOptions.addendStringProperty
+      } ),
       focusable: true,
       tagName: 'input',
       inputType: 'range',
@@ -224,6 +242,16 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       this.updateAriaValueText();
     } );
 
+    const incrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.incrementContextResponse.createProperty( {
+      representationType: representationTypeLabelProperty,
+      color: options.colorStringProperty,
+      addend: options.addendStringProperty
+    } );
+    const decrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.decrementContextResponse.createProperty( {
+      representationType: representationTypeLabelProperty,
+      color: options.colorStringProperty,
+      addend: options.addendStringProperty
+    } );
     const keyboardInputListener = new KeyboardListener( {
       keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
       fire: ( event, keysPressed ) => {
@@ -231,10 +259,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
         if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
           options.interruptPointers();
           inactiveCountingObjects.lengthProperty.value > 0 && incrementButton.pdomClick();
+          this.addAccessibleContextResponse( incrementContextResponseProperty );
         }
         else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
           options.interruptPointers();
           addendCountingObjects.lengthProperty.value > 0 && decrementButton.pdomClick();
+          this.addAccessibleContextResponse( decrementContextResponseProperty );
         }
       }
     } );

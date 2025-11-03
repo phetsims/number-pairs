@@ -343,13 +343,13 @@ a11y:
                                           [beads]   Add or remove one { $color } bead.
                                           *[other]  Add or remove one from { $addend } addend.
                                         }
-      addedAccessibleContextResponse:   |-
+      incrementContextResponse:   |-
                                         { $representationType ->
                                           [kittens] One { $color } kitten added to counting area.
                                           [beads]   One { $color } bead added to counting area.
                                           *[other]  One added to { $addend } section of number line.
                                         }
-      removedAccessibleContextResponse: |-
+      decrementContextResponse: |-
                                         { $representationType ->
                                           [kittens] One { $color } kitten removed from counting area.
                                           [beads]   One { $color } bead removed from counting area.

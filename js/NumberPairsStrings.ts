@@ -298,8 +298,8 @@ type StringsType = {
       'countingObjectControl': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'addedAccessibleContextResponseStringProperty': LocalizedStringProperty;
-        'removedAccessibleContextResponseStringProperty': LocalizedStringProperty;
+        'incrementContextResponseStringProperty': LocalizedStringProperty;
+        'decrementContextResponseStringProperty': LocalizedStringProperty;
       };
       'countFromZeroSwitch': {
         'valueAAccessibleNameStringProperty': LocalizedStringProperty;
