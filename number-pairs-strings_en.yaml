@@ -143,11 +143,13 @@ a11y:
                                     }
                              }
 
-        interactionHint: |-
+        interactionHint: >-
                          { $representationType ->
                              *[ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                             [ kittens ]    Choose kitten to move, organize, or change color.
-                             [ numberLine ] Move addend splitter knob to change length of sections that create total.
+                              Add or remove beads with number spinners to change total.
+                             [ kittens ]    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
+                             [ numberLine ] Move addend splitter knob to change length of yellow and blue sections that create total.
+                              Add or remove one from yellow section on left or blue section on right to change total.
                          }
 
   # Basic terms and interactions
