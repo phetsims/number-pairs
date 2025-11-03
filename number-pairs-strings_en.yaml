@@ -269,8 +269,6 @@ a11y:
   totalSceneSelection:
     totalNumberPattern: Total Number { $value }
     accessibleHelpText: Choose total for counting area.
-  totalCheckbox:
-    accessibleHelpText: Show or hide the sum of the two addends.
 
   # Controls and interactions
   controls:

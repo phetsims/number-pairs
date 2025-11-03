@@ -234,9 +234,6 @@ type StringsType = {
       'totalNumberPatternStringProperty': LocalizedStringProperty;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
-    'totalCheckbox': {
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
-    };
     'controls': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
       'phrase': {

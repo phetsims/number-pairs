@@ -171,7 +171,6 @@ addToMapIfDefined( 'a11y_numberLineDescription_countOnTotalJumpPattern', 'a11y.n
 addToMapIfDefined( 'a11y_numberLineDescription_countFromZeroTotalJumpPattern', 'a11y.numberLineDescription.countFromZeroTotalJumpPatternStringProperty' );
 addToMapIfDefined( 'a11y_totalSceneSelection_totalNumberPattern', 'a11y.totalSceneSelection.totalNumberPatternStringProperty' );
 addToMapIfDefined( 'a11y_totalSceneSelection_accessibleHelpText', 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_totalCheckbox_accessibleHelpText', 'a11y.totalCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_accessibleHeading', 'a11y.controls.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_controls_phrase_accessibleHelpTextCollapsed', 'a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty' );
 addToMapIfDefined( 'a11y_controls_speechSynthesis_accessibleName', 'a11y.controls.speechSynthesis.accessibleNameStringProperty' );
@@ -411,6 +410,7 @@ const NumberPairsFluent = {
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
+      _comment_0: new FluentComment( {"comment":"Use the NUMBER syntax so fluent can handle a string of a number instead of just a number type.","associatedKey":"leadingParagraph"} ),
       leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total"}] ),
       numberBondLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_numberBondLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.numberBondLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
@@ -499,9 +499,6 @@ const NumberPairsFluent = {
     totalSceneSelection: {
       totalNumberPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.totalNumberPatternStringProperty' ), [{"name":"value"}] ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' ) )
-    },
-    totalCheckbox: {
-      accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.totalCheckbox.accessibleHelpTextStringProperty' ) )
     },
     _comment_4: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
     controls: {

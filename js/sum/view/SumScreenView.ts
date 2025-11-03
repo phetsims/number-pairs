@@ -82,7 +82,7 @@ export default class SumScreenView extends NumberPairsScreenView {
     }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsFluent.totalStringProperty, totalCheckboxLabelOptions ), {
-        accessibleHelpText: NumberPairsFluent.a11y.totalCheckbox.accessibleHelpTextStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.controls.totalCheckbox.accessibleHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
