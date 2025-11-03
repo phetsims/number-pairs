@@ -9,11 +9,13 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import derived from '../../../../axon/js/derived.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import FluentPattern, { type FluentVariable } from '../../../../chipper/js/browser/FluentPattern.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -24,6 +26,7 @@ import CountingObject from '../../common/model/CountingObject.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from './Challenge.js';
 import GameModelConstants from './GameModelConstants.js';
 import InputRange from './InputRange.js';
@@ -68,6 +71,8 @@ export default class Level {
     ]
   } );
 
+  public readonly accessibleChallengePromptProperty: TReadOnlyProperty<string>;
+
   /**
    * Only the default bounds are needed to calculate positions of counting objects in the counting area.
    * Other representations in the game screen (number line) do not use counting objects and therefore that
@@ -80,6 +85,7 @@ export default class Level {
     public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     public readonly description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
     public readonly accessibleHelpText: TReadOnlyProperty<string>,
+    public readonly accessibleChallengePromptPattern: FluentPattern<{ leftAddend: FluentVariable; rightAddend: FluentVariable; total: FluentVariable }>,
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
@@ -125,6 +131,15 @@ export default class Level {
     this.guessedNumbers = createObservableArray<number>( {
       tandem: tandem.createTandem( 'guessedNumbers' ),
       phetioType: createObservableArray.ObservableArrayIO( NumberIO )
+    } );
+
+    this.accessibleChallengePromptProperty = this.accessibleChallengePromptPattern.createProperty( {
+      leftAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
+        ( challenge, whatNumber ) => challenge.missing !== 'a' ? challenge.a : whatNumber ),
+      rightAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
+        ( challenge, whatNumber ) => challenge.missing !== 'b' ? challenge.b : whatNumber ),
+      total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
+        ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber )
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;

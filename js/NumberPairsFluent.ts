@@ -224,14 +224,26 @@ addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChe
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_equation_accessibleParagraphPattern', 'a11y.equation.accessibleParagraphPatternStringProperty' );
 addToMapIfDefined( 'a11y_equation_accessibleParagraphHiddenPattern', 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_whatNumber', 'a11y.gameScreen.whatNumberStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_decompositionChallengePrompt', 'a11y.gameScreen.decompositionChallengePromptStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_challengeSumPrompt', 'a11y.gameScreen.challengeSumPromptStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_accessibleChallengePromptFinalSentence', 'a11y.gameScreen.accessibleChallengePromptFinalSentenceStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level1_accessibleHelpText', 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level1_accessibleChallengePrompt', 'a11y.gameScreen.level1.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level2_accessibleHelpText', 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level2_accessibleChallengePrompt', 'a11y.gameScreen.level2.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level3_accessibleHelpText', 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level3_accessibleChallengePrompt', 'a11y.gameScreen.level3.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level4_accessibleHelpText', 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level4_accessibleChallengePrompt', 'a11y.gameScreen.level4.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level5_accessibleHelpText', 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level5_accessibleChallengePrompt', 'a11y.gameScreen.level5.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level6_accessibleHelpText', 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level6_accessibleChallengePrompt', 'a11y.gameScreen.level6.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level7_accessibleHelpText', 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level7_accessibleChallengePrompt', 'a11y.gameScreen.level7.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level8_accessibleHelpText', 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level8_accessibleChallengePrompt', 'a11y.gameScreen.level8.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_incorrectAnswer', 'a11y.gameScreen.responses.incorrectAnswerStringProperty' );
@@ -587,29 +599,41 @@ const NumberPairsFluent = {
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
+      whatNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_whatNumber', _.get( NumberPairsStrings, 'a11y.gameScreen.whatNumberStringProperty' ) ),
+      decompositionChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_decompositionChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.decompositionChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+      challengeSumPrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_challengeSumPrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.challengeSumPromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+      accessibleChallengePromptFinalSentenceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_accessibleChallengePromptFinalSentence', _.get( NumberPairsStrings, 'a11y.gameScreen.accessibleChallengePromptFinalSentenceStringProperty' ) ),
       level1: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level2: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level2_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level2_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level2_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level2.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level3: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level3_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level3_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' ) ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level3_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level3.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level4: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level4_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level4_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' ) ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level4_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level4.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level5: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level5_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] )
+        accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level5_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level5_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level5.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level6: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level6_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level6_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' ) ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level6_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level6.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level7: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level7_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level7_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' ) ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level7_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level7.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       level8: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level8_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level8_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' ) ),
+        accessibleChallengePrompt: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level8_accessibleChallengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.level8.accessibleChallengePromptStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
       },
       answerButton: {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )

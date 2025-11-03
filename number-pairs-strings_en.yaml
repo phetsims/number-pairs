@@ -331,30 +331,30 @@ a11y:
     rightObjects:
       accessibleName: Blue Objects
     countingObjectControl:
-      accessibleName: |-
-        { $representationType ->
-          [kittens] { $color } Kitten
-          [beads]   { $color } Bead
-          *[other]  { $color } Section
-        }
-      accessibleHelpText: |-
-        { $representationType ->
-          [kittens] Add or remove one { $color } kitten.
-          [beads]   Add or remove one { $color } bead.
-          *[other]  Add or remove one from { $addend } addend.
-        }
-      addedAccessibleContextResponse: |-
-        { $representationType ->
-          [kittens] One { $color } kitten added to counting area.
-          [beads]   One { $color } bead added to counting area.
-          *[other]  One added to { $addend } section of number line.
-        }
+      accessibleName:                   |-
+                                        { $representationType ->
+                                          [kittens] { $color } Kitten
+                                          [beads]   { $color } Bead
+                                          *[other]  { $color } Section
+                                        }
+      accessibleHelpText:               |-
+                                        { $representationType ->
+                                          [kittens] Add or remove one { $color } kitten.
+                                          [beads]   Add or remove one { $color } bead.
+                                          *[other]  Add or remove one from { $addend } addend.
+                                        }
+      addedAccessibleContextResponse:   |-
+                                        { $representationType ->
+                                          [kittens] One { $color } kitten added to counting area.
+                                          [beads]   One { $color } bead added to counting area.
+                                          *[other]  One added to { $addend } section of number line.
+                                        }
       removedAccessibleContextResponse: |-
-        { $representationType ->
-          [kittens] One { $color } kitten removed from counting area.
-          [beads]   One { $color } bead removed from counting area.
-          *[other]  One removed from { $addend } section of number line.
-        }
+                                        { $representationType ->
+                                          [kittens] One { $color } kitten removed from counting area.
+                                          [beads]   One { $color } bead removed from counting area.
+                                          *[other]  One removed from { $addend } section of number line.
+                                        }
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero
@@ -379,22 +379,35 @@ a11y:
 
   # Game
   gameScreen:
+    whatNumber:                             what number
+    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    accessibleChallengePromptFinalSentence: Find missing addend to solve challenge. Select an answer from the Answer Choice Stack.
+
     level1:
-      accessibleHelpText:  Find a missing addend in a { $numberModelType } with total between 2 and 10.
+      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 2 and 10.
+      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level2:
-      accessibleHelpText: Find a missing addend in a { $numberModelType } with total always 10.
+      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total always 10.
+      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level3:
-      accessibleHelpText: Find a missing addend in a decomposition equation with total always 10.
+      accessibleHelpText:        Find a missing addend in a decomposition equation with total always 10.
+      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level4:
-      accessibleHelpText: Find a missing addend in a sum equation with total always 10.
+      accessibleHelpText:        Find a missing addend in a sum equation with total always 10.
+      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     level5:
-      accessibleHelpText: Find a missing addend in a { $numberModelType } with total between 11 and 20.
+      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 11 and 20.
+      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level6:
-      accessibleHelpText: Find a missing addend in a decomposition equation with total between 11 and 20.
+      accessibleHelpText:        Find a missing addend in a decomposition equation with total between 11 and 20.
+      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level7:
-      accessibleHelpText: Find a missing addend or total in a sum equation with total between 11 and 20.
+      accessibleHelpText:        Find a missing addend or total in a sum equation with total between 11 and 20.
+      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     level8:
-      accessibleHelpText: Find a missing addend in a sum equation using the number line with total between 0 and 20.
+      accessibleHelpText:        Find a missing addend in a sum equation using the number line with total between 0 and 20.
+      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     responses:

@@ -18,14 +18,14 @@ import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CheckButton from '../../../../vegas/js/buttons/CheckButton.js';
 import NextButton from '../../../../vegas/js/buttons/NextButton.js';
-import ChallengeScreenNode from '../../../../vegas/js/ChallengeScreenNode.js';
+import ChallengeScreenNode, { ChallengeScreenNodeOptions } from '../../../../vegas/js/ChallengeScreenNode.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
@@ -41,7 +41,7 @@ type SelfOptions = {
   countingAreaBackgroundColorProperty: TReadOnlyProperty<TColor>;
   countingAreaBounds?: Bounds2; // if not provided, GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS is used
 };
-export type LevelNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
+export type LevelNodeOptions = SelfOptions & StrictOmit<ChallengeScreenNodeOptions, 'children'>;
 
 // constants
 const TEXT_OPTIONS = {
@@ -72,8 +72,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
                          tandem: Tandem,
                          providedOptions?: LevelNodeOptions ) {
 
-    const options = optionize<LevelNodeOptions, SelfOptions, NodeOptions>()( {
-      countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS
+    const options = optionize<LevelNodeOptions, SelfOptions, ChallengeScreenNodeOptions>()( {
+      countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS,
+      accessibleChallengePrompt: level.accessibleChallengePromptProperty
     }, providedOptions );
     super( options );
 

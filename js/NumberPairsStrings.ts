@@ -330,29 +330,41 @@ type StringsType = {
       'accessibleParagraphHiddenPatternStringProperty': LocalizedStringProperty;
     };
     'gameScreen': {
+      'whatNumberStringProperty': LocalizedStringProperty;
+      'decompositionChallengePromptStringProperty': LocalizedStringProperty;
+      'challengeSumPromptStringProperty': LocalizedStringProperty;
+      'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
       'level1': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level2': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level3': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level4': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level5': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level6': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level7': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level8': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;
