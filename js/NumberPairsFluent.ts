@@ -144,7 +144,6 @@ addToMapIfDefined( 'a11y_kittens_accessibleName', 'a11y.kittens.accessibleNameSt
 addToMapIfDefined( 'a11y_kittens_singularAccessibleName', 'a11y.kittens.singularAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_changeColorAccessibleName', 'a11y.kittens.changeColorAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_kittens_kittenPattern', 'a11y.kittens.kittenPatternStringProperty' );
-addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withAttributeSwitch', 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' );
 addToMapIfDefined( 'a11y_beads_accessibleName', 'a11y.beads.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_beads_singularAccessibleName', 'a11y.beads.singularAccessibleNameStringProperty' );
@@ -473,7 +472,6 @@ const NumberPairsFluent = {
       changeColorAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.changeColorAccessibleNameStringProperty' ) ),
       kittenPattern: new FluentPattern<{ color: FluentVariable, descriptor: 'first' | 'last' | 'only' | number | 'other' | TReadOnlyProperty<'first' | 'last' | 'only' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_kittens_kittenPattern', _.get( NumberPairsStrings, 'a11y.kittens.kittenPatternStringProperty' ), [{"name":"color"},{"name":"descriptor","variants":["first","last","only",{"type":"number","value":"other"}]}] ),
       accessibleHelpText: {
-        withAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty' ) ),
         withoutAttributeSwitchStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText_withoutAttributeSwitch', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty' ) )
       }
     },

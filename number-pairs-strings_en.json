@@ -426,9 +426,6 @@
         "value": "{ $descriptor ->\n    [first] First { $color} Kitten \n    [last] Last { $color } Kitten \n    [only] Only { $color } Kitten \n    *[other] { $color } Kitten\n}"
       },
       "accessibleHelpText": {
-        "withAttributeSwitch": {
-          "value": "Move freely to create groups with arrows or W, A, S, D keys. Change color with space or enter."
-        },
         "withoutAttributeSwitch": {
           "value": "Count or organize kittens to help solve challenge if needed."
         }

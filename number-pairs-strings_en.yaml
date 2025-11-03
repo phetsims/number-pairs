@@ -238,7 +238,6 @@ a11y:
                                    *[other] { $color } Kitten
                                }
     accessibleHelpText:
-      withAttributeSwitch:    Move freely to create groups with arrows or W, A, S, D keys. Change color with space or enter.
       withoutAttributeSwitch: Count or organize kittens to help solve challenge if needed.
 
   beads:

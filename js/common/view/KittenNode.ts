@@ -82,7 +82,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
       tagName: 'div',
       cursor: 'pointer',
       accessibleHelpText: providedOptions.includeAttributeSwitch === undefined || providedOptions.includeAttributeSwitch ?
-                          NumberPairsFluent.a11y.kittens.accessibleHelpText.withAttributeSwitchStringProperty :
+                          undefined :
                           NumberPairsFluent.a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty,
       focusable: true,
       includeAttributeSwitch: true,
