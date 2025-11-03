@@ -107,7 +107,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
       accessibleName: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleName.createProperty( {
         representationType: representationTypeLabelProperty,
-        color: providedOptions.addendStringProperty
+        color: providedOptions.colorStringProperty
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHelpText.createProperty( {
         representationType: representationTypeLabelProperty,
