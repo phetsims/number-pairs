@@ -380,6 +380,14 @@ type StringsType = {
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;
       };
+      'answerButtonGroup': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
+      'tenFrameButton': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
       'responses': {
         'correctAnswerStringProperty': LocalizedStringProperty;
         'incorrectAnswerStringProperty': LocalizedStringProperty;
