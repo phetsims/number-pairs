@@ -263,6 +263,8 @@ type StringsType = {
       'tenFrameButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'sumDistributionStringProperty': LocalizedStringProperty;
+        'decompositionDistributionStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
       };
       'commutativeButton': {

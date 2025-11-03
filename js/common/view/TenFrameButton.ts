@@ -13,7 +13,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -28,8 +27,7 @@ export default class TenFrameButton extends RectangularPushButton {
     const tenFrameIcon = TenFrameButton.createTenFrameIcon();
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
-        content: tenFrameIcon,
-        accessibleContextResponse: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseStringProperty
+        content: tenFrameIcon
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

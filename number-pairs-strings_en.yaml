@@ -303,13 +303,15 @@ a11y:
       equal:                                     equal
     tenFrameButton:
       accessibleName:            Organize { $representation } Into Groups
-      accessibleHelpText:        |-
-                                 { $representationType ->
-                                   [kittens] Group by color, up to 5 kittens per row.
-                                   [beads] Group by color, up to 5 beads per group.
-                                   *[other] Each group has a maximum of 5 { $representation }.
-                                 }
-      accessibleContextResponse: Organized.
+      accessibleHelpText:        Create groups of 5 { $representation }.
+      sumDistribution:              One array combines color
+      decompositionDistribution:    Two arrays separated by color
+      accessibleContextResponse: |-
+                                    { $representationType ->
+                                    [kittens]   { $distribution }, kittens in rows.
+                                    [beads]     Divider separates groups by color.
+                                    *[other]    Left and right counting areas organized into rows.
+                                    }
     commutativeButton:
       accessibleName:                  Swap Addends
       accessibleHelpText:       Switches left and right addends.

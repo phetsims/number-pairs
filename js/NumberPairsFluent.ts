@@ -190,6 +190,8 @@ addToMapIfDefined( 'a11y_controls_numberModel_smallerAndLarger', 'a11y.controls.
 addToMapIfDefined( 'a11y_controls_numberModel_equal', 'a11y.controls.numberModel.equalStringProperty' );
 addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleName', 'a11y.controls.tenFrameButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleHelpText', 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_tenFrameButton_sumDistribution', 'a11y.controls.tenFrameButton.sumDistributionStringProperty' );
+addToMapIfDefined( 'a11y_controls_tenFrameButton_decompositionDistribution', 'a11y.controls.tenFrameButton.decompositionDistributionStringProperty' );
 addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleContextResponse', 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleName', 'a11y.controls.commutativeButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpText', 'a11y.controls.commutativeButton.accessibleHelpTextStringProperty' );
@@ -530,8 +532,10 @@ const NumberPairsFluent = {
       },
       tenFrameButton: {
         accessibleName: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleNameStringProperty' ), [{"name":"representation"}] ),
-        accessibleHelpText: new FluentPattern<{ representation: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' ), [{"name":"representation"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] ),
-        accessibleContextResponseStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' ) )
+        accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' ), [{"name":"representation"}] ),
+        sumDistributionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_sumDistribution', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.sumDistributionStringProperty' ) ),
+        decompositionDistributionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_decompositionDistribution', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.decompositionDistributionStringProperty' ) ),
+        accessibleContextResponse: new FluentPattern<{ distribution: FluentVariable, representationType: 'kittens' | 'beads' | number | 'other' | TReadOnlyProperty<'kittens' | 'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_tenFrameButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' ), [{"name":"distribution"},{"name":"representationType","variants":["kittens","beads",{"type":"number","value":"other"}]}] )
       },
       commutativeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleNameStringProperty' ) ),

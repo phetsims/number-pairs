@@ -204,6 +204,7 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     phraseVBox.addChild( localeSwitch );
 
+    // Ten Frame Button
     const tenFrameButtonTandem = options.tandem.createTandem( 'tenFrameButton' );
     const tenFrameButtonVisibleProperty = new GatedVisibleProperty( new DerivedProperty( [ model.representationTypeProperty ],
       countingRepresentation => countingRepresentation === RepresentationType.APPLES ||
@@ -216,18 +217,23 @@ export default class NumberPairsScreenView extends ScreenView {
     const representationTypeAccessibleNameProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: representationType => representationType.accessibleName
     } );
-    const organizeObjectsPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleName.createProperty( {
-      representation: representationTypeAccessibleNameProperty
-    } );
-    const organizeObjectsHelpTextPatternStringProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleHelpText.createProperty( {
-      representation: representationTypeAccessibleNameProperty,
-      representationType: model.representationTypeProperty.derived( representationType => representationType.label as 'kittens' | 'beads' | 'other' )
+    const tenFrameContextResponseProperty = NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponse.createProperty( {
+      representationType: derived( model.representationTypeProperty, representationType =>
+        representationType === RepresentationType.KITTENS ? 'kittens' :
+        representationType === RepresentationType.BEADS ? 'beads' : 'other' ),
+      distribution: options.sumScreen ? NumberPairsFluent.a11y.controls.tenFrameButton.sumDistributionStringProperty :
+                    NumberPairsFluent.a11y.controls.tenFrameButton.decompositionDistributionStringProperty
     } );
 
     const buttonVBoxSpacing = 10;
     const tenFrameButton = new TenFrameButton( {
-      accessibleName: organizeObjectsPatternStringProperty,
-      accessibleHelpText: organizeObjectsHelpTextPatternStringProperty,
+      accessibleName: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleName.createProperty( {
+        representation: representationTypeAccessibleNameProperty
+      } ),
+      accessibleHelpText: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleHelpText.createProperty( {
+        representation: representationTypeAccessibleNameProperty
+      } ),
+      accessibleContextResponse: tenFrameContextResponseProperty,
       tandem: tenFrameButtonTandem,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
@@ -254,11 +260,11 @@ export default class NumberPairsScreenView extends ScreenView {
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 
-    const representationTypeLabelProperty = derived( model.representationTypeProperty, representationType =>
-    representationType === RepresentationType.KITTENS || representationType === RepresentationType.BEADS ?
-    'attribute' : representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other' );
+    // Commutative Button
     const commutativeButtonContextResponseProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
-      representationType: representationTypeLabelProperty,
+      representationType: derived( model.representationTypeProperty, representationType =>
+        representationType === RepresentationType.KITTENS || representationType === RepresentationType.BEADS ?
+        'attribute' : representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other' ),
       leftAddend: this.countingAreaDescriptionNode.leftValueStringProperty,
       rightAddend: this.countingAreaDescriptionNode.rightValueStringProperty,
       total: this.countingAreaDescriptionNode.totalValueStringProperty
