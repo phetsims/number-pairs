@@ -65,7 +65,8 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       } ),
       accessibleContextResponse: level.levelNumber === 4 || level.levelNumber === 7 ?
                                  NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseGameCombinedStringProperty :
-                                 NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseGameSeparateStringProperty
+                                 NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseGameSeparateStringProperty,
+      accessibleHelpText: 'Create groups of 5 Kittens' // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/336
     } );
 
     this.addChild( this.kittensLayerNode );

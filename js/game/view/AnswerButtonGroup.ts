@@ -214,7 +214,8 @@ export default class AnswerButtonGroup extends GridBox {
         ySpacing: Y_SPACING,
         focusable: false,
         groupFocusHighlight: true,
-        columns: [ leftColumn, rightColumn ]
+        columns: [ leftColumn, rightColumn ],
+        accessibleRoleDescription: 'button group' // do not translate
       }, providedOptions );
     super( options );
     this.elements = elements;

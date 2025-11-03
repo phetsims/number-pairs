@@ -8,6 +8,7 @@
  */
 
 import derived from '../../../../axon/js/derived.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -121,7 +122,12 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: options.countingAreaBackgroundColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
-      countingAreaBounds: this.countingAreaBounds
+      countingAreaBounds: this.countingAreaBounds,
+
+      // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/336
+      bothAddendsEyeToggleButtonAccessibleHelpText: new StringProperty( 'Show or hide kittens.' ),
+      bothAddendsEyeToggleButtonAccessibleContextResponseOff: new StringProperty( 'Kittens visible.' ),
+      bothAddendsEyeToggleButtonAccessibleContextResponseOn: new StringProperty( 'Kittens hidden.' )
     } );
 
     // Checkmark/X feedback marks positioned by the missing slot

@@ -43,6 +43,9 @@ type SelfOptions = {
   countingAreaBounds?: Bounds2;
   leftAddendVisibleProperty?: BooleanProperty | null;
   rightAddendVisibleProperty?: BooleanProperty | null;
+  bothAddendsEyeToggleButtonAccessibleHelpText?: TReadOnlyProperty<string> | null;
+  bothAddendsEyeToggleButtonAccessibleContextResponseOff?: TReadOnlyProperty<string> | null;
+  bothAddendsEyeToggleButtonAccessibleContextResponseOn?: TReadOnlyProperty<string> | null;
 };
 
 type CountingAreaNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'> & PickRequired<NodeOptions, 'tandem'>;
@@ -63,7 +66,10 @@ export default class CountingAreaNode extends Node {
       phetioVisiblePropertyInstrumented: false,
       countingAreaBounds: NumberPairsConstants.COUNTING_AREA_BOUNDS,
       leftAddendVisibleProperty: null,
-      rightAddendVisibleProperty: null
+      rightAddendVisibleProperty: null,
+      bothAddendsEyeToggleButtonAccessibleHelpText: null,
+      bothAddendsEyeToggleButtonAccessibleContextResponseOff: null,
+      bothAddendsEyeToggleButtonAccessibleContextResponseOn: null
     }, providedOptions );
     super( options );
 
@@ -97,15 +103,15 @@ export default class CountingAreaNode extends Node {
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( bothAddendsVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
+      accessibleHelpText: options.bothAddendsEyeToggleButtonAccessibleHelpText || NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
         modelRepresentation: numberBondOrBarModelStringProperty
       } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
       visibleProperty: bothAddendsEyeToggleButtonVisibleProperty,
       tandem: bothAddendsEyeToggleButtonTandem,
-      accessibleContextResponseOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty,
-      accessibleContextResponseOn: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty
+      accessibleContextResponseOff: options.bothAddendsEyeToggleButtonAccessibleContextResponseOff || NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty,
+      accessibleContextResponseOn: options.bothAddendsEyeToggleButtonAccessibleContextResponseOn || NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty
     } );
     this.addChild( backgroundRectangle );
     this.addChild( this.bothAddendsEyeToggleButton );
