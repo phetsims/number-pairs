@@ -19,17 +19,17 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
   public constructor( model: NumberPairsModel ) {
 
     const objectsPatternStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.objectsPattern.createProperty( {
-      count: model.totalProperty
+      total: model.totalProperty
     } );
 
     const hiddenLeftStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
       hiddenAddend: NumberPairsFluent.a11y.leftStringProperty,
-      count: model.totalProperty
+      total: model.totalProperty
     } );
 
     const hiddenRightStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.hiddenAreaPattern.createProperty( {
       hiddenAddend: NumberPairsFluent.a11y.rightStringProperty,
-      count: model.totalProperty
+      total: model.totalProperty
     } );
 
     const currentDetailsContentProperty = derived(

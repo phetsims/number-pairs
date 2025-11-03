@@ -32,7 +32,7 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     );
 
     const currentDetailsProperty = NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.currentDetails.createProperty( {
-      count: model.totalProperty,
+      total: model.totalProperty,
       itemType: itemTypeProperty,
       representationType: representationTypeProperty,
       shownSides: derived( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, ( leftVisible, rightVisible ) => {

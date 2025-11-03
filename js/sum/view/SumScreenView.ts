@@ -21,7 +21,6 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
-import TenOrTwentyScreenSummaryContent from '../../common/view/description/TenOrTwentyScreenSummaryContent.js';
 import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import KittenNode from '../../common/view/KittenNode.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
@@ -32,6 +31,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
+import SumScreenSummaryContent from './description/SumScreenSummaryContent.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -69,7 +69,7 @@ export default class SumScreenView extends NumberPairsScreenView {
         expandedDefaultValue: true,
         tandem: providedOptions.tandem.createTandem( 'equationAccordionBox' )
       } ),
-      screenSummaryContent: new TenOrTwentyScreenSummaryContent( model )
+      screenSummaryContent: new SumScreenSummaryContent( model )
     }, providedOptions );
 
     super( model, options );
