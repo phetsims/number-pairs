@@ -30,6 +30,7 @@ export default class CountingAreaDescriptionNode extends Node {
 
   public readonly leftValueStringProperty: TReadOnlyProperty<string>;
   public readonly rightValueStringProperty: TReadOnlyProperty<string>;
+  public readonly totalValueStringProperty: TReadOnlyProperty<string>;
 
   public constructor( model: NumberPairsModel, numberLineRepresentationVisibleProperty: TReadOnlyProperty<boolean>,
                       numberLineVisibleProperty: TReadOnlyProperty<boolean>, providedOptions: CountingAreaDescriptionNodeOptions ) {
@@ -44,13 +45,15 @@ export default class CountingAreaDescriptionNode extends Node {
     const numberLineTickValuesVisibleProperty = model.tickValuesVisibleProperty;
     const totalJumpVisibleProperty = model.totalJumpVisibleProperty;
     const locationLayerVisibleProperty = model.locationLayerVisibleProperty;
-    const leftValueStringProperty = derived( leftAddendProperty, leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+    const leftValueStringProperty = derived( leftAddendProperty, leftAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.addendValueHiddenStringProperty,
       ( leftAddend, leftAddendVisible, valueHiddenString ) => leftAddendVisible ? leftAddend.toString() : valueHiddenString
     );
 
-    const rightValueStringProperty = derived( rightAddendProperty, rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.valueHiddenStringProperty,
+    const rightValueStringProperty = derived( rightAddendProperty, rightAddendVisibleProperty, NumberPairsFluent.a11y.countingArea.addendValueHiddenStringProperty,
       ( rightAddend, rightAddendVisible, valueHiddenString ) => rightAddendVisible ? rightAddend.toString() : valueHiddenString
     );
+    const totalValueStringProperty = derived( totalProperty, model.totalVisibleProperty, NumberPairsFluent.a11y.countingArea.totalValueHiddenStringProperty,
+      ( total, totalVisible, valueHiddenString ) => totalVisible ? total.toString() : valueHiddenString );
 
     const showObjectLocationsProperty = derived( representationTypeProperty, locationLayerVisibleProperty,
       ( representationType, locationLayerVisible ) => representationType !== RepresentationType.BEADS && locationLayerVisible );
@@ -87,7 +90,7 @@ export default class CountingAreaDescriptionNode extends Node {
       }
     ], {
       leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
-        total: totalProperty,
+        total: totalValueStringProperty,
         item: new DynamicProperty( representationTypeProperty, {
           derive: 'singularAccessibleName'
         } ),
@@ -107,7 +110,7 @@ export default class CountingAreaDescriptionNode extends Node {
       totalJumpVisibleProperty: totalJumpVisibleProperty,
       leftAddendProperty: leftAddendProperty,
       rightAddendProperty: rightAddendProperty,
-      totalProperty: totalProperty
+      totalProperty: totalValueStringProperty
     } );
 
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
@@ -122,6 +125,7 @@ export default class CountingAreaDescriptionNode extends Node {
 
     this.leftValueStringProperty = leftValueStringProperty;
     this.rightValueStringProperty = rightValueStringProperty;
+    this.totalValueStringProperty = totalValueStringProperty;
   }
 }
 

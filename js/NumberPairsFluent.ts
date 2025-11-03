@@ -123,7 +123,8 @@ addToMapIfDefined( 'a11y_countingArea_yellowListItemPattern', 'a11y.countingArea
 addToMapIfDefined( 'a11y_countingArea_blueListItemPattern', 'a11y.countingArea.blueListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_leftCircleListItemPattern', 'a11y.countingArea.leftCircleListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_rightCircleListItemPattern', 'a11y.countingArea.rightCircleListItemPatternStringProperty' );
-addToMapIfDefined( 'a11y_countingArea_valueHidden', 'a11y.countingArea.valueHiddenStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_addendValueHidden', 'a11y.countingArea.addendValueHiddenStringProperty' );
+addToMapIfDefined( 'a11y_countingArea_totalValueHidden', 'a11y.countingArea.totalValueHiddenStringProperty' );
 addToMapIfDefined( 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleName', 'a11y.representationType.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleHelpText', 'a11y.representationType.accessibleHelpTextStringProperty' );
@@ -192,9 +193,8 @@ addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleName', 'a11y.controls
 addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleHelpText', 'a11y.controls.tenFrameButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleContextResponse', 'a11y.controls.tenFrameButton.accessibleContextResponseStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleName', 'a11y.controls.commutativeButton.accessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpTextPattern', 'a11y.controls.commutativeButton.accessibleHelpTextPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpText', 'a11y.controls.commutativeButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponse', 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' );
-addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponseHidden', 'a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty' );
 addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleName', 'a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleHelpTextPattern', 'a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleNamePattern', 'a11y.controls.addendVisibleButton.accessibleNamePatternStringProperty' );
@@ -411,7 +411,7 @@ const NumberPairsFluent = {
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
-      leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: 1 | number | 'other' | TReadOnlyProperty<1 | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total","variants":[1,{"type":"number","value":"other"}]}] ),
+      leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total"}] ),
       numberBondLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_numberBondLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.numberBondLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       leftSideListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftSideListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftSideListItemPatternStringProperty' ), [{"name":"value"}] ),
@@ -422,7 +422,8 @@ const NumberPairsFluent = {
       blueListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_blueListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.blueListItemPatternStringProperty' ), [{"name":"value"}] ),
       leftCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_leftCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.leftCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
       rightCircleListItemPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_rightCircleListItemPattern', _.get( NumberPairsStrings, 'a11y.countingArea.rightCircleListItemPatternStringProperty' ), [{"name":"value"}] ),
-      valueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_valueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.valueHiddenStringProperty' ) )
+      addendValueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_addendValueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.addendValueHiddenStringProperty' ) ),
+      totalValueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_totalValueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.totalValueHiddenStringProperty' ) )
     },
     equationAccordionBox: {
       accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ) )
@@ -537,9 +538,8 @@ const NumberPairsFluent = {
       },
       commutativeButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleNameStringProperty' ) ),
-        accessibleHelpTextPattern: new FluentPattern<{ items: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleHelpTextPatternStringProperty' ), [{"name":"items"}] ),
-        accessibleContextResponse: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
-        accessibleContextResponseHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponseHidden', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponse: new FluentPattern<{ leftAddend: FluentVariable, representationType: 'attribute' | 'numberLine' | number | 'other' | TReadOnlyProperty<'attribute' | 'numberLine' | number | 'other'>, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' ), [{"name":"leftAddend"},{"name":"representationType","variants":["attribute","numberLine",{"type":"number","value":"other"}]},{"name":"rightAddend"},{"name":"total"}] )
       },
       bothAddendsVisibleButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisibleButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty' ) ),

@@ -158,8 +158,10 @@ a11y:
     noItemSelected:             No item selected
   countingArea:
     accessibleHeading:          Counting Area
+
+    # Use the NUMBER syntax so fluent can handle a string of a number instead of just a number type.
     leadingParagraph:           |-
-                                { $total ->
+                                { NUMBER($total) ->
                                 [1] Counting area has 1 total { $item }
                                 *[other] Counting area has { $total } total { $items }
                                 }
@@ -173,7 +175,8 @@ a11y:
     blueListItemPattern:        '{ $value } blue'
     leftCircleListItemPattern:  '{ $value } in left circle'
     rightCircleListItemPattern: '{ $value } in right circle'
-    valueHidden:                some
+    addendValueHidden:          some
+    totalValueHidden:           hidden
 
   equationAccordionBox:
     accessibleHelpTextCollapsed: View decomposition equation.
@@ -311,9 +314,13 @@ a11y:
       accessibleContextResponse: Organized.
     commutativeButton:
       accessibleName:                  Swap Addends
-      accessibleHelpTextPattern:       Switch { $items } from left counting area to right and right counting area to left.
-      accessibleContextResponse:       '{ $leftAddend } on left, { $rightAddend } on right, { $total } total.'
-      accessibleContextResponseHidden: Addends swapped, contents hidden.
+      accessibleHelpText:       Switches left and right addends.
+      accessibleContextResponse:       |-
+        { $representationType ->
+          [attribute] { $leftAddend } yellow, { $rightAddend } blue, { $total } total.
+          [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section, { $total } total.
+          *[other]  { $leftAddend } on left, { $rightAddend } on right, { $total } total.
+        }
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
@@ -360,7 +367,7 @@ a11y:
       valueBAccessibleName: Count from Zero
       accessibleHelpText:   Choose where to start counting. Count on from first addend to get total or count to first addend starting at zero.
     totalCheckbox:
-      accessibleHelpText: Show or hide the sum of the two addends.
+      accessibleHelpText: Show or hide sum of addends.
     addendsCheckbox:
       accessibleHelpText:                 Show or hide addend values.
       accessibleContextResponseChecked:   'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'

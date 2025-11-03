@@ -159,7 +159,8 @@ type StringsType = {
       'blueListItemPatternStringProperty': LocalizedStringProperty;
       'leftCircleListItemPatternStringProperty': LocalizedStringProperty;
       'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
-      'valueHiddenStringProperty': LocalizedStringProperty;
+      'addendValueHiddenStringProperty': LocalizedStringProperty;
+      'totalValueHiddenStringProperty': LocalizedStringProperty;
     };
     'equationAccordionBox': {
       'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
@@ -269,9 +270,8 @@ type StringsType = {
       };
       'commutativeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
-        'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
-        'accessibleContextResponseHiddenStringProperty': LocalizedStringProperty;
       };
       'bothAddendsVisibleButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;

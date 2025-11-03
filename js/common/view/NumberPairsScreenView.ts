@@ -5,6 +5,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import GatedVisibleProperty from '../../../../axon/js/GatedVisibleProperty.js';
@@ -253,32 +254,19 @@ export default class NumberPairsScreenView extends ScreenView {
       visibleProperty: tenFrameButtonVisibleProperty
     } );
 
-    const commutativeButtonAccessibleContextDefaultProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
+    const representationTypeLabelProperty = derived( model.representationTypeProperty, representationType =>
+    representationType === RepresentationType.KITTENS || representationType === RepresentationType.BEADS ?
+    'attribute' : representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other' );
+    const commutativeButtonContextResponseProperty = NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponse.createProperty( {
+      representationType: representationTypeLabelProperty,
       leftAddend: this.countingAreaDescriptionNode.leftValueStringProperty,
       rightAddend: this.countingAreaDescriptionNode.rightValueStringProperty,
-      total: model.totalProperty
-    } );
-    const commutativeButtonContextResponseProperty = new DerivedProperty( [
-      commutativeButtonAccessibleContextDefaultProperty,
-      NumberPairsFluent.a11y.controls.commutativeButton.accessibleContextResponseHiddenStringProperty,
-      model.representationTypeProperty,
-      model.leftAddendVisibleProperty,
-      model.rightAddendVisibleProperty
-    ], ( defaultResponse, hiddenResponse, representationType, leftVisible, rightVisible ) => {
-      const bothHidden = !leftVisible && !rightVisible;
-      const usesHiddenOverride = representationType === RepresentationType.BEADS ||
-                                 representationType === RepresentationType.KITTENS ||
-                                 representationType === RepresentationType.NUMBER_LINE;
-      return usesHiddenOverride && bothHidden ? hiddenResponse : defaultResponse;
+      total: this.countingAreaDescriptionNode.totalValueStringProperty
     } );
 
     const commutativeButton = new CommutativeButton( {
       accessibleName: NumberPairsFluent.a11y.controls.commutativeButton.accessibleNameStringProperty,
-      accessibleHelpText: NumberPairsFluent.a11y.controls.commutativeButton.accessibleHelpTextPattern.createProperty( {
-        items: new DynamicProperty( model.representationTypeProperty, {
-          derive: 'accessibleName'
-        } )
-      } ),
+      accessibleHelpText: NumberPairsFluent.a11y.controls.commutativeButton.accessibleHelpTextStringProperty,
       touchAreaXDilation: buttonVBoxSpacing / 2,
       touchAreaYDilation: buttonVBoxSpacing / 2,
       listener: () => {

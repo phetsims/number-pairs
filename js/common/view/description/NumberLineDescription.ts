@@ -23,7 +23,7 @@ export type NumberLineDescriptionOptions = {
   readonly totalJumpVisibleProperty: TReadOnlyProperty<boolean>;
   readonly leftAddendProperty: TReadOnlyProperty<number>;
   readonly rightAddendProperty: TReadOnlyProperty<number>;
-  readonly totalProperty: TReadOnlyProperty<number>;
+  readonly totalProperty: TReadOnlyProperty<string | number>;
 };
 
 export default class NumberLineDescription extends AccessibleListNode {
