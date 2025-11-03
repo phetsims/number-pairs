@@ -590,6 +590,12 @@
         },
         "accessibleContextResponse": {
           "value": "{ $representationType ->\n[kittens]   { $distribution }, kittens in rows.\n[beads]     Divider separates groups by color.\n*[other]    Left and right counting areas organized into rows.\n}"
+        },
+        "accessibleContextResponseGameCombined": {
+          "value": "One array with combined colors, kittens in rows."
+        },
+        "accessibleContextResponseGameSeparate": {
+          "value": "Two arrays separated by color, kittens in rows."
         }
       },
       "commutativeButton": {
@@ -728,7 +734,12 @@
         "value": "{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y_gameScreen_accessibleChallengePromptFinalSentence }"
       },
       "accessibleChallengePromptFinalSentence": {
-        "value": "Find missing addend to solve challenge. Select an answer from the Answer Choice Stack."
+        "value": "Find missing\n  { $addendOrSum -> \n      [addend] addend\n     *[sum] sum\n} to solve challenge. Select an answer from the Answer Choice Stack."
+      },
+      "challengeSupports": {
+        "accessibleHeading": {
+          "value": "Challenge Supports"
+        }
       },
       "level1": {
         "accessibleHelpText": {

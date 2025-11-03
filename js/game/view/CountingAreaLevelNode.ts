@@ -11,6 +11,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -61,7 +62,10 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       },
       accessibleName: NumberPairsFluent.a11y.controls.tenFrameButton.accessibleName.createProperty( {
         representation: level.representationTypeProperty.value.accessibleName
-      } )
+      } ),
+      accessibleContextResponse: level.levelNumber === 4 || level.levelNumber === 7 ?
+                                 NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseGameCombinedStringProperty :
+                                 NumberPairsFluent.a11y.controls.tenFrameButton.accessibleContextResponseGameSeparateStringProperty
     } );
 
     this.addChild( this.kittensLayerNode );
@@ -75,11 +79,26 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
+    // TODO: We will need something similar in the other game screen type (number line), see https://github.com/phetsims/number-pairs/issues/336
+    const headingSection = new Node( {
+      accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
+      tagName: 'div',
+      children: [
+        this.countingAreaNode,
+        this.kittensLayerNode,
+        this.tenFrameButton,
+        this.challengeResetButton
+      ],
+      pdomOrder: [
+        this.kittensLayerNode,
+        this.tenFrameButton,
+        this.countingAreaNode,
+        this.challengeResetButton
+      ]
+    } );
+    this.addChild( headingSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.kittensLayerNode,
-      this.tenFrameButton,
-      this.countingAreaNode,
-      this.challengeResetButton,
+      headingSection,
       this.answerButtonGroup
     ];
 

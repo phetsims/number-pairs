@@ -15,7 +15,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import FluentPattern, { type FluentVariable } from '../../../../chipper/js/browser/FluentPattern.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -85,7 +84,7 @@ export default class Level {
     public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     public readonly description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
     public readonly accessibleHelpText: TReadOnlyProperty<string>,
-    public readonly accessibleChallengePromptPattern: FluentPattern<{ leftAddend: FluentVariable; rightAddend: FluentVariable; total: FluentVariable }>,
+    public readonly accessibleChallengePromptPattern: typeof NumberPairsFluent.a11y.gameScreen.decompositionChallengePrompt,
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
@@ -139,7 +138,8 @@ export default class Level {
       rightAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
         ( challenge, whatNumber ) => challenge.missing !== 'b' ? challenge.b : whatNumber ),
       total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
-        ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber )
+        ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber ),
+      addendOrSum: this.challengeProperty.derived( challenge => challenge.missing === 'y' ? 'sum' : 'addend' )
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;

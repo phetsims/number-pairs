@@ -302,25 +302,27 @@ a11y:
       smallerAndLarger:                          smaller and larger
       equal:                                     equal
     tenFrameButton:
-      accessibleName:            Organize { $representation }
-      accessibleHelpText:        Create groups of 5 { $representation }.
-      sumDistribution:              One array combines color
-      decompositionDistribution:    Two arrays separated by color
-      accessibleContextResponse: |-
-                                    { $representationType ->
-                                    [kittens]   { $distribution }, kittens in rows.
-                                    [beads]     Divider separates groups by color.
-                                    *[other]    Left and right counting areas organized into rows.
-                                    }
+      accessibleName:                        Organize { $representation }
+      accessibleHelpText:                    Create groups of 5 { $representation }.
+      sumDistribution:                       One array combines color
+      decompositionDistribution:             Two arrays separated by color
+      accessibleContextResponse:             |-
+                                             { $representationType ->
+                                             [kittens]   { $distribution }, kittens in rows.
+                                             [beads]     Divider separates groups by color.
+                                             *[other]    Left and right counting areas organized into rows.
+                                             }
+      accessibleContextResponseGameCombined: One array with combined colors, kittens in rows.
+      accessibleContextResponseGameSeparate: Two arrays separated by color, kittens in rows.
     commutativeButton:
-      accessibleName:                  Swap Addends
-      accessibleHelpText:       Switches left and right addends.
-      accessibleContextResponse:       |-
-        { $representationType ->
-          [attribute] { $leftAddend } yellow, { $rightAddend } blue, { $total } total.
-          [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section, { $total } total.
-          *[other]  { $leftAddend } on left, { $rightAddend } on right, { $total } total.
-        }
+      accessibleName:            Swap Addends
+      accessibleHelpText:        Switches left and right addends.
+      accessibleContextResponse: |-
+                                 { $representationType ->
+                                   [attribute] { $leftAddend } yellow, { $rightAddend } blue, { $total } total.
+                                   [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section, { $total } total.
+                                   *[other]  { $leftAddend } on left, { $rightAddend } on right, { $total } total.
+                                 }
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
@@ -338,30 +340,30 @@ a11y:
     rightObjects:
       accessibleName: Blue Objects
     countingObjectControl:
-      accessibleName:                   |-
-                                        { $representationType ->
-                                          [kittens] { $color } Kitten
-                                          [beads]   { $color } Bead
-                                          *[other]  { $color } Section
-                                        }
-      accessibleHelpText:               |-
-                                        { $representationType ->
-                                          [kittens] Add or remove one { $color } kitten.
-                                          [beads]   Add or remove one { $color } bead.
-                                          *[other]  Add or remove one from { $addend } addend.
-                                        }
-      incrementContextResponse:   |-
-                                        { $representationType ->
-                                          [kittens] One { $color } kitten added to counting area.
-                                          [beads]   One { $color } bead added to counting area.
-                                          *[other]  One added to { $addend } section of number line.
-                                        }
+      accessibleName:           |-
+                                { $representationType ->
+                                  [kittens] { $color } Kitten
+                                  [beads]   { $color } Bead
+                                  *[other]  { $color } Section
+                                }
+      accessibleHelpText:       |-
+                                { $representationType ->
+                                  [kittens] Add or remove one { $color } kitten.
+                                  [beads]   Add or remove one { $color } bead.
+                                  *[other]  Add or remove one from { $addend } addend.
+                                }
+      incrementContextResponse: |-
+                                { $representationType ->
+                                  [kittens] One { $color } kitten added to counting area.
+                                  [beads]   One { $color } bead added to counting area.
+                                  *[other]  One added to { $addend } section of number line.
+                                }
       decrementContextResponse: |-
-                                        { $representationType ->
-                                          [kittens] One { $color } kitten removed from counting area.
-                                          [beads]   One { $color } bead removed from counting area.
-                                          *[other]  One removed from { $addend } section of number line.
-                                        }
+                                { $representationType ->
+                                  [kittens] One { $color } kitten removed from counting area.
+                                  [beads]   One { $color } bead removed from counting area.
+                                  *[other]  One removed from { $addend } section of number line.
+                                }
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero
@@ -389,8 +391,14 @@ a11y:
     whatNumber:                             what number
     decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
     challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
-    accessibleChallengePromptFinalSentence: Find missing addend to solve challenge. Select an answer from the Answer Choice Stack.
-
+    accessibleChallengePromptFinalSentence: |-
+                                            Find missing
+                                              { $addendOrSum -> 
+                                                  [addend] addend
+                                                 *[sum] sum
+                                            } to solve challenge. Select an answer from the Answer Choice Stack.
+    challengeSupports:
+      accessibleHeading: Challenge Supports
     level1:
       accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 2 and 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'

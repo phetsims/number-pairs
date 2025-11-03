@@ -266,6 +266,8 @@ type StringsType = {
         'sumDistributionStringProperty': LocalizedStringProperty;
         'decompositionDistributionStringProperty': LocalizedStringProperty;
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseGameCombinedStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseGameSeparateStringProperty': LocalizedStringProperty;
       };
       'commutativeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
@@ -333,6 +335,9 @@ type StringsType = {
       'decompositionChallengePromptStringProperty': LocalizedStringProperty;
       'challengeSumPromptStringProperty': LocalizedStringProperty;
       'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
+      'challengeSupports': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
+      };
       'level1': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleChallengePromptStringProperty': LocalizedStringProperty;

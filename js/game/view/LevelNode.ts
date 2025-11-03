@@ -123,7 +123,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       tandem: tandem.createTandem( 'countingAreaNode' ),
       countingAreaBounds: this.countingAreaBounds
     } );
-    this.addChild( this.countingAreaNode );
 
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
