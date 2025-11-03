@@ -219,7 +219,7 @@ export default class AnswerButtonGroup extends GridBox {
         groupFocusHighlight: true,
         columns: [ leftColumn, rightColumn ],
         accessibleRoleDescription: 'button group', // do not translate
-        accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty, // TODO: rename to "Answer Button Group", see https://github.com/phetsims/number-pairs/issues/336
+        accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty, // TODO: rename to "Answer Button Group", see https://github.com/phetsims/number-pairs/issues/339
         accessibleName: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty,
         accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty
       }, providedOptions );

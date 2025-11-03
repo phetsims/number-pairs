@@ -235,6 +235,9 @@ addToMapIfDefined( 'a11y_gameScreen_decompositionChallengePrompt', 'a11y.gameScr
 addToMapIfDefined( 'a11y_gameScreen_challengeSumPrompt', 'a11y.gameScreen.challengeSumPromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_accessibleChallengePromptFinalSentence', 'a11y.gameScreen.accessibleChallengePromptFinalSentenceStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_challengeSupports_accessibleHeading', 'a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleHelpText', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOff', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOffStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOn', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOnStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level1_accessibleHelpText', 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level1_accessibleChallengePrompt', 'a11y.gameScreen.level1.accessibleChallengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_level2_accessibleHelpText', 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' );
@@ -626,6 +629,12 @@ const NumberPairsFluent = {
       accessibleChallengePromptFinalSentence: new FluentPattern<{ addendOrSum: 'addend' | 'sum' | TReadOnlyProperty<'addend' | 'sum'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_accessibleChallengePromptFinalSentence', _.get( NumberPairsStrings, 'a11y.gameScreen.accessibleChallengePromptFinalSentenceStringProperty' ), [{"name":"addendOrSum","variants":["addend","sum"]}] ),
       challengeSupports: {
         accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_challengeSupports_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty' ) )
+      },
+      _comment_0: new FluentComment( {"comment":"Overrides the values above, for the game","associatedKey":"bothAddendsEyeToggleButton"} ),
+      bothAddendsEyeToggleButton: {
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseOffStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOff', _.get( NumberPairsStrings, 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOffStringProperty' ) ),
+        accessibleContextResponseOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOn', _.get( NumberPairsStrings, 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOnStringProperty' ) )
       },
       level1: {
         accessibleHelpText: new FluentPattern<{ numberModelType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' ), [{"name":"numberModelType"}] ),

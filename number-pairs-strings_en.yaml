@@ -421,12 +421,18 @@ a11y:
     challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
     accessibleChallengePromptFinalSentence: |-
                                             Find missing
-                                              { $addendOrSum -> 
+                                              { $addendOrSum ->
                                                   [addend] addend
                                                  *[sum] sum
                                             } to solve challenge. Select an answer from the Answer Choice Stack.
     challengeSupports:
       accessibleHeading: Challenge Supports
+
+    # Overrides the values above, for the game
+    bothAddendsEyeToggleButton:
+      accessibleHelpText:             Show or hide kittens.
+      accessibleContextResponseOff:   Kittens visible.
+      accessibleContextResponseOn:    Kittens hidden.
     level1:
       accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 2 and 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'

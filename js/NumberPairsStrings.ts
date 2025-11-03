@@ -345,6 +345,11 @@ type StringsType = {
       'challengeSupports': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
       };
+      'bothAddendsEyeToggleButton': {
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseOffStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseOnStringProperty': LocalizedStringProperty;
+      };
       'level1': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleChallengePromptStringProperty': LocalizedStringProperty;
