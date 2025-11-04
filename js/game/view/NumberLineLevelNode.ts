@@ -18,6 +18,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -25,6 +26,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from '../../common/view/NumberLineCheckboxItems.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -116,14 +118,12 @@ export default class NumberLineLevelNode extends LevelNode {
       children: [ numberLineNode ],
       clipArea: clipShape
     } );
-    this.addChild( clipAreaNode );
 
     // In z-order, "sandwich" the content between the background and the border so the content doesn't "bleed" across the border.
     const border = new Path( clipShape, {
       stroke: 'gray',
       lineWidth: 1
     } );
-    this.addChild( border );
 
     // Checkbox group for showing/hiding addends and tick numbers
     const checkboxGroup = new VerticalCheckboxGroup( [
@@ -148,7 +148,6 @@ export default class NumberLineLevelNode extends LevelNode {
       visibleProperty: level.addendsVisibleProperty,
       tandem: tandem.createTandem( 'checkboxGroup' )
     } );
-    this.addChild( checkboxGroup );
 
     // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [
@@ -167,11 +166,26 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
+    const headingSection = new Node( {
+      accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
+      tagName: 'div',
+      children: [
+        this.countingAreaNode,
+        clipAreaNode,
+        border,
+        checkboxGroup,
+        this.challengeResetButton
+      ],
+      pdomOrder: [
+        numberLineNode,
+        checkboxGroup,
+        this.countingAreaNode,
+        this.challengeResetButton
+      ]
+    } );
+    this.addChild( headingSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.countingAreaNode,
-      numberLineNode,
-      checkboxGroup,
-      this.challengeResetButton,
+      headingSection,
       this.answerButtonGroup
     ];
 
