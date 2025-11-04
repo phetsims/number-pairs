@@ -143,11 +143,11 @@ export default class AnswerButtonGroup extends GridBox {
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
 
-          this.addAccessibleContextResponse( value + ' chosen for answer' );
+          this.addAccessibleContextResponse( value + ' chosen for answer' ); // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/342
         }
         else {
           selectedNumberProperty.value = null;
-          this.addAccessibleContextResponse( 'Answer cleared' );
+          this.addAccessibleContextResponse( 'Answer cleared' ); // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/342
         }
       } );
 
