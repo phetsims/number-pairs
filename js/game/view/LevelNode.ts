@@ -225,7 +225,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     // when the challenge changes, focus on the number button grid so that keyboard users can easily continue
     level.challengeProperty.link( () => {
-      this.answerButtonGroup.focusFirstElement();
+      this.handleShow();
     } );
 
     // When the next button appears, focus it so that keyboard users can easily continue to the next challenge
