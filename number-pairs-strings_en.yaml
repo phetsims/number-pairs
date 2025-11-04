@@ -298,7 +298,7 @@ a11y:
 
   # Total/Number model
   totalSceneSelection:
-    totalNumberPattern: Total Number { $value }
+    totalNumberPattern: Total Number of Objects
     accessibleHelpText: Choose total for counting area.
 
   # Controls and interactions
@@ -379,19 +379,19 @@ a11y:
                                 { $representationType ->
                                   [kittens] Add or remove one { $color } kitten.
                                   [beads]   Add or remove one { $color } bead.
-                                  *[other]  Add or remove one from { $addend } addend.
+                                  *[other]  Add or remove one from { $addend } section.
                                 }
       incrementContextResponse: |-
                                 { $representationType ->
                                   [kittens] One { $color } kitten added to counting area.
                                   [beads]   One { $color } bead added to counting area.
-                                  *[other]  One added to { $addend } section of number line.
+                                  *[other]  One added to { $addend } section of total.
                                 }
       decrementContextResponse: |-
                                 { $representationType ->
                                   [kittens] One { $color } kitten removed from counting area.
                                   [beads]   One { $color } bead removed from counting area.
-                                  *[other]  One removed from { $addend } section of number line.
+                                  *[other]  One removed from { $addend } section of total.
                                 }
     countFromZeroSwitch:
       valueAAccessibleName: Count On
@@ -425,7 +425,7 @@ a11y:
                                               { $addendOrSum ->
                                                   [addend] addend
                                                  *[sum] sum
-                                            } to solve challenge. Select an answer from the Answer Choice Stack.
+                                            } to solve challenge. Select an answer from Answer Choices.
     challengeSupports:
       accessibleHeading: Challenge Supports
 
@@ -461,8 +461,14 @@ a11y:
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     answerButtonGroup:
-      accessibleHeading:  Answer Choice Number Stack
-      accessibleName:     Answer Choice Number Stack
+      accessibleHeading:  { $challengeType } Choices
+      accessibleName:     { $challengeType } Choices
+      challengeType: |-
+                    { $challengeType ->
+                       [leftAddend] Left Addend
+                       [rightAddend] Right Addend
+                      *[total] Sum
+                       }.
       accessibleHelpText: Arrows or W,A,S,D keys navigate to choice, space or enter selects answer.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
