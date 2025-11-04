@@ -31,6 +31,9 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
       hiddenAddend: NumberPairsFluent.a11y.rightStringProperty,
       total: model.totalProperty
     } );
+    const bothHiddenStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.bothHidden.createProperty( {
+      total: model.totalProperty
+    } );
 
     const currentDetailsContentProperty = derived(
       model.leftAddendVisibleProperty,
@@ -38,7 +41,7 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
       objectsPatternStringProperty,
       hiddenLeftStringProperty,
       hiddenRightStringProperty,
-      NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.bothHiddenStringProperty,
+      bothHiddenStringProperty,
       ( leftVisible, rightVisible, objectsString, hiddenLeftString, hiddenRightString, bothHiddenString ) => {
         if ( leftVisible && rightVisible ) {
           return objectsString;

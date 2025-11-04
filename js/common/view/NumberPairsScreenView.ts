@@ -267,7 +267,8 @@ export default class NumberPairsScreenView extends ScreenView {
         'attribute' : representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'other' ),
       leftAddend: this.countingAreaDescriptionNode.leftValueStringProperty,
       rightAddend: this.countingAreaDescriptionNode.rightValueStringProperty,
-      total: this.countingAreaDescriptionNode.totalValueStringProperty
+      total: new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty, NumberPairsFluent.a11y.countingArea.totalValueHiddenStringProperty ],
+        ( total, visible, totalHiddenString ) => visible ? total.toString() : totalHiddenString )
     } );
 
     const commutativeButton = new CommutativeButton( {

@@ -49,6 +49,9 @@ export default class SumScreenSummaryContent extends ScreenSummaryContent {
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.sumScreen.screenSummary.playArea.createProperty( {
+        representation: new DynamicProperty( model.representationTypeProperty, {
+          derive: 'accessibleName'
+        } ),
         representationType: representationTypeForPlayAreaProperty,
         numberBarOrBarModel: numberBondOrBarModelStringProperty
       } ),

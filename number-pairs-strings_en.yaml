@@ -189,12 +189,13 @@ a11y:
     noItemSelected:             No item selected
   countingArea:
     accessibleHeading:          Counting Area
-
-    # Use the NUMBER syntax so fluent can handle a string of a number instead of just a number type.
     leadingParagraph:           |-
-                                { NUMBER($total) ->
-                                [1] Counting area has 1 total { $item }
-                                *[other] Counting area has { $total } total { $items }
+                                { $totalVisible ->
+                                [hidden] Total is hidden
+                                *[shown] { $total ->
+                                    [1] Counting area has 1 total { $item }
+                                    *[other] Counting area has { $total } total { $items }
+                                  }
                                 }
     numberBondLeadingParagraph: Number bond has { $total } in top circle
     barModelLeadingParagraph:   Bar model has { $total } in top rectangle
@@ -316,8 +317,6 @@ a11y:
       accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
       numberBond:                                number bond
-
-      # TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key
       barModel:                                  proportional bar model
       accessibleHelpText:                        Represent decomposition as a { $representation }.
       numberBondAccessibleParagraph:             >-
