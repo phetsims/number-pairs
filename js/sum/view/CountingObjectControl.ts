@@ -154,6 +154,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       }
       arrowButtonSoundPlayer.play();
     };
+
+    const incrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.incrementContextResponse.createProperty( {
+      representationType: representationTypeLabelProperty,
+      color: options.colorStringProperty,
+      addend: options.addendStringProperty
+    } );
     const incrementButton = new ArrowButton( 'up', handleIncrement, {
       arrowHeight: ARROW_HEIGHT,
       arrowWidth: ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
@@ -163,6 +169,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: false,
       tandem: options.tandem.createTandem( 'incrementButton' ),
+      accessibleContextResponse: incrementContextResponseProperty,
       visiblePropertyOptions: {
         phetioFeatured: false
       }
@@ -191,6 +198,12 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
         }
       }
     };
+
+    const decrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.decrementContextResponse.createProperty( {
+      representationType: representationTypeLabelProperty,
+      color: options.colorStringProperty,
+      addend: options.addendStringProperty
+    } );
     const decrementButton = new ArrowButton( 'down', handleDecrement, {
       arrowHeight: ARROW_HEIGHT,
       arrowWidth: ARROW_HEIGHT * Math.sqrt( 3 ) / 2,
@@ -200,6 +213,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       soundPlayer: nullSoundPlayer, // We play the sound manually to support this component's custom keyboard interaction
       focusable: false,
       tandem: options.tandem.createTandem( 'decrementButton' ),
+      accessibleContextResponse: decrementContextResponseProperty,
       visiblePropertyOptions: {
         phetioFeatured: false
       }
@@ -242,16 +256,6 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       this.updateAriaValueText();
     } );
 
-    const incrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.incrementContextResponse.createProperty( {
-      representationType: representationTypeLabelProperty,
-      color: options.colorStringProperty,
-      addend: options.addendStringProperty
-    } );
-    const decrementContextResponseProperty = NumberPairsFluent.a11y.controls.countingObjectControl.decrementContextResponse.createProperty( {
-      representationType: representationTypeLabelProperty,
-      color: options.colorStringProperty,
-      addend: options.addendStringProperty
-    } );
     const keyboardInputListener = new KeyboardListener( {
       keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
       fire: ( event, keysPressed ) => {
@@ -259,12 +263,10 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
         if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
           options.interruptPointers();
           inactiveCountingObjects.lengthProperty.value > 0 && incrementButton.pdomClick();
-          this.addAccessibleContextResponse( incrementContextResponseProperty );
         }
         else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
           options.interruptPointers();
           addendCountingObjects.lengthProperty.value > 0 && decrementButton.pdomClick();
-          this.addAccessibleContextResponse( decrementContextResponseProperty );
         }
       }
     } );
