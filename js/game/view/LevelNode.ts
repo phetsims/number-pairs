@@ -217,6 +217,10 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
       alignGroup: buttonAlignGroup,
       tandem: tandem.createTandem( 'nextButton' ),
+      enabledPropertyOptions: {
+        phetioReadOnly: true,
+        phetioFeatured: false
+      },
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
