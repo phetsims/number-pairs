@@ -139,7 +139,8 @@ export default class Level {
         ( challenge, whatNumber ) => challenge.missing !== 'b' ? challenge.b : whatNumber ),
       total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
         ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber ),
-      addendOrSum: this.challengeProperty.derived( challenge => challenge.missing === 'y' ? 'sum' : 'addend' )
+      addendOrSum: this.challengeProperty.derived( challenge => challenge.missing === 'y' ? 'sum' : 'addend' ),
+      challengeType: 'unknown' // TODO: I was getting an error this was missing. I'm not sure what to put here. https://github.com/phetsims/number-pairs/issues/336
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
