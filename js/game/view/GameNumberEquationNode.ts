@@ -48,6 +48,8 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         missingSquare.lineWidth = lineWidth;
       }
     );
+
+    this.accessibleParagraph = null;
   }
 
   public getMissingSquare(): Rectangle {
