@@ -139,11 +139,16 @@ a11y:
                         automatically organize objects, or swap addends.
       controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:  |-
-                       { $shownSides -> 
-                           [ none ]   Counting area currently hidden.
-                          *[ both ]   { $representationType ->
-                                    [numberLine] Currently, total of { $total } created by adding lengths of yellow and blue sections.
-                                   *[other] Currently, { $total } total { $itemType } created by adding { $itemType } of two colors.
+                       { $shown -> 
+                          [ none ]   Currently, total hidden, counting area hidden.
+                          [ total ]   Currently, Total of { $total }, counting area hidden.
+                          [ countingArea ] { $representationType ->
+                                    [ numberLine ] Currently, total hidden, created by adding lengths of yellow and blue sections.
+                                    *[ other ] Currently, total hidden, created by adding all { $itemType }.
+                                  }
+                          *[ all ]   { $representationType ->
+                                    [ numberLine ] Currently, total of { $total } created by adding lengths of yellow and blue sections.
+                                   *[ other ] Currently, { $total } total { $itemType } created by adding { $itemType } of two colors.
                                   }
                            }
 

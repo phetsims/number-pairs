@@ -38,8 +38,10 @@ export default class SumScreenSummaryContent extends ScreenSummaryContent {
       total: model.totalProperty,
       itemType: itemTypeProperty,
       representationType: representationTypeForPlayAreaProperty,
-      shownSides: derived( model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, ( leftVisible, rightVisible ) => {
-        return leftVisible && rightVisible ? 'both' : 'none';
+      shown: derived( model.totalVisibleProperty, model.bothAddendsVisibleProperty, ( totalVisible, bothAddendsVisible ) => {
+        return totalVisible && bothAddendsVisible ? 'all' :
+               totalVisible ? 'total' :
+               bothAddendsVisible ? 'countingArea' : 'none';
       } )
     } );
 
