@@ -5,19 +5,24 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberLineNode from './NumberLineNode.js';
 
 const HANDLE_LINE_LENGTH = 30;
 
+type SelfOptions = EmptySelfOptions;
+type ThumbNodeOptions = PickRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 export default class ThumbNode extends Node {
-  public constructor( tandem: Tandem ) {
+  public constructor( providedOptions: ThumbNodeOptions ) {
+
 
     const trackPoint = new Circle( NumberLineNode.POINT_RADIUS, {
       fill: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -34,14 +39,15 @@ export default class ThumbNode extends Node {
       stroke: 'black',
       top: handleLine.bottom
     } );
-    super( {
+
+    const options = optionize<ThumbNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ trackPoint, handleLine, handleKnob ],
       cursor: 'pointer',
-      tandem: tandem.createTandem( 'thumbNode' ),
       visiblePropertyOptions: {
         phetioFeatured: true
       }
-    } );
+    }, providedOptions );
+    super( options );
 
     this.mouseArea = this.bounds.dilated( 2 );
     this.touchArea = this.bounds.dilated( 10 );

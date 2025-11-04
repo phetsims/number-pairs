@@ -8,6 +8,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
@@ -21,6 +22,8 @@ type NumberLineFeedbackStyle = {
 
 type MissingAddend = 'a' | 'b';
 
+type SelfOptions = EmptySelfOptions;
+type GameNumberLineNodeOptions = SelfOptions & NumberLineNodeOptions;
 export default class GameNumberLineNode extends NumberLineNode {
 
   public constructor(
@@ -31,7 +34,10 @@ export default class GameNumberLineNode extends NumberLineNode {
     feedbackStyleProperty: TReadOnlyProperty<NumberLineFeedbackStyle>,
     providedOptions: NumberLineNodeOptions
   ) {
-    super( model, numberLineWidth, providedOptions );
+    const options = optionize<GameNumberLineNodeOptions, SelfOptions, NumberLineNodeOptions>()( {
+      interactive: false
+    }, providedOptions );
+    super( model, numberLineWidth, options );
 
     Multilink.multilink(
       [ missingAddendProperty, feedbackStyleProperty ],

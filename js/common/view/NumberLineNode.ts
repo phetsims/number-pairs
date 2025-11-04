@@ -32,6 +32,7 @@ const LABEL_MARGIN = 5; // distance between the label and the arrow
 
 type SelfOptions = {
   numberLineRange: Range;
+  interactive?: boolean; // We use the slider in non-interactive contexts like the GameScreen.
 };
 export type NumberLineNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'> & StrictOmit<NodeOptions, 'children'>;
 
@@ -49,7 +50,9 @@ export default class NumberLineNode extends Node {
     'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' | 'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty'
   >, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
-    const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {
+      interactive: true
+    }, providedOptions );
 
     // CurvedArrowNode needs the starting and ending values to be Property<number> instances. Even though
     // the starting value for the leftAddendArrow and totalArrow will always be 0.
@@ -75,6 +78,7 @@ export default class NumberLineNode extends Node {
         accessibleHelpText: NumberPairsFluent.a11y.numberLine.addendSplitterKnob.accessibleHelpTextStringProperty,
         numberLineRange: options.numberLineRange,
         numberLineWidth: numberLineWidth,
+        interactive: options.interactive,
         tandem: options.tandem.createTandem( 'slider' )
       } );
 

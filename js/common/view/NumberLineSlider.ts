@@ -26,6 +26,7 @@ import ThumbNode from './ThumbNode.js';
 type SelfOptions = {
   numberLineWidth: number;
   numberLineRange: Range;
+  interactive: boolean; // We use the slider in non-interactive contexts like the GameScreen.
 };
 type NumberLineSliderOptions = SelfOptions & PickRequired<HSliderOptions, 'tandem'> &
   StrictOmit<HSliderOptions, 'thumbNode' | 'trackNode' | 'enabledRangeProperty' | 'constrainValue'>;
@@ -47,7 +48,10 @@ export default class NumberLineSlider extends HSlider {
 
     const trackDimension = new Dimension2( providedOptions.numberLineWidth, 0 );
     const numberLineRange = providedOptions.numberLineRange;
-    const thumbNode = new ThumbNode( providedOptions.tandem );
+    const thumbNode = new ThumbNode( {
+      tandem: providedOptions.tandem.createTandem( 'thumbNode' ),
+      phetioVisiblePropertyInstrumented: providedOptions.interactive
+    } );
 
     const sliderTickParent = new Node();
     const trackNode = new NumberLineSliderTrack(
@@ -84,6 +88,7 @@ export default class NumberLineSlider extends HSlider {
         numberOfMiddleThresholds: numberLineRange.getLength()
       },
       phetioVisiblePropertyInstrumented: false,
+      phetioEnabledPropertyInstrumented: providedOptions.interactive,
       drag: () => {
         numberLineContextResponse.sliderDragged( this );
       }
