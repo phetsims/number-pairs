@@ -388,6 +388,7 @@ type StringsType = {
       'answerButtonGroup': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
         'accessibleNameStringProperty': LocalizedStringProperty;
+        'challengeTypeStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
       'tenFrameButton': {

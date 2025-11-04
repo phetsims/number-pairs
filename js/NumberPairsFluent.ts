@@ -257,6 +257,7 @@ addToMapIfDefined( 'a11y_gameScreen_level8_accessibleChallengePrompt', 'a11y.gam
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHeading', 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleName', 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_challengeType', 'a11y.gameScreen.answerButtonGroup.challengeTypeStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_tenFrameButton_accessibleHelpText', 'a11y.gameScreen.tenFrameButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
@@ -333,7 +334,6 @@ const NumberPairsFluent = {
   phraseStringProperty: _.get( NumberPairsStrings, 'phraseStringProperty' ),
   numberBondStringProperty: _.get( NumberPairsStrings, 'numberBondStringProperty' ),
   numberBondLowercaseStringProperty: _.get( NumberPairsStrings, 'numberBondLowercaseStringProperty' ),
-  _comment_1: new FluentComment( {"comment":"TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key","associatedKey":"barModel"} ),
   barModelStringProperty: _.get( NumberPairsStrings, 'barModelStringProperty' ),
   barModelLowercaseStringProperty: _.get( NumberPairsStrings, 'barModelLowercaseStringProperty' ),
   equationStringProperty: _.get( NumberPairsStrings, 'equationStringProperty' ),
@@ -356,7 +356,7 @@ const NumberPairsFluent = {
   sumScreenNumberModelOrientationDescriptionStringProperty: _.get( NumberPairsStrings, 'sumScreenNumberModelOrientationDescriptionStringProperty' ),
   tryAgainStringProperty: _.get( NumberPairsStrings, 'tryAgainStringProperty' ),
   levelPatternStringProperty: _.get( NumberPairsStrings, 'levelPatternStringProperty' ),
-  _comment_2: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
+  _comment_1: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
   gameScreen: {
     levelDescriptions: {
       level1StringProperty: _.get( NumberPairsStrings, 'gameScreen.levelDescriptions.level1StringProperty' ),
@@ -434,7 +434,6 @@ const NumberPairsFluent = {
     },
     countingArea: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.countingArea.accessibleHeadingStringProperty' ) ),
-      _comment_0: new FluentComment( {"comment":"Use the NUMBER syntax so fluent can handle a string of a number instead of just a number type.","associatedKey":"leadingParagraph"} ),
       leadingParagraph: new FluentPattern<{ item: FluentVariable, items: FluentVariable, total: 1 | number | 'other' | TReadOnlyProperty<1 | number | 'other'>, totalVisible: 'hidden' | 'shown' | TReadOnlyProperty<'hidden' | 'shown'> }>( fluentSupport.bundleProperty, 'a11y_countingArea_leadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.leadingParagraphStringProperty' ), [{"name":"item"},{"name":"items"},{"name":"total","variants":[1,{"type":"number","value":"other"}]},{"name":"totalVisible","variants":["hidden","shown"]}] ),
       numberBondLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_numberBondLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.numberBondLeadingParagraphStringProperty' ), [{"name":"total"}] ),
       barModelLeadingParagraph: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_countingArea_barModelLeadingParagraph', _.get( NumberPairsStrings, 'a11y.countingArea.barModelLeadingParagraphStringProperty' ), [{"name":"total"}] ),
@@ -520,7 +519,7 @@ const NumberPairsFluent = {
     },
     _comment_3: new FluentComment( {"comment":"Total/Number model","associatedKey":"totalSceneSelection"} ),
     totalSceneSelection: {
-      totalNumberPattern: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.totalNumberPatternStringProperty' ), [{"name":"value"}] ),
+      totalNumberPatternStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_totalNumberPattern', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.totalNumberPatternStringProperty' ) ),
       accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_totalSceneSelection_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.totalSceneSelection.accessibleHelpTextStringProperty' ) )
     },
     _comment_4: new FluentComment( {"comment":"Controls and interactions","associatedKey":"controls"} ),
@@ -540,7 +539,6 @@ const NumberPairsFluent = {
       },
       numberModel: {
         numberBondStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBond', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO https://github.com/phetsims/number-pairs/issues/200 this value doesn't match the key","associatedKey":"barModel"} ),
         barModelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_barModel', _.get( NumberPairsStrings, 'a11y.controls.numberModel.barModelStringProperty' ) ),
         accessibleHelpText: new FluentPattern<{ representation: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.numberModel.accessibleHelpTextStringProperty' ), [{"name":"representation"}] ),
         numberBondAccessibleParagraphStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBondAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty' ) ),
@@ -672,8 +670,9 @@ const NumberPairsFluent = {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )
       },
       answerButtonGroup: {
-        accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' ) ),
-        accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' ) ),
+        accessibleHeading: new FluentPattern<{ challengeType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' ), [{"name":"challengeType"}] ),
+        accessibleName: new FluentPattern<{ challengeType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' ), [{"name":"challengeType"}] ),
+        challengeType: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_challengeType', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.challengeTypeStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' ) )
       },
       tenFrameButton: {

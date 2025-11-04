@@ -461,8 +461,8 @@ a11y:
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
     answerButtonGroup:
-      accessibleHeading:  { $challengeType } Choices
-      accessibleName:     { $challengeType } Choices
+      accessibleHeading:  '{ $challengeType } Choices'
+      accessibleName:     '{ $challengeType } Choices'
       challengeType: |-
                     { $challengeType ->
                        [leftAddend] Left Addend
