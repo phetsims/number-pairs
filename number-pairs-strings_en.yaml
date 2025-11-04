@@ -459,7 +459,7 @@ a11y:
       accessibleHelpText:        Find a missing addend in a sum equation using the number line with total between 0 and 20.
       accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     answerButton:
-      wrongAccessibleName: '{$value}, wrong answer'
+      wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
       accessibleHeading: |-
                          { $challengeType ->
