@@ -474,7 +474,7 @@ a11y:
     responses:
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
       incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
-      correctAnswerOnFirstTry: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. Stars increased to { $score }.'
+      correctAnswerOnFirstTry: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { $score } stars!'
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.
