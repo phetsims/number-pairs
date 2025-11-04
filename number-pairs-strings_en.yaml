@@ -348,9 +348,9 @@ a11y:
       accessibleHelpText:        Switches left and right addends.
       accessibleContextResponse: |-
                                  { $representationType ->
-                                   [attribute] { $leftAddend } yellow, { $rightAddend } blue, { $total } total.
-                                   [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section, { $total } total.
-                                   *[other]  { $leftAddend } on left, { $rightAddend } on right, { $total } total.
+                                   [attribute] { $leftAddend } yellow, { $rightAddend } blue.
+                                   [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section.
+                                   *[other]  { $leftAddend } on left, { $rightAddend } on right.
                                  }
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
