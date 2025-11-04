@@ -460,8 +460,6 @@ a11y:
       accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
-
-    # Test
     answerButtonGroup:
       accessibleHeading: |-
                          { $challengeType ->
