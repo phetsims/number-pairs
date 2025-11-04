@@ -211,6 +211,9 @@ export default class AnswerButtonGroup extends GridBox {
       }
     }
 
+    const challengeTypeProperty = challengeProperty.derived( challenge => challenge.missing === 'a' ? 'leftAddend' :
+                                                                          challenge.missing === 'b' ? 'rightAddend' :
+                                                                          'total' );
     const options = optionize4<NumberButtonGridOptions, EmptySelfOptions, GridBoxOptions>()( {},
       AccessibleInteractiveOptions, {
         xSpacing: X_SPACING,
@@ -219,8 +222,12 @@ export default class AnswerButtonGroup extends GridBox {
         groupFocusHighlight: true,
         columns: [ leftColumn, rightColumn ],
         accessibleRoleDescription: 'button group', // do not translate
-        accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty, // TODO: rename to "Answer Button Group", see https://github.com/phetsims/number-pairs/issues/339
-        accessibleName: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty,
+        accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeading.createProperty( {
+          challengeType: challengeTypeProperty
+        } ),
+        accessibleName: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleName.createProperty( {
+          challengeType: challengeTypeProperty
+        } ),
         accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty
       }, providedOptions );
     super( options );

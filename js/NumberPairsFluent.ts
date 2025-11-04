@@ -257,7 +257,6 @@ addToMapIfDefined( 'a11y_gameScreen_level8_accessibleChallengePrompt', 'a11y.gam
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHeading', 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleName', 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_challengeType', 'a11y.gameScreen.answerButtonGroup.challengeTypeStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_tenFrameButton_accessibleHelpText', 'a11y.gameScreen.tenFrameButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_correctAnswer', 'a11y.gameScreen.responses.correctAnswerStringProperty' );
@@ -669,10 +668,10 @@ const NumberPairsFluent = {
       answerButton: {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )
       },
+      _comment_1: new FluentComment( {"comment":"Test","associatedKey":"answerButtonGroup"} ),
       answerButtonGroup: {
-        accessibleHeading: new FluentPattern<{ challengeType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' ), [{"name":"challengeType"}] ),
-        accessibleName: new FluentPattern<{ challengeType: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' ), [{"name":"challengeType"}] ),
-        challengeType: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_challengeType', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.challengeTypeStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
+        accessibleHeading: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
+        accessibleName: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' ) )
       },
       tenFrameButton: {

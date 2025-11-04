@@ -836,13 +836,10 @@
       },
       "answerButtonGroup": {
         "accessibleHeading": {
-          "value": "{ $challengeType } Choices"
+          "value": "{ $challengeType ->\n   [leftAddend] Left Addend Choices\n   [rightAddend] Right Addend Choices\n  *[total] Sum Choices\n   }."
         },
         "accessibleName": {
-          "value": "{ $challengeType } Choices"
-        },
-        "challengeType": {
-          "value": "{ $challengeType ->\n   [leftAddend] Left Addend\n   [rightAddend] Right Addend\n  *[total] Sum\n   }."
+          "value": "{ a11y_gameScreen_answerButtonGroup_accessibleHeading }"
         },
         "accessibleHelpText": {
           "value": "Arrows or W,A,S,D keys navigate to choice, space or enter selects answer."

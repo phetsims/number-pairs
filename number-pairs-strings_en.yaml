@@ -460,15 +460,16 @@ a11y:
       accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     answerButton:
       wrongAccessibleName: '{$value}, wrong answer'
+
+    # Test
     answerButtonGroup:
-      accessibleHeading:  '{ $challengeType } Choices'
-      accessibleName:     '{ $challengeType } Choices'
-      challengeType: |-
-                    { $challengeType ->
-                       [leftAddend] Left Addend
-                       [rightAddend] Right Addend
-                      *[total] Sum
-                       }.
+      accessibleHeading: |-
+                         { $challengeType ->
+                            [leftAddend] Left Addend Choices
+                            [rightAddend] Right Addend Choices
+                           *[total] Sum Choices
+                            }.
+      accessibleName: '{ a11y.gameScreen.answerButtonGroup.accessibleHeading }'
       accessibleHelpText: Arrows or W,A,S,D keys navigate to choice, space or enter selects answer.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
