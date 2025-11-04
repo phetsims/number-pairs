@@ -23,7 +23,7 @@ export type NumberLineDescriptionOptions = {
   readonly totalJumpVisibleProperty: TReadOnlyProperty<boolean>;
   readonly leftAddendProperty: TReadOnlyProperty<number>;
   readonly rightAddendProperty: TReadOnlyProperty<number>;
-  readonly totalProperty: TReadOnlyProperty<string | number>;
+  readonly totalProperty: TReadOnlyProperty<string | number>; // Total can be a string for the "unknown" question mark case
 };
 
 export default class NumberLineDescription extends AccessibleListNode {

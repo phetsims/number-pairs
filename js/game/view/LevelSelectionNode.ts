@@ -56,7 +56,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       } )
     ), {
 
-      // TODO: https://github.com/phetsims/number-pairs/issues/322 is this a good re-use of strings, or should we create new ones?
+      // TODO: https://github.com/phetsims/number-pairs/issues/340 is this a good re-use of strings, or should we create new ones?
       title: new Text( VegasFluent.a11y.gameInfoButton.accessibleNameStringProperty, {
         font: new PhetFont( { size: 30, weight: 'bold' } )
       } ),

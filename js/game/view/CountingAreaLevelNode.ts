@@ -80,7 +80,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    // TODO: We will need something similar in the other game screen type (number line), see https://github.com/phetsims/number-pairs/issues/336
     const headingSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
