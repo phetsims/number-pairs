@@ -481,7 +481,12 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
-      answerSelected:          ' {$value} chosen for { a11y.gameScreen.challengeType }. {$value} kittens added to Counting Area.'
+      answerSelected:          |-
+                               {$value} chosen for { a11y.gameScreen.challengeType }. 
+                                  { $representationType ->
+                                    [kittens] {$value} kittens added to Counting Area.
+                                   *[numberLine] {$value} added to number line.
+                                  }
       answerCleared:           Answer cleared.
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
       incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'

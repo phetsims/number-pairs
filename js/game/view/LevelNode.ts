@@ -100,6 +100,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       } );
 
     this.answerButtonGroup = new AnswerButtonGroup(
+      level.type,
       level.modeProperty,
       level.selectedGuessProperty,
       level.range,

@@ -40,6 +40,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from '../model/Challenge.js';
 import InputRange from '../model/InputRange.js';
+import { ChallengeType } from '../model/Level.js';
 import NumberToggleButton from './NumberToggleButton.js';
 
 const MARK_OFFSET_X = 0;
@@ -64,6 +65,7 @@ export default class AnswerButtonGroup extends GridBox {
   public readonly elements: NumberButtonElements;
 
   public constructor(
+    challengeType: ChallengeType,
     modeProperty: TReadOnlyProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>,
     selectedNumberProperty: Property<number | null>,
     range: InputRange,
@@ -146,7 +148,8 @@ export default class AnswerButtonGroup extends GridBox {
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.answerSelected.format( {
             value: value,
             challengeType: challengeProperty.value.missing === 'a' ? 'leftAddend' :
-                           challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total'
+                           challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total',
+            representationType: challengeType === 'numberLine' ? 'numberLine' : 'kittens'
           } ) );
         }
         else {
