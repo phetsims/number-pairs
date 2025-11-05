@@ -525,7 +525,7 @@ const NumberPairsFluent = {
     controls: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_accessibleHeading', _.get( NumberPairsStrings, 'a11y.controls.accessibleHeadingStringProperty' ) ),
       phrase: {
-        accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_phrase_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty' ) )
+        accessibleHelpTextCollapsed: new FluentPattern<{ screenType: 'sumScreen' | number | 'other' | TReadOnlyProperty<'sumScreen' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_controls_phrase_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty' ), [{"name":"screenType","variants":["sumScreen",{"type":"number","value":"other"}]}] )
       },
       speechSynthesis: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_speechSynthesis_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.speechSynthesis.accessibleNameStringProperty' ) ),

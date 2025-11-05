@@ -25,6 +25,7 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
@@ -80,7 +81,9 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       minWidth: PhraseAccordionBox.WIDTH,
       maxWidth: PhraseAccordionBox.WIDTH,
       expandedDefaultValue: false,
-      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.controls.phrase.accessibleHelpTextCollapsedStringProperty
+      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.controls.phrase.accessibleHelpTextCollapsed.createProperty( {
+        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      } )
     }, providedOptions );
 
     /**
