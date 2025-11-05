@@ -13,6 +13,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import Color from '../../../scenery/js/util/Color.js';
 import numberPairs from '../numberPairs.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
@@ -40,6 +41,10 @@ const NumberPairsConstants = {
   CHECKBOX_LABEL_OPTIONS: {
     font: new PhetFont( 16 ),
     maxWidth: 124
+  },
+
+  GET_DARKER_COLOR: ( color: Color ): Color => {
+    return color.darkerColor( 0.625 );
   },
 
   PREFERENCES_ICON_MAX_WIDTH: 70,

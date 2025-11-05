@@ -7,16 +7,19 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberStyles from './NumberStyles.js';
 
 type NumberLineFeedbackStyle = {
-  stroke: string;
+  stroke: Color;
   lineDash: number[];
 };
 
@@ -46,34 +49,38 @@ export default class GameNumberLineNode extends NumberLineNode {
         const isCorrect = feedbackStyle === NumberStyles.FEEDBACK_STYLES.correct;
 
         if ( missingAddend === 'a' ) {
-          const stroke = isCorrect ? NumberPairsColors.attributeLeftAddendColorProperty : feedbackStyle.stroke;
+          const fill = isCorrect ? NumberPairsColors.attributeLeftAddendColorProperty : feedbackStyle.stroke;
           const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
 
-          this.leftAddendArrow.setTailStyle( stroke, lineDash );
+          this.leftAddendArrow.setTailStyle( fill, lineDash );
           this.leftAddendHighlight.mutate( {
-            stroke: stroke,
+            fill: fill,
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
             lineDash: lineDash
           } );
 
           this.rightAddendArrow.setTailStyle( NumberPairsColors.attributeRightAddendColorProperty, [] );
           this.rightAddendHighlight.mutate( {
-            stroke: NumberPairsColors.attributeRightAddendColorProperty,
+            fill: NumberPairsColors.attributeRightAddendColorProperty,
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( NumberPairsColors.attributeRightAddendColorProperty.value ),
             lineDash: []
           } );
         }
         else if ( missingAddend === 'b' ) {
-          const stroke = isCorrect ? NumberPairsColors.attributeRightAddendColorProperty : feedbackStyle.stroke;
+          const fill = isCorrect ? NumberPairsColors.attributeRightAddendColorProperty : feedbackStyle.stroke;
           const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
 
-          this.rightAddendArrow.setTailStyle( stroke, lineDash );
+          this.rightAddendArrow.setTailStyle( fill, lineDash );
           this.rightAddendHighlight.mutate( {
-            stroke: stroke,
+            fill: fill,
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
             lineDash: lineDash
           } );
 
           this.leftAddendArrow.setTailStyle( NumberPairsColors.attributeLeftAddendColorProperty, [] );
           this.leftAddendHighlight.mutate( {
-            stroke: NumberPairsColors.attributeLeftAddendColorProperty,
+            fill: NumberPairsColors.attributeLeftAddendColorProperty,
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( NumberPairsColors.attributeLeftAddendColorProperty.value ),
             lineDash: []
           } );
         }

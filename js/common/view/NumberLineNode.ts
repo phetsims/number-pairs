@@ -16,12 +16,13 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 import CurvedArrowNode from './CurvedArrowNode.js';
 import NumberLineSlider from './NumberLineSlider.js';
 import NumberRectangle from './NumberRectangle.js';
@@ -41,8 +42,8 @@ export default class NumberLineNode extends Node {
   public static readonly POINT_RADIUS = NUMBER_LINE_POINT_RADIUS;
 
   public readonly slider: NumberLineSlider;
-  protected readonly leftAddendHighlight: Line;
-  protected readonly rightAddendHighlight: Line;
+  protected readonly leftAddendHighlight: Rectangle;
+  protected readonly rightAddendHighlight: Rectangle;
   protected readonly leftAddendArrow: CurvedArrowNode;
   protected readonly rightAddendArrow: CurvedArrowNode;
 
@@ -82,6 +83,8 @@ export default class NumberLineNode extends Node {
         tandem: options.tandem.createTandem( 'slider' )
       } );
 
+    const highlightStrokeWidth = NUMBER_LINE_POINT_RADIUS - 2;
+
     /**
      * TOTAL
      */
@@ -89,10 +92,10 @@ export default class NumberLineNode extends Node {
       fill: NumberPairsColors.attributeSumColorProperty,
       stroke: 'black'
     } );
-    const totalHighlight = new Line( 0, NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.totalProperty.value ), NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.attributeSumColorProperty,
-        lineWidth: NUMBER_LINE_POINT_RADIUS
+    const totalHighlight = new Rectangle( 0, 0,
+      trackModelViewTransform.modelToViewX( model.totalProperty.value ), highlightStrokeWidth, {
+        fill: NumberPairsColors.attributeSumColorProperty,
+        stroke: NumberPairsConstants.GET_DARKER_COLOR( NumberPairsColors.attributeSumColorProperty.value )
       } );
     const totalArrow = new CurvedArrowNode( zeroNumberProperty, model.totalProperty, trackModelViewTransform, {
       arrowColorProperty: NumberPairsColors.attributeSumColorProperty,
@@ -111,10 +114,10 @@ export default class NumberLineNode extends Node {
     /**
      * LEFT ADDEND
      */
-    const leftAddendHighlight = new Line( 0, -NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.attributeLeftAddendColorProperty,
-        lineWidth: NUMBER_LINE_POINT_RADIUS
+    const leftAddendHighlight = new Rectangle( 0, -highlightStrokeWidth,
+      trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), highlightStrokeWidth, {
+        fill: NumberPairsColors.attributeLeftAddendColorProperty,
+        stroke: NumberPairsConstants.GET_DARKER_COLOR( NumberPairsColors.attributeLeftAddendColorProperty.value )
       } );
     const leftAddendArrow = new CurvedArrowNode( zeroNumberProperty, model.leftAddendProperty, trackModelViewTransform, {
       arrowColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -131,10 +134,10 @@ export default class NumberLineNode extends Node {
     /**
      * RIGHT ADDEND
      */
-    const rightAddendHighlight = new Line( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2,
-      trackModelViewTransform.modelToViewX( model.totalProperty.value ), -NUMBER_LINE_POINT_RADIUS / 2, {
-        stroke: NumberPairsColors.attributeRightAddendColorProperty,
-        lineWidth: NUMBER_LINE_POINT_RADIUS
+    const rightAddendHighlight = new Rectangle( trackModelViewTransform.modelToViewX( model.leftAddendProperty.value ), -highlightStrokeWidth,
+      trackModelViewTransform.modelToViewX( model.totalProperty.value ), highlightStrokeWidth, {
+        fill: NumberPairsColors.attributeRightAddendColorProperty,
+        stroke: NumberPairsConstants.GET_DARKER_COLOR( NumberPairsColors.attributeRightAddendColorProperty.value )
       } );
     const rightAddendArrow = new CurvedArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
       arrowColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
@@ -149,10 +152,10 @@ export default class NumberLineNode extends Node {
 
     Multilink.multilink( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty ],
       ( leftAddend, rightAddend, total ) => {
-        leftAddendHighlight.setX2( trackModelViewTransform.modelToViewX( leftAddend ) );
-        rightAddendHighlight.setX1( trackModelViewTransform.modelToViewX( leftAddend ) );
-        rightAddendHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
-        totalHighlight.setX2( trackModelViewTransform.modelToViewX( total ) );
+        leftAddendHighlight.setRectWidth( trackModelViewTransform.modelToViewDeltaX( leftAddend ) );
+        rightAddendHighlight.setRectX( trackModelViewTransform.modelToViewX( leftAddend ) );
+        rightAddendHighlight.setRectWidth( trackModelViewTransform.modelToViewDeltaX( rightAddend ) );
+        totalHighlight.setRectWidth( trackModelViewTransform.modelToViewDeltaX( total ) );
       } );
 
     options.children = [

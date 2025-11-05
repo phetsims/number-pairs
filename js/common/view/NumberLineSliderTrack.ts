@@ -30,8 +30,8 @@ type TrackSelfOptions = {
 };
 type NumberLineSliderTrackOptions = WithRequired<SliderTrackOptions, 'size'> & TrackSelfOptions;
 
-const MINOR_TICK_LENGTH = 16;
-const MAJOR_TICK_LENGTH = 24;
+const MINOR_TICK_LENGTH = 20;
+const MAJOR_TICK_LENGTH = 30;
 
 export default class NumberLineSliderTrack extends SliderTrack {
   private readonly majorTickLength: number;

@@ -22,6 +22,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberLineNode from './NumberLineNode.js';
 
 type SelfOptions = {
@@ -80,7 +81,7 @@ export default class CurvedArrowNode extends Node {
     let strokeProperty: TReadOnlyProperty<Color> | null = null;
     if ( options.addStrokeToArrow && options.arrowColorProperty ) {
       strokeProperty = new DerivedProperty( [ options.arrowColorProperty ], ( arrowColor: Color ) => {
-        return arrowColor.darkerColor( 0.85 );
+        return NumberPairsConstants.GET_DARKER_COLOR( arrowColor );
       } );
     }
     const arrowHeadNode = new Path( arrowHeadShape, {
@@ -251,7 +252,7 @@ export default class CurvedArrowNode extends Node {
 
   public setTailStyle( stroke: TColor, lineDash: number[] ): void {
     const color = Color.toColor( stroke );
-    const outlineStroke = color.darkerColor( 0.85 );
+    const outlineStroke = NumberPairsConstants.GET_DARKER_COLOR( color );
 
     this.tailNode.stroke = stroke;
     this.arrowHeadNode.fill = stroke;

@@ -52,7 +52,7 @@ export default class NumberLineLevelNode extends LevelNode {
                       providedOptions?: LevelNodeOptions ) {
 
     const options = optionize<NumberLineLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
-      countingAreaBackgroundColorProperty: NumberPairsColors.gameNumberLineBackgroundColorProperty,
+      countingAreaBackgroundColorProperty: NumberPairsColors.numberLineBackgroundColorProperty,
       countingAreaBounds: GameModelConstants.NUMBER_LINE_COUNTING_AREA_BOUNDS
     }, providedOptions );
     super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );

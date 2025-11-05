@@ -78,10 +78,6 @@ const NumberPairsColors = {
     default: '#85FFF7'
   } ),
 
-  gameNumberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'gameNumberLineBackground', {
-    default: '#e9e9f3'
-  } ),
-
   // Status bar & level selection colors
   level1StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level1StatusBar', {
     default: '#EFB0AF'

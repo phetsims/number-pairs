@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 
@@ -13,10 +14,10 @@ export default class NumberStyles {
   public static readonly DASHED_LINE = [ 6, 6 ];
 
   public static readonly FEEDBACK_STYLES = {
-    idle: { stroke: 'gray', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
-    incorrect: { stroke: 'red', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
-    correct: { stroke: 'black', lineWidth: 1, lineDash: [] },
-    guessSelected: { stroke: 'gray', lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE }
+    idle: { stroke: Color.GRAY, lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
+    incorrect: { stroke: Color.RED, lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE },
+    correct: { stroke: Color.BLACK, lineWidth: 1, lineDash: [] },
+    guessSelected: { stroke: Color.GRAY, lineWidth: NumberPairsConstants.GAME_LINE_WIDTH, lineDash: NumberStyles.DASHED_LINE }
   };
 }
 
