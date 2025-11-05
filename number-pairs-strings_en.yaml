@@ -216,7 +216,11 @@ a11y:
     totalValueHidden:           hidden
 
   equationAccordionBox:
-    accessibleHelpTextCollapsed: View decomposition equation.
+    accessibleHelpTextCollapsed: |-
+                                    { $screenType ->
+                                      *[ other ] View decomposition equation.
+                                       [ sumScreen ] View sum equation.
+                                    }
 
   # Representation types
   representationType:

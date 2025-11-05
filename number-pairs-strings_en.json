@@ -369,7 +369,7 @@
     },
     "equationAccordionBox": {
       "accessibleHelpTextCollapsed": {
-        "value": "View decomposition equation."
+        "value": "{ $screenType ->\n  *[ other ] View decomposition equation.\n   [ sumScreen ] View sum equation.\n}"
       }
     },
     "representationType": {

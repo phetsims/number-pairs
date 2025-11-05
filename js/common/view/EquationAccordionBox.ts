@@ -12,6 +12,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberEquationNode from './NumberEquationNode.js';
@@ -37,7 +38,9 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       contentYMargin: 18,
       minWidth: PhraseAccordionBox.WIDTH, // Match the minWidth of the PhraseAccordionBox
       expandedDefaultValue: false,
-      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty
+      accessibleHelpTextCollapsed: NumberPairsFluent.a11y.equationAccordionBox.accessibleHelpTextCollapsed.createProperty( {
+        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      } )
     }, providedOptions );
 
     const equationNode = new NumberEquationNode( model, 40, 28, 24, {

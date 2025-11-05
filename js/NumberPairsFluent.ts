@@ -451,7 +451,7 @@ const NumberPairsFluent = {
       totalValueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_totalValueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.totalValueHiddenStringProperty' ) )
     },
     equationAccordionBox: {
-      accessibleHelpTextCollapsedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ) )
+      accessibleHelpTextCollapsed: new FluentPattern<{ screenType: number | 'other' | 'sumScreen' | TReadOnlyProperty<number | 'other' | 'sumScreen'> }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ), [{"name":"screenType","variants":[{"type":"number","value":"other"},"sumScreen"]}] )
     },
     _comment_1: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {
