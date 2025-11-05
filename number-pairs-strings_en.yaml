@@ -342,7 +342,15 @@ a11y:
       barModelAccessibleParagraph:               >-
                                                  Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of
                                                  objects, bottom rectangle is split into two sections that adjust based on size of addends.
-      currentBarModelStateAccessibleParagraph:   Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+      currentBarModelStateAccessibleParagraph:   |-
+                                                 { $screenType ->
+                                                 *[ other ] Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+                                                  [ sumScreen ] Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. 
+                                                        { $totalView ->
+                                                             [shown] { $total } in bottom rectangle.
+                                                            *[hidden] Total hidden from bottom rectangle.
+                                                  }
+                                                 }
       largerAndSmaller:                          larger and smaller
       smallerAndLarger:                          smaller and larger
       equal:                                     equal

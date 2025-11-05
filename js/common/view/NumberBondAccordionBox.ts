@@ -63,7 +63,9 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty,
-      proportions: proportionsStringProperty
+      proportions: proportionsStringProperty,
+      screenType: model instanceof SumModel ? 'sumScreen' : 'other',
+      totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' )
     } );
     const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
       left: model.leftAddendProperty,
