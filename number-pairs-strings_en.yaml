@@ -341,7 +341,7 @@ a11y:
                                                  }
       barModelAccessibleParagraph:               |-
                                                  { $screenType ->
-                                                   *[other] Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split into two sections that adjust based on size of addends.
+                                                   *[other] Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
                                                     [sumScreen] Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
                                                  }
       currentBarModelStateAccessibleParagraph:   |-
