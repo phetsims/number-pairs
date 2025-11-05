@@ -26,7 +26,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import TColor from '../../../../scenery/js/util/TColor.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
@@ -37,6 +37,7 @@ import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
@@ -58,9 +59,10 @@ export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingN
 const MAX_ICON_HEIGHT = 38; // Empirically determined
 const MAX_ICON_WIDTH = 28; // Empirically determined
 
-const createNumberLineIcon = ( fill: TColor ) => {
+const createNumberLineIcon = ( fill: TReadOnlyProperty<Color> ) => {
   const icon = new Rectangle( 0, 0, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, {
     fill: fill,
+    stroke: NumberPairsConstants.GET_DARKER_COLOR( fill ),
     cornerRadius: 5
   } );
   const numberOne = new Text( '1', {

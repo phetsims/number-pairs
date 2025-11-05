@@ -6,6 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
@@ -43,8 +44,9 @@ const NumberPairsConstants = {
     maxWidth: 124
   },
 
-  GET_DARKER_COLOR: ( color: Color ): Color => {
-    return color.darkerColor( 0.625 );
+  GET_DARKER_COLOR: ( color: TReadOnlyProperty<Color> | Color ): Color => {
+    const colorValue = color instanceof Color ? color : color.value;
+    return colorValue.darkerColor( 0.625 );
   },
 
   PREFERENCES_ICON_MAX_WIDTH: 70,
