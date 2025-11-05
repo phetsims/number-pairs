@@ -341,6 +341,7 @@ type StringsType = {
       'whatNumberStringProperty': LocalizedStringProperty;
       'decompositionChallengePromptStringProperty': LocalizedStringProperty;
       'challengeSumPromptStringProperty': LocalizedStringProperty;
+      'answerChoicesStringProperty': LocalizedStringProperty;
       'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
       'challengeSupports': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;

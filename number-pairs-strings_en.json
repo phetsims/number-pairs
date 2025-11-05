@@ -746,8 +746,11 @@
       "challengeSumPrompt": {
         "value": "{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y_gameScreen_accessibleChallengePromptFinalSentence }"
       },
+      "answerChoices": {
+        "value": "{ $challengeType ->\n  [ leftAddend ] Left Addend Choices\n  [ rightAddend ] Right Addend Choices\n  *[ total ] Sum Choices\n}"
+      },
       "accessibleChallengePromptFinalSentence": {
-        "value": "Find missing\n  { $addendOrSum ->\n      [addend] addend\n     *[sum] sum\n} to solve challenge. Select an answer from { $challengeType } Choices."
+        "value": "Find missing\n  { $addendOrSum ->\n      [addend] addend\n     *[sum] sum\n} to solve challenge. Select an answer from { a11y_gameScreen_answerChoices }."
       },
       "challengeSupports": {
         "accessibleHeading": {
@@ -831,12 +834,12 @@
       },
       "answerButton": {
         "wrongAccessibleName": {
-          "value": "{$value}, wrong answer"
+          "value": "{$value}, incorrect answer"
         }
       },
       "answerButtonGroup": {
         "accessibleHeading": {
-          "value": "{ $challengeType ->\n   [leftAddend] Left Addend Choices\n   [rightAddend] Right Addend Choices\n  *[total] Sum Choices\n   }"
+          "value": "{ a11y_gameScreen_answerChoices }"
         },
         "accessibleName": {
           "value": "{ a11y_gameScreen_answerButtonGroup_accessibleHeading }"
@@ -858,7 +861,7 @@
           "value": "Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again."
         },
         "correctAnswerOnFirstTry": {
-          "value": "Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. Stars increased to { $score }."
+          "value": "Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { $score } stars!"
         }
       },
       "resetChallengeButton": {

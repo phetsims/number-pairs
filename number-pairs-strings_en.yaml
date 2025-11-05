@@ -425,20 +425,26 @@ a11y:
     whatNumber:                             what number
     decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
     challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    answerChoices:                          |-
+                                            { $challengeType ->
+                                              [ leftAddend ] Left Addend Choices
+                                              [ rightAddend ] Right Addend Choices
+                                              *[ total ] Sum Choices
+                                            }
     accessibleChallengePromptFinalSentence: |-
                                             Find missing
                                               { $addendOrSum ->
                                                   [addend] addend
                                                  *[sum] sum
-                                            } to solve challenge. Select an answer from { $challengeType } Choices.
+                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }.
     challengeSupports:
       accessibleHeading: Challenge Supports
 
     # Overrides the values above, for the game
     bothAddendsEyeToggleButton:
-      accessibleHelpText:             Show or hide kittens.
-      accessibleContextResponseOff:   Kittens visible.
-      accessibleContextResponseOn:    Kittens hidden.
+      accessibleHelpText:           Show or hide kittens.
+      accessibleContextResponseOff: Kittens visible.
+      accessibleContextResponseOn:  Kittens hidden.
     level1:
       accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 2 and 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
@@ -466,13 +472,8 @@ a11y:
     answerButton:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
-      accessibleHeading: |-
-                         { $challengeType ->
-                            [leftAddend] Left Addend Choices
-                            [rightAddend] Right Addend Choices
-                           *[total] Sum Choices
-                            }
-      accessibleName: '{ a11y.gameScreen.answerButtonGroup.accessibleHeading }'
+      accessibleHeading:  '{a11y.gameScreen.answerChoices}'
+      accessibleName:     '{ a11y.gameScreen.answerButtonGroup.accessibleHeading }'
       accessibleHelpText: Arrows or W,A,S,D keys navigate to choice, space or enter selects answer.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
