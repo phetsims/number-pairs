@@ -89,6 +89,9 @@ export default class NumberLineSlider extends HSlider {
       },
       phetioVisiblePropertyInstrumented: false,
       phetioEnabledPropertyInstrumented: providedOptions.interactive,
+
+      // Hide a11y view items for the non-interactive slider, see https://github.com/phetsims/number-pairs/issues/336
+      pdomVisible: providedOptions.interactive,
       drag: () => {
         numberLineContextResponse.sliderDragged( this );
       }

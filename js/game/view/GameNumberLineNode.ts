@@ -79,9 +79,6 @@ export default class GameNumberLineNode extends NumberLineNode {
         }
       }
     );
-
-    // Hide a11y view items for the non-interactive slider, see https://github.com/phetsims/number-pairs/issues/336
-    this.slider.pdomVisible = false;
   }
 }
 
