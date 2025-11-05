@@ -392,6 +392,8 @@ type StringsType = {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
       'responses': {
+        'answerSelectedStringProperty': LocalizedStringProperty;
+        'answerClearedStringProperty': LocalizedStringProperty;
         'correctAnswerStringProperty': LocalizedStringProperty;
         'incorrectAnswerStringProperty': LocalizedStringProperty;
         'correctAnswerOnFirstTryStringProperty': LocalizedStringProperty;

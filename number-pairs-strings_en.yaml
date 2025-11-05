@@ -475,9 +475,16 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
+      answerSelected:          ' {$value} chosen for answer.'
+      answerCleared:           Answer cleared.
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
       incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
-      correctAnswerOnFirstTry: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { $score } stars!'
+      correctAnswerOnFirstTry: |-
+                              Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
+                               { $score ->
+                                [1] 1 star!
+                                *[other] { $score } stars!
+                               }
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.
