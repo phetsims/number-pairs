@@ -424,11 +424,6 @@
       },
       "kittenPattern": {
         "value": "{ $descriptor ->\n    [first] First { $color} Kitten \n    [last] Last { $color } Kitten \n    [only] Only { $color } Kitten \n    *[other] { $color } Kitten\n}"
-      },
-      "accessibleHelpText": {
-        "withoutAttributeSwitch": {
-          "value": "Count or organize kittens to help solve challenge if needed."
-        }
       }
     },
     "beads": {

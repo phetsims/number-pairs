@@ -198,9 +198,6 @@ type StringsType = {
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
       'changeColorAccessibleNameStringProperty': LocalizedStringProperty;
       'kittenPatternStringProperty': LocalizedStringProperty;
-      'accessibleHelpText': {
-        'withoutAttributeSwitchStringProperty': LocalizedStringProperty;
-      }
     };
     'beads': {
       'accessibleNameStringProperty': LocalizedStringProperty;

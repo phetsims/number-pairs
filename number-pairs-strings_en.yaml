@@ -245,9 +245,6 @@ a11y:
                                    [only] Only { $color } Kitten 
                                    *[other] { $color } Kitten
                                }
-    accessibleHelpText:
-      withoutAttributeSwitch: Count or organize kittens to help solve challenge if needed.
-
   beads:
     accessibleName:                Beads
     singularAccessibleName:        Bead

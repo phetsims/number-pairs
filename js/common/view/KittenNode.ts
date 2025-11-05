@@ -81,9 +81,6 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const options = optionize<KittenNodeOptions, SelfOptions, NodeOptions>()( {
       tagName: 'div',
       cursor: 'pointer',
-      accessibleHelpText: providedOptions.includeAttributeSwitch === undefined || providedOptions.includeAttributeSwitch ?
-                          null :
-                          NumberPairsFluent.a11y.kittens.accessibleHelpText.withoutAttributeSwitchStringProperty,
       focusable: true,
       includeAttributeSwitch: true,
       dragBounds: KittenNode.DEFAULT_DRAG_BOUNDS
