@@ -489,7 +489,7 @@ a11y:
                                {$value} chosen for { a11y.gameScreen.challengeType }. 
                                   { $representationType ->
                                     [kittens] {$value} kittens added to Counting Area.
-                                   *[numberLine] {$value} added to number line.
+                                   *[numberLine] Addend now {$value} on number line.
                                   }
       answerCleared:           Answer cleared.
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
