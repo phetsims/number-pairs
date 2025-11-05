@@ -148,7 +148,7 @@ a11y:
                                   }
                           *[ all ]   { $representationType ->
                                     [ numberLine ] Currently, total of { $total } created by adding lengths of yellow and blue sections.
-                                   *[ other ] Currently, { $total } total { $itemType } created by adding { $itemType } of two colors.
+                                   *[ other ] Currently, { $total } total { $itemType } created by adding all { $itemType }.
                                   }
                            }
 
