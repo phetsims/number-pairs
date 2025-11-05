@@ -143,7 +143,11 @@ export default class AnswerButtonGroup extends GridBox {
         if ( state ) {
           selectedNumberProperty.value = state ? value : null;
 
-          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.answerSelected.format( { value: value } ) );
+          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.answerSelected.format( {
+            value: value,
+            challengeType: challengeProperty.value.missing === 'a' ? 'leftAddend' :
+                           challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total'
+          } ) );
         }
         else {
           selectedNumberProperty.value = null;

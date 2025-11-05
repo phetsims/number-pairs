@@ -339,6 +339,7 @@ type StringsType = {
       'decompositionChallengePromptStringProperty': LocalizedStringProperty;
       'challengeSumPromptStringProperty': LocalizedStringProperty;
       'answerChoicesStringProperty': LocalizedStringProperty;
+      'challengeTypeStringProperty': LocalizedStringProperty;
       'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
       'challengeSupports': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;

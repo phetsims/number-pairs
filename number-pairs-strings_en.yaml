@@ -428,6 +428,12 @@ a11y:
                                               [ rightAddend ] Right Addend Choices
                                               *[ total ] Sum Choices
                                             }
+    challengeType:                          |-
+                                            { $challengeType ->
+                                              [ leftAddend ] left addend
+                                              [ rightAddend ] right addend
+                                              *[ total ] sum
+                                            }
     accessibleChallengePromptFinalSentence: |-
                                             Find missing
                                               { $addendOrSum ->
@@ -475,16 +481,16 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
-      answerSelected:          ' {$value} chosen for { $challengeType } addend. {$value} kittens added to Counting Area.'
+      answerSelected:          ' {$value} chosen for { a11y.gameScreen.challengeType }. {$value} kittens added to Counting Area.'
       answerCleared:           Answer cleared.
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
       incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
       correctAnswerOnFirstTry: |-
-                              Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
-                               { $score ->
-                                [1] 1 star!
-                                *[other] { $score } stars!
-                               }
+                               Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
+                                { $score ->
+                                 [1] 1 star!
+                                 *[other] { $score } stars!
+                                }
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.
