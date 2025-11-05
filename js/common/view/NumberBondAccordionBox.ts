@@ -106,7 +106,9 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     const barModelNode = new BarModelMutableNode( model, {
       totalOnTopProperty: options.numberBondNodeOptions.totalOnTopProperty, // It should match the number bond
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.BAR_MODEL ),
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraphStringProperty
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
+        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      } )
     } );
     const contentNode = new Node( {
       children: [ new Node( {
