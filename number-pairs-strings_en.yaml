@@ -519,7 +519,7 @@ a11y:
       correctAnswer:           |-
                                 { $levelType ->
                                   *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
-                                  [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
+                                  [sum] Correct! { $leftAddend } plus { $rightAddend } equals { $total }. Nice work.
                                 }
       incorrectAnswer:         |-
                                 { $levelType ->
