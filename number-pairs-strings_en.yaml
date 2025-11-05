@@ -433,7 +433,7 @@ a11y:
                                               { $addendOrSum ->
                                                   [addend] addend
                                                  *[sum] sum
-                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }.
+                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
     challengeSupports:
       accessibleHeading: Challenge Supports
 
