@@ -512,13 +512,24 @@ a11y:
                                    *[numberLine] Addend now {$value} on number line.
                                   }
       answerCleared:           Answer cleared.
-      correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
-      incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
+      correctAnswer:           |-
+                                { $levelType ->
+                                  *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
+                                  [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
+                                }
+      incorrectAnswer:         |-
+                                { $levelType ->
+                                  *[decomposition] Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
+                                  [sum] Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
+                                }
       correctAnswerOnFirstTry: |-
-                               Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
+                                { $levelType ->
+                                  [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
+                                  *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
+                                }
                                 { $score ->
-                                 [1] 1 star!
-                                 *[other] { $score } stars!
+                                  [1] 1 star!
+                                  *[other] { $score } stars!
                                 }
     resetChallengeButton:
       accessibleName:            Reset Challenge

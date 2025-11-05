@@ -31,7 +31,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import GameModel from '../model/GameModel.js';
+import GameModel, { SUM_LEVELS } from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import AnswerButtonGroup from './AnswerButtonGroup.js';
@@ -182,15 +182,18 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         const challenge = level.challengeProperty.value;
         if ( isCorrect ) {
           if ( firstTry ) {
+            console.log( 'correct on first try' );
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
+              levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
               leftAddend: challenge.a,
               rightAddend: challenge.b,
               total: challenge.y,
-              score: level.scoreProperty.value
+              score: level.scoreProperty
             } ) );
           }
           else {
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( {
+              levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
               leftAddend: challenge.a,
               rightAddend: challenge.b,
               total: challenge.y
@@ -199,6 +202,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         }
         else {
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( {
+            levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
             leftAddend: challenge.missing !== 'a' ? challenge.a : guess,
             rightAddend: challenge.missing !== 'b' ? challenge.b : guess,
             total: challenge.missing !== 'y' ? challenge.y : guess

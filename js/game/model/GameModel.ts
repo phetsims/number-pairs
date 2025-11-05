@@ -33,6 +33,7 @@ type SelfOptions = EmptySelfOptions;
 type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export const LevelValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8' ] as const;
+export const SUM_LEVELS = [ 4, 7, 8 ];
 
 const LevelSelectionValues = [ 'levelSelectionScreen', ...LevelValues ] as const;
 export type LevelSelection = ( typeof LevelSelectionValues )[number];
