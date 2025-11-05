@@ -475,7 +475,7 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
-      answerSelected:          ' {$value} chosen for answer.'
+      answerSelected:          ' {$value} chosen for { $challengeType } addend. {$value} kittens added to Counting Area.'
       answerCleared:           Answer cleared.
       correctAnswer:           'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.'
       incorrectAnswer:         'Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.'
