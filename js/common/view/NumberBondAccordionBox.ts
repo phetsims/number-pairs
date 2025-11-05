@@ -14,6 +14,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -64,10 +65,12 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       total: model.totalProperty,
       proportions: proportionsStringProperty
     } );
-    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( { //
+    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
-      total: model.totalProperty
+      totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' ),
+      total: model.totalProperty,
+      screenType: model instanceof SumModel ? 'sumScreen' : 'other'
     } );
 
     const accessibleParagraphStringProperty = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
