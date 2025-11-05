@@ -326,8 +326,10 @@ a11y:
       barModel:                                  proportional bar model
       accessibleHelpText:                        Represent decomposition as a { $representation }.
       numberBondAccessibleParagraph:             >-
-                                                 Number bond has three circles arranged with one circle on top and two underneath like a triangle. Top circle
-                                                 tells total number of objects, left circle is left addend, right circle is right addend.
+                                                 { $screenType ->
+                                                   [sumScreen] Number bond has three circles arranged with two circles on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total. 
+                                                  *[other] Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
+                                                 }
       currentNumberBondStateAccessibleParagraph: |-
                                                  { $screenType ->
                                                    *[ other ] Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.

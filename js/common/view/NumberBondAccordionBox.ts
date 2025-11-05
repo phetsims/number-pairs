@@ -94,7 +94,9 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     // Create the number bond number model representation.
     const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL ),
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty //
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
+        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      } )
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );
 
