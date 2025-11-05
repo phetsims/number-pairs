@@ -56,8 +56,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       } )
     ), {
 
-      // TODO: https://github.com/phetsims/number-pairs/issues/340 is this a good re-use of strings, or should we create new ones?
-      title: new Text( VegasFluent.a11y.gameInfoButton.accessibleNameStringProperty, {
+      title: new Text( VegasFluent.levelsStringProperty, {
         font: new PhetFont( { size: 30, weight: 'bold' } )
       } ),
       gameLevels: NumberPairsQueryParameters.gameLevels,
