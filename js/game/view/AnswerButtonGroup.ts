@@ -104,6 +104,7 @@ export default class AnswerButtonGroup extends GridBox {
       } );
 
 
+      const buttonLineWidth = 1;
       const numberToggleButton = new NumberToggleButton( isPressedProperty, {
         soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
         accessibleName: derivedTernary( isWrongProperty, {
@@ -113,6 +114,9 @@ export default class AnswerButtonGroup extends GridBox {
         tandem: buttonTandem,
         content: labelBox,
         baseColor: buttonColorProperty,
+        lineWidth: buttonLineWidth,
+        touchAreaYDilation: Y_SPACING / 2,
+        mouseAreaYDilation: Y_SPACING / 2,
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty,
           ( isCorrect, selectedNumber ) => {
 
@@ -127,10 +131,11 @@ export default class AnswerButtonGroup extends GridBox {
       } );
 
       const correctAnswerNode = new NumberRectangle(
-        new Dimension2( numberToggleButton.width, numberToggleButton.height ),
+        new Dimension2( numberToggleButton.width - buttonLineWidth * 2, numberToggleButton.height - buttonLineWidth * 2 ),
         new Property( value ), {
           stroke: 'black',
-          fill: buttonColorProperty
+          fill: buttonColorProperty,
+          lineWidth: buttonLineWidth
         } );
 
       const toggleProperty = derived( isCorrectProperty, selectedNumberProperty, ( isCorrect, selectedNumber ) =>

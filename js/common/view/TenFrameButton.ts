@@ -27,7 +27,9 @@ export default class TenFrameButton extends RectangularPushButton {
     const tenFrameIcon = TenFrameButton.createTenFrameIcon();
     const options = optionize4<TenFrameButtonOptions, SelfOptions, RectangularPushButtonOptions>()( {},
       {
-        content: tenFrameIcon
+        content: tenFrameIcon,
+        touchAreaXDilation: 5,
+        touchAreaYDilation: 5
       }, NumberPairsConstants.RECTANGULAR_PUSH_BUTTON_OPTIONS, providedOptions );
     super( options );
   }

@@ -159,6 +159,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       },
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       bottom: this.countingAreaBounds.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+      touchAreaDilation: 5,
       enabledProperty: level.modeProperty.derived( mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' ),
       accessibleName: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty,
@@ -169,11 +170,14 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     // Create check answer and next challenge buttons. These are visible at different times and in the same location.
     const buttonAlignGroup = new AlignGroup();
+    const touchAreaDilation = 5;
     this.checkButton = new CheckButton( {
       font: TEXT_OPTIONS.font,
       maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
       alignGroup: buttonAlignGroup,
+      touchAreaXDilation: touchAreaDilation,
+      touchAreaYDilation: touchAreaDilation,
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
@@ -221,6 +225,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       maxTextWidth: TEXT_OPTIONS.maxWidth,
       baseColor: NumberPairsColors.checkNextButtonColorProperty,
       alignGroup: buttonAlignGroup,
+      touchAreaXDilation: touchAreaDilation,
+      touchAreaYDilation: touchAreaDilation,
       tandem: tandem.createTandem( 'nextButton' ),
       enabledPropertyOptions: {
         phetioReadOnly: true,
