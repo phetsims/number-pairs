@@ -19,7 +19,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberStyles from './NumberStyles.js';
 
 type NumberLineFeedbackStyle = {
-  stroke: Color;
+  stroke: Color | TReadOnlyProperty<Color>;
   lineDash: number[];
 };
 

@@ -396,8 +396,16 @@ export default class NumberPairsScreenView extends ScreenView {
         numberLineCountFromZeroSwitchTandem );
       const numberLineCountFromZeroSwitch = new ABSwitch(
         model.numberLineCountFromZeroProperty,
-        false, new NumberLineIcon( iconWidth, iconValue, { showRightArrow: true } ),
-        true, new NumberLineIcon( iconWidth, iconValue, { showLeftArrow: true, showRightArrow: true } ),
+        false, new NumberLineIcon( iconWidth, iconValue, {
+          rightArrowColorProperty: NumberPairsColors.unansweredColorProperty,
+          showRightArrow: true
+        } ),
+        true, new NumberLineIcon( iconWidth, iconValue, {
+          showLeftArrow: true,
+          showRightArrow: true,
+          leftArrowColorProperty: NumberPairsColors.unansweredColorProperty,
+          rightArrowColorProperty: NumberPairsColors.unansweredColorProperty
+        } ),
         {
           top: COUNTING_AREA_BOUNDS.bottom + COUNTING_AREA_Y_MARGIN,
           left: COUNTING_AREA_BOUNDS.left,

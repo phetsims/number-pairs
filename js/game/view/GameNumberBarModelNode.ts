@@ -12,6 +12,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelMutableNode, { BarModelMutableNodeOptions } from '../../common/view/BarModelMutableNode.js';
 import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
@@ -38,7 +39,7 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
     this.leftAddendRectangle.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.rightAddendRectangle.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
-    const stylize = ( rectangle: Rectangle, stroke: Color, lineDash: number[], lineWidth = 1 ) => {
+    const stylize = ( rectangle: Rectangle, stroke: TColor, lineDash: number[], lineWidth = 1 ) => {
       rectangle.stroke = stroke;
       rectangle.lineDash = lineDash;
       rectangle.lineWidth = lineWidth;

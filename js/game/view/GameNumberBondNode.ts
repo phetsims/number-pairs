@@ -9,7 +9,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../common/view/NumberBondMutableNode.js';
@@ -38,7 +38,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     this.leftLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.rightLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
-    const stylize = ( path: Path, stroke: Color | string, lineDash: number[], lineWidth = 1 ) => {
+    const stylize = ( path: Path, stroke: TColor, lineDash: number[], lineWidth = 1 ) => {
       path.stroke = stroke;
       path.lineDash = lineDash;
       path.lineWidth = lineWidth;

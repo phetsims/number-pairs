@@ -8,6 +8,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -39,6 +40,8 @@ type SelfOptions = {
   pointFillColor?: TColor;
   trackLineWidth?: number;
   isGame?: boolean;
+  leftArrowColorProperty?: TReadOnlyProperty<Color>;
+  rightArrowColorProperty?: TReadOnlyProperty<Color>;
 };
 type NumberLineIconOptions = SelfOptions & StrictOmit<NodeOptions, 'children' | 'excludeInvisibleChildrenFromBounds'>;
 const ICON_RANGE = new Range( 0, 3 );
@@ -70,6 +73,8 @@ export default class NumberLineIcon extends Node {
       showPoint: providedOptions.showHighlight || false,
       showLabels: true,
       pointFillColor: NumberPairsColors.attributeSumColorProperty,
+      leftArrowColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
+      rightArrowColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
       trackLineWidth: 1,
       isGame: false,
       excludeInvisibleChildrenFromBounds: true,
@@ -90,7 +95,7 @@ export default class NumberLineIcon extends Node {
      * Create the number line decorators.
      */
     if ( options.showRightArrow ) {
-      ARROW_NODE_OPTIONS.arrowColorProperty = NumberPairsColors.attributeRightAddendColorProperty;
+      ARROW_NODE_OPTIONS.arrowColorProperty = options.rightArrowColorProperty;
       const startingValueProperty = new Property( iconNumberLineValue );
       const rightAddendValueProperty = new Property( ICON_RANGE.max - iconNumberLineValue );
       const arrowNode = new CurvedArrowNode(
@@ -107,7 +112,7 @@ export default class NumberLineIcon extends Node {
     }
 
     if ( options.showLeftArrow ) {
-      ARROW_NODE_OPTIONS.arrowColorProperty = NumberPairsColors.attributeLeftAddendColorProperty;
+      ARROW_NODE_OPTIONS.arrowColorProperty = options.leftArrowColorProperty;
       const arrowNode = new CurvedArrowNode(
         new Property( ICON_RANGE.min ), new Property( iconNumberLineValue ), modelViewTransform, ARROW_NODE_OPTIONS );
       this.addChild( arrowNode );
