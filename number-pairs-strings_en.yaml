@@ -202,19 +202,13 @@ a11y:
                                     *[other] Counting area has { $total } total { $items }
                                   }
                                 }
-    numberBondLeadingParagraph: Number bond has { $total } in top circle
-    barModelLeadingParagraph:   Bar model has { $total } in top rectangle
     leftSideListItemPattern:    '{ $value } on left side'
     rightSideListItemPattern:   '{ $value } on right side'
     leftSideBeadsPattern:       '{ $value } yellow on left side'
     rightSideBeadsPattern:      '{ $value } blue on right side'
     yellowListItemPattern:      '{ $value } yellow'
     blueListItemPattern:        '{ $value } blue'
-    leftCircleListItemPattern:  '{ $value } in left circle'
-    rightCircleListItemPattern: '{ $value } in right circle'
     addendValueHidden:          some
-    totalValueHidden:           hidden
-
   equationAccordionBox:
     accessibleHelpTextCollapsed: |-
                                     { $screenType ->
@@ -254,7 +248,6 @@ a11y:
     singularAccessibleName:        Bead
     leftAddendBead:                Yellow Bead
     rightAddendBead:               Blue Bead
-    accessibleHelpText:            Counting area with grabbable and movable beads.
     contextResponse:               |-
                                    { $grabbedOrReleased ->
                                      [ grabbed ]  Grabbed
@@ -309,7 +302,6 @@ a11y:
 
   # Controls and interactions
   controls:
-    accessibleHeading: Counting Area Controls
     phrase:
       accessibleHelpTextCollapsed: |-
                                    { $screenType ->
@@ -390,14 +382,6 @@ a11y:
       accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
       accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
-    showAddends:
-      accessibleName: Show addends
-    hideAddends:
-      accessibleName: Hide addends
-    leftObjects:
-      accessibleName: Yellow Objects
-    rightObjects:
-      accessibleName: Blue Objects
     countingObjectControl:
       accessibleName:           |-
                                 { $representationType ->

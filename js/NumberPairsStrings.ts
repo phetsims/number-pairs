@@ -157,18 +157,13 @@ type StringsType = {
     'countingArea': {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
       'leadingParagraphStringProperty': LocalizedStringProperty;
-      'numberBondLeadingParagraphStringProperty': LocalizedStringProperty;
-      'barModelLeadingParagraphStringProperty': LocalizedStringProperty;
       'leftSideListItemPatternStringProperty': LocalizedStringProperty;
       'rightSideListItemPatternStringProperty': LocalizedStringProperty;
       'leftSideBeadsPatternStringProperty': LocalizedStringProperty;
       'rightSideBeadsPatternStringProperty': LocalizedStringProperty;
       'yellowListItemPatternStringProperty': LocalizedStringProperty;
       'blueListItemPatternStringProperty': LocalizedStringProperty;
-      'leftCircleListItemPatternStringProperty': LocalizedStringProperty;
-      'rightCircleListItemPatternStringProperty': LocalizedStringProperty;
       'addendValueHiddenStringProperty': LocalizedStringProperty;
-      'totalValueHiddenStringProperty': LocalizedStringProperty;
     };
     'equationAccordionBox': {
       'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
@@ -204,7 +199,6 @@ type StringsType = {
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
       'leftAddendBeadStringProperty': LocalizedStringProperty;
       'rightAddendBeadStringProperty': LocalizedStringProperty;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
       'contextResponseStringProperty': LocalizedStringProperty;
       'crossedDividerContextResponseStringProperty': LocalizedStringProperty;
     };
@@ -239,7 +233,6 @@ type StringsType = {
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
-      'accessibleHeadingStringProperty': LocalizedStringProperty;
       'phrase': {
         'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
       };
@@ -287,18 +280,6 @@ type StringsType = {
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
         'accessibleContextResponseOnStringProperty': LocalizedStringProperty;
         'accessibleContextResponseOffStringProperty': LocalizedStringProperty;
-      };
-      'showAddends': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
-      'hideAddends': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
-      'leftObjects': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
-      };
-      'rightObjects': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
       };
       'countingObjectControl': {
         'accessibleNameStringProperty': LocalizedStringProperty;
