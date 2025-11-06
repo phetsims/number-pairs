@@ -171,13 +171,13 @@ export default class AnswerButtonGroup extends GridBox {
       // Checkmark/X feedback marks positioned by the missing slot
       const wrongMark = new Text( '✗', {
         font: new PhetFont( 20 ),
-        fill: NumberPairsColors.wrongMarkColorProperty,
+        fill: NumberPairsColors.incorrectColorProperty,
         pickable: false,
         visibleProperty: isWrongProperty
       } );
       const checkMark = new Text( '✓', {
         font: new PhetFont( 23 ),
-        fill: NumberPairsColors.checkMarkColorProperty,
+        fill: NumberPairsColors.checkMarkColorProperty, // TODO: Do we want to use GREEN_COLORBLIND here? https://github.com/phetsims/number-pairs/issues/354
         pickable: false,
         visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
           return mode === 'correct' && challenge.answer === value;

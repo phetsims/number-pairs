@@ -132,7 +132,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
-      fill: NumberPairsColors.wrongMarkColorProperty,
+      fill: NumberPairsColors.incorrectColorProperty,
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
     this.checkMark = new Text( '✓', {
@@ -141,7 +141,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' )
     } );
     this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
-      fill: NumberPairsColors.wrongMarkColorProperty,
+      fill: NumberPairsColors.incorrectColorProperty,
       font: TEXT_OPTIONS.font,
       maxWidth: TEXT_OPTIONS.maxWidth,
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
