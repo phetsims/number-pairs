@@ -80,11 +80,16 @@ export default class SumScreenView extends NumberPairsScreenView {
       // we want the total maxWidth to be two less than the other labels to make space for padding.
       maxWidth: NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth - 2
     }, NumberPairsConstants.CHECKBOX_LABEL_OPTIONS );
+    const pointerAreaDilation = 5;
     this.totalCheckbox = new Checkbox( model.totalVisibleProperty,
       new Text( NumberPairsFluent.totalStringProperty, totalCheckboxLabelOptions ), {
         accessibleHelpText: NumberPairsFluent.a11y.controls.totalCheckbox.accessibleHelpTextStringProperty,
         top: this.numberLineCheckboxGroup?.top,
         left: COUNTING_AREA_BOUNDS.right - NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth * 2 - horizontalCheckboxSpacing,
+        touchAreaXDilation: pointerAreaDilation,
+        touchAreaYDilation: pointerAreaDilation,
+        mouseAreaXDilation: pointerAreaDilation,
+        mouseAreaYDilation: pointerAreaDilation,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
       } );
     this.addChild( this.totalCheckbox );
