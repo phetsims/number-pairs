@@ -16,6 +16,6 @@ export const numberBondOrBarModelStringProperty = derived(
   NumberPairsFluent.numberBondStringProperty,
   NumberPairsFluent.barModelStringProperty,
   numberModelType => numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
-                     NumberPairsFluent.numberBondStringProperty.value :
-                     NumberPairsFluent.barModelStringProperty.value
+                     NumberPairsFluent.numberBondLowercaseStringProperty.value :
+                     NumberPairsFluent.barModelLowercaseStringProperty.value
 );
