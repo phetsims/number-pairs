@@ -94,18 +94,22 @@ a11y:
 
   tenOrTwentyScreen:
     screenSummary:
-      playArea:        >-
-                       { $representationType ->
-                         [numberLine] There is a number line showing total as a green line broken into two sections, yellow on left and blue 
-                         on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
-                         [beads] There are movable yellow and blue beads you can slide along a wire to organize or change color to change how 
-                         total is broken apart.
-                         [kittens] There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart.
-                        *[location] { a11y.playAreaIntroSentence }
-                       } A decomposition phrase, { $numberBarOrBarModel }, and equation 
-                       represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
-                       automatically organize objects, or swap addends.
-      controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
+      playAreaEndSentence: >-
+                           A decomposition phrase, { $numberBarOrBarModel }, and equation represent how total is broken 
+                           apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
+                           objects, or swap addends.
+      playArea:
+        select_representationType:
+          numberLine: >-
+                      There is a number line showing total as a green line broken into two sections, yellow on left and blue
+                      on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
+          beads:      >-
+                      There are movable yellow and blue beads you can slide along a wire to organize or change color to change how
+                      total is broken apart. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
+          kittens:    >-
+                      There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
+          location:   '{ a11y.playAreaIntroSentence } {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}'
+      controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shownSides:
           none:  Counting area currently hidden.
@@ -118,13 +122,13 @@ a11y:
               kittens:    Currently, { $total } total { $itemType } split by color in counting area.
               location:   '{ a11y.introScreen.screenSummary.currentDetails.objectsPattern }'
 
-      interactionHint: |-
-                       { $representationType ->
-                         [ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                         [ kittens ]    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
-                         [ numberLine ] Move addend splitter knob to change length of yellow and blue sections.
-                         *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
-                       }
+      interactionHint:     |-
+                           { $representationType ->
+                             [ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
+                             [ kittens ]    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
+                             [ numberLine ] Move addend splitter knob to change length of yellow and blue sections.
+                             *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
+                           }
   sumScreen:
     screenSummary:
       playArea:        >-
@@ -192,28 +196,28 @@ a11y:
       onlyItemPattern:  Only { $item } on right side
     noItemSelected:             No item selected
   countingArea:
-    accessibleHeading:          Counting Area
-    leadingParagraph:           |-
-                                { $totalVisible ->
-                                [hidden] Total is hidden
-                                *[shown] { $total ->
-                                    [1] Counting area has 1 total { $item }
-                                    *[other] Counting area has { $total } total { $items }
-                                  }
+    accessibleHeading:        Counting Area
+    leadingParagraph:         |-
+                              { $totalVisible ->
+                              [hidden] Total is hidden
+                              *[shown] { $total ->
+                                  [1] Counting area has 1 total { $item }
+                                  *[other] Counting area has { $total } total { $items }
                                 }
-    leftSideListItemPattern:    '{ $value } on left side'
-    rightSideListItemPattern:   '{ $value } on right side'
-    leftSideBeadsPattern:       '{ $value } yellow on left side'
-    rightSideBeadsPattern:      '{ $value } blue on right side'
-    yellowListItemPattern:      '{ $value } yellow'
-    blueListItemPattern:        '{ $value } blue'
-    addendValueHidden:          some
+                              }
+    leftSideListItemPattern:  '{ $value } on left side'
+    rightSideListItemPattern: '{ $value } on right side'
+    leftSideBeadsPattern:     '{ $value } yellow on left side'
+    rightSideBeadsPattern:    '{ $value } blue on right side'
+    yellowListItemPattern:    '{ $value } yellow'
+    blueListItemPattern:      '{ $value } blue'
+    addendValueHidden:        some
   equationAccordionBox:
     accessibleHelpTextCollapsed: |-
-                                    { $screenType ->
-                                      *[ other ] View decomposition equation.
-                                       [ sumScreen ] View sum equation.
-                                    }
+                                 { $screenType ->
+                                   *[ other ] View decomposition equation.
+                                    [ sumScreen ] View sum equation.
+                                 }
 
   # Representation types
   representationType:
@@ -506,14 +510,14 @@ a11y:
           decomposition: Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry: |-
-                                { $levelType ->
-                                  [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
-                                  *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
-                                }
-                                { $score ->
-                                  [1] 1 star!
-                                  *[other] { $score } stars!
-                                }
+                               { $levelType ->
+                                 [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
+                                 *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
+                               }
+                               { $score ->
+                                 [1] 1 star!
+                                 *[other] { $score } stars!
+                               }
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.

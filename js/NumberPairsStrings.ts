@@ -111,6 +111,7 @@ type StringsType = {
     };
     'tenOrTwentyScreen': {
       'screenSummary': {
+        'playAreaEndSentenceStringProperty': LocalizedStringProperty;
         'playAreaStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetailsStringProperty': LocalizedStringProperty;
