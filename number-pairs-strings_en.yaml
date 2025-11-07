@@ -267,19 +267,18 @@ a11y:
 
   # Number line
   numberLine:
-    accessibleName:  Number Line
+    accessibleName: Number Line
     addendSplitterKnob:
       accessibleName:     Addend Splitter Knob
       accessibleHelpText: Move knob to change how addends are split.
-    contextResponse: |-
-                     { $addendsShowing ->
-                       [ addendsVisible ] { $total } is split into { $left } and { $right }.
-                      *[ addendsHidden ]  { $total } is split into { $sections ->
-                                                                       [ smallerAndLarger ] smaller and larger
-                                                                       [ equal ]           equal
-                                                                      *[ largerAndSmaller ]  larger and smaller
-                       } sections.
-                     }
+    contextResponse:
+      select_addendsShowing:
+        addendsVisible: '{ $total } is split into { $left } and { $right }.'
+        addendsHidden:
+          select_sections:
+            smallerAndLarger: '{ $total } is split into smaller and larger sections.'
+            equal:            '{ $total } is split into equal sections.'
+            largerAndSmaller: '{ $total } is split into larger and smaller sections.'
   numberLineDescription:
     leadingCountOn:                  'Number line shows a green line to represent total and a blue jump from knob to total:'
     leadingCountFromZero:            'Number line shows a green line to represent total, a yellow jump from left edge to knob, and a blue jump from knob to total:'
