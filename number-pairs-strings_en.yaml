@@ -425,15 +425,15 @@ a11y:
   # Game
   gameScreen:
     whatNumber:                              what number
-    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
 
-    _addendOrSum:
+    addendOrSum:
       select_addendOrSum:
         addend: addend
         sum:    sum
-    _accessibleChallengePromptFinalSentence: |-
-                                             Find missing {a11y.gameScreen._addendOrSum} to solve challenge. Select an 
+    accessibleChallengePromptFinalSentence: |-
+                                             Find missing {a11y.gameScreen.addendOrSum} to solve challenge. Select an 
                                                answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide 
                                                kittens in Challenge Supports if needed.
     testCurrentAnswerSection:

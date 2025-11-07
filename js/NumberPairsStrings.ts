@@ -322,8 +322,8 @@ type StringsType = {
       'whatNumberStringProperty': LocalizedStringProperty;
       'decompositionChallengePromptStringProperty': LocalizedStringProperty;
       'challengeSumPromptStringProperty': LocalizedStringProperty;
-      '_addendOrSumStringProperty': LocalizedStringProperty;
-      '_accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
+      'addendOrSumStringProperty': LocalizedStringProperty;
+      'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
       'testCurrentAnswerSection': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
         'accessibleParagraphStringProperty': LocalizedStringProperty;
