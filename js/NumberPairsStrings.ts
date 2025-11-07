@@ -320,9 +320,13 @@ type StringsType = {
       'whatNumberStringProperty': LocalizedStringProperty;
       'decompositionChallengePromptStringProperty': LocalizedStringProperty;
       'challengeSumPromptStringProperty': LocalizedStringProperty;
+      '_accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
+      'testCurrentAnswerSection': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
+        'accessibleParagraphStringProperty': LocalizedStringProperty;
+      };
       'answerChoicesStringProperty': LocalizedStringProperty;
       'challengeTypeStringProperty': LocalizedStringProperty;
-      'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
       'challengeSupports': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
       };

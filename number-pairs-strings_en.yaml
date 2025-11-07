@@ -435,8 +435,28 @@ a11y:
   # Game
   gameScreen:
     whatNumber:                             what number
-    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    _accessibleChallengePromptFinalSentence: |-
+                                            Find missing
+                                              { $addendOrSum ->
+                                                  [addend] addend
+                                                 *[sum] sum
+                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
+    testCurrentAnswerSection:
+      accessibleHeading: Test Current Answer
+      accessibleParagraph:
+        select_levelType:
+
+          #  (levels 1, 2, 5) - Number bond/ bar model
+          bondBar:       Can { $total } be decomposed into { $theirGuess } and { $right }? Press check if ready or choose another number.
+
+          # Decomposition equation (levels 3, 6)
+          decomposition: Does { $total } equal { $left } plus { $theirGuess }? Press check if ready or choose another number.
+
+          # Sum equation (levels 4, 7, 8)
+          sumEquation:   Does { $theirGuess } plus { $right } equal { $total }? Press check if ready or choose another number.
+
     answerChoices:
       select_challengeType:
         leftAddend:  Left Addend Choices
@@ -447,12 +467,7 @@ a11y:
         leftAddend:  left addend
         rightAddend: right addend
         total:       sum
-    accessibleChallengePromptFinalSentence: |-
-                                            Find missing
-                                              { $addendOrSum ->
-                                                  [addend] addend
-                                                 *[sum] sum
-                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
+
     challengeSupports:
       accessibleHeading: Challenge Supports
 
