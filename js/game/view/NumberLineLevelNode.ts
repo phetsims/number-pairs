@@ -27,8 +27,8 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from '../../common/view/NumberLineCheckboxItems.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import GameModel from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
+import Level from '../model/Level.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
@@ -43,7 +43,7 @@ const CORNER_RADIUS = NumberPairsConstants.COUNTING_AREA_CORNER_RADIUS;
 
 export default class NumberLineLevelNode extends LevelNode {
 
-  public constructor( model: GameModel,
+  public constructor( getLevel: ( levelNumber: number ) => Level,
                       level: NumberLineLevel,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
@@ -55,7 +55,7 @@ export default class NumberLineLevelNode extends LevelNode {
       countingAreaBackgroundColorProperty: NumberPairsColors.numberLineBackgroundColorProperty,
       countingAreaBounds: GameModelConstants.NUMBER_LINE_COUNTING_AREA_BOUNDS
     }, providedOptions );
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
+    super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     const equationNode = new GameNumberEquationNode( level, {
       center: this.numberModelCenter

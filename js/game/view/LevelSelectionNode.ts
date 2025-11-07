@@ -43,7 +43,7 @@ const BUTTONS_PER_ROW = 4;
 
 export default class LevelSelectionNode extends LevelSelectionScreenNode {
 
-  public constructor( model: GameModel, layoutBounds: Bounds2, tandem: Tandem ) {
+  public constructor( model: Pick<GameModel, 'getLevelCount' | 'levels' | 'getLevel' | 'setLevel' | 'reset'>, layoutBounds: Bounds2, tandem: Tandem ) {
 
     const titleText = new Text( VegasFluent.chooseYourLevelStringProperty, {
       font: TITLE_FONT,

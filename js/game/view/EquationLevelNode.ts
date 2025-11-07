@@ -11,7 +11,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
 import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
@@ -19,7 +18,7 @@ import GameNumberEquationNode from './GameNumberEquationNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
 
 export default class EquationLevelNode extends CountingAreaLevelNode {
-  public constructor( model: GameModel,
+  public constructor( getLevel: ( levelNumber: number ) => Level,
                       level: Level,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
@@ -27,7 +26,7 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
                       tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+    super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
     const equationNode = new GameNumberEquationNode( level, {
 
       // Equation sizes do not change, so does not require dynamic layout.

@@ -12,7 +12,6 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import CountingAreaLevelNode from './CountingAreaLevelNode.js';
 import { layoutNumberBarFeedback, layoutNumberBondFeedback } from './GameLayout.js';
@@ -21,7 +20,7 @@ import GameNumberBondNode from './GameNumberBondNode.js';
 import { LevelNodeOptions } from './LevelNode.js';
 
 export default class BondBarLevelNode extends CountingAreaLevelNode {
-  public constructor( model: GameModel,
+  public constructor( getLevel: ( levelNumber: number ) => Level,
                       level: Level,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
@@ -29,7 +28,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                       tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+    super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {

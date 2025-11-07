@@ -17,14 +17,13 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 
 export default class StatusBar extends InfiniteStatusBar {
   public constructor( layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       level: Level,
-                      model: GameModel,
+                      getLevel: ( levelNumber: number ) => Level,
                       backButtonListener: () => void,
                       tandem: Tandem ) {
 
@@ -37,7 +36,7 @@ export default class StatusBar extends InfiniteStatusBar {
       spacing: 12, children: [ levelLabel, descriptionText ]
     } );
 
-    super( layoutBounds, visibleBoundsProperty, levelDescriptionText, model.getLevel( level.levelNumber ).scoreProperty, {
+    super( layoutBounds, visibleBoundsProperty, levelDescriptionText, getLevel( level.levelNumber ).scoreProperty, {
       barFill: level.color,
       floatToTop: true,
       spacing: 20,

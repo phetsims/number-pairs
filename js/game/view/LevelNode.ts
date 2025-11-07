@@ -31,7 +31,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import GameModel, { SUM_LEVELS } from '../model/GameModel.js';
+import { SUM_LEVELS } from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import AnswerButtonGroup from './AnswerButtonGroup.js';
@@ -64,7 +64,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly checkButton: RectangularPushButton;
   public readonly nextButton: RectangularPushButton;
 
-  protected constructor( model: GameModel,
+  protected constructor( getLevel: ( levelNumber: number ) => Level,
                          level: Level,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
@@ -78,7 +78,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     }, providedOptions );
     super( options );
 
-    this.statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, model, () => {
+    this.statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, getLevel, () => {
       this.interruptSubtreeInput();
       returnToSelection();
     }, tandem.createTandem( 'statusBar' ) );

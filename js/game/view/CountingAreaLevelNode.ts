@@ -20,7 +20,6 @@ import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
@@ -31,7 +30,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
   protected readonly kittensLayerNode: KittensLayerNode;
   protected readonly tenFrameButton: TenFrameButton;
 
-  protected constructor( model: GameModel,
+  protected constructor( getLevel: ( levelNumber: number ) => Level,
                          level: Level,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
@@ -43,7 +42,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       countingAreaBackgroundColorProperty: NumberPairsColors.attributeSumColorProperty
     }, providedOptions );
 
-    super( model, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
+    super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {
       tandem: tandem.createTandem( 'kittensLayerNode' ),
