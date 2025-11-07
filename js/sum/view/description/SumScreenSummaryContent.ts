@@ -10,10 +10,10 @@
 import derived from '../../../../../axon/js/derived.js';
 import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.js';
+import NumberPairsPreferences from '../../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import RepresentationType from '../../../common/model/RepresentationType.js';
-import { numberBondOrBarModelStringProperty } from '../../../common/view/numberBondOrBarModelStringProperty.js';
 import SumModel from '../../model/SumModel.js';
 
 export default class SumScreenSummaryContent extends ScreenSummaryContent {
@@ -55,7 +55,7 @@ export default class SumScreenSummaryContent extends ScreenSummaryContent {
           derive: 'accessibleName'
         } ),
         representationType: representationTypeForPlayAreaProperty,
-        numberBondOrBarModel: numberBondOrBarModelStringProperty
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       controlAreaContent: NumberPairsFluent.a11y.sumScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,

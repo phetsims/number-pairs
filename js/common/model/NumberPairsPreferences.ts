@@ -34,13 +34,14 @@ const secondLocaleProperty = new LocaleProperty( secondLocale as Locale || local
 
 
 export class NumberModelType extends EnumerationValue {
-  public static readonly NUMBER_BOND_MODEL = new NumberModelType( NumberPairsFluent.numberBondStringProperty );
-  public static readonly BAR_MODEL = new NumberModelType( NumberPairsFluent.barModelStringProperty );
+  public static readonly NUMBER_BOND_MODEL = new NumberModelType( NumberPairsFluent.numberBondStringProperty, 'numberBond' );
+  public static readonly BAR_MODEL = new NumberModelType( NumberPairsFluent.barModelStringProperty, 'barModel' );
 
   public static readonly enumeration = new Enumeration( NumberModelType );
 
   public constructor(
-    public readonly stringProperty: TReadOnlyProperty<string>
+    public readonly stringProperty: TReadOnlyProperty<string>,
+    public readonly id: 'numberBond' | 'barModel'
   ) {
     super();
   }

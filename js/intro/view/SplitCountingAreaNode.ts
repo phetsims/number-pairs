@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -109,9 +108,7 @@ export default class SplitCountingAreaNode extends Node {
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.leftStringProperty,
-        numberBondOrBarModel: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
-          derive: numberModelType => numberModelType.stringProperty
-        } )
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       tandem: options.tandem.createTandem( 'leftAddendEyeToggleButton' )
     } );
@@ -123,9 +120,7 @@ export default class SplitCountingAreaNode extends Node {
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.rightStringProperty,
-        numberBondOrBarModel: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
-          derive: numberModelType => numberModelType.stringProperty
-        } )
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       tandem: options.tandem.createTandem( 'rightAddendEyeToggleButton' )
     } );

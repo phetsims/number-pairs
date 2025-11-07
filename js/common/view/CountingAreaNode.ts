@@ -31,11 +31,11 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { AnimationTarget } from '../model/NumberPairsModel.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import RepresentationType from '../model/RepresentationType.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AddendEyeToggleButton from './AddendEyeToggleButton.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
-import { numberBondOrBarModelStringProperty } from './numberBondOrBarModelStringProperty.js';
 
 type SelfOptions = {
   backgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -104,7 +104,7 @@ export default class CountingAreaNode extends Node {
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( bothAddendsVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
       accessibleHelpText: options.bothAddendsEyeToggleButtonAccessibleHelpText || NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
-        numberBondOrBarModel: numberBondOrBarModelStringProperty
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,

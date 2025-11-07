@@ -10,9 +10,9 @@
 import derived from '../../../../axon/js/derived.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import NumberPairsModel from '../../common/model/NumberPairsModel.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import { numberBondOrBarModelStringProperty } from '../../common/view/numberBondOrBarModelStringProperty.js';
 
 export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 
@@ -58,7 +58,9 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
       } );
 
     super( {
-      playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( { numberBondOrBarModel: numberBondOrBarModelStringProperty } ),
+      playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( {
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+      } ),
       controlAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,
       interactionHintContent: NumberPairsFluent.a11y.introScreen.screenSummary.interactionHintStringProperty

@@ -42,15 +42,6 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       } );
     const titleNode = new Text( accordionBoxTitleStringProperty, NumberPairsConstants.ACCORDION_BOX_TITLE_OPTIONS );
 
-    // Create properties for the accessible strings based on the selected number model type.
-    const representationStringProperty = new DerivedProperty( [
-        NumberPairsPreferences.numberModelTypeProperty,
-        NumberPairsFluent.a11y.controls.numberModel.numberBondStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.barModelStringProperty ],
-      ( numberModelType, numberBondString, barModelString ) => {
-        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
-      } );
-
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
     const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
         NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
@@ -88,7 +79,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       contentYSpacing: 0,
       showTitleWhenExpanded: true,
       accessibleHelpTextCollapsed: NumberPairsFluent.a11y.controls.numberModel.accessibleHelpText.createProperty( {
-        numberBondOrBarModel: representationStringProperty
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       fill: NumberPairsColors.numberBondAccordionBoxBackgroundColorProperty
     }, providedOptions );

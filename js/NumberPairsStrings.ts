@@ -96,6 +96,7 @@ type StringsType = {
     }
   };
   'a11y': {
+    'numberBondOrBarModelStringProperty': LocalizedStringProperty;
     'playAreaIntroSentenceStringProperty': LocalizedStringProperty;
     'introScreen': {
       'screenSummary': {

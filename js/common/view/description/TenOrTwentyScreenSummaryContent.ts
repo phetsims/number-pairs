@@ -13,8 +13,8 @@ import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.j
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import NumberPairsModel from '../../model/NumberPairsModel.js';
+import NumberPairsPreferences from '../../model/NumberPairsPreferences.js';
 import RepresentationType from '../../model/RepresentationType.js';
-import { numberBondOrBarModelStringProperty } from '../numberBondOrBarModelStringProperty.js';
 
 export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryContent {
 
@@ -50,7 +50,7 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
-        numberBondOrBarModel: numberBondOrBarModelStringProperty
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),
       controlAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,
