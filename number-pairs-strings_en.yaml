@@ -106,18 +106,17 @@ a11y:
                        represent how total is broken apart into two addends. Additionally, choose any total from 0 to 10, 
                        automatically organize objects, or swap addends.
       controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
-      currentDetails:  |-
-                       { $shownSides -> 
-                           [ none ]   Counting area currently hidden.
-                           [ right ]  Currently, { $total } total, left counting area hidden.
-                           [ left ]   Currently, { $total } total, right counting area hidden.
-                          *[ both ]   { $representationType ->
-                                    [numberLine] Currently, total of { $total } splits colored sections with addend splitter knob in counting area.
-                                    [beads] Currently, { $total } total { $itemType } split by color in counting area.
-                                    [kittens] Currently, { $total } total { $itemType } split by color in counting area.
-                                   *[location] { a11y.introScreen.screenSummary.currentDetails.objectsPattern }
-                                  }
-                           }
+      currentDetails:
+        select_shownSides:
+          none:  Counting area currently hidden.
+          right: Currently, { $total } total, left counting area hidden.
+          left:  Currently, { $total } total, right counting area hidden.
+          both:
+            select_representationType:
+              numberLine: Currently, total of { $total } splits colored sections with addend splitter knob in counting area.
+              beads:      Currently, { $total } total { $itemType } split by color in counting area.
+              kittens:    Currently, { $total } total { $itemType } split by color in counting area.
+              location:   '{ a11y.introScreen.screenSummary.currentDetails.objectsPattern }'
 
       interactionHint: |-
                        { $representationType ->
