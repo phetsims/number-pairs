@@ -175,11 +175,10 @@ a11y:
   unknownNumber:          unknown number
   grabOrReleaseInteraction:
     releasedHelpText:           Use arrows or W, A, S, D keys to navigate and choose { $item } to move. Space or enter to grab or release.
-    grabbedHelpTextPattern:     |-
-                                { $representationType ->
-                                    [beads]   Move one or more beads to create groups.
-                                    *[other]  Move { $item } in or between left and right counting areas.
-                                }
+    grabbedHelpTextPattern:
+      select_representationType:
+        beads: Move one or more beads to create groups.
+        other: Move { $item } in or between left and right counting areas.
     grabbedAccessibleResponse:  Grabbed, in { $addend } counting area.
     releasedAccessibleResponse: Released, in { $addend } counting area.
     movedAccessibleResponse:    now in { $addend } counting area
@@ -196,14 +195,14 @@ a11y:
     noItemSelected:             No item selected
   countingArea:
     accessibleHeading:        Counting Area
-    leadingParagraph:         |-
-                              { $totalVisible ->
-                              [hidden] Total is hidden
-                              *[shown] { $total ->
-                                  [1] Counting area has 1 total { $item }
-                                  *[other] Counting area has { $total } total { $items }
-                                }
-                              }
+    leadingParagraph:
+      select_totalVisible:
+        hidden: Total is hidden
+        shown:  |-
+                { $total ->
+                    [1] Counting area has 1 total { $item }
+                    *[other] Counting area has { $total } total { $items }
+                }
     leftSideListItemPattern:  '{ $value } on left side'
     rightSideListItemPattern: '{ $value } on right side'
     leftSideBeadsPattern:     '{ $value } yellow on left side'
@@ -212,11 +211,10 @@ a11y:
     blueListItemPattern:      '{ $value } blue'
     addendValueHidden:        some
   equationAccordionBox:
-    accessibleHelpTextCollapsed: |-
-                                 { $screenType ->
-                                   *[ other ] View decomposition equation.
-                                    [ sumScreen ] View sum equation.
-                                 }
+    accessibleHelpTextCollapsed:
+      select_screenType:
+        other:     View decomposition equation.
+        sumScreen: View sum equation.
 
   # Representation types
   representationType:
@@ -238,35 +236,35 @@ a11y:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
     changeColorAccessibleName: Change Color
-    kittenPattern:             |-
-                               { $descriptor ->
-                                   [first] First { $color} Kitten 
-                                   [last] Last { $color } Kitten 
-                                   [only] Only { $color } Kitten 
-                                   *[other] { $color } Kitten
-                               }
+    kittenPattern:
+      select_descriptor:
+        first: First { $color} Kitten
+        last:  Last { $color } Kitten
+        only:  Only { $color } Kitten
+        other: '{ $color } Kitten'
   beads:
-    accessibleName:                Beads
-    singularAccessibleName:        Bead
-    leftAddendBead:                Yellow Bead
-    rightAddendBead:               Blue Bead
-    contextResponse:               |-
-                                   { $grabbedOrReleased ->
-                                     [ grabbed ]  Grabbed
-                                    *[ released ] Released
-                                   }, { $side -> 
-                                     [left] left
-                                    *[right] right
-                                   } of divider.
-    crossedDividerContextResponse: |-
-                                   { $side ->
-                                     [left] Bead now yellow on left.
-                                    *[right] Bead now blue on right.
-                                   }
+    accessibleName:         Beads
+    singularAccessibleName: Bead
+    leftAddendBead:         Yellow Bead
+    rightAddendBead:        Blue Bead
+    contextResponse:
+      select_grabbedOrReleased:
+        grabbed:
+          select_side:
+            left:  Grabbed, left of divider.
+            right: Grabbed, right of divider.
+        released:
+          select_side:
+            left:  Released, left of divider.
+            right: Released, right of divider.
+    crossedDividerContextResponse:
+      select_side:
+        left:  Bead now yellow on left.
+        right: Bead now blue on right.
 
   # Number line
   numberLine:
-    accessibleName:  Number Line
+    accessibleName: Number Line
     addendSplitterKnob:
       accessibleName:     Addend Splitter Knob
       accessibleHelpText: Move knob to change how addends are split.
@@ -305,11 +303,10 @@ a11y:
   # Controls and interactions
   controls:
     phrase:
-      accessibleHelpTextCollapsed: |-
-                                   { $screenType ->
-                                        [ sumScreen ] Phrase describes the sum equation.
-                                        *[ other ] Phrase tells how total is decomposed.
-                                    }
+      accessibleHelpTextCollapsed:
+        select_screenType:
+          sumScreen: Phrase describes the sum equation.
+          other:     Phrase tells how total is decomposed.
     speechSynthesis:
       accessibleName:             Hear Phrase
       noVoiceAccessibleName:      No Voice Found
@@ -320,62 +317,64 @@ a11y:
     localeSwitch:
       accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
-      numberBond:                                number bond
-      barModel:                                  proportional bar model
-      accessibleHelpText:                        Represent decomposition as a { a11y.numberBondOrBarModel }.
-      numberBondAccessibleParagraph:             >-
-                                                 { $screenType ->
-                                                   [sumScreen] Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total. 
-                                                  *[other] Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
-                                                 }
-      currentNumberBondStateAccessibleParagraph: |-
-                                                 { $screenType ->
-                                                   *[ other ] Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
-                                                    [ sumScreen ] Right now, { $left } in left circle, { $right } in right circle, 
-                                                     { $totalView ->
-                                                        [shown] { $total } in bottom circle.
-                                                       *[hidden] total hidden in bottom circle.
-                                                     }
-                                                 }
-      barModelAccessibleParagraph:               |-
-                                                 { $screenType ->
-                                                   *[other] Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
-                                                    [sumScreen] Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
-                                                 }
-      currentBarModelStateAccessibleParagraph:   |-
-                                                 { $screenType ->
-                                                 *[ other ] Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
-                                                  [ sumScreen ] Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. 
-                                                        { $totalView ->
-                                                             [shown] { $total } in bottom rectangle.
-                                                            *[hidden] Total hidden from bottom rectangle.
-                                                  }
-                                                 }
-      largerAndSmaller:                          larger and smaller
-      smallerAndLarger:                          smaller and larger
-      equal:                                     equal
+      numberBond:         number bond
+      barModel:           proportional bar model
+      accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModel }.
+      numberBondAccessibleParagraph:
+        select_screenType:
+          sumScreen: >-
+                     Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.
+          other:     >-
+                     Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
+      currentNumberBondStateAccessibleParagraph:
+        select_screenType:
+          other:     |-
+                     Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
+          sumScreen: |-
+                     Right now, { $left } in left circle, { $right } in right circle,
+                       { $totalView ->
+                          [shown] { $total } in bottom circle.
+                         *[hidden] total hidden in bottom circle.
+                       }
+      barModelAccessibleParagraph:
+        select_screenType:
+          other:     |-
+                     Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
+          sumScreen: |-
+                     Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
+      currentBarModelStateAccessibleParagraph:
+        select_screenType:
+          other:     |-
+                     Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+          sumScreen: |-
+                     Right now, { $left } and { $right } top rectangle, split into { $proportions } sections.
+                       { $totalView ->
+                            [shown] { $total } in bottom rectangle.
+                           *[hidden] Total hidden from bottom rectangle.
+                     }
+      largerAndSmaller:   larger and smaller
+      smallerAndLarger:   smaller and larger
+      equal:              equal
     tenFrameButton:
       accessibleName:                        Organize { $representation }
       accessibleHelpText:                    Create groups of 5 { $representation }.
       sumDistribution:                       One array combines color
       decompositionDistribution:             Two arrays separated by color
-      accessibleContextResponse:             |-
-                                             { $representationType ->
-                                             [kittens]   { $distribution }, kittens in rows.
-                                             [beads]     Divider separates groups by color.
-                                             *[other]    Left and right counting areas organized into rows.
-                                             }
+      accessibleContextResponse:
+        select_representationType:
+          kittens: '{ $distribution }, kittens in rows.'
+          beads:   Divider separates groups by color.
+          other:   Left and right counting areas organized into rows.
       accessibleContextResponseGameCombined: One array with combined colors, kittens in rows.
       accessibleContextResponseGameSeparate: Two arrays separated by color, kittens in rows.
     commutativeButton:
-      accessibleName:            Swap Addends
-      accessibleHelpText:        Switches left and right addends.
-      accessibleContextResponse: |-
-                                 { $representationType ->
-                                   [attribute] { $leftAddend } yellow, { $rightAddend } blue.
-                                   [numberLine]   { $leftAddend } in yellow section, { $rightAddend } in blue section.
-                                   *[other]  { $leftAddend } on left, { $rightAddend } on right.
-                                 }
+      accessibleName:     Swap Addends
+      accessibleHelpText: Switches left and right addends.
+      accessibleContextResponse:
+        select_representationType:
+          attribute:  '{ $leftAddend } yellow, { $rightAddend } blue.'
+          numberLine: '{ $leftAddend } in yellow section, { $rightAddend } in blue section.'
+          other:      '{ $leftAddend } on left, { $rightAddend } on right.'
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
       accessibleHelpTextPattern: Show or hide counting area and both addends in { a11y.numberBondOrBarModel }.
@@ -385,30 +384,26 @@ a11y:
       accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
     countingObjectControl:
-      accessibleName:           |-
-                                { $representationType ->
-                                  [kittens] { $color } Kitten
-                                  [beads]   { $color } Bead
-                                  *[other]  { $color } Section
-                                }
-      accessibleHelpText:       |-
-                                { $representationType ->
-                                  [kittens] Add or remove one { $color } kitten.
-                                  [beads]   Add or remove one { $color } bead.
-                                  *[other]  Add or remove one from { $addend } section.
-                                }
-      incrementContextResponse: |-
-                                { $representationType ->
-                                  [kittens] One { $color } kitten added to counting area.
-                                  [beads]   One { $color } bead added to counting area.
-                                  *[other]  One added to { $addend } section of total.
-                                }
-      decrementContextResponse: |-
-                                { $representationType ->
-                                  [kittens] One { $color } kitten removed from counting area.
-                                  [beads]   One { $color } bead removed from counting area.
-                                  *[other]  One removed from { $addend } section of total.
-                                }
+      accessibleName:
+        select_representationType:
+          kittens: '{ $color } Kitten'
+          beads:   '{ $color } Bead'
+          other:   '{ $color } Section'
+      accessibleHelpText:
+        select_representationType:
+          kittens: Add or remove one { $color } kitten.
+          beads:   Add or remove one { $color } bead.
+          other:   Add or remove one from { $addend } section.
+      incrementContextResponse:
+        select_representationType:
+          kittens: One { $color } kitten added to counting area.
+          beads:   One { $color } bead added to counting area.
+          other:   One added to { $addend } section of total.
+      decrementContextResponse:
+        select_representationType:
+          kittens: One { $color } kitten removed from counting area.
+          beads:   One { $color } bead removed from counting area.
+          other:   One removed from { $addend } section of total.
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero
@@ -433,9 +428,9 @@ a11y:
 
   # Game
   gameScreen:
-    whatNumber:                              what number
-    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    whatNumber:                   what number
+    decompositionChallengePrompt: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:           '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
     _accessibleChallengePromptFinalSentence: |-
                                              Find missing
                                                { $addendOrSum ->
@@ -529,8 +524,8 @@ a11y:
                                  *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
                                }
                                { $score ->
-                                 [1] 1 star!
-                                 *[other] { $score } stars!
+                               [1] 1 star!
+                               *[other] { $score } stars!
                                }
     resetChallengeButton:
       accessibleName:            Reset Challenge
