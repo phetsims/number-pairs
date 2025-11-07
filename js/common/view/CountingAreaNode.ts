@@ -104,7 +104,7 @@ export default class CountingAreaNode extends Node {
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( bothAddendsVisibleProperty, {
       accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
       accessibleHelpText: options.bothAddendsEyeToggleButtonAccessibleHelpText || NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
-        modelRepresentation: numberBondOrBarModelStringProperty
+        numberBondOrBarModel: numberBondOrBarModelStringProperty
       } ),
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,

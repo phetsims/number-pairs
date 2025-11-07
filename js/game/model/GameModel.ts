@@ -121,16 +121,16 @@ export default class GameModel implements TModel {
     } );
 
     const level1HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level1.accessibleHelpText.createProperty( {
-      numberModelType: numberModelTypeStringProperty
+      numberBondOrBarModel: numberModelTypeStringProperty
     } );
 
     const level2HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level2.accessibleHelpText.createProperty( {
-      numberModelType: numberModelTypeStringProperty
+      numberBondOrBarModel: numberModelTypeStringProperty
     } );
     const level3HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level3.accessibleHelpTextStringProperty;
     const level4HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level4.accessibleHelpTextStringProperty;
     const level5HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level5.accessibleHelpText.createProperty( {
-      numberModelType: numberModelTypeStringProperty
+      numberBondOrBarModel: numberModelTypeStringProperty
     } );
     const level6HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level6.accessibleHelpTextStringProperty;
     const level7HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level7.accessibleHelpTextStringProperty;

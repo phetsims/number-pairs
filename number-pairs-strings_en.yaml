@@ -79,7 +79,7 @@ a11y:
     screenSummary:
       playArea:        >-
                        { a11y.playAreaIntroSentence } A decomposition phrase and a  
-                       { $numberBarOrBarModel} represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
+                       { $numberBondOrBarModel} represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
                        automatically organize objects into rows, or swap addends.
       controlArea:     Reset the sim to start over.
       currentDetails:
@@ -95,7 +95,7 @@ a11y:
   tenOrTwentyScreen:
     screenSummary:
       playAreaEndSentence: >-
-                           A decomposition phrase, { $numberBarOrBarModel }, and equation represent how total is broken 
+                           A decomposition phrase, { $numberBondOrBarModel }, and equation represent how total is broken 
                            apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
                            objects, or swap addends.
       playArea:
@@ -138,7 +138,7 @@ a11y:
                             one from yellow or blue section.
                           *[other] There are yellow and blue { $representation } you can move to organize or change color to find different ways to create a total number
                           of { $representation }.
-                       } An addition phrase, { $numberBarOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
+                       } An addition phrase, { $numberBondOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
                         automatically organize objects, or swap addends.
       controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:  |-
@@ -323,7 +323,7 @@ a11y:
     numberModel:
       numberBond:                                number bond
       barModel:                                  proportional bar model
-      accessibleHelpText:                        Represent decomposition as a { $representation }.
+      accessibleHelpText:                        Represent decomposition as a { $numberBondOrBarModel }.
       numberBondAccessibleParagraph:             >-
                                                  { $screenType ->
                                                    [sumScreen] Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total. 
@@ -379,10 +379,10 @@ a11y:
                                  }
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
-      accessibleHelpTextPattern: Show or hide counting area and both addends in { $modelRepresentation }.
+      accessibleHelpTextPattern: Show or hide counting area and both addends in { $numberBondOrBarModel }.
     addendVisibleButton:
       accessibleNamePattern:        '{ $addend } Counting Area Visibility'
-      accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { $modelRepresentation }.
+      accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { $numberBondOrBarModel }.
       accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
     countingObjectControl:
@@ -477,10 +477,10 @@ a11y:
       accessibleContextResponseOff: Kittens visible.
       accessibleContextResponseOn:  Kittens hidden.
     level1:
-      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 2 and 10.
+      accessibleHelpText:        Find a missing addend in a { $numberBondOrBarModel } with total between 2 and 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level2:
-      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total always 10.
+      accessibleHelpText:        Find a missing addend in a { $numberBondOrBarModel } with total always 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level3:
       accessibleHelpText:        Find a missing addend in a decomposition equation with total always 10.
@@ -489,7 +489,7 @@ a11y:
       accessibleHelpText:        Find a missing addend in a sum equation with total always 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
     level5:
-      accessibleHelpText:        Find a missing addend in a { $numberModelType } with total between 11 and 20.
+      accessibleHelpText:        Find a missing addend in a { $numberBondOrBarModel } with total between 11 and 20.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
     level6:
       accessibleHelpText:        Find a missing addend in a decomposition equation with total between 11 and 20.

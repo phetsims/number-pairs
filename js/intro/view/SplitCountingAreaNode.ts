@@ -109,7 +109,7 @@ export default class SplitCountingAreaNode extends Node {
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.leftStringProperty,
-        modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
+        numberBondOrBarModel: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
           derive: numberModelType => numberModelType.stringProperty
         } )
       } ),
@@ -123,7 +123,7 @@ export default class SplitCountingAreaNode extends Node {
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {
         addend: NumberPairsFluent.a11y.rightStringProperty,
-        modelRepresentation: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
+        numberBondOrBarModel: new DynamicProperty( NumberPairsPreferences.numberModelTypeProperty, {
           derive: numberModelType => numberModelType.stringProperty
         } )
       } ),

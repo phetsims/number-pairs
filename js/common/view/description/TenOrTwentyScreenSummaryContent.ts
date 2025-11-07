@@ -50,7 +50,7 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
-        numberBarOrBarModel: numberBondOrBarModelStringProperty
+        numberBondOrBarModel: numberBondOrBarModelStringProperty
       } ),
       controlAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,

@@ -55,7 +55,7 @@ export default class SumScreenSummaryContent extends ScreenSummaryContent {
           derive: 'accessibleName'
         } ),
         representationType: representationTypeForPlayAreaProperty,
-        numberBarOrBarModel: numberBondOrBarModelStringProperty
+        numberBondOrBarModel: numberBondOrBarModelStringProperty
       } ),
       controlAreaContent: NumberPairsFluent.a11y.sumScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,

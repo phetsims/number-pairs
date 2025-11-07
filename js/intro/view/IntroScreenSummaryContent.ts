@@ -58,7 +58,7 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
       } );
 
     super( {
-      playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( { numberBarOrBarModel: numberBondOrBarModelStringProperty } ),
+      playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( { numberBondOrBarModel: numberBondOrBarModelStringProperty } ),
       controlAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,
       interactionHintContent: NumberPairsFluent.a11y.introScreen.screenSummary.interactionHintStringProperty
