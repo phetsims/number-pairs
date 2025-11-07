@@ -502,14 +502,10 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
-
-      # TODO: use select syntax
-      answerSelected:      |-
-                           {$value} chosen for { a11y.gameScreen.challengeType }. 
-                              { $representationType ->
-                                [kittens] {$value} kittens added to Counting Area.
-                               *[numberLine] Addend now {$value} on number line.
-                              }
+      answerSelected:
+        select_representationType:
+          kittens:    '{$value} chosen for { a11y.gameScreen.challengeType }. {$value} kittens added to Counting Area.'
+          numberLine: '{$value} chosen for { a11y.gameScreen.challengeType }. Addend now {$value} on number line.'
       answerCleared:       Answer cleared.
       correctAnswer:
         select_levelType:
