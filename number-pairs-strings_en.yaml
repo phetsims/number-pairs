@@ -434,18 +434,16 @@ a11y:
     whatNumber:                             what number
     decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
     challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
-    answerChoices:                          |-
-                                            { $challengeType ->
-                                              [ leftAddend ] Left Addend Choices
-                                              [ rightAddend ] Right Addend Choices
-                                              *[ total ] Sum Choices
-                                            }
-    challengeType:                          |-
-                                            { $challengeType ->
-                                              [ leftAddend ] left addend
-                                              [ rightAddend ] right addend
-                                              *[ total ] sum
-                                            }
+    answerChoices:
+      select_challengeType:
+        leftAddend:  Left Addend Choices
+        rightAddend: Right Addend Choices
+        total:       Sum Choices
+    challengeType:
+      select_challengeType:
+        leftAddend:  left addend
+        rightAddend: right addend
+        total:       sum
     accessibleChallengePromptFinalSentence: |-
                                             Find missing
                                               { $addendOrSum ->
@@ -500,16 +498,14 @@ a11y:
                                    *[numberLine] Addend now {$value} on number line.
                                   }
       answerCleared:           Answer cleared.
-      correctAnswer:           |-
-                                { $levelType ->
-                                  *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
-                                  [sum] Correct! { $leftAddend } plus { $rightAddend } equals { $total }. Nice work.
-                                }
-      incorrectAnswer:         |-
-                                { $levelType ->
-                                  *[decomposition] Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
-                                  [sum] Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
-                                }
+      correctAnswer:
+        select_levelType:
+          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
+          sum:           Correct! { $leftAddend } plus { $rightAddend } equals { $total }. Nice work.
+      incorrectAnswer:
+        select_levelType:
+          decomposition: Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
+          sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry: |-
                                 { $levelType ->
                                   [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
