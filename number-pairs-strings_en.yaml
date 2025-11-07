@@ -330,14 +330,11 @@ a11y:
                      Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
       currentNumberBondStateAccessibleParagraph:
         select_screenType:
-          other:     |-
-                     Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
-          sumScreen: |-
-                     Right now, { $left } in left circle, { $right } in right circle,
-                       { $totalView ->
-                          [shown] { $total } in bottom circle.
-                         *[hidden] total hidden in bottom circle.
-                       }
+          other: Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
+          sumScreen:
+            select_totalView:
+              shown:  Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
+              hidden: Right now, { $left } in left circle, { $right } in right circle, total hidden in bottom circle.
       barModelAccessibleParagraph:
         select_screenType:
           other:     |-
