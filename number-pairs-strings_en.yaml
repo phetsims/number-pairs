@@ -61,14 +61,14 @@ levelPattern:                                             Level {{level}}
 
 gameScreen:
   levelDescriptions:
-    level1: 'Missing addend in a {{numberModelType}} (0-10)'
-    level2: 'Missing addend in a {{numberModelType}} (10 only)'
-    level3: 'Missing addend in a decomposition equation (10 only)'
-    level4: 'Missing addend in a sum equation (10 only)'
-    level5: 'Missing addend in a {{numberModelType}} (11-20)'
-    level6: 'Missing addend in a decomposition equation (11-20)'
-    level7: 'Missing addend or total in a sum equation (11-20)'
-    level8: 'Equations with the number line (0-20)'
+    level1: Missing addend in a {{numberModelType}} (0-10)
+    level2: Missing addend in a {{numberModelType}} (10 only)
+    level3: Missing addend in a decomposition equation (10 only)
+    level4: Missing addend in a sum equation (10 only)
+    level5: Missing addend in a {{numberModelType}} (11-20)
+    level6: Missing addend in a decomposition equation (11-20)
+    level7: Missing addend or total in a sum equation (11-20)
+    level8: Equations with the number line (0-20)
   infoDialog:
     levelWithDescription: 'Level {{level}}: {{description}}'
 
@@ -517,8 +517,8 @@ a11y:
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry:
         select_levelType:
-          sum:           'Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }'
-          decomposition: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }'
+          sum:           Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
+          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
       _correctAnswerScore: |-
                            { $score ->
                              [ 1 ] 1 star!
