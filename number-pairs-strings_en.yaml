@@ -505,13 +505,13 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
-      answerSelected:          |-
-                               {$value} chosen for { a11y.gameScreen.challengeType }. 
-                                  { $representationType ->
-                                    [kittens] {$value} kittens added to Counting Area.
-                                   *[numberLine] Addend now {$value} on number line.
-                                  }
-      answerCleared:           Answer cleared.
+      answerSelected:      |-
+                           {$value} chosen for { a11y.gameScreen.challengeType }. 
+                              { $representationType ->
+                                [kittens] {$value} kittens added to Counting Area.
+                               *[numberLine] Addend now {$value} on number line.
+                              }
+      answerCleared:       Answer cleared.
       correctAnswer:
         select_levelType:
           decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
@@ -520,15 +520,15 @@ a11y:
         select_levelType:
           decomposition: Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
-      correctAnswerOnFirstTry: |-
-                               { $levelType ->
-                                 [sum] Correct. { $leftAddend } plus { $rightAddend } equals { $total }.
-                                 *[decomposition] Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. 
-                               }
-                               { $score ->
-                               [1] 1 star!
-                               *[other] { $score } stars!
-                               }
+      correctAnswerOnFirstTry:
+        select_levelType:
+          sum:           'Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }'
+          decomposition: 'Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }'
+      _correctAnswerScore: |-
+                           { $score ->
+                             [ 1 ] 1 star!
+                             *[ other ] { $score } stars!
+                           }
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.
