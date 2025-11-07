@@ -343,14 +343,11 @@ a11y:
                      Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
       currentBarModelStateAccessibleParagraph:
         select_screenType:
-          other:     |-
-                     Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
-          sumScreen: |-
-                     Right now, { $left } and { $right } top rectangle, split into { $proportions } sections.
-                       { $totalView ->
-                            [shown] { $total } in bottom rectangle.
-                           *[hidden] Total hidden from bottom rectangle.
-                     }
+          other: Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+          sumScreen:
+            select_totalView:
+              shown:  Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.
+              hidden: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. Total hidden from bottom rectangle.
       largerAndSmaller:   larger and smaller
       smallerAndLarger:   smaller and larger
       equal:              equal
