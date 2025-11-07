@@ -76,7 +76,7 @@ a11y:
   numberBondOrBarModel:
     select_numberModelType:
       numberBond: '{ numberBondLowercase }'
-      barModel: '{ barModelLowercase }'
+      barModel:   '{ barModelLowercase }'
   playAreaIntroSentence:  There are left and right counting areas with fun objects. You can organize objects inside a counting
                           area or move them between counting areas to break total apart in different ways.
   introScreen:
@@ -126,47 +126,42 @@ a11y:
               kittens:    Currently, { $total } total { $itemType } split by color in counting area.
               location:   '{ a11y.introScreen.screenSummary.currentDetails.objectsPattern }'
 
-      interactionHint:     |-
-                           { $representationType ->
-                             [ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                             [ kittens ]    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
-                             [ numberLine ] Move addend splitter knob to change length of yellow and blue sections.
-                             *[ location ]  { a11y.introScreen.screenSummary.interactionHint }
-                           }
+      interactionHint:
+        select_representationType:
+          beads:      Navigate to and grab bead to create groups, or move across divider to change color.
+          kittens:    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
+          numberLine: Move addend splitter knob to change length of yellow and blue sections.
+          location:   '{ a11y.introScreen.screenSummary.interactionHint }'
   sumScreen:
     screenSummary:
-      playArea:        >-
-                       { $representationType ->
-                           [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue on right.
-                            A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. Number spinners add or remove 
-                            one from yellow or blue section.
-                          *[other] There are yellow and blue { $representation } you can move to organize or change color to find different ways to create a total number
-                          of { $representation }.
-                       } An addition phrase, { a11y.numberBondOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
-                        automatically organize objects, or swap addends.
-      controlArea:     '{ a11y.introScreen.screenSummary.controlArea }'
-      currentDetails:  |-
-                       { $shown -> 
-                          [ none ]   Currently, total hidden, counting area hidden.
-                          [ total ]   Currently, Total of { $total }, counting area hidden.
-                          [ countingArea ] { $representationType ->
-                                    [ numberLine ] Currently, total hidden, created by adding lengths of yellow and blue sections.
-                                    *[ other ] Currently, total hidden, created by adding all { $itemType }.
-                                  }
-                          *[ all ]   { $representationType ->
-                                    [ numberLine ] Currently, total of { $total } created by adding lengths of yellow and blue sections.
-                                   *[ other ] Currently, { $total } total { $itemType } created by adding all { $itemType }.
-                                  }
-                           }
+      playArea:    >-
+                   { $representationType ->
+                       [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue on right.
+                        A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. Number spinners add or remove 
+                        one from yellow or blue section.
+                      *[other] There are yellow and blue { $representation } you can move to organize or change color to find different ways to create a total number
+                      of { $representation }.
+                   } An addition phrase, { a11y.numberBondOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
+                    automatically organize objects, or swap addends.
+      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
+      currentDetails:
+        select_shown:
+          none:  Currently, total hidden, counting area hidden.
+          total: Currently, Total of { $total }, counting area hidden.
+          countingArea:
+            select_representationType:
+              numberLine: Currently, total hidden, created by adding lengths of yellow and blue sections.
+              other:      Currently, total hidden, created by adding all { $itemType }.
+          all:
+            select_representationType:
+              numberLine: Currently, total of { $total } created by adding lengths of yellow and blue sections.
+              other:      Currently, { $total } total { $itemType } created by adding all { $itemType }.
 
-      interactionHint: >-
-                       { $representationType ->
-                           *[ beads ]      Navigate to and grab bead to create groups, or move across divider to change color.
-                            Add or remove beads with number spinners to change total.
-                           [ kittens ]    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
-                           [ numberLine ] Move addend splitter knob to change length of yellow and blue sections that create total.
-                            Add or remove one from yellow or blue section to change total.
-                       }
+      interactionHint:
+        select_representationType:
+          beads:      Navigate to and grab bead to create groups, or move across divider to change color. Add or remove beads with number spinners to change total.
+          kittens:    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
+          numberLine: Move addend splitter knob to change length of yellow and blue sections that create total. Add or remove one from yellow or blue section to change total.
 
   # Basic terms and interactions
   left:                   left
@@ -438,15 +433,15 @@ a11y:
 
   # Game
   gameScreen:
-    whatNumber:                             what number
-    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    whatNumber:                              what number
+    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
     _accessibleChallengePromptFinalSentence: |-
-                                            Find missing
-                                              { $addendOrSum ->
-                                                  [addend] addend
-                                                 *[sum] sum
-                                            } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
+                                             Find missing
+                                               { $addendOrSum ->
+                                                   [addend] addend
+                                                  *[sum] sum
+                                             } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
     testCurrentAnswerSection:
       accessibleHeading: Test Current Answer
       accessibleParagraph:
