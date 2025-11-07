@@ -122,6 +122,7 @@ type StringsType = {
     'sumScreen': {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;
+        'playAreaEndSentenceStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetailsStringProperty': LocalizedStringProperty;
         'interactionHintStringProperty': LocalizedStringProperty;

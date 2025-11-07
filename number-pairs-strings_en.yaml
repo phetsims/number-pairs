@@ -134,16 +134,19 @@ a11y:
           location:   '{ a11y.introScreen.screenSummary.interactionHint }'
   sumScreen:
     screenSummary:
-      playArea:    >-
-                   { $representationType ->
-                       [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue on right.
-                        A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. Number spinners add or remove 
-                        one from yellow or blue section.
-                      *[other] There are yellow and blue { $representation } you can move to organize or change color to find different ways to create a total number
-                      of { $representation }.
-                   } An addition phrase, { a11y.numberBondOrBarModel }, and equation represent how two numbers add to total. Additionally, create totals from 0 to 20,
-                    automatically organize objects, or swap addends.
-      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
+      playArea:
+        select_representationType:
+          numberLine: |-
+                      Total is shown on number line with a green line broken into two sections, yellow on left and blue 
+                      on right. movable knob changes how total is broken apart by changing lengths of yellow and blue 
+                      sections. Number spinners add or remove one from yellow or blue section. { a11y.sumScreen.screenSummary.playAreaEndSentence }
+          other:      |-
+                      There are yellow and blue { $representation } you can move to organize or change color to find 
+                      different ways to create a total number of { $representation }. { a11y.sumScreen.screenSummary.playAreaEndSentence }
+      playAreaEndSentence: |-
+                           An addition phrase, { a11y.numberBondOrBarModel }, and equation represent how two numbers 
+                             add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.
+      controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shown:
           none:  Currently, total hidden, counting area hidden.
@@ -264,7 +267,7 @@ a11y:
 
   # Number line
   numberLine:
-    accessibleName: Number Line
+    accessibleName:  Number Line
     addendSplitterKnob:
       accessibleName:     Addend Splitter Knob
       accessibleHelpText: Move knob to change how addends are split.
@@ -428,9 +431,9 @@ a11y:
 
   # Game
   gameScreen:
-    whatNumber:                   what number
-    decompositionChallengePrompt: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:           '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    whatNumber:                              what number
+    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
     _accessibleChallengePromptFinalSentence: |-
                                              Find missing
                                                { $addendOrSum ->
