@@ -408,7 +408,7 @@ a11y:
       accessibleHelpText: Show or hide sum of addends.
     addendsCheckbox:
       accessibleHelpText:                 Show or hide addend values.
-      accessibleContextResponseChecked:   'Addends are { $leftAddend } and { $rightAddend }, labeled on number line.'
+      accessibleContextResponseChecked:   Addends are { $leftAddend } and { $rightAddend }, labeled on number line.
       accessibleContextResponseUnchecked: Addends hidden.
     tickNumbersCheckbox:
       accessibleHelpText:                 Show or hide tick mark numbers on number line.
