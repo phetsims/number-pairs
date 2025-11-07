@@ -427,12 +427,15 @@ a11y:
     whatNumber:                              what number
     decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
     challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen._accessibleChallengePromptFinalSentence }'
+
+    _addendOrSum:
+      select_addendOrSum:
+        addend: addend
+        sum:    sum
     _accessibleChallengePromptFinalSentence: |-
-                                             Find missing
-                                               { $addendOrSum ->
-                                                   [addend] addend
-                                                  *[sum] sum
-                                             } to solve challenge. Select an answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide kittens in Challenge Supports if needed.
+                                             Find missing {a11y.gameScreen._addendOrSum} to solve challenge. Select an 
+                                               answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide 
+                                               kittens in Challenge Supports if needed.
     testCurrentAnswerSection:
       accessibleHeading: Test Current Answer
       accessibleParagraph:
@@ -499,6 +502,8 @@ a11y:
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:
+
+      # TODO: use select syntax
       answerSelected:      |-
                            {$value} chosen for { a11y.gameScreen.challengeType }. 
                               { $representationType ->
