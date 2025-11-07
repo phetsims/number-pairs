@@ -110,9 +110,6 @@ const NumberPairsColors = {
   incorrectColorProperty: new ProfileColorProperty( numberPairs, 'incorrect', {
     default: PhetColorScheme.RED_COLORBLIND
   } ),
-  correctColorProperty: new ProfileColorProperty( numberPairs, 'correctMark', {
-    default: PhetColorScheme.GREEN_COLORBLIND
-  } ),
   unansweredColorProperty: new ProfileColorProperty( numberPairs, 'unanswered', {
     default: 'gray'
   } )

@@ -177,7 +177,7 @@ export default class AnswerButtonGroup extends GridBox {
       } );
       const checkMark = new Text( '✓', {
         font: new PhetFont( 23 ),
-        fill: NumberPairsColors.checkMarkColorProperty, // TODO: Do we want to use GREEN_COLORBLIND here? https://github.com/phetsims/number-pairs/issues/354
+        fill: NumberPairsColors.checkMarkColorProperty,
         pickable: false,
         visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
           return mode === 'correct' && challenge.answer === value;
