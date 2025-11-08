@@ -424,18 +424,18 @@ a11y:
 
   # Game
   gameScreen:
-    whatNumber:                              what number
-    decompositionChallengePrompt:            '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                      '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    whatNumber:                             what number
+    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
 
     addendOrSum:
       select_addendOrSum:
         addend: addend
         sum:    sum
     accessibleChallengePromptFinalSentence: |-
-                                             Find missing {a11y.gameScreen.addendOrSum} to solve challenge. Select an 
-                                               answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide 
-                                               kittens in Challenge Supports if needed.
+                                            Find missing {a11y.gameScreen.addendOrSum} to solve challenge. Select an 
+                                              answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide 
+                                              kittens in Challenge Supports if needed.
     testCurrentAnswerSection:
       accessibleHeading: Test Current Answer
       accessibleParagraph:
@@ -506,7 +506,7 @@ a11y:
         select_representationType:
           kittens:    '{$value} chosen for { a11y.gameScreen.challengeType }. {$value} kittens added to Counting Area.'
           numberLine: '{$value} chosen for { a11y.gameScreen.challengeType }. Addend now {$value} on number line.'
-      answerCleared:       Answer cleared.
+      answerCleared:      Answer cleared.
       correctAnswer:
         select_levelType:
           decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
@@ -517,13 +517,13 @@ a11y:
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry:
         select_levelType:
-          sum:           Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
-          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
-      _correctAnswerScore: |-
-                           { $score ->
-                             [ 1 ] 1 star!
-                             *[ other ] { $score } stars!
-                           }
+          sum:           Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses.correctAnswerScore }
+          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses.correctAnswerScore }
+      correctAnswerScore: |-
+                          { $score ->
+                            [ 1 ] 1 star!
+                            *[ other ] { $score } stars!
+                          }
     resetChallengeButton:
       accessibleName:            Reset Challenge
       accessibleHelpText:        Reset challenge back to beginning.

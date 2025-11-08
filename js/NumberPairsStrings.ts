@@ -387,7 +387,7 @@ type StringsType = {
         'correctAnswerStringProperty': LocalizedStringProperty;
         'incorrectAnswerStringProperty': LocalizedStringProperty;
         'correctAnswerOnFirstTryStringProperty': LocalizedStringProperty;
-        '_correctAnswerScoreStringProperty': LocalizedStringProperty;
+        'correctAnswerScoreStringProperty': LocalizedStringProperty;
       };
       'resetChallengeButton': {
         'accessibleNameStringProperty': LocalizedStringProperty;
