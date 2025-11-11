@@ -16,15 +16,13 @@ import Range from '../../../../dot/js/Range.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import VerticalCheckboxGroup from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from '../../common/view/NumberLineCheckboxItems.js';
+import NumberLineOptionsCheckboxGroup from '../../common/view/NumberLineOptionsCheckboxGroup.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModelConstants from '../model/GameModelConstants.js';
@@ -66,12 +64,12 @@ export default class NumberLineLevelNode extends LevelNode {
     const numberLineModel = {
       leftAddendProperty: new NumberProperty( 0 ),
       numberLineSliderEnabledRangeProperty: new Property( new Range( 0, 20 ) ),
-      tickValuesVisibleProperty: level.showTickNumbersProperty,
+      tickValuesVisibleProperty: level.tickValuesVisibleProperty,
       rightAddendProperty: new NumberProperty( 0 ),
       totalProperty: new NumberProperty( 0 ),
       totalJumpVisibleProperty: new BooleanProperty( false ),
       numberLineCountFromZeroProperty: new BooleanProperty( true ),
-      numberLineAddendValuesVisibleProperty: level.showAddendsProperty
+      numberLineAddendValuesVisibleProperty: level.numberLineAddendsVisibleProperty
     } as const;
 
     // On the number line level, the challenge is always missing an addend.
@@ -126,28 +124,19 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
 
     // Checkbox group for showing/hiding addends and tick numbers
-    const checkboxGroup = new VerticalCheckboxGroup( [
-      createAddendsCheckboxItem( {
-        property: level.showAddendsProperty,
-        textOptions: {
-          font: new PhetFont( 18 )
-        },
-        leftAddendProperty: numberLineModel.leftAddendProperty,
-        rightAddendProperty: numberLineModel.rightAddendProperty
-      } ),
-      createTickNumbersCheckboxItem( {
-        property: level.showTickNumbersProperty,
-        textOptions: {
-          font: new PhetFont( 18 )
-        }
-      } )
-    ], {
-      phetioFeatured: true,
-      top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
-      visibleProperty: level.addendsVisibleProperty,
-      tandem: tandem.createTandem( 'checkboxGroup' )
-    } );
+    const checkboxXOffset = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth +
+                            NumberPairsConstants.COUNTING_AREA_INNER_MARGIN +
+                            NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth +
+                            NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing;
+    const checkboxGroup = new NumberLineOptionsCheckboxGroup( level.numberLineAddendsVisibleProperty,
+      numberLineModel.leftAddendProperty, numberLineModel.rightAddendProperty, level.tickValuesVisibleProperty,
+      {
+        phetioFeatured: true,
+        top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+        left: this.countingAreaBounds.right - checkboxXOffset,
+        visibleProperty: level.addendsVisibleProperty,
+        tandem: tandem.createTandem( 'checkboxGroup' )
+      } );
 
     // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [

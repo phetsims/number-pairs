@@ -381,11 +381,13 @@ export default class NumberPairsScreenView extends ScreenView {
       const checkboxGroupMargin = SceneSelectionRadioButtonGroup.RADIO_BUTTON_DIMENSION + NumberPairsConstants.SCREEN_VIEW_X_MARGIN;
       const checkboxMaxWidth = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing + 7;
 
-      this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model, {
+      this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model.numberLineAddendValuesVisibleProperty,
+        model.leftAddendProperty, model.rightAddendProperty, model.tickValuesVisibleProperty, {
         bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
         left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
         visibleProperty: numberLineRepresentationVisibleProperty,
-        tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' )
+        tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' ),
+        totalJumpVisibleProperty: model.totalJumpVisibleProperty
       } );
       this.addChild( this.numberLineCheckboxGroup );
 
