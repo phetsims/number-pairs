@@ -26,6 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import CheckButton from '../../../../vegas/js/buttons/CheckButton.js';
 import NextButton from '../../../../vegas/js/buttons/NextButton.js';
 import ChallengeScreenNode, { ChallengeScreenNodeOptions } from '../../../../vegas/js/ChallengeScreenNode.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
@@ -128,8 +129,12 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       countingAreaBounds: this.countingAreaBounds,
 
       bothAddendsEyeToggleButtonAccessibleHelpText: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty,
-      bothAddendsEyeToggleButtonAccessibleContextResponseOff: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOffStringProperty,
-      bothAddendsEyeToggleButtonAccessibleContextResponseOn: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOnStringProperty
+      bothAddendsEyeToggleButtonAccessibleContextResponseOff: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOff.createProperty( {
+        levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
+      } ),
+      bothAddendsEyeToggleButtonAccessibleContextResponseOn: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOn.createProperty( {
+        levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
+      } )
     } );
 
     // Checkmark/X feedback marks positioned by the missing slot

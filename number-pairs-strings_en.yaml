@@ -466,9 +466,15 @@ a11y:
 
     # Overrides the values above, for the game
     bothAddendsEyeToggleButton:
-      accessibleHelpText:           Show or hide kittens.
-      accessibleContextResponseOff: Kittens visible.
-      accessibleContextResponseOn:  Kittens hidden.
+      accessibleHelpText: Show or hide kittens.
+      accessibleContextResponseOff:
+        select_levelType:
+          kittens:    Kittens visible.
+          numberLine: Number line visible.
+      accessibleContextResponseOn:
+        select_levelType:
+          kittens:    Kittens hidden.
+          numberLine: Number line hidden.
     level1:
       accessibleHelpText:        Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
       accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'

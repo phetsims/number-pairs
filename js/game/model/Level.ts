@@ -15,7 +15,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -31,9 +31,7 @@ import GameModelConstants from './GameModelConstants.js';
 import InputRange from './InputRange.js';
 import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
 
-type SelfOptions = {
-  representationType: RepresentationType;
-};
+type SelfOptions = EmptySelfOptions;
 export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
@@ -88,6 +86,7 @@ export default class Level {
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
+    public readonly representationType: RepresentationType,
     providedOptions: LevelOptions
   ) {
     const options = optionize<LevelOptions, SelfOptions, LevelOptions>()( {}, providedOptions );
@@ -121,8 +120,8 @@ export default class Level {
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
       range, {
         tandem: tandem.createTandem( 'countingObjectsDelegate' ),
-        initialRepresentationType: options.representationType,
-        representationTypeValidValues: [ options.representationType ] // This level only supports one representation type
+        initialRepresentationType: representationType,
+        representationTypeValidValues: [ representationType ] // This level only supports one representation type
       } );
     this.representationTypeProperty = this.countingObjectsDelegate.representationTypeProperty;
 

@@ -150,8 +150,7 @@ export default class GameModel implements TModel {
           const y = dotRandom.nextIntBetween( 2, 10 );
           const { a, b } = generateAddends( y, true );
           return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, {
-          representationType: RepresentationType.KITTENS,
+        }, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level1' )
         } ),
 
@@ -164,8 +163,7 @@ export default class GameModel implements TModel {
        */
       new Level( 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty, level2HelpTextProperty,
         NumberPairsFluent.a11y.gameScreen.level2.accessibleChallengePrompt,
-        'zeroToTen', 'bond', createNonzeroSumTo10Challenge, {
-          representationType: RepresentationType.KITTENS,
+        'zeroToTen', 'bond', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level2' )
         } ),
 
@@ -176,8 +174,7 @@ export default class GameModel implements TModel {
        */
       new Level( 3, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level3StringProperty, level3HelpTextProperty,
         NumberPairsFluent.a11y.gameScreen.level3.accessibleChallengePrompt,
-        'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, {
-          representationType: RepresentationType.KITTENS,
+        'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level3' )
         } ),
 
@@ -192,8 +189,7 @@ export default class GameModel implements TModel {
           const y = 10;
           const { a, b } = generateAddends( y, isFirst );
           return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, {
-          representationType: RepresentationType.KITTENS,
+        }, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level4' )
         } ),
 
@@ -209,8 +205,7 @@ export default class GameModel implements TModel {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, true );
           return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, {
-          representationType: RepresentationType.KITTENS,
+        }, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level5' )
         } ),
 
@@ -227,8 +222,7 @@ export default class GameModel implements TModel {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
           return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, {
-          representationType: RepresentationType.KITTENS,
+        }, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level6' )
         } ),
 
@@ -245,8 +239,7 @@ export default class GameModel implements TModel {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
           return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
-        }, {
-          representationType: RepresentationType.KITTENS,
+        }, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level7' )
         } ),
 
@@ -266,7 +259,6 @@ export default class GameModel implements TModel {
           const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
           return new Challenge( missingComponent, a, b, y );
         }, {
-          representationType: RepresentationType.NUMBER_LINE,
           tandem: tandem.createTandem( 'level8' )
         } )
     ];

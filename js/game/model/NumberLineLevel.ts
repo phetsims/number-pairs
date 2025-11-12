@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import FluentPattern, { type FluentVariable } from '../../../../chipper/js/browser/FluentPattern.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import InputRange from './InputRange.js';
@@ -30,7 +31,7 @@ export default class NumberLineLevel extends Level {
     createChallenge: ( isFirst: boolean ) => Challenge,
     providedOptions: LevelOptions
   ) {
-    super( levelNumber, color, description, accessibleHelpText, accessibleChallengePromptPattern, range, type, createChallenge, providedOptions );
+    super( levelNumber, color, description, accessibleHelpText, accessibleChallengePromptPattern, range, type, createChallenge, RepresentationType.NUMBER_LINE, providedOptions );
 
     this.tickValuesVisibleProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'tickValuesVisibleProperty' ),
