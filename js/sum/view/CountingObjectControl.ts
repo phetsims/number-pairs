@@ -40,6 +40,7 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -259,14 +260,14 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
     } );
 
     const keyboardInputListener = new KeyboardListener( {
-      keys: [ 'arrowUp', 'arrowDown', 'arrowRight', 'arrowLeft', 'home', 'end' ],
+      keyStringProperties: NumberPairsHotkeyData.COUNTING_OBJECT_CONTROL.adjust.keyStringProperties,
       fire: ( event, keysPressed ) => {
         event?.preventDefault();
-        if ( keysPressed.includes( 'arrowUp' ) || keysPressed.includes( 'arrowRight' ) ) {
+        if ( keysPressed === 'arrowUp' || keysPressed === 'arrowRight' ) {
           options.interruptPointers();
           inactiveCountingObjects.lengthProperty.value > 0 && incrementButton.pdomClick();
         }
-        else if ( keysPressed.includes( 'arrowDown' ) || keysPressed.includes( 'arrowLeft' ) ) {
+        else if ( keysPressed === 'arrowDown' || keysPressed === 'arrowLeft' ) {
           options.interruptPointers();
           addendCountingObjects.lengthProperty.value > 0 && decrementButton.pdomClick();
         }

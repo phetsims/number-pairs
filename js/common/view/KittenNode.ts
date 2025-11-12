@@ -23,7 +23,6 @@ import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibilit
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SoundRichDragListener from '../../../../scenery-phet/js/SoundRichDragListener.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
-import Hotkey from '../../../../scenery/js/input/Hotkey.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
@@ -43,6 +42,7 @@ import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
+import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
 
 type SelfOptions = {
   onEndDrag: ( countingObject: CountingObject, positionPropertyType: PositionPropertyType ) => void;
@@ -218,7 +218,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
     const switchToLeftSoundPlayer = sharedSoundPlayers.get( 'switchToLeft' );
     const switchToRightSoundPlayer = sharedSoundPlayers.get( 'switchToRight' );
     const toggleAddendKeyboardListener = new KeyboardListener( {
-      keys: [ 'space', 'enter' ],
+      keyStringProperties: NumberPairsHotkeyData.KITTEN.toggleAddend.keyStringProperties,
       press: () => {
         if ( kittenAttributeSwitch.visible && kittenAttributeSwitch.enabled ) {
           isLeftAddendProperty.toggle();
@@ -226,23 +226,20 @@ export default class KittenNode extends InteractiveHighlightingNode {
         }
       }
     } );
-    this.addInputListener( {
-      hotkeys: [
-        new Hotkey( {
-          keyStringProperty: new Property( 'home' ),
-          fire: () => {
-            options.switchFocusToFirstKitten();
-          }
-        } ),
-        new Hotkey( {
-          keyStringProperty: new Property( 'end' ),
-          fire: () => {
-            options.switchFocusToLastKitten();
-          }
-        } )
-      ]
+    const jumpToFirstOrLastKeyboardListener = new KeyboardListener( {
+      keyStringProperties: NumberPairsHotkeyData.KITTEN.jumpToFirst.keyStringProperties.concat(
+        NumberPairsHotkeyData.KITTEN.jumpToLast.keyStringProperties ),
+      fire: ( event, keysPressed ) => {
+        if ( NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS.includes( keysPressed ) ) {
+          options.switchFocusToFirstKitten();
+        }
+        else if ( NumberPairsHotkeyData.JUMP_TO_LAST_KEYS.includes( keysPressed ) ) {
+          options.switchFocusToLastKitten();
+        }
+      }
     } );
     this.addInputListener( toggleAddendKeyboardListener );
+    this.addInputListener( jumpToFirstOrLastKeyboardListener );
     this.addInputListener( dragListener );
     newKittenSelectedEmitter.addListener( focusedKitten => {
       countingObject.kittenSelectedProperty.value = countingObject === focusedKitten;

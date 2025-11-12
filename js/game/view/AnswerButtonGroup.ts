@@ -24,7 +24,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import AccessibleInteractiveOptions from '../../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
-import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import GridBox, { GridBoxOptions } from '../../../../scenery/js/layout/nodes/GridBox.js';
@@ -35,6 +34,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -252,21 +252,8 @@ export default class AnswerButtonGroup extends GridBox {
     // https://github.com/phetsims/number-pairs/issues/256#issuecomment-3402746293
     KeyboardListener.createGlobal( this, {
       tandem: providedOptions.tandem,
-      keyStringProperties: [
-
-        // TODO factor out like: ...NetForceHotkeyData.PULLER_NODE.navigation.keyStringProperties,
-        // https://github.com/phetsims/number-pairs/issues/278
-        new Property<OneKeyStroke>( 'arrowRight' ),
-        new Property<OneKeyStroke>( 'arrowLeft' ),
-        new Property<OneKeyStroke>( 'arrowUp' ),
-        new Property<OneKeyStroke>( 'arrowDown' ),
-        new Property<OneKeyStroke>( 'w' ),
-        new Property<OneKeyStroke>( 'a' ),
-        new Property<OneKeyStroke>( 's' ),
-        new Property<OneKeyStroke>( 'd' )
-      ],
+      keyStringProperties: NumberPairsHotkeyData.ANSWER_BUTTON_GROUP.navigation.keyStringProperties,
       fireOnDown: false,
-
       fire: ( _event, keysPressed ) => {
 
         // find the currently focused button
@@ -323,11 +310,6 @@ export default class AnswerButtonGroup extends GridBox {
     this.elements.forEach( element => {
       element.stateProperty.value = false;
     } );
-  }
-
-  public focusFirstElement(): void {
-    this.elements[ 0 ].button.focusable = true;
-    this.elements[ 0 ].button.focus();
   }
 }
 

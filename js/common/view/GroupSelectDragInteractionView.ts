@@ -25,16 +25,12 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject from '../model/CountingObject.js';
+import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
 
-// A list of all keys that are listened to, except those covered by the numberKeyMapper
-const KEYBOARD_INTERACTION_KEYS = [
-  'd', 'arrowRight', 'a', 'arrowLeft', 'arrowUp', 'arrowDown', 'w', 's', // default-step select/drag
-  'shift+d', 'shift+arrowRight', 'shift+a', 'shift+arrowLeft', 'shift+arrowUp', 'shift+arrowDown', 'shift+w', 'shift+s', // shift-step select/drag
-  'pageUp', 'pageDown', // page-step select/drag
-  'home', 'end' // min/max select/switch addends
-] as const;
-
-type AvailablePressedKeys = typeof KEYBOARD_INTERACTION_KEYS[number];
+type AvailablePressedKeys = typeof NumberPairsHotkeyData.NAVIGATION_KEYS[ number ] |
+  typeof NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS[number] | typeof NumberPairsHotkeyData.JUMP_TO_LAST_KEYS[number] |
+  typeof NumberPairsHotkeyData.NAVIGATION_SHIFT_KEYS[ number ] |
+  typeof NumberPairsHotkeyData.NAVIGATION_PAGE_KEYS[number];
 
 type SelfOptions = {
 
@@ -79,7 +75,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
 
     const selectItemKeyboardListener = new KeyboardListener( {
       fireOnHold: false,
-      keys: KEYBOARD_INTERACTION_KEYS,
+      keyStringProperties: NumberPairsHotkeyData.GROUP_SELECT_DRAG.navigation.keyStringProperties,
       enabledProperty: DerivedProperty.not( groupSelectModel.isGroupItemKeyboardGrabbedProperty ),
       fire: ( event, keysPressed ) => {
         const groupItem = groupSelectModel.selectedGroupItemProperty.value;
@@ -93,7 +89,7 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     } );
 
     const homeEndKeyboardListener = new KeyboardListener( {
-      keys: [ 'home', 'end' ],
+      keyStringProperties: NumberPairsHotkeyData.GROUP_SELECT_DRAG.jumpToFirstOrLast.keyStringProperties,
       enabledProperty: groupSelectModel.isGroupItemKeyboardGrabbedProperty,
       fire: ( event, keysPressed ) => {
         const groupItem = groupSelectModel.selectedGroupItemProperty.value;
