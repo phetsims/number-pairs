@@ -19,7 +19,6 @@ import GameModel, { LevelSelection } from '../model/GameModel.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
-import LevelNode from './LevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
 import NumberLineLevelNode from './NumberLineLevelNode.js';
 import NumberPairsRewardDialog from './NumberPairsRewardDialog.js';
@@ -60,16 +59,25 @@ export default class GameScreenView extends ScreenView {
              new NumberLineLevelNode( levelNumber => model.getLevel( levelNumber ), level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 
+    const level1Node = createLevelNode( 1 );
+    const level2Node = createLevelNode( 2 );
+    const level3Node = createLevelNode( 3 );
+    const level4Node = createLevelNode( 4 );
+    const level5Node = createLevelNode( 5 );
+    const level6Node = createLevelNode( 6 );
+    const level7Node = createLevelNode( 7 );
+    const level8Node = createLevelNode( 8 );
+
     const toggleNode = new ToggleNode<LevelSelection, Node>( model.selectedLevelProperty, [
       { value: 'levelSelectionScreen', createNode: () => levelSelectionNode },
-      { value: 'level1', createNode: () => createLevelNode( 1 ) },
-      { value: 'level2', createNode: () => createLevelNode( 2 ) },
-      { value: 'level3', createNode: () => createLevelNode( 3 ) },
-      { value: 'level4', createNode: () => createLevelNode( 4 ) },
-      { value: 'level5', createNode: () => createLevelNode( 5 ) },
-      { value: 'level6', createNode: () => createLevelNode( 6 ) },
-      { value: 'level7', createNode: () => createLevelNode( 7 ) },
-      { value: 'level8', createNode: () => createLevelNode( 8 ) }
+      { value: 'level1', createNode: () => level1Node },
+      { value: 'level2', createNode: () => level2Node },
+      { value: 'level3', createNode: () => level3Node },
+      { value: 'level4', createNode: () => level4Node },
+      { value: 'level5', createNode: () => level5Node },
+      { value: 'level6', createNode: () => level6Node },
+      { value: 'level7', createNode: () => level7Node },
+      { value: 'level8', createNode: () => level8Node }
     ], {
       alignChildren: ToggleNode.NONE
     } );
@@ -91,9 +99,20 @@ export default class GameScreenView extends ScreenView {
         model.selectedLevelProperty.value = 'levelSelectionScreen';
       }, () => {
 
-        // TODO: Better way to move focus to the level button? Possibly pre-allocating level nodes.
-        //   See https://github.com/phetsims/number-pairs/issues/282.
-        ( toggleNode.children.find( child => child.visible ) as LevelNode ).nextButton.focus();
+        const level = model.selectedLevelProperty.value;
+        const levelNode = level === 'level1' ? level1Node :
+                          level === 'level2' ? level2Node :
+                          level === 'level3' ? level3Node :
+                          level === 'level4' ? level4Node :
+                          level === 'level5' ? level5Node :
+                          level === 'level6' ? level6Node :
+                          level === 'level7' ? level7Node :
+                          level === 'level8' ? level8Node :
+                          null;
+
+        if ( levelNode ) {
+          levelNode.nextButton.focus();
+        }
       },
       this.rewardNode, NumberPairsQueryParameters.rewardScore, options.tandem.createTandem( 'numberPairsRewardDialog' ) );
 
