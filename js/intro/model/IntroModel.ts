@@ -34,13 +34,6 @@ export default class IntroModel extends DecompositionModel {
 
     super( options );
   }
-
-  /**
-   * Resets the model.
-   */
-  public override reset(): void {
-    super.reset();
-  }
 }
 
 numberPairs.register( 'IntroModel', IntroModel );

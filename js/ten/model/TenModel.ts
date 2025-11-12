@@ -30,13 +30,6 @@ export default class TenModel extends DecompositionModel {
     }, providedOptions );
     super( options );
   }
-
-  /**
-   * Resets the model.
-   */
-  public override reset(): void {
-    super.reset();
-  }
 }
 
 numberPairs.register( 'TenModel', TenModel );
