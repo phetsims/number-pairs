@@ -203,8 +203,8 @@ a11y:
         hidden: Total is hidden
         shown:  |-
                 { $total ->
-                    [1] Counting area has 1 total { $item }
-                    *[other] Counting area has { $total } total { $items }
+                    [1] Right now, 1 total { $item } in Counting area.
+                    *[other] Right now, { $total } total { $items } in Counting area.
                 }
     leftSideListItemPattern:  '{ $value } on left side'
     rightSideListItemPattern: '{ $value } on right side'
@@ -280,8 +280,8 @@ a11y:
             equal:            '{ $total } is split into equal sections.'
             largerAndSmaller: '{ $total } is split into larger and smaller sections.'
   numberLineDescription:
-    leadingCountOn:                  'Number line shows a green line to represent total and a blue jump from knob to total:'
-    leadingCountFromZero:            'Number line shows a green line to represent total, a yellow jump from left edge to knob, and a blue jump from knob to total:'
+    leadingCountOn:                  'Number line shows a green line representing total and a blue jump from knob to total:'
+    leadingCountFromZero:            'Number line shows a green line representing total, a yellow jump from left edge to knob, and a blue jump from knob to total:'
     leadingHidden:                   Number line is hidden.
     totalStartsPattern:              Total starts at { $start }, ends at { $end }
     totalSpansPattern:               Total spans from { $start } to { $end }
@@ -419,8 +419,8 @@ a11y:
       accessibleContextResponseChecked:   Total jump shown and labeled.
       accessibleContextResponseUnchecked: Total jump not shown.
   equation:
-    accessibleParagraphPattern:       '{ $total } = { $leftAddend } + { $rightAddend }'
-    accessibleParagraphHiddenPattern: '{ $total } = { $leftPlaceholder } + { $rightPlaceholder }'
+    accessibleParagraphPattern:       'Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }'
+    accessibleParagraphHiddenPattern: 'Right now, equation shows { $total } = { $leftPlaceholder } + { $rightPlaceholder }'
 
   # Game
   gameScreen:
@@ -517,8 +517,8 @@ a11y:
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry:
         select_levelType:
-          sum:           Correct. { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
-          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
+          sum:           Correct! { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
+          decomposition: Correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
       _correctAnswerScore: |-
                           { $score ->
                             [ 1 ] 1 star!
