@@ -155,6 +155,8 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
+    // TODO: Add the same kind of description as in CountingAreaLevelNode, perhaps move to a parent class? See https://github.com/phetsims/number-pairs/issues/351
+
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',

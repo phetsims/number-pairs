@@ -125,24 +125,31 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
     const numberBondSection = new Node( {
       tagName: 'div',
-      accessibleHeading: derived( NumberPairsPreferences.numberModelTypeProperty, NumberPairsFluent.numberBondStringProperty, NumberPairsFluent.barModelStringProperty, ( numberModelType, numberBondString, barModelString ) => {
-        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
-      } ),
+      accessibleHeading: derived(
+        NumberPairsPreferences.numberModelTypeProperty,
+        NumberPairsFluent.numberBondStringProperty,
+        NumberPairsFluent.barModelStringProperty, ( numberModelType, numberBondString, barModelString ) => {
+          return level.type === 'decompositionEquation' || level.type === 'sumEquation' ? NumberPairsFluent.equationStringProperty.value :
+                 numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
+        } ),
       children: [
         new Node( {
           tagName: 'div',
           accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
-            barOrBond: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id ),
+            barOrBondOrEquation: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
+              return level.type === 'decompositionEquation' ? 'decompositionEquation' :
+                     level.type === 'sumEquation' ? 'sumEquation' :
+                     numberModelType.id;
+            } ),
             proportions: proportionsStringProperty,
             screenType: 'other',
             totalView: 'shown', // unused
 
             // TODO: Listen to ? and translate it, and listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
             // TODO: Does question mark get pronounced correctly?, see https://github.com/phetsims/number-pairs/issues/351
-            // TODO: Add equation, see https://github.com/phetsims/number-pairs/issues/351
             left: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'a' ? selectedGuess === null ? '?' : selectedGuess : challenge.a ),
             right: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'b' ? selectedGuess === null ? '?' : selectedGuess : challenge.b ),
-            total: derived( level.challengeProperty, challenge => challenge.y )
+            total: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'y' ? selectedGuess === null ? '?' : selectedGuess : challenge.y )
           } )
         } )
       ]

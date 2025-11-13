@@ -329,7 +329,7 @@ a11y:
           other:     >-
                      Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
       currentNumberBondOrBarStateAccessibleParagraph:
-        select_barOrBond:
+        select_barOrBondOrEquation:
           numberBond:
             select_screenType:
               other: Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
@@ -344,7 +344,8 @@ a11y:
                 select_totalView:
                   shown:  Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.
                   hidden: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. Total hidden from bottom rectangle.
-
+          sumEquation:           Right now, equation shows { $left } + { $right } = { $total }.
+          decompositionEquation: Right now, equation shows { $total } = { $left } + { $right }.
       barModelAccessibleParagraph:
         select_screenType:
           other:     |-

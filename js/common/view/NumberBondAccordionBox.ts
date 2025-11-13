@@ -56,7 +56,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       proportions: proportionsStringProperty,
       screenType: model instanceof SumModel ? 'sumScreen' : 'other',
       totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' ),
-      barOrBond: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+      barOrBondOrEquation: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
     } );
 
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
