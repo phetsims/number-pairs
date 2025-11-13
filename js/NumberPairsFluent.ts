@@ -78,6 +78,7 @@ addToMapIfDefined( 'gameScreen_levelDescriptions_level6', 'gameScreen.levelDescr
 addToMapIfDefined( 'gameScreen_levelDescriptions_level7', 'gameScreen.levelDescriptions.level7StringProperty' );
 addToMapIfDefined( 'gameScreen_levelDescriptions_level8', 'gameScreen.levelDescriptions.level8StringProperty' );
 addToMapIfDefined( 'a11y_numberBondOrBarModel', 'a11y.numberBondOrBarModelStringProperty' );
+addToMapIfDefined( 'a11y_numberBondOrBarModelLowercase', 'a11y.numberBondOrBarModelLowercaseStringProperty' );
 addToMapIfDefined( 'a11y_playAreaIntroSentence', 'a11y.playAreaIntroSentenceStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_playArea', 'a11y.introScreen.screenSummary.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_controlArea', 'a11y.introScreen.screenSummary.controlAreaStringProperty' );
@@ -360,6 +361,7 @@ const NumberPairsFluent = {
   },
   a11y: {
     numberBondOrBarModel: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_numberBondOrBarModel', _.get( NumberPairsStrings, 'a11y.numberBondOrBarModelStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
+    numberBondOrBarModelLowercase: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_numberBondOrBarModelLowercase', _.get( NumberPairsStrings, 'a11y.numberBondOrBarModelLowercaseStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
     playAreaIntroSentenceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playAreaIntroSentence', _.get( NumberPairsStrings, 'a11y.playAreaIntroSentenceStringProperty' ) ),
     introScreen: {
       screenSummary: {
@@ -593,7 +595,7 @@ const NumberPairsFluent = {
       countingArea: {
         accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.accessibleHeadingStringProperty' ) ),
         numberLineSentenceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_numberLineSentence', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.numberLineSentenceStringProperty' ) ),
-        _comment_0: new FluentComment( {"comment":"TODO: left addend or right addend may be the unknown. See https://github.com/phetsims/number-pairs/issues/360","associatedKey":"numberLineAddends"} ),
+        _comment_0: new FluentComment( {"comment":"TODO: left addend or right addend may be the unknown. See https://github.com/phetsims/number-pairs/issues/351","associatedKey":"numberLineAddends"} ),
         numberLineAddends: new FluentPattern<{ guess: FluentVariable, leftAddend: FluentVariable, rightAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_numberLineAddends', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.numberLineAddendsStringProperty' ), [{"name":"guess"},{"name":"leftAddend"},{"name":"rightAddend"}] ),
         numberLineTickMarks: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_numberLineTickMarks', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.numberLineTickMarksStringProperty' ), [{"name":"total"}] ),
         accessibleParagraph: new FluentPattern<{ guess: FluentVariable, leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable, type: 'kittens' | 'numberLine' | TReadOnlyProperty<'kittens' | 'numberLine'>, visible: 'none' | 'addends' | 'tickMarks' | 'both' | TReadOnlyProperty<'none' | 'addends' | 'tickMarks' | 'both'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_accessibleParagraph', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.accessibleParagraphStringProperty' ), [{"name":"guess"},{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"},{"name":"type","variants":["kittens","numberLine"]},{"name":"visible","variants":["none","addends","tickMarks","both"]}] )

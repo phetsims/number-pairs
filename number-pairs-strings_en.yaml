@@ -75,6 +75,10 @@ gameScreen:
 a11y:
   numberBondOrBarModel:
     select_numberModelType:
+      numberBond: '{ numberBond }'
+      barModel:   '{ barModel }'
+  numberBondOrBarModelLowercase:
+    select_numberModelType:
       numberBond: '{ numberBondLowercase }'
       barModel:   '{ barModelLowercase }'
   playAreaIntroSentence:  There are left and right counting areas with fun objects. You can organize objects inside a counting
@@ -83,7 +87,7 @@ a11y:
     screenSummary:
       playArea:        >-
                        { a11y.playAreaIntroSentence } A decomposition phrase and a  
-                       { a11y.numberBondOrBarModel } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
+                       { a11y.numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
                        automatically organize objects into rows, or swap addends.
       controlArea:     Reset the sim to start over.
       currentDetails:
@@ -99,7 +103,7 @@ a11y:
   tenOrTwentyScreen:
     screenSummary:
       playAreaEndSentence: >-
-                           A decomposition phrase, { a11y.numberBondOrBarModel }, and equation represent how total is broken 
+                           A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
                            apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
                            objects, or swap addends.
       playArea:
@@ -144,7 +148,7 @@ a11y:
                       There are yellow and blue { $representation } you can move to organize or change color to find 
                       different ways to create a total number of { $representation }. { a11y.sumScreen.screenSummary.playAreaEndSentence }
       playAreaEndSentence: |-
-                           An addition phrase, { a11y.numberBondOrBarModel }, and equation represent how two numbers 
+                           An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
                              add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.
       controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
@@ -321,7 +325,7 @@ a11y:
     numberModel:
       numberBond:         number bond
       barModel:           proportional bar model
-      accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModel }.
+      accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModelLowercase }.
       numberBondAccessibleParagraph:
         select_screenType:
           sumScreen: >-
@@ -378,10 +382,10 @@ a11y:
           other:      '{ $leftAddend } on left, { $rightAddend } on right.'
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
-      accessibleHelpTextPattern: Show or hide counting area and both addends in { a11y.numberBondOrBarModel }.
+      accessibleHelpTextPattern: Show or hide counting area and both addends in { a11y.numberBondOrBarModelLowercase }.
     addendVisibleButton:
       accessibleNamePattern:        '{ $addend } Counting Area Visibility'
-      accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { a11y.numberBondOrBarModel }.
+      accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { a11y.numberBondOrBarModelLowercase }.
       accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
     countingObjectControl:
@@ -500,11 +504,11 @@ a11y:
     level:
       accessibleHelpText:
         select_levelNumber:
-          1: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
-          2: Find a missing addend in a { a11y.numberBondOrBarModel } with total always 10.
+          1: Find a missing addend in a { a11y.numberBondOrBarModelLowercase } with total between 2 and 10.
+          2: Find a missing addend in a { a11y.numberBondOrBarModelLowercase } with total always 10.
           3: Find a missing addend in a decomposition equation with total always 10.
           4: Find a missing addend in a sum equation with total always 10.
-          5: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 11 and 20.
+          5: Find a missing addend in a { a11y.numberBondOrBarModelLowercase } with total between 11 and 20.
           6: Find a missing addend in a decomposition equation with total between 11 and 20.
           7: Find a missing addend or total in a sum equation with total between 11 and 20.
           8: Find a missing addend in a sum equation using the number line with total between 0 and 20.

@@ -190,6 +190,9 @@
   },
   "a11y": {
     "numberBondOrBarModel": {
+      "value": "{ $numberModelType ->\n  [numberBond] { numberBond }\n  *[barModel] { barModel }\n}"
+    },
+    "numberBondOrBarModelLowercase": {
       "value": "{ $numberModelType ->\n  [numberBond] { numberBondLowercase }\n  *[barModel] { barModelLowercase }\n}"
     },
     "playAreaIntroSentence": {
@@ -198,7 +201,7 @@
     "introScreen": {
       "screenSummary": {
         "playArea": {
-          "value": "{ a11y_playAreaIntroSentence } A decomposition phrase and a   { a11y_numberBondOrBarModel } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10, automatically organize objects into rows, or swap addends."
+          "value": "{ a11y_playAreaIntroSentence } A decomposition phrase and a   { a11y_numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10, automatically organize objects into rows, or swap addends."
         },
         "controlArea": {
           "value": "Reset the sim to start over."
@@ -222,7 +225,7 @@
     "tenOrTwentyScreen": {
       "screenSummary": {
         "playAreaEndSentence": {
-          "value": "A decomposition phrase, { a11y_numberBondOrBarModel }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from 0 to 10, automatically organize  objects, or swap addends."
+          "value": "A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from 0 to 10, automatically organize  objects, or swap addends."
         },
         "playArea": {
           "value": "{ $representationType ->\n  [numberLine] There is a number line showing total as a green line broken into two sections, yellow on left and blue on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. { a11y_tenOrTwentyScreen_screenSummary_playAreaEndSentence }\n  [beads] There are movable yellow and blue beads you can slide along a wire to organize or change color to change how total is broken apart. { a11y_tenOrTwentyScreen_screenSummary_playAreaEndSentence }\n  [kittens] There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart. { a11y_tenOrTwentyScreen_screenSummary_playAreaEndSentence }\n  *[location] { a11y_playAreaIntroSentence } { a11y_tenOrTwentyScreen_screenSummary_playAreaEndSentence }\n}"
@@ -244,7 +247,7 @@
           "value": "{ $representationType ->\n  [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue \n               on right. movable knob changes how total is broken apart by changing lengths of yellow and blue \n               sections. Number spinners add or remove one from yellow or blue section. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n  *[other] There are yellow and blue { $representation } you can move to organize or change color to find \n           different ways to create a total number of { $representation }. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n}"
         },
         "playAreaEndSentence": {
-          "value": "An addition phrase, { a11y_numberBondOrBarModel }, and equation represent how two numbers \n  add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends."
+          "value": "An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n  add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends."
         },
         "controlArea": {
           "value": "{ a11y_introScreen_screenSummary_controlArea }"
@@ -547,7 +550,7 @@
           "value": "proportional bar model"
         },
         "accessibleHelpText": {
-          "value": "Represent decomposition as a { a11y_numberBondOrBarModel }."
+          "value": "Represent decomposition as a { a11y_numberBondOrBarModelLowercase }."
         },
         "numberBondAccessibleParagraph": {
           "value": "{ $screenType ->\n  [sumScreen] Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.\n  *[other] Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.\n}"
@@ -607,7 +610,7 @@
           "value": "Counting Area Visibility"
         },
         "accessibleHelpTextPattern": {
-          "value": "Show or hide counting area and both addends in { a11y_numberBondOrBarModel }."
+          "value": "Show or hide counting area and both addends in { a11y_numberBondOrBarModelLowercase }."
         }
       },
       "addendVisibleButton": {
@@ -615,7 +618,7 @@
           "value": "{ $addend } Counting Area Visibility"
         },
         "accessibleHelpTextPattern": {
-          "value": "Show or hide { $addend } counting area and { $addend } addend in { a11y_numberBondOrBarModel }."
+          "value": "Show or hide { $addend } counting area and { $addend } addend in { a11y_numberBondOrBarModelLowercase }."
         },
         "accessibleContextResponseOn": {
           "value": "contents hidden"
@@ -755,7 +758,7 @@
       },
       "level": {
         "accessibleHelpText": {
-          "value": "{ $levelNumber ->\n  [1] Find a missing addend in a { a11y_numberBondOrBarModel } with total between 2 and 10.\n  [2] Find a missing addend in a { a11y_numberBondOrBarModel } with total always 10.\n  [3] Find a missing addend in a decomposition equation with total always 10.\n  [4] Find a missing addend in a sum equation with total always 10.\n  [5] Find a missing addend in a { a11y_numberBondOrBarModel } with total between 11 and 20.\n  [6] Find a missing addend in a decomposition equation with total between 11 and 20.\n  [7] Find a missing addend or total in a sum equation with total between 11 and 20.\n  *[8] Find a missing addend in a sum equation using the number line with total between 0 and 20.\n}"
+          "value": "{ $levelNumber ->\n  [1] Find a missing addend in a { a11y_numberBondOrBarModelLowercase } with total between 2 and 10.\n  [2] Find a missing addend in a { a11y_numberBondOrBarModelLowercase } with total always 10.\n  [3] Find a missing addend in a decomposition equation with total always 10.\n  [4] Find a missing addend in a sum equation with total always 10.\n  [5] Find a missing addend in a { a11y_numberBondOrBarModelLowercase } with total between 11 and 20.\n  [6] Find a missing addend in a decomposition equation with total between 11 and 20.\n  [7] Find a missing addend or total in a sum equation with total between 11 and 20.\n  *[8] Find a missing addend in a sum equation using the number line with total between 0 and 20.\n}"
         },
         "accessibleHeading": {
           "value": "{ $levelType ->\n  [decompositionEquation] Decomposition Equation Challenge\n  [sumEquation] Sum Equation Challenge\n  *[bondOrBarModel] { a11y_numberBondOrBarModel } Challenge\n}"
