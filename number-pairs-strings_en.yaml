@@ -133,7 +133,7 @@ a11y:
       interactionHint:
         select_representationType:
           beads:      Navigate to and grab bead to create groups, or move across divider to change color.
-          kittens:    Choose kitten to move, organize, or change its color with space or enter. Move with arrows or W, A, S, D keys.
+          kittens:    Choose kitten to move, organize or change its color.
           numberLine: Move addend splitter knob to change length of yellow and blue sections.
           location:   '{ a11y.introScreen.screenSummary.interactionHint }'
   sumScreen:
@@ -242,6 +242,7 @@ a11y:
   kittens:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
+    accessibleHelpText:        Move with arrows or W, A, S, D keys. Change color with space or enter.
     changeColorAccessibleName: Change Color
     kittenPattern:
       select_descriptor:

@@ -346,17 +346,28 @@ export default class NumberPairsScreenView extends ScreenView {
 
       // We only want to update the pdom order when we are in the kitten representation.
       // NOTE: This is similar to code in CountingAreaLevelNode
-      Multilink.multilink( [ model.leftAddendCountingObjectsLengthProperty, model.rightAddendCountingObjectsLengthProperty, model.totalProperty, model.representationTypeProperty ],
+      Multilink.multilink( [ model.leftAddendCountingObjectsLengthProperty,
+          model.rightAddendCountingObjectsLengthProperty, model.totalProperty, model.representationTypeProperty ],
         ( leftAddendLength, rightAddendLength, total, representationType ) => {
           if ( representationType === RepresentationType.KITTENS && leftAddendLength + rightAddendLength === total ) {
             const leftAddendObjects = model.leftAddendCountingObjectsProperty.value;
             const rightAddendObjects = model.rightAddendCountingObjectsProperty.value;
-            const leftAddendKittenNodes = leftAddendObjects.map( countingObject => kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
-            const rightAddendKittenNodes = rightAddendObjects.map( countingObject => kittensLayerNode.kittenNodes.find( kittenNode => kittenNode.countingObject === countingObject )! );
+            const leftAddendKittenNodes = leftAddendObjects.map( countingObject => kittensLayerNode.kittenNodes
+              .find( kittenNode => kittenNode.countingObject === countingObject )! );
+            const rightAddendKittenNodes = rightAddendObjects.map( countingObject => kittensLayerNode.kittenNodes
+              .find( kittenNode => kittenNode.countingObject === countingObject )! );
             kittensLayerNode.kittenPDOMOrderProperty.value = leftAddendKittenNodes.concat( rightAddendKittenNodes );
           }
         } );
       countingRepresentationsLayer.addChild( kittensLayerNode );
+
+      // Design requested that the accessible help text for the kittens lives with the counting area description node.
+      // This was because having accessible help text on each kitten made for a verbose experience with screen readers.
+      kittensLayerVisibleProperty.link( visible => {
+        countingAreaDescriptionNode.accessibleHelpText = visible ?
+                                                         NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty :
+                                                         '';
+      } );
 
       // If the user clicks outside the kittens, then remove focus from all the counting objects.
       this.addInputListener( new ClickToDeselectKittensPressListener( kittensLayerNode ) );
@@ -383,12 +394,12 @@ export default class NumberPairsScreenView extends ScreenView {
 
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model.numberLineAddendValuesVisibleProperty,
         model.leftAddendProperty, model.rightAddendProperty, model.tickValuesVisibleProperty, {
-        bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
-        left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
-        visibleProperty: numberLineRepresentationVisibleProperty,
-        tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' ),
-        totalJumpVisibleProperty: model.totalJumpVisibleProperty
-      } );
+          bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
+          left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
+          visibleProperty: numberLineRepresentationVisibleProperty,
+          tandem: options.tandem.createTandem( 'numberLineCheckboxGroup' ),
+          totalJumpVisibleProperty: model.totalJumpVisibleProperty
+        } );
       this.addChild( this.numberLineCheckboxGroup );
 
       const iconWidth = 35;
