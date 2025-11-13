@@ -51,6 +51,8 @@ export default class AddendControlPanel extends Panel {
       addendCountingObjects,
       inactiveCountingObjects,
       countingRepresentationTypeProperty, countingObjectControlOptions );
+
+    // TODO: Please document why a wrapper node is needed, see https://github.com/phetsims/number-pairs/issues/363
     const container = new Node( {
       children: [ countingObjectControl ]
     } );
