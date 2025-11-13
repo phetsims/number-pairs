@@ -6,6 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import derived from '../../../../axon/js/derived.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -13,6 +15,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
@@ -79,7 +82,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    const headingSection = new Node( {
+    const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
       children: [
@@ -95,9 +98,62 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
         this.challengeResetButton
       ]
     } );
-    this.addChild( headingSection );
+    const promptSection = new Node( {
+      tagName: 'div',
+      accessibleHeading: 'Challenge Prompt',
+      children: [
+        new Node( {
+          tagName: 'div',
+          accessibleParagraph: level.accessibleChallengePromptProperty
+        } )
+      ]
+    } );
+    this.addChild( promptSection );
+
+    // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
+    // TODO: Duplicated with NumberBondAccordionBox, see https://github.com/phetsims/number-pairs/issues/351
+    const leftAddendProperty = level.challengeProperty.derived( challenge => challenge.a );
+    const rightAddendProperty = level.challengeProperty.derived( challenge => challenge.b );
+    const totalProperty = level.challengeProperty.derived( challenge => challenge.y );
+    const proportionsStringProperty = new DerivedProperty( [ leftAddendProperty, rightAddendProperty, totalProperty,
+        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
+      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
+        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
+      } );
+
+    const numberBondSection = new Node( {
+      tagName: 'div',
+      accessibleHeading: derived( NumberPairsPreferences.numberModelTypeProperty, NumberPairsFluent.numberBondStringProperty, NumberPairsFluent.barModelStringProperty, ( numberModelType, numberBondString, barModelString ) => {
+        return numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
+      } ),
+      children: [
+        new Node( {
+          tagName: 'div',
+          accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
+            barOrBond: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id ),
+            proportions: proportionsStringProperty,
+            screenType: 'other',
+            totalView: 'shown', // unused
+
+            // TODO: Listen to ? and translate it, and listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
+            // TODO: Does question mark get pronounced correctly?, see https://github.com/phetsims/number-pairs/issues/351
+            // TODO: Add equation, see https://github.com/phetsims/number-pairs/issues/351
+            left: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'a' ? selectedGuess === null ? '?' : selectedGuess : challenge.a ),
+            right: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'b' ? selectedGuess === null ? '?' : selectedGuess : challenge.b ),
+            total: derived( level.challengeProperty, challenge => challenge.y )
+          } )
+        } )
+      ]
+    } );
+    this.addChild( numberBondSection );
+
+    this.addChild( challengeSupportsSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      headingSection,
+      promptSection,
+      numberBondSection,
+      challengeSupportsSection,
       this.answerButtonGroup
     ];
 

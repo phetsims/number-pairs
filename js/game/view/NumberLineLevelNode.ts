@@ -155,7 +155,7 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    const headingSection = new Node( {
+    const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
       children: [
@@ -172,9 +172,9 @@ export default class NumberLineLevelNode extends LevelNode {
         this.challengeResetButton
       ]
     } );
-    this.addChild( headingSection );
+    this.addChild( challengeSupportsSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      headingSection,
+      challengeSupportsSection,
       this.answerButtonGroup
     ];
 

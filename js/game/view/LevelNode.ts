@@ -75,7 +75,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     const options = optionize<LevelNodeOptions, SelfOptions, ChallengeScreenNodeOptions>()( {
       countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS,
-      accessibleChallengePrompt: level.accessibleChallengePromptProperty,
+      accessibleChallengePrompt: null, // TODO: This was moved to a new prompt section, is that ok? see https://github.com/phetsims/number-pairs/issues/351
 
       // TODO: i18n and What should this content be for each level? See https://github.com/phetsims/number-pairs/issues/360
       accessibleHeadingContent: 'Level ' + level.levelNumber + ' Challenge'

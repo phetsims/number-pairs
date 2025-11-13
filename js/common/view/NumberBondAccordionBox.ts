@@ -6,7 +6,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derivedMap from '../../../../axon/js/derivedMap.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -50,26 +49,15 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
         return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
       } );
-    const barModelParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentBarModelStateAccessibleParagraph.createProperty( {
+    const accessibleParagraphStringProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
       left: model.leftAddendProperty,
       right: model.rightAddendProperty,
       total: model.totalProperty,
       proportions: proportionsStringProperty,
       screenType: model instanceof SumModel ? 'sumScreen' : 'other',
-      totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' )
-    } );
-    const numberBondParagraphProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondStateAccessibleParagraph.createProperty( {
-      left: model.leftAddendProperty,
-      right: model.rightAddendProperty,
       totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' ),
-      total: model.totalProperty,
-      screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      barOrBond: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
     } );
-
-    const accessibleParagraphStringProperty = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
-      [ NumberModelType.NUMBER_BOND_MODEL, numberBondParagraphProperty ],
-      [ NumberModelType.BAR_MODEL, barModelParagraphProperty ]
-    ] ) );
 
     const options = optionize<NumberBondAccordionBoxOptions, SelfOptions, TotalRepresentationAccordionBoxOptions>()( {
       numberBondNodeOptions: {},
