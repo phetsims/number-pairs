@@ -11,7 +11,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
@@ -51,12 +50,7 @@ export default class AddendControlPanel extends Panel {
       addendCountingObjects,
       inactiveCountingObjects,
       countingRepresentationTypeProperty, countingObjectControlOptions );
-
-    // TODO: Please document why a wrapper node is needed, see https://github.com/phetsims/number-pairs/issues/363
-    const container = new Node( {
-      children: [ countingObjectControl ]
-    } );
-    super( container, options );
+    super( countingObjectControl, options );
     this.countingObjectControl = countingObjectControl;
 
   }
