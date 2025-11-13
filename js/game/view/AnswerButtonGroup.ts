@@ -151,6 +151,8 @@ export default class AnswerButtonGroup extends GridBox {
           selectedNumberProperty.value = state ? value : null;
 
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.answerSelected.format( {
+            color: challengeProperty.value.missing === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value :
+                   NumberPairsFluent.a11y.rightAddendColorStringProperty.value,
             value: value,
             challengeType: challengeProperty.value.missing === 'a' ? 'leftAddend' :
                            challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total',
