@@ -444,8 +444,10 @@ a11y:
     countingArea:
       accessibleHeading:   Counting Area
       numberLineSentence:  Right now, number line shows a green line representing total, a yellow jump from left edge to dot, and a blue jump from dot to total.
+
+      # TODO: left addend or right addend may be the unknown. See https://github.com/phetsims/number-pairs/issues/360
       numberLineAddends:   '{ $leftAddend } is shown above yellow jump representing left addend. {$rightAddend} is shown above grey jump representing { $guess }.'
-      numberLineTickMarks: 'Dot at { $leftAddend }.'
+      numberLineTickMarks: 'Dot at { $total }.'
       accessibleParagraph:
         select_type:
           kittens: Right now, { $leftAddend } Yellow Kittens, { $rightAddend } Blue Kittens in Counting Area.

@@ -717,7 +717,7 @@
           "value": "{ $leftAddend } is shown above yellow jump representing left addend. {$rightAddend} is shown above grey jump representing { $guess }."
         },
         "numberLineTickMarks": {
-          "value": "Dot at { $leftAddend }."
+          "value": "Dot at { $total }."
         },
         "accessibleParagraph": {
           "value": "{ $type ->\n  [kittens] Right now, { $leftAddend } Yellow Kittens, { $rightAddend } Blue Kittens in Counting Area.\n  *[numberLine] { $visible ->\n                  [none] { a11y_gameScreen_countingArea_numberLineSentence }\n                  [addends] { a11y_gameScreen_countingArea_numberLineSentence } { a11y_gameScreen_countingArea_numberLineAddends }\n                  [tickMarks] { a11y_gameScreen_countingArea_numberLineSentence } { a11y_gameScreen_countingArea_numberLineTickMarks }\n                  *[both] { a11y_gameScreen_countingArea_numberLineSentence } { a11y_gameScreen_countingArea_numberLineAddends } { a11y_gameScreen_countingArea_numberLineTickMarks }\n                }\n}"
