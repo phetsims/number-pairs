@@ -83,7 +83,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS,
       accessibleChallengePrompt: null, // TODO: This was moved to a new prompt section, is that ok? see https://github.com/phetsims/number-pairs/issues/351
 
-      // TODO: i18n and What should this content be for each level? See https://github.com/phetsims/number-pairs/issues/360
       accessibleHeadingContent: NumberPairsFluent.a11y.gameScreen.level.accessibleHeading.createProperty( {
         levelType: level.type === 'numberLine' ? 'sumEquation' : level.type === 'bond' ? 'bondOrBarModel' : level.type,
         numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
