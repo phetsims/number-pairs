@@ -7,6 +7,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
@@ -22,11 +23,11 @@ import NumberStyles from './NumberStyles.js';
 
 export default class LevelIcons {
 
-  private static createModel( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean ): TGenericNumberPairsModel {
+  private static createModel( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean, totalVisible: boolean ): TGenericNumberPairsModel {
     return {
       totalProperty: new Property( total ),
       totalColorProperty: NumberPairsColors.levelSelectionIconTotalColorProperty,
-      totalVisibleProperty: new Property( true ),
+      totalVisibleProperty: new Property( totalVisible ),
       leftAddendProperty: new Property( left ),
       leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
       leftAddendVisibleProperty: new Property( leftAddendVisible ),
@@ -38,7 +39,7 @@ export default class LevelIcons {
 
   private static getNumberBondIcon( total: number, left: number, right: number ): Node {
 
-    const model = LevelIcons.createModel( total, left, right, true, false );
+    const model = LevelIcons.createModel( total, left, right, true, false, true );
 
     const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5 } );
     numberBondNode.leftAddend.children = []; // awkward
@@ -48,7 +49,7 @@ export default class LevelIcons {
   }
 
   private static getNumberBarIcon( total: number, left: number, right: number ): Node {
-    const levelModel = LevelIcons.createModel( total, left, right, true, false );
+    const levelModel = LevelIcons.createModel( total, left, right, true, false, true );
 
     const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55 } );
     barModelNode.leftAddendRectangle.children = []; // awkward
@@ -74,23 +75,27 @@ export default class LevelIcons {
     } );
   }
 
-  private static getNumberEquationIcon( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean, addendsOnRight = true ): Node {
-    const numberEquationNode = new NumberEquationNode( LevelIcons.createModel( total, left, right, leftAddendVisible, rightAddendVisible ), 66, 46.2, GAME_DIMENSION.fontSize, {
-      totalColorProperty: NumberPairsColors.levelSelectionIconTotalColorProperty,
-      leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
-      rightAddendColorProperty: NumberPairsColors.levelSelectionIconRightAddendColorProperty,
-      scale: 0.42,
-      addendsOnRight: addendsOnRight,
+  private static getNumberEquationIcon( total: number, left: number, right: number, leftAddendVisible: boolean, totalVisible: boolean, addendsOnRight = true ): Node {
+    const numberEquationNode = new NumberEquationNode(
+      LevelIcons.createModel( total, left, right, leftAddendVisible, false, totalVisible ),
+      66, 46.2, GAME_DIMENSION.fontSize,
+      {
+        totalColorProperty: NumberPairsColors.levelSelectionIconTotalColorProperty,
+        leftAddendColorProperty: NumberPairsColors.levelSelectionIconLeftAddendColorProperty,
+        rightAddendColorProperty: NumberPairsColors.levelSelectionIconRightAddendColorProperty,
+        scale: 0.42,
+        addendsOnRight: addendsOnRight,
 
-      // Omit description from icons so it doesn't appear in the button, see https://github.com/phetsims/number-pairs/issues/303
-      accessibleParagraph: null
-    } );
+        // Omit description from icons so it doesn't appear in the button, see https://github.com/phetsims/number-pairs/issues/303
+        accessibleParagraph: null
+      } );
     numberEquationNode.rightAddendSquare.children = []; // awkward
-    if ( !leftAddendVisible ) {
-      numberEquationNode.leftAddendSquare.lineDash = NumberStyles.DASHED_LINE;
-      numberEquationNode.leftAddendSquare.stroke = 'black';
-      numberEquationNode.leftAddendSquare.lineWidth = 1.5;
-    }
+    const numberEquationSquareNode = !leftAddendVisible ? numberEquationNode.leftAddendSquare :
+                                     !totalVisible ? numberEquationNode.totalSquare : null;
+    affirm( numberEquationSquareNode, 'One of left addend or total should be invisible' );
+    numberEquationSquareNode.lineDash = NumberStyles.DASHED_LINE;
+    numberEquationSquareNode.stroke = 'black';
+    numberEquationSquareNode.lineWidth = 1.5;
     return numberEquationNode;
   }
 
@@ -107,11 +112,11 @@ export default class LevelIcons {
   public static getIcon( levelNumber: number ): Node {
     return levelNumber === 1 ? LevelIcons.getNumberModelToggleIcon( 7, 3, 4 ) :
            levelNumber === 2 ? LevelIcons.getNumberModelToggleIcon( 10, 3, 7 ) :
-           levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, false ) :
-           levelNumber === 4 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, false, false ) :
+           levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, true ) :
+           levelNumber === 4 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, true, false ) :
            levelNumber === 5 ? LevelIcons.getNumberModelToggleIcon( 15, 3, 12 ) :
-           levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16, 13, 3, false, false ) :
-           levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, 5, 12, false, false, false ) :
+           levelNumber === 6 ? LevelIcons.getNumberEquationIcon( 16, 13, 3, false, true ) :
+           levelNumber === 7 ? LevelIcons.getNumberEquationIcon( 17, 11, 6, true, false, false ) :
            LevelIcons.getNumberLineIcon();
   }
 }
