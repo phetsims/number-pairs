@@ -27,8 +27,10 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject from '../model/CountingObject.js';
 import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
 
-type AvailablePressedKeys = typeof NumberPairsHotkeyData.NAVIGATION_KEYS[ number ] |
-  typeof NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS[number] | typeof NumberPairsHotkeyData.JUMP_TO_LAST_KEYS[number] |
+type AvailablePressedKeys =
+  typeof NumberPairsHotkeyData.NAVIGATION_KEYS[ number ] |
+  typeof NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS[number] |
+  typeof NumberPairsHotkeyData.JUMP_TO_LAST_KEYS[number] |
   typeof NumberPairsHotkeyData.NAVIGATION_SHIFT_KEYS[ number ] |
   typeof NumberPairsHotkeyData.NAVIGATION_PAGE_KEYS[number];
 
