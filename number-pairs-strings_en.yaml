@@ -528,7 +528,7 @@ a11y:
     responses:
       answerSelected:
         select_representationType:
-          kittens:    '{$value} chosen for { a11y.gameScreen.challengeType }. {$value} ( $color } kittens now in Counting Area.'
+          kittens:    '{$value} chosen for { a11y.gameScreen.challengeType }. {$value} { $color } kittens now in Counting Area.'
           numberLine: '{$value} chosen for { a11y.gameScreen.challengeType }. Unknown jump now {$value} on number line.'
       answerCleared:       Answer cleared.
       correctAnswer:
