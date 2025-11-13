@@ -147,6 +147,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
             // TODO: Listen to ? and translate it, and listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
             // TODO: Does question mark get pronounced correctly?, see https://github.com/phetsims/number-pairs/issues/351
+            // TODO: Hit Check to submit answer. appears in number bond but not the others, see https://github.com/phetsims/number-pairs/issues/351
             left: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'a' ? selectedGuess === null ? '?' : selectedGuess : challenge.a ),
             right: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'b' ? selectedGuess === null ? '?' : selectedGuess : challenge.b ),
             total: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'y' ? selectedGuess === null ? '?' : selectedGuess : challenge.y )
@@ -156,10 +157,29 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     } );
     this.addChild( numberBondSection );
 
+    const countingAreaSection = new Node( {
+      tagName: 'div',
+      accessibleHeading: 'Counting Area', // TODO: a11y, see https://github.com/phetsims/number-pairs/issues/351
+      children: [
+        new Node( {
+          tagName: 'div',
+          accessibleParagraph: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleParagraph.createProperty( {
+            leftAddend: level.countingObjectsDelegate.leftAddendProperty,
+            rightAddend: level.countingObjectsDelegate.rightAddendProperty,
+            type: 'kittens',
+            visible: 'none', // TODO: unused, see https://github.com/phetsims/number-pairs/issues/351
+            guess: 3 // TODO: unused, see https://github.com/phetsims/number-pairs/issues/351
+          } )
+        } )
+      ]
+    } );
+    this.addChild( countingAreaSection );
+
     this.addChild( challengeSupportsSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
       promptSection,
       numberBondSection,
+      countingAreaSection,
       challengeSupportsSection,
       this.answerButtonGroup
     ];

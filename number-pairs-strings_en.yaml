@@ -441,6 +441,20 @@ a11y:
             addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
             sum:    Choose number for sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
         numberLine: Choose number for { a11y.gameScreen.challengeType } to make { $color } jump have that length. Check Answer to submit.
+    countingArea:
+      accessibleHeading:   Counting Area
+      numberLineSentence:  Right now, number line shows a green line representing total, a yellow jump from left edge to dot, and a blue jump from dot to total.
+      numberLineAddends:   '{ $leftAddend } is shown above yellow jump representing left addend. {$rightAddend} is shown above grey jump representing { $guess }.'
+      numberLineTickMarks: 'Dot at { $leftAddend }.'
+      accessibleParagraph:
+        select_type:
+          kittens: Right now, { $leftAddend } Yellow Kittens, { $rightAddend } Blue Kittens in Counting Area.
+          numberLine:
+            select_visible:
+              none:      '{ a11y.gameScreen.countingArea.numberLineSentence }'
+              addends:   '{ a11y.gameScreen.countingArea.numberLineSentence } { a11y.gameScreen.countingArea.numberLineAddends }'
+              tickMarks: '{ a11y.gameScreen.countingArea.numberLineSentence } { a11y.gameScreen.countingArea.numberLineTickMarks }'
+              both:      '{ a11y.gameScreen.countingArea.numberLineSentence } { a11y.gameScreen.countingArea.numberLineAddends } { a11y.gameScreen.countingArea.numberLineTickMarks }'
 
     testCurrentAnswerSection:
       accessibleHeading: Test Current Answer

@@ -321,6 +321,13 @@ type StringsType = {
       'whatNumberStringProperty': LocalizedStringProperty;
       'challengePromptStringProperty': LocalizedStringProperty;
       'challengePromptHelpTextStringProperty': LocalizedStringProperty;
+      'countingArea': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
+        'numberLineSentenceStringProperty': LocalizedStringProperty;
+        'numberLineAddendsStringProperty': LocalizedStringProperty;
+        'numberLineTickMarksStringProperty': LocalizedStringProperty;
+        'accessibleParagraphStringProperty': LocalizedStringProperty;
+      };
       'testCurrentAnswerSection': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
         'accessibleParagraphStringProperty': LocalizedStringProperty;
