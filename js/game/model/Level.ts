@@ -81,7 +81,6 @@ export default class Level {
     public readonly levelNumber: number, // 1-indexed level number
     public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     public readonly description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
-    public readonly accessibleHelpText: TReadOnlyProperty<string>,
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,

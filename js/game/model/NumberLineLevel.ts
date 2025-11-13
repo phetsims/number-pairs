@@ -23,13 +23,12 @@ export default class NumberLineLevel extends Level {
     levelNumber: number, // 1-indexed level number
     color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
-    accessibleHelpText: TReadOnlyProperty<string>,
     range: InputRange,
     type: ChallengeType,
     createChallenge: ( isFirst: boolean ) => Challenge,
     providedOptions: LevelOptions
   ) {
-    super( levelNumber, color, description, accessibleHelpText, range, type, createChallenge, RepresentationType.NUMBER_LINE, providedOptions );
+    super( levelNumber, color, description, range, type, createChallenge, RepresentationType.NUMBER_LINE, providedOptions );
 
     this.tickValuesVisibleProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'tickValuesVisibleProperty' ),

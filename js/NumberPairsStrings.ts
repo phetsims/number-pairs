@@ -342,29 +342,9 @@ type StringsType = {
         'accessibleContextResponseOffStringProperty': LocalizedStringProperty;
         'accessibleContextResponseOnStringProperty': LocalizedStringProperty;
       };
-      'level1': {
+      'level': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level2': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level3': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level4': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level5': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level6': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level7': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
-      };
-      'level8': {
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
       };
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;

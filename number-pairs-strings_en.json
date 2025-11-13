@@ -753,44 +753,12 @@
           "value": "{ $levelType ->\n  [kittens] Kittens hidden.\n  *[numberLine] Number line hidden.\n}"
         }
       },
-      "level1": {
+      "level": {
         "accessibleHelpText": {
-          "value": "Find a missing addend in a { a11y_numberBondOrBarModel } with total between 2 and 10."
-        }
-      },
-      "level2": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a { a11y_numberBondOrBarModel } with total always 10."
-        }
-      },
-      "level3": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a decomposition equation with total always 10."
-        }
-      },
-      "level4": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a sum equation with total always 10."
-        }
-      },
-      "level5": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a { a11y_numberBondOrBarModel } with total between 11 and 20."
-        }
-      },
-      "level6": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a decomposition equation with total between 11 and 20."
-        }
-      },
-      "level7": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend or total in a sum equation with total between 11 and 20."
-        }
-      },
-      "level8": {
-        "accessibleHelpText": {
-          "value": "Find a missing addend in a sum equation using the number line with total between 0 and 20."
+          "value": "{ $levelNumber ->\n  [1] Find a missing addend in a { a11y_numberBondOrBarModel } with total between 2 and 10.\n  [2] Find a missing addend in a { a11y_numberBondOrBarModel } with total always 10.\n  [3] Find a missing addend in a decomposition equation with total always 10.\n  [4] Find a missing addend in a sum equation with total always 10.\n  [5] Find a missing addend in a { a11y_numberBondOrBarModel } with total between 11 and 20.\n  [6] Find a missing addend in a decomposition equation with total between 11 and 20.\n  [7] Find a missing addend or total in a sum equation with total between 11 and 20.\n  *[8] Find a missing addend in a sum equation using the number line with total between 0 and 20.\n}"
+        },
+        "accessibleHeading": {
+          "value": "{ $levelType ->\n  [decompositionEquation] Decomposition Equation Challenge\n  [sumEquation] Sum Equation Challenge\n  *[bondOrBarModel] { a11y_numberBondOrBarModel } Challenge\n}"
         }
       },
       "answerButton": {

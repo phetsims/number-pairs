@@ -236,14 +236,8 @@ addToMapIfDefined( 'a11y_gameScreen_challengeSupports_accessibleHeading', 'a11y.
 addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleHelpText', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOff', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOffStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOn', 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOnStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level1_accessibleHelpText', 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level2_accessibleHelpText', 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level3_accessibleHelpText', 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level4_accessibleHelpText', 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level5_accessibleHelpText', 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level6_accessibleHelpText', 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level7_accessibleHelpText', 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_level8_accessibleHelpText', 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level_accessibleHelpText', 'a11y.gameScreen.level.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_level_accessibleHeading', 'a11y.gameScreen.level.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHeading', 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleName', 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' );
@@ -619,29 +613,9 @@ const NumberPairsFluent = {
         accessibleContextResponseOff: new FluentPattern<{ levelType: 'kittens' | 'numberLine' | TReadOnlyProperty<'kittens' | 'numberLine'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOff', _.get( NumberPairsStrings, 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOffStringProperty' ), [{"name":"levelType","variants":["kittens","numberLine"]}] ),
         accessibleContextResponseOn: new FluentPattern<{ levelType: 'kittens' | 'numberLine' | TReadOnlyProperty<'kittens' | 'numberLine'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_bothAddendsEyeToggleButton_accessibleContextResponseOn', _.get( NumberPairsStrings, 'a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOnStringProperty' ), [{"name":"levelType","variants":["kittens","numberLine"]}] )
       },
-      level1: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level1_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level1.accessibleHelpTextStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] )
-      },
-      level2: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level2_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level2.accessibleHelpTextStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] )
-      },
-      level3: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level3_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level3.accessibleHelpTextStringProperty' ) )
-      },
-      level4: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level4_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level4.accessibleHelpTextStringProperty' ) )
-      },
-      level5: {
-        accessibleHelpText: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level5_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level5.accessibleHelpTextStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] )
-      },
-      level6: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level6_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level6.accessibleHelpTextStringProperty' ) )
-      },
-      level7: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level7_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level7.accessibleHelpTextStringProperty' ) )
-      },
-      level8: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_level8_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level8.accessibleHelpTextStringProperty' ) )
+      level: {
+        accessibleHelpText: new FluentPattern<{ levelNumber: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | TReadOnlyProperty<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8>, numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.level.accessibleHelpTextStringProperty' ), [{"name":"levelNumber","variants":[1,2,3,4,5,6,7,8]},{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
+        accessibleHeading: new FluentPattern<{ levelType: 'decompositionEquation' | 'sumEquation' | 'bondOrBarModel' | TReadOnlyProperty<'decompositionEquation' | 'sumEquation' | 'bondOrBarModel'>, numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_level_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.level.accessibleHeadingStringProperty' ), [{"name":"levelType","variants":["decompositionEquation","sumEquation","bondOrBarModel"]},{"name":"numberModelType","variants":["numberBond","barModel"]}] )
       },
       answerButton: {
         wrongAccessibleName: new FluentPattern<{ value: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButton_wrongAccessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' ), [{"name":"value"}] )

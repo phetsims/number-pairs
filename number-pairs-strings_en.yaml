@@ -497,22 +497,22 @@ a11y:
         select_levelType:
           kittens:    Kittens hidden.
           numberLine: Number line hidden.
-    level1:
-      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
-    level2:
-      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total always 10.
-    level3:
-      accessibleHelpText: Find a missing addend in a decomposition equation with total always 10.
-    level4:
-      accessibleHelpText: Find a missing addend in a sum equation with total always 10.
-    level5:
-      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 11 and 20.
-    level6:
-      accessibleHelpText: Find a missing addend in a decomposition equation with total between 11 and 20.
-    level7:
-      accessibleHelpText: Find a missing addend or total in a sum equation with total between 11 and 20.
-    level8:
-      accessibleHelpText: Find a missing addend in a sum equation using the number line with total between 0 and 20.
+    level:
+      accessibleHelpText:
+        select_levelNumber:
+          1: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
+          2: Find a missing addend in a { a11y.numberBondOrBarModel } with total always 10.
+          3: Find a missing addend in a decomposition equation with total always 10.
+          4: Find a missing addend in a sum equation with total always 10.
+          5: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 11 and 20.
+          6: Find a missing addend in a decomposition equation with total between 11 and 20.
+          7: Find a missing addend or total in a sum equation with total between 11 and 20.
+          8: Find a missing addend in a sum equation using the number line with total between 0 and 20.
+      accessibleHeading:
+        select_levelType:
+          decompositionEquation: Decomposition Equation Challenge
+          sumEquation:           Sum Equation Challenge
+          bondOrBarModel: '{ a11y.numberBondOrBarModel } Challenge'
     answerButton:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:

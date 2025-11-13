@@ -120,21 +120,21 @@ export default class GameModel implements TModel {
       numberModelType: numberModelTypeStringProperty
     } );
 
-    const level1HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level1.accessibleHelpText.createProperty( {
-      numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    } );
-
-    const level2HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level2.accessibleHelpText.createProperty( {
-      numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    } );
-    const level3HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level3.accessibleHelpTextStringProperty;
-    const level4HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level4.accessibleHelpTextStringProperty;
-    const level5HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level5.accessibleHelpText.createProperty( {
-      numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    } );
-    const level6HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level6.accessibleHelpTextStringProperty;
-    const level7HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level7.accessibleHelpTextStringProperty;
-    const level8HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level8.accessibleHelpTextStringProperty;
+    // const level1HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level1.accessibleHelpText.createProperty( {
+    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+    // } );
+    //
+    // const level2HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level2.accessibleHelpText.createProperty( {
+    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+    // } );
+    // const level3HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level3.accessibleHelpTextStringProperty;
+    // const level4HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level4.accessibleHelpTextStringProperty;
+    // const level5HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level5.accessibleHelpText.createProperty( {
+    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+    // } );
+    // const level6HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level6.accessibleHelpTextStringProperty;
+    // const level7HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level7.accessibleHelpTextStringProperty;
+    // const level8HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level8.accessibleHelpTextStringProperty;
 
 
     this.levels = [
@@ -144,7 +144,7 @@ export default class GameModel implements TModel {
        * Number Bond
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
-      new Level( 1, NumberPairsColors.level1StatusBarColorProperty, level1DescriptionProperty, level1HelpTextProperty,
+      new Level( 1, NumberPairsColors.level1StatusBarColorProperty, level1DescriptionProperty,
         'zeroToTen', 'bond', isFirst => {
           const y = dotRandom.nextIntBetween( 2, 10 );
           const { a, b } = generateAddends( y, true );
@@ -160,7 +160,7 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty, level2HelpTextProperty,
+      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty,
         'zeroToTen', 'bond', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level2' )
         } ),
@@ -170,7 +170,7 @@ export default class GameModel implements TModel {
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level3StringProperty, level3HelpTextProperty,
+      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level3StringProperty,
         'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level3' )
         } ),
@@ -180,7 +180,7 @@ export default class GameModel implements TModel {
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( 4, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level4StringProperty, level4HelpTextProperty,
+      new Level( 4, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level4StringProperty,
         'zeroToTen', 'sumEquation', isFirst => {
           const y = 10;
           const { a, b } = generateAddends( y, isFirst );
@@ -195,7 +195,7 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
-      new Level( 5, NumberPairsColors.level567StatusBarColorProperty, level5DescriptionProperty, level5HelpTextProperty,
+      new Level( 5, NumberPairsColors.level567StatusBarColorProperty, level5DescriptionProperty,
         'zeroToTwenty', 'bond', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, true );
@@ -211,7 +211,7 @@ export default class GameModel implements TModel {
        * equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        */
-      new Level( 6, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level6StringProperty, level6HelpTextProperty,
+      new Level( 6, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level6StringProperty,
         'zeroToTwenty', 'decompositionEquation', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
@@ -227,7 +227,7 @@ export default class GameModel implements TModel {
        * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * Value range for y is from 11-20
        */
-      new Level( 7, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level7StringProperty, level7HelpTextProperty,
+      new Level( 7, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level7StringProperty,
         'zeroToTwenty', 'sumEquation', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
@@ -242,7 +242,7 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new NumberLineLevel( 8, NumberPairsColors.level8StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level8StringProperty, level8HelpTextProperty,
+      new NumberLineLevel( 8, NumberPairsColors.level8StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level8StringProperty,
         'zeroToTwenty', 'numberLine', isFirst => {
 
           // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)

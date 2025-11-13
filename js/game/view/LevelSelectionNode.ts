@@ -23,6 +23,7 @@ import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem } from '../../
 import LevelSelectionScreenNode from '../../../../vegas/js/LevelSelectionScreenNode.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import VegasFluent from '../../../../vegas/js/VegasFluent.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
@@ -100,7 +101,10 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
           model.setLevel( levelNumber );
         },
         options: {
-          accessibleHelpText: level.accessibleHelpText,
+          accessibleHelpText: NumberPairsFluent.a11y.gameScreen.level.accessibleHelpText.createProperty( {
+            levelNumber: levelNumber as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
+            numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( type => type.id )
+          } ),
 
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
