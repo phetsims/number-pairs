@@ -82,7 +82,6 @@ export default class Level {
     public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     public readonly description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
     public readonly accessibleHelpText: TReadOnlyProperty<string>,
-    public readonly accessibleChallengePromptPattern: typeof NumberPairsFluent.a11y.gameScreen.decompositionChallengePrompt,
     public readonly range: InputRange,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
@@ -131,7 +130,13 @@ export default class Level {
       phetioType: createObservableArray.ObservableArrayIO( NumberIO )
     } );
 
-    this.accessibleChallengePromptProperty = this.accessibleChallengePromptPattern.createProperty( {
+    this.accessibleChallengePromptProperty = NumberPairsFluent.a11y.gameScreen.challengePrompt.createProperty( {
+      color: derived(
+        this.challengeProperty,
+        NumberPairsFluent.a11y.leftAddendColorStringProperty,
+        NumberPairsFluent.a11y.rightAddendColorStringProperty,
+        challenge => challenge.missing === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value : NumberPairsFluent.a11y.rightAddendColorStringProperty.value ),
+      levelType: this.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens',
       leftAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
         ( challenge, whatNumber ) => challenge.missing !== 'a' ? challenge.a : whatNumber ),
       rightAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,

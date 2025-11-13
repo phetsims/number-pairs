@@ -320,10 +320,8 @@ type StringsType = {
     };
     'gameScreen': {
       'whatNumberStringProperty': LocalizedStringProperty;
-      'decompositionChallengePromptStringProperty': LocalizedStringProperty;
-      'challengeSumPromptStringProperty': LocalizedStringProperty;
-      'addendOrSumStringProperty': LocalizedStringProperty;
-      'accessibleChallengePromptFinalSentenceStringProperty': LocalizedStringProperty;
+      'challengePromptStringProperty': LocalizedStringProperty;
+      'challengePromptHelpTextStringProperty': LocalizedStringProperty;
       'testCurrentAnswerSection': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
         'accessibleParagraphStringProperty': LocalizedStringProperty;
@@ -340,35 +338,27 @@ type StringsType = {
       };
       'level1': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level2': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level3': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level4': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level5': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level6': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level7': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'level8': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
-        'accessibleChallengePromptStringProperty': LocalizedStringProperty;
       };
       'answerButton': {
         'wrongAccessibleNameStringProperty': LocalizedStringProperty;

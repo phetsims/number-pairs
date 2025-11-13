@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import FluentPattern, { type FluentVariable } from '../../../../chipper/js/browser/FluentPattern.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import numberPairs from '../../numberPairs.js';
@@ -25,13 +24,12 @@ export default class NumberLineLevel extends Level {
     color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
     description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
     accessibleHelpText: TReadOnlyProperty<string>,
-    accessibleChallengePromptPattern: FluentPattern<{ leftAddend: FluentVariable; rightAddend: FluentVariable; total: FluentVariable }>,
     range: InputRange,
     type: ChallengeType,
     createChallenge: ( isFirst: boolean ) => Challenge,
     providedOptions: LevelOptions
   ) {
-    super( levelNumber, color, description, accessibleHelpText, accessibleChallengePromptPattern, range, type, createChallenge, RepresentationType.NUMBER_LINE, providedOptions );
+    super( levelNumber, color, description, accessibleHelpText, range, type, createChallenge, RepresentationType.NUMBER_LINE, providedOptions );
 
     this.tickValuesVisibleProperty = new BooleanProperty( false, {
       tandem: providedOptions.tandem.createTandem( 'tickValuesVisibleProperty' ),

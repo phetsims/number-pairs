@@ -424,18 +424,19 @@ a11y:
 
   # Game
   gameScreen:
-    whatNumber:                             what number
-    decompositionChallengePrompt:           '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
-    challengeSumPrompt:                     '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.accessibleChallengePromptFinalSentence }'
+    whatNumber: what number
+    challengePrompt:
+      select_challengeType:
+        decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.challengePromptHelpText }'
+        sum:           '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.challengePromptHelpText }'
+    challengePromptHelpText:
+      select_levelType:
+        kittens:
+          select_addendOrSum:
+            addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
+            sum:    Choose number for sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
+        numberLine: Choose number for { a11y.gameScreen.challengeType } to make { $color } jump have that length. Check Answer to submit.
 
-    addendOrSum:
-      select_addendOrSum:
-        addend: addend
-        sum:    sum
-    accessibleChallengePromptFinalSentence: |-
-                                            Find missing {a11y.gameScreen.addendOrSum} to solve challenge. Select an 
-                                              answer from { a11y.gameScreen.answerChoices }. Count, organize, or hide 
-                                              kittens in Challenge Supports if needed.
     testCurrentAnswerSection:
       accessibleHeading: Test Current Answer
       accessibleParagraph:
@@ -476,29 +477,21 @@ a11y:
           kittens:    Kittens hidden.
           numberLine: Number line hidden.
     level1:
-      accessibleHelpText:        Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
-      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
+      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 2 and 10.
     level2:
-      accessibleHelpText:        Find a missing addend in a { a11y.numberBondOrBarModel } with total always 10.
-      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
+      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total always 10.
     level3:
-      accessibleHelpText:        Find a missing addend in a decomposition equation with total always 10.
-      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
+      accessibleHelpText: Find a missing addend in a decomposition equation with total always 10.
     level4:
-      accessibleHelpText:        Find a missing addend in a sum equation with total always 10.
-      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
+      accessibleHelpText: Find a missing addend in a sum equation with total always 10.
     level5:
-      accessibleHelpText:        Find a missing addend in a { a11y.numberBondOrBarModel } with total between 11 and 20.
-      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
+      accessibleHelpText: Find a missing addend in a { a11y.numberBondOrBarModel } with total between 11 and 20.
     level6:
-      accessibleHelpText:        Find a missing addend in a decomposition equation with total between 11 and 20.
-      accessibleChallengePrompt: '{ a11y.gameScreen.decompositionChallengePrompt }'
+      accessibleHelpText: Find a missing addend in a decomposition equation with total between 11 and 20.
     level7:
-      accessibleHelpText:        Find a missing addend or total in a sum equation with total between 11 and 20.
-      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
+      accessibleHelpText: Find a missing addend or total in a sum equation with total between 11 and 20.
     level8:
-      accessibleHelpText:        Find a missing addend in a sum equation using the number line with total between 0 and 20.
-      accessibleChallengePrompt: '{ a11y.gameScreen.challengeSumPrompt }'
+      accessibleHelpText: Find a missing addend in a sum equation using the number line with total between 0 and 20.
     answerButton:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:

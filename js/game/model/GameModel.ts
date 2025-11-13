@@ -145,7 +145,6 @@ export default class GameModel implements TModel {
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
       new Level( 1, NumberPairsColors.level1StatusBarColorProperty, level1DescriptionProperty, level1HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level1.accessibleChallengePrompt,
         'zeroToTen', 'bond', isFirst => {
           const y = dotRandom.nextIntBetween( 2, 10 );
           const { a, b } = generateAddends( y, true );
@@ -162,7 +161,6 @@ export default class GameModel implements TModel {
        * - The counting area can be hidden
        */
       new Level( 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty, level2HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level2.accessibleChallengePrompt,
         'zeroToTen', 'bond', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level2' )
         } ),
@@ -173,7 +171,6 @@ export default class GameModel implements TModel {
        * Identical to level 2, except the representation of the decomposition is an equation
        */
       new Level( 3, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level3StringProperty, level3HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level3.accessibleChallengePrompt,
         'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
           tandem: tandem.createTandem( 'level3' )
         } ),
@@ -184,7 +181,6 @@ export default class GameModel implements TModel {
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
       new Level( 4, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level4StringProperty, level4HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level4.accessibleChallengePrompt,
         'zeroToTen', 'sumEquation', isFirst => {
           const y = 10;
           const { a, b } = generateAddends( y, isFirst );
@@ -200,7 +196,6 @@ export default class GameModel implements TModel {
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
       new Level( 5, NumberPairsColors.level567StatusBarColorProperty, level5DescriptionProperty, level5HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level5.accessibleChallengePrompt,
         'zeroToTwenty', 'bond', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, true );
@@ -217,7 +212,6 @@ export default class GameModel implements TModel {
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        */
       new Level( 6, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level6StringProperty, level6HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level6.accessibleChallengePrompt,
         'zeroToTwenty', 'decompositionEquation', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
@@ -234,7 +228,6 @@ export default class GameModel implements TModel {
        * Value range for y is from 11-20
        */
       new Level( 7, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level7StringProperty, level7HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level7.accessibleChallengePrompt,
         'zeroToTwenty', 'sumEquation', isFirst => {
           const y = dotRandom.nextIntBetween( 11, 20 );
           const { a, b } = generateAddends( y, isFirst );
@@ -250,7 +243,6 @@ export default class GameModel implements TModel {
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
       new NumberLineLevel( 8, NumberPairsColors.level8StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level8StringProperty, level8HelpTextProperty,
-        NumberPairsFluent.a11y.gameScreen.level8.accessibleChallengePrompt,
         'zeroToTwenty', 'numberLine', isFirst => {
 
           // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
