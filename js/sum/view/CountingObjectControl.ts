@@ -17,15 +17,14 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
 import InteractiveHighlightingNode, { InteractiveHighlightingNodeOptions } from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
@@ -37,10 +36,9 @@ import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import NumberPairsConstants from '../../common/NumberPairsConstants.js';
+import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
 
 type SelfOptions = {
   interruptPointers: () => void;
@@ -60,18 +58,44 @@ export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingN
 const MAX_ICON_HEIGHT = 38; // Empirically determined
 const MAX_ICON_WIDTH = 28; // Empirically determined
 
+// Icon for number line, see https://github.com/phetsims/number-pairs/issues/358
 const createNumberLineIcon = ( fill: TReadOnlyProperty<Color> ) => {
-  const icon = new Rectangle( 0, 0, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, {
+
+  const background = new Rectangle( 0, 0, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, {
+    fill: 'white',
+    stroke: null
+  } );
+
+  const midLine = new Line( 0, MAX_ICON_HEIGHT / 2, MAX_ICON_WIDTH, MAX_ICON_HEIGHT / 2, {
+    stroke: 'black',
+    lineWidth: 1
+  } );
+
+  const horizontalInset = 4;
+  const tickHeight = 20;
+  const leftTick = new Line( horizontalInset, MAX_ICON_HEIGHT / 2 - tickHeight / 2, horizontalInset, MAX_ICON_HEIGHT / 2 + tickHeight / 2, {
+    stroke: 'black',
+    lineWidth: 1
+  } );
+
+  const rightTick = new Line( MAX_ICON_WIDTH - horizontalInset, MAX_ICON_HEIGHT / 2 - tickHeight / 2, MAX_ICON_WIDTH - horizontalInset, MAX_ICON_HEIGHT / 2 + tickHeight / 2, {
+    stroke: 'black',
+    lineWidth: 1
+  } );
+
+  const rectHeight = 6;
+  const fillRectAboveLine = new Rectangle( 0, MAX_ICON_HEIGHT / 2 - rectHeight, MAX_ICON_WIDTH, rectHeight, {
     fill: fill,
-    stroke: NumberPairsConstants.GET_DARKER_COLOR( fill ),
-    cornerRadius: 5
+    stroke: 'darkGray',
+    lineWidth: 1
   } );
-  const numberOne = new Text( '1', {
-    font: new PhetFont( 24 ),
-    center: icon.center
-  } );
-  icon.addChild( numberOne );
-  return icon;
+  background.addChild( fillRectAboveLine );
+
+  background.addChild( leftTick );
+  background.addChild( rightTick );
+  background.addChild( midLine );
+
+  return background;
 };
 const LEFT_ADDEND_ICONS = {
   bead: new Image( beadYellow_svg, { maxHeight: MAX_ICON_HEIGHT, maxWidth: MAX_ICON_WIDTH } ),
