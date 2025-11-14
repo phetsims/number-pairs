@@ -66,7 +66,9 @@ const createNumberLineIcon = ( fill: TReadOnlyProperty<Color> ) => {
     stroke: null
   } );
 
-  const midLine = new Line( 0, MAX_ICON_HEIGHT / 2, MAX_ICON_WIDTH, MAX_ICON_HEIGHT / 2, {
+  const shiftVertical = 4;
+
+  const midLine = new Line( 0, MAX_ICON_HEIGHT / 2 + shiftVertical, MAX_ICON_WIDTH, MAX_ICON_HEIGHT / 2 + shiftVertical, {
     stroke: 'black',
     lineWidth: 1
   } );
@@ -83,8 +85,8 @@ const createNumberLineIcon = ( fill: TReadOnlyProperty<Color> ) => {
     lineWidth: 1
   } );
 
-  const rectHeight = 6;
-  const fillRectAboveLine = new Rectangle( 0, MAX_ICON_HEIGHT / 2 - rectHeight, MAX_ICON_WIDTH, rectHeight, {
+  const rectTopRelative = 6;
+  const fillRectAboveLine = new Rectangle( 0, MAX_ICON_HEIGHT / 2 - rectTopRelative, MAX_ICON_WIDTH, rectTopRelative + shiftVertical, {
     fill: fill,
     stroke: 'darkGray',
     lineWidth: 1
