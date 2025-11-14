@@ -790,7 +790,7 @@
       },
       "responses": {
         "answerSelected": {
-          "value": "{ $representationType ->\n  [kittens] {$value} chosen for { a11y_gameScreen_challengeType }. {$value} { $color } kittens now in Counting Area.\n  *[numberLine] {$value} chosen for { a11y_gameScreen_challengeType }. Unknown jump now {$value} on number line.\n}"
+          "value": "{ $representationType ->\n  [kittens] {$value} chosen for { a11y_gameScreen_challengeType }. {$value} { $color } kittens now in Counting Area.\n  [numberLine] {$value} chosen for { a11y_gameScreen_challengeType }. Unknown jump now {$value} on number line.\n  *[sum] { $value } chosen for sum. No new kittens added or removed from Counting Area.\n}"
         },
         "answerCleared": {
           "value": "Answer cleared."

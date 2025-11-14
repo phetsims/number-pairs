@@ -156,7 +156,8 @@ export default class AnswerButtonGroup extends GridBox {
             value: value,
             challengeType: challengeProperty.value.missing === 'a' ? 'leftAddend' :
                            challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total',
-            representationType: challengeType === 'numberLine' ? 'numberLine' : 'kittens'
+            representationType: challengeProperty.value.missing === 'y' ? 'sum' :
+                                challengeType === 'numberLine' ? 'numberLine' : 'kittens'
           } ) );
         }
         else {

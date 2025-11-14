@@ -517,7 +517,7 @@ a11y:
         select_levelType:
           decompositionEquation: Decomposition Equation Challenge
           sumEquation:           Sum Equation Challenge
-          bondOrBarModel: '{ a11y.numberBondOrBarModel } Challenge'
+          bondOrBarModel:        '{ a11y.numberBondOrBarModel } Challenge'
     answerButton:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
@@ -531,6 +531,7 @@ a11y:
         select_representationType:
           kittens:    '{$value} chosen for { a11y.gameScreen.challengeType }. {$value} { $color } kittens now in Counting Area.'
           numberLine: '{$value} chosen for { a11y.gameScreen.challengeType }. Unknown jump now {$value} on number line.'
+          sum:        '{ $value } chosen for sum. No new kittens added or removed from Counting Area.'
       answerCleared:       Answer cleared.
       correctAnswer:
         select_levelType:
