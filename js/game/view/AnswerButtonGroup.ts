@@ -179,7 +179,7 @@ export default class AnswerButtonGroup extends GridBox {
         visibleProperty: isWrongProperty
       } );
       const checkMark = new Text( '✓', {
-        font: new PhetFont( 23 ),
+        font: new PhetFont( 16 ),
         fill: NumberPairsColors.checkMarkColorProperty,
         pickable: false,
         visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
@@ -189,8 +189,8 @@ export default class AnswerButtonGroup extends GridBox {
 
       wrongMark.left = MARK_OFFSET_X;
       wrongMark.top = MARK_OFFSET_Y;
-      checkMark.left = MARK_OFFSET_X;
-      checkMark.top = MARK_OFFSET_Y;
+      checkMark.left = MARK_OFFSET_X + 1;
+      checkMark.top = MARK_OFFSET_Y + 1;
 
       toggleNode.addChild( wrongMark );
       toggleNode.addChild( checkMark );
