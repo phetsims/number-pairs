@@ -113,16 +113,24 @@ export default class CountingAreaDescriptionNode extends Node {
       totalProperty: totalProperty
     } );
 
+    // The accessibleHelpText that describes the interaction needs to come after the counting area list.
+    // A placeholder Node gives us more control over the order.
+    const accessibleHelpTextNode = new Node();
+
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
-      accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
       children: [
         countingAreaAccessibleListNode,
+        accessibleHelpTextNode,
         numberLineDescription
       ]
     }, providedOptions );
 
     super( options );
+
+    // So that setting the `accessibleHelpText` on this Node forwards the content to
+    // the correct child Node.
+    ParallelDOM.forwardHelpText( this, accessibleHelpTextNode );
 
     this.leftValueStringProperty = leftValueStringProperty;
     this.rightValueStringProperty = rightValueStringProperty;
