@@ -30,7 +30,7 @@ import GridBox, { GridBoxOptions } from '../../../../scenery/js/layout/nodes/Gri
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import type Color from '../../../../scenery/js/util/Color.js';
 import BooleanToggleNode from '../../../../sun/js/BooleanToggleNode.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
@@ -77,6 +77,16 @@ export default class AnswerButtonGroup extends GridBox {
     const isCorrectProperty = modeProperty.derived( mode => mode === 'correct' );
     const alignGroup = new AlignGroup();
     const elements: NumberButtonElements = [];
+    const buttonPressedColorProperty = derived(
+      challengeProperty,
+      NumberPairsColors.answerButtonPressedLeftAddendColorProperty,
+      NumberPairsColors.answerButtonPressedRightAddendColorProperty,
+      NumberPairsColors.answerButtonPressedTotalColorProperty,
+      ( challenge, leftPressedColor, rightPressedColor, totalPressedColor ) => {
+        return challenge.missing === 'a' ? leftPressedColor :
+               challenge.missing === 'b' ? rightPressedColor :
+               totalPressedColor;
+      } );
 
     // Helper to create a fixed-size button for a given number.
     const createElement = ( value: number ) => {
@@ -114,6 +124,7 @@ export default class AnswerButtonGroup extends GridBox {
         tandem: buttonTandem,
         content: labelBox,
         baseColor: buttonColorProperty,
+        pressedFillColorProperty: buttonPressedColorProperty,
         lineWidth: buttonLineWidth,
         touchAreaYDilation: Y_SPACING / 2,
         mouseAreaYDilation: Y_SPACING / 2,

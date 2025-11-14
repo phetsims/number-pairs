@@ -56,6 +56,15 @@ const NumberPairsColors = {
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A5B3EE'
   } ),
+  answerButtonPressedLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedLeftAddend', {
+    default: '#FFFAE0'
+  } ),
+  answerButtonPressedRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedRightAddend', {
+    default: '#D7E0F9'
+  } ),
+  answerButtonPressedTotalColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedTotal', {
+    default: '#D8F3E4'
+  } ),
   numberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineBackground', {
     default: '#FFFFFF'
   } ),
