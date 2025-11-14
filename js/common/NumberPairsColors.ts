@@ -14,7 +14,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import numberPairs from '../numberPairs.js';
 
@@ -108,7 +107,7 @@ const NumberPairsColors = {
     default: '#0F710F'
   } ),
   incorrectColorProperty: new ProfileColorProperty( numberPairs, 'incorrect', {
-    default: PhetColorScheme.RED_COLORBLIND
+    default: 'red'
   } ),
   unansweredColorProperty: new ProfileColorProperty( numberPairs, 'unanswered', {
     default: 'gray'
