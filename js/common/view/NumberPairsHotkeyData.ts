@@ -6,7 +6,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import StringProperty from '../../../../axon/js/StringProperty.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import numberPairs from '../../numberPairs.js';
@@ -33,28 +32,28 @@ export default class NumberPairsHotkeyData {
     navigation: new HotkeyData( {
       keys: NumberPairsHotkeyData.NAVIGATION_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: new StringProperty( '' ) // Unused, label is provided separately. Yet we want to use the other infrastructure from HotkeyData
+      binderName: 'Group Select Navigation'
     } ),
 
     // Navigation with shift for larger steps
     navigationShift: new HotkeyData( {
       keys: NumberPairsHotkeyData.NAVIGATION_SHIFT_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: new StringProperty( '' ) // Unused, label is provided separately. Yet we want to use the other infrastructure from HotkeyData
+      binderName: 'Group Select Navigation with Shift'
     } ),
 
     // Page-step navigation
     navigationPage: new HotkeyData( {
       keys: NumberPairsHotkeyData.NAVIGATION_PAGE_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: new StringProperty( '' ) // Unused, label is provided separately. Yet we want to use the other infrastructure from HotkeyData
+      binderName: 'Group Select Page Navigation'
     } ),
 
     // Jump to first/last item
     jumpToFirstOrLast: new HotkeyData( {
       keys: [ ...NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS, ...NumberPairsHotkeyData.JUMP_TO_LAST_KEYS ],
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: new StringProperty( '' ) // Unused, label is provided separately. Yet we want to use the other infrastructure from HotkeyData
+      binderName: 'Group Select Jump to First/Last'
     } )
   };
 
@@ -98,7 +97,7 @@ export default class NumberPairsHotkeyData {
     navigation: new HotkeyData( {
       keys: NumberPairsHotkeyData.NAVIGATION_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: new StringProperty( '' ) // Unused, label is provided separately. Yet we want to use the other infrastructure from HotkeyData
+      binderName: 'Answer Button Group Navigation'
     } )
   };
 }
