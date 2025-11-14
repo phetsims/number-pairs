@@ -314,18 +314,20 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         NumberPairsPreferences.numberModelTypeProperty,
         NumberPairsFluent.numberBondStringProperty,
         NumberPairsFluent.barModelStringProperty, ( numberModelType, numberBondString, barModelString ) => {
-          return level.type === 'decompositionEquation' || level.type === 'sumEquation' ? NumberPairsFluent.equationStringProperty.value :
+          return level.levelNumber === 8 ? NumberPairsFluent.equationStringProperty.value :
+                 level.type === 'decompositionEquation' || level.type === 'sumEquation' ? NumberPairsFluent.equationStringProperty.value :
                  numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
         } ),
       children: [
         new Node( {
           tagName: 'div',
           accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
-            barOrBondOrEquation: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
-              return level.type === 'decompositionEquation' ? 'decompositionEquation' :
-                     level.type === 'sumEquation' ? 'sumEquation' :
-                     numberModelType.id;
-            } ),
+            barOrBondOrEquation: level.levelNumber === 8 ? 'sumEquation' :
+                                 NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
+                                   return level.type === 'decompositionEquation' ? 'decompositionEquation' :
+                                          level.type === 'sumEquation' ? 'sumEquation' :
+                                          numberModelType.id;
+                                 } ),
             proportions: proportionsStringProperty,
             screenType: 'other',
             totalView: 'shown', // unused
