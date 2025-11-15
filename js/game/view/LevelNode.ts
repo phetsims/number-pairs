@@ -318,7 +318,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
             screenType: 'other',
             totalView: 'shown', // unused
 
-            // TODO: "Hit Check to submit answer" appears in number bond but not the others, see https://github.com/phetsims/number-pairs/issues/351
             left: derived(
               level.challengeProperty,
               level.selectedGuessProperty,
