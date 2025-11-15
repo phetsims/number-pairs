@@ -223,6 +223,7 @@ addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnc
 addToMapIfDefined( 'a11y_equation_accessibleParagraphPattern', 'a11y.equation.accessibleParagraphPatternStringProperty' );
 addToMapIfDefined( 'a11y_equation_accessibleParagraphHiddenPattern', 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_whatNumber', 'a11y.gameScreen.whatNumberStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_questionMark', 'a11y.gameScreen.questionMarkStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_challengePrompt', 'a11y.gameScreen.challengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_challengePromptHelpText', 'a11y.gameScreen.challengePromptHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_countingArea_accessibleHeading', 'a11y.gameScreen.countingArea.accessibleHeadingStringProperty' );
@@ -592,6 +593,7 @@ const NumberPairsFluent = {
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {
       whatNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_whatNumber', _.get( NumberPairsStrings, 'a11y.gameScreen.whatNumberStringProperty' ) ),
+      questionMarkStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_questionMark', _.get( NumberPairsStrings, 'a11y.gameScreen.questionMarkStringProperty' ) ),
       challengePrompt: new FluentPattern<{ addendOrSum: 'addend' | 'sum' | TReadOnlyProperty<'addend' | 'sum'>, challengeType: 'decomposition' | 'sum' | 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'decomposition' | 'sum' | 'leftAddend' | 'rightAddend' | 'total'>, color: FluentVariable, leftAddend: FluentVariable, levelType: 'kittens' | 'numberLine' | TReadOnlyProperty<'kittens' | 'numberLine'>, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_challengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.challengePromptStringProperty' ), [{"name":"addendOrSum","variants":["addend","sum"]},{"name":"challengeType","variants":["decomposition","sum","leftAddend","rightAddend","total"]},{"name":"color"},{"name":"leftAddend"},{"name":"levelType","variants":["kittens","numberLine"]},{"name":"rightAddend"},{"name":"total"}] ),
       challengePromptHelpText: new FluentPattern<{ addendOrSum: 'addend' | 'sum' | TReadOnlyProperty<'addend' | 'sum'>, challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'>, color: FluentVariable, levelType: 'kittens' | 'numberLine' | TReadOnlyProperty<'kittens' | 'numberLine'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_challengePromptHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.challengePromptHelpTextStringProperty' ), [{"name":"addendOrSum","variants":["addend","sum"]},{"name":"challengeType","variants":["leftAddend","rightAddend","total"]},{"name":"color"},{"name":"levelType","variants":["kittens","numberLine"]}] ),
       countingArea: {

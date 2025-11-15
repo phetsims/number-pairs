@@ -321,9 +321,30 @@ export default abstract class LevelNode extends ChallengeScreenNode {
             // TODO: Listen to ? and translate it, see https://github.com/phetsims/number-pairs/issues/377
             // TODO: Listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
             // TODO: Hit Check to submit answer. appears in number bond but not the others, see https://github.com/phetsims/number-pairs/issues/351
-            left: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'a' ? selectedGuess === null ? '?' : selectedGuess : challenge.a ),
-            right: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'b' ? selectedGuess === null ? '?' : selectedGuess : challenge.b ),
-            total: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'y' ? selectedGuess === null ? '?' : selectedGuess : challenge.y )
+            left: derived(
+              level.challengeProperty,
+              level.selectedGuessProperty,
+              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+              ( challenge, selectedGuess, questionMark ) =>
+                challenge.missing === 'a' ?
+                selectedGuess === null ? questionMark :
+                selectedGuess : challenge.a ),
+            right: derived(
+              level.challengeProperty,
+              level.selectedGuessProperty,
+              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+              ( challenge, selectedGuess, questionMark ) =>
+                challenge.missing === 'b' ?
+                selectedGuess === null ? questionMark :
+                selectedGuess : challenge.b ),
+            total: derived(
+              level.challengeProperty,
+              level.selectedGuessProperty,
+              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+              ( challenge, selectedGuess, questionMark ) =>
+                challenge.missing === 'y' ?
+                selectedGuess === null ? questionMark :
+                selectedGuess : challenge.y )
           } )
         } )
       ]

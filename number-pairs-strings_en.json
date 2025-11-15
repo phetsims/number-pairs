@@ -706,6 +706,9 @@
       "whatNumber": {
         "value": "what number"
       },
+      "questionMark": {
+        "value": "question mark"
+      },
       "challengePrompt": {
         "value": "{ $challengeType ->\n  [decomposition] { $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y_gameScreen_challengePromptHelpText }\n  *[sum] { $leftAddend } plus { $rightAddend } equals { $total }? { a11y_gameScreen_challengePromptHelpText }\n}"
       },

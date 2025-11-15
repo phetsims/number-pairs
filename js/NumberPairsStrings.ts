@@ -321,6 +321,7 @@ type StringsType = {
     };
     'gameScreen': {
       'whatNumberStringProperty': LocalizedStringProperty;
+      'questionMarkStringProperty': LocalizedStringProperty;
       'challengePromptStringProperty': LocalizedStringProperty;
       'challengePromptHelpTextStringProperty': LocalizedStringProperty;
       'countingArea': {
