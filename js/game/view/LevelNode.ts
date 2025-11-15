@@ -280,7 +280,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       }
     } );
 
-    // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
     const proportionsStringProperty = derived(
       level.challengeProperty,
       NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
