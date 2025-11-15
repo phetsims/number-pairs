@@ -318,8 +318,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
             screenType: 'other',
             totalView: 'shown', // unused
 
-            // TODO: Listen to ? and translate it, and listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
-            // TODO: Does question mark get pronounced correctly?, see https://github.com/phetsims/number-pairs/issues/351
+            // TODO: Listen to ? and translate it, see https://github.com/phetsims/number-pairs/issues/377
+            // TODO: Listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
             // TODO: Hit Check to submit answer. appears in number bond but not the others, see https://github.com/phetsims/number-pairs/issues/351
             left: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'a' ? selectedGuess === null ? '?' : selectedGuess : challenge.a ),
             right: derived( level.challengeProperty, level.selectedGuessProperty, ( challenge, selectedGuess ) => challenge.missing === 'b' ? selectedGuess === null ? '?' : selectedGuess : challenge.b ),
