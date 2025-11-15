@@ -174,7 +174,6 @@ export default class NumberLineLevelNode extends LevelNode {
     } );
     this.addChild( challengeSupportsSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.promptSection,
       this.visualPromptSection,
       this.countingAreaSection,
       challengeSupportsSection,

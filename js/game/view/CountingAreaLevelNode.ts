@@ -98,7 +98,6 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
     this.addChild( challengeSupportsSection );
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.promptSection,
       this.visualPromptSection,
       this.countingAreaSection,
       challengeSupportsSection,

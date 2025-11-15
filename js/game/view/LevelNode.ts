@@ -68,7 +68,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly checkButton: RectangularPushButton;
   public readonly nextButton: RectangularPushButton;
   protected readonly visualPromptSection: Node;
-  protected readonly promptSection: Node;
   protected readonly countingAreaSection: Node;
 
   protected constructor( getLevel: ( levelNumber: number ) => Level,
@@ -81,7 +80,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     const options = optionize<LevelNodeOptions, SelfOptions, ChallengeScreenNodeOptions>()( {
       countingAreaBounds: GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS,
-      accessibleChallengePrompt: null, // TODO: This was moved to a new prompt section, is that ok? see https://github.com/phetsims/number-pairs/issues/351
+      accessibleChallengePrompt: level.accessibleChallengePromptProperty,
 
       accessibleHeadingContent: NumberPairsFluent.a11y.gameScreen.level.accessibleHeading.createProperty( {
         levelType: level.type === 'numberLine' ? 'sumEquation' : level.type === 'bond' ? 'bondOrBarModel' : level.type,
@@ -294,19 +293,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
         return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
       } );
-
-    const promptSection = new Node( {
-      tagName: 'div',
-      accessibleHeading: 'Challenge Prompt', // TODO: i18n, see https://github.com/phetsims/number-pairs/issues/351
-      children: [
-        new Node( {
-          tagName: 'div',
-          accessibleParagraph: level.accessibleChallengePromptProperty
-        } )
-      ]
-    } );
-    this.addChild( promptSection );
-    this.promptSection = promptSection;
 
     const visualPromptSection = new Node( {
       tagName: 'div',
