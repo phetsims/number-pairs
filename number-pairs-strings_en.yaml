@@ -449,10 +449,16 @@ a11y:
         numberLine: Choose number for { a11y.gameScreen.challengeType } to make { $color } jump have that length. Check Answer to submit.
     countingArea:
       accessibleHeading:   Counting Area
-      numberLineSentence:  Right now, number line shows a green line representing total, a yellow jump from left edge to dot, and a blue jump from dot to total.
-
-      # TODO: left addend or right addend may be the unknown. See https://github.com/phetsims/number-pairs/issues/351
-      numberLineAddends:   '{ $leftAddend } is shown above yellow jump representing left addend. {$rightAddend} is shown above grey jump representing { $guess }.'
+      numberLineLeftAddendColor:
+        select_leftAddendMissing:
+          missing:    gray
+          notMissing: yellow
+      numberLineRightAddendColor:
+        select_rightAddendMissing:
+          missing:    gray
+          notMissing: blue
+      numberLineSentence:  Right now, number line shows a green line representing total, a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.
+      numberLineAddends:   '{ $leftAddend } is shown above { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump representing right addend.'
       numberLineTickMarks: 'Dot at { $total }.'
       accessibleParagraph:
         select_type:

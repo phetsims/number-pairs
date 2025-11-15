@@ -719,11 +719,17 @@
         "accessibleHeading": {
           "value": "Counting Area"
         },
+        "numberLineLeftAddendColor": {
+          "value": "{ $leftAddendMissing ->\n  [missing] gray\n  *[notMissing] yellow\n}"
+        },
+        "numberLineRightAddendColor": {
+          "value": "{ $rightAddendMissing ->\n  [missing] gray\n  *[notMissing] blue\n}"
+        },
         "numberLineSentence": {
-          "value": "Right now, number line shows a green line representing total, a yellow jump from left edge to dot, and a blue jump from dot to total."
+          "value": "Right now, number line shows a green line representing total, a { a11y_gameScreen_countingArea_numberLineLeftAddendColor } jump from left edge, then a { a11y_gameScreen_countingArea_numberLineRightAddendColor } jump to total."
         },
         "numberLineAddends": {
-          "value": "{ $leftAddend } is shown above yellow jump representing left addend. {$rightAddend} is shown above grey jump representing { $guess }."
+          "value": "{ $leftAddend } is shown above { a11y_gameScreen_countingArea_numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y_gameScreen_countingArea_numberLineRightAddendColor } jump representing right addend."
         },
         "numberLineTickMarks": {
           "value": "Dot at { $total }."

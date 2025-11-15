@@ -359,6 +359,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
           tagName: 'div',
           accessibleParagraph: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleParagraph.createProperty( {
             leftAddend: level.countingObjectsDelegate.leftAddendProperty,
+            leftAddendMissing: level.challengeProperty.derived( challenge => challenge.missing === 'a' ? 'missing' : 'notMissing' ),
+            rightAddendMissing: level.challengeProperty.derived( challenge => challenge.missing === 'b' ? 'missing' : 'notMissing' ),
             rightAddend: level.countingObjectsDelegate.rightAddendProperty,
             type: level.representationType === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
             visible: level instanceof NumberLineLevel ? derived( level.numberLineAddendsVisibleProperty, level.tickValuesVisibleProperty, ( addendsVisible, tickValuesVisible ) => {
@@ -367,7 +369,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
                      addendsVisible && !tickValuesVisible ? 'addends' :
                      'both';
             } ) : 'none',
-            guess: level.selectedGuessProperty.derived( guess => guess === null ? '?' : guess ),
             total: derived( level.selectedGuessProperty, level.challengeProperty, ( guess, challenge ) => {
               return ( guess || 0 ) + ( challenge.missing === 'a' ? challenge.b : challenge.a );
             } )
