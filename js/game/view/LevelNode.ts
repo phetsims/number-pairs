@@ -353,7 +353,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     const countingAreaSection = new Node( {
       tagName: 'div',
-      accessibleHeading: 'Counting Area', // TODO: a11y, see https://github.com/phetsims/number-pairs/issues/351
+      accessibleHeading: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleHeadingStringProperty,
       children: [
         new Node( {
           tagName: 'div',
