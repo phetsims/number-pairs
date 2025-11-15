@@ -8,7 +8,6 @@
  */
 
 import derived from '../../../../axon/js/derived.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -282,17 +281,14 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     } );
 
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
-    // TODO: Duplicated with NumberBondAccordionBox, see https://github.com/phetsims/number-pairs/issues/351
-    const leftAddendProperty = level.challengeProperty.derived( challenge => challenge.a );
-    const rightAddendProperty = level.challengeProperty.derived( challenge => challenge.b );
-    const totalProperty = level.challengeProperty.derived( challenge => challenge.y );
-    const proportionsStringProperty = new DerivedProperty( [ leftAddendProperty, rightAddendProperty, totalProperty,
-        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
-        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
-      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
-        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
-      } );
+    const proportionsStringProperty = derived(
+      level.challengeProperty,
+      NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+      NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+      NumberPairsFluent.a11y.controls.numberModel.equalStringProperty,
+      ( challenge, largerAndSmaller, smallerAndLarger, equal ) => challenge.a === challenge.b ? equal :
+                                                                  challenge.a > challenge.b ? largerAndSmaller :
+                                                                  smallerAndLarger );
 
     const visualPromptSection = new Node( {
       tagName: 'div',
