@@ -318,7 +318,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
             screenType: 'other',
             totalView: 'shown', // unused
 
-            // TODO: Listen to ? and translate it, see https://github.com/phetsims/number-pairs/issues/377
             // TODO: Listen to selectedGuessProperty changes, see https://github.com/phetsims/number-pairs/issues/351
             // TODO: Hit Check to submit answer. appears in number bond but not the others, see https://github.com/phetsims/number-pairs/issues/351
             left: derived(
