@@ -195,7 +195,12 @@ export default class NumberLineNode extends Node {
           leftAddendLabel.bottom = -NUMBER_LINE_POINT_RADIUS - 8;
         }
         else {
-          leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -LABEL_MARGIN );
+          if ( leftAddendArrow.pointsToItself ) {
+            leftAddendLabel.centerBottom = new Vector2( trackModelViewTransform.modelToViewX( leftAddend ), leftAddendArrow.top - LABEL_MARGIN );
+          }
+          else {
+            leftAddendLabel.centerBottom = bounds.centerTop.plusXY( 0, -LABEL_MARGIN );
+          }
         }
       } );
 
