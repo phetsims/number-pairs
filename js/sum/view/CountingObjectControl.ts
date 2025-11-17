@@ -74,7 +74,7 @@ const createNumberLineIcon = ( fill: TReadOnlyProperty<Color> ) => {
   } );
 
   const horizontalInset = 4;
-  const tickHeight = 20;
+  const tickHeight = 30;
   const leftTick = new Line( horizontalInset, MAX_ICON_HEIGHT / 2 - tickHeight / 2, horizontalInset, MAX_ICON_HEIGHT / 2 + tickHeight / 2, {
     stroke: 'black',
     lineWidth: 1
