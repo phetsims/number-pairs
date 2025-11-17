@@ -437,7 +437,7 @@ a11y:
     whatNumber:   what number
     questionMark: question mark
     challengePrompt:
-      select_challengeType:
+      select_decompositionOrSum:
         decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.challengePromptHelpText }'
         sum:           '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.challengePromptHelpText }'
     challengePromptHelpText:

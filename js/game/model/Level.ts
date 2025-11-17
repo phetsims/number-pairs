@@ -143,7 +143,8 @@ export default class Level {
       total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
         ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber ),
       addendOrSum: this.challengeProperty.derived( challenge => challenge.missing === 'y' ? 'sum' : 'addend' ),
-      challengeType: this.challengeProperty.derived( challenge => challenge.missing === 'a' ? 'leftAddend' : challenge.missing === 'b' ? 'rightAddend' : 'total' )
+      challengeType: this.challengeProperty.derived( challenge => challenge.missing === 'a' ? 'leftAddend' : challenge.missing === 'b' ? 'rightAddend' : 'total' ),
+      decompositionOrSum: ( levelNumber === 4 || levelNumber === 7 || levelNumber === 8 ) ? 'sum' : 'decomposition'
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
