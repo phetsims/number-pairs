@@ -17,13 +17,11 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import HighlightFromNode from '../../../../scenery/js/accessibility/HighlightFromNode.js';
-import InteractiveHighlightingNode, { InteractiveHighlightingNodeOptions } from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
@@ -53,7 +51,7 @@ type SelfOptions = {
   addendStringProperty: TReadOnlyProperty<string>;
   colorStringProperty: TReadOnlyProperty<string>;
 };
-export type CountingObjectControlOptions = WithRequired<InteractiveHighlightingNodeOptions, 'tandem'> & SelfOptions;
+export type CountingObjectControlOptions = WithRequired<NodeOptions, 'tandem'> & SelfOptions;
 
 const MAX_ICON_HEIGHT = 38; // Empirically determined
 const MAX_ICON_WIDTH = 28; // Empirically determined
@@ -111,7 +109,7 @@ const RIGHT_ADDEND_ICONS = {
 };
 
 const ARROW_HEIGHT = 12;
-export default class CountingObjectControl extends InteractiveHighlightingNode {
+export default class CountingObjectControl extends Node {
   private readonly addendVisibleProperty: TReadOnlyProperty<boolean>;
   private readonly redactedValueStringProperty: TReadOnlyProperty<string>;
 
@@ -131,7 +129,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       representationType => representationType === RepresentationType.KITTENS ? 'kittens' :
                             representationType === RepresentationType.BEADS ? 'beads' : 'other' );
 
-    const options = optionize<CountingObjectControlOptions, SelfOptions, InteractiveHighlightingNodeOptions>()( {
+    const options = optionize<CountingObjectControlOptions, SelfOptions, NodeOptions>()( {
       leftAddendProperty: null,
       redactedValueStringProperty: NumberPairsFluent.a11y.unknownNumberStringProperty,
       accessibleName: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleName.createProperty( {
@@ -273,7 +271,7 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       justify: 'center'
     } );
 
-    const superOptions = combineOptions<InteractiveHighlightingNodeOptions>( {
+    const superOptions = combineOptions<NodeOptions>( {
       children: [ vBox ]
     }, options );
     super( superOptions );
@@ -300,8 +298,6 @@ export default class CountingObjectControl extends InteractiveHighlightingNode {
       }
     } );
     this.addInputListener( keyboardInputListener );
-
-    this.setInteractiveHighlight( new HighlightFromNode( this ) );
   }
 
   public setAriaValues( value: string ): void {
