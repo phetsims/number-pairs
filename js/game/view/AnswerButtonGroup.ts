@@ -138,7 +138,8 @@ export default class AnswerButtonGroup extends GridBox {
 
             // disable buttons that have already been guessed
             return !guessedNumbers.includes( value );
-          } )
+          } ),
+        phetioVisiblePropertyInstrumented: false
       } );
 
       const correctAnswerNode = new NumberRectangle(
