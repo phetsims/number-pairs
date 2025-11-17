@@ -56,10 +56,6 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
         description: level.description
       } )
     ), {
-
-      title: new Text( VegasFluent.levelsStringProperty, {
-        font: new PhetFont( { size: 30, weight: 'bold' } )
-      } ),
       gameLevels: NumberPairsQueryParameters.gameLevels,
       tandem: tandem.createTandem( 'infoDialog' )
     } );
