@@ -255,7 +255,8 @@ export default class AnswerButtonGroup extends GridBox {
         accessibleName: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleName.createProperty( {
           challengeType: challengeTypeProperty
         } ),
-        accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty
+        accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty,
+        phetioVisiblePropertyInstrumented: false
       }, providedOptions );
     super( options );
     this.elements = elements;
