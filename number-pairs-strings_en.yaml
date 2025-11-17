@@ -444,9 +444,9 @@ a11y:
       select_levelType:
         kittens:
           select_addendOrSum:
-            addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
-            sum:    Choose number for sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area. Check Answer to submit.
-        numberLine: Choose number for { a11y.gameScreen.challengeType } to make { $color } jump have that length. Check Answer to submit.
+            addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.
+            sum:    Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
+        numberLine: Choose number for { a11y.gameScreen.challengeType } to make grey jump have that length. Check Answer to submit and make jump turn { $color }.
     countingArea:
       accessibleHeading:   Counting Area
       numberLineLeftAddendColor:
@@ -457,7 +457,7 @@ a11y:
         select_rightAddendMissing:
           missing:    gray
           notMissing: blue
-      numberLineSentence:  Right now, number line shows a green line representing total, a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.
+      numberLineSentence:  Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.
       numberLineAddends:   '{ $leftAddend } is shown above { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump representing right addend.'
       numberLineTickMarks: 'Dot at { $total }.'
       accessibleParagraph:
