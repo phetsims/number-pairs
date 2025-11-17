@@ -67,7 +67,8 @@ const NumberPairsPreferences = {
   // Whether the second locale feature is enabled.
   secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale, {
     tandem: Tandem.PREFERENCES.createTandem( 'secondLocaleEnabledProperty' ),
-    phetioReadOnly: true
+    phetioReadOnly: true,
+    phetioFeatured: true
   } ),
 
   // Whether the sim is using its primary locale or secondary locale on screens that support two languages.

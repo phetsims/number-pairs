@@ -92,10 +92,12 @@ export default class Level {
 
     // Create game play related Properties
     this.addendsVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'addendsVisibleProperty' )
+      tandem: tandem.createTandem( 'addendsVisibleProperty' ),
+      phetioFeatured: true
     } );
     this.scoreProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'scoreProperty' )
+      tandem: tandem.createTandem( 'scoreProperty' ),
+      phetioFeatured: true
     } );
 
     this.modeProperty = new StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>( 'idle', {
@@ -107,12 +109,14 @@ export default class Level {
     this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
       tandem: tandem.createTandem( 'challengeProperty' ),
       phetioValueType: Challenge.ChallengeIO,
-      phetioDocumentation: 'Challenge type: ' + this.type
+      phetioDocumentation: 'Challenge type: ' + this.type,
+      phetioFeatured: true
     } );
 
     this.selectedGuessProperty = new Property<number | null>( null, {
       tandem: tandem.createTandem( 'selectedGuessProperty' ),
-      phetioValueType: NullableIO( NumberIO )
+      phetioValueType: NullableIO( NumberIO ),
+      phetioFeatured: true
     } );
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
