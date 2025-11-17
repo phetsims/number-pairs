@@ -51,7 +51,7 @@ const NumberPairsColors = {
     default: '#87D9B0'
   } ),
   attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
-    default: '#FFEE8C'
+    default: '#FFFADB'
   } ),
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A5B3EE'
