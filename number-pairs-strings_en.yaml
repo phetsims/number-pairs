@@ -457,7 +457,7 @@ a11y:
         select_rightAddendMissing:
           missing:    gray
           notMissing: blue
-      numberLineSentence:  Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.
+      numberLineSentence:  'Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.'
       numberLineAddends:   '{ $leftAddend } is shown above { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump representing right addend.'
       numberLineTickMarks: 'Dot at { $total }.'
       accessibleParagraph:
