@@ -65,6 +65,7 @@ export default class NumberLineSlider extends HSlider {
         enabledRangeProperty: enabledRangeProperty,
         numberLineRange: numberLineRange,
         phetioVisiblePropertyInstrumented: false,
+        pickable: false,
         tandem: providedOptions.tandem.createTandem( 'trackNode' )
       } );
 
