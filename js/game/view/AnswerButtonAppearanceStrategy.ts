@@ -36,15 +36,14 @@ export class AnswerButtonAppearanceStrategy {
 
     // dynamic colors
     const baseBrighter4Property = new PaintColorProperty( baseColorProperty, { luminanceFactor: 0.4 } );
-    const baseDarker4Property = providedOptions?.pressedFillColorProperty ??
-                                new PaintColorProperty( new Color( '#D7E0F9' ), { luminanceFactor: 0.0 } );
+    const baseDarker4Property = providedOptions!.pressedFillColorProperty!;
 
     // various fills that are used to alter the button's appearance
     const upFillProperty = baseColorProperty;
     const overFillProperty = baseBrighter4Property;
-    const downFillProperty = baseDarker4Property;
+    const downFillProperty = new PaintColorProperty( baseDarker4Property, { luminanceFactor: -0.4 } );
 
-    buttonBackground.stroke = baseDarker4Property;
+    buttonBackground.stroke = downFillProperty;
     buttonBackground.lineWidth = 1;
 
     // Cache colors
