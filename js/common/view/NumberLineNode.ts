@@ -141,6 +141,7 @@ export default class NumberLineNode extends Node {
       } );
     const rightAddendArrow = new CurvedArrowNode( model.leftAddendProperty, model.totalProperty, trackModelViewTransform, {
       arrowColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      pointsToItselfYRadiusMultiplier: 1.5,
       addStrokeToArrow: true
     } );
     const rightAddendLabel = new NumberRectangle( new Dimension2( LABEL_DIMENSION, LABEL_DIMENSION ), model.rightAddendProperty, {

@@ -34,6 +34,7 @@ type SelfOptions = {
   pointRadius?: number;
   arrowHeadHeight?: number;
   arrowHeadBaseWidth?: number;
+  pointsToItselfYRadiusMultiplier?: number; // Multiplier for the Y radius when the arrow points to itself if it should be different from the normal Y radius
 };
 export type EllipticalArrowNodeOptions = StrictOmit<NodeOptions, 'children' | keyof NodeTransformOptions> & SelfOptions;
 
@@ -54,6 +55,7 @@ export default class CurvedArrowNode extends Node {
   private readonly arrowHeadNode: Path;
   private readonly antiClockwise: boolean;
   private readonly ellipseYRadius: number;
+  private readonly pointsToItselfYRadiusMultiplier: number;
   private _pointsToItself = false;
 
   public constructor(
@@ -66,6 +68,7 @@ export default class CurvedArrowNode extends Node {
       addStrokeToArrow: false,
       belowNumberLine: false,
       curveYRadius: 55,
+      pointsToItselfYRadiusMultiplier: 1,
       arrowTailLineWidth: ARROW_TAIL_LINE_WIDTH,
       pointRadius: NumberLineNode.POINT_RADIUS,
       arrowHeadHeight: ARROW_HEAD_HEIGHT,
@@ -106,6 +109,7 @@ export default class CurvedArrowNode extends Node {
     this.backgroundTailNode = backgroundTailNode;
     this.arrowHeadNode = arrowHeadNode;
     this.ellipseYRadius = options.curveYRadius;
+    this.pointsToItselfYRadiusMultiplier = options.pointsToItselfYRadiusMultiplier;
 
     // If the arrow is above the number line, the arrow should be drawn in a clockwise direction.
     this.antiClockwise = options.belowNumberLine;
@@ -124,7 +128,7 @@ export default class CurvedArrowNode extends Node {
         // describes when the cubic curve connects to itself. This should be at the number line axis, which is 0 and
         // is also still applicable to all the elliptical arc calculations that happen in this class.
         curveCenter = new Vector2( endingValueCenter.x, 0 );
-        const cubicHeight = this.antiClockwise ? -1 * this.ellipseYRadius : this.ellipseYRadius;
+        const cubicHeight = ( this.antiClockwise ? -1 * this.ellipseYRadius : this.ellipseYRadius ) * options.pointsToItselfYRadiusMultiplier;
         const controlPoint1 = new Vector2( curveCenter.x - options.pointRadius * 2, curveCenter.y - cubicHeight );
         const controlPoint2 = new Vector2( curveCenter.x + options.pointRadius * 2, curveCenter.y - cubicHeight );
 
@@ -204,7 +208,7 @@ export default class CurvedArrowNode extends Node {
     // to the same spot. To do this we use a cubic curve that starts at the curve center, and ends at the curveEndPoint
     if ( pointsToItself ) {
       const cubicYDirection = this.antiClockwise ? -1 : 1;
-      const cubicHeight = this.ellipseYRadius * cubicYDirection;
+      const cubicHeight = this.ellipseYRadius * cubicYDirection * this.pointsToItselfYRadiusMultiplier;
       const controlPoint1 = new Vector2( curveCenter.x - NumberLineNode.POINT_RADIUS * 2, curveCenter.y - cubicHeight );
       const controlPoint2 = new Vector2( curveCenter.x + NumberLineNode.POINT_RADIUS * 2, curveCenter.y - cubicHeight );
       tailShape = new Shape().moveToPoint( curveCenter ).cubicCurveToPoint( controlPoint1, controlPoint2, curveEndPoint );
