@@ -55,6 +55,8 @@ export class AnswerButtonAppearanceStrategy {
                               interactionState === ButtonInteractionState.OVER ? overFillProperty :
                               interactionState === ButtonInteractionState.PRESSED ? pressedFillColorProperty :
                               upFillProperty;
+      buttonBackground.stroke = interactionState === ButtonInteractionState.PRESSED ? 'black' : strokeProperty;
+      buttonBackground.lineWidth = interactionState === ButtonInteractionState.PRESSED ? 2 : 1;
     } );
   }
 }

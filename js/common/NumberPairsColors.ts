@@ -58,7 +58,7 @@ const NumberPairsColors = {
     default: '#A5B3EE'
   } ),
   answerButtonPressedLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedLeftAddend', {
-    default: '#FFF6C2'
+    default: '#FFFAE0'
   } ),
   answerButtonPressedRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedRightAddend', {
     default: '#D7E0F9'
