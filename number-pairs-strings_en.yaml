@@ -404,12 +404,12 @@ a11y:
         select_representationType:
           kittens: One { $color } kitten added to counting area.
           beads:   One { $color } bead added to counting area.
-          other:   One added to { $addend } section of total.
+          other:   One added to { $addend } { $color } section of total.
       decrementContextResponse:
         select_representationType:
           kittens: One { $color } kitten removed from counting area.
           beads:   One { $color } bead removed from counting area.
-          other:   One removed from { $addend } section of total.
+          other:   One removed from { $addend } { $color } section of total.
     countFromZeroSwitch:
       valueAAccessibleName: Count On
       valueBAccessibleName: Count from Zero
