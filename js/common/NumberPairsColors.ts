@@ -51,13 +51,13 @@ const NumberPairsColors = {
     default: '#87D9B0'
   } ),
   attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
-    default: '#FFFADB'
+    default: '#FFEE8C'
   } ),
   attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A5B3EE'
   } ),
   answerButtonPressedLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedLeftAddend', {
-    default: '#FFFAE0'
+    default: '#FFF6C2'
   } ),
   answerButtonPressedRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedRightAddend', {
     default: '#D7E0F9'
