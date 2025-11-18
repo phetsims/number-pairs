@@ -428,9 +428,7 @@ export default class NumberPairsScreenView extends ScreenView {
           accessibleHelpText: NumberPairsFluent.a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty,
           toggleSwitchOptions: {
             size: new Dimension2( 36, 18 ),
-            enabledPropertyOptions: {
-              phetioFeatured: true
-            },
+            phetioEnabledPropertyInstrumented: false,
             phetioVisiblePropertyInstrumented: false
           },
           phetioDocumentation: 'This switch is only accessible in number line representations.',
