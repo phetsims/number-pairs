@@ -638,10 +638,10 @@
           "value": "{ $representationType ->\n  [kittens] Add or remove one { $color } kitten.\n  [beads] Add or remove one { $color } bead.\n  *[other] Add or remove one from { $addend } section.\n}"
         },
         "incrementContextResponse": {
-          "value": "{ $representationType ->\n  [kittens] One { $color } kitten added to counting area.\n  [beads] One { $color } bead added to counting area.\n  *[other] One added to { $addend } section of total.\n}"
+          "value": "{ $representationType ->\n  [kittens] One { $color } kitten added to counting area.\n  [beads] One { $color } bead added to counting area.\n  *[other] One added to { $addend } { $color } section of total.\n}"
         },
         "decrementContextResponse": {
-          "value": "{ $representationType ->\n  [kittens] One { $color } kitten removed from counting area.\n  [beads] One { $color } bead removed from counting area.\n  *[other] One removed from { $addend } section of total.\n}"
+          "value": "{ $representationType ->\n  [kittens] One { $color } kitten removed from counting area.\n  [beads] One { $color } bead removed from counting area.\n  *[other] One removed from { $addend } { $color } section of total.\n}"
         }
       },
       "countFromZeroSwitch": {

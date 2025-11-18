@@ -36,23 +36,23 @@ export class AnswerButtonAppearanceStrategy {
 
     // dynamic colors
     const baseBrighter4Property = new PaintColorProperty( baseColorProperty, { luminanceFactor: 0.4 } );
-    const baseDarker4Property = providedOptions!.pressedFillColorProperty!;
+    const pressedFillColorProperty = providedOptions!.pressedFillColorProperty!;
 
     // various fills that are used to alter the button's appearance
     const upFillProperty = baseColorProperty;
     const overFillProperty = baseBrighter4Property;
-    const downFillProperty = new PaintColorProperty( baseDarker4Property, { luminanceFactor: -0.4 } );
 
-    buttonBackground.stroke = downFillProperty;
+    const strokeProperty = new PaintColorProperty( baseColorProperty, { luminanceFactor: -0.4 } );
+    buttonBackground.stroke = strokeProperty;
     buttonBackground.lineWidth = 1;
 
     // Cache colors
-    buttonBackground.cachedPaints = [ upFillProperty, overFillProperty, downFillProperty ];
+    buttonBackground.cachedPaints = [ upFillProperty, overFillProperty, pressedFillColorProperty, strokeProperty ];
 
     interactionStateProperty.link( interactionState => {
       buttonBackground.fill = interactionState === ButtonInteractionState.IDLE ? upFillProperty :
                               interactionState === ButtonInteractionState.OVER ? overFillProperty :
-                              interactionState === ButtonInteractionState.PRESSED ? downFillProperty :
+                              interactionState === ButtonInteractionState.PRESSED ? pressedFillColorProperty :
                               upFillProperty;
     } );
   }
