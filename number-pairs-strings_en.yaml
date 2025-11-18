@@ -222,6 +222,7 @@ a11y:
       select_screenType:
         other:     View decomposition equation.
         sumScreen: View sum equation.
+    accessibleParagraphPattern: Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }
 
   # Representation types
   representationType:
@@ -428,9 +429,6 @@ a11y:
       accessibleHelpText:                 Show or hide total jump on number line.
       accessibleContextResponseChecked:   Total jump shown and labeled.
       accessibleContextResponseUnchecked: Total jump not shown.
-  equation:
-    accessibleParagraphPattern:       'Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }'
-    accessibleParagraphHiddenPattern: 'Right now, equation shows { $total } = { $leftPlaceholder } + { $rightPlaceholder }'
 
   # Game
   gameScreen:

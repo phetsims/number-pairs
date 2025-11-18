@@ -171,6 +171,7 @@ type StringsType = {
     };
     'equationAccordionBox': {
       'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
+      'accessibleParagraphPatternStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;
@@ -314,10 +315,6 @@ type StringsType = {
         'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
         'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
       }
-    };
-    'equation': {
-      'accessibleParagraphPatternStringProperty': LocalizedStringProperty;
-      'accessibleParagraphHiddenPatternStringProperty': LocalizedStringProperty;
     };
     'gameScreen': {
       'whatNumberStringProperty': LocalizedStringProperty;

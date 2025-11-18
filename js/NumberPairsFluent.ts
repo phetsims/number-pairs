@@ -129,6 +129,7 @@ addToMapIfDefined( 'a11y_countingArea_yellowListItemPattern', 'a11y.countingArea
 addToMapIfDefined( 'a11y_countingArea_blueListItemPattern', 'a11y.countingArea.blueListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_addendValueHidden', 'a11y.countingArea.addendValueHiddenStringProperty' );
 addToMapIfDefined( 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' );
+addToMapIfDefined( 'a11y_equationAccordionBox_accessibleParagraphPattern', 'a11y.equationAccordionBox.accessibleParagraphPatternStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleName', 'a11y.representationType.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleHelpText', 'a11y.representationType.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_apples_accessibleName', 'a11y.apples.accessibleNameStringProperty' );
@@ -220,8 +221,6 @@ addToMapIfDefined( 'a11y_controls_tickNumbersCheckbox_accessibleContextResponseU
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleHelpText', 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
-addToMapIfDefined( 'a11y_equation_accessibleParagraphPattern', 'a11y.equation.accessibleParagraphPatternStringProperty' );
-addToMapIfDefined( 'a11y_equation_accessibleParagraphHiddenPattern', 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_whatNumber', 'a11y.gameScreen.whatNumberStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_questionMark', 'a11y.gameScreen.questionMarkStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_challengePrompt', 'a11y.gameScreen.challengePromptStringProperty' );
@@ -439,7 +438,8 @@ const NumberPairsFluent = {
       addendValueHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingArea_addendValueHidden', _.get( NumberPairsStrings, 'a11y.countingArea.addendValueHiddenStringProperty' ) )
     },
     equationAccordionBox: {
-      accessibleHelpTextCollapsed: new FluentPattern<{ screenType: number | 'other' | 'sumScreen' | TReadOnlyProperty<number | 'other' | 'sumScreen'> }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ), [{"name":"screenType","variants":[{"type":"number","value":"other"},"sumScreen"]}] )
+      accessibleHelpTextCollapsed: new FluentPattern<{ screenType: number | 'other' | 'sumScreen' | TReadOnlyProperty<number | 'other' | 'sumScreen'> }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ), [{"name":"screenType","variants":[{"type":"number","value":"other"},"sumScreen"]}] ),
+      accessibleParagraphPattern: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleParagraphPattern', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleParagraphPatternStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
     },
     _comment_1: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {
@@ -587,10 +587,6 @@ const NumberPairsFluent = {
         accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       }
-    },
-    equation: {
-      accessibleParagraphPattern: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphPatternStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
-      accessibleParagraphHiddenPattern: new FluentPattern<{ leftPlaceholder: FluentVariable, rightPlaceholder: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equation_accessibleParagraphHiddenPattern', _.get( NumberPairsStrings, 'a11y.equation.accessibleParagraphHiddenPatternStringProperty' ), [{"name":"leftPlaceholder"},{"name":"rightPlaceholder"},{"name":"total"}] )
     },
     _comment_5: new FluentComment( {"comment":"Game","associatedKey":"gameScreen"} ),
     gameScreen: {

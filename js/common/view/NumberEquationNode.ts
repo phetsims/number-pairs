@@ -7,7 +7,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import derived from '../../../../axon/js/derived.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -40,21 +40,14 @@ export default class NumberEquationNode extends Node {
     const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
     const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
 
-    const accessibleParagraphVisibleProperty = NumberPairsFluent.a11y.equation.accessibleParagraphPattern.createProperty( {
-      total: model.totalProperty,
-      leftAddend: model.leftAddendProperty,
-      rightAddend: model.rightAddendProperty
+    const accessibleParagraphProperty = NumberPairsFluent.a11y.equationAccordionBox.accessibleParagraphPattern.createProperty( {
+      total: new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty, NumberPairsFluent.aNumberStringProperty ],
+        ( total, totalVisible, aNumber ) => totalVisible ? total.toString() : aNumber ),
+      leftAddend: new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.aNumberStringProperty ],
+        ( left, leftVisible, aNumber ) => leftVisible ? left.toString() : aNumber ),
+      rightAddend: new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.anotherNumberStringProperty ],
+        ( right, rightVisible, anotherNumber ) => rightVisible ? right.toString() : anotherNumber )
     } );
-    const accessibleParagraphHiddenProperty = NumberPairsFluent.a11y.equation.accessibleParagraphHiddenPattern.createProperty( {
-      total: model.totalProperty,
-      leftPlaceholder: NumberPairsFluent.aNumberStringProperty,
-      rightPlaceholder: NumberPairsFluent.anotherNumberStringProperty
-    } );
-    const accessibleParagraphProperty = derived(
-      model.leftAddendVisibleProperty, model.rightAddendVisibleProperty, accessibleParagraphVisibleProperty, accessibleParagraphHiddenProperty,
-      ( leftVisible, rightVisible, visibleParagraph, hiddenParagraph ) => {
-        return leftVisible && rightVisible ? visibleParagraph : hiddenParagraph;
-      } );
 
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true,
