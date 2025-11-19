@@ -494,7 +494,7 @@ a11y:
         total:       sum
 
     challengeSupports:
-      accessibleHeading: Challenge Supports
+      accessibleHeading: Counting Area Challenge Supports
 
     # Overrides the values above, for the game
     bothAddendsEyeToggleButton:
