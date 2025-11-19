@@ -209,7 +209,7 @@ The game provides clear visual feedback for student answers:
 
 #### Counting Area Behavior
 
-All levels except Level 8 include a counting area showing kitten representations (Level 8 uses a number line). The counting area
+All levels except Level 8 include a counting area showing kitten representations. (Level 8 uses a number line.) The counting area
 dynamically updates as students select different answer values, allowing them to visualize the arithmetic relationship.
 Students can:
 * Toggle visibility of the counting area (to practice mental math)
