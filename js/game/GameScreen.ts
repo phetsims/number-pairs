@@ -22,6 +22,7 @@ import GameScreenView from './view/GameScreenView.js';
 type SelfOptions = EmptySelfOptions;
 
 //REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
+//REVIEW Or (for all Screens) consider getting rid of providedOptions and replacing with param tandem: Tandem
 type GameScreenOptions = SelfOptions & ScreenOptions;
 
 export default class GameScreen extends Screen<GameModel, GameScreenView> {
