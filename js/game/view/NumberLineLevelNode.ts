@@ -34,6 +34,7 @@ import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 import NumberStyles from './NumberStyles.js';
 
+//REVIEW Violates PhET options pattern, type SelfOptions needs to be defined.
 type NumberLineLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
 
 // constants
@@ -49,6 +50,7 @@ export default class NumberLineLevelNode extends LevelNode {
                       tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
+    //REVIEW Violates PhET options pattern, type SelfOptions should be used here.
     const options = optionize<NumberLineLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
       countingAreaBackgroundColorProperty: NumberPairsColors.numberLineBackgroundColorProperty,
       countingAreaBounds: GameModelConstants.NUMBER_LINE_COUNTING_AREA_BOUNDS

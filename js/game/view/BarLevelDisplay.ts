@@ -20,6 +20,7 @@ import { MissingComponent } from '../model/Challenge.js';
 import Level from '../model/Level.js';
 
 export default class BarLevelDisplay implements TGenericNumberPairsModel {
+
   public readonly totalProperty: TReadOnlyProperty<number>;
   public readonly totalColorProperty: TReadOnlyProperty<Color> = NumberPairsColors.attributeSumColorProperty;
   public readonly totalVisibleProperty: TReadOnlyProperty<boolean>;
@@ -33,6 +34,7 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
   public constructor( level: Level, selectedGuessProperty: TReadOnlyProperty<number | null> ) {
 
     // Correct values for bar widths (independent of guess)
+    //REVIEW 'ch' params violate PhET naming convention "avoid non-standard abbreviations".
     this.leftAddendProperty = level.challengeProperty.derived( ch => ch.a );
     this.rightAddendProperty = level.challengeProperty.derived( ch => ch.b );
     this.totalProperty = level.challengeProperty.derived( ch => ch.y );

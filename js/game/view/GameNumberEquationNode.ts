@@ -18,9 +18,13 @@ import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import NumberStyles from './NumberStyles.js';
 
+//REVIEW Violates PhET options pattern, type SelfOptions needs to be defined.
 type GameNumberEquationNodeOptions = StrictOmit<NumberEquationNodeOptions, 'addendsOnRight' | 'totalColorProperty' | 'leftAddendColorProperty' | 'rightAddendColorProperty'>;
+
 export default class GameNumberEquationNode extends NumberEquationNode {
   public constructor( private readonly level: Level, providedOptions?: GameNumberEquationNodeOptions ) {
+
+    //REVIEW Violates PhET options pattern, type SelfOptions should be used here.
     const options = optionize<GameNumberEquationNodeOptions, EmptySelfOptions, NumberEquationNodeOptions>()( {
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,

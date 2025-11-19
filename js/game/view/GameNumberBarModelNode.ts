@@ -21,10 +21,14 @@ import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 import NumberStyles from './NumberStyles.js';
 
+//REVIEW Violates PhET options pattern, type SelfOptions needs to be defined.
 type GameNumberBarModelNodeOptions = StrictOmit<BarModelMutableNodeOptions, 'dimensions' | 'displayTotalNumberProperty' | 'displayLeftAddendNumberProperty' | 'displayRightAddendNumberProperty'>;
+
 export default class GameNumberBarModelNode extends BarModelMutableNode {
 
   public constructor( level: Level, providedOptions?: GameNumberBarModelNodeOptions ) {
+
+    //REVIEW Violates PhET options pattern, type SelfOptions should be used here.
     const options = optionize<GameNumberBarModelNodeOptions, EmptySelfOptions, BarModelMutableNodeOptions>()( {
       dimensions: GAME_BAR_MODEL_DIMENSIONS,
       displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,

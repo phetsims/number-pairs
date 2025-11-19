@@ -50,6 +50,7 @@ const Y_SPACING = X_SPACING + MARK_OFFSET_Y * 2; // compensate for check/X mark 
 const FONT = new PhetFont( 24 );
 
 type NumberButtonElements = {
+  //REVIEW Document fields
   button: NumberToggleButton;
   toggleNode: BooleanToggleNode;
   stateProperty: BooleanProperty;
@@ -58,14 +59,17 @@ type NumberButtonElements = {
   wrongMark: Text;
   checkMark: Text;
 }[];
+
 type NumberButtonGridOptions = StrictOmit<GridBoxOptions, 'columns' | 'rows' | 'xSpacing' | 'ySpacing'> &
   PickRequired<GridBoxOptions, 'tandem'>;
+
 export default class AnswerButtonGroup extends GridBox {
 
   public readonly elements: NumberButtonElements;
 
   public constructor(
     challengeType: ChallengeType,
+    //REVIEW Duplicated values from Level. Consider creating a string enumeration type.
     modeProperty: TReadOnlyProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>,
     selectedNumberProperty: Property<number | null>,
     range: InputRange,
@@ -113,7 +117,7 @@ export default class AnswerButtonGroup extends GridBox {
         value: value
       } );
 
-
+      //REVIEW Move buttonLineWidth to const BUTTON_LINE_WIDTH outside of class definition.
       const buttonLineWidth = 1;
       const numberToggleButton = new NumberToggleButton( isPressedProperty, {
         soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
@@ -129,6 +133,7 @@ export default class AnswerButtonGroup extends GridBox {
         touchAreaYDilation: Y_SPACING / 2,
         mouseAreaYDilation: Y_SPACING / 2,
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty,
+          //REVIEW Odd... Derivation involves 3 Properties, callback signature has 2 params, 1 of which is not used.
           ( isCorrect, selectedNumber ) => {
 
             // when the correct answer is showing, disable all buttons
@@ -190,6 +195,7 @@ export default class AnswerButtonGroup extends GridBox {
         pickable: false,
         visibleProperty: isWrongProperty
       } );
+      //REVIEW Should this be named correctMark, for symmetry with wrongMark?
       const checkMark = new Text( '✓', {
         font: new PhetFont( 20 ),
         fill: NumberPairsColors.checkMarkColorProperty,
