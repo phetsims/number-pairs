@@ -11,6 +11,7 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 
+//REVIEW Document fields.
 type TGenericNumberPairsModel = {
   totalProperty: TReadOnlyProperty<number>;
   totalColorProperty: TReadOnlyProperty<Color>;
