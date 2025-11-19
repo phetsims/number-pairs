@@ -52,6 +52,7 @@ export default class Challenge {
     return `${aStr} + ${bStr} = ${yStr} (answer = ${this.answer})`;
   }
 
+  //REVIEW Document the type of serialization used.
   public static ChallengeIO = new IOType<Challenge, ChallengeState>( 'ChallengeIO', {
     valueType: Challenge,
 
