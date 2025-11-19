@@ -26,6 +26,7 @@ const COUNTING_AREA_BOUNDS = new Bounds2( ScreenView.DEFAULT_LAYOUT_BOUNDS.minX 
 
 const KITTEN_PANEL_WIDTH = 56;
 
+//REVIEW Consider converting to class with static constants and private constructor.
 const NumberPairsConstants = {
 
   SCREEN_VIEW_X_MARGIN: 15,

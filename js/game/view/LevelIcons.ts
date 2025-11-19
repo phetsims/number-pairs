@@ -41,6 +41,7 @@ export default class LevelIcons {
 
     const model = LevelIcons.createModel( total, left, right, true, false, true );
 
+    //REVIEW Consider improving NumberBondMutableNode API so that questionable mutations after instantiation are not necessary.
     const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5 } );
     numberBondNode.leftAddend.children = []; // awkward
     numberBondNode.rightAddend.lineDash = NumberStyles.DASHED_LINE;
@@ -51,6 +52,7 @@ export default class LevelIcons {
   private static getNumberBarIcon( total: number, left: number, right: number ): Node {
     const levelModel = LevelIcons.createModel( total, left, right, true, false, true );
 
+    //REVIEW Consider improving BarModelMutableNode API so that questionable mutations after instantiation are not necessary.
     const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55 } );
     barModelNode.leftAddendRectangle.children = []; // awkward
 

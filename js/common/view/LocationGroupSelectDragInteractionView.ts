@@ -54,6 +54,7 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
       () => groupSelectModel.selectedGroupItemProperty.value?.addendTypeProperty.value === AddendType.LEFT ?
             NumberPairsFluent.a11y.leftStringProperty.value : NumberPairsFluent.a11y.rightStringProperty.value );
 
+    //REVIEW There is way too much code inlined in options here. Break out into functions or methods and add more documentation.
     super( groupSelectModel, targetNode, selectedItemPositionProperty, countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         dragDelta: 15,
@@ -75,6 +76,8 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
           return null;
         }
       },
+
+      //REVIEW Multiple return statements not recommended in a function this big.
       getNextSelectedGroupItemFromPressedKeys: ( keysPressed: string, groupItem: CountingObject ) => {
         affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
         const addendType = groupItem.addendTypeProperty.value;
@@ -137,6 +140,7 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
     } );
   }
 
+  //REVIEW Document. This could be a private function instead of a static method.
   private static getKeysDelta( keysPressed: string ): number {
     switch( keysPressed ) {
       case 'd':

@@ -12,13 +12,20 @@ import NumberBondNode, { NORMAL_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDim
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
-  dimensions?: NumberBondDimensions;
+  dimensions?: NumberBondDimensions; //REVIEW Document
 };
 
 export type NumberBondMutableNodeOptions = SelfOptions & NumberBondNodeOptions;
 
 export default class NumberBondMutableNode extends NumberBondNode {
+
+  //REVIEW Document fields.
+  //REVIEW Uses of total, leftAddend, rightAddend are a bit confusing because they look like model elements. Consider adding a 'Node' suffix.
+
+  //REVIEW total can be protected
   public readonly total: NumberCircle;
+
+  //REVIEW leftAddend and rightAddend could be protected if not for the odd way that LevelIcons getNumberBondIcon is breaking encapsulation.
   public readonly leftAddend: NumberCircle;
   public readonly rightAddend: NumberCircle;
 

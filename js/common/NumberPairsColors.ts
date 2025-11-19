@@ -17,6 +17,7 @@
 import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import numberPairs from '../numberPairs.js';
 
+//REVIEW Consider converting to class with static constants and private constructor.
 const NumberPairsColors = {
 
   // Background color for screens in this sim

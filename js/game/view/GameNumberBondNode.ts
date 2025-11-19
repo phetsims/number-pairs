@@ -23,6 +23,8 @@ export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
 export default class GameNumberBondNode extends NumberBondMutableNode {
 
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
+
+    //REVIEW This is odd. Why is optionize not being used here?
     const options: GameNumberBondNodeOptions = {
       dimensions: GAME_DIMENSION
     };
@@ -32,6 +34,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
     super( level.countingObjectsDelegate, options );
 
+    //REVIEW It seems like these should be options in the NumberBondMutableNode API.
     this.total.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.leftAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.rightAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
