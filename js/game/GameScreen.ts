@@ -21,8 +21,10 @@ import GameScreenView from './view/GameScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 
+//REVIEW For all Screen subclasses in this sim:
+//REVIEW The current options type definition provides options that you do not want to change. This is bad API design, not flexibility.
 //REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
-//REVIEW Or (for all Screens) consider getting rid of providedOptions and replacing with param tandem: Tandem
+//REVIEW Or consider getting rid of providedOptions and replacing with param tandem: Tandem
 type GameScreenOptions = SelfOptions & ScreenOptions;
 
 export default class GameScreen extends Screen<GameModel, GameScreenView> {
@@ -30,8 +32,6 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
   public constructor( providedOptions: GameScreenOptions ) {
 
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
-
-      //REVIEW Based on the definition of GameScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.gameStringProperty,
       createKeyboardHelpNode: () => new GameScreenKeyboardHelpNode(),
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty,

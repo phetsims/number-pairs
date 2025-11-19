@@ -18,8 +18,6 @@ import SumScreenKeyboardHelpNode from './view/SumScreenKeyboardHelpNode.js';
 import SumScreenView from './view/SumScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
-
-//REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
 type SumScreenOptions = SelfOptions & ScreenOptions;
 
 export default class SumScreen extends Screen<SumModel, SumScreenView> {
@@ -27,8 +25,6 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
   public constructor( providedOptions: SumScreenOptions ) {
 
     const options = optionize<SumScreenOptions, SelfOptions, ScreenOptions>()( {
-
-      //REVIEW Based on the definition of SumScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.sumStringProperty,
       createKeyboardHelpNode: () => new SumScreenKeyboardHelpNode(),
       homeScreenIcon: new SumScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
