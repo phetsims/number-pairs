@@ -118,7 +118,7 @@ export default class CountingAreaDescriptionNode extends Node {
     // A placeholder Node gives us more control over the order.
     const accessibleHelpTextNode = new Node();
 
-    //REVIEW Violates PhET's options pattern. SelfOptions should used here instead of EmptySelfOptions.
+    //REVIEW Violates PhET's options pattern. SelfOptions should be used here instead of EmptySelfOptions.
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
       children: [
