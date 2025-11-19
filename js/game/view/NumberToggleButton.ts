@@ -34,8 +34,10 @@ export default class NumberToggleButton extends BooleanRectangularStickyToggleBu
       size: BUTTON_SIZE
     }, providedOptions );
 
+    //REVIEW Why can't this be one in optionize above?
     options.buttonAppearanceStrategyOptions = {
 
+      //REVIEW What's the problem here that requires ts directives? Should it be fixed?
       // pass through to our custom AnswerButtonAppearanceStrategy
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error

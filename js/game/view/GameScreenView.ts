@@ -138,6 +138,7 @@ export default class GameScreenView extends ScreenView {
    * @param dt - time step, in seconds
    */
   public override step( dt: number ): void {
+    //REVIEW Consider calling super.step, in case it's not a no-op in the future.
     if ( this.rewardNode.visible ) {
       this.rewardNode.step( dt );
     }

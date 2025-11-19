@@ -78,6 +78,7 @@ export default class NumberLineLevelNode extends LevelNode {
     const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missing as 'a' | 'b' );
     const feedbackStyleProperty = level.modeProperty.derived( mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
 
+    //REVIEW Document what's going on here.
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
       const numericGuess = guess ?? 0;
 
@@ -93,6 +94,7 @@ export default class NumberLineLevelNode extends LevelNode {
       }
     } );
 
+    //REVIEW Move clipShape instantiation closer to where it's used, just before the clipAreaNode is created.
     // Create a clip area to cut off guesses that may draw arrows and lines outside the counting area.
     const clipShape = Shape.boundsOffsetWithRadii( this.countingAreaBounds,
       { left: 0, bottom: 0, right: 0, top: 0 },
@@ -157,6 +159,7 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
+    //REVIEW Document.
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
@@ -175,6 +178,7 @@ export default class NumberLineLevelNode extends LevelNode {
       ]
     } );
     this.addChild( challengeSupportsSection );
+
     this.accessibleChallengeSectionNode.pdomOrder = [
       this.visualPromptSection,
       this.countingAreaSection,

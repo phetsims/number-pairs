@@ -98,6 +98,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
         },
         options: {
           accessibleHelpText: NumberPairsFluent.a11y.gameScreen.level.accessibleHelpText.createProperty( {
+            //REVIEW Why is 'as' needed here? I'm not familiar with this pattern.
             levelNumber: levelNumber as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
             numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( type => type.id )
           } ),
@@ -151,6 +152,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       phetioVisiblePropertyInstrumented: false
     } );
 
+    //REVIEW I don't understand this comment.
     // This is what clients might do in their LevelsScreenView.
     this.accessibleLevelsSectionNode.pdomOrder = [
       buttonGroup,

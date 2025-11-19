@@ -23,10 +23,12 @@ type NumberLineFeedbackStyle = {
   lineDash: number[];
 };
 
+//REVIEW Define MissingAddend in Challenge, and use it to define MissingComponent.
 type MissingAddend = 'a' | 'b';
 
 type SelfOptions = EmptySelfOptions;
 type GameNumberLineNodeOptions = SelfOptions & NumberLineNodeOptions;
+
 export default class GameNumberLineNode extends NumberLineNode {
 
   public constructor(
@@ -37,11 +39,14 @@ export default class GameNumberLineNode extends NumberLineNode {
     feedbackStyleProperty: TReadOnlyProperty<NumberLineFeedbackStyle>,
     providedOptions: NumberLineNodeOptions
   ) {
+
     const options = optionize<GameNumberLineNodeOptions, SelfOptions, NumberLineNodeOptions>()( {
       interactive: false
     }, providedOptions );
+
     super( model, numberLineWidth, options );
 
+    //REVIEW Documentation inside this callback would be helpful.
     Multilink.multilink(
       [ missingAddendProperty, feedbackStyleProperty ],
       ( missingAddend, feedbackStyle ) => {
@@ -55,6 +60,7 @@ export default class GameNumberLineNode extends NumberLineNode {
           this.leftAddendArrow.setTailStyle( fill, lineDash );
           this.leftAddendHighlight.mutate( {
             fill: fill,
+            //REVIEW WebStorm tells me this should be fill instanceof ProfileColorProperty
             stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
             lineDash: lineDash
           } );
@@ -73,6 +79,7 @@ export default class GameNumberLineNode extends NumberLineNode {
           this.rightAddendArrow.setTailStyle( fill, lineDash );
           this.rightAddendHighlight.mutate( {
             fill: fill,
+            //REVIEW WebStorm tells me this should be fill instanceof ProfileColorProperty
             stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
             lineDash: lineDash
           } );

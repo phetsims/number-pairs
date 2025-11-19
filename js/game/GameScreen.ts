@@ -21,6 +21,7 @@ import GameScreenView from './view/GameScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 
+//REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
 type GameScreenOptions = SelfOptions & ScreenOptions;
 
 export default class GameScreen extends Screen<GameModel, GameScreenView> {
@@ -28,6 +29,8 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
   public constructor( providedOptions: GameScreenOptions ) {
 
     const options = optionize<GameScreenOptions, SelfOptions, ScreenOptions>()( {
+
+      //REVIEW Based on the definition of GameScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.gameStringProperty,
       createKeyboardHelpNode: () => new GameScreenKeyboardHelpNode(),
       backgroundColorProperty: NumberPairsColors.introScreenBackgroundColorProperty,

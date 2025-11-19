@@ -1,5 +1,6 @@
 // Copyright 2025, University of Colorado Boulder
 
+//REVIEW Consider moving these to NumberPairsConstants and changing named to indicate they are for Game screen.
 /**
  * Styles and constants used for number representations in the game screen.
  *

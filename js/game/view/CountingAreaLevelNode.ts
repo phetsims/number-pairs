@@ -81,6 +81,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
+    //REVIEW Document
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',

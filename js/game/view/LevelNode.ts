@@ -54,6 +54,8 @@ const TEXT_OPTIONS = {
 
 export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly statusBar: StatusBar;
+
+  //REVIEW wrongMark and checkMark names seem inconsistent. wrongMark and rightMark? correctMark and incorrectMark? xMark and checkMark?
   protected readonly wrongMark: Text;
   protected readonly checkMark: Text;
   protected readonly tryAgainText: Text;
@@ -192,6 +194,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       alignGroup: buttonAlignGroup,
       touchAreaXDilation: touchAreaDilation,
       touchAreaYDilation: touchAreaDilation,
+
+      //REVIEW This listener is a bit long to be inlined. Consider moving it to a separate function.
       listener: () => {
         const guess = level.selectedGuessProperty.value;
         affirm( guess !== null, 'There should be a selected number when Check is pressed' );
@@ -290,6 +294,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
                                                                   challenge.a > challenge.b ? largerAndSmaller :
                                                                   smallerAndLarger );
 
+    //REVIEW Too much here, move all of this into a separate class.
     const visualPromptSection = new Node( {
       tagName: 'div',
       accessibleHeading: derived(
@@ -345,6 +350,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.addChild( visualPromptSection );
     this.visualPromptSection = visualPromptSection;
 
+    //REVIEW Document
     const countingAreaSection = new Node( {
       tagName: 'div',
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleHeadingStringProperty,

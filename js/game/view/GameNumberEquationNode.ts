@@ -53,9 +53,11 @@ export default class GameNumberEquationNode extends NumberEquationNode {
       }
     );
 
+    //REVIEW Why is this needed? If necessary, why is this not done via options.accessibleParagraph?
     this.accessibleParagraph = null;
   }
 
+  //REVIEW Document. This method should be private.
   public getMissingSquare(): Rectangle {
     const challenge = this.level.challengeProperty.value;
     return challenge.missing === 'a' ? this.leftAddendSquare : challenge.missing === 'b' ? this.rightAddendSquare : this.totalSquare;

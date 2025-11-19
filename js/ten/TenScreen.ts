@@ -19,6 +19,7 @@ import TenScreenView from './view/TenScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 
+//REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
 type TenScreenOptions = SelfOptions & ScreenOptions;
 
 export default class TenScreen extends Screen<TenModel, TenScreenView> {
@@ -26,6 +27,8 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
   public constructor( providedOptions: TenScreenOptions ) {
 
     const options = optionize<TenScreenOptions, SelfOptions, ScreenOptions>()( {
+
+      //REVIEW Based on the definition of IntroScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.tenStringProperty,
       createKeyboardHelpNode: () => new TenScreenKeyboardHelpNode(),
       homeScreenIcon: new TenScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),

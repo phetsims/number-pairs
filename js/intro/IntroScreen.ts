@@ -19,6 +19,7 @@ import IntroScreenView from './view/IntroScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
 
+//REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
 type IntroScreenOptions = SelfOptions & ScreenOptions;
 
 export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
@@ -26,6 +27,8 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
   public constructor( providedOptions: IntroScreenOptions ) {
 
     const options = optionize<IntroScreenOptions, SelfOptions, ScreenOptions>()( {
+
+      //REVIEW Based on the definition of IntroScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.introStringProperty,
       createKeyboardHelpNode: () => new IntroScreenKeyboardHelpNode(),
       homeScreenIcon: new IntroScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),

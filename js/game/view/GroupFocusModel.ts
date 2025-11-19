@@ -1,5 +1,6 @@
 // Copyright 2025, University of Colorado Boulder
 
+//REVIEW This file does not appear to be used. Delete it?
 /**
  * Model that keeps track of which items are focusable, and which item is currently focused.
  *

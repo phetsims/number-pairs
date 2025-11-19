@@ -1,5 +1,6 @@
 // Copyright 2025, University of Colorado Boulder
 
+//REVIEW Recommend renaming this class because it conflicts with scenery-phet.StatusBar
 /**
  *  StatusBar is an InfiniteStatusBar that shows the current level and description on the left,
  *  the score on the right, and a back button.
