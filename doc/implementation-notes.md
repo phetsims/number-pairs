@@ -147,7 +147,12 @@ All level nodes share common components: `StatusBar` for level/score display, `A
 
 ## PhET-iO
 
-The PhET-iO instrumentation of this simulation is relatively straightforward. Everything is created at startup, and
-exists for the lifetime of the sim, so there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`. Another
-important part of the phet-io instrumentation is the use of `ObservableArray`s. The `ObservableArray`s are a critical
-part of state setting and tracking for both sim interactions, and scene changes.
+The PhET-iO instrumentation of this simulation is relatively straightforward. All PhetioObjects are created at startup, and
+exist for the lifetime of the sim, so there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`. 
+
+`Challenge` instances are created dynamically, and serialized by data-type serialization (see `ChallengeIO`). `Challenge` 
+instances and are not individually PhET-iO instrumented. 
+
+Another important part of the phet-io instrumentation is the use of `ObservableArray`s. The `ObservableArray`s are a 
+critical part of state setting and tracking for both sim interactions, and scene changes.
+
