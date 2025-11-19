@@ -156,7 +156,7 @@ green for the total.
 
 The Game screen contains 8 distinct levels, each designed to build upon previously learned concepts. For all levels, 
 the counting area can be hidden to encourage mental math. Note that in levels 1, 2, and 5, users can change the 
-number bond to be a proportional bar model in the preferences menu:
+number bond to be a proportional bar model in the Preferences dialog.
 
 **Level 1 (0-10): Missing addends – Number Bond**
 * Practice finding missing addends in number bond format
