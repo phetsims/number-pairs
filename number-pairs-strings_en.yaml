@@ -380,7 +380,7 @@ a11y:
       accessibleContextResponse:
         select_representationType:
           attribute:  '{ $leftAddend } yellow, { $rightAddend } blue.'
-          numberLine: '{ $leftAddend } in yellow section, { $rightAddend } in blue section.'
+          numberLine: '{ $leftAddend } in left yellow section, { $rightAddend } in right blue section.'
           other:      '{ $leftAddend } on left, { $rightAddend } on right.'
     bothAddendsVisibleButton:
       accessibleName:            Counting Area Visibility
