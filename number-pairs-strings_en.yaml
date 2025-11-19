@@ -142,8 +142,8 @@ a11y:
         select_representationType:
           numberLine: |-
                       Total is shown on number line with a green line broken into two sections, yellow on left and blue 
-                      on right. movable knob changes how total is broken apart by changing lengths of yellow and blue 
-                      sections. Number spinners add or remove one from yellow or blue section. { a11y.sumScreen.screenSummary.playAreaEndSentence }
+                      on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue 
+                      sections. Number spinners add one or remove one from yellow or blue section. { a11y.sumScreen.screenSummary.playAreaEndSentence }
           other:      |-
                       There are yellow and blue { $representation } you can move to organize or change color to find 
                       different ways to create a total number of { $representation }. { a11y.sumScreen.screenSummary.playAreaEndSentence }
@@ -154,7 +154,7 @@ a11y:
       currentDetails:
         select_shown:
           none:  Currently, total hidden, counting area hidden.
-          total: Currently, Total of { $total }, counting area hidden.
+          total: Currently, total of { $total }, counting area hidden.
           countingArea:
             select_representationType:
               numberLine: Currently, total hidden, created by adding lengths of yellow and blue sections.
@@ -168,7 +168,7 @@ a11y:
         select_representationType:
           beads:      Navigate to and grab bead to create groups, or move across divider to change color. Add or remove beads with number spinners to change total.
           kittens:    Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.
-          numberLine: Move addend splitter knob to change length of yellow and blue sections that create total. Add or remove one from yellow or blue section to change total.
+          numberLine: Move addend splitter knob to change length of yellow and blue sections that create total. Add one or remove one from yellow or blue section to change total.
 
   # Basic terms and interactions
   left:                   left
