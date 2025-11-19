@@ -28,7 +28,7 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
 
     const options = optionize<TenScreenOptions, SelfOptions, ScreenOptions>()( {
 
-      //REVIEW Based on the definition of IntroScreenOptions, all of these can be overridden.
+      //REVIEW Based on the definition of TenScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.tenStringProperty,
       createKeyboardHelpNode: () => new TenScreenKeyboardHelpNode(),
       homeScreenIcon: new TenScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),

@@ -28,7 +28,7 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
 
     const options = optionize<TwentyScreenOptions, SelfOptions, ScreenOptions>()( {
 
-      //REVIEW Based on the definition of IntroScreenOptions, all of these can be overridden.
+      //REVIEW Based on the definition of TwentyScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.twentyStringProperty,
       createKeyboardHelpNode: () => new TwentyScreenKeyboardHelpNode(),
       homeScreenIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),

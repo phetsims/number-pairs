@@ -28,7 +28,7 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
 
     const options = optionize<SumScreenOptions, SelfOptions, ScreenOptions>()( {
 
-      //REVIEW Based on the definition of IntroScreenOptions, all of these can be overridden.
+      //REVIEW Based on the definition of SumScreenOptions, all of these can be overridden.
       name: NumberPairsFluent.screen.sumStringProperty,
       createKeyboardHelpNode: () => new SumScreenKeyboardHelpNode(),
       homeScreenIcon: new SumScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
