@@ -17,7 +17,7 @@ import Level, { ChallengeType, LevelOptions } from './Level.js';
 
 export default class NumberLineLevel extends Level {
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Document fields.
+  //REVIEW Document fields.
   public readonly tickValuesVisibleProperty: BooleanProperty;
   public readonly numberLineAddendsVisibleProperty: BooleanProperty;
 

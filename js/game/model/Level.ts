@@ -38,17 +38,17 @@ export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | '
 
 export default class Level {
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Public API should be ReadOnlyProperty
+  //REVIEW Public API should be ReadOnlyProperty
   // Accumulated points on this level.
   public readonly scoreProperty: NumberProperty;
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Public API should be TReadOnlyProperty
+  //REVIEW Public API should be TReadOnlyProperty
   // The current challenge for this level.
   public readonly challengeProperty: Property<Challenge>;
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Create a string enumeration type so that you're not duplicating this set of values in Level (3x) and in AnswerButtonGroup (1x).
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Public API should be TReadOnlyProperty
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Missing description of 'guessSelected'.
+  //REVIEW Create a string enumeration type so that you're not duplicating this set of values in Level (3x) and in AnswerButtonGroup (1x).
+  //REVIEW Public API should be TReadOnlyProperty
+  //REVIEW Missing description of 'guessSelected'.
   // 'idle' = no feedback, 'incorrect' = last guess was incorrect, 'correct' = last guess was correct
   public readonly modeProperty: StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>;
 
@@ -56,9 +56,9 @@ export default class Level {
   // and to gray out those numbers in the grid.
   public readonly guessedNumbers: ObservableArray<number>;
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Document fields below here that are missing documentation.
+  //REVIEW Document fields below here that are missing documentation.
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Public API should be selectedGuessProperty: TReadOnlyProperty<number | null>
+  //REVIEW Public API should be selectedGuessProperty: TReadOnlyProperty<number | null>
   public readonly selectedGuessProperty: Property<number | null>;
 
   // Counting object observable arrays
@@ -162,10 +162,10 @@ export default class Level {
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
-    //REVIEW https://github.com/phetsims/number-pairs/issues/402 Using phet.log would be more appropriate here.
+    //REVIEW Using phet.log would be more appropriate here.
     phet.chipper.queryParameters.dev && console.log( debugString );
 
-    //REVIEW https://github.com/phetsims/number-pairs/issues/402 Using phet.log would be more appropriate here.
+    //REVIEW Using phet.log would be more appropriate here.
     phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
       console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
@@ -226,7 +226,7 @@ export default class Level {
     this.countingObjectsDelegate.deselectAllKittens();
   }
 
-  //REVIEW https://github.com/phetsims/number-pairs/issues/402 Doc says "based on the provided bounds" but bounds are not provided.
+  //REVIEW Doc says "based on the provided bounds" but bounds are not provided.
   /**
    * Organizes the counting objects into a ten frame based on the provided bounds.
    */
