@@ -156,7 +156,7 @@ green for the total.
 
 The Game screen contains 8 distinct levels, each designed to build upon previously learned concepts. For all levels, 
 the counting area can be hidden to encourage mental math. Note that in levels 1, 2, and 5, users can change the 
-number bond to be a proportional bar model in the preferences menu:
+number bond to be a proportional bar model in the Preferences dialog.
 
 **Level 1 (0-10): Missing addends – Number Bond**
 * Practice finding missing addends in number bond format
@@ -209,7 +209,7 @@ The game provides clear visual feedback for student answers:
 
 #### Counting Area Behavior
 
-All levels except Level 8 include a counting area showing kitten representations (Level 8 uses a number line). The counting area
+All levels except Level 8 include a counting area showing kitten representations. (Level 8 uses a number line.) The counting area
 dynamically updates as students select different answer values, allowing them to visualize the arithmetic relationship.
 Students can:
 * Toggle visibility of the counting area (to practice mental math)
