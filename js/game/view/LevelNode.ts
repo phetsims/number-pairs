@@ -200,6 +200,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         const challenge = level.challengeProperty.value;
         if ( isCorrect ) {
           if ( firstTry ) {
+            //REVIEW https://github.com/phetsims/number-pairs/issues/402 Remove console.log or change to phet.log && phet.log(...)
             console.log( 'correct on first try' );
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
               levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',

@@ -162,8 +162,10 @@ export default class Level {
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
+    //REVIEW https://github.com/phetsims/number-pairs/issues/402 Using phet.log would be more appropriate here.
     phet.chipper.queryParameters.dev && console.log( debugString );
 
+    //REVIEW https://github.com/phetsims/number-pairs/issues/402 Using phet.log would be more appropriate here.
     phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
       console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
