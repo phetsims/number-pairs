@@ -38,6 +38,7 @@ const ZERO_TO_TWENTY_MAX = 40;
 
 export default class LevelCountingObjectsDelegate extends AbstractNumberPairsModel {
 
+  //REVIEW Document fields.
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
   private readonly leftAddendObjects: ObservableArray<CountingObject>;
   private readonly rightAddendObjects: ObservableArray<CountingObject>;
@@ -70,6 +71,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
+    //REVIEW I'm not familiar with derived. Is the return type UnknownDerivedProperty<boolean> type safe?
     const totalVisibleProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missing === 'y' && guess !== null ) || challenge.missing !== 'y'
     );
@@ -159,6 +161,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     } );
   }
 
+  //REVIEW So resetting results in the same counting objects, but at new random locations - is that correct?
   public resetCountingObjects(): void {
     this.distributeCountingObjects();
   }

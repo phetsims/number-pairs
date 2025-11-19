@@ -40,6 +40,7 @@ export type LevelSelection = ( typeof LevelSelectionValues )[number];
 
 export default class GameModel implements TModel {
 
+  //REVIEW In other Games, this is Property<Level | null>, where null represents the "level selection screen", and phetioValueType: NullableIO( Level.LevelIO ).
   public readonly selectedLevelProperty: StringUnionProperty<LevelSelection>;
 
   // Individual level models (persistent across session lifetime)
@@ -48,6 +49,8 @@ export default class GameModel implements TModel {
 
   // Emits when a level reaches the reward score for the first time.
   public readonly rewardAchievedEmitter: Emitter<[ number, number ]>;
+
+  //REVIEW Document
   public readonly levelAnswerFeedbackEmitter: Emitter<[ 'correct' | 'incorrect', Level ]>;
 
   public constructor( providedOptions: GameModelOptions ) {
@@ -71,6 +74,7 @@ export default class GameModel implements TModel {
         }
       ]
     } );
+
     this.levelAnswerFeedbackEmitter = new Emitter<[ 'correct' | 'incorrect', Level ]>( {
       parameters: [
         { valueType: 'string' },
@@ -120,6 +124,7 @@ export default class GameModel implements TModel {
       numberModelType: numberModelTypeStringProperty
     } );
 
+    //REVIEW Dead code alert - delete?
     // const level1HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level1.accessibleHelpText.createProperty( {
     //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
     // } );
@@ -136,7 +141,7 @@ export default class GameModel implements TModel {
     // const level7HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level7.accessibleHelpTextStringProperty;
     // const level8HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level8.accessibleHelpTextStringProperty;
 
-
+    //REVIEW For first arg to each 'new Level', consider using index++ instead of magic numbers.
     this.levels = [
 
       /**
@@ -268,11 +273,13 @@ export default class GameModel implements TModel {
     } );
   }
 
+  //REVIEW Mention that level numbering is 1-based.
   public getLevel( levelNumber: number ): Level {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
     return this.levels[ levelNumber - 1 ];
   }
 
+  //REVIEW Mention that level numbering is 1-based.
   public setLevel( levelNumber: number ): void {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
     this.selectedLevelProperty.value = LevelValues[ levelNumber - 1 ];

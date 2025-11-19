@@ -16,6 +16,7 @@ import numberPairs from '../../numberPairs.js';
 export type MissingComponent = 'a' | 'b' | 'y';
 
 type ChallengeState = {
+  //REVIEW Consider naming this field missingComponent. 'missing' sounds like a boolean in context.
   missing: MissingComponent;
   a: number;
   b: number;
