@@ -76,6 +76,7 @@ export default class GrabDragDescriptionManager {
     } );
   }
 
+  //REVIEW Document
   public createItemDescriptionProperty( selectedGroupItemProperty: TReadOnlyProperty<CountingObject | null>,
                                         getLeftAddendCountingObjects: () => CountingObject[],
                                         getRightAddendCountingObjects: () => CountingObject[],
@@ -143,6 +144,7 @@ export default class GrabDragDescriptionManager {
     return stringProperty;
   }
 
+  //REVIEW Document
   public createHelpTextProperty( isGroupItemKeyboardGrabbedProperty: TReadOnlyProperty<boolean> ): TReadOnlyProperty<string> {
     return derivedTernary( isGroupItemKeyboardGrabbedProperty, {
       true: this.grabbedHelpTextStringProperty,

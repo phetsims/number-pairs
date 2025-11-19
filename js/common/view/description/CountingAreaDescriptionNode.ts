@@ -29,6 +29,7 @@ type CountingAreaDescriptionNodeOptions = SelfOptions & PickRequired<NodeOptions
 
 export default class CountingAreaDescriptionNode extends Node {
 
+  //REVIEW Document fields
   public readonly leftValueStringProperty: TReadOnlyProperty<string>;
   public readonly rightValueStringProperty: TReadOnlyProperty<string>;
 
@@ -117,6 +118,7 @@ export default class CountingAreaDescriptionNode extends Node {
     // A placeholder Node gives us more control over the order.
     const accessibleHelpTextNode = new Node();
 
+    //REVIEW Violates PhET's options pattern. SelfOptions should used here instead of EmptySelfOptions.
     const options = optionize<CountingAreaDescriptionNodeOptions, EmptySelfOptions, NodeOptions>()( {
       accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
       children: [
@@ -128,8 +130,7 @@ export default class CountingAreaDescriptionNode extends Node {
 
     super( options );
 
-    // So that setting the `accessibleHelpText` on this Node forwards the content to
-    // the correct child Node.
+    // So that setting the `accessibleHelpText` on this Node forwards the content to the correct child Node.
     ParallelDOM.forwardHelpText( this, accessibleHelpTextNode );
 
     this.leftValueStringProperty = leftValueStringProperty;

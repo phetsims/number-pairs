@@ -1,5 +1,6 @@
 // Copyright 2025, University of Colorado Boulder
 
+//REVIEW Documentation could be improved here. What slider knob?
 /**
  * Context response for dragging the slider knob.
  *
