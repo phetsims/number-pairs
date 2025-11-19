@@ -106,6 +106,7 @@ export default class RepresentationType extends EnumerationValue {
     public readonly leftAddendColorProperty: Property<Color>,
     public readonly rightAddendColorProperty: Property<Color>,
     public readonly icon: Node,
+    //REVIEW Why are accessibleName and singularAccessibleName so far apart?! Related params should be together.
     public readonly singularAccessibleName: TReadOnlyProperty<string>
   ) {
     super();
