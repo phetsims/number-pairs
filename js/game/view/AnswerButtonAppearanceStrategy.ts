@@ -21,7 +21,7 @@ type AnswerButtonAppearanceStrategyOptions = TButtonAppearanceStrategyOptions & 
 
 export class AnswerButtonAppearanceStrategy {
 
-  //REVIEW This field is not used. Delete it?
+  // This field cannot be deleted since it is required by the button appearance strategy. Want to learn more? Try removing it.
   public readonly maxLineWidth: number = 1;
 
   /**

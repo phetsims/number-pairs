@@ -21,11 +21,11 @@ const scaleBounds = ( leftOffset: number ): Bounds2 => {
 
 export default class GameModelConstants {
 
-  //REVIEW Is this for Levels 1-7 ?
+  // For Levels 1-7, the default in LevelNode
   public static readonly DEFAULT_COUNTING_AREA_BOUNDS = scaleBounds( 0 );
 
-  //REVIEW Is related to Level 8 and NumberLineLevel?
-  // Reduce size to fit in the game area. It is smaller since the double rows of number buttons takes up horizontal space.
+  // For Level 8, the value in NumberLineLevelNode. Reduce size to fit in the game area. It is smaller since the double
+  // rows of number buttons takes up horizontal space.
   public static readonly NUMBER_LINE_COUNTING_AREA_BOUNDS = scaleBounds( 50 );
 }
 

@@ -72,6 +72,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
     //REVIEW I'm not familiar with derived. Is the return type UnknownDerivedProperty<boolean> type safe?
+    // REVIEW-response: Yes, it is type-safe and the same return type as DerivedProperty.deriveAny. The 'unknown' part is about the dependencies, which are also type safe.
     const totalVisibleProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missingComponent === 'y' && guess !== null ) || challenge.missingComponent !== 'y'
     );
@@ -161,7 +162,8 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     } );
   }
 
-  //REVIEW So resetting results in the same counting objects, but at new random locations - is that correct?
+  // By design, resetting the counting objects is supposed to return to the original numbers corresponding to the prompt,
+  // randomly distribute them at new locations.
   public resetCountingObjects(): void {
     this.distributeCountingObjects();
   }

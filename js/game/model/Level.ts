@@ -103,7 +103,7 @@ export default class Level {
       tandem: tandem.createTandem( 'addendsVisibleProperty' ),
       phetioFeatured: true
     } );
-    
+
     this.scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' ),
       phetioFeatured: true
@@ -134,7 +134,7 @@ export default class Level {
         initialRepresentationType: representationType,
         representationTypeValidValues: [ representationType ] // This level only supports one representation type
       } );
-    
+
     this.representationTypeProperty = this.countingObjectsDelegate.representationTypeProperty;
 
     // Track numbers already guessed for the current challenge via an ObservableArray so views can react to adds/removes
@@ -162,12 +162,10 @@ export default class Level {
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;
-    //REVIEW Using phet.log would be more appropriate here.
-    phet.chipper.queryParameters.dev && console.log( debugString );
+    phet.log && phet.log( debugString );
 
-    //REVIEW Using phet.log would be more appropriate here.
-    phet.chipper.queryParameters.dev && this.challengeProperty.link( challenge => {
-      console.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
+    phet.log && this.challengeProperty.link( challenge => {
+      phet.log && phet.log( `Level ${this.levelNumber}: ${challenge.toDebugString()}` );
     } );
   }
 
@@ -226,9 +224,8 @@ export default class Level {
     this.countingObjectsDelegate.deselectAllKittens();
   }
 
-  //REVIEW Doc says "based on the provided bounds" but bounds are not provided.
   /**
-   * Organizes the counting objects into a ten frame based on the provided bounds.
+   * Organizes the counting objects into a ten frame based on the counting area bounds.
    */
   public organizeIntoTenFrame(): void {
 

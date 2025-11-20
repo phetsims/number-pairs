@@ -17,8 +17,10 @@ import Level, { ChallengeType, LevelOptions } from './Level.js';
 
 export default class NumberLineLevel extends Level {
 
-  //REVIEW Document fields.
+  // Model property for whether the tick values are visible as text. There is a checkbox to change this value.
   public readonly tickValuesVisibleProperty: BooleanProperty;
+
+  // Model property for whether the addend values are visible as text. There is a checkbox to change this value.
   public readonly numberLineAddendsVisibleProperty: BooleanProperty;
 
   public constructor(

@@ -132,9 +132,10 @@ export default class AnswerButtonGroup extends GridBox {
         lineWidth: buttonLineWidth,
         touchAreaYDilation: Y_SPACING / 2,
         mouseAreaYDilation: Y_SPACING / 2,
+
+        // Update the enabled property any time the selected number, correct state, or guessed numbers change.
         enabledProperty: derived( isCorrectProperty, selectedNumberProperty, guessedNumbers.lengthProperty,
-          //REVIEW Odd... Derivation involves 3 Properties, callback signature has 2 params, 1 of which is not used.
-          ( isCorrect, selectedNumber ) => {
+          isCorrect => {
 
             // when the correct answer is showing, disable all buttons
             if ( isCorrect ) {
@@ -195,8 +196,7 @@ export default class AnswerButtonGroup extends GridBox {
         pickable: false,
         visibleProperty: isWrongProperty
       } );
-      //REVIEW Should this be named correctMark, for symmetry with wrongMark?
-      const checkMark = new Text( '✓', {
+      const correctMark = new Text( '✓', {
         font: new PhetFont( 20 ),
         fill: NumberPairsColors.checkMarkColorProperty,
         pickable: false,
@@ -207,11 +207,11 @@ export default class AnswerButtonGroup extends GridBox {
 
       wrongMark.left = MARK_OFFSET_X;
       wrongMark.top = MARK_OFFSET_Y;
-      checkMark.left = MARK_OFFSET_X;
-      checkMark.top = MARK_OFFSET_Y;
+      correctMark.left = MARK_OFFSET_X;
+      correctMark.top = MARK_OFFSET_Y;
 
       toggleNode.addChild( wrongMark );
-      toggleNode.addChild( checkMark );
+      toggleNode.addChild( correctMark );
 
       const element = {
         button: numberToggleButton,
@@ -220,7 +220,7 @@ export default class AnswerButtonGroup extends GridBox {
         stateProperty: isPressedProperty,
         value: value,
         wrongMark: wrongMark,
-        checkMark: checkMark
+        checkMark: correctMark
       };
       elements.push( element );
       return element;
