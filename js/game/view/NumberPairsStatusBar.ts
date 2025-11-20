@@ -1,8 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
-//REVIEW Recommend renaming this class because it conflicts with scenery-phet.StatusBar
 /**
- *  StatusBar is an InfiniteStatusBar that shows the current level and description on the left,
+ *  NumberPairsStatusBar is an InfiniteStatusBar that shows the current level and description on the left,
  *  the score on the right, and a back button.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -20,7 +19,7 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
-export default class StatusBar extends InfiniteStatusBar {
+export default class NumberPairsStatusBar extends InfiniteStatusBar {
   public constructor( layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       level: Level,
@@ -51,4 +50,4 @@ export default class StatusBar extends InfiniteStatusBar {
   }
 }
 
-numberPairs.register( 'StatusBar', StatusBar );
+numberPairs.register( 'NumberPairsStatusBar', NumberPairsStatusBar );

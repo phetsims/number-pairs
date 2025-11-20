@@ -143,7 +143,7 @@ Three level node types extend the base `LevelNode`:
 - `EquationLevelNode` - Shows equation (decomposition or sum format) with kitten counting area
 - `NumberLineLevelNode` - Shows interactive number line without traditional counting area
 
-All level nodes share common components: `StatusBar` for level/score display, `AnswerButtonGroup` for number selection with visual feedback (checkmarks, X marks, graying out), and navigation buttons. The `AnswerButtonGroup` uses `BooleanToggleNode` to switch between normal, correct, and incorrect states for each number button.
+All level nodes share common components: `NumberPairsStatusBar` for level/score display, `AnswerButtonGroup` for number selection with visual feedback (checkmarks, X marks, graying out), and navigation buttons. The `AnswerButtonGroup` uses `BooleanToggleNode` to switch between normal, correct, and incorrect states for each number button.
 
 ## PhET-iO
 

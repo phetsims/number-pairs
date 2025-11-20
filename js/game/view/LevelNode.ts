@@ -38,7 +38,7 @@ import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import AnswerButtonGroup from './AnswerButtonGroup.js';
-import StatusBar from './StatusBar.js';
+import NumberPairsStatusBar from './NumberPairsStatusBar.js';
 
 type SelfOptions = {
   countingAreaBackgroundColorProperty: TReadOnlyProperty<TColor>;
@@ -53,7 +53,7 @@ const TEXT_OPTIONS = {
 };
 
 export default abstract class LevelNode extends ChallengeScreenNode {
-  protected readonly statusBar: StatusBar;
+  protected readonly statusBar: NumberPairsStatusBar;
 
   protected readonly wrongMark: Text;
   protected readonly correctMark: Text;
@@ -89,7 +89,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     }, providedOptions );
     super( options );
 
-    this.statusBar = new StatusBar( layoutBounds, visibleBoundsProperty, level, getLevel, () => {
+    this.statusBar = new NumberPairsStatusBar( layoutBounds, visibleBoundsProperty, level, getLevel, () => {
       this.interruptSubtreeInput();
       returnToSelection();
     }, tandem.createTandem( 'statusBar' ) );
