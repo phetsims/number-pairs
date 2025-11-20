@@ -130,11 +130,11 @@ type StringsType = {
       }
     };
     'leftStringProperty': LocalizedStringProperty;
+    'leftCapitalizedStringProperty': LocalizedStringProperty;
     'rightStringProperty': LocalizedStringProperty;
+    'rightCapitalizedStringProperty': LocalizedStringProperty;
     'leftAddendColorStringProperty': LocalizedStringProperty;
     'rightAddendColorStringProperty': LocalizedStringProperty;
-    'leftCapitalizedStringProperty': LocalizedStringProperty;
-    'rightCapitalizedStringProperty': LocalizedStringProperty;
     'movableRoleDescriptionStringProperty': LocalizedStringProperty;
     'countingAreaEmptyStringProperty': LocalizedStringProperty;
     'unknownNumberStringProperty': LocalizedStringProperty;

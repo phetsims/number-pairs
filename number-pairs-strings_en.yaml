@@ -172,11 +172,14 @@ a11y:
 
   # Basic terms and interactions
   left:                   left
+  leftCapitalized:        Left
+
   right:                  right
+  rightCapitalized:       Right
+
   leftAddendColor:        Yellow
   rightAddendColor:       Blue
-  leftCapitalized:        Left
-  rightCapitalized:       Right
+
   movableRoleDescription: movable
   countingAreaEmpty:      Counting Area Empty
   unknownNumber:          unknown number

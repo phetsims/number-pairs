@@ -97,11 +97,11 @@ addToMapIfDefined( 'a11y_sumScreen_screenSummary_controlArea', 'a11y.sumScreen.s
 addToMapIfDefined( 'a11y_sumScreen_screenSummary_currentDetails', 'a11y.sumScreen.screenSummary.currentDetailsStringProperty' );
 addToMapIfDefined( 'a11y_sumScreen_screenSummary_interactionHint', 'a11y.sumScreen.screenSummary.interactionHintStringProperty' );
 addToMapIfDefined( 'a11y_left', 'a11y.leftStringProperty' );
+addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_right', 'a11y.rightStringProperty' );
+addToMapIfDefined( 'a11y_rightCapitalized', 'a11y.rightCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_leftAddendColor', 'a11y.leftAddendColorStringProperty' );
 addToMapIfDefined( 'a11y_rightAddendColor', 'a11y.rightAddendColorStringProperty' );
-addToMapIfDefined( 'a11y_leftCapitalized', 'a11y.leftCapitalizedStringProperty' );
-addToMapIfDefined( 'a11y_rightCapitalized', 'a11y.rightCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_movableRoleDescription', 'a11y.movableRoleDescriptionStringProperty' );
 addToMapIfDefined( 'a11y_countingAreaEmpty', 'a11y.countingAreaEmptyStringProperty' );
 addToMapIfDefined( 'a11y_unknownNumber', 'a11y.unknownNumberStringProperty' );
@@ -398,11 +398,11 @@ const NumberPairsFluent = {
     },
     _comment_0: new FluentComment( {"comment":"Basic terms and interactions","associatedKey":"left"} ),
     leftStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_left', _.get( NumberPairsStrings, 'a11y.leftStringProperty' ) ),
+    leftCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_leftCapitalized', _.get( NumberPairsStrings, 'a11y.leftCapitalizedStringProperty' ) ),
     rightStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_right', _.get( NumberPairsStrings, 'a11y.rightStringProperty' ) ),
+    rightCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightCapitalized', _.get( NumberPairsStrings, 'a11y.rightCapitalizedStringProperty' ) ),
     leftAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_leftAddendColor', _.get( NumberPairsStrings, 'a11y.leftAddendColorStringProperty' ) ),
     rightAddendColorStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightAddendColor', _.get( NumberPairsStrings, 'a11y.rightAddendColorStringProperty' ) ),
-    leftCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_leftCapitalized', _.get( NumberPairsStrings, 'a11y.leftCapitalizedStringProperty' ) ),
-    rightCapitalizedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_rightCapitalized', _.get( NumberPairsStrings, 'a11y.rightCapitalizedStringProperty' ) ),
     movableRoleDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_movableRoleDescription', _.get( NumberPairsStrings, 'a11y.movableRoleDescriptionStringProperty' ) ),
     countingAreaEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingAreaEmpty', _.get( NumberPairsStrings, 'a11y.countingAreaEmptyStringProperty' ) ),
     unknownNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_unknownNumber', _.get( NumberPairsStrings, 'a11y.unknownNumberStringProperty' ) ),

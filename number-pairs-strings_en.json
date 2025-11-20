@@ -244,7 +244,7 @@
     "sumScreen": {
       "screenSummary": {
         "playArea": {
-          "value": "{ $representationType ->\n  [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue \n               on right. movable knob changes how total is broken apart by changing lengths of yellow and blue \n               sections. Number spinners add or remove one from yellow or blue section. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n  *[other] There are yellow and blue { $representation } you can move to organize or change color to find \n           different ways to create a total number of { $representation }. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n}"
+          "value": "{ $representationType ->\n  [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue \n               on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue \n               sections. Number spinners add one or remove one from yellow or blue section. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n  *[other] There are yellow and blue { $representation } you can move to organize or change color to find \n           different ways to create a total number of { $representation }. { a11y_sumScreen_screenSummary_playAreaEndSentence }\n}"
         },
         "playAreaEndSentence": {
           "value": "An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n  add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends."
@@ -253,30 +253,30 @@
           "value": "{ a11y_introScreen_screenSummary_controlArea }"
         },
         "currentDetails": {
-          "value": "{ $shown ->\n  [none] Currently, total hidden, counting area hidden.\n  [total] Currently, Total of { $total }, counting area hidden.\n  [countingArea] { $representationType ->\n                   [numberLine] Currently, total hidden, created by adding lengths of yellow and blue sections.\n                   *[other] Currently, total hidden, created by adding all { $itemType }.\n                 }\n  *[all] { $representationType ->\n           [numberLine] Currently, total of { $total } created by adding lengths of yellow and blue sections.\n           *[other] Currently, { $total } total { $itemType } created by adding all { $itemType }.\n         }\n}"
+          "value": "{ $shown ->\n  [none] Currently, total hidden, counting area hidden.\n  [total] Currently, total of { $total }, counting area hidden.\n  [countingArea] { $representationType ->\n                   [numberLine] Currently, total hidden, created by adding lengths of yellow and blue sections.\n                   *[other] Currently, total hidden, created by adding all { $itemType }.\n                 }\n  *[all] { $representationType ->\n           [numberLine] Currently, total of { $total } created by adding lengths of yellow and blue sections.\n           *[other] Currently, { $total } total { $itemType } created by adding all { $itemType }.\n         }\n}"
         },
         "interactionHint": {
-          "value": "{ $representationType ->\n  [beads] Navigate to and grab bead to create groups, or move across divider to change color. Add or remove beads with number spinners to change total.\n  [kittens] Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.\n  *[numberLine] Move addend splitter knob to change length of yellow and blue sections that create total. Add or remove one from yellow or blue section to change total.\n}"
+          "value": "{ $representationType ->\n  [beads] Navigate to and grab bead to create groups, or move across divider to change color. Add or remove beads with number spinners to change total.\n  [kittens] Choose kitten to move, organize, or change color. Add or remove beads with number spinners to change total.\n  *[numberLine] Move addend splitter knob to change length of yellow and blue sections that create total. Add one or remove one from yellow or blue section to change total.\n}"
         }
       }
     },
     "left": {
       "value": "left"
     },
+    "leftCapitalized": {
+      "value": "Left"
+    },
     "right": {
       "value": "right"
+    },
+    "rightCapitalized": {
+      "value": "Right"
     },
     "leftAddendColor": {
       "value": "Yellow"
     },
     "rightAddendColor": {
       "value": "Blue"
-    },
-    "leftCapitalized": {
-      "value": "Left"
-    },
-    "rightCapitalized": {
-      "value": "Right"
     },
     "movableRoleDescription": {
       "value": "movable"
@@ -289,7 +289,7 @@
     },
     "grabOrReleaseInteraction": {
       "releasedHelpText": {
-        "value": "Use arrows or W, A, S, D keys to navigate and choose { $item } to move. Space or enter to grab or release."
+        "value": "Navigate and choose { $item } to move. Space or enter to grab or release."
       },
       "grabbedHelpTextPattern": {
         "value": "{ $representationType ->\n  [beads] Move one or more beads to create groups.\n  *[other] Move { $item } in or between left and right counting areas.\n}"
@@ -608,7 +608,7 @@
           "value": "Switches left and right addends."
         },
         "accessibleContextResponse": {
-          "value": "{ $representationType ->\n  [attribute] { $leftAddend } yellow, { $rightAddend } blue.\n  [numberLine] { $leftAddend } in yellow section, { $rightAddend } in blue section.\n  *[other] { $leftAddend } on left, { $rightAddend } on right.\n}"
+          "value": "{ $representationType ->\n  [attribute] { $leftAddend } yellow, { $rightAddend } blue.\n  [numberLine] { $leftAddend } in left yellow section, { $rightAddend } in right blue section.\n  *[other] { $leftAddend } on left, { $rightAddend } on right.\n}"
         }
       },
       "bothAddendsVisibleButton": {
@@ -749,7 +749,7 @@
       },
       "challengeSupports": {
         "accessibleHeading": {
-          "value": "Challenge Supports"
+          "value": "Counting Area Challenge Supports"
         }
       },
       "bothAddendsEyeToggleButton": {
@@ -784,7 +784,7 @@
           "value": "{ a11y_gameScreen_answerButtonGroup_accessibleHeading }"
         },
         "accessibleHelpText": {
-          "value": "Arrows or W,A,S,D keys navigate to choice, space or enter selects answer."
+          "value": "Navigate to choice, space or enter selects answer."
         }
       },
       "tenFrameButton": {
