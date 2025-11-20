@@ -125,9 +125,6 @@ export default class GameModel implements TModel {
       numberModelType: numberModelTypeStringProperty
     } );
 
-    //REVIEW For first arg to each 'new Level', consider using index++ instead of magic numbers.
-    // REVIEW-REPLY: Using explicit level numbers improves readability here, so prefer to keep as-is.
-    // This is in part because the index appears in multiple places in each level definition.
     this.levels = [
 
       /**
