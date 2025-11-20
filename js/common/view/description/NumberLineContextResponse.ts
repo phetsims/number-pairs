@@ -1,8 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
-//REVIEW Documentation could be improved here. What slider knob?
 /**
- * Context response for dragging the slider knob.
+ * Context response when the user changes the addends in the number line, which is implemented as a slider.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
