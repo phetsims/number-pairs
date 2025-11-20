@@ -16,7 +16,6 @@ import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../commo
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import NumberStyles from './NumberStyles.js';
 
 export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
 
@@ -59,7 +58,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
         const missingCircle = missing === 'a' ? this.leftAddend : missing === 'b' ? this.rightAddend : this.total;
         const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
-        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
 
         stylize( missingCircle, stroke, lineDash, lineWidth );
         stylize( missingLine, stroke, lineDash, lineWidth );

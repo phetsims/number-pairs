@@ -15,7 +15,6 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
-import NumberStyles from './NumberStyles.js';
 
 type NumberLineFeedbackStyle = {
   stroke: Color | TReadOnlyProperty<Color>;
@@ -50,7 +49,7 @@ export default class GameNumberLineNode extends NumberLineNode {
       [ missingAddendProperty, feedbackStyleProperty ],
       ( missingAddend, feedbackStyle ) => {
 
-        const isCorrect = feedbackStyle === NumberStyles.FEEDBACK_STYLES.correct;
+        const isCorrect = feedbackStyle === NumberPairsConstants.GAME_FEEDBACK_STYLES.correct;
 
         if ( missingAddend === 'a' ) {
           const fill = isCorrect ? NumberPairsColors.attributeLeftAddendColorProperty : feedbackStyle.stroke;

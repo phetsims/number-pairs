@@ -32,7 +32,6 @@ import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
-import NumberStyles from './NumberStyles.js';
 
 type SelfOptions = EmptySelfOptions;
 type NumberLineLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
@@ -75,7 +74,7 @@ export default class NumberLineLevelNode extends LevelNode {
 
     // On the number line level, the challenge is always missing an addend.
     const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missingComponent as 'a' | 'b' );
-    const feedbackStyleProperty = level.modeProperty.derived( mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
+    const feedbackStyleProperty = level.modeProperty.derived( mode => NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ] );
 
     //REVIEW Document what's going on here.
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {

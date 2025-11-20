@@ -12,11 +12,11 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode, { NumberEquationNodeOptions } from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import NumberStyles from './NumberStyles.js';
 
 type SelfOptions = EmptySelfOptions;
 type GameNumberEquationNodeOptions = StrictOmit<NumberEquationNodeOptions, 'addendsOnRight' | 'totalColorProperty' | 'leftAddendColorProperty' | 'rightAddendColorProperty'>;
@@ -44,7 +44,7 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         [ this.leftAddendSquare, this.rightAddendSquare, this.totalSquare ].forEach( setDefaultStyle );
 
         const missingSquare = this.getMissingSquare();
-        const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
 
         missingSquare.stroke = stroke;
         missingSquare.lineDash = lineDash;

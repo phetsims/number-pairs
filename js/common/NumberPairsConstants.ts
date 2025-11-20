@@ -15,6 +15,7 @@ import ScreenView from '../../../joist/js/ScreenView.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Color from '../../../scenery/js/util/Color.js';
+import NumberPairsColors from './NumberPairsColors.js';
 import numberPairs from '../numberPairs.js';
 
 const TEN_TOTAL_RANGE = new Range( 0, 10 );
@@ -25,6 +26,14 @@ const COUNTING_AREA_BOUNDS = new Bounds2( ScreenView.DEFAULT_LAYOUT_BOUNDS.minX 
   COUNTING_AREA_MIN_Y, ScreenView.DEFAULT_LAYOUT_BOUNDS.maxX - COUNTING_AREA_X_MARGIN, COUNTING_AREA_MIN_Y + 340 );
 
 const KITTEN_PANEL_WIDTH = 56;
+const GAME_LINE_WIDTH = 3;
+const GAME_DASHED_LINE = [ 6, 6 ];
+const GAME_FEEDBACK_STYLES = {
+  idle: { stroke: NumberPairsColors.unansweredColorProperty, lineWidth: GAME_LINE_WIDTH, lineDash: GAME_DASHED_LINE },
+  incorrect: { stroke: NumberPairsColors.incorrectColorProperty, lineWidth: GAME_LINE_WIDTH, lineDash: GAME_DASHED_LINE },
+  correct: { stroke: Color.BLACK, lineWidth: 1, lineDash: [] },
+  guessSelected: { stroke: NumberPairsColors.unansweredColorProperty, lineWidth: GAME_LINE_WIDTH, lineDash: GAME_DASHED_LINE }
+};
 
 //REVIEW Consider converting to class with static constants and private constructor.
 const NumberPairsConstants = {
@@ -102,7 +111,9 @@ const NumberPairsConstants = {
   },
 
   // Game screen specific values
-  GAME_LINE_WIDTH: 3,
+  GAME_LINE_WIDTH: GAME_LINE_WIDTH,
+  GAME_DASHED_LINE: GAME_DASHED_LINE,
+  GAME_FEEDBACK_STYLES: GAME_FEEDBACK_STYLES,
 
   // URL to the {REPO}_all.html file for this simulation.
   ALL_URL: 'https://phet.colorado.edu/sims/html/number-pairs/latest/number-pairs_all.html'

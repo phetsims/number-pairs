@@ -19,7 +19,6 @@ import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
-import NumberStyles from './NumberStyles.js';
 
 type SelfOptions = EmptySelfOptions;
 type GameNumberBarModelNodeOptions = StrictOmit<BarModelMutableNodeOptions, 'dimensions' | 'displayTotalNumberProperty' | 'displayLeftAddendNumberProperty' | 'displayRightAddendNumberProperty'>;
@@ -57,7 +56,7 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
                                challenge.missingComponent === 'b' ? this.rightAddendRectangle :
                                this.totalRectangle;
 
-      const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];
+      const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
 
       stylize( missingRectangle, stroke, lineDash, lineWidth );
     } );

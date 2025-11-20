@@ -13,13 +13,13 @@ import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
 import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import NumberLineIcon from '../../common/view/NumberLineIcon.js';
 import numberPairs from '../../numberPairs.js';
-import NumberStyles from './NumberStyles.js';
 
 export default class LevelIcons {
 
@@ -44,8 +44,8 @@ export default class LevelIcons {
     //REVIEW Consider improving NumberBondMutableNode API so that questionable mutations after instantiation are not necessary.
     const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5 } );
     numberBondNode.leftAddend.children = []; // awkward
-    numberBondNode.rightAddend.lineDash = NumberStyles.DASHED_LINE;
-    numberBondNode.rightLine.lineDash = NumberStyles.DASHED_LINE;
+    numberBondNode.rightAddend.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
+    numberBondNode.rightLine.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
     return numberBondNode;
   }
 
@@ -57,7 +57,7 @@ export default class LevelIcons {
     barModelNode.leftAddendRectangle.children = []; // awkward
 
     // Display the known addend value, and keep the unknown addend dashed.
-    barModelNode.rightAddendRectangle.lineDash = NumberStyles.DASHED_LINE;
+    barModelNode.rightAddendRectangle.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
 
     return barModelNode;
   }
@@ -95,7 +95,7 @@ export default class LevelIcons {
     const numberEquationSquareNode = !leftAddendVisible ? numberEquationNode.leftAddendSquare :
                                      !totalVisible ? numberEquationNode.totalSquare : null;
     affirm( numberEquationSquareNode, 'One of left addend or total should be invisible' );
-    numberEquationSquareNode.lineDash = NumberStyles.DASHED_LINE;
+    numberEquationSquareNode.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
     numberEquationSquareNode.stroke = 'black';
     numberEquationSquareNode.lineWidth = 1.5;
     return numberEquationNode;
