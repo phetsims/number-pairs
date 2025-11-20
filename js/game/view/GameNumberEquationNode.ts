@@ -56,8 +56,8 @@ export default class GameNumberEquationNode extends NumberEquationNode {
     this.accessibleParagraph = null;
   }
 
-  //REVIEW Document. This method should be private.
-  public getMissingSquare(): Rectangle {
+  // Return the node corresponding to the missing component in the challenge prompt, so that it can be highlighted accordingly.
+  private getMissingSquare(): Rectangle {
     const challenge = this.level.challengeProperty.value;
     return challenge.missingComponent === 'a' ? this.leftAddendSquare : challenge.missingComponent === 'b' ? this.rightAddendSquare : this.totalSquare;
   }

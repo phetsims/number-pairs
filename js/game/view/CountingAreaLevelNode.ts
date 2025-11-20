@@ -80,7 +80,8 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    //REVIEW Document
+    // The PDOM provides a "Challenge Supports" section that contains the counting area, kittens, ten-frame button, and reset button,
+    // which support the user in solving the challenge.
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
