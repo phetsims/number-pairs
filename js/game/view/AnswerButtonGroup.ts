@@ -58,7 +58,7 @@ type NumberButtonElements = {
   correctAnswerNode: NumberRectangle;
   value: number;
   wrongMark: Text;
-  checkMark: Text;
+  correctMark: Text;
 }[];
 
 type NumberButtonGridOptions = StrictOmit<GridBoxOptions, 'columns' | 'rows' | 'xSpacing' | 'ySpacing'> &
@@ -197,7 +197,7 @@ export default class AnswerButtonGroup extends GridBox {
       } );
       const correctMark = new Text( '✓', {
         font: new PhetFont( 20 ),
-        fill: NumberPairsColors.checkMarkColorProperty,
+        fill: NumberPairsColors.correctMarkColorProperty,
         pickable: false,
         visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
           return mode === 'correct' && challenge.answer === value;
@@ -219,7 +219,7 @@ export default class AnswerButtonGroup extends GridBox {
         stateProperty: isPressedProperty,
         value: value,
         wrongMark: wrongMark,
-        checkMark: correctMark
+        correctMark: correctMark
       };
       elements.push( element );
       return element;

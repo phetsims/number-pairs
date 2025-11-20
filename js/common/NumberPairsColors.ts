@@ -113,7 +113,7 @@ const NumberPairsColors = {
     default: '#FCE9AE'
   } ),
 
-  checkMarkColorProperty: new ProfileColorProperty( numberPairs, 'checkMark', {
+  correctMarkColorProperty: new ProfileColorProperty( numberPairs, 'correctMark', {
     default: '#0F710F'
   } ),
   incorrectColorProperty: new ProfileColorProperty( numberPairs, 'incorrect', {

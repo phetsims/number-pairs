@@ -65,21 +65,21 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
 
     // Update the feedback layout whenever the bounds of our feedback or target changes, and whenever the model type
     // changes.
-    ManualConstraint.create( this, [ bondNode, barNode.leftAddendRectangle, barNode.rightAddendRectangle, this.wrongMark, this.checkMark, this.tryAgainText ],
-      ( bondNodeProxy, barNodeLeftAddendRectangleProxy, barNodeRightAddendRectangleProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) => {
+    ManualConstraint.create( this, [ bondNode, barNode.leftAddendRectangle, barNode.rightAddendRectangle, this.wrongMark, this.correctMark, this.tryAgainText ],
+      ( bondNodeProxy, barNodeLeftAddendRectangleProxy, barNodeRightAddendRectangleProxy, wrongMarkProxy, correctMarkProxy, tryAgainTextProxy ) => {
         const missingValue = level.challengeProperty.value.missingComponent;
 
         NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ?
-        layoutNumberBondFeedback( bondNodeProxy, missingValue, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) :
-        layoutNumberBarFeedback( barNodeLeftAddendRectangleProxy, barNodeRightAddendRectangleProxy, missingValue, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy );
+        layoutNumberBondFeedback( bondNodeProxy, missingValue, wrongMarkProxy, correctMarkProxy, tryAgainTextProxy ) :
+        layoutNumberBarFeedback( barNodeLeftAddendRectangleProxy, barNodeRightAddendRectangleProxy, missingValue, wrongMarkProxy, correctMarkProxy, tryAgainTextProxy );
       } );
 
     NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
       const missingValue = level.challengeProperty.value.missingComponent;
 
       numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
-      layoutNumberBondFeedback( bondNode, missingValue, this.wrongMark, this.checkMark, this.tryAgainText ) :
-      layoutNumberBarFeedback( barNode.leftAddendRectangle, barNode.rightAddendRectangle, missingValue, this.wrongMark, this.checkMark, this.tryAgainText );
+      layoutNumberBondFeedback( bondNode, missingValue, this.wrongMark, this.correctMark, this.tryAgainText ) :
+      layoutNumberBarFeedback( barNode.leftAddendRectangle, barNode.rightAddendRectangle, missingValue, this.wrongMark, this.correctMark, this.tryAgainText );
     } );
   }
 }

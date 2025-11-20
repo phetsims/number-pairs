@@ -36,11 +36,11 @@ export default class EquationLevelNode extends CountingAreaLevelNode {
 
     // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [
-        this.wrongMark, this.checkMark, this.tryAgainText, equationNode.leftAddendSquare,
+        this.wrongMark, this.correctMark, this.tryAgainText, equationNode.leftAddendSquare,
         equationNode.rightAddendSquare, equationNode.totalSquare ],
-      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
+      ( wrongMarkProxy, correctMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, -1, 5 );
+        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, correctMarkProxy, tryAgainTextProxy, -1, 5 );
       } );
   }
 }

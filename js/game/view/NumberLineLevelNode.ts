@@ -34,7 +34,7 @@ import GameNumberLineNode from './GameNumberLineNode.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 import NumberStyles from './NumberStyles.js';
 
-//REVIEW Violates PhET options pattern, type SelfOptions needs to be defined.
+type SelfOptions = EmptySelfOptions;
 type NumberLineLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
 
 // constants
@@ -50,8 +50,7 @@ export default class NumberLineLevelNode extends LevelNode {
                       tandem: Tandem,
                       providedOptions?: LevelNodeOptions ) {
 
-    //REVIEW Violates PhET options pattern, type SelfOptions should be used here.
-    const options = optionize<NumberLineLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
+    const options = optionize<NumberLineLevelNodeOptions, SelfOptions, LevelNodeOptions>()( {
       countingAreaBackgroundColorProperty: NumberPairsColors.numberLineBackgroundColorProperty,
       countingAreaBounds: GameModelConstants.NUMBER_LINE_COUNTING_AREA_BOUNDS
     }, providedOptions );
@@ -144,11 +143,11 @@ export default class NumberLineLevelNode extends LevelNode {
 
     // layout feedback when the equation or bounds of the feedback change
     ManualConstraint.create( this, [
-        this.wrongMark, this.checkMark, this.tryAgainText, equationNode.leftAddendSquare,
+        this.wrongMark, this.correctMark, this.tryAgainText, equationNode.leftAddendSquare,
         equationNode.rightAddendSquare, equationNode.totalSquare ],
-      ( wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
+      ( wrongMarkProxy, correctMarkProxy, tryAgainTextProxy, equationLeftProxy, equationRightProxy, equationTopProxy ) => {
         const equationTargetProxy = getEquationMissingProxy( equationNode, equationLeftProxy, equationRightProxy, equationTopProxy );
-        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy, 5, 5 );
+        layoutEquationFeedback( equationTargetProxy, wrongMarkProxy, correctMarkProxy, tryAgainTextProxy, 5, 5 );
       } );
 
     // Control via the number buttons only
@@ -159,7 +158,8 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    //REVIEW Document.
+    // The PDOM has a "challenge supports" section, containing the counting area and other elements that help
+    // the player respond to the challenge.
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',

@@ -55,9 +55,8 @@ const TEXT_OPTIONS = {
 export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly statusBar: StatusBar;
 
-  //REVIEW wrongMark and checkMark names seem inconsistent. wrongMark and rightMark? correctMark and incorrectMark? xMark and checkMark?
   protected readonly wrongMark: Text;
-  protected readonly checkMark: Text;
+  protected readonly correctMark: Text;
   protected readonly tryAgainText: Text;
   protected readonly challengeResetButton: ResetButton;
   protected readonly answerButtonGroup: AnswerButtonGroup;
@@ -151,9 +150,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       fill: NumberPairsColors.incorrectColorProperty,
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
-    this.checkMark = new Text( '✓', {
+    this.correctMark = new Text( '✓', {
       font: new PhetFont( 54 ),
-      fill: NumberPairsColors.checkMarkColorProperty,
+      fill: NumberPairsColors.correctMarkColorProperty,
       visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' )
     } );
     this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
@@ -164,7 +163,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     } );
     this.addChild( this.tryAgainText );
     this.addChild( this.wrongMark );
-    this.addChild( this.checkMark );
+    this.addChild( this.correctMark );
 
     // Reset button for the current challenge. It does not reset the entire level or screen, only the selected guess,
     // and accompanying UI components.
@@ -204,8 +203,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         const challenge = level.challengeProperty.value;
         if ( isCorrect ) {
           if ( firstTry ) {
-            //REVIEW Remove console.log or change to phet.log && phet.log(...)
-            console.log( 'correct on first try' );
             this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
               levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
               leftAddend: challenge.a,

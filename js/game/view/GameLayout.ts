@@ -34,20 +34,20 @@ export function getEquationMissingProxy( equationNode: GameNumberEquationNode,
  * Layouts the feedback elements (wrong mark, check mark, try again text) for an equation.
  * @param targetProxy
  * @param wrongMarkProxy
- * @param checkMarkProxy
+ * @param correctMarkProxy
  * @param tryAgainProxy
  * @param wrongOffset
  * @param checkOffset
  */
 export function layoutEquationFeedback( targetProxy: Layoutable,
                                         wrongMarkProxy: Layoutable,
-                                        checkMarkProxy: Layoutable,
+                                        correctMarkProxy: Layoutable,
                                         tryAgainProxy: Layoutable,
                                         wrongOffset: number,
                                         checkOffset: number ): void {
 
   wrongMarkProxy.centerTop = targetProxy.centerBottom.plusXY( 0, wrongOffset );
-  checkMarkProxy.centerTop = targetProxy.centerBottom.plusXY( 0, checkOffset );
+  correctMarkProxy.centerTop = targetProxy.centerBottom.plusXY( 0, checkOffset );
   tryAgainProxy.leftCenter = wrongMarkProxy.rightCenter.plusXY( 5, 0 );
 }
 
@@ -56,13 +56,13 @@ export function layoutEquationFeedback( targetProxy: Layoutable,
  * @param bondNode
  * @param missingValue
  * @param wrongMark
- * @param checkMark
+ * @param correctMark
  * @param tryAgainTextProxy
  */
 export function layoutNumberBondFeedback( bondNode: Layoutable,
                                           missingValue: MissingComponent,
                                           wrongMark: Layoutable,
-                                          checkMark: Layoutable,
+                                          correctMark: Layoutable,
                                           tryAgainTextProxy: Layoutable ): void {
   wrongMark.bottom = bondNode.bottom - 23; // Manually tuned based on the size of the circles and the height of the text.
 
@@ -71,15 +71,15 @@ export function layoutNumberBondFeedback( bondNode: Layoutable,
   // NumberBond levels cannot have the total missing, so only 'a' or 'b' is possible.
   if ( missingValue === 'a' ) {
     wrongMark.right = bondNode.left - 5;
-    checkMark.right = bondNode.left + CHECK_HORIZONTAL_OFFSET;
+    correctMark.right = bondNode.left + CHECK_HORIZONTAL_OFFSET;
     tryAgainTextProxy.rightCenter = wrongMark.leftCenter.plusXY( -5, 0 );
   }
   else if ( missingValue === 'b' ) {
     wrongMark.left = bondNode.right + 5;
-    checkMark.left = bondNode.right + CHECK_HORIZONTAL_OFFSET;
+    correctMark.left = bondNode.right + CHECK_HORIZONTAL_OFFSET;
     tryAgainTextProxy.leftCenter = wrongMark.rightCenter.plusXY( 5, 0 );
   }
-  checkMark.centerY = wrongMark.centerY; // keep them aligned if one is hidden
+  correctMark.centerY = wrongMark.centerY; // keep them aligned if one is hidden
 }
 
 /**
@@ -88,14 +88,14 @@ export function layoutNumberBondFeedback( bondNode: Layoutable,
  * @param barNodeRightAddendRectangle
  * @param missingValue
  * @param wrongMark
- * @param checkMark
+ * @param correctMark
  * @param tryAgainText
  */
 export function layoutNumberBarFeedback( barNodeLeftAddendRectangle: Layoutable,
                                          barNodeRightAddendRectangle: Layoutable,
                                          missingValue: MissingComponent,
                                          wrongMark: Layoutable,
-                                         checkMark: Layoutable,
+                                         correctMark: Layoutable,
                                          tryAgainText: Layoutable ): void {
 
   const center = ( barNodeLeftAddendRectangle.left + barNodeRightAddendRectangle.right ) / 2;
@@ -109,5 +109,5 @@ export function layoutNumberBarFeedback( barNodeLeftAddendRectangle: Layoutable,
 
   tryAgainText.left = wrongMark.right + 10;
   tryAgainText.centerY = wrongMark.centerY;
-  checkMark.center = wrongMark.center; // keep them aligned if one is hidden
+  correctMark.center = wrongMark.center; // keep them aligned if one is hidden
 }
