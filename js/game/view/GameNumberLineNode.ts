@@ -7,8 +7,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import Property from '../../../../axon/js/Property.js';
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import { isTReadOnlyProperty, TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsModel from '../../common/model/NumberPairsModel.js';
@@ -60,8 +59,7 @@ export default class GameNumberLineNode extends NumberLineNode {
           this.leftAddendArrow.setTailStyle( fill, lineDash );
           this.leftAddendHighlight.mutate( {
             fill: fill,
-            //REVIEW WebStorm tells me this should be fill instanceof ProfileColorProperty
-            stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( isTReadOnlyProperty( fill ) ? fill.value : fill ),
             lineDash: lineDash
           } );
 
@@ -79,8 +77,7 @@ export default class GameNumberLineNode extends NumberLineNode {
           this.rightAddendArrow.setTailStyle( fill, lineDash );
           this.rightAddendHighlight.mutate( {
             fill: fill,
-            //REVIEW WebStorm tells me this should be fill instanceof ProfileColorProperty
-            stroke: NumberPairsConstants.GET_DARKER_COLOR( fill instanceof Property ? fill.value : fill ),
+            stroke: NumberPairsConstants.GET_DARKER_COLOR( isTReadOnlyProperty( fill ) ? fill.value : fill ),
             lineDash: lineDash
           } );
 

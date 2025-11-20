@@ -24,7 +24,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
-//REVIEW Violates PhET options pattern, type SelfOptions needs to be defined.
+type SelfOptions = EmptySelfOptions;
 type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
 
 export default abstract class CountingAreaLevelNode extends LevelNode {
@@ -39,8 +39,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
                          tandem: Tandem,
                          providedOptions?: LevelNodeOptions ) {
 
-    //REVIEW Violates PhET options pattern, type SelfOptions should be used here.
-    const options = optionize<CountingAreaLevelNodeOptions, EmptySelfOptions, LevelNodeOptions>()( {
+    const options = optionize<CountingAreaLevelNodeOptions, SelfOptions, LevelNodeOptions>()( {
       countingAreaBackgroundColorProperty: NumberPairsColors.attributeSumColorProperty
     }, providedOptions );
 

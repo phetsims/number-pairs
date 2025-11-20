@@ -48,6 +48,7 @@ const MARK_OFFSET_Y = -2;
 const X_SPACING = 8;
 const Y_SPACING = X_SPACING + MARK_OFFSET_Y * 2; // compensate for check/X mark height outside of button bounds
 const FONT = new PhetFont( 24 );
+const BUTTON_LINE_WIDTH = 1;
 
 type NumberButtonElements = {
   //REVIEW Document fields
@@ -117,8 +118,6 @@ export default class AnswerButtonGroup extends GridBox {
         value: value
       } );
 
-      //REVIEW Move buttonLineWidth to const BUTTON_LINE_WIDTH outside of class definition.
-      const buttonLineWidth = 1;
       const numberToggleButton = new NumberToggleButton( isPressedProperty, {
         soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
         accessibleName: derivedTernary( isWrongProperty, {
@@ -129,7 +128,7 @@ export default class AnswerButtonGroup extends GridBox {
         content: labelBox,
         baseColor: buttonColorProperty,
         pressedFillColorProperty: buttonPressedColorProperty,
-        lineWidth: buttonLineWidth,
+        lineWidth: BUTTON_LINE_WIDTH,
         touchAreaYDilation: Y_SPACING / 2,
         mouseAreaYDilation: Y_SPACING / 2,
 
@@ -149,11 +148,11 @@ export default class AnswerButtonGroup extends GridBox {
       } );
 
       const correctAnswerNode = new NumberRectangle(
-        new Dimension2( numberToggleButton.width - buttonLineWidth * 2, numberToggleButton.height - buttonLineWidth * 2 ),
+        new Dimension2( numberToggleButton.width - BUTTON_LINE_WIDTH * 2, numberToggleButton.height - BUTTON_LINE_WIDTH * 2 ),
         new Property( value ), {
           stroke: 'black',
           fill: buttonColorProperty,
-          lineWidth: buttonLineWidth
+          lineWidth: BUTTON_LINE_WIDTH
         } );
 
       const toggleProperty = derived( isCorrectProperty, selectedNumberProperty, ( isCorrect, selectedNumber ) =>
