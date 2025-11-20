@@ -151,7 +151,7 @@ The PhET-iO instrumentation of this simulation is relatively straightforward. Al
 exist for the lifetime of the sim, so there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`. 
 
 `Challenge` instances are created dynamically, and serialized by data-type serialization (see `ChallengeIO`). `Challenge` 
-instances and are not individually PhET-iO instrumented. 
+instances are not individually PhET-iO instrumented. 
 
 Another important part of the PhET-iO instrumentation is the use of `ObservableArray`s. The `ObservableArray`s are a 
 critical part of state setting and tracking for both sim interactions, and scene changes.

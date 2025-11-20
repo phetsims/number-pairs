@@ -16,8 +16,7 @@ import numberPairs from '../../numberPairs.js';
 export type MissingComponent = 'a' | 'b' | 'y';
 
 type ChallengeState = {
-  //REVIEW Consider naming this field missingComponent. 'missing' sounds like a boolean in context.
-  missing: MissingComponent;
+  missingComponent: MissingComponent;
   a: number;
   b: number;
   y: number;
@@ -27,7 +26,7 @@ export default class Challenge {
   public readonly answer: number;
 
   public constructor(
-    public readonly missing: MissingComponent,
+    public readonly missingComponent: MissingComponent,
     public readonly a: number,
     public readonly b: number,
     public readonly y: number
@@ -35,10 +34,10 @@ export default class Challenge {
 
     affirm( a + b === y, `Invalid Challenge: a(${a}) + b(${b}) should equal y(${y})` );
 
-    this.answer = this.missing === 'a' ? this.a :
-                  this.missing === 'b' ? this.b :
-                  this.missing === 'y' ? this.y :
-                  ( () => { throw new Error( `Unhandled missing: ${this.missing}` ); } )();
+    this.answer = this.missingComponent === 'a' ? this.a :
+                  this.missingComponent === 'b' ? this.b :
+                  this.missingComponent === 'y' ? this.y :
+                  ( () => { throw new Error( `Unhandled missing: ${this.missingComponent}` ); } )();
   }
 
   public isCorrect( guess: number ): boolean { return guess === this.answer; }
@@ -47,25 +46,26 @@ export default class Challenge {
    * Returns a concise string representation for debugging, e.g. "3 + ? = 7 (answer = 4)".
    */
   public toDebugString(): string {
-    const aStr = this.missing === 'a' ? '?' : `${this.a}`;
-    const bStr = this.missing === 'b' ? '?' : `${this.b}`;
-    const yStr = this.missing === 'y' ? '?' : `${this.y}`;
+    const aStr = this.missingComponent === 'a' ? '?' : `${this.a}`;
+    const bStr = this.missingComponent === 'b' ? '?' : `${this.b}`;
+    const yStr = this.missingComponent === 'y' ? '?' : `${this.y}`;
     return `${aStr} + ${bStr} = ${yStr} (answer = ${this.answer})`;
   }
 
-  //REVIEW Document the type of serialization used.
+  // Challenge instances are created dynamically, and serialized by data-type serialization here. Challenge
+  // instances are not individually PhET-iO instrumented.
   public static ChallengeIO = new IOType<Challenge, ChallengeState>( 'ChallengeIO', {
     valueType: Challenge,
 
     // Also provides toStateObject()
     stateSchema: {
-      missing: StringIO,
+      missingComponent: StringIO,
       a: NumberIO,
       b: NumberIO,
       y: NumberIO
     },
     fromStateObject: ( state: ChallengeState ): Challenge => {
-      return new Challenge( state.missing, state.a, state.b, state.y );
+      return new Challenge( state.missingComponent, state.a, state.b, state.y );
     }
   } );
 }

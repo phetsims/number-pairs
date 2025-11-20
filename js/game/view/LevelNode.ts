@@ -106,8 +106,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       level.countingObjectsDelegate.rightAddendColorProperty,
       level.countingObjectsDelegate.totalColorProperty,
       ( challenge, leftColor, rightColor, totalColor ) => {
-        return challenge.missing === 'a' ? leftColor :
-               challenge.missing === 'b' ? rightColor :
+        return challenge.missingComponent === 'a' ? leftColor :
+               challenge.missingComponent === 'b' ? rightColor :
                totalColor;
       } );
 
@@ -226,9 +226,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         else {
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( {
             levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
-            leftAddend: challenge.missing !== 'a' ? challenge.a : guess,
-            rightAddend: challenge.missing !== 'b' ? challenge.b : guess,
-            total: challenge.missing !== 'y' ? challenge.y : guess
+            leftAddend: challenge.missingComponent !== 'a' ? challenge.a : guess,
+            rightAddend: challenge.missingComponent !== 'b' ? challenge.b : guess,
+            total: challenge.missingComponent !== 'y' ? challenge.y : guess
           } ) );
         }
       },
@@ -324,7 +324,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
               level.selectedGuessProperty,
               NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
               ( challenge, selectedGuess, questionMark ) =>
-                challenge.missing === 'a' ?
+                challenge.missingComponent === 'a' ?
                 selectedGuess === null ? questionMark :
                 selectedGuess : challenge.a ),
             right: derived(
@@ -332,7 +332,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
               level.selectedGuessProperty,
               NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
               ( challenge, selectedGuess, questionMark ) =>
-                challenge.missing === 'b' ?
+                challenge.missingComponent === 'b' ?
                 selectedGuess === null ? questionMark :
                 selectedGuess : challenge.b ),
             total: derived(
@@ -340,7 +340,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
               level.selectedGuessProperty,
               NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
               ( challenge, selectedGuess, questionMark ) =>
-                challenge.missing === 'y' ?
+                challenge.missingComponent === 'y' ?
                 selectedGuess === null ? questionMark :
                 selectedGuess : challenge.y )
           } )
@@ -359,8 +359,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
           tagName: 'div',
           accessibleParagraph: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleParagraph.createProperty( {
             leftAddend: level.countingObjectsDelegate.leftAddendProperty,
-            leftAddendMissing: level.challengeProperty.derived( challenge => challenge.missing === 'a' ? 'missing' : 'notMissing' ),
-            rightAddendMissing: level.challengeProperty.derived( challenge => challenge.missing === 'b' ? 'missing' : 'notMissing' ),
+            leftAddendMissing: level.challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'missing' : 'notMissing' ),
+            rightAddendMissing: level.challengeProperty.derived( challenge => challenge.missingComponent === 'b' ? 'missing' : 'notMissing' ),
             rightAddend: level.countingObjectsDelegate.rightAddendProperty,
             type: level.representationType === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
             visible: level instanceof NumberLineLevel ? derived( level.numberLineAddendsVisibleProperty, level.tickValuesVisibleProperty, ( addendsVisible, tickValuesVisible ) => {
@@ -370,7 +370,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
                      'both';
             } ) : 'none',
             total: derived( level.selectedGuessProperty, level.challengeProperty, ( guess, challenge ) => {
-              return ( guess || 0 ) + ( challenge.missing === 'a' ? challenge.b : challenge.a );
+              return ( guess || 0 ) + ( challenge.missingComponent === 'a' ? challenge.b : challenge.a );
             } )
           } )
         } )

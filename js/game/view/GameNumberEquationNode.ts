@@ -60,7 +60,7 @@ export default class GameNumberEquationNode extends NumberEquationNode {
   //REVIEW Document. This method should be private.
   public getMissingSquare(): Rectangle {
     const challenge = this.level.challengeProperty.value;
-    return challenge.missing === 'a' ? this.leftAddendSquare : challenge.missing === 'b' ? this.rightAddendSquare : this.totalSquare;
+    return challenge.missingComponent === 'a' ? this.leftAddendSquare : challenge.missingComponent === 'b' ? this.rightAddendSquare : this.totalSquare;
   }
 }
 

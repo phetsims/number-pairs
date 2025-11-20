@@ -54,8 +54,8 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
     Multilink.multilink( [ level.modeProperty, level.challengeProperty ], ( mode, challenge ) => {
       [ this.totalRectangle, this.leftAddendRectangle, this.rightAddendRectangle ].forEach( setDefaultStyle );
 
-      const missingRectangle = challenge.missing === 'a' ? this.leftAddendRectangle :
-                               challenge.missing === 'b' ? this.rightAddendRectangle :
+      const missingRectangle = challenge.missingComponent === 'a' ? this.leftAddendRectangle :
+                               challenge.missingComponent === 'b' ? this.rightAddendRectangle :
                                this.totalRectangle;
 
       const { stroke, lineDash, lineWidth } = NumberStyles.FEEDBACK_STYLES[ mode ];

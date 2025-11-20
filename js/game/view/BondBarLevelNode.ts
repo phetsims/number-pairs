@@ -49,17 +49,17 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     // when the challenge changes, move the correct addend of the GameNumberBarModelNode to the front, to avoid
     // the stroke being obscured by the other addend, see https://github.com/phetsims/number-pairs/issues/227#issuecomment-3368461725
     level.challengeProperty.link( challenge => {
-      if ( challenge.missing === 'a' ) {
+      if ( challenge.missingComponent === 'a' ) {
         barNode.leftAddendRectangle.moveToFront();
       }
-      else if ( challenge.missing === 'b' ) {
+      else if ( challenge.missingComponent === 'b' ) {
         barNode.rightAddendRectangle.moveToFront();
       }
-      else if ( challenge.missing === 'y' ) {
+      else if ( challenge.missingComponent === 'y' ) {
         barNode.totalRectangle.moveToFront();
       }
       else {
-        throw new Error( `Unknown missing value: ${challenge.missing}` );
+        throw new Error( `Unknown missing value: ${challenge.missingComponent}` );
       }
     } );
 
@@ -67,7 +67,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
     // changes.
     ManualConstraint.create( this, [ bondNode, barNode.leftAddendRectangle, barNode.rightAddendRectangle, this.wrongMark, this.checkMark, this.tryAgainText ],
       ( bondNodeProxy, barNodeLeftAddendRectangleProxy, barNodeRightAddendRectangleProxy, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) => {
-        const missingValue = level.challengeProperty.value.missing;
+        const missingValue = level.challengeProperty.value.missingComponent;
 
         NumberPairsPreferences.numberModelTypeProperty.value === NumberModelType.NUMBER_BOND_MODEL ?
         layoutNumberBondFeedback( bondNodeProxy, missingValue, wrongMarkProxy, checkMarkProxy, tryAgainTextProxy ) :
@@ -75,7 +75,7 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
       } );
 
     NumberPairsPreferences.numberModelTypeProperty.link( numberModelType => {
-      const missingValue = level.challengeProperty.value.missing;
+      const missingValue = level.challengeProperty.value.missingComponent;
 
       numberModelType === NumberModelType.NUMBER_BOND_MODEL ?
       layoutNumberBondFeedback( bondNode, missingValue, this.wrongMark, this.checkMark, this.tryAgainText ) :

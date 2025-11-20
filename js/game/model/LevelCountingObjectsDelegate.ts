@@ -50,13 +50,13 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     options: CountingObjectsDelegateOptions ) {
 
     const totalProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => challenge.missing === 'y' ? ( guess === null ? 0 : guess ) : challenge.y
+      ( challenge, guess ) => challenge.missingComponent === 'y' ? ( guess === null ? 0 : guess ) : challenge.y
     );
     const leftAddendProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => challenge.missing === 'a' ? guess === null ? 0 : guess : challenge.a
+      ( challenge, guess ) => challenge.missingComponent === 'a' ? guess === null ? 0 : guess : challenge.a
     );
     const rightAddendProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => challenge.missing === 'b' ? guess === null ? 0 : guess : challenge.b );
+      ( challenge, guess ) => challenge.missingComponent === 'b' ? guess === null ? 0 : guess : challenge.b );
 
 
     const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
@@ -73,14 +73,14 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
 
     //REVIEW I'm not familiar with derived. Is the return type UnknownDerivedProperty<boolean> type safe?
     const totalVisibleProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => ( challenge.missing === 'y' && guess !== null ) || challenge.missing !== 'y'
+      ( challenge, guess ) => ( challenge.missingComponent === 'y' && guess !== null ) || challenge.missingComponent !== 'y'
     );
 
     const leftAddendVisibleProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => ( challenge.missing === 'a' && guess !== null ) || challenge.missing !== 'a' );
+      ( challenge, guess ) => ( challenge.missingComponent === 'a' && guess !== null ) || challenge.missingComponent !== 'a' );
 
     const rightAddendVisibleProperty = derived( challengeProperty, selectedGuessProperty,
-      ( challenge, guess ) => ( challenge.missing === 'b' && guess !== null ) || challenge.missing !== 'b' );
+      ( challenge, guess ) => ( challenge.missingComponent === 'b' && guess !== null ) || challenge.missingComponent !== 'b' );
     super( totalProperty, leftAddendProperty, rightAddendProperty, leftAddendCountingObjectsProperty,
       rightAddendCountingObjectsProperty, totalVisibleProperty, leftAddendVisibleProperty, rightAddendVisibleProperty,
       countingObjects, options );

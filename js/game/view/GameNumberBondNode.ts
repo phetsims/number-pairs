@@ -51,7 +51,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
       [ level.modeProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
       ( mode, challenge ) => {
 
-        const missing = challenge.missing;
+        const missing = challenge.missingComponent;
 
         [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [] ) );
         [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [] ) );

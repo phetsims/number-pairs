@@ -87,8 +87,8 @@ export default class AnswerButtonGroup extends GridBox {
       NumberPairsColors.answerButtonPressedRightAddendColorProperty,
       NumberPairsColors.answerButtonPressedTotalColorProperty,
       ( challenge, leftPressedColor, rightPressedColor, totalPressedColor ) => {
-        return challenge.missing === 'a' ? leftPressedColor :
-               challenge.missing === 'b' ? rightPressedColor :
+        return challenge.missingComponent === 'a' ? leftPressedColor :
+               challenge.missingComponent === 'b' ? rightPressedColor :
                totalPressedColor;
       } );
 
@@ -168,12 +168,12 @@ export default class AnswerButtonGroup extends GridBox {
           selectedNumberProperty.value = state ? value : null;
 
           this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.answerSelected.format( {
-            color: challengeProperty.value.missing === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value :
+            color: challengeProperty.value.missingComponent === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value :
                    NumberPairsFluent.a11y.rightAddendColorStringProperty.value,
             value: value,
-            challengeType: challengeProperty.value.missing === 'a' ? 'leftAddend' :
-                           challengeProperty.value.missing === 'b' ? 'rightAddend' : 'total',
-            representationType: challengeProperty.value.missing === 'y' ? 'sum' :
+            challengeType: challengeProperty.value.missingComponent === 'a' ? 'leftAddend' :
+                           challengeProperty.value.missingComponent === 'b' ? 'rightAddend' : 'total',
+            representationType: challengeProperty.value.missingComponent === 'y' ? 'sum' :
                                 challengeType === 'numberLine' ? 'numberLine' : 'kittens'
           } ) );
         }
@@ -244,8 +244,8 @@ export default class AnswerButtonGroup extends GridBox {
       }
     }
 
-    const challengeTypeProperty = challengeProperty.derived( challenge => challenge.missing === 'a' ? 'leftAddend' :
-                                                                          challenge.missing === 'b' ? 'rightAddend' :
+    const challengeTypeProperty = challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'leftAddend' :
+                                                                          challenge.missingComponent === 'b' ? 'rightAddend' :
                                                                           'total' );
     const options = optionize4<NumberButtonGridOptions, EmptySelfOptions, GridBoxOptions>()( {},
       AccessibleInteractiveOptions, {

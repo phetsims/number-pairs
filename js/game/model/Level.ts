@@ -148,16 +148,16 @@ export default class Level {
         this.challengeProperty,
         NumberPairsFluent.a11y.leftAddendColorStringProperty,
         NumberPairsFluent.a11y.rightAddendColorStringProperty,
-        challenge => challenge.missing === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value : NumberPairsFluent.a11y.rightAddendColorStringProperty.value ),
+        challenge => challenge.missingComponent === 'a' ? NumberPairsFluent.a11y.leftAddendColorStringProperty.value : NumberPairsFluent.a11y.rightAddendColorStringProperty.value ),
       levelType: this.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens',
       leftAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
-        ( challenge, whatNumber ) => challenge.missing !== 'a' ? challenge.a : whatNumber ),
+        ( challenge, whatNumber ) => challenge.missingComponent !== 'a' ? challenge.a : whatNumber ),
       rightAddend: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
-        ( challenge, whatNumber ) => challenge.missing !== 'b' ? challenge.b : whatNumber ),
+        ( challenge, whatNumber ) => challenge.missingComponent !== 'b' ? challenge.b : whatNumber ),
       total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
-        ( challenge, whatNumber ) => challenge.missing !== 'y' ? challenge.y : whatNumber ),
-      addendOrSum: this.challengeProperty.derived( challenge => challenge.missing === 'y' ? 'sum' : 'addend' ),
-      challengeType: this.challengeProperty.derived( challenge => challenge.missing === 'a' ? 'leftAddend' : challenge.missing === 'b' ? 'rightAddend' : 'total' ),
+        ( challenge, whatNumber ) => challenge.missingComponent !== 'y' ? challenge.y : whatNumber ),
+      addendOrSum: this.challengeProperty.derived( challenge => challenge.missingComponent === 'y' ? 'sum' : 'addend' ),
+      challengeType: this.challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'leftAddend' : challenge.missingComponent === 'b' ? 'rightAddend' : 'total' ),
       decompositionOrSum: ( levelNumber === 4 || levelNumber === 7 || levelNumber === 8 ) ? 'sum' : 'decomposition'
     } );
 

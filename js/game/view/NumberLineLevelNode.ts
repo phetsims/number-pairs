@@ -75,14 +75,14 @@ export default class NumberLineLevelNode extends LevelNode {
     } as const;
 
     // On the number line level, the challenge is always missing an addend.
-    const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missing as 'a' | 'b' );
+    const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missingComponent as 'a' | 'b' );
     const feedbackStyleProperty = level.modeProperty.derived( mode => NumberStyles.FEEDBACK_STYLES[ mode ] );
 
     //REVIEW Document what's going on here.
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {
       const numericGuess = guess ?? 0;
 
-      if ( challenge.missing === 'a' ) {
+      if ( challenge.missingComponent === 'a' ) {
         numberLineModel.leftAddendProperty.value = numericGuess;
         numberLineModel.rightAddendProperty.value = level.challengeProperty.value.b;
         numberLineModel.totalProperty.value = numericGuess + level.challengeProperty.value.b;
