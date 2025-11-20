@@ -57,7 +57,8 @@ export default class GameNumberEquationNode extends NumberEquationNode {
   }
 
   // Return the node corresponding to the missing component in the challenge prompt, so that it can be highlighted accordingly.
-  private getMissingSquare(): Rectangle {
+  // public since it is also used by GameLayout.ts for positioning feedback labels.
+  public getMissingSquare(): Rectangle {
     const challenge = this.level.challengeProperty.value;
     return challenge.missingComponent === 'a' ? this.leftAddendSquare : challenge.missingComponent === 'b' ? this.rightAddendSquare : this.totalSquare;
   }

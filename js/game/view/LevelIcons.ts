@@ -112,7 +112,8 @@ export default class LevelIcons {
   }
 
   public static getIcon( levelNumber: number ): Node {
-    //REVIEW affirm( levelNumber >= 1 && levelNumber <= 8, ... );
+    affirm( Number.isInteger( levelNumber ), 'levelNumber should be an integer' );
+    affirm( levelNumber >= 1 && levelNumber <= 8, 'levelNumber should be between 1 and 8, inclusive' );
     return levelNumber === 1 ? LevelIcons.getNumberModelToggleIcon( 7, 3, 4 ) :
            levelNumber === 2 ? LevelIcons.getNumberModelToggleIcon( 10, 3, 7 ) :
            levelNumber === 3 ? LevelIcons.getNumberEquationIcon( 10, 3, 7, false, true ) :

@@ -152,8 +152,6 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       phetioVisiblePropertyInstrumented: false
     } );
 
-    //REVIEW I don't understand this comment.
-    // This is what clients might do in their LevelsScreenView.
     this.accessibleLevelsSectionNode.pdomOrder = [
       buttonGroup,
       infoButton

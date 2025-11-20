@@ -38,9 +38,13 @@ const ZERO_TO_TWENTY_MAX = 40;
 
 export default class LevelCountingObjectsDelegate extends AbstractNumberPairsModel {
 
-  //REVIEW Document fields.
+  // All CountingObject instances are pre-allocated. They are marked as inactive when not displayed in the counting area.
   public readonly inactiveCountingObjects: ObservableArray<CountingObject>;
+
+  // Counting objects for the left addend, which are yellow kittens in the counting area.
   private readonly leftAddendObjects: ObservableArray<CountingObject>;
+
+  // Counting objects for the right addend, which are blue kittens in the counting area.
   private readonly rightAddendObjects: ObservableArray<CountingObject>;
 
   public constructor(
