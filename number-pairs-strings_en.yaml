@@ -553,10 +553,12 @@ a11y:
         select_levelType:
           sum:           Correct! { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
           decomposition: Correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
+
+      # There is no scoring logic here, we are just reporting the total accumulated score after the user gets a correct answer on the first try
       _correctAnswerScore: |-
-                           { $score ->
+                           { $totalScore ->
                              [ 1 ] 1 star!
-                             *[ other ] { $score } stars!
+                             *[ other ] { $totalScore } stars!
                            }
     resetChallengeButton:
       accessibleName:            Reset Challenge

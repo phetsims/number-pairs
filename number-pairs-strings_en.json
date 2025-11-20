@@ -809,7 +809,7 @@
           "value": "{ $levelType ->\n  [sum] Correct! { $leftAddend } plus { $rightAddend } equals { $total }. { a11y_gameScreen_responses__correctAnswerScore }\n  *[decomposition] Correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y_gameScreen_responses__correctAnswerScore }\n}"
         },
         "_correctAnswerScore": {
-          "value": "{ $score ->\n  [ 1 ] 1 star!\n  *[ other ] { $score } stars!\n}"
+          "value": "{ $totalScore ->\n  [ 1 ] 1 star!\n  *[ other ] { $totalScore } stars!\n}"
         }
       },
       "resetChallengeButton": {

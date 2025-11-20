@@ -208,7 +208,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
               leftAddend: challenge.a,
               rightAddend: challenge.b,
               total: challenge.y,
-              score: level.scoreProperty
+              totalScore: level.scoreProperty
             } ) );
           }
           else {
