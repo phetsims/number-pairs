@@ -96,7 +96,16 @@ export default class AnswerButtonGroup extends GridBox {
     // Helper to create a fixed-size button for a given number.
     const createElement = ( value: number ) => {
 
-      const label = new Text( value, { font: FONT } );
+      const isCorrectAnswerProperty = derived( challengeProperty, challenge => challenge.answer === value );
+
+      const label = new Text( value, {
+        font: FONT,
+
+        // Highlight correct answers on ?showAnswers
+        fill: isCorrectAnswerProperty.derived( isCorrect => {
+          return ( isCorrect && phet.chipper.queryParameters.showAnswers ) ? 'white' : 'black';
+        } )
+      } );
       const labelBox = new AlignBox( label, {
         group: alignGroup,
         xAlign: 'center',
