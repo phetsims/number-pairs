@@ -14,6 +14,9 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor( toggleKittenColor: boolean ) {
+
+    //REVIEW Should KeyboardHelpSectionRow.fromHotkeyData be used to create rows? For example, see VectorsKeyboardHelpSection.
+
     const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
       labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty
     } );
