@@ -50,7 +50,8 @@ export default class GameModel implements TModel {
   // Emits when a level reaches the reward score for the first time.
   public readonly rewardAchievedEmitter: Emitter<[ number, number ]>;
 
-  //REVIEW Document
+  // When the user presses the "check" button, signify whether the guess was correct or incorrect, and provide the context
+  // of the current level
   public readonly levelAnswerFeedbackEmitter: Emitter<[ 'correct' | 'incorrect', Level ]>;
 
   public constructor( providedOptions: GameModelOptions ) {
@@ -124,24 +125,9 @@ export default class GameModel implements TModel {
       numberModelType: numberModelTypeStringProperty
     } );
 
-    //REVIEW Dead code alert - delete?
-    // const level1HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level1.accessibleHelpText.createProperty( {
-    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    // } );
-    //
-    // const level2HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level2.accessibleHelpText.createProperty( {
-    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    // } );
-    // const level3HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level3.accessibleHelpTextStringProperty;
-    // const level4HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level4.accessibleHelpTextStringProperty;
-    // const level5HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level5.accessibleHelpText.createProperty( {
-    //   numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
-    // } );
-    // const level6HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level6.accessibleHelpTextStringProperty;
-    // const level7HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level7.accessibleHelpTextStringProperty;
-    // const level8HelpTextProperty = NumberPairsFluent.a11y.gameScreen.level8.accessibleHelpTextStringProperty;
-
     //REVIEW For first arg to each 'new Level', consider using index++ instead of magic numbers.
+    // REVIEW-REPLY: Using explicit level numbers improves readability here, so prefer to keep as-is.
+    // This is in part because the index appears in multiple places in each level definition.
     this.levels = [
 
       /**
@@ -273,13 +259,17 @@ export default class GameModel implements TModel {
     } );
   }
 
-  //REVIEW Mention that level numbering is 1-based.
+  /**
+   * Gets the Level for the specified level number, 1-based.
+   */
   public getLevel( levelNumber: number ): Level {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
     return this.levels[ levelNumber - 1 ];
   }
 
-  //REVIEW Mention that level numbering is 1-based.
+  /**
+   * Sets the current level, 1-based.
+   */
   public setLevel( levelNumber: number ): void {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
     this.selectedLevelProperty.value = LevelValues[ levelNumber - 1 ];
