@@ -18,9 +18,11 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
@@ -36,7 +38,7 @@ export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tand
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
 
-export default class Level {
+export default class Level extends PhetioObject {
 
   //REVIEW Public API should be ReadOnlyProperty
   // Accumulated points on this level.
@@ -97,6 +99,11 @@ export default class Level {
   ) {
     const options = optionize<LevelOptions, SelfOptions, LevelOptions>()( {}, providedOptions );
     const tandem = options.tandem;
+
+    super( {
+      tandem: tandem,
+      phetioState: false
+    } );
 
     // Create game play related Properties
     this.addendsVisibleProperty = new BooleanProperty( true, {
@@ -280,6 +287,16 @@ export default class Level {
 
     this.challengeResetEmitter.emit();
   }
+
+  /**
+   * LevelIO handles serialization of a level in the game screen. It implements reference-type serialization, as
+   * described in https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization.
+   */
+  public static readonly LevelIO = new IOType<Level, ReferenceIOState>( 'LevelIO', {
+    valueType: Level,
+    supertype: ReferenceIO( IOType.ObjectIO ),
+    documentation: 'A level in the game.'
+  } );
 }
 
 numberPairs.register( 'Level', Level );

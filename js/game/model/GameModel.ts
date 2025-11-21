@@ -10,13 +10,14 @@
 import derivedMap from '../../../../axon/js/derivedMap.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
@@ -32,16 +33,12 @@ type SelfOptions = EmptySelfOptions;
 
 type GameModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export const LevelValues = [ 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8' ] as const;
 export const SUM_LEVELS = [ 4, 7, 8 ];
-
-const LevelSelectionValues = [ 'levelSelectionScreen', ...LevelValues ] as const;
-export type LevelSelection = ( typeof LevelSelectionValues )[number];
 
 export default class GameModel implements TModel {
 
   // String property that is either 'levelSelectionScreen' or 'level1' through 'levelN'
-  public readonly selectedLevelProperty: StringUnionProperty<LevelSelection>;
+  public readonly levelProperty: Property<Level | null>;
 
   // Individual level models (persistent across session lifetime)
   // indexed 0..N-1 for levels 1..N
@@ -81,15 +78,6 @@ export default class GameModel implements TModel {
         { valueType: 'string' },
         { valueType: Level }
       ]
-    } );
-
-    this.selectedLevelProperty = new StringUnionProperty<LevelSelection>( 'levelSelectionScreen', {
-      validValues: LevelSelectionValues,
-      tandem: tandem.createTandem( 'selectedLevelProperty' ),
-      phetioDocumentation: 'the current level, or "levelSelectionScreen" if the level selection screen is showing',
-
-      // In GameScreenView, we rely on listener order dispatch for recording and restoring focus
-      hasListenerOrderDependencies: true
     } );
 
     /**
@@ -243,6 +231,16 @@ export default class GameModel implements TModel {
         } )
     ];
 
+    this.levelProperty = new Property<Level | null>( null, {
+      validValues: [ null, ...this.levels ],
+      tandem: tandem.createTandem( 'levelProperty' ),
+      phetioDocumentation: 'The current level, or null if the level selection screen is showing',
+
+      // In GameScreenView, we rely on listener order dispatch for recording and restoring focus
+      hasListenerOrderDependencies: true,
+      phetioValueType: NullableIO( Level.LevelIO )
+    } );
+
     this.levels.forEach( level => {
       level.scoreProperty.link( score => {
         if ( score >= NumberPairsQueryParameters.rewardScore && !level.hasShownReward ) {
@@ -269,7 +267,7 @@ export default class GameModel implements TModel {
    */
   public setLevel( levelNumber: number ): void {
     affirm( levelNumber >= 1 && levelNumber <= this.getLevelCount(), `invalid level number: ${levelNumber}` );
-    this.selectedLevelProperty.value = LevelValues[ levelNumber - 1 ];
+    this.levelProperty.value = this.levels[ levelNumber - 1 ];
   }
 
   public getLevelCount(): number {

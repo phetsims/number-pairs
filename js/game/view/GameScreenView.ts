@@ -15,7 +15,8 @@ import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
-import GameModel, { LevelSelection } from '../model/GameModel.js';
+import GameModel from '../model/GameModel.js';
+import Level from '../model/Level.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
@@ -47,7 +48,7 @@ export default class GameScreenView extends ScreenView {
     const levelSelectionNode = new LevelSelectionNode( model, this.layoutBounds, options.tandem.createTandem( 'levelSelectionNode' ) );
 
     const returnToLevelSelection = () => {
-      model.selectedLevelProperty.value = 'levelSelectionScreen';
+      model.levelProperty.value = null;
     };
 
     const createLevelNode = ( levelNumber: number ) => {
@@ -68,16 +69,16 @@ export default class GameScreenView extends ScreenView {
     const level7Node = createLevelNode( 7 );
     const level8Node = createLevelNode( 8 );
 
-    const toggleNode = new ToggleNode<LevelSelection, Node>( model.selectedLevelProperty, [
-      { value: 'levelSelectionScreen', createNode: () => levelSelectionNode },
-      { value: 'level1', createNode: () => level1Node },
-      { value: 'level2', createNode: () => level2Node },
-      { value: 'level3', createNode: () => level3Node },
-      { value: 'level4', createNode: () => level4Node },
-      { value: 'level5', createNode: () => level5Node },
-      { value: 'level6', createNode: () => level6Node },
-      { value: 'level7', createNode: () => level7Node },
-      { value: 'level8', createNode: () => level8Node }
+    const toggleNode = new ToggleNode<Level | null, Node>( model.levelProperty, [
+      { value: null, createNode: () => levelSelectionNode },
+      { value: model.levels[ 0 ], createNode: () => level1Node },
+      { value: model.levels[ 1 ], createNode: () => level2Node },
+      { value: model.levels[ 2 ], createNode: () => level3Node },
+      { value: model.levels[ 3 ], createNode: () => level4Node },
+      { value: model.levels[ 4 ], createNode: () => level5Node },
+      { value: model.levels[ 5 ], createNode: () => level6Node },
+      { value: model.levels[ 6 ], createNode: () => level7Node },
+      { value: model.levels[ 7 ], createNode: () => level8Node }
     ], {
       alignChildren: ToggleNode.NONE
     } );
@@ -85,29 +86,22 @@ export default class GameScreenView extends ScreenView {
     this.addChild( toggleNode );
 
     this.rewardNode = new NumberPairsRewardNode();
-    this.numberPairsRewardDialog = new NumberPairsRewardDialog( model.selectedLevelProperty.derived( mode =>
-        mode === 'level1' ? 1 :
-        mode === 'level2' ? 2 :
-        mode === 'level3' ? 3 :
-        mode === 'level4' ? 4 :
-        mode === 'level5' ? 5 :
-        mode === 'level6' ? 6 :
-        mode === 'level7' ? 7 :
-        mode === 'level8' ? 8 :
-        0
+    this.numberPairsRewardDialog = new NumberPairsRewardDialog( model.levelProperty.derived( level =>
+        level === null ? 0 : level.levelNumber
       ), () => {
-        model.selectedLevelProperty.value = 'levelSelectionScreen';
+        model.levelProperty.value = null;
       }, () => {
 
-        const level = model.selectedLevelProperty.value;
-        const levelNode = level === 'level1' ? level1Node :
-                          level === 'level2' ? level2Node :
-                          level === 'level3' ? level3Node :
-                          level === 'level4' ? level4Node :
-                          level === 'level5' ? level5Node :
-                          level === 'level6' ? level6Node :
-                          level === 'level7' ? level7Node :
-                          level === 'level8' ? level8Node :
+        const level = model.levelProperty.value;
+        const levelNumber = level ? level.levelNumber : 0;
+        const levelNode = levelNumber === 1 ? level1Node :
+                          levelNumber === 2 ? level2Node :
+                          levelNumber === 3 ? level3Node :
+                          levelNumber === 4 ? level4Node :
+                          levelNumber === 5 ? level5Node :
+                          levelNumber === 6 ? level6Node :
+                          levelNumber === 7 ? level7Node :
+                          levelNumber === 8 ? level8Node :
                           null;
 
         if ( levelNode ) {
