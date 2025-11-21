@@ -22,8 +22,7 @@ export default class NumberBondMutableNode extends NumberBondNode {
   //REVIEW Document fields.
   //REVIEW Uses of total, leftAddend, rightAddend are a bit confusing because they look like model elements. Consider adding a 'Node' suffix.
 
-  //REVIEW total can be protected
-  public readonly total: NumberCircle;
+  protected readonly total: NumberCircle;
 
   //REVIEW leftAddend and rightAddend could be protected if not for the odd way that LevelIcons getNumberBondIcon is breaking encapsulation.
   public readonly leftAddend: NumberCircle;
