@@ -40,7 +40,7 @@ export type LevelSelection = ( typeof LevelSelectionValues )[number];
 
 export default class GameModel implements TModel {
 
-  // TODO: https://github.com/phetsims/number-pairs/issues/408 In other Games, this is Property<Level | null>, where null represents the "level selection screen", and phetioValueType: NullableIO( Level.LevelIO ).
+  // String property that is either 'levelSelectionScreen' or 'level1' through 'levelN'
   public readonly selectedLevelProperty: StringUnionProperty<LevelSelection>;
 
   // Individual level models (persistent across session lifetime)
