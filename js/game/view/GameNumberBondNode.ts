@@ -8,6 +8,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
@@ -17,19 +18,16 @@ import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 
+type SelfOptions = EmptySelfOptions;
 export type GameNumberBondNodeOptions = NumberBondMutableNodeOptions;
 
 export default class GameNumberBondNode extends NumberBondMutableNode {
 
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
 
-    //REVIEW This is odd. Why is optionize not being used here?
-    const options: GameNumberBondNodeOptions = {
+    const options = optionize<GameNumberBondNodeOptions, SelfOptions, NumberBondMutableNodeOptions>()( {
       dimensions: GAME_DIMENSION
-    };
-    if ( providedOptions ) {
-      Object.assign( options, providedOptions );
-    }
+    }, providedOptions );
 
     super( level.countingObjectsDelegate, options );
 
