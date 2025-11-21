@@ -347,7 +347,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.addChild( visualPromptSection );
     this.visualPromptSection = visualPromptSection;
 
-    //REVIEW Document
+    // PDOM section that describes the counting area (could be kittens or number line)
     const countingAreaSection = new Node( {
       tagName: 'div',
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleHeadingStringProperty,
