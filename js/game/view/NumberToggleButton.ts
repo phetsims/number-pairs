@@ -28,21 +28,19 @@ export default class NumberToggleButton extends BooleanRectangularStickyToggleBu
 
   public readonly numberToggleButtonModel: ButtonModel;
 
-  public constructor( booleanProperty: TProperty<boolean>, providedOptions?: NumberToggleButtonOptions ) {
+  public constructor( booleanProperty: TProperty<boolean>, providedOptions: NumberToggleButtonOptions ) {
     const options = optionize<NumberToggleButtonOptions, SelfOptions, BooleanRectangularStickyToggleButtonOptions>()( {
       buttonAppearanceStrategy: AnswerButtonAppearanceStrategy,
-      size: BUTTON_SIZE
+      size: BUTTON_SIZE,
+      buttonAppearanceStrategyOptions: {
+
+        // pass through to our custom AnswerButtonAppearanceStrategy - TButtonAppearanceStrategyOptions does not support
+        // adding options, but it is the only way to pass custom colors to our custom subtype of button appearance strategy
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        pressedFillColorProperty: providedOptions.pressedFillColorProperty
+      }
     }, providedOptions );
-
-    //REVIEW Why can't this be one in optionize above?
-    options.buttonAppearanceStrategyOptions = {
-
-      //REVIEW What's the problem here that requires ts directives? Should it be fixed?
-      // pass through to our custom AnswerButtonAppearanceStrategy
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      pressedFillColorProperty: options.pressedFillColorProperty
-    };
 
     super( booleanProperty, options );
 
