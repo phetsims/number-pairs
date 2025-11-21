@@ -35,79 +35,77 @@ export default class RepresentationType extends EnumerationValue {
   public static readonly APPLES = new RepresentationType(
     'apples',
     NumberPairsFluent.a11y.apples.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.apples.singularAccessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new Image( apple_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.apples.singularAccessibleNameStringProperty
+    new Image( apple_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly SOCCER_BALLS = new RepresentationType(
     'soccerBalls',
     NumberPairsFluent.a11y.soccerBalls.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.soccerBalls.singularAccessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new Image( soccerball_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.soccerBalls.singularAccessibleNameStringProperty
+    new Image( soccerball_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly BUTTERFLIES = new RepresentationType(
     'butterflies',
     NumberPairsFluent.a11y.butterflies.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.butterflies.singularAccessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new Image( butterfly_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.butterflies.singularAccessibleNameStringProperty
+    new Image( butterfly_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly ONE_CARDS = new RepresentationType(
     'oneCards',
     NumberPairsFluent.a11y.ones.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.ones.singularAccessibleNameStringProperty,
     NumberPairsColors.locationSumColorProperty,
     NumberPairsColors.locationLeftAddendColorProperty,
     NumberPairsColors.locationRightAddendColorProperty,
-    new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT, 20 ),
-    NumberPairsFluent.a11y.ones.singularAccessibleNameStringProperty
+    new OneCard( ICON_MAX_WIDTH, ICON_MAX_HEIGHT, 20 )
   );
   public static readonly KITTENS = new RepresentationType(
     'kittens',
     NumberPairsFluent.a11y.kittens.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.kittens.singularAccessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.kittens.singularAccessibleNameStringProperty
+    new Image( kittenBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly BEADS = new RepresentationType(
     'beads',
     NumberPairsFluent.a11y.beads.accessibleNameStringProperty,
+    NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new Image( beadBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } ),
-    NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty
+    new Image( beadBlue_svg, { maxWidth: ICON_MAX_WIDTH, maxHeight: ICON_MAX_HEIGHT } )
   );
   public static readonly NUMBER_LINE = new RepresentationType(
     'numberLine',
     NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty,
+    // Note that for the number line, we use the singular for the plural because there is only one number line
+    NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty,
     NumberPairsColors.attributeSumColorProperty,
     NumberPairsColors.attributeLeftAddendColorProperty,
     NumberPairsColors.attributeRightAddendColorProperty,
-    new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } ),
-
-    // Note that for the number line, we use the singular for the plural because there is only one number line
-    NumberPairsFluent.a11y.numberLine.accessibleNameStringProperty
+    new NumberLineIcon( ICON_MAX_WIDTH, 2, { showHighlight: true } )
   );
   public static readonly enumeration = new Enumeration( RepresentationType );
 
   public constructor(
     public readonly label: string,
     public readonly accessibleName: TReadOnlyProperty<string>,
+    public readonly singularAccessibleName: TReadOnlyProperty<string>,
     public readonly totalColorProperty: Property<Color>,
     public readonly leftAddendColorProperty: Property<Color>,
     public readonly rightAddendColorProperty: Property<Color>,
-    public readonly icon: Node,
-    //REVIEW Why are accessibleName and singularAccessibleName so far apart?! Related params should be together.
-    public readonly singularAccessibleName: TReadOnlyProperty<string>
+    public readonly icon: Node
   ) {
     super();
   }
