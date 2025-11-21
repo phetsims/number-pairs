@@ -447,7 +447,7 @@ a11y:
           select_addendOrSum:
             addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.
             sum:    Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
-        numberLine: Choose number for { a11y.gameScreen.challengeType } to make grey jump have that length. Check Answer to submit and make jump turn { $color }.
+        numberLine: Choose number for { a11y.gameScreen.challengeType } to make gray jump have that length. Check Answer to submit and make gray jump turn { $color }.
     countingArea:
       accessibleHeading:   Counting Area
       numberLineLeftAddendColor:
