@@ -75,8 +75,6 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     const leftAddendCountingObjectsProperty = new Property( leftAddendObjects );
     const rightAddendCountingObjectsProperty = new Property( rightAddendObjects );
 
-    //REVIEW I'm not familiar with derived. Is the return type UnknownDerivedProperty<boolean> type safe?
-    // REVIEW-response: Yes, it is type-safe and the same return type as DerivedProperty.deriveAny. The 'unknown' part is about the dependencies, which are also type safe.
     const totalVisibleProperty = derived( challengeProperty, selectedGuessProperty,
       ( challenge, guess ) => ( challenge.missingComponent === 'y' && guess !== null ) || challenge.missingComponent !== 'y' );
 
