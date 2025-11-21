@@ -67,7 +67,6 @@ const NumberPairsPreferences = {
   // Whether the second locale feature is enabled.
   secondLocaleEnabledProperty: new BooleanProperty( !!NumberPairsQueryParameters.secondLocale, {
     tandem: Tandem.PREFERENCES.createTandem( 'secondLocaleEnabledProperty' ),
-    phetioReadOnly: true,
     phetioFeatured: true
   } ),
 
