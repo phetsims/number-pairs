@@ -8,10 +8,8 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -76,10 +74,8 @@ export default class LocationCountingObjectsLayerNode extends Node {
     groupSelectView.grabReleaseCueNode.centerTop = NumberPairsConstants.COUNTING_AREA_BOUNDS.centerTop.plusXY( 0, 50 );
     model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.link( isGrabbed => {
 
-      // Link the isGrabbed property of the groupSelectLocationObjectsModel to the isDragging property of the
-      // corresponding node. When we are no longer grabbed we want to go through the drop logic.
+      // When we are no longer grabbed we want to go through the drop logic.
       const selectedGroupItem = model.groupSelectLocationObjectsModel.selectedGroupItemProperty.value;
-      selectedGroupItem && selectedGroupItem.isDraggingProperty.set( isGrabbed );
       if ( !isGrabbed && selectedGroupItem ) {
         countingAreaNode.dropCountingObject( selectedGroupItem, 'location' );
       }
@@ -112,20 +108,6 @@ export default class LocationCountingObjectsLayerNode extends Node {
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty(
       model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty
     );
-
-    // Create accessible context responses for when an item is grabbed or released. The context response will need
-    // to be updated as the selected counting object changes it's addend type while being grabbed.
-    const responseDependencies = model.countingObjects.map( countingObject => countingObject.addendTypeProperty );
-    Multilink.multilinkAny( responseDependencies, () => {
-      if ( groupSelectModel.isGroupItemKeyboardGrabbedProperty.value ) {
-        affirm( groupSelectModel.selectedGroupItemProperty.value, 'selectedGroupItem should not be null' );
-        const addendStringProperty = groupSelectModel.selectedGroupItemProperty.value.addendTypeProperty.value === AddendType.LEFT ?
-                                     NumberPairsFluent.a11y.leftStringProperty : NumberPairsFluent.a11y.rightStringProperty;
-        this.addAccessibleContextResponse( NumberPairsFluent.a11y.grabOrReleaseInteraction.movedAccessibleResponse.format( {
-          addend: addendStringProperty
-        } ) );
-      }
-    } );
   }
 
   /**
@@ -136,6 +118,7 @@ export default class LocationCountingObjectsLayerNode extends Node {
   public handleLocationChange( countingObject: CountingObject, newPosition: Vector2 ): void {
     const leftAddendCountingObjects = this.model.leftAddendCountingObjectsProperty.value;
     const rightAddendCountingObjects = this.model.rightAddendCountingObjectsProperty.value;
+    let contextResponse: string | null = null;
 
     // If the countingObject is in the left addend area, remove it from the right addend area and add it to the
     // left addend area and vice versa.
@@ -148,6 +131,9 @@ export default class LocationCountingObjectsLayerNode extends Node {
       rightAddendCountingObjects.remove( countingObject );
       leftAddendCountingObjects.add( countingObject );
       countingObject.traverseInactiveObjects = true;
+      contextResponse = NumberPairsFluent.a11y.grabOrReleaseInteraction.movedAccessibleResponse.format( {
+        addend: NumberPairsFluent.a11y.leftStringProperty
+      } );
     }
     else if ( NumberPairsConstants.RIGHT_COUNTING_AREA_BOUNDS.containsPoint( newPosition ) &&
               !rightAddendCountingObjects.includes( countingObject ) &&
@@ -159,7 +145,17 @@ export default class LocationCountingObjectsLayerNode extends Node {
       rightAddendCountingObjects.add( countingObject );
       leftAddendCountingObjects.remove( countingObject );
       countingObject.traverseInactiveObjects = true;
+      contextResponse = NumberPairsFluent.a11y.grabOrReleaseInteraction.movedAccessibleResponse.format( {
+        addend: NumberPairsFluent.a11y.rightStringProperty
+      } );
     }
+
+    // Only add the context response if the counting object is being dragged or is keyboard grabbed.
+    const canAddContextResponse = !!contextResponse && (
+      this.model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty.value ||
+      countingObject.isDraggingProperty.value );
+    canAddContextResponse && this.addAccessibleContextResponse( contextResponse );
+    contextResponse = null;
   }
 }
 
