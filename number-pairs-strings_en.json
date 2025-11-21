@@ -708,17 +708,17 @@
         "value": "{ $decompositionOrSum ->\n  [decomposition] { $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y_gameScreen_challengePromptHelpText }\n  *[sum] { $leftAddend } plus { $rightAddend } equals { $total }? { a11y_gameScreen_challengePromptHelpText }\n}"
       },
       "challengePromptHelpText": {
-        "value": "{ $levelType ->\n  [kittens] { $addendOrSum ->\n              [addend] Choose number for { a11y_gameScreen_challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.\n              *[sum] Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.\n            }\n  *[numberLine] Choose number for { a11y_gameScreen_challengeType } to make grey jump have that length. Check Answer to submit and make jump turn { $color }.\n}"
+        "value": "{ $levelType ->\n  [kittens] { $addendOrSum ->\n              [addend] Choose number for { a11y_gameScreen_challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.\n              *[sum] Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.\n            }\n  *[numberLine] Choose number for { a11y_gameScreen_challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.\n}"
       },
       "countingArea": {
         "accessibleHeading": {
           "value": "Counting Area"
         },
         "numberLineLeftAddendColor": {
-          "value": "{ $leftAddendMissing ->\n  [missing] gray\n  *[notMissing] yellow\n}"
+          "value": "{ $leftAddendMissing ->\n  [missing] dotted\n  *[notMissing] yellow\n}"
         },
         "numberLineRightAddendColor": {
-          "value": "{ $rightAddendMissing ->\n  [missing] gray\n  *[notMissing] blue\n}"
+          "value": "{ $rightAddendMissing ->\n  [missing] dotted\n  *[notMissing] blue\n}"
         },
         "numberLineSentence": {
           "value": "Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y_gameScreen_countingArea_numberLineLeftAddendColor } jump from left edge, then a { a11y_gameScreen_countingArea_numberLineRightAddendColor } jump to total."
@@ -749,7 +749,7 @@
       },
       "challengeSupports": {
         "accessibleHeading": {
-          "value": "Counting Area Challenge Supports"
+          "value": "Counting Area Supports"
         }
       },
       "bothAddendsEyeToggleButton": {
