@@ -129,7 +129,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       },
       groupButtonWidth: BUTTON_WIDTH,
       groupButtonHeight: BUTTON_HEIGHT,
-      gameLevels: Array.from( { length: NUMBER_OF_LEVELS }, ( _, i ) => i + 1 ),
+      gameLevels: NumberPairsQueryParameters.gameLevels,
       tandem: tandem.createTandem( 'buttonGroup' ),
       phetioVisiblePropertyInstrumented: false
     } );
