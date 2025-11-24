@@ -427,7 +427,7 @@ a11y:
     tickNumbersCheckbox:
       accessibleHelpText:                 Show or hide tick mark numbers on number line.
       accessibleContextResponseChecked:   Tick marks labeled.
-      accessibleContextResponseUnchecked: Tick mark labels not labeled.
+      accessibleContextResponseUnchecked: Tick mark not labeled.
     totalJumpCheckbox:
       accessibleHelpText:                 Show or hide total jump on number line.
       accessibleContextResponseChecked:   Total jump of { $total } shown and labeled.
