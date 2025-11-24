@@ -529,7 +529,6 @@ a11y:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
       accessibleHeading:  '{a11y.gameScreen.answerChoices}'
-      accessibleName:     '{ a11y.gameScreen.answerButtonGroup.accessibleHeading }'
       accessibleHelpText: Navigate to choice, space or enter selects answer.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens

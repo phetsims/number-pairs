@@ -792,9 +792,6 @@
         "accessibleHeading": {
           "value": "{ a11y_gameScreen_answerChoices }"
         },
-        "accessibleName": {
-          "value": "{ a11y_gameScreen_answerButtonGroup_accessibleHeading }"
-        },
         "accessibleHelpText": {
           "value": "Navigate to choice, space or enter selects answer."
         }

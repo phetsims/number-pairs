@@ -357,7 +357,6 @@ type StringsType = {
       };
       'answerButtonGroup': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
-        'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
       };
       'tenFrameButton': {

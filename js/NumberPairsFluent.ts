@@ -248,7 +248,6 @@ addToMapIfDefined( 'a11y_gameScreen_level_accessibleHelpText', 'a11y.gameScreen.
 addToMapIfDefined( 'a11y_gameScreen_level_accessibleHeading', 'a11y.gameScreen.level.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButton_wrongAccessibleName', 'a11y.gameScreen.answerButton.wrongAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHeading', 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' );
-addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleName', 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_tenFrameButton_accessibleHelpText', 'a11y.gameScreen.tenFrameButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_responses_answerSelected', 'a11y.gameScreen.responses.answerSelectedStringProperty' );
@@ -636,7 +635,6 @@ const NumberPairsFluent = {
       },
       answerButtonGroup: {
         accessibleHeading: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHeadingStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
-        accessibleName: new FluentPattern<{ challengeType: 'leftAddend' | 'rightAddend' | 'total' | TReadOnlyProperty<'leftAddend' | 'rightAddend' | 'total'> }>( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleName', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleNameStringProperty' ), [{"name":"challengeType","variants":["leftAddend","rightAddend","total"]}] ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_answerButtonGroup_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty' ) )
       },
       tenFrameButton: {
