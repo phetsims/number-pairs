@@ -7,6 +7,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -49,10 +50,13 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
       ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
         return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
       } );
+
+    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>, visibleProperty: TReadOnlyProperty<boolean>, stringProperty: TReadOnlyProperty<string> ) =>
+     new DerivedProperty( [ valueProperty, visibleProperty, stringProperty ], ( value, visible, string ) => visible ? value.toString() : string );
     const accessibleParagraphStringProperty = NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
-      left: model.leftAddendProperty,
-      right: model.rightAddendProperty,
-      total: model.totalProperty,
+      left: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.aNumberStringProperty ),
+      right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.anotherNumberStringProperty ),
+      total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty, NumberPairsFluent.aNumberStringProperty ),
       proportions: proportionsStringProperty,
       screenType: model instanceof SumModel ? 'sumScreen' : 'other',
       totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' ),
