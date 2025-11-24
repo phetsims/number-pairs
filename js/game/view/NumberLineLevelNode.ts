@@ -70,7 +70,8 @@ export default class NumberLineLevelNode extends LevelNode {
       totalProperty: new NumberProperty( 0 ),
       totalJumpVisibleProperty: new BooleanProperty( false ),
       numberLineCountFromZeroProperty: new BooleanProperty( true ),
-      numberLineAddendValuesVisibleProperty: level.numberLineAddendsVisibleProperty
+      numberLineAddendValuesVisibleProperty: level.numberLineAddendsVisibleProperty,
+      totalVisibleProperty: new BooleanProperty( true ) // total is always visible in the number line levels
     } as const;
 
     // On the number line level, the challenge is always missing an addend.

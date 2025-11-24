@@ -16,7 +16,8 @@ export default class NumberLineContextResponse {
   // Do not play a context response on the first drag event, only on subsequent changes.
   private lastAddendValue: number | null = null;
 
-  public constructor( private readonly model: Pick<NumberPairsModel, 'leftAddendProperty' | 'rightAddendProperty' | 'totalProperty' | 'numberLineAddendValuesVisibleProperty'> ) {
+  public constructor( private readonly model: Pick<NumberPairsModel, 'leftAddendProperty' | 'rightAddendProperty' |
+    'totalProperty' | 'numberLineAddendValuesVisibleProperty' | 'totalVisibleProperty'> ) {
 
     // Clear out status when changing scenes, so we don't hear a context response on 1st pixel of drag
     model.totalProperty.link( () => {
@@ -41,7 +42,7 @@ export default class NumberLineContextResponse {
 
       node.addAccessibleContextResponse( NumberPairsFluent.a11y.numberLine.contextResponse.format( {
           addendsShowing: this.model.numberLineAddendValuesVisibleProperty.value ? 'addendsVisible' : 'addendsHidden',
-          total: this.model.totalProperty.value,
+          total: this.model.totalVisibleProperty.value ? this.model.totalProperty.value : NumberPairsFluent.totalStringProperty.value,
           left: this.model.leftAddendProperty.value,
           right: this.model.rightAddendProperty.value,
           sections: sections

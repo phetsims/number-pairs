@@ -39,6 +39,7 @@ export default class NumberLineSlider extends HSlider {
     leftAddendProperty: PhetioProperty<number>,
     rightAddendProperty: TReadOnlyProperty<number>,
     totalProperty: TReadOnlyProperty<number>,
+    totalVisibleProperty: Property<boolean>,
     enabledRangeProperty: TReadOnlyProperty<Range>,
     trackModelViewTransform: ModelViewTransform2,
     tickValuesVisibleProperty: Property<boolean>,
@@ -73,7 +74,8 @@ export default class NumberLineSlider extends HSlider {
       leftAddendProperty: leftAddendProperty,
       rightAddendProperty: rightAddendProperty,
       totalProperty: totalProperty,
-      numberLineAddendValuesVisibleProperty: numberLineAddendValuesVisibleProperty
+      numberLineAddendValuesVisibleProperty: numberLineAddendValuesVisibleProperty,
+      totalVisibleProperty: totalVisibleProperty
     } );
 
     const options = optionize<NumberLineSliderOptions, SelfOptions, HSliderOptions>()( {

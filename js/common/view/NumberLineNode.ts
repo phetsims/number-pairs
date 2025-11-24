@@ -47,8 +47,9 @@ export default class NumberLineNode extends Node {
   protected readonly leftAddendArrow: CurvedArrowNode;
   protected readonly rightAddendArrow: CurvedArrowNode;
 
-  public constructor( model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' | 'tickValuesVisibleProperty' |
-    'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' | 'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty'
+  public constructor( model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' |
+    'tickValuesVisibleProperty' | 'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' |
+    'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty' | 'totalVisibleProperty'
   >, numberLineWidth: number, providedOptions: NumberLineNodeOptions ) {
 
     const options = optionize<NumberLineNodeOptions, SelfOptions, NodeOptions>()( {
@@ -71,6 +72,7 @@ export default class NumberLineNode extends Node {
       model.leftAddendProperty,
       model.rightAddendProperty,
       model.totalProperty,
+      model.totalVisibleProperty,
       model.numberLineSliderEnabledRangeProperty,
       trackModelViewTransform,
       model.tickValuesVisibleProperty,

@@ -30,8 +30,9 @@ type GameNumberLineNodeOptions = SelfOptions & NumberLineNodeOptions;
 export default class GameNumberLineNode extends NumberLineNode {
 
   public constructor(
-    model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' | 'tickValuesVisibleProperty' |
-      'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' | 'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty'>,
+    model: Pick<NumberPairsModel, 'leftAddendProperty' | 'numberLineSliderEnabledRangeProperty' |
+      'tickValuesVisibleProperty' | 'rightAddendProperty' | 'totalProperty' | 'totalJumpVisibleProperty' |
+      'numberLineCountFromZeroProperty' | 'numberLineAddendValuesVisibleProperty' | 'totalVisibleProperty'>,
     numberLineWidth: number,
     missingAddendProperty: TReadOnlyProperty<MissingAddend>,
     feedbackStyleProperty: TReadOnlyProperty<NumberLineFeedbackStyle>,
