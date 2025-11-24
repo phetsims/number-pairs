@@ -32,8 +32,8 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
   };
 
   public constructor( addendValuesVisibleProperty: Property<boolean>, leftAddendProperty: PhetioProperty<number>,
-                      rightAddendProperty: TReadOnlyProperty<number>, tickValuesVisibleProperty: Property<boolean>,
-                      providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
+                      rightAddendProperty: TReadOnlyProperty<number>, totalProperty: TReadOnlyProperty<number>,
+                      tickValuesVisibleProperty: Property<boolean>, providedOptions: NumberLineOptionsCheckboxGroupOptions ) {
     const options = optionize<NumberLineOptionsCheckboxGroupOptions, SelfOptions, VerticalCheckboxGroupOptions>()( {
       totalJumpVisibleProperty: null,
       checkboxOptions: NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS
@@ -56,7 +56,9 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
           tandemName: 'totalJumpCheckbox',
           options: {
             accessibleHelpText: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty,
-            accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty,
+            accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleContextResponseChecked.createProperty( {
+              total: totalProperty
+            } ),
             accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty
           }
         }

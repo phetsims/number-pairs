@@ -584,7 +584,7 @@ const NumberPairsFluent = {
       },
       totalJumpCheckbox: {
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleHelpTextStringProperty' ) ),
-        accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
+        accessibleContextResponseChecked: new FluentPattern<{ total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseCheckedStringProperty' ), [{"name":"total"}] ),
         accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       }
     },

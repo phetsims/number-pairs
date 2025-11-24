@@ -393,7 +393,7 @@ export default class NumberPairsScreenView extends ScreenView {
       const checkboxMaxWidth = NumberPairsConstants.CHECKBOX_LABEL_OPTIONS.maxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth + NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing + 7;
 
       this.numberLineCheckboxGroup = new NumberLineOptionsCheckboxGroup( model.numberLineAddendValuesVisibleProperty,
-        model.leftAddendProperty, model.rightAddendProperty, model.tickValuesVisibleProperty, {
+        model.leftAddendProperty, model.rightAddendProperty, model.totalProperty, model.tickValuesVisibleProperty, {
           bottom: COUNTING_AREA_BOUNDS.top - NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN,
           left: this.layoutBounds.right - checkboxGroupMargin - checkboxMaxWidth,
           visibleProperty: numberLineRepresentationVisibleProperty,

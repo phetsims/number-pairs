@@ -131,7 +131,8 @@ export default class NumberLineLevelNode extends LevelNode {
                             NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.boxWidth +
                             NumberLineOptionsCheckboxGroup.CHECKBOX_OPTIONS.spacing;
     const checkboxGroup = new NumberLineOptionsCheckboxGroup( level.numberLineAddendsVisibleProperty,
-      numberLineModel.leftAddendProperty, numberLineModel.rightAddendProperty, level.tickValuesVisibleProperty,
+      numberLineModel.leftAddendProperty, numberLineModel.rightAddendProperty, numberLineModel.totalProperty,
+      level.tickValuesVisibleProperty,
       {
         phetioFeatured: true,
         top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,

@@ -690,7 +690,7 @@
           "value": "Show or hide total jump on number line."
         },
         "accessibleContextResponseChecked": {
-          "value": "Total jump shown and labeled."
+          "value": "Total jump of { $total } shown and labeled."
         },
         "accessibleContextResponseUnchecked": {
           "value": "Total jump not shown."
