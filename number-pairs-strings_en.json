@@ -691,7 +691,7 @@
           "value": "Tick marks labeled."
         },
         "accessibleContextResponseUnchecked": {
-          "value": "Tick mark labels not labeled."
+          "value": "Tick mark not labeled."
         }
       },
       "totalJumpCheckbox": {
