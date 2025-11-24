@@ -489,7 +489,7 @@ a11y:
 
     # Overrides the values above, for the game
     bothAddendsEyeToggleButton:
-      accessibleHelpText: Show or hide kittens.
+      accessibleHelpText: Show or hide counting area.
       accessibleContextResponseOff:
         select_levelType:
           kittens:    Kittens visible.

@@ -769,7 +769,7 @@
       },
       "bothAddendsEyeToggleButton": {
         "accessibleHelpText": {
-          "value": "Show or hide kittens."
+          "value": "Show or hide counting area."
         },
         "accessibleContextResponseOff": {
           "value": "{ $levelType ->\n  [kittens] Kittens visible.\n  *[numberLine] Number line visible.\n}"
