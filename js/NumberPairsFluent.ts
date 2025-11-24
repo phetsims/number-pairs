@@ -129,7 +129,8 @@ addToMapIfDefined( 'a11y_countingArea_yellowListItemPattern', 'a11y.countingArea
 addToMapIfDefined( 'a11y_countingArea_blueListItemPattern', 'a11y.countingArea.blueListItemPatternStringProperty' );
 addToMapIfDefined( 'a11y_countingArea_addendValueHidden', 'a11y.countingArea.addendValueHiddenStringProperty' );
 addToMapIfDefined( 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' );
-addToMapIfDefined( 'a11y_equationAccordionBox_accessibleParagraphPattern', 'a11y.equationAccordionBox.accessibleParagraphPatternStringProperty' );
+addToMapIfDefined( 'a11y_equationAccordionBox_addendsOnRightAccessibleParagraph', 'a11y.equationAccordionBox.addendsOnRightAccessibleParagraphStringProperty' );
+addToMapIfDefined( 'a11y_equationAccordionBox_addendsOnLeftAccessibleParagraph', 'a11y.equationAccordionBox.addendsOnLeftAccessibleParagraphStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleName', 'a11y.representationType.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_representationType_accessibleHelpText', 'a11y.representationType.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_apples_accessibleName', 'a11y.apples.accessibleNameStringProperty' );
@@ -443,7 +444,8 @@ const NumberPairsFluent = {
     },
     equationAccordionBox: {
       accessibleHelpTextCollapsed: new FluentPattern<{ screenType: number | 'other' | 'sumScreen' | TReadOnlyProperty<number | 'other' | 'sumScreen'> }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleHelpTextCollapsed', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleHelpTextCollapsedStringProperty' ), [{"name":"screenType","variants":[{"type":"number","value":"other"},"sumScreen"]}] ),
-      accessibleParagraphPattern: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_accessibleParagraphPattern', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.accessibleParagraphPatternStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
+      addendsOnRightAccessibleParagraph: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_addendsOnRightAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.addendsOnRightAccessibleParagraphStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
+      addendsOnLeftAccessibleParagraph: new FluentPattern<{ leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_equationAccordionBox_addendsOnLeftAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.equationAccordionBox.addendsOnLeftAccessibleParagraphStringProperty' ), [{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] )
     },
     _comment_1: new FluentComment( {"comment":"Representation types","associatedKey":"representationType"} ),
     representationType: {

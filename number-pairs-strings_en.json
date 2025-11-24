@@ -368,8 +368,11 @@
       "accessibleHelpTextCollapsed": {
         "value": "{ $screenType ->\n  [other] View decomposition equation.\n  *[sumScreen] View sum equation.\n}"
       },
-      "accessibleParagraphPattern": {
+      "addendsOnRightAccessibleParagraph": {
         "value": "Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }"
+      },
+      "addendsOnLeftAccessibleParagraph": {
+        "value": "Right now, equation shows { $leftAddend } + { $rightAddend } = { $total }"
       }
     },
     "representationType": {

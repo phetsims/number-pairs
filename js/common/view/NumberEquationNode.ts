@@ -47,18 +47,22 @@ export default class NumberEquationNode extends Node {
                                         missingStringProperty: TReadOnlyProperty<string> ) =>
       new DerivedProperty( [ valueProperty, visibleProperty, missingStringProperty ],
         ( value, visible, missingString ) => visible ? value.toString() : missingString );
+
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true,
-      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
-      accessibleParagraph: NumberPairsFluent.a11y.equationAccordionBox.accessibleParagraphPattern.createProperty( {
-        total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty,
-          providedOptions.missingNumberStringProperty || NumberPairsFluent.aNumberStringProperty ),
-        leftAddend: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty,
-          providedOptions.missingNumberStringProperty || NumberPairsFluent.aNumberStringProperty ),
-        rightAddend: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty,
-          providedOptions.missingNumberStringProperty || NumberPairsFluent.anotherNumberStringProperty )
-      } )
+      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty
     }, providedOptions );
+    const accessibleParagraphPattern = options.addendsOnRight ?
+                                       NumberPairsFluent.a11y.equationAccordionBox.addendsOnRightAccessibleParagraph :
+                                       NumberPairsFluent.a11y.equationAccordionBox.addendsOnLeftAccessibleParagraph;
+    options.accessibleParagraph = accessibleParagraphPattern.createProperty( {
+      total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty,
+        options.missingNumberStringProperty ),
+      leftAddend: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty,
+        options.missingNumberStringProperty ),
+      rightAddend: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty,
+        options.missingNumberStringProperty )
+    } );
 
     const totalSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.totalProperty, {
       numberVisibleProperty: model.totalVisibleProperty,

@@ -171,7 +171,8 @@ type StringsType = {
     };
     'equationAccordionBox': {
       'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
-      'accessibleParagraphPatternStringProperty': LocalizedStringProperty;
+      'addendsOnRightAccessibleParagraphStringProperty': LocalizedStringProperty;
+      'addendsOnLeftAccessibleParagraphStringProperty': LocalizedStringProperty;
     };
     'representationType': {
       'accessibleNameStringProperty': LocalizedStringProperty;

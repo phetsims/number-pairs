@@ -225,7 +225,8 @@ a11y:
       select_screenType:
         other:     View decomposition equation.
         sumScreen: View sum equation.
-    accessibleParagraphPattern: Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }
+    addendsOnRightAccessibleParagraph: Right now, equation shows { $total } = { $leftAddend } + { $rightAddend }
+    addendsOnLeftAccessibleParagraph:  Right now, equation shows { $leftAddend } + { $rightAddend } = { $total }
 
   # Representation types
   representationType:
