@@ -255,6 +255,7 @@ type StringsType = {
         'numberBondStringProperty': LocalizedStringProperty;
         'barModelStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'totalHiddenStringProperty': LocalizedStringProperty;
         'numberBondAccessibleParagraphStringProperty': LocalizedStringProperty;
         'numberBondStateAccessibleParagraphStringProperty': LocalizedStringProperty;
         'barModelStateAccessibleParagraphStringProperty': LocalizedStringProperty;

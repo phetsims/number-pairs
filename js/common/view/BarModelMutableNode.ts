@@ -16,6 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import BarModelNode, { BarModelDimensions, BarModelNodeOptions, DEFAULT_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
 import NumberRectangle from './NumberRectangle.js';
@@ -52,7 +53,8 @@ export default class BarModelMutableNode extends BarModelNode {
       displayRightAddendNumberProperty: null,
       dimensions: DEFAULT_BAR_MODEL_DIMENSIONS,
       accessibleParagraph: providedOptions?.isIcon ? null : NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
-        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+        orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+          isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
     }, providedOptions );
 
@@ -117,8 +119,8 @@ export default class BarModelMutableNode extends BarModelNode {
           right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty ),
           total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty ),
           proportions: proportionsStringProperty,
-          screenType: model instanceof SumModel ? 'sumScreen' : 'other',
-          totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' )
+          orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+            isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
         } )
       } ) );
     }

@@ -331,33 +331,28 @@ a11y:
       numberBond:         number bond
       barModel:           proportional bar model
       accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModelLowercase }.
+      totalHidden: Total hidden
       numberBondAccessibleParagraph:
-        select_screenType:
-          sumScreen: >-
+        select_orientation:
+          totalOnBottom: >-
                      Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.
-          other:     >-
+          totalOnTop:     >-
                      Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
       numberBondStateAccessibleParagraph:
-        select_screenType:
-          other: Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
-          sumScreen:
-            select_totalView:
-              shown: Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
-              hidden: Right now, { $left } in left circle, { $right } in right circle, total hidden in bottom circle.
+        select_orientation:
+          totalOnTop: Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
+          totalOnBottom: Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
       barModelStateAccessibleParagraph:
-            select_screenType:
-              other: Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
-              sumScreen:
-                select_totalView:
-                  shown:  Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.
-                  hidden: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. Total hidden from bottom rectangle.
+            select_orientation:
+              totalOnTop: Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+              totalOnBottom: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.
       sumEquation:           Right now, equation shows { $left } + { $right } = { $total }.
       decompositionEquation: Right now, equation shows { $total } = { $left } + { $right }.
       barModelAccessibleParagraph:
-        select_screenType:
-          other:     |-
+        select_orientation:
+          totalOnTop:     |-
                      Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
-          sumScreen: |-
+          totalOnBottom: |-
                      Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
 
       largerAndSmaller:   larger and smaller

@@ -13,6 +13,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
+import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import NumberBondNode, { NORMAL_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberCircle from './NumberCircle.js';
@@ -42,7 +43,8 @@ export default class NumberBondMutableNode extends NumberBondNode {
       isIcon: false,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
       accessibleParagraph: providedOptions?.isIcon ? null : NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
-        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+        orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+          isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
     }, providedOptions );
 
@@ -82,8 +84,8 @@ export default class NumberBondMutableNode extends NumberBondNode {
           left: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty ),
           right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty ),
           total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty ),
-          screenType: model instanceof SumModel ? 'sumScreen' : 'other',
-          totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' )
+          orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+            isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
         } )
       } ) );
     }
