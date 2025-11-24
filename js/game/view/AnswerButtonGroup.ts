@@ -23,6 +23,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import AccessibleInteractiveOptions from '../../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ParallelDOM from '../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
@@ -267,6 +268,7 @@ export default class AnswerButtonGroup extends GridBox {
           challengeType: challengeTypeProperty
         } ),
         accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty,
+        accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         phetioVisiblePropertyInstrumented: false
       }, providedOptions );
     super( options );
