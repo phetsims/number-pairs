@@ -81,13 +81,12 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    // The PDOM provides a "Challenge Supports" section that contains the counting area, kittens, ten-frame button, and reset button,
-    // which support the user in solving the challenge.
+    // The PDOM provides a "Challenge Supports" section that contains the kittens, ten-frame button, eye toggle button,
+    // and reset button, which support the user in solving the challenge.
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
       children: [
-        this.countingAreaNode,
         this.kittensLayerNode,
         this.tenFrameButton,
         this.challengeResetButton
@@ -95,7 +94,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
       pdomOrder: [
         this.kittensLayerNode,
         this.tenFrameButton,
-        this.countingAreaNode,
+        this.countingAreaNode.bothAddendsEyeToggleButton, // pull the eye toggle out into the challenge supports section
         this.challengeResetButton
       ]
     } );
@@ -104,7 +103,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
 
     this.accessibleChallengeSectionNode.pdomOrder = [
       ...visualPromptNodes,
-      this.countingAreaSection,
+      this.countingAreaNode,
       challengeSupportsSection,
       this.answerButtonGroup
     ];

@@ -69,7 +69,8 @@ export default class CountingAreaNode extends Node {
       rightAddendVisibleProperty: null,
       bothAddendsEyeToggleButtonAccessibleHelpText: null,
       bothAddendsEyeToggleButtonAccessibleContextResponseOff: null,
-      bothAddendsEyeToggleButtonAccessibleContextResponseOn: null
+      bothAddendsEyeToggleButtonAccessibleContextResponseOn: null,
+      tagName: 'div'
     }, providedOptions );
     super( options );
 

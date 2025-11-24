@@ -8,6 +8,7 @@
  */
 
 import derived from '../../../../axon/js/derived.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -67,10 +68,9 @@ export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly numberModelCenter: Vector2;
   protected readonly checkButton: RectangularPushButton;
   public readonly nextButton: RectangularPushButton;
-  protected readonly countingAreaSection: Node;
 
   protected constructor( getLevel: ( levelNumber: number ) => Level,
-                         level: Level,
+                         private readonly level: Level,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                          returnToSelection: () => void,
@@ -128,12 +128,16 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     level.challengeProperty.link( () => this.answerButtonGroup.resetAll() );
 
     // Create Counting Area. This acts as the background for the kittens and number line.
+    const countingAreaAccessibleParagraphProperty = this.getCountingAreaAccessibleParagraph();
     this.countingAreaNode = new CountingAreaNode( level.addendsVisibleProperty, level.countingObjectsDelegate, {
       countingRepresentationTypeProperty: level.representationTypeProperty,
       backgroundColorProperty: options.countingAreaBackgroundColorProperty,
       tandem: tandem.createTandem( 'countingAreaNode' ),
       countingAreaBounds: this.countingAreaBounds,
-
+      accessibleHeading: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleHeadingStringProperty,
+      accessibleParagraph: new DynamicProperty( level.addendsVisibleProperty.derived( addendsVisible =>
+        addendsVisible ? countingAreaAccessibleParagraphProperty :
+        NumberPairsFluent.a11y.gameScreen.countingArea.hiddenAccessibleParagraphStringProperty ) ),
       bothAddendsEyeToggleButtonAccessibleHelpText: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty,
       bothAddendsEyeToggleButtonAccessibleContextResponseOff: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOff.createProperty( {
         levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
@@ -142,6 +146,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
       } )
     } );
+    this.addChild( this.countingAreaNode );
 
     // Checkmark/X feedback marks positioned by the missing slot
     this.wrongMark = new Text( '✗', {
@@ -280,36 +285,27 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         level.clearFeedback();
       }
     } );
+  }
 
-    // PDOM section that describes the counting area (could be kittens or number line)
-    const countingAreaSection = new Node( {
-      tagName: 'div',
-      accessibleHeading: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleHeadingStringProperty,
-      children: [
-        new Node( {
-          tagName: 'div',
-          accessibleParagraph: NumberPairsFluent.a11y.gameScreen.countingArea.accessibleParagraph.createProperty( {
-            leftAddend: level.countingObjectsDelegate.leftAddendProperty,
-            leftAddendMissing: level.challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'missing' : 'notMissing' ),
-            rightAddendMissing: level.challengeProperty.derived( challenge => challenge.missingComponent === 'b' ? 'missing' : 'notMissing' ),
-            rightAddend: level.countingObjectsDelegate.rightAddendProperty,
-            type: level.representationType === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
-            visible: level instanceof NumberLineLevel ? derived( level.numberLineAddendsVisibleProperty, level.tickValuesVisibleProperty, ( addendsVisible, tickValuesVisible ) => {
-              return !addendsVisible && !tickValuesVisible ? 'none' :
-                     !addendsVisible && tickValuesVisible ? 'tickMarks' :
-                     addendsVisible && !tickValuesVisible ? 'addends' :
-                     'both';
-            } ) : 'none',
-            total: derived( level.selectedGuessProperty, level.challengeProperty, ( guess, challenge ) => {
-              return ( guess || 0 ) + ( challenge.missingComponent === 'a' ? challenge.b : challenge.a );
-            } )
-          } )
-        } )
-      ]
+  // Accessible paragraph for when the contents of the counting area are visible.
+  private getCountingAreaAccessibleParagraph(): TReadOnlyProperty<string> {
+    return NumberPairsFluent.a11y.gameScreen.countingArea.accessibleParagraph.createProperty( {
+      leftAddend: this.level.countingObjectsDelegate.leftAddendProperty,
+      leftAddendMissing: this.level.challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'missing' : 'notMissing' ),
+      rightAddendMissing: this.level.challengeProperty.derived( challenge => challenge.missingComponent === 'b' ? 'missing' : 'notMissing' ),
+      rightAddend: this.level.countingObjectsDelegate.rightAddendProperty,
+      type: this.level.representationType === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
+      visible: this.level instanceof NumberLineLevel ?
+               derived( this.level.numberLineAddendsVisibleProperty, this.level.tickValuesVisibleProperty,
+                 ( addendsVisible, tickValuesVisible ) =>
+                   !addendsVisible && !tickValuesVisible ? 'none' :
+                   !addendsVisible && tickValuesVisible ? 'tickMarks' :
+                   addendsVisible && !tickValuesVisible ? 'addends' :
+                   'both' ) : 'none',
+      total: derived( this.level.selectedGuessProperty, this.level.challengeProperty, ( guess, challenge ) => {
+        return ( guess || 0 ) + ( challenge.missingComponent === 'a' ? challenge.b : challenge.a );
+      } )
     } );
-    this.addChild( countingAreaSection );
-
-    this.countingAreaSection = countingAreaSection;
   }
 }
 

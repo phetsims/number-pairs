@@ -331,6 +331,7 @@ type StringsType = {
         'numberLineSentenceStringProperty': LocalizedStringProperty;
         'numberLineAddendsStringProperty': LocalizedStringProperty;
         'numberLineTickMarksStringProperty': LocalizedStringProperty;
+        'hiddenAccessibleParagraphStringProperty': LocalizedStringProperty;
         'accessibleParagraphStringProperty': LocalizedStringProperty;
       };
       'testCurrentAnswerSection': {

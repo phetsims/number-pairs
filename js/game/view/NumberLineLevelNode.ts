@@ -159,13 +159,12 @@ export default class NumberLineLevelNode extends LevelNode {
       this.nextButton
     ];
 
-    // The PDOM has a "challenge supports" section, containing the counting area and other elements that help
-    // the player respond to the challenge.
+    // The PDOM has a "challenge supports" section, containing the eye toggle button, reset challenge button,  and
+    // other elements that help the player respond to the challenge.
     const challengeSupportsSection = new Node( {
       accessibleHeading: NumberPairsFluent.a11y.gameScreen.challengeSupports.accessibleHeadingStringProperty,
       tagName: 'div',
       children: [
-        this.countingAreaNode,
         clipAreaNode,
         border,
         checkboxGroup,
@@ -174,7 +173,7 @@ export default class NumberLineLevelNode extends LevelNode {
       pdomOrder: [
         numberLineNode,
         checkboxGroup,
-        this.countingAreaNode,
+        this.countingAreaNode.bothAddendsEyeToggleButton, // pull the eye toggle out into the challenge supports section
         this.challengeResetButton
       ]
     } );
@@ -182,7 +181,7 @@ export default class NumberLineLevelNode extends LevelNode {
 
     this.accessibleChallengeSectionNode.pdomOrder = [
       equationNode,
-      this.countingAreaSection,
+      this.countingAreaNode,
       challengeSupportsSection,
       this.answerButtonGroup
     ];
