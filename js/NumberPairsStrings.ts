@@ -256,7 +256,10 @@ type StringsType = {
         'barModelStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'numberBondAccessibleParagraphStringProperty': LocalizedStringProperty;
-        'currentNumberBondOrBarStateAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'numberBondStateAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'barModelStateAccessibleParagraphStringProperty': LocalizedStringProperty;
+        'sumEquationStringProperty': LocalizedStringProperty;
+        'decompositionEquationStringProperty': LocalizedStringProperty;
         'barModelAccessibleParagraphStringProperty': LocalizedStringProperty;
         'largerAndSmallerStringProperty': LocalizedStringProperty;
         'smallerAndLargerStringProperty': LocalizedStringProperty;

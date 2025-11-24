@@ -54,9 +54,9 @@ export default class GameScreenView extends ScreenView {
     const createLevelNode = ( levelNumber: number ) => {
       const level = model.getLevel( levelNumber );
       return level.type === 'bond' ?
-             new BondBarLevelNode( levelNumber => model.getLevel( levelNumber ), level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) ) :
+             new BondBarLevelNode( levelNumber => model.getLevel( levelNumber ), level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, { tandem: options.tandem.createTandem( `levelNode${levelNumber}` ) } ) :
              ( level.type === 'sumEquation' || level.type === 'decompositionEquation' ) ?
-             new EquationLevelNode( levelNumber => model.getLevel( levelNumber ), level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) ) :
+             new EquationLevelNode( levelNumber => model.getLevel( levelNumber ), level, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, { tandem: options.tandem.createTandem( `levelNode${levelNumber}` ) } ) :
              new NumberLineLevelNode( levelNumber => model.getLevel( levelNumber ), level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 

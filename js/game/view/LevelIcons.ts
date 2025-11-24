@@ -42,7 +42,7 @@ export default class LevelIcons {
     const model = LevelIcons.createModel( total, left, right, true, false, true );
 
     //REVIEW Consider improving NumberBondMutableNode API so that questionable mutations after instantiation are not necessary.
-    const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5 } );
+    const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5, isIcon: true } );
     numberBondNode.leftAddend.children = []; // awkward
     numberBondNode.rightAddend.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
     numberBondNode.rightLine.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
@@ -53,7 +53,7 @@ export default class LevelIcons {
     const levelModel = LevelIcons.createModel( total, left, right, true, false, true );
 
     //REVIEW Consider improving BarModelMutableNode API so that questionable mutations after instantiation are not necessary.
-    const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55 } );
+    const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55, isIcon: true } );
     barModelNode.leftAddendRectangle.children = []; // awkward
 
     // Display the known addend value, and keep the unknown addend dashed.

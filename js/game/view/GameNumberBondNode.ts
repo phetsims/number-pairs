@@ -16,6 +16,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -26,7 +27,9 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
   public constructor( level: Level, providedOptions?: GameNumberBondNodeOptions ) {
 
     const options = optionize<GameNumberBondNodeOptions, SelfOptions, NumberBondMutableNodeOptions>()( {
-      dimensions: GAME_DIMENSION
+      dimensions: GAME_DIMENSION,
+      accessibleHeading: NumberPairsFluent.numberBondStringProperty,
+      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty
     }, providedOptions );
 
     super( level.countingObjectsDelegate, options );

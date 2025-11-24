@@ -27,6 +27,7 @@ type SelfOptions = {
   totalColorProperty: TReadOnlyProperty<Color>;
   leftAddendColorProperty: TReadOnlyProperty<Color>;
   rightAddendColorProperty: TReadOnlyProperty<Color>;
+  missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 export type NumberEquationNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -35,23 +36,28 @@ export default class NumberEquationNode extends Node {
   public readonly leftAddendSquare: NumberRectangle;
   public readonly rightAddendSquare: NumberRectangle;
 
-  public constructor( model: TGenericNumberPairsModel, squareDimension: number, symbolFontSize: number, numberFontSize: number, providedOptions: NumberEquationNodeOptions ) {
+  public constructor( model: TGenericNumberPairsModel, squareDimension: number, symbolFontSize: number,
+                      numberFontSize: number, providedOptions: NumberEquationNodeOptions ) {
 
     const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
     const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
 
-    const accessibleParagraphProperty = NumberPairsFluent.a11y.equationAccordionBox.accessibleParagraphPattern.createProperty( {
-      total: new DerivedProperty( [ model.totalProperty, model.totalVisibleProperty, NumberPairsFluent.aNumberStringProperty ],
-        ( total, totalVisible, aNumber ) => totalVisible ? total.toString() : aNumber ),
-      leftAddend: new DerivedProperty( [ model.leftAddendProperty, model.leftAddendVisibleProperty, NumberPairsFluent.aNumberStringProperty ],
-        ( left, leftVisible, aNumber ) => leftVisible ? left.toString() : aNumber ),
-      rightAddend: new DerivedProperty( [ model.rightAddendProperty, model.rightAddendVisibleProperty, NumberPairsFluent.anotherNumberStringProperty ],
-        ( right, rightVisible, anotherNumber ) => rightVisible ? right.toString() : anotherNumber )
-    } );
-
+    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>,
+                                        visibleProperty: TReadOnlyProperty<boolean>,
+                                        missingStringProperty: TReadOnlyProperty<string> ) =>
+      new DerivedProperty( [ valueProperty, visibleProperty, missingStringProperty ],
+        ( value, visible, missingString ) => visible ? value.toString() : missingString );
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true,
-      accessibleParagraph: accessibleParagraphProperty
+      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
+      accessibleParagraph: NumberPairsFluent.a11y.equationAccordionBox.accessibleParagraphPattern.createProperty( {
+        total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty,
+          providedOptions.missingNumberStringProperty || NumberPairsFluent.aNumberStringProperty ),
+        leftAddend: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty,
+          providedOptions.missingNumberStringProperty || NumberPairsFluent.aNumberStringProperty ),
+        rightAddend: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty,
+          providedOptions.missingNumberStringProperty || NumberPairsFluent.anotherNumberStringProperty )
+      } )
     }, providedOptions );
 
     const totalSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.totalProperty, {

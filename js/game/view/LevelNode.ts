@@ -26,7 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import CheckButton from '../../../../vegas/js/buttons/CheckButton.js';
 import NextButton from '../../../../vegas/js/buttons/NextButton.js';
 import ChallengeScreenNode, { ChallengeScreenNodeOptions } from '../../../../vegas/js/ChallengeScreenNode.js';
-import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
+import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
@@ -67,7 +67,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
   protected readonly numberModelCenter: Vector2;
   protected readonly checkButton: RectangularPushButton;
   public readonly nextButton: RectangularPushButton;
-  protected readonly visualPromptSection: Node;
   protected readonly countingAreaSection: Node;
 
   protected constructor( getLevel: ( levelNumber: number ) => Level,
@@ -281,71 +280,6 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         level.clearFeedback();
       }
     } );
-
-    const proportionsStringProperty = derived(
-      level.challengeProperty,
-      NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
-      NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
-      NumberPairsFluent.a11y.controls.numberModel.equalStringProperty,
-      ( challenge, largerAndSmaller, smallerAndLarger, equal ) => challenge.a === challenge.b ? equal :
-                                                                  challenge.a > challenge.b ? largerAndSmaller :
-                                                                  smallerAndLarger );
-
-    //REVIEW Too much here, move all of this into a separate class.
-    const visualPromptSection = new Node( {
-      tagName: 'div',
-      accessibleHeading: derived(
-        NumberPairsPreferences.numberModelTypeProperty,
-        NumberPairsFluent.numberBondStringProperty,
-        NumberPairsFluent.barModelStringProperty, ( numberModelType, numberBondString, barModelString ) => {
-          return level.levelNumber === 8 ? NumberPairsFluent.equationStringProperty.value :
-                 level.type === 'decompositionEquation' || level.type === 'sumEquation' ? NumberPairsFluent.equationStringProperty.value :
-                 numberModelType === NumberModelType.NUMBER_BOND_MODEL ? numberBondString : barModelString;
-        } ),
-      children: [
-        new Node( {
-          tagName: 'div',
-          accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.currentNumberBondOrBarStateAccessibleParagraph.createProperty( {
-            barOrBondOrEquation: level.levelNumber === 8 ? 'sumEquation' :
-                                 NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
-                                   return level.type === 'decompositionEquation' ? 'decompositionEquation' :
-                                          level.type === 'sumEquation' ? 'sumEquation' :
-                                          numberModelType.id;
-                                 } ),
-            proportions: proportionsStringProperty,
-            screenType: 'other',
-            totalView: 'shown', // unused
-
-            left: derived(
-              level.challengeProperty,
-              level.selectedGuessProperty,
-              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
-              ( challenge, selectedGuess, questionMark ) =>
-                challenge.missingComponent === 'a' ?
-                selectedGuess === null ? questionMark :
-                selectedGuess : challenge.a ),
-            right: derived(
-              level.challengeProperty,
-              level.selectedGuessProperty,
-              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
-              ( challenge, selectedGuess, questionMark ) =>
-                challenge.missingComponent === 'b' ?
-                selectedGuess === null ? questionMark :
-                selectedGuess : challenge.b ),
-            total: derived(
-              level.challengeProperty,
-              level.selectedGuessProperty,
-              NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
-              ( challenge, selectedGuess, questionMark ) =>
-                challenge.missingComponent === 'y' ?
-                selectedGuess === null ? questionMark :
-                selectedGuess : challenge.y )
-          } )
-        } )
-      ]
-    } );
-    this.addChild( visualPromptSection );
-    this.visualPromptSection = visualPromptSection;
 
     // PDOM section that describes the counting area (could be kittens or number line)
     const countingAreaSection = new Node( {

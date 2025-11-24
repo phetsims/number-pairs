@@ -9,15 +9,13 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import CountingAreaLevelNode from './CountingAreaLevelNode.js';
+import CountingAreaLevelNode, { CountingAreaLevelNodeOptions } from './CountingAreaLevelNode.js';
 import { layoutNumberBarFeedback, layoutNumberBondFeedback } from './GameLayout.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
-import { LevelNodeOptions } from './LevelNode.js';
 
 export default class BondBarLevelNode extends CountingAreaLevelNode {
   public constructor( getLevel: ( levelNumber: number ) => Level,
@@ -25,26 +23,25 @@ export default class BondBarLevelNode extends CountingAreaLevelNode {
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       returnToSelection: () => void,
-                      tandem: Tandem,
-                      providedOptions?: LevelNodeOptions ) {
-
-    super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, providedOptions );
+                      providedOptions: CountingAreaLevelNodeOptions ) {
 
     // Representation nodes (pre-create and swap based on challenge type)
     const bondNode = new GameNumberBondNode( level, {
-      center: this.numberModelCenter,
       visibleProperty: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.NUMBER_BOND_MODEL;
       } )
     } );
     const barNode = new GameNumberBarModelNode( level, {
-      center: this.numberModelCenter,
       visibleProperty: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => {
         return ( level.type !== 'decompositionEquation' && level.type !== 'sumEquation' ) && numberModelType === NumberModelType.BAR_MODEL;
       } )
     } );
+    super( getLevel, level, layoutBounds, visibleBoundsProperty, [ barNode, bondNode ], returnToSelection, providedOptions );
+    bondNode.center = this.numberModelCenter;
+    barNode.center = this.numberModelCenter;
     this.addChild( bondNode );
     this.addChild( barNode );
+
 
     // when the challenge changes, move the correct addend of the GameNumberBarModelNode to the front, to avoid
     // the stroke being obscured by the other addend, see https://github.com/phetsims/number-pairs/issues/227#issuecomment-3368461725

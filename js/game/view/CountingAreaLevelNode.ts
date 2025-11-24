@@ -11,9 +11,9 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
@@ -25,7 +25,8 @@ import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
 
 type SelfOptions = EmptySelfOptions;
-type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'>;
+export type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'> &
+  PickRequired<LevelNodeOptions, 'tandem'>;
 
 export default abstract class CountingAreaLevelNode extends LevelNode {
   protected readonly kittensLayerNode: KittensLayerNode;
@@ -35,14 +36,14 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
                          level: Level,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
+                         visualPromptNodes: Node[],
                          returnToSelection: () => void,
-                         tandem: Tandem,
-                         providedOptions?: LevelNodeOptions ) {
+                         providedOptions: CountingAreaLevelNodeOptions ) {
 
     const options = optionize<CountingAreaLevelNodeOptions, SelfOptions, LevelNodeOptions>()( {
       countingAreaBackgroundColorProperty: NumberPairsColors.attributeSumColorProperty
     }, providedOptions );
-
+    const tandem = options.tandem;
     super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     this.kittensLayerNode = new KittensLayerNode( level.countingObjectsDelegate.countingObjects, this.countingAreaNode, {
@@ -102,7 +103,7 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
     this.addChild( challengeSupportsSection );
 
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.visualPromptSection,
+      ...visualPromptNodes,
       this.countingAreaSection,
       challengeSupportsSection,
       this.answerButtonGroup

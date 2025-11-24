@@ -16,6 +16,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode, { NumberEquationNodeOptions } from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -25,6 +26,8 @@ export default class GameNumberEquationNode extends NumberEquationNode {
   public constructor( private readonly level: Level, providedOptions?: GameNumberEquationNodeOptions ) {
 
     const options = optionize<GameNumberEquationNodeOptions, SelfOptions, NumberEquationNodeOptions>()( {
+      accessibleHeading: NumberPairsFluent.equationStringProperty,
+      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
@@ -51,9 +54,6 @@ export default class GameNumberEquationNode extends NumberEquationNode {
         missingSquare.lineWidth = lineWidth;
       }
     );
-
-    //REVIEW Why is this needed? If necessary, why is this not done via options.accessibleParagraph?
-    this.accessibleParagraph = null;
   }
 
   // Return the node corresponding to the missing component in the challenge prompt, so that it can be highlighted accordingly.

@@ -17,6 +17,7 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelMutableNode, { BarModelMutableNodeOptions } from '../../common/view/BarModelMutableNode.js';
 import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
 
@@ -31,7 +32,9 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
       dimensions: GAME_BAR_MODEL_DIMENSIONS,
       displayTotalNumberProperty: level.countingObjectsDelegate.totalProperty,
       displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
-      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty
+      displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
+      accessibleHeading: NumberPairsFluent.barModelStringProperty,
+      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty
     }, providedOptions );
     const barLevelDisplay = new BarLevelDisplay( level, level.selectedGuessProperty );
 

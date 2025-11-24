@@ -7,11 +7,15 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
+import NumberPairsFluent from '../../NumberPairsFluent.js';
+import SumModel from '../../sum/model/SumModel.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import BarModelNode, { BarModelDimensions, BarModelNodeOptions, DEFAULT_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
 import NumberRectangle from './NumberRectangle.js';
@@ -28,9 +32,11 @@ type SelfOptions = {
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
 
   dimensions?: BarModelDimensions;
+  isIcon?: boolean; // Omits description for icon use.
+  missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 
-export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions'>;
+export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions' | 'accessibleParagraph'>;
 
 export default class BarModelMutableNode extends BarModelNode {
 
@@ -39,10 +45,15 @@ export default class BarModelMutableNode extends BarModelNode {
     providedOptions?: BarModelMutableNodeOptions ) {
 
     const options = optionize<BarModelMutableNodeOptions, SelfOptions, BarModelNodeOptions>()( {
+      isIcon: false,
+      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
       displayTotalNumberProperty: null,
       displayLeftAddendNumberProperty: null,
       displayRightAddendNumberProperty: null,
-      dimensions: DEFAULT_BAR_MODEL_DIMENSIONS
+      dimensions: DEFAULT_BAR_MODEL_DIMENSIONS,
+      accessibleParagraph: providedOptions?.isIcon ? null : NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
+        screenType: model instanceof SumModel ? 'sumScreen' : 'other'
+      } )
     }, providedOptions );
 
     const dimensions = options.dimensions;
@@ -85,6 +96,32 @@ export default class BarModelMutableNode extends BarModelNode {
     } );
 
     super( model, totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
+
+    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>,
+                                        visibleProperty: TReadOnlyProperty<boolean> ) =>
+      new DerivedProperty( [ valueProperty, visibleProperty, options.missingNumberStringProperty ], ( value, visible, string ) =>
+        visible ? value.toString() : string );
+
+    if ( !options.isIcon ) {
+      // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
+      const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+          NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+          NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+          NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
+        ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
+          return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
+        } );
+      this.addChild( new Node( {
+        accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
+          left: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty ),
+          right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty ),
+          total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty ),
+          proportions: proportionsStringProperty,
+          screenType: model instanceof SumModel ? 'sumScreen' : 'other',
+          totalView: model.totalVisibleProperty.derived( totalVisible => totalVisible ? 'shown' : 'hidden' )
+        } )
+      } ) );
+    }
   }
 }
 

@@ -56,6 +56,7 @@ export default class NumberLineLevelNode extends LevelNode {
     super( getLevel, level, layoutBounds, visibleBoundsProperty, returnToSelection, tandem, options );
 
     const equationNode = new GameNumberEquationNode( level, {
+      accessibleHeading: NumberPairsFluent.equationStringProperty,
       center: this.numberModelCenter
     } );
     this.addChild( equationNode );
@@ -180,7 +181,7 @@ export default class NumberLineLevelNode extends LevelNode {
     this.addChild( challengeSupportsSection );
 
     this.accessibleChallengeSectionNode.pdomOrder = [
-      this.visualPromptSection,
+      equationNode,
       this.countingAreaSection,
       challengeSupportsSection,
       this.answerButtonGroup
