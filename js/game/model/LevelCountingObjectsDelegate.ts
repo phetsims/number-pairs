@@ -167,7 +167,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
   // By design, resetting the counting objects is supposed to return to the original numbers corresponding to the prompt,
   // randomly distribute them at new locations.
   public resetCountingObjects(): void {
-    this.distributeCountingObjects();
+    this.countingObjects.forEach( countingObject => {
+      countingObject.reset();
+    } );
   }
 
   /**

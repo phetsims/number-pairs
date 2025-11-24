@@ -219,11 +219,14 @@ export default class Level extends PhetioObject {
   public reset(): void {
     this.addendsVisibleProperty.reset();
     this.scoreProperty.reset();
+
+    // Set the selected guess to null before creating a new challenge. This ensures that any listeners to the
+    // challengeProperty that also read the selectedGuessProperty will see it as null when a new challenge is created.
+    this.selectedGuessProperty.value = null;
     this.challengeProperty.value = this.createChallenge( true );
     this.countingObjectsDelegate.resetCountingObjects();
     this.hasShownReward = false;
     this.guessedNumbers.clear();
-    this.selectedGuessProperty.value = null;
     this.modeProperty.value = 'idle';
   }
 
