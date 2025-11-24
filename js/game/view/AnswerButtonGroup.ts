@@ -267,7 +267,19 @@ export default class AnswerButtonGroup extends GridBox {
         accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeading.createProperty( {
           challengeType: challengeTypeProperty
         } ),
-        accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpTextStringProperty,
+        accessibleHelpText: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHelpText.createProperty( {
+          color: derived( challengeProperty, NumberPairsFluent.a11y.leftAddendColorStringProperty,
+            NumberPairsFluent.a11y.rightAddendColorStringProperty,
+            challenge => challenge.missingComponent === 'a' ?
+                         NumberPairsFluent.a11y.leftAddendColorStringProperty.value :
+                         NumberPairsFluent.a11y.rightAddendColorStringProperty.value ),
+          levelType: challengeType === 'numberLine' ? 'numberLine' : 'kittens',
+          addendOrSum: challengeProperty.derived( challenge => challenge.missingComponent === 'y' ? 'sum' : 'addend' ),
+          challengeType: challengeProperty.derived( challenge => challenge.missingComponent === 'a' ?
+                                                                 'leftAddend' :
+                                                                 challenge.missingComponent === 'b' ?
+                                                                 'rightAddend' : 'total' )
+        } ),
         accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
         phetioVisiblePropertyInstrumented: false
       }, providedOptions );

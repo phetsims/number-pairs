@@ -433,15 +433,8 @@ a11y:
     questionMark: question mark
     challengePrompt:
       select_decompositionOrSum:
-        decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y.gameScreen.challengePromptHelpText }'
-        sum:           '{ $leftAddend } plus { $rightAddend } equals { $total }? { a11y.gameScreen.challengePromptHelpText }'
-    challengePromptHelpText:
-      select_levelType:
-        kittens:
-          select_addendOrSum:
-            addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.
-            sum:    Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
-        numberLine: Choose number for { a11y.gameScreen.challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.
+        decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }?'
+        sum:           '{ $leftAddend } plus { $rightAddend } equals { $total }?'
     countingArea:
       accessibleHeading:   Counting Area
       numberLineLeftAddendColor:
@@ -525,7 +518,13 @@ a11y:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
       accessibleHeading:  '{a11y.gameScreen.answerChoices}'
-      accessibleHelpText: Navigate to choice, space or enter selects answer.
+      accessibleHelpText:
+        select_levelType:
+          kittens:
+            select_addendOrSum:
+              addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.
+              sum: Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
+          numberLine: Choose number for { a11y.gameScreen.challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
     responses:

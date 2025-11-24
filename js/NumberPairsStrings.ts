@@ -325,7 +325,6 @@ type StringsType = {
       'whatNumberStringProperty': LocalizedStringProperty;
       'questionMarkStringProperty': LocalizedStringProperty;
       'challengePromptStringProperty': LocalizedStringProperty;
-      'challengePromptHelpTextStringProperty': LocalizedStringProperty;
       'countingArea': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;
         'numberLineLeftAddendColorStringProperty': LocalizedStringProperty;

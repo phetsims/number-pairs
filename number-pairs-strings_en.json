@@ -720,10 +720,7 @@
         "value": "question mark"
       },
       "challengePrompt": {
-        "value": "{ $decompositionOrSum ->\n  [decomposition] { $total } can be decomposed into { $leftAddend } and { $rightAddend }? { a11y_gameScreen_challengePromptHelpText }\n  *[sum] { $leftAddend } plus { $rightAddend } equals { $total }? { a11y_gameScreen_challengePromptHelpText }\n}"
-      },
-      "challengePromptHelpText": {
-        "value": "{ $levelType ->\n  [kittens] { $addendOrSum ->\n              [addend] Choose number for { a11y_gameScreen_challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.\n              *[sum] Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.\n            }\n  *[numberLine] Choose number for { a11y_gameScreen_challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.\n}"
+        "value": "{ $decompositionOrSum ->\n  [decomposition] { $total } can be decomposed into { $leftAddend } and { $rightAddend }?\n  *[sum] { $leftAddend } plus { $rightAddend } equals { $total }?\n}"
       },
       "countingArea": {
         "accessibleHeading": {
@@ -799,7 +796,7 @@
           "value": "{ a11y_gameScreen_answerChoices }"
         },
         "accessibleHelpText": {
-          "value": "Navigate to choice, space or enter selects answer."
+          "value": "{ $levelType ->\n  [kittens] { $addendOrSum ->\n              [addend] Choose number for { a11y_gameScreen_challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.\n              *[sum] Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.\n            }\n  *[numberLine] Choose number for { a11y_gameScreen_challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.\n}"
         }
       },
       "tenFrameButton": {
