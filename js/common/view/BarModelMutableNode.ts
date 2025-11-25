@@ -19,6 +19,7 @@ import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import BarModelNode, { BarModelDimensions, BarModelNodeOptions, DEFAULT_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
+import Description from './description/Description.js';
 import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
@@ -99,14 +100,11 @@ export default class BarModelMutableNode extends BarModelNode {
 
     super( model, totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
 
-    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>,
-                                        visibleProperty: TReadOnlyProperty<boolean> ) =>
-      new DerivedProperty( [ valueProperty, visibleProperty, options.missingNumberStringProperty ], ( value, visible, string ) =>
-        visible ? value.toString() : string );
-
     if ( !options.isIcon ) {
-      // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated when everything settled.
-      const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty, model.totalProperty,
+      // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
+      // when everything settled.
+      const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty,
+          model.totalProperty,
           NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
           NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
           NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
@@ -115,9 +113,9 @@ export default class BarModelMutableNode extends BarModelNode {
         } );
       this.addChild( new Node( {
         accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
-          left: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty ),
-          right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty ),
-          total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty ),
+          left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
+          right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
+          total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
           proportions: proportionsStringProperty,
           orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
             isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'

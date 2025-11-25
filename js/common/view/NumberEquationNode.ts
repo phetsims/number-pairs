@@ -7,7 +7,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -20,6 +19,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
+import Description from './description/Description.js';
 import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
@@ -42,12 +42,6 @@ export default class NumberEquationNode extends Node {
     const equalSign = new Text( '=', { font: new PhetFont( symbolFontSize ) } );
     const plusSign = new Text( '+', { font: new PhetFont( symbolFontSize ) } );
 
-    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>,
-                                        visibleProperty: TReadOnlyProperty<boolean>,
-                                        missingStringProperty: TReadOnlyProperty<string> ) =>
-      new DerivedProperty( [ valueProperty, visibleProperty, missingStringProperty ],
-        ( value, visible, missingString ) => visible ? value.toString() : missingString );
-
     const options = optionize<NumberEquationNodeOptions, SelfOptions, NodeOptions>()( {
       addendsOnRight: true,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty
@@ -56,12 +50,9 @@ export default class NumberEquationNode extends Node {
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnRightAccessibleParagraph :
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnLeftAccessibleParagraph;
     options.accessibleParagraph = accessibleParagraphPattern.createProperty( {
-      total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty,
-        options.missingNumberStringProperty ),
-      leftAddend: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty,
-        options.missingNumberStringProperty ),
-      rightAddend: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty,
-        options.missingNumberStringProperty )
+      total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
+      leftAddend: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
+      rightAddend: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty )
     } );
 
     const totalSquare = new NumberRectangle( new Dimension2( squareDimension, squareDimension ), model.totalProperty, {

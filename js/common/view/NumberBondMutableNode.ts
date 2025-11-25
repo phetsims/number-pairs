@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -15,6 +14,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
+import Description from './description/Description.js';
 import NumberBondNode, { NORMAL_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberCircle from './NumberCircle.js';
 
@@ -74,16 +74,12 @@ export default class NumberBondMutableNode extends NumberBondNode {
     this.leftAddend = leftAddend;
     this.rightAddend = rightAddend;
 
-    const createValueStringProperty = ( valueProperty: TReadOnlyProperty<number>,
-                                        visibleProperty: TReadOnlyProperty<boolean> ) =>
-      new DerivedProperty( [ valueProperty, visibleProperty, options.missingNumberStringProperty ], ( value, visible, string ) =>
-        visible ? value.toString() : string );
     if ( !options.isIcon ) {
       this.addChild( new Node( {
         accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
-          left: createValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty ),
-          right: createValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty ),
-          total: createValueStringProperty( model.totalProperty, model.totalVisibleProperty ),
+          left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
+          right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
+          total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
           orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
             isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
         } )
