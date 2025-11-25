@@ -215,6 +215,8 @@ addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueAAccessibleName', 'a1
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_valueBAccessibleName', 'a11y.controls.countFromZeroSwitch.valueBAccessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_countFromZeroSwitch_accessibleHelpText', 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleHelpText', 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleContextResponseChecked', 'a11y.controls.totalCheckbox.accessibleContextResponseCheckedStringProperty' );
+addToMapIfDefined( 'a11y_controls_totalCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleHelpText', 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseChecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseCheckedStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendsCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.addendsCheckbox.accessibleContextResponseUncheckedStringProperty' );
@@ -576,7 +578,9 @@ const NumberPairsFluent = {
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_countFromZeroSwitch_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.countFromZeroSwitch.accessibleHelpTextStringProperty' ) )
       },
       totalCheckbox: {
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponseCheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleContextResponseChecked', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleContextResponseCheckedStringProperty' ) ),
+        accessibleContextResponseUncheckedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_totalCheckbox_accessibleContextResponseUnchecked', _.get( NumberPairsStrings, 'a11y.controls.totalCheckbox.accessibleContextResponseUncheckedStringProperty' ) )
       },
       addendsCheckbox: {
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendsCheckbox_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.addendsCheckbox.accessibleHelpTextStringProperty' ) ),

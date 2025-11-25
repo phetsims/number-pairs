@@ -302,6 +302,8 @@ type StringsType = {
       };
       'totalCheckbox': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseCheckedStringProperty': LocalizedStringProperty;
+        'accessibleContextResponseUncheckedStringProperty': LocalizedStringProperty;
       };
       'addendsCheckbox': {
         'accessibleHelpTextStringProperty': LocalizedStringProperty;

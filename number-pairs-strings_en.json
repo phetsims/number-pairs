@@ -670,6 +670,12 @@
       "totalCheckbox": {
         "accessibleHelpText": {
           "value": "Show or hide sum of addends."
+        },
+        "accessibleContextResponseChecked": {
+          "value": "Total shown."
+        },
+        "accessibleContextResponseUnchecked": {
+          "value": "Total hidden."
         }
       },
       "addendsCheckbox": {

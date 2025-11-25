@@ -90,6 +90,8 @@ export default class SumScreenView extends NumberPairsScreenView {
         touchAreaYDilation: pointerAreaDilation,
         mouseAreaXDilation: pointerAreaDilation,
         mouseAreaYDilation: pointerAreaDilation,
+        accessibleContextResponseChecked: NumberPairsFluent.a11y.controls.totalCheckbox.accessibleContextResponseCheckedStringProperty,
+        accessibleContextResponseUnchecked: NumberPairsFluent.a11y.controls.totalCheckbox.accessibleContextResponseUncheckedStringProperty,
         tandem: providedOptions.tandem.createTandem( 'totalCheckbox' )
       } );
     this.addChild( this.totalCheckbox );

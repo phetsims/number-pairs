@@ -417,6 +417,8 @@ a11y:
       accessibleHelpText:   Choose where to start counting. Count on from first addend to get total or count to first addend starting at zero.
     totalCheckbox:
       accessibleHelpText: Show or hide sum of addends.
+      accessibleContextResponseChecked:   Total shown.
+      accessibleContextResponseUnchecked: Total hidden.
     addendsCheckbox:
       accessibleHelpText:                 Show or hide addend values.
       accessibleContextResponseChecked:   Addends are { $leftAddend } and { $rightAddend }, labeled on number line.
