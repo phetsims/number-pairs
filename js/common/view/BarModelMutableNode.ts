@@ -8,6 +8,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -37,7 +38,7 @@ type SelfOptions = {
   missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 
-export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions' | 'accessibleParagraph'>;
+export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions' | 'accessibleParagraph' | 'resize'>;
 
 export default class BarModelMutableNode extends BarModelNode {
 
@@ -46,6 +47,7 @@ export default class BarModelMutableNode extends BarModelNode {
     providedOptions?: BarModelMutableNodeOptions ) {
 
     const options = optionize<BarModelMutableNodeOptions, SelfOptions, BarModelNodeOptions>()( {
+      resize: false,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
       displayTotalNumberProperty: null,
       displayLeftAddendNumberProperty: null,
@@ -96,7 +98,7 @@ export default class BarModelMutableNode extends BarModelNode {
       numberFontSize: dimensions.numberFontSize
     } );
 
-    super( model, totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
+    super( totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
 
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
     // when everything settled.
@@ -118,6 +120,27 @@ export default class BarModelMutableNode extends BarModelNode {
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
     } ) );
+
+    Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
+
+      // We need to handle the case where the total is 0, because we can't divide by 0
+      if ( total !== 0 ) {
+        totalRectangle.fill = model.totalColorProperty;
+        leftAddendRectangle.rectWidth = leftAddend / total * dimensions.totalWidth;
+        leftAddendRectangle.fill = model.leftAddendColorProperty;
+        leftAddendRectangle.visible = leftAddend > 0;
+        rightAddendRectangle.rectWidth = rightAddend / total * dimensions.totalWidth;
+        rightAddendRectangle.visible = rightAddend > 0;
+      }
+      else {
+        totalRectangle.fill = null;
+        leftAddendRectangle.rectWidth = dimensions.totalWidth;
+        leftAddendRectangle.fill = null;
+        leftAddendRectangle.visible = true;
+        rightAddendRectangle.rectWidth = 0;
+        rightAddendRectangle.visible = false;
+      }
+    } );
   }
 }
 

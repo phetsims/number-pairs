@@ -113,6 +113,7 @@ const NumberPairsConstants = {
   // Game screen specific values
   GAME_LINE_WIDTH: GAME_LINE_WIDTH,
   GAME_DASHED_LINE: GAME_DASHED_LINE,
+  GAME_ICON_DASHED_LINE: GAME_DASHED_LINE.map( value => value / 2 ),
   GAME_FEEDBACK_STYLES: GAME_FEEDBACK_STYLES,
 
   // URL to the {REPO}_all.html file for this simulation.

@@ -1,97 +1,91 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * An icon version of the bar model that displays simplified rectangles without numbers.
+ * NumberEquationIconNode renders a number equation using simple Rectangles (icon-only style).
  * Used in radio buttons and preference controls.
  *
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
-import BarModelNode, { BarModelNodeOptions, DEFAULT_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
 import { createIconTextConstraint, IconModel } from './IconHelper.js';
+import NumberEquationNode, { GAME_ICON_EQUATION_DIMENSIONS, NumberEquationNodeOptions } from './NumberEquationNode.js';
 
 type SelfOptions = {
+  squareDimension?: number;
+  numberFontSize?: number;
   totalRectangleOptions?: RectangleOptions;
   leftAddendRectangleOptions?: RectangleOptions;
   rightAddendRectangleOptions?: RectangleOptions;
   showQuestionMarks?: boolean;
 };
 
-export type BarModelIconNodeOptions = SelfOptions & BarModelNodeOptions;
+export type NumberEquationIconNodeOptions = SelfOptions & NumberEquationNodeOptions;
 
-export default class BarModelIconNode extends BarModelNode {
+export default class NumberEquationIconNode extends NumberEquationNode {
 
-  public constructor(
-    model: IconModel,
-    providedOptions?: BarModelIconNodeOptions ) {
+  public constructor( model: IconModel, providedOptions?: NumberEquationIconNodeOptions ) {
 
-    const options = optionize<BarModelIconNodeOptions, SelfOptions, BarModelNodeOptions>()( {
-      dimensions: DEFAULT_BAR_MODEL_DIMENSIONS,
-      spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing / 2,
+    const options = optionize<NumberEquationIconNodeOptions, SelfOptions, NumberEquationNodeOptions>()( {
+      squareDimension: GAME_ICON_EQUATION_DIMENSIONS.squareDimension,
+      numberFontSize: GAME_ICON_EQUATION_DIMENSIONS.numberFontSize,
+      symbolFontSize: GAME_ICON_EQUATION_DIMENSIONS.symbolFontSize,
+      spacing: GAME_ICON_EQUATION_DIMENSIONS.spacing,
       resize: true, // to allow for proper scaling in buttons
       totalRectangleOptions: {
         fill: model.totalColorProperty,
-        stroke: 'black'
+        stroke: model.totalColorProperty.value.darkerColor(),
+        lineWidth: GAME_ICON_EQUATION_DIMENSIONS.lineWidth
       },
       leftAddendRectangleOptions: {
         fill: model.leftAddendColorProperty,
-        stroke: 'black'
+        stroke: model.leftAddendColorProperty.value.darkerColor(),
+        lineWidth: GAME_ICON_EQUATION_DIMENSIONS.lineWidth
       },
       rightAddendRectangleOptions: {
         fill: model.rightAddendColorProperty,
-        stroke: 'black'
+        stroke: model.rightAddendColorProperty.value.darkerColor(),
+        lineWidth: GAME_ICON_EQUATION_DIMENSIONS.lineWidth
       },
       showQuestionMarks: false
     }, providedOptions );
 
-    const dimensions = options.dimensions;
+    const squareDimension = new Dimension2( options.squareDimension, options.squareDimension );
     const textOptions = {
-      font: new PhetFont( dimensions.numberFontSize )
+      font: new PhetFont( options.numberFontSize )
     };
 
-    // Define rectangle dimensions based on model values
-    affirm( model.totalProperty.value !== null, 'Total value must be defined to create BarModelIconNode.' );
-    affirm( model.leftAddendProperty.value !== null, 'Left addend value must be defined to create BarModelIconNode.' );
-    const totalDimension = new Dimension2( dimensions.totalWidth, dimensions.barHeight );
-    const leftAddendDimension = new Dimension2( model.leftAddendProperty.value / model.totalProperty.value * dimensions.totalWidth,
-      dimensions.barHeight );
-    const rightAddendDimension = new Dimension2( totalDimension.width - leftAddendDimension.width, dimensions.barHeight );
-
     // Total
-    const totalText = new Text( model.totalProperty.value,
+    const totalText = new Text( model.totalProperty.value === null ? '?' : model.totalProperty.value,
       combineOptions<TextOptions>( { visible: model.totalVisibleProperty.value }, textOptions ) );
     const totalRectangleOptions = combineOptions<RectangleOptions>( {
-      rectSize: totalDimension,
-      lineWidth: dimensions.lineWidth,
+      rectSize: squareDimension,
+      cornerRadius: 3,
       children: [ totalText ]
     }, options.totalRectangleOptions );
     const totalRectangle = new Rectangle( totalRectangleOptions );
-    totalText.center = totalRectangle.center;
 
     // Left addend
-    const leftAddendText = new Text( model.leftAddendProperty.value,
+    const leftAddendText = new Text( model.leftAddendProperty.value === null ? '?' : model.leftAddendProperty.value,
       combineOptions<TextOptions>( { visible: model.leftAddendVisibleProperty.value }, textOptions ) );
     const leftAddendRectangleOptions = combineOptions<RectangleOptions>( {
-      rectSize: leftAddendDimension,
-      lineWidth: dimensions.lineWidth,
+      rectSize: squareDimension,
+      cornerRadius: 3,
       children: [ leftAddendText ]
     }, options.leftAddendRectangleOptions );
     const leftAddendRectangle = new Rectangle( leftAddendRectangleOptions );
-    leftAddendText.center = leftAddendRectangle.center;
 
     // Right addend
     const rightAddendText = new Text( model.rightAddendProperty.value === null ? '?' : model.rightAddendProperty.value,
       combineOptions<TextOptions>( { visible: model.rightAddendVisibleProperty.value }, textOptions ) );
     const rightAddendRectangleOptions = combineOptions<RectangleOptions>( {
-      rectSize: rightAddendDimension,
-      lineWidth: dimensions.lineWidth,
+      rectSize: squareDimension,
+      cornerRadius: 3,
       children: [ rightAddendText ]
     }, options.rightAddendRectangleOptions );
     const rightAddendRectangle = new Rectangle( rightAddendRectangleOptions );
@@ -102,4 +96,5 @@ export default class BarModelIconNode extends BarModelNode {
   }
 }
 
-numberPairs.register( 'BarModelIconNode', BarModelIconNode );
+numberPairs.register( 'NumberEquationIconNode', NumberEquationIconNode );
+

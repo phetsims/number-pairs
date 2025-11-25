@@ -13,32 +13,36 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
-import NumberEquationNode, { NumberEquationNodeOptions } from '../../common/view/NumberEquationNode.js';
+import MutableNumberEquationNode, { MutableNumberEquationNodeOptions } from '../../common/view/MutableNumberEquationNode.js';
+import { GAME_EQUATION_DIMENSIONS } from '../../common/view/NumberEquationNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
 type SelfOptions = EmptySelfOptions;
-type GameNumberEquationNodeOptions = StrictOmit<NumberEquationNodeOptions, 'addendsOnRight' | 'totalColorProperty' | 'leftAddendColorProperty' | 'rightAddendColorProperty'>;
+type GameNumberEquationNodeOptions = StrictOmit<MutableNumberEquationNodeOptions, 'addendsOnRight' | 'totalColorProperty' | 'leftAddendColorProperty' | 'rightAddendColorProperty'>;
 
-export default class GameNumberEquationNode extends NumberEquationNode {
+export default class GameNumberEquationNode extends MutableNumberEquationNode {
   public constructor( private readonly level: Level, providedOptions?: GameNumberEquationNodeOptions ) {
 
-    const options = optionize<GameNumberEquationNodeOptions, SelfOptions, NumberEquationNodeOptions>()( {
+    const options = optionize<GameNumberEquationNodeOptions, SelfOptions, MutableNumberEquationNodeOptions>()( {
       accessibleHeading: NumberPairsFluent.equationStringProperty,
       missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,
-      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty
+      rightAddendColorProperty: NumberPairsColors.attributeRightAddendColorProperty,
+      numberFontSize: GAME_EQUATION_DIMENSIONS.numberFontSize,
+      symbolFontSize: GAME_EQUATION_DIMENSIONS.symbolFontSize,
+      squareDimension: GAME_EQUATION_DIMENSIONS.squareDimension,
+      spacing: GAME_EQUATION_DIMENSIONS.spacing
     }, providedOptions );
-    super( level.countingObjectsDelegate, 66, 46.2, GAME_DIMENSION.fontSize, options );
+    super( level.countingObjectsDelegate, options );
 
     const setDefaultStyle = ( square: Rectangle ) => {
       square.stroke = 'black';
       square.lineDash = [];
-      square.lineWidth = 1;
+      square.lineWidth = GAME_EQUATION_DIMENSIONS.lineWidth;
     };
 
     Multilink.multilink(

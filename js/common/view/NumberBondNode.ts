@@ -28,13 +28,15 @@ export type NumberBondDimensions = {
   fontSize: number;
   horizontalOffset: number;
   verticalOffset: number;
+  lineWidth: number;
 };
 
 export const DEFAULT_BOND_DIMENSION: NumberBondDimensions = {
   circleRadius: NumberCircle.RADIUS,
   fontSize: NumberCircle.DEFAULT_FONT_SIZE,
   horizontalOffset: 1.4 * NumberCircle.RADIUS,
-  verticalOffset: 2.25 * NumberCircle.RADIUS
+  verticalOffset: 2.25 * NumberCircle.RADIUS,
+  lineWidth: NUMBER_BOND_LINE_WIDTH
 };
 
 const ICON_SCALE = 0.5;
@@ -42,7 +44,8 @@ export const GAME_ICON_BOND_DIMENSION: NumberBondDimensions = {
   circleRadius: DEFAULT_BOND_DIMENSION.circleRadius * ICON_SCALE,
   fontSize: DEFAULT_BOND_DIMENSION.fontSize * ICON_SCALE,
   horizontalOffset: DEFAULT_BOND_DIMENSION.horizontalOffset * ICON_SCALE,
-  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * ICON_SCALE
+  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * ICON_SCALE,
+  lineWidth: 0.75
 };
 
 // In the game, things are a bit larger. Do not just scale overall, since that affects line widths.
@@ -52,7 +55,8 @@ export const GAME_DIMENSION: NumberBondDimensions = {
   circleRadius: DEFAULT_BOND_DIMENSION.circleRadius * GAME_SCALE,
   fontSize: DEFAULT_BOND_DIMENSION.fontSize * GAME_SCALE,
   horizontalOffset: DEFAULT_BOND_DIMENSION.horizontalOffset * GAME_SCALE,
-  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * GAME_SCALE
+  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * GAME_SCALE,
+  lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
 };
 
 export default abstract class NumberBondNode extends Node {
@@ -76,12 +80,12 @@ export default abstract class NumberBondNode extends Node {
     const leftLine = new Line( totalNode.centerX, totalNode.centerY, leftAddendNode.centerX, leftAddendNode.centerY,
       combineOptions<LineOptions>( {
       stroke: 'black',
-      lineWidth: NUMBER_BOND_LINE_WIDTH
+      lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
     }, options.leftLineOptions ) );
     const rightLine = new Line( totalNode.centerX, totalNode.centerY, rightAddendNode.centerX, rightAddendNode.centerY,
       combineOptions<LineOptions>( {
       stroke: 'black',
-      lineWidth: NUMBER_BOND_LINE_WIDTH
+      lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
     }, options.rightLineOptions ) );
 
     // If the total is on the bottom we want to flip the vertical offset

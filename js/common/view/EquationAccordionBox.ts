@@ -15,7 +15,7 @@ import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
-import NumberEquationNode from './NumberEquationNode.js';
+import MutableNumberEquationNode from './MutableNumberEquationNode.js';
 import PhraseAccordionBox from './PhraseAccordionBox.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
@@ -43,7 +43,10 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
       } )
     }, providedOptions );
 
-    const equationNode = new NumberEquationNode( model, 40, 28, 24, {
+    const equationNode = new MutableNumberEquationNode( model, {
+      squareDimension: 40,
+      symbolFontSize: 28,
+      numberFontSize: 24,
       addendsOnRight: options.addendsOnRight,
       totalColorProperty: options.totalColorProperty,
       leftAddendColorProperty: options.leftAddendColorProperty,
