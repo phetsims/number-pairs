@@ -40,6 +40,7 @@ export default class LevelIcons {
   }
 
   private static getNumberBondIcon( total: number, left: number, right: number ): Node {
+    // TODO: left addend should be completely blank https://github.com/phetsims/number-pairs/issues/410
     const model = LevelIcons.createModel( total, left, right, true, false, true );
     return new NumberBondIconNode( model, {
       dimensions: GAME_ICON_BOND_DIMENSION,

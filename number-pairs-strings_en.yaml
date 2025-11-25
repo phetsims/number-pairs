@@ -102,21 +102,25 @@ a11y:
 
   tenOrTwentyScreen:
     screenSummary:
-      playAreaEndSentence: >-
-                           A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
-                           apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
-                           objects, or swap addends.
       playArea:
         select_representationType:
           numberLine: >-
                       There is a number line showing total as a green line broken into two sections, yellow on left and blue
-                      on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
+                      on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
+                      A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
+                      apart into two addends. Additionally, choose any total from 0 to 10 or swap addends.
           beads:      >-
                       There are movable yellow and blue beads you can slide along a wire to organize or change color to change how
-                      total is broken apart. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
+                      total is broken apart. A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
+                      apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
+                      objects, or swap addends.
           kittens:    >-
-                      There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart. {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}
-          location:   '{ a11y.playAreaIntroSentence } {a11y.tenOrTwentyScreen.screenSummary.playAreaEndSentence}'
+                      There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart.
+                      A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
+                      apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
+                      objects, or swap addends.
+          location:   '{ a11y.playAreaIntroSentence } Additionally, choose any total from 0 to 10, automatically organize 
+                      objects, or swap addends.'
       controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shownSides:
@@ -143,13 +147,12 @@ a11y:
           numberLine: |-
                       Total is shown on number line with a green line broken into two sections, yellow on left and blue 
                       on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue 
-                      sections. Number spinners add one or remove one from yellow or blue section. { a11y.sumScreen.screenSummary.playAreaEndSentence }
+                      sections. Number spinners add one or remove one from yellow or blue section. An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
+                      add to total. Additionally, create totals from 0 to 20 or swap addends.
           other:      |-
                       There are yellow and blue { $representation } you can move to organize or change color to find 
-                      different ways to create a total number of { $representation }. { a11y.sumScreen.screenSummary.playAreaEndSentence }
-      playAreaEndSentence: |-
-                           An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
-                             add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.
+                      different ways to create a total number of { $representation }. An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
+                      add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.
       controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shown:

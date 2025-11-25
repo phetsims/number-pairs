@@ -113,7 +113,6 @@ type StringsType = {
     };
     'tenOrTwentyScreen': {
       'screenSummary': {
-        'playAreaEndSentenceStringProperty': LocalizedStringProperty;
         'playAreaStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetailsStringProperty': LocalizedStringProperty;
@@ -123,7 +122,6 @@ type StringsType = {
     'sumScreen': {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;
-        'playAreaEndSentenceStringProperty': LocalizedStringProperty;
         'controlAreaStringProperty': LocalizedStringProperty;
         'currentDetailsStringProperty': LocalizedStringProperty;
         'interactionHintStringProperty': LocalizedStringProperty;
