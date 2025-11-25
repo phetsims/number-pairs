@@ -7,15 +7,17 @@
  */
 
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Line from '../../../../scenery/js/nodes/Line.js';
+import Line, { LineOptions } from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
+  rightLineOptions?: LineOptions;
+  leftLineOptions?: LineOptions;
 };
 export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 
@@ -28,66 +30,78 @@ export type NumberBondDimensions = {
   verticalOffset: number;
 };
 
-export const NORMAL_DIMENSION: NumberBondDimensions = {
+export const DEFAULT_BOND_DIMENSION: NumberBondDimensions = {
   circleRadius: NumberCircle.RADIUS,
   fontSize: NumberCircle.DEFAULT_FONT_SIZE,
   horizontalOffset: 1.4 * NumberCircle.RADIUS,
   verticalOffset: 2.25 * NumberCircle.RADIUS
 };
 
+const ICON_SCALE = 0.5;
+export const GAME_ICON_BOND_DIMENSION: NumberBondDimensions = {
+  circleRadius: DEFAULT_BOND_DIMENSION.circleRadius * ICON_SCALE,
+  fontSize: DEFAULT_BOND_DIMENSION.fontSize * ICON_SCALE,
+  horizontalOffset: DEFAULT_BOND_DIMENSION.horizontalOffset * ICON_SCALE,
+  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * ICON_SCALE
+};
+
 // In the game, things are a bit larger. Do not just scale overall, since that affects line widths.
 const GAME_SCALE = 1.25;
 
 export const GAME_DIMENSION: NumberBondDimensions = {
-  circleRadius: NORMAL_DIMENSION.circleRadius * GAME_SCALE,
-  fontSize: NORMAL_DIMENSION.fontSize * GAME_SCALE,
-  horizontalOffset: NORMAL_DIMENSION.horizontalOffset * GAME_SCALE,
-  verticalOffset: NORMAL_DIMENSION.verticalOffset * GAME_SCALE
+  circleRadius: DEFAULT_BOND_DIMENSION.circleRadius * GAME_SCALE,
+  fontSize: DEFAULT_BOND_DIMENSION.fontSize * GAME_SCALE,
+  horizontalOffset: DEFAULT_BOND_DIMENSION.horizontalOffset * GAME_SCALE,
+  verticalOffset: DEFAULT_BOND_DIMENSION.verticalOffset * GAME_SCALE
 };
 
 export default abstract class NumberBondNode extends Node {
 
-  public readonly leftLine: Line;
-  public readonly rightLine: Line;
+  protected readonly leftLine: Line;
+  protected readonly rightLine: Line;
 
-  protected constructor( total: Node, leftAddend: Node, rightAddend: Node, dimensions: NumberBondDimensions, providedOptions?: NumberBondNodeOptions ) {
+  protected constructor( totalNode: Node, leftAddendNode: Node, rightAddendNode: Node, dimensions: NumberBondDimensions, providedOptions?: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
-      totalOnTopProperty: null
+      totalOnTopProperty: null,
+      rightLineOptions: {},
+      leftLineOptions: {}
     }, providedOptions );
 
     // Initial horizontal placement relative to total
-    leftAddend.centerX = total.centerX - dimensions.horizontalOffset;
-    rightAddend.centerX = total.centerX + dimensions.horizontalOffset;
+    leftAddendNode.centerX = totalNode.centerX - dimensions.horizontalOffset;
+    rightAddendNode.centerX = totalNode.centerX + dimensions.horizontalOffset;
 
     // Connecting lines
-    const leftLine = new Line( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY, {
+    const leftLine = new Line( totalNode.centerX, totalNode.centerY, leftAddendNode.centerX, leftAddendNode.centerY,
+      combineOptions<LineOptions>( {
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
-    const rightLine = new Line( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY, {
+    }, options.leftLineOptions ) );
+    const rightLine = new Line( totalNode.centerX, totalNode.centerY, rightAddendNode.centerX, rightAddendNode.centerY,
+      combineOptions<LineOptions>( {
       stroke: 'black',
       lineWidth: NUMBER_BOND_LINE_WIDTH
-    } );
+    }, options.rightLineOptions ) );
 
     // If the total is on the bottom we want to flip the vertical offset
     if ( options.totalOnTopProperty ) {
       options.totalOnTopProperty.link( totalOnTop => {
         const verticalOffset = totalOnTop ? dimensions.verticalOffset : -dimensions.verticalOffset;
-        leftAddend.centerY = total.centerY + verticalOffset;
-        rightAddend.centerY = total.centerY + verticalOffset;
-        leftLine.setLine( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY );
-        rightLine.setLine( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY );
+        leftAddendNode.centerY = totalNode.centerY + verticalOffset;
+        rightAddendNode.centerY = totalNode.centerY + verticalOffset;
+        leftLine.setLine( totalNode.centerX, totalNode.centerY, leftAddendNode.centerX, leftAddendNode.centerY );
+        rightLine.setLine( totalNode.centerX, totalNode.centerY, rightAddendNode.centerX, rightAddendNode.centerY );
       } );
     }
     else {
-      leftAddend.centerY = total.centerY + dimensions.verticalOffset;
-      rightAddend.centerY = total.centerY + dimensions.verticalOffset;
-      leftLine.setLine( total.centerX, total.centerY, leftAddend.centerX, leftAddend.centerY );
-      rightLine.setLine( total.centerX, total.centerY, rightAddend.centerX, rightAddend.centerY );
+      leftAddendNode.centerY = totalNode.centerY + dimensions.verticalOffset;
+      rightAddendNode.centerY = totalNode.centerY + dimensions.verticalOffset;
+      leftLine.setLine( totalNode.centerX, totalNode.centerY, leftAddendNode.centerX, leftAddendNode.centerY );
+      rightLine.setLine( totalNode.centerX, totalNode.centerY, rightAddendNode.centerX, rightAddendNode.centerY );
     }
 
-    options.children = [ leftLine, rightLine, total, leftAddend, rightAddend ];
+    options.children = [ leftLine, rightLine, totalNode, leftAddendNode, rightAddendNode ];
     super( options );
 
     this.leftLine = leftLine;

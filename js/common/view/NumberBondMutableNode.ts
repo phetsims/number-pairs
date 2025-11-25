@@ -15,12 +15,11 @@ import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Description from './description/Description.js';
-import NumberBondNode, { NORMAL_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
+import NumberBondNode, { DEFAULT_BOND_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
   dimensions?: NumberBondDimensions; //REVIEW Document
-  isIcon?: boolean; // Omits description for icon use.
   missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 
@@ -30,19 +29,15 @@ export default class NumberBondMutableNode extends NumberBondNode {
 
   //REVIEW Document fields.
   //REVIEW Uses of total, leftAddend, rightAddend are a bit confusing because they look like model elements. Consider adding a 'Node' suffix.
-
   protected readonly total: NumberCircle;
-
-  //REVIEW leftAddend and rightAddend could be protected if not for the odd way that LevelIcons getNumberBondIcon is breaking encapsulation.
-  public readonly leftAddend: NumberCircle;
-  public readonly rightAddend: NumberCircle;
+  protected readonly leftAddend: NumberCircle;
+  protected readonly rightAddend: NumberCircle;
 
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondMutableNodeOptions ) {
     const options = optionize<NumberBondMutableNodeOptions, SelfOptions, NumberBondNodeOptions>()( {
-      dimensions: NORMAL_DIMENSION,
-      isIcon: false,
+      dimensions: DEFAULT_BOND_DIMENSION,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
-      accessibleParagraph: providedOptions?.isIcon ? null : NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
@@ -74,17 +69,15 @@ export default class NumberBondMutableNode extends NumberBondNode {
     this.leftAddend = leftAddend;
     this.rightAddend = rightAddend;
 
-    if ( !options.isIcon ) {
-      this.addChild( new Node( {
-        accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
-          left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
-          right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
-          total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
-          orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
-            isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
-        } )
-      } ) );
-    }
+    this.addChild( new Node( {
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
+        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
+        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
+        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
+        orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+          isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
+      } )
+    } ) );
 
   }
 }

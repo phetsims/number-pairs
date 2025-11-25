@@ -29,7 +29,13 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     const options = optionize<GameNumberBondNodeOptions, SelfOptions, NumberBondMutableNodeOptions>()( {
       dimensions: GAME_DIMENSION,
       accessibleHeading: NumberPairsFluent.numberBondStringProperty,
-      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty
+      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+      leftLineOptions: {
+        lineWidth: NumberPairsConstants.GAME_LINE_WIDTH
+      },
+      rightLineOptions: {
+        lineWidth: NumberPairsConstants.GAME_LINE_WIDTH
+      }
     }, providedOptions );
 
     super( level.countingObjectsDelegate, options );
@@ -38,8 +44,6 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     this.total.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.leftAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
     this.rightAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.leftLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.rightLine.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
     const stylize = ( path: Path, stroke: TColor, lineDash: number[], lineWidth = 1 ) => {
       path.stroke = stroke;

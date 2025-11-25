@@ -14,13 +14,15 @@ import NumberPairsPreferences, { NumberModelType } from '../../common/model/Numb
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import BarModelMutableNode from '../../common/view/BarModelMutableNode.js';
-import NumberBondMutableNode from '../../common/view/NumberBondMutableNode.js';
-import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
+import BarModelIconNode from '../../common/view/BarModelIconNode.js';
+import { GAME_ICON_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
+import NumberBondIconNode from '../../common/view/NumberBondIconNode.js';
+import { GAME_DIMENSION, GAME_ICON_BOND_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationNode from '../../common/view/NumberEquationNode.js';
 import NumberLineIcon from '../../common/view/NumberLineIcon.js';
 import numberPairs from '../../numberPairs.js';
 
+const ICON_LINE_WIDTH = 0.75;
 export default class LevelIcons {
 
   private static createModel( total: number, left: number, right: number, leftAddendVisible: boolean, rightAddendVisible: boolean, totalVisible: boolean ): TGenericNumberPairsModel {
@@ -38,28 +40,42 @@ export default class LevelIcons {
   }
 
   private static getNumberBondIcon( total: number, left: number, right: number ): Node {
-
     const model = LevelIcons.createModel( total, left, right, true, false, true );
-
-    //REVIEW Consider improving NumberBondMutableNode API so that questionable mutations after instantiation are not necessary.
-    const numberBondNode = new NumberBondMutableNode( model, { scale: 0.5, isIcon: true } );
-    numberBondNode.leftAddend.children = []; // awkward
-    numberBondNode.rightAddend.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
-    numberBondNode.rightLine.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
-    return numberBondNode;
+    return new NumberBondIconNode( model, {
+      dimensions: GAME_ICON_BOND_DIMENSION,
+      rightAddendCircleOptions: {
+        lineDash: NumberPairsConstants.GAME_DASHED_LINE,
+        lineWidth: ICON_LINE_WIDTH
+      },
+      leftAddendCircleOptions: {
+        lineWidth: ICON_LINE_WIDTH
+      },
+      totalCircleOptions: {
+        lineWidth: ICON_LINE_WIDTH
+      },
+      leftLineOptions: {
+        lineWidth: ICON_LINE_WIDTH
+      },
+      rightLineOptions: {
+        lineWidth: ICON_LINE_WIDTH,
+        lineDash: NumberPairsConstants.GAME_DASHED_LINE
+      },
+      showQuestionMarks: true
+    } );
   }
 
   private static getNumberBarIcon( total: number, left: number, right: number ): Node {
     const levelModel = LevelIcons.createModel( total, left, right, true, false, true );
 
-    //REVIEW Consider improving BarModelMutableNode API so that questionable mutations after instantiation are not necessary.
-    const barModelNode = new BarModelMutableNode( levelModel, { scale: 0.55, isIcon: true } );
-    barModelNode.leftAddendRectangle.children = []; // awkward
-
-    // Display the known addend value, and keep the unknown addend dashed.
-    barModelNode.rightAddendRectangle.lineDash = NumberPairsConstants.GAME_DASHED_LINE;
-
-    return barModelNode;
+    return new BarModelIconNode( levelModel, {
+      dimensions: GAME_ICON_BAR_MODEL_DIMENSIONS,
+      spacing: GAME_ICON_BAR_MODEL_DIMENSIONS.spacing,
+      rightAddendRectangleOptions: {
+        lineWidth: ICON_LINE_WIDTH,
+        lineDash: NumberPairsConstants.GAME_DASHED_LINE
+      },
+      showQuestionMarks: true
+    } );
   }
 
   private static getNumberModelToggleIcon( total: number, left: number, right: number ): Node {

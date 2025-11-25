@@ -34,7 +34,6 @@ type SelfOptions = {
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
 
   dimensions?: BarModelDimensions;
-  isIcon?: boolean; // Omits description for icon use.
   missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 
@@ -47,13 +46,12 @@ export default class BarModelMutableNode extends BarModelNode {
     providedOptions?: BarModelMutableNodeOptions ) {
 
     const options = optionize<BarModelMutableNodeOptions, SelfOptions, BarModelNodeOptions>()( {
-      isIcon: false,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
       displayTotalNumberProperty: null,
       displayLeftAddendNumberProperty: null,
       displayRightAddendNumberProperty: null,
       dimensions: DEFAULT_BAR_MODEL_DIMENSIONS,
-      accessibleParagraph: providedOptions?.isIcon ? null : NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelAccessibleParagraph.createProperty( {
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
@@ -100,28 +98,26 @@ export default class BarModelMutableNode extends BarModelNode {
 
     super( model, totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
 
-    if ( !options.isIcon ) {
-      // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
-      // when everything settled.
-      const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty,
-          model.totalProperty,
-          NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
-          NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
-          NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
-        ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
-          return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
-        } );
-      this.addChild( new Node( {
-        accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
-          left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
-          right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
-          total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
-          proportions: proportionsStringProperty,
-          orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
-            isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
-        } )
-      } ) );
-    }
+    // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
+    // when everything settled.
+    const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty,
+        model.totalProperty,
+        NumberPairsFluent.a11y.controls.numberModel.largerAndSmallerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.smallerAndLargerStringProperty,
+        NumberPairsFluent.a11y.controls.numberModel.equalStringProperty ],
+      ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
+        return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
+      } );
+    this.addChild( new Node( {
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
+        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
+        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
+        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
+        proportions: proportionsStringProperty,
+        orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+          isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
+      } )
+    } ) );
   }
 }
 

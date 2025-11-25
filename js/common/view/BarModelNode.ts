@@ -23,7 +23,7 @@ type SelfOptions = {
   dimensions?: BarModelDimensions;
 };
 
-export type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children' | 'resize'>;
+export type BarModelNodeOptions = SelfOptions & StrictOmit<VBoxOptions, 'children'>;
 
 export type BarModelDimensions = {
   totalWidth: number;
@@ -41,12 +41,13 @@ export const DEFAULT_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   numberFontSize: 24
 };
 
-export const ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
-  totalWidth: DEFAULT_BAR_MODEL_DIMENSIONS.totalWidth * 0.7,
-  barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight,
-  lineWidth: DEFAULT_BAR_MODEL_DIMENSIONS.lineWidth,
-  spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing * 0.7,
-  numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize
+const ICON_SCALE = 0.55;
+export const GAME_ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
+  totalWidth: DEFAULT_BAR_MODEL_DIMENSIONS.totalWidth * ICON_SCALE,
+  barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight * ICON_SCALE,
+  lineWidth: 0.75,
+  spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing * ICON_SCALE,
+  numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize * ICON_SCALE
 };
 
 const BAR_MODEL_GAME_SCALE = 1.1;
