@@ -11,17 +11,18 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import numberPairs from '../../numberPairs.js';
-import BarModelNode, { BarModelNodeOptions, DEFAULT_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
+import BarModelNode, { BarModelNodeOptions, ICON_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
 import { createIconTextConstraint, IconModel } from './IconHelper.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 
 type SelfOptions = {
   totalRectangleOptions?: RectangleOptions;
   leftAddendRectangleOptions?: RectangleOptions;
   rightAddendRectangleOptions?: RectangleOptions;
-  showQuestionMarks?: boolean;
 };
 
 export type BarModelIconNodeOptions = SelfOptions & BarModelNodeOptions;
@@ -33,9 +34,8 @@ export default class BarModelIconNode extends BarModelNode {
     providedOptions?: BarModelIconNodeOptions ) {
 
     const options = optionize<BarModelIconNodeOptions, SelfOptions, BarModelNodeOptions>()( {
-      dimensions: DEFAULT_BAR_MODEL_DIMENSIONS,
-      spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing / 2,
-      resize: true, // to allow for proper scaling in buttons
+      dimensions: ICON_BAR_MODEL_DIMENSIONS,
+      spacing: ICON_BAR_MODEL_DIMENSIONS.spacing,
       totalRectangleOptions: {
         fill: model.totalColorProperty,
         stroke: 'black'
@@ -47,8 +47,7 @@ export default class BarModelIconNode extends BarModelNode {
       rightAddendRectangleOptions: {
         fill: model.rightAddendColorProperty,
         stroke: 'black'
-      },
-      showQuestionMarks: false
+      }
     }, providedOptions );
 
     const dimensions = options.dimensions;
@@ -73,7 +72,6 @@ export default class BarModelIconNode extends BarModelNode {
       children: [ totalText ]
     }, options.totalRectangleOptions );
     const totalRectangle = new Rectangle( totalRectangleOptions );
-    totalText.center = totalRectangle.center;
 
     // Left addend
     const leftAddendText = new Text( model.leftAddendProperty.value,
@@ -84,7 +82,6 @@ export default class BarModelIconNode extends BarModelNode {
       children: [ leftAddendText ]
     }, options.leftAddendRectangleOptions );
     const leftAddendRectangle = new Rectangle( leftAddendRectangleOptions );
-    leftAddendText.center = leftAddendRectangle.center;
 
     // Right addend
     const rightAddendText = new Text( model.rightAddendProperty.value === null ? '?' : model.rightAddendProperty.value,
@@ -96,7 +93,16 @@ export default class BarModelIconNode extends BarModelNode {
     }, options.rightAddendRectangleOptions );
     const rightAddendRectangle = new Rectangle( rightAddendRectangleOptions );
 
-    super( totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
+    super( totalRectangle, new Node( { children: [ leftAddendRectangle, rightAddendRectangle ] } ), options );
+
+    /**
+     * Set the layout for the rectangles
+     */
+    ManualConstraint.create( this, [ leftAddendRectangle, rightAddendRectangle ], ( leftAddendRectangleProxy, rightAddendRectangleProxy ) => {
+
+      // Use the rectWidth to calculate because the text bounds may protrude from the rectangle.
+      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.left + leftAddendRectangle.rectWidth : totalRectangle.left;
+    } );
     createIconTextConstraint( this, totalRectangle, totalText, leftAddendRectangle,
       leftAddendText, rightAddendRectangle, rightAddendText );
   }

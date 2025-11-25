@@ -8,6 +8,7 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
@@ -15,11 +16,10 @@ import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Description from './description/Description.js';
-import NumberBondNode, { DEFAULT_BOND_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
+import NumberBondNode, { DEFAULT_BOND_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberBondNodeOptions } from './NumberBondNode.js';
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
-  dimensions?: NumberBondDimensions; //REVIEW Document
   missingNumberStringProperty?: TReadOnlyProperty<string>;
 };
 
@@ -34,7 +34,7 @@ export default class NumberBondMutableNode extends NumberBondNode {
   protected readonly rightAddend: NumberCircle;
 
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondMutableNodeOptions ) {
-    const options = optionize<NumberBondMutableNodeOptions, SelfOptions, NumberBondNodeOptions>()( {
+    const options = optionize<NumberBondMutableNodeOptions, SelfOptions, WithRequired<NumberBondNodeOptions, 'dimensions'>>()( {
       dimensions: DEFAULT_BOND_DIMENSION,
       missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
@@ -62,7 +62,7 @@ export default class NumberBondMutableNode extends NumberBondNode {
       lineWidth: NUMBER_BOND_LINE_WIDTH
     } );
 
-    super( total, leftAddend, rightAddend, options.dimensions, options );
+    super( total, leftAddend, rightAddend, options );
 
     // Expose typed references for clients that need them
     this.total = total;

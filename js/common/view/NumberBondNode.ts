@@ -14,13 +14,6 @@ import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 
-type SelfOptions = {
-  totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
-  rightLineOptions?: LineOptions;
-  leftLineOptions?: LineOptions;
-};
-export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
-
 export const NUMBER_BOND_LINE_WIDTH = 1.5;
 
 export type NumberBondDimensions = {
@@ -59,18 +52,27 @@ export const GAME_DIMENSION: NumberBondDimensions = {
   lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
 };
 
+type SelfOptions = {
+  dimensions?: NumberBondDimensions;
+  totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
+  rightLineOptions?: LineOptions;
+  leftLineOptions?: LineOptions;
+};
+export type NumberBondNodeOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
 export default abstract class NumberBondNode extends Node {
 
   protected readonly leftLine: Line;
   protected readonly rightLine: Line;
 
-  protected constructor( totalNode: Node, leftAddendNode: Node, rightAddendNode: Node, dimensions: NumberBondDimensions, providedOptions?: NumberBondNodeOptions ) {
+  protected constructor( totalNode: Node, leftAddendNode: Node, rightAddendNode: Node, providedOptions?: NumberBondNodeOptions ) {
 
     const options = optionize<NumberBondNodeOptions, SelfOptions, NodeOptions>()( {
+      dimensions: DEFAULT_BOND_DIMENSION,
       totalOnTopProperty: null,
       rightLineOptions: {},
       leftLineOptions: {}
     }, providedOptions );
+    const dimensions = options.dimensions;
 
     // Initial horizontal placement relative to total
     leftAddendNode.centerX = totalNode.centerX - dimensions.horizontalOffset;

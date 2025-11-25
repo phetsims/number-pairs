@@ -10,7 +10,6 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -39,13 +38,22 @@ export const DEFAULT_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   numberFontSize: 24
 };
 
-const ICON_SCALE = 0.55;
-export const GAME_ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
+const ICON_SCALE = 0.7;
+export const ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
   totalWidth: DEFAULT_BAR_MODEL_DIMENSIONS.totalWidth * ICON_SCALE,
-  barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight * ICON_SCALE,
-  lineWidth: 0.5,
+  barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight,
+  lineWidth: DEFAULT_BAR_MODEL_DIMENSIONS.lineWidth,
   spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing * ICON_SCALE,
-  numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize * ICON_SCALE
+  numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize
+};
+
+const GAME_ICON_SCALE = 0.55;
+export const GAME_ICON_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
+  totalWidth: DEFAULT_BAR_MODEL_DIMENSIONS.totalWidth * GAME_ICON_SCALE,
+  barHeight: DEFAULT_BAR_MODEL_DIMENSIONS.barHeight * GAME_ICON_SCALE,
+  lineWidth: 0.5,
+  spacing: DEFAULT_BAR_MODEL_DIMENSIONS.spacing * GAME_ICON_SCALE,
+  numberFontSize: DEFAULT_BAR_MODEL_DIMENSIONS.numberFontSize * GAME_ICON_SCALE
 };
 
 const BAR_MODEL_GAME_SCALE = 1.1;
@@ -59,12 +67,10 @@ export const GAME_BAR_MODEL_DIMENSIONS: BarModelDimensions = {
 };
 
 export default abstract class BarModelNode extends VBox {
-  protected readonly addendsNode: Node;
 
   protected constructor(
     public readonly totalRectangle: Rectangle,
-    public readonly leftAddendRectangle: Rectangle,
-    public readonly rightAddendRectangle: Rectangle,
+    protected readonly addendsNode: Node,
     providedOptions?: BarModelNodeOptions ) {
 
     const options = optionize<BarModelNodeOptions, SelfOptions, VBoxOptions>()( {
@@ -73,26 +79,10 @@ export default abstract class BarModelNode extends VBox {
       dimensions: DEFAULT_BAR_MODEL_DIMENSIONS
     }, providedOptions );
 
-    const addendsNode = new Node( {
-      children: [ leftAddendRectangle, rightAddendRectangle ],
-      excludeInvisibleChildrenFromBounds: true
-    } );
-
-    /**
-     * Hook up the rectangles to listeners so that they update accordingly
-     */
-    ManualConstraint.create( addendsNode, [ leftAddendRectangle, rightAddendRectangle ], ( leftAddendRectangleProxy, rightAddendRectangleProxy ) => {
-
-      // Use the rectWidth to calculate because the text bounds may protrude from the rectangle.
-      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.left + leftAddendRectangle.rectWidth : totalRectangle.left;
-    } );
-
     options.children = [ totalRectangle, addendsNode ];
     super( options );
 
     this.totalRectangle = totalRectangle;
-    this.leftAddendRectangle = leftAddendRectangle;
-    this.rightAddendRectangle = rightAddendRectangle;
     this.addendsNode = addendsNode;
 
     if ( options.totalOnTopProperty ) {

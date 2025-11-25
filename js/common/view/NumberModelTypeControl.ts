@@ -21,6 +21,7 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BarModelIconNode from './BarModelIconNode.js';
 import NumberBondIconNode from './NumberBondIconNode.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 
@@ -50,7 +51,8 @@ export default class NumberModelTypeControl extends PreferencesControl {
           }
         },
         {
-          createNode: () => new BarModelIconNode( syntheticNumberPairsModel, {} ),
+          // TODO: WHy do I need this weird wrapper Node now? https://github.com/phetsims/number-pairs/issues/410
+          createNode: () => new Node( { children: [ new BarModelIconNode( syntheticNumberPairsModel, {} ) ] } ),
           value: NumberModelType.BAR_MODEL,
           tandemName: 'barModelRadioButton',
           options: {

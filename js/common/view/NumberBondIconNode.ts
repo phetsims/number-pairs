@@ -28,15 +28,18 @@ export default class NumberBondIconNode extends NumberBondNode {
       dimensions: DEFAULT_BOND_DIMENSION,
       totalCircleOptions: {
         fill: model.totalColorProperty,
-        stroke: 'black'
+        stroke: 'black',
+        lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
       },
       leftAddendCircleOptions: {
         fill: model.leftAddendColorProperty,
-        stroke: 'black'
+        stroke: 'black',
+        lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
       },
       rightAddendCircleOptions: {
         fill: model.rightAddendColorProperty,
-        stroke: 'black'
+        stroke: 'black',
+        lineWidth: DEFAULT_BOND_DIMENSION.lineWidth
       }
     }, providedOptions );
 
@@ -69,7 +72,7 @@ export default class NumberBondIconNode extends NumberBondNode {
     const rightAddend = new Circle( options.dimensions.circleRadius, rightAddendCircleOptions );
     rightAddendText.center = rightAddend.center;
 
-    super( total, leftAddend, rightAddend, options.dimensions, options );
+    super( total, leftAddend, rightAddend, options );
 
     createIconTextConstraint( this, total, totalText, leftAddend, leftAddendText, rightAddend, rightAddendText );
   }

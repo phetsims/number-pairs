@@ -74,8 +74,7 @@ export default class LevelIcons {
       rightAddendRectangleOptions: {
         lineWidth: GAME_ICON_BAR_MODEL_DIMENSIONS.lineWidth,
         lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE
-      },
-      showQuestionMarks: true
+      }
     } );
   }
 

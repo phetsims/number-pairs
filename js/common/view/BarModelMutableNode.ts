@@ -13,7 +13,9 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
@@ -41,6 +43,9 @@ type SelfOptions = {
 export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions' | 'accessibleParagraph' | 'resize'>;
 
 export default class BarModelMutableNode extends BarModelNode {
+
+  public readonly leftAddendRectangle: Rectangle;
+  public readonly rightAddendRectangle: Rectangle;
 
   public constructor(
     model: TGenericNumberPairsModel,
@@ -98,7 +103,45 @@ export default class BarModelMutableNode extends BarModelNode {
       numberFontSize: dimensions.numberFontSize
     } );
 
-    super( totalRectangle, leftAddendRectangle, rightAddendRectangle, options );
+    const addendsNode = new Node( {
+      children: [ leftAddendRectangle, rightAddendRectangle ],
+      excludeInvisibleChildrenFromBounds: true
+    } );
+
+    /**
+     * Hook up the rectangles to listeners so that they update accordingly
+     */
+    ManualConstraint.create( addendsNode, [ leftAddendRectangle, rightAddendRectangle ], ( leftAddendRectangleProxy, rightAddendRectangleProxy ) => {
+
+      // Use the rectWidth to calculate because the text bounds may protrude from the rectangle.
+      rightAddendRectangleProxy.left = leftAddendRectangleProxy.visible ? leftAddendRectangleProxy.left + leftAddendRectangle.rectWidth : totalRectangle.left;
+    } );
+
+    /**
+     * Hook up the rectangles to listeners so that they update accordingly
+     */
+    Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
+
+      // We need to handle the case where the total is 0, because we can't divide by 0
+      if ( total !== 0 ) {
+        totalRectangle.fill = model.totalColorProperty;
+        leftAddendRectangle.rectWidth = leftAddend / total * dimensions.totalWidth;
+        leftAddendRectangle.fill = model.leftAddendColorProperty;
+        leftAddendRectangle.visible = leftAddend > 0;
+        rightAddendRectangle.rectWidth = rightAddend / total * dimensions.totalWidth;
+        rightAddendRectangle.visible = rightAddend > 0;
+      }
+      else {
+        totalRectangle.fill = null;
+        leftAddendRectangle.rectWidth = dimensions.totalWidth;
+        leftAddendRectangle.fill = null;
+        leftAddendRectangle.visible = true;
+        rightAddendRectangle.rectWidth = 0;
+        rightAddendRectangle.visible = false;
+      }
+    } );
+
+    super( totalRectangle, addendsNode, options );
 
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
     // when everything settled.
@@ -121,26 +164,8 @@ export default class BarModelMutableNode extends BarModelNode {
       } )
     } ) );
 
-    Multilink.multilink( [ model.totalProperty, model.leftAddendProperty, model.rightAddendProperty ], ( total, leftAddend, rightAddend ) => {
-
-      // We need to handle the case where the total is 0, because we can't divide by 0
-      if ( total !== 0 ) {
-        totalRectangle.fill = model.totalColorProperty;
-        leftAddendRectangle.rectWidth = leftAddend / total * dimensions.totalWidth;
-        leftAddendRectangle.fill = model.leftAddendColorProperty;
-        leftAddendRectangle.visible = leftAddend > 0;
-        rightAddendRectangle.rectWidth = rightAddend / total * dimensions.totalWidth;
-        rightAddendRectangle.visible = rightAddend > 0;
-      }
-      else {
-        totalRectangle.fill = null;
-        leftAddendRectangle.rectWidth = dimensions.totalWidth;
-        leftAddendRectangle.fill = null;
-        leftAddendRectangle.visible = true;
-        rightAddendRectangle.rectWidth = 0;
-        rightAddendRectangle.visible = false;
-      }
-    } );
+    this.leftAddendRectangle = leftAddendRectangle;
+    this.rightAddendRectangle = rightAddendRectangle;
   }
 }
 
