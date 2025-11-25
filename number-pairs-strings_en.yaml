@@ -344,7 +344,7 @@ a11y:
                      Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
       numberBondStateAccessibleParagraph:
         select_orientation:
-          totalOnTop: Right now, { $total } in top circle. { $left } in left circle, { $right } in right circle.
+          totalOnTop: Right now, { $total } in top circle, { $left } in left circle, { $right } in right circle.
           totalOnBottom: Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
       barModelStateAccessibleParagraph:
             select_orientation:
