@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2025, University of Colorado Boulder
 /**
  * Type definition and helper functions for icon representations of number models used throughout the sim.
  *
