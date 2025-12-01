@@ -104,7 +104,7 @@ export default class KittenNode extends InteractiveHighlightingNode {
 
     const kittenAttributeSwitch = new ToggleSwitch( isLeftAddendProperty, true, false, {
       size: TOGGLE_SWITCH_DIMENSION,
-      pdomVisible: false,
+      accessibleVisible: false,
       tandem: options.includeAttributeSwitch ? options.tandem.createTandem( 'kittenAttributeSwitch' ) : Tandem.OPT_OUT,
       accessibleName: NumberPairsFluent.a11y.kittens.changeColorAccessibleNameStringProperty,
       accessibleContextResponseLeftValue: NumberPairsFluent.a11y.leftAddendColorStringProperty,
