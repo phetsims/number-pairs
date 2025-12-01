@@ -82,6 +82,12 @@ export default class LocationCountingObjectsLayerNode extends Node {
     } );
 
     model.groupSelectLocationObjectsModel.selectedGroupItemProperty.link( selectedGroupItem => {
+
+      // Force a re-render of the pdom when the selected group item changes to announce the accessible name even if the
+      // accessible name hasn't changed.
+      this.labelTagName = 'label';
+      this.labelTagName = null;
+
       selectedGroupItem && this.countingObjectModelToNodeMap.get( selectedGroupItem )?.moveToFront();
     } );
 
