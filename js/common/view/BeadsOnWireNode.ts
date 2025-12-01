@@ -231,7 +231,7 @@ export default class BeadsOnWireNode extends Node {
         const selectedGroupItemIndex = clamp( groupItemIndex + delta, 0, sortedBeadNodes.length - 1 );
 
         const nextCountingObject = sortedBeadNodes[ selectedGroupItemIndex ].countingObject;
-        if ( delta !== 0 ) {
+        if ( delta !== 0 && groupItem !== nextCountingObject ) {
           NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, delta > 0 );
         }
 
