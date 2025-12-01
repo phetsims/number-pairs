@@ -29,7 +29,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     const options = optionize<GameNumberBondNodeOptions, SelfOptions, NumberBondMutableNodeOptions>()( {
       dimensions: GAME_DIMENSION,
       accessibleHeading: NumberPairsFluent.numberBondStringProperty,
-      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+      isGameScreen: true,
       leftLineOptions: {
         lineWidth: NumberPairsConstants.GAME_LINE_WIDTH
       },

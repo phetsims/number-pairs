@@ -558,6 +558,15 @@
         "totalHidden": {
           "value": "Total hidden"
         },
+        "totalMissing": {
+          "value": "a mystery total"
+        },
+        "leftAddendMissing": {
+          "value": "a mystery number"
+        },
+        "rightAddendMissing": {
+          "value": "another mystery number"
+        },
         "numberBondAccessibleParagraph": {
           "value": "{ $orientation ->\n  [totalOnBottom] Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.\n  *[totalOnTop] Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.\n}"
         },
@@ -565,7 +574,7 @@
           "value": "{ $orientation ->\n  [totalOnTop] Right now, { $total } in top circle, { $left } in left circle, { $right } in right circle.\n  *[totalOnBottom] Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.\n}"
         },
         "barModelStateAccessibleParagraph": {
-          "value": "{ $orientation ->\n  [totalOnTop] Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.\n  *[totalOnBottom] Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.\n}"
+          "value": "{ $orientation ->\n  [totalOnTop] Right now, { $total } in top rectangle, { $left } and { $right } in bottom rectangle, split into { $proportions } sections.\n  *[totalOnBottom] Right now, { $left } and { $right } top rectangle, split into { $proportions } sections, { $total } in bottom rectangle.\n}"
         },
         "sumEquation": {
           "value": "Right now, equation shows { $left } + { $right } = { $total }."
@@ -718,6 +727,9 @@
       },
       "questionMark": {
         "value": "question mark"
+      },
+      "missingValue": {
+        "value": "a mystery number"
       },
       "challengePrompt": {
         "value": "{ $decompositionOrSum ->\n  [decomposition] { $total } can be decomposed into { $leftAddend } and { $rightAddend }?\n  *[sum] { $leftAddend } plus { $rightAddend } equals { $total }?\n}"

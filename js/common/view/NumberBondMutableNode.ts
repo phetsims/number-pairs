@@ -5,7 +5,6 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
-import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
@@ -20,7 +19,7 @@ import NumberBondNode, { DEFAULT_BOND_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberB
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
-  missingNumberStringProperty?: TReadOnlyProperty<string>;
+  isGameScreen?: boolean;
 };
 
 export type NumberBondMutableNodeOptions = SelfOptions & StrictOmit<NumberBondNodeOptions, 'accessibleParagraph'>;
@@ -36,7 +35,7 @@ export default class NumberBondMutableNode extends NumberBondNode {
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondMutableNodeOptions ) {
     const options = optionize<NumberBondMutableNodeOptions, SelfOptions, WithRequired<NumberBondNodeOptions, 'dimensions'>>()( {
       dimensions: DEFAULT_BOND_DIMENSION,
-      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
+      isGameScreen: false,
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
@@ -69,11 +68,13 @@ export default class NumberBondMutableNode extends NumberBondNode {
     this.leftAddend = leftAddend;
     this.rightAddend = rightAddend;
 
+    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
+
     this.addChild( new Node( {
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
-        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
-        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
-        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
+        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
+        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, missingStringProperties.rightAddendStringProperty ),
+        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, missingStringProperties.totalStringProperty ),
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )

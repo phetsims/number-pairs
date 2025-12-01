@@ -336,6 +336,9 @@ a11y:
       barModel:           proportional bar model
       accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModelLowercase }.
       totalHidden: Total hidden
+      totalMissing: a mystery total
+      leftAddendMissing:  a mystery number
+      rightAddendMissing: another mystery number
       numberBondAccessibleParagraph:
         select_orientation:
           totalOnBottom: >-
@@ -348,8 +351,8 @@ a11y:
           totalOnBottom: Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
       barModelStateAccessibleParagraph:
             select_orientation:
-              totalOnTop: Right now, { $total } in top rectangle. { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
-              totalOnBottom: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections. { $total } in bottom rectangle.
+              totalOnTop: Right now, { $total } in top rectangle, { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+              totalOnBottom: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections, { $total } in bottom rectangle.
       sumEquation:           Right now, equation shows { $left } + { $right } = { $total }.
       decompositionEquation: Right now, equation shows { $total } = { $left } + { $right }.
       barModelAccessibleParagraph:
@@ -436,6 +439,7 @@ a11y:
   gameScreen:
     whatNumber:   what number
     questionMark: question mark
+    missingValue: a mystery number
     challengePrompt:
       select_decompositionOrSum:
         decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }?'

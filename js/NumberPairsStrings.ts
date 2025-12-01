@@ -255,6 +255,9 @@ type StringsType = {
         'barModelStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'totalHiddenStringProperty': LocalizedStringProperty;
+        'totalMissingStringProperty': LocalizedStringProperty;
+        'leftAddendMissingStringProperty': LocalizedStringProperty;
+        'rightAddendMissingStringProperty': LocalizedStringProperty;
         'numberBondAccessibleParagraphStringProperty': LocalizedStringProperty;
         'numberBondStateAccessibleParagraphStringProperty': LocalizedStringProperty;
         'barModelStateAccessibleParagraphStringProperty': LocalizedStringProperty;
@@ -324,6 +327,7 @@ type StringsType = {
     'gameScreen': {
       'whatNumberStringProperty': LocalizedStringProperty;
       'questionMarkStringProperty': LocalizedStringProperty;
+      'missingValueStringProperty': LocalizedStringProperty;
       'challengePromptStringProperty': LocalizedStringProperty;
       'countingArea': {
         'accessibleHeadingStringProperty': LocalizedStringProperty;

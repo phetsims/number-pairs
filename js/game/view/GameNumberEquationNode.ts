@@ -27,7 +27,7 @@ export default class GameNumberEquationNode extends MutableNumberEquationNode {
 
     const options = optionize<GameNumberEquationNodeOptions, SelfOptions, MutableNumberEquationNodeOptions>()( {
       accessibleHeading: NumberPairsFluent.equationStringProperty,
-      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty,
+      isGameScreen: true,
       addendsOnRight: level.type === 'decompositionEquation',
       totalColorProperty: NumberPairsColors.attributeSumColorProperty,
       leftAddendColorProperty: NumberPairsColors.attributeLeftAddendColorProperty,

@@ -182,6 +182,9 @@ addToMapIfDefined( 'a11y_controls_numberModel_numberBond', 'a11y.controls.number
 addToMapIfDefined( 'a11y_controls_numberModel_barModel', 'a11y.controls.numberModel.barModelStringProperty' );
 addToMapIfDefined( 'a11y_controls_numberModel_accessibleHelpText', 'a11y.controls.numberModel.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_numberModel_totalHidden', 'a11y.controls.numberModel.totalHiddenStringProperty' );
+addToMapIfDefined( 'a11y_controls_numberModel_totalMissing', 'a11y.controls.numberModel.totalMissingStringProperty' );
+addToMapIfDefined( 'a11y_controls_numberModel_leftAddendMissing', 'a11y.controls.numberModel.leftAddendMissingStringProperty' );
+addToMapIfDefined( 'a11y_controls_numberModel_rightAddendMissing', 'a11y.controls.numberModel.rightAddendMissingStringProperty' );
 addToMapIfDefined( 'a11y_controls_numberModel_numberBondAccessibleParagraph', 'a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty' );
 addToMapIfDefined( 'a11y_controls_numberModel_numberBondStateAccessibleParagraph', 'a11y.controls.numberModel.numberBondStateAccessibleParagraphStringProperty' );
 addToMapIfDefined( 'a11y_controls_numberModel_barModelStateAccessibleParagraph', 'a11y.controls.numberModel.barModelStateAccessibleParagraphStringProperty' );
@@ -228,6 +231,7 @@ addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseChe
 addToMapIfDefined( 'a11y_controls_totalJumpCheckbox_accessibleContextResponseUnchecked', 'a11y.controls.totalJumpCheckbox.accessibleContextResponseUncheckedStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_whatNumber', 'a11y.gameScreen.whatNumberStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_questionMark', 'a11y.gameScreen.questionMarkStringProperty' );
+addToMapIfDefined( 'a11y_gameScreen_missingValue', 'a11y.gameScreen.missingValueStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_challengePrompt', 'a11y.gameScreen.challengePromptStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_countingArea_accessibleHeading', 'a11y.gameScreen.countingArea.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_gameScreen_countingArea_numberLineLeftAddendColor', 'a11y.gameScreen.countingArea.numberLineLeftAddendColorStringProperty' );
@@ -531,6 +535,9 @@ const NumberPairsFluent = {
         barModelStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_barModel', _.get( NumberPairsStrings, 'a11y.controls.numberModel.barModelStringProperty' ) ),
         accessibleHelpText: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.controls.numberModel.accessibleHelpTextStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
         totalHiddenStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_totalHidden', _.get( NumberPairsStrings, 'a11y.controls.numberModel.totalHiddenStringProperty' ) ),
+        totalMissingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_totalMissing', _.get( NumberPairsStrings, 'a11y.controls.numberModel.totalMissingStringProperty' ) ),
+        leftAddendMissingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_leftAddendMissing', _.get( NumberPairsStrings, 'a11y.controls.numberModel.leftAddendMissingStringProperty' ) ),
+        rightAddendMissingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_numberModel_rightAddendMissing', _.get( NumberPairsStrings, 'a11y.controls.numberModel.rightAddendMissingStringProperty' ) ),
         numberBondAccessibleParagraph: new FluentPattern<{ orientation: 'totalOnBottom' | 'totalOnTop' | TReadOnlyProperty<'totalOnBottom' | 'totalOnTop'> }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBondAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondAccessibleParagraphStringProperty' ), [{"name":"orientation","variants":["totalOnBottom","totalOnTop"]}] ),
         numberBondStateAccessibleParagraph: new FluentPattern<{ left: FluentVariable, orientation: 'totalOnTop' | 'totalOnBottom' | TReadOnlyProperty<'totalOnTop' | 'totalOnBottom'>, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_numberBondStateAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.numberBondStateAccessibleParagraphStringProperty' ), [{"name":"left"},{"name":"orientation","variants":["totalOnTop","totalOnBottom"]},{"name":"right"},{"name":"total"}] ),
         barModelStateAccessibleParagraph: new FluentPattern<{ left: FluentVariable, orientation: 'totalOnTop' | 'totalOnBottom' | TReadOnlyProperty<'totalOnTop' | 'totalOnBottom'>, proportions: FluentVariable, right: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_numberModel_barModelStateAccessibleParagraph', _.get( NumberPairsStrings, 'a11y.controls.numberModel.barModelStateAccessibleParagraphStringProperty' ), [{"name":"left"},{"name":"orientation","variants":["totalOnTop","totalOnBottom"]},{"name":"proportions"},{"name":"right"},{"name":"total"}] ),
@@ -602,6 +609,7 @@ const NumberPairsFluent = {
     gameScreen: {
       whatNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_whatNumber', _.get( NumberPairsStrings, 'a11y.gameScreen.whatNumberStringProperty' ) ),
       questionMarkStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_questionMark', _.get( NumberPairsStrings, 'a11y.gameScreen.questionMarkStringProperty' ) ),
+      missingValueStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_missingValue', _.get( NumberPairsStrings, 'a11y.gameScreen.missingValueStringProperty' ) ),
       challengePrompt: new FluentPattern<{ decompositionOrSum: 'decomposition' | 'sum' | TReadOnlyProperty<'decomposition' | 'sum'>, leftAddend: FluentVariable, rightAddend: FluentVariable, total: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_gameScreen_challengePrompt', _.get( NumberPairsStrings, 'a11y.gameScreen.challengePromptStringProperty' ), [{"name":"decompositionOrSum","variants":["decomposition","sum"]},{"name":"leftAddend"},{"name":"rightAddend"},{"name":"total"}] ),
       countingArea: {
         accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_gameScreen_countingArea_accessibleHeading', _.get( NumberPairsStrings, 'a11y.gameScreen.countingArea.accessibleHeadingStringProperty' ) ),

@@ -37,7 +37,7 @@ type SelfOptions = {
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
 
   dimensions?: BarModelDimensions;
-  missingNumberStringProperty?: TReadOnlyProperty<string>;
+  isGameScreen?: boolean;
 };
 
 export type BarModelMutableNodeOptions = SelfOptions & StrictOmit<BarModelNodeOptions, 'dimensions' | 'accessibleParagraph' | 'resize'>;
@@ -53,7 +53,7 @@ export default class BarModelMutableNode extends BarModelNode {
 
     const options = optionize<BarModelMutableNodeOptions, SelfOptions, BarModelNodeOptions>()( {
       resize: false,
-      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
+      isGameScreen: false,
       displayTotalNumberProperty: null,
       displayLeftAddendNumberProperty: null,
       displayRightAddendNumberProperty: null,
@@ -143,6 +143,8 @@ export default class BarModelMutableNode extends BarModelNode {
 
     super( totalRectangle, addendsNode, options );
 
+    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
+
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
     // when everything settled.
     const proportionsStringProperty = new DerivedProperty( [ model.leftAddendProperty, model.rightAddendProperty,
@@ -155,9 +157,9 @@ export default class BarModelMutableNode extends BarModelNode {
       } );
     this.addChild( new Node( {
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
-        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
-        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty ),
-        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
+        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
+        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, missingStringProperties.rightAddendStringProperty ),
+        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, missingStringProperties.totalStringProperty ),
         proportions: proportionsStringProperty,
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'

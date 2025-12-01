@@ -34,7 +34,7 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
       displayLeftAddendNumberProperty: level.countingObjectsDelegate.leftAddendProperty,
       displayRightAddendNumberProperty: level.countingObjectsDelegate.rightAddendProperty,
       accessibleHeading: NumberPairsFluent.barModelStringProperty,
-      missingNumberStringProperty: NumberPairsFluent.a11y.gameScreen.questionMarkStringProperty
+      isGameScreen: true
     }, providedOptions );
     const barLevelDisplay = new BarLevelDisplay( level, level.selectedGuessProperty );
 

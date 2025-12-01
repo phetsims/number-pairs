@@ -23,7 +23,7 @@ type SelfOptions = {
   totalColorProperty: TReadOnlyProperty<Color>;
   leftAddendColorProperty: TReadOnlyProperty<Color>;
   rightAddendColorProperty: TReadOnlyProperty<Color>;
-  missingNumberStringProperty?: TReadOnlyProperty<string>;
+  isGameScreen?: boolean;
   squareDimension?: number;
   numberFontSize?: number;
 };
@@ -35,7 +35,7 @@ export default class MutableNumberEquationNode extends NumberEquationNode {
   public constructor( model: TGenericNumberPairsModel, providedOptions: MutableNumberEquationNodeOptions ) {
 
     const options = optionize<MutableNumberEquationNodeOptions, SelfOptions, NumberEquationNodeOptions>()( {
-      missingNumberStringProperty: NumberPairsFluent.aNumberStringProperty,
+      isGameScreen: false,
       squareDimension: 35,
       numberFontSize: 24,
       symbolFontSize: 24,
@@ -75,14 +75,16 @@ export default class MutableNumberEquationNode extends NumberEquationNode {
 
     super( totalSquare, leftAddendSquare, rightAddendSquare, options );
 
+    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
+
     // Set up accessibility
     const accessibleParagraphPattern = options.addendsOnRight ?
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnRightAccessibleParagraph :
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnLeftAccessibleParagraph;
     this.accessibleParagraph = accessibleParagraphPattern.createProperty( {
-      total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, options.missingNumberStringProperty ),
-      leftAddend: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, options.missingNumberStringProperty ),
-      rightAddend: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, options.missingNumberStringProperty )
+      total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, missingStringProperties.totalStringProperty ),
+      leftAddend: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
+      rightAddend: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, missingStringProperties.rightAddendStringProperty )
     } );
   }
 }
