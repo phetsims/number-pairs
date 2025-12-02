@@ -148,7 +148,6 @@ export default class DecompositionModel extends NumberPairsModel {
       changingScenesProperty,
       superOptions
     );
-    console.log( options.sceneRange );
     this.sceneRange = options.sceneRange;
 
     // Register the observable arrays in each scene to properly update the Counting Object state as necessary.

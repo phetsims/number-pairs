@@ -87,6 +87,9 @@ const NumberPairsConstants = {
   TEN_NUMBER_LINE_RANGE: new Range( 0, TEN_TOTAL_RANGE.max ),
   TWENTY_TOTAL_RANGE: TWENTY_TOTAL_RANGE,
   TWENTY_NUMBER_LINE_RANGE: new Range( 0, TWENTY_TOTAL_RANGE.max ),
+  GAME_TEN_RANGE: new Range( 0, 10 ),
+  GAME_TWENTY_RANGE: new Range( 0, 20 ),
+  SUM_TOTAL_RANGE: new Range( TEN_TOTAL_RANGE.min, TWENTY_TOTAL_RANGE.max ),
 
   // Bead specific values:
   LEFTMOST_BEAD_X: 1,

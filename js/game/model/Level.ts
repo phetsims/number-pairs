@@ -111,7 +111,6 @@ export default class Level extends PhetioObject {
     this.range = levelDefinition.range;
     this.colorProperty = levelDefinition.color;
     this.descriptionProperty = levelDefinition.descriptionProperty;
-    console.log( this.descriptionProperty.value );
 
     // Create game play related Properties
     this.addendsVisibleProperty = new BooleanProperty( true, {

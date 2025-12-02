@@ -15,12 +15,13 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
+import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 // constants
-const ZERO_TO_TEN_RANGE = new Range( 0, 10 );
-const ZERO_TO_TWENTY_RANGE = new Range( 0, 20 );
+const ZERO_TO_TEN_RANGE = NumberPairsConstants.GAME_TEN_RANGE;
+const ZERO_TO_TWENTY_RANGE = NumberPairsConstants.GAME_TWENTY_RANGE;
 
 const NUMBER_MODEL_TYPE_STRING_PROPERTY = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
   [ NumberModelType.BAR_MODEL, NumberPairsFluent.barModelLowercaseStringProperty ],

@@ -99,6 +99,13 @@ type StringsType = {
     'numberBondOrBarModelStringProperty': LocalizedStringProperty;
     'numberBondOrBarModelLowercaseStringProperty': LocalizedStringProperty;
     'playAreaIntroSentenceStringProperty': LocalizedStringProperty;
+    'screenButtonsHelpText': {
+      'introStringProperty': LocalizedStringProperty;
+      'tenStringProperty': LocalizedStringProperty;
+      'twentyStringProperty': LocalizedStringProperty;
+      'sumStringProperty': LocalizedStringProperty;
+      'gameStringProperty': LocalizedStringProperty;
+    };
     'introScreen': {
       'screenSummary': {
         'playAreaStringProperty': LocalizedStringProperty;

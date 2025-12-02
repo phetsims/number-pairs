@@ -75,6 +75,11 @@ addToMapIfDefined( 'tryAgain', 'tryAgainStringProperty' );
 addToMapIfDefined( 'a11y_numberBondOrBarModel', 'a11y.numberBondOrBarModelStringProperty' );
 addToMapIfDefined( 'a11y_numberBondOrBarModelLowercase', 'a11y.numberBondOrBarModelLowercaseStringProperty' );
 addToMapIfDefined( 'a11y_playAreaIntroSentence', 'a11y.playAreaIntroSentenceStringProperty' );
+addToMapIfDefined( 'a11y_screenButtonsHelpText_intro', 'a11y.screenButtonsHelpText.introStringProperty' );
+addToMapIfDefined( 'a11y_screenButtonsHelpText_ten', 'a11y.screenButtonsHelpText.tenStringProperty' );
+addToMapIfDefined( 'a11y_screenButtonsHelpText_twenty', 'a11y.screenButtonsHelpText.twentyStringProperty' );
+addToMapIfDefined( 'a11y_screenButtonsHelpText_sum', 'a11y.screenButtonsHelpText.sumStringProperty' );
+addToMapIfDefined( 'a11y_screenButtonsHelpText_game', 'a11y.screenButtonsHelpText.gameStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_playArea', 'a11y.introScreen.screenSummary.playAreaStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_controlArea', 'a11y.introScreen.screenSummary.controlAreaStringProperty' );
 addToMapIfDefined( 'a11y_introScreen_screenSummary_currentDetails_objectsPattern', 'a11y.introScreen.screenSummary.currentDetails.objectsPatternStringProperty' );
@@ -369,6 +374,13 @@ const NumberPairsFluent = {
     numberBondOrBarModel: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_numberBondOrBarModel', _.get( NumberPairsStrings, 'a11y.numberBondOrBarModelStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
     numberBondOrBarModelLowercase: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_numberBondOrBarModelLowercase', _.get( NumberPairsStrings, 'a11y.numberBondOrBarModelLowercaseStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
     playAreaIntroSentenceStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_playAreaIntroSentence', _.get( NumberPairsStrings, 'a11y.playAreaIntroSentenceStringProperty' ) ),
+    screenButtonsHelpText: {
+      intro: new FluentPattern<{ max: FluentVariable, min: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenButtonsHelpText_intro', _.get( NumberPairsStrings, 'a11y.screenButtonsHelpText.introStringProperty' ), [{"name":"max"},{"name":"min"}] ),
+      ten: new FluentPattern<{ max: FluentVariable, min: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenButtonsHelpText_ten', _.get( NumberPairsStrings, 'a11y.screenButtonsHelpText.tenStringProperty' ), [{"name":"max"},{"name":"min"}] ),
+      twenty: new FluentPattern<{ max: FluentVariable, min: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenButtonsHelpText_twenty', _.get( NumberPairsStrings, 'a11y.screenButtonsHelpText.twentyStringProperty' ), [{"name":"max"},{"name":"min"}] ),
+      sum: new FluentPattern<{ max: FluentVariable, min: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenButtonsHelpText_sum', _.get( NumberPairsStrings, 'a11y.screenButtonsHelpText.sumStringProperty' ), [{"name":"max"},{"name":"min"}] ),
+      game: new FluentPattern<{ max: FluentVariable, min: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_screenButtonsHelpText_game', _.get( NumberPairsStrings, 'a11y.screenButtonsHelpText.gameStringProperty' ), [{"name":"max"},{"name":"min"}] )
+    },
     introScreen: {
       screenSummary: {
         playArea: new FluentPattern<{ max: FluentVariable, min: FluentVariable, numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_introScreen_screenSummary_playArea', _.get( NumberPairsStrings, 'a11y.introScreen.screenSummary.playAreaStringProperty' ), [{"name":"max"},{"name":"min"},{"name":"numberModelType","variants":["numberBond","barModel"]}] ),

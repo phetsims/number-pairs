@@ -13,6 +13,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 import StarNode from '../../../scenery-phet/js/StarNode.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
+import NumberPairsConstants from '../common/NumberPairsConstants.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import GameModel from './model/GameModel.js';
@@ -42,7 +43,11 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
             centerX: 50, centerY: 50
           } )
         ]
-      } ) )
+      } ) ),
+      screenButtonsHelpText: NumberPairsFluent.a11y.screenButtonsHelpText.game.createProperty( {
+        min: NumberPairsConstants.GAME_TWENTY_RANGE.min,
+        max: NumberPairsConstants.GAME_TWENTY_RANGE.max
+      } )
     }, providedOptions );
 
     super(

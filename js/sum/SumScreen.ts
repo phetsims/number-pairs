@@ -10,6 +10,7 @@ import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
+import NumberPairsConstants from '../common/NumberPairsConstants.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import SumModel from './model/SumModel.js';
@@ -29,6 +30,10 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
       createKeyboardHelpNode: () => new SumScreenKeyboardHelpNode(),
       homeScreenIcon: new SumScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new SumScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),
+      screenButtonsHelpText: NumberPairsFluent.a11y.screenButtonsHelpText.sum.createProperty( {
+        min: NumberPairsConstants.SUM_TOTAL_RANGE.min,
+        max: NumberPairsConstants.SUM_TOTAL_RANGE.max
+      } ),
       backgroundColorProperty: NumberPairsColors.sumScreenBackgroundColorProperty
     }, providedOptions );
 

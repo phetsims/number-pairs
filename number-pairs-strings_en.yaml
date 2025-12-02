@@ -83,6 +83,12 @@ a11y:
       barModel:   '{ barModelLowercase }'
   playAreaIntroSentence:  There are left and right counting areas with fun objects. You can organize objects inside a counting
                           area or move them between counting areas to break total apart in different ways.
+  screenButtonsHelpText:
+    intro:  Break apart numbers { $min }-{ $max } by moving fun objects between counting areas.
+    ten:    Break apart numbers { $min }-{ $max } by sliding magic beads, grouping and changing kitten colors, or interacting with a number line.
+    twenty: Break apart numbers { $min }-{ $max } by moving and interacting with fun and magic objects in counting areas.
+    sum:    Create totals of { $min }-{ $max } by adding or removing magic beads or kittens, or addends to an interactive number line.
+    game:   Challenge yourself to find missing addends or create sums from { $min }-{ $max } with two numbers.
   introScreen:
     screenSummary:
       playArea:        >-

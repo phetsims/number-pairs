@@ -10,6 +10,7 @@ import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
+import NumberPairsConstants from '../common/NumberPairsConstants.js';
 import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import TwentyModel from './model/TwentyModel.js';
@@ -29,6 +30,10 @@ export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> 
       createKeyboardHelpNode: () => new TwentyScreenKeyboardHelpNode(),
       homeScreenIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_HOME_SCREEN_ICON_SIZE } ),
       navigationBarIcon: new TwentyScreenIcon( { size: Screen.MINIMUM_NAVBAR_ICON_SIZE } ),
+      screenButtonsHelpText: NumberPairsFluent.a11y.screenButtonsHelpText.twenty.createProperty( {
+        min: NumberPairsConstants.TWENTY_TOTAL_RANGE.min,
+        max: NumberPairsConstants.TWENTY_TOTAL_RANGE.max
+      } ),
       backgroundColorProperty: NumberPairsColors.twentyScreenBackgroundColorProperty
     }, providedOptions );
 

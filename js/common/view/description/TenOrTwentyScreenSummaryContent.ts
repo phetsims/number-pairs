@@ -46,7 +46,6 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     const interactionHintContentProperty = NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.interactionHint.createProperty( {
       representationType: representationTypeProperty
     } );
-    console.log( model.sceneRange );
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.playArea.createProperty( {
