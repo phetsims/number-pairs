@@ -9,14 +9,14 @@
 
 import derived from '../../../../axon/js/derived.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
-import NumberPairsModel from '../../common/model/NumberPairsModel.js';
+import DecompositionModel from '../../common/model/DecompositionModel.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 
-  public constructor( model: NumberPairsModel ) {
+  public constructor( model: DecompositionModel ) {
 
     const objectsPatternStringProperty = NumberPairsFluent.a11y.introScreen.screenSummary.currentDetails.objectsPattern.createProperty( {
       total: model.totalProperty
@@ -59,7 +59,9 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.playArea.createProperty( {
-        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id ),
+        min: model.sceneRange.min,
+        max: model.sceneRange.max
       } ),
       controlAreaContent: NumberPairsFluent.a11y.introScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsContentProperty,

@@ -12,13 +12,13 @@ import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
-import NumberPairsModel from '../../model/NumberPairsModel.js';
+import DecompositionModel from '../../model/DecompositionModel.js';
 import NumberPairsPreferences from '../../model/NumberPairsPreferences.js';
 import RepresentationType from '../../model/RepresentationType.js';
 
 export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryContent {
 
-  public constructor( model: NumberPairsModel ) {
+  public constructor( model: DecompositionModel ) {
 
     const itemTypeProperty = new DynamicProperty<string, string, RepresentationType>( model.representationTypeProperty, {
       derive: 'accessibleName'
@@ -46,11 +46,14 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     const interactionHintContentProperty = NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.interactionHint.createProperty( {
       representationType: representationTypeProperty
     } );
+    console.log( model.sceneRange );
 
     super( {
       playAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.playArea.createProperty( {
         representationType: representationTypeProperty,
-        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
+        numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id ),
+        min: model.sceneRange.min,
+        max: model.sceneRange.max
       } ),
       controlAreaContent: NumberPairsFluent.a11y.tenOrTwentyScreen.screenSummary.controlAreaStringProperty,
       currentDetailsContent: currentDetailsProperty,

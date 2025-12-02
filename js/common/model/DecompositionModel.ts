@@ -41,6 +41,7 @@ export default class DecompositionModel extends NumberPairsModel {
   // The length of the left/rightAddendCountingObjectsProperty.value must always add up to the totalProperty.value.
   public readonly selectedSceneProperty: Property<NumberPairsScene>;
   public readonly scenes: NumberPairsScene[];
+  public readonly sceneRange: Range;
 
   public constructor( providedOptions: DecompositionModelOptions ) {
 
@@ -147,6 +148,8 @@ export default class DecompositionModel extends NumberPairsModel {
       changingScenesProperty,
       superOptions
     );
+    console.log( options.sceneRange );
+    this.sceneRange = options.sceneRange;
 
     // Register the observable arrays in each scene to properly update the Counting Object state as necessary.
     sceneModels.forEach( sceneModel => {

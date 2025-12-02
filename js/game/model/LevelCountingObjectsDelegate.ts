@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
@@ -26,15 +27,10 @@ import { CountingObjectsManager } from '../../common/model/CountingObjectsManage
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
-import InputRange from './InputRange.js';
 import Level from './Level.js';
 
 type SelfOptions = EmptySelfOptions;
 export type CountingObjectsDelegateOptions = SelfOptions & AbstractNumberPairsModelOptions;
-
-// constants
-const ZERO_TO_TEN_MAX = 20;
-const ZERO_TO_TWENTY_MAX = 40;
 
 export default class LevelCountingObjectsDelegate extends AbstractNumberPairsModel {
 
@@ -50,7 +46,7 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
   public constructor(
     private readonly challengeProperty: Property<Challenge>,
     selectedGuessProperty: Property<number | null>,
-    range: InputRange,
+    range: Range,
     options: CountingObjectsDelegateOptions ) {
 
     const totalProperty = derived( challengeProperty, selectedGuessProperty,
@@ -63,7 +59,9 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
       ( challenge, guess ) => challenge.missingComponent === 'b' ? guess === null ? 0 : guess : challenge.b );
 
 
-    const countingObjectsCount = range === 'zeroToTen' ? ZERO_TO_TEN_MAX : ZERO_TO_TWENTY_MAX;
+    // The maximum number of counting objects is double the maximum possible total, to cover all cases when a user
+    // may incorrectly guess the max for both addends.
+    const countingObjectsCount = range.max * 2;
     const countingObjects = CountingObjectsManager.createCountingObjects( countingObjectsCount, leftAddendProperty.value,
       rightAddendProperty.value, options.tandem, true, Level.COUNTING_AREA_BOUNDS );
     const inactiveCountingObjects = createObservableArray( {

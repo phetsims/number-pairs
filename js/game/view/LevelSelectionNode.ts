@@ -53,7 +53,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
 
     const infoDialog = new GameInfoDialog( model.levels.map( level => new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
         level: level.levelNumber,
-        description: level.description
+        description: level.descriptionProperty
       } )
     ), {
       gameLevels: NumberPairsQueryParameters.gameLevels,
@@ -106,7 +106,7 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
           // Number Play methodology: show total stars as a number + star icon
           createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           soundPlayerIndex: levelNumber - 1,
-          baseColor: level.color
+          baseColor: level.colorProperty
         }
       } );
     }

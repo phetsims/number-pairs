@@ -61,14 +61,14 @@ levelPattern:                                             Level {{level}}
 
 gameScreen:
   levelDescriptions:
-    level1: Missing addend in a {{numberModelType}} (0-10)
-    level2: Missing addend in a {{numberModelType}} (10 only)
-    level3: Missing addend in a decomposition equation (10 only)
-    level4: Missing addend in a sum equation (10 only)
-    level5: Missing addend in a {{numberModelType}} (11-20)
-    level6: Missing addend in a decomposition equation (11-20)
-    level7: Missing addend or total in a sum equation (11-20)
-    level8: Equations with the number line (0-20)
+    level1: Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )
+    level2: Missing addend in a {{numberModelType}} ( {{yValue}} only)
+    level3: Missing addend in a decomposition equation ( {{yValue}} only)
+    level4: Missing addend in a sum equation ( {{yValue}} only)
+    level5: Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )
+    level6: Missing addend in a decomposition equation ( {{yValueMin}}-{{yValueMax}} )
+    level7: Missing addend or total in a sum equation ( {{yValueMin}}-{{yValueMax}} )
+    level8: Equations with the number line ( {{yValueMin}}-{{yValueMax}} )
   infoDialog:
     levelWithDescription: 'Level {{level}}: {{description}}'
 
@@ -87,7 +87,7 @@ a11y:
     screenSummary:
       playArea:        >-
                        { a11y.playAreaIntroSentence } A decomposition phrase and a  
-                       { a11y.numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10,
+                       { a11y.numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from { $min } to { $max },
                        automatically organize objects into rows, or swap addends.
       controlArea:     Reset the sim to start over.
       currentDetails:
@@ -108,18 +108,18 @@ a11y:
                       There is a number line showing total as a green line broken into two sections, yellow on left and blue
                       on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections.
                       A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
-                      apart into two addends. Additionally, choose any total from 0 to 10 or swap addends.
+                      apart into two addends. Additionally, choose any total from { $min } to { $max } or swap addends.
           beads:      >-
                       There are movable yellow and blue beads you can slide along a wire to organize or change color to change how
                       total is broken apart. A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
-                      apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
+                      apart into two addends. Additionally, choose any total from { $min } to { $max }, automatically organize 
                       objects, or swap addends.
           kittens:    >-
                       There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart.
                       A decomposition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how total is broken 
-                      apart into two addends. Additionally, choose any total from 0 to 10, automatically organize 
+                      apart into two addends. Additionally, choose any total from { $min } to { $max }, automatically organize 
                       objects, or swap addends.
-          location:   '{ a11y.playAreaIntroSentence } Additionally, choose any total from 0 to 10, automatically organize 
+          location:   '{ a11y.playAreaIntroSentence } Additionally, choose any total from { $min } to { $max }, automatically organize 
                       objects, or swap addends.'
       controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
@@ -148,11 +148,11 @@ a11y:
                       Total is shown on number line with a green line broken into two sections, yellow on left and blue 
                       on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue 
                       sections. Number spinners add one or remove one from yellow or blue section. An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
-                      add to total. Additionally, create totals from 0 to 20 or swap addends.
+                      add to total. Additionally, create totals from { $min } to { $max } or swap addends.
           other:      |-
                       There are yellow and blue { $representation } you can move to organize or change color to find 
                       different ways to create a total number of { $representation }. An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
-                      add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.
+                      add to total. Additionally, create totals from { $min } to { $max }, automatically organize objects, or swap addends.
       controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shown:

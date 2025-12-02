@@ -7,9 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import derivedMap from '../../../../axon/js/derivedMap.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TModel from '../../../../joist/js/TModel.js';
@@ -19,14 +17,12 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
-import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
+import LevelDefinition from './LevelDefinition.js';
 import NumberLineLevel from './NumberLineLevel.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -96,23 +92,6 @@ export default class GameModel implements TModel {
       return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, y - a, y );
     };
 
-    const numberModelTypeStringProperty = derivedMap( NumberPairsPreferences.numberModelTypeProperty, new Map( [
-      [ NumberModelType.BAR_MODEL, NumberPairsFluent.barModelLowercaseStringProperty ],
-      [ NumberModelType.NUMBER_BOND_MODEL, NumberPairsFluent.numberBondLowercaseStringProperty ]
-    ] ) );
-
-    const level1DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level1StringProperty, {
-      numberModelType: numberModelTypeStringProperty
-    } );
-
-    const level2DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level2StringProperty, {
-      numberModelType: numberModelTypeStringProperty
-    } );
-
-    const level5DescriptionProperty = new PatternStringProperty( NumberPairsFluent.gameScreen.levelDescriptions.level5StringProperty, {
-      numberModelType: numberModelTypeStringProperty
-    } );
-
     this.levels = [
 
       /**
@@ -120,14 +99,13 @@ export default class GameModel implements TModel {
        * Number Bond
        * neither addend is zero since it can't be shown well with the number bar representation.
        */
-      new Level( 1, NumberPairsColors.level1StatusBarColorProperty, level1DescriptionProperty,
-        'zeroToTen', 'bond', isFirst => {
-          const y = dotRandom.nextIntBetween( 2, 10 );
-          const { a, b } = generateAddends( y, true );
-          return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level1' )
-        } ),
+      new Level( LevelDefinition.LEVEL_1, 'bond', isFirst => {
+        const y = dotRandom.nextIntBetween( LevelDefinition.LEVEL_1.yValueRange.min, LevelDefinition.LEVEL_1.yValueRange.max );
+        const { a, b } = generateAddends( y, true );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      }, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level1' )
+      } ),
 
       /**
        * ### Level 2 (total is 10 only): missing addend \- 10 only – counting area can be hidden
@@ -136,34 +114,31 @@ export default class GameModel implements TModel {
        * - The value of y is always 10
        * - The counting area can be hidden
        */
-      new Level( 2, NumberPairsColors.level234StatusBarColorProperty, level2DescriptionProperty,
-        'zeroToTen', 'bond', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level2' )
-        } ),
+      new Level( LevelDefinition.LEVEL_2, 'bond', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level2' )
+      } ),
 
       /**
        * ### Level 3 (10 only): Missing addends: Equation (10 only)
        *
        * Identical to level 2, except the representation of the decomposition is an equation
        */
-      new Level( 3, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level3StringProperty,
-        'zeroToTen', 'decompositionEquation', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level3' )
-        } ),
+      new Level( LevelDefinition.LEVEL_3, 'decompositionEquation', createNonzeroSumTo10Challenge, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level3' )
+      } ),
 
       /**
        * ### Level 4 (10 only): missing addend, sum equation
        *
        * Identical to Level 3, except the equation is flipped to represent a sum rather than a decomposition
        */
-      new Level( 4, NumberPairsColors.level234StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level4StringProperty,
-        'zeroToTen', 'sumEquation', isFirst => {
-          const y = 10;
-          const { a, b } = generateAddends( y, isFirst );
-          return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level4' )
-        } ),
+      new Level( LevelDefinition.LEVEL_4, 'sumEquation', isFirst => {
+        const y = LevelDefinition.LEVEL_4.yValueRange.min; // y is always 10
+        const { a, b } = generateAddends( y, isFirst );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      }, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level4' )
+      } ),
 
       /**
        * ### Level 5 (11-20): missing addend with number bond, promotes fact fluency
@@ -171,14 +146,13 @@ export default class GameModel implements TModel {
        * * Uses game logic for number bond, where y is any number between 11-20
        * * Ten frame (organize) button organizes into separate locations since this is a decomposition screen
        */
-      new Level( 5, NumberPairsColors.level567StatusBarColorProperty, level5DescriptionProperty,
-        'zeroToTwenty', 'bond', isFirst => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const { a, b } = generateAddends( y, true );
-          return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level5' )
-        } ),
+      new Level( LevelDefinition.LEVEL_5, 'bond', isFirst => {
+        const y = dotRandom.nextIntBetween( LevelDefinition.LEVEL_5.yValueRange.min, LevelDefinition.LEVEL_5.yValueRange.max );
+        const { a, b } = generateAddends( y, true );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      }, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level5' )
+      } ),
 
       /**
        * ### Level 6 (11-20): missing addend with decomposition equation
@@ -187,14 +161,13 @@ export default class GameModel implements TModel {
        * equation](https://docs.google.com/document/d/1flSZAAlRbpN9OdGkYBMQ6HYyCsp31ruLrAm52y-_m1w/edit?pli=1#heading=h.ukjqs5rtjvn8)
        * * Ten frame (organize) button organizes into two separate ten frames on left/right since this is decomposition
        */
-      new Level( 6, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level6StringProperty,
-        'zeroToTwenty', 'decompositionEquation', isFirst => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const { a, b } = generateAddends( y, isFirst );
-          return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
-        }, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level6' )
-        } ),
+      new Level( LevelDefinition.LEVEL_6, 'decompositionEquation', isFirst => {
+        const y = dotRandom.nextIntBetween( LevelDefinition.LEVEL_6.yValueRange.min, LevelDefinition.LEVEL_6.yValueRange.max );
+        const { a, b } = generateAddends( y, isFirst );
+        return new Challenge( dotRandom.sample( [ 'a', 'b' ] as const ), a, b, y );
+      }, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level6' )
+      } ),
 
       /**
        * ### Level 7 (11-20): missing addend or total, sum equation only, fact fluency
@@ -203,14 +176,13 @@ export default class GameModel implements TModel {
        * The missing component could be either addend or the total (i.e. any of a, b, or y could be missing)
        * Value range for y is from 11-20
        */
-      new Level( 7, NumberPairsColors.level567StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level7StringProperty,
-        'zeroToTwenty', 'sumEquation', isFirst => {
-          const y = dotRandom.nextIntBetween( 11, 20 );
-          const { a, b } = generateAddends( y, isFirst );
-          return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
-        }, RepresentationType.KITTENS, {
-          tandem: tandem.createTandem( 'level7' )
-        } ),
+      new Level( LevelDefinition.LEVEL_7, 'sumEquation', isFirst => {
+        const y = dotRandom.nextIntBetween( LevelDefinition.LEVEL_7.yValueRange.min, LevelDefinition.LEVEL_7.yValueRange.max );
+        const { a, b } = generateAddends( y, isFirst );
+        return new Challenge( dotRandom.sample( [ 'a', 'b', 'y' ] as const ), a, b, y );
+      }, RepresentationType.KITTENS, {
+        tandem: tandem.createTandem( 'level7' )
+      } ),
 
       /**
        * ### Level 8 (0-20): missing both addends, fact fluency,
@@ -218,17 +190,16 @@ export default class GameModel implements TModel {
        * - First challenge: left addend known, right addend unknown
        * - Subsequent challenges could be the left or the right addend (not the total)
        */
-      new NumberLineLevel( 8, NumberPairsColors.level8StatusBarColorProperty, NumberPairsFluent.gameScreen.levelDescriptions.level8StringProperty,
-        'zeroToTwenty', 'numberLine', isFirst => {
+      new NumberLineLevel( LevelDefinition.LEVEL_8, 'numberLine', isFirst => {
 
-          // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
-          const y = dotRandom.nextIntBetween( isFirst ? 2 : 0, 20 );
-          const { a, b } = generateAddends( y, isFirst );
-          const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
-          return new Challenge( missingComponent, a, b, y );
-        }, {
-          tandem: tandem.createTandem( 'level8' )
-        } )
+        // First challenge: y >= 2 so a,b > 0; subsequent: y can be 0..20 (allowing 0+0=0)
+        const y = dotRandom.nextIntBetween( isFirst ? 2 : LevelDefinition.LEVEL_8.yValueRange.min, LevelDefinition.LEVEL_8.yValueRange.max );
+        const { a, b } = generateAddends( y, isFirst );
+        const missingComponent = isFirst ? 'b' : dotRandom.sample( [ 'a', 'b' ] as const ); // total never missing on number line
+        return new Challenge( missingComponent, a, b, y );
+      }, {
+        tandem: tandem.createTandem( 'level8' )
+      } )
     ];
 
     this.levelProperty = new Property<Level | null>( null, {

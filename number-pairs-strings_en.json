@@ -158,28 +158,28 @@
   "gameScreen": {
     "levelDescriptions": {
       "level1": {
-        "value": "Missing addend in a {{numberModelType}} (0-10)"
+        "value": "Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )"
       },
       "level2": {
-        "value": "Missing addend in a {{numberModelType}} (10 only)"
+        "value": "Missing addend in a {{numberModelType}} ( {{yValue}} only)"
       },
       "level3": {
-        "value": "Missing addend in a decomposition equation (10 only)"
+        "value": "Missing addend in a decomposition equation ( {{yValue}} only)"
       },
       "level4": {
-        "value": "Missing addend in a sum equation (10 only)"
+        "value": "Missing addend in a sum equation ( {{yValue}} only)"
       },
       "level5": {
-        "value": "Missing addend in a {{numberModelType}} (11-20)"
+        "value": "Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )"
       },
       "level6": {
-        "value": "Missing addend in a decomposition equation (11-20)"
+        "value": "Missing addend in a decomposition equation ( {{yValueMin}}-{{yValueMax}} )"
       },
       "level7": {
-        "value": "Missing addend or total in a sum equation (11-20)"
+        "value": "Missing addend or total in a sum equation ( {{yValueMin}}-{{yValueMax}} )"
       },
       "level8": {
-        "value": "Equations with the number line (0-20)"
+        "value": "Equations with the number line ( {{yValueMin}}-{{yValueMax}} )"
       }
     },
     "infoDialog": {
@@ -201,7 +201,7 @@
     "introScreen": {
       "screenSummary": {
         "playArea": {
-          "value": "{ a11y_playAreaIntroSentence } A decomposition phrase and a   { a11y_numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from 0 to 10, automatically organize objects into rows, or swap addends."
+          "value": "{ a11y_playAreaIntroSentence } A decomposition phrase and a   { a11y_numberBondOrBarModelLowercase } represent the total number broken apart into two addends. Additionally, choose any total from { $min } to { $max }, automatically organize objects into rows, or swap addends."
         },
         "controlArea": {
           "value": "Reset the sim to start over."
@@ -225,7 +225,7 @@
     "tenOrTwentyScreen": {
       "screenSummary": {
         "playArea": {
-          "value": "{ $representationType ->\n  [numberLine] There is a number line showing total as a green line broken into two sections, yellow on left and blue on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from 0 to 10 or swap addends.\n  [beads] There are movable yellow and blue beads you can slide along a wire to organize or change color to change how total is broken apart. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from 0 to 10, automatically organize  objects, or swap addends.\n  [kittens] There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from 0 to 10, automatically organize  objects, or swap addends.\n  *[location] { a11y_playAreaIntroSentence } Additionally, choose any total from 0 to 10, automatically organize  objects, or swap addends.\n}"
+          "value": "{ $representationType ->\n  [numberLine] There is a number line showing total as a green line broken into two sections, yellow on left and blue on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue sections. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from { $min } to { $max } or swap addends.\n  [beads] There are movable yellow and blue beads you can slide along a wire to organize or change color to change how total is broken apart. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from { $min } to { $max }, automatically organize  objects, or swap addends.\n  [kittens] There are freely movable yellow and blue kittens you can organize or change color to change how total is broken apart. A decomposition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how total is broken  apart into two addends. Additionally, choose any total from { $min } to { $max }, automatically organize  objects, or swap addends.\n  *[location] { a11y_playAreaIntroSentence } Additionally, choose any total from { $min } to { $max }, automatically organize  objects, or swap addends.\n}"
         },
         "controlArea": {
           "value": "{ a11y_introScreen_screenSummary_controlArea }"
@@ -241,7 +241,7 @@
     "sumScreen": {
       "screenSummary": {
         "playArea": {
-          "value": "{ $representationType ->\n  [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue \n               on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue \n               sections. Number spinners add one or remove one from yellow or blue section. An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n               add to total. Additionally, create totals from 0 to 20 or swap addends.\n  *[other] There are yellow and blue { $representation } you can move to organize or change color to find \n           different ways to create a total number of { $representation }. An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n           add to total. Additionally, create totals from 0 to 20, automatically organize objects, or swap addends.\n}"
+          "value": "{ $representationType ->\n  [numberLine] Total is shown on number line with a green line broken into two sections, yellow on left and blue \n               on right. A movable knob changes how total is broken apart by changing lengths of yellow and blue \n               sections. Number spinners add one or remove one from yellow or blue section. An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n               add to total. Additionally, create totals from { $min } to { $max } or swap addends.\n  *[other] There are yellow and blue { $representation } you can move to organize or change color to find \n           different ways to create a total number of { $representation }. An addition phrase, { a11y_numberBondOrBarModelLowercase }, and equation represent how two numbers \n           add to total. Additionally, create totals from { $min } to { $max }, automatically organize objects, or swap addends.\n}"
         },
         "controlArea": {
           "value": "{ a11y_introScreen_screenSummary_controlArea }"

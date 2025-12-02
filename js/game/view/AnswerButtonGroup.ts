@@ -18,6 +18,8 @@ import derivedTernary from '../../../../axon/js/derivedTernary.js';
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -40,7 +42,6 @@ import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from '../model/Challenge.js';
-import InputRange from '../model/InputRange.js';
 import { ChallengeType } from '../model/Level.js';
 import NumberToggleButton from './NumberToggleButton.js';
 
@@ -74,7 +75,7 @@ export default class AnswerButtonGroup extends GridBox {
     //REVIEW Duplicated values from Level. Consider creating a string enumeration type.
     modeProperty: TReadOnlyProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>,
     selectedNumberProperty: Property<number | null>,
-    range: InputRange,
+    range: Range,
     guessedNumbers: ObservableArray<number>,
     buttonColorProperty: TReadOnlyProperty<Color>,
     challengeProperty: TReadOnlyProperty<Challenge>,
@@ -247,8 +248,9 @@ export default class AnswerButtonGroup extends GridBox {
     }
 
     // Build right column for zeroToTwenty range, 20..11 from top to bottom
-    if ( range === 'zeroToTwenty' ) {
-      for ( let n = 11; n <= 20; n++ ) {
+    if ( range.max > 10 ) {
+      affirm( range.max <= 20, 'Answer Button Group does not support a range with a max higher than 20' );
+      for ( let n = 11; n <= range.max; n++ ) {
         rightColumn.unshift( createElement( n ).toggleNode );
       }
     }

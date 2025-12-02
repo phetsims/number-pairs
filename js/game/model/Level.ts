@@ -15,6 +15,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -30,8 +31,8 @@ import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from './Challenge.js';
 import GameModelConstants from './GameModelConstants.js';
-import InputRange from './InputRange.js';
 import LevelCountingObjectsDelegate from './LevelCountingObjectsDelegate.js';
+import LevelDefinition from './LevelDefinition.js';
 
 type SelfOptions = EmptySelfOptions;
 export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -87,11 +88,13 @@ export default class Level extends PhetioObject {
    */
   public static readonly COUNTING_AREA_BOUNDS = GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS;
 
+  public readonly levelNumber: number;
+  public readonly colorProperty: TReadOnlyProperty<Color>;
+  public readonly descriptionProperty: TReadOnlyProperty<string>;
+  public readonly range: Range;
+
   public constructor(
-    public readonly levelNumber: number, // 1-indexed level number
-    public readonly color: TReadOnlyProperty<Color>, // Color used for the status bar and level selection button
-    public readonly description: TReadOnlyProperty<string>, // Appears in the bar at the top of the screen and in the info dialog
-    public readonly range: InputRange,
+    levelDefinition: LevelDefinition,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
     public readonly representationType: RepresentationType,
@@ -104,6 +107,11 @@ export default class Level extends PhetioObject {
       tandem: tandem,
       phetioState: false
     } );
+    this.levelNumber = levelDefinition.levelNumber;
+    this.range = levelDefinition.range;
+    this.colorProperty = levelDefinition.color;
+    this.descriptionProperty = levelDefinition.descriptionProperty;
+    console.log( this.descriptionProperty.value );
 
     // Create game play related Properties
     this.addendsVisibleProperty = new BooleanProperty( true, {
@@ -136,7 +144,7 @@ export default class Level extends PhetioObject {
     } );
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
-      range, {
+      this.range, {
         tandem: tandem.createTandem( 'countingObjectsDelegate' ),
         initialRepresentationType: representationType,
         representationTypeValidValues: [ representationType ] // This level only supports one representation type
@@ -157,7 +165,7 @@ export default class Level extends PhetioObject {
         ( challenge, whatNumber ) => challenge.missingComponent !== 'b' ? challenge.b : whatNumber ),
       total: derived( this.challengeProperty, NumberPairsFluent.a11y.gameScreen.whatNumberStringProperty,
         ( challenge, whatNumber ) => challenge.missingComponent !== 'y' ? challenge.y : whatNumber ),
-      decompositionOrSum: ( levelNumber === 4 || levelNumber === 7 || levelNumber === 8 ) ? 'sum' : 'decomposition'
+      decompositionOrSum: ( this.levelNumber === 4 || this.levelNumber === 7 || this.levelNumber === 8 ) ? 'sum' : 'decomposition'
     } );
 
     const debugString = `Level ${this.levelNumber}: type=${this.type}, range=${this.range}`;

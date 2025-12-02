@@ -37,6 +37,7 @@ const SCENE_RANGE = new Range( NumberPairsConstants.TEN_TOTAL_RANGE.min, NumberP
 
 export default class SumModel extends NumberPairsModel {
 
+  public static readonly SCENE_RANGE = SCENE_RANGE;
   public override readonly leftAddendProperty: Property<number>;
 
   // The right addend is derived due to competing user interactions in the Sum Screen.

@@ -31,19 +31,19 @@ export default class NumberPairsStatusBar extends InfiniteStatusBar {
       level: level.levelNumber
     } );
     const levelLabel = new Text( levelStringProperty, { font: new PhetFont( { size: 21, weight: 'bold' } ) } );
-    const descriptionText = new Text( level.description, { font: new PhetFont( 21 ) } );
+    const descriptionText = new Text( level.descriptionProperty, { font: new PhetFont( 21 ) } );
     const levelDescriptionText = new HBox( {
       spacing: 12, children: [ levelLabel, descriptionText ]
     } );
 
     super( layoutBounds, visibleBoundsProperty, levelDescriptionText, getLevel( level.levelNumber ).scoreProperty, {
-      barFill: level.color,
+      barFill: level.colorProperty,
       floatToTop: true,
       spacing: 20,
       backButtonListener: backButtonListener,
       accessibleMessageStringProperty: new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
         level: level.levelNumber,
-        description: level.description
+        description: level.descriptionProperty
       } ),
       tandem: tandem
     } );
