@@ -87,7 +87,7 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
         const otherAddendCountingObjects = addendType === AddendType.LEFT ?
                                            rightAddendCountingObjectsProperty.value :
                                            leftAddendCountingObjectsProperty.value;
-        const keysDelta = LocationGroupSelectDragInteractionView.getKeysDelta( keysPressed );
+        const keysDelta = this.getKeysDelta( keysPressed );
 
         if ( keysDelta === 0 ) {
           return groupItem;
@@ -140,8 +140,11 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
     } );
   }
 
-  //REVIEW Document. This could be a private function instead of a static method.
-  private static getKeysDelta( keysPressed: string ): number {
+  /**
+   * Get the delta for navigation based on the keys pressed.
+   * @param keysPressed
+   */
+  private getKeysDelta( keysPressed: string ): number {
     switch( keysPressed ) {
       case 'd':
       case 'arrowRight':

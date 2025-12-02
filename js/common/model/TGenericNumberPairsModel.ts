@@ -11,16 +11,33 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 
-//REVIEW Document fields.
 type TGenericNumberPairsModel = {
+
+  // The total value (sum of left and right addends).
   totalProperty: TReadOnlyProperty<number>;
+
+  // The color used to represent the total.
   totalColorProperty: TReadOnlyProperty<Color>;
+
+  // Whether the total is visible in the representation.
   totalVisibleProperty: TReadOnlyProperty<boolean>;
+
+  // The value of the left addend.
   leftAddendProperty: TReadOnlyProperty<number>;
+
+  // The color used to represent the left addend.
   leftAddendColorProperty: TReadOnlyProperty<Color>;
+
+  // Whether the left addend is visible in the representation.
   leftAddendVisibleProperty: TReadOnlyProperty<boolean>;
+
+  // The value of the right addend.
   rightAddendProperty: TReadOnlyProperty<number>;
+
+  // The color used to represent the right addend.
   rightAddendColorProperty: TReadOnlyProperty<Color>;
+
+  // Whether the right addend is visible in the representation.
   rightAddendVisibleProperty: TReadOnlyProperty<boolean>;
 };
 

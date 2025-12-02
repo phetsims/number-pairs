@@ -29,8 +29,10 @@ type CountingAreaDescriptionNodeOptions = SelfOptions & PickRequired<NodeOptions
 
 export default class CountingAreaDescriptionNode extends Node {
 
-  //REVIEW Document fields
+  // The string representation of the left addend counting object.
   public readonly leftValueStringProperty: TReadOnlyProperty<string>;
+
+  // The string representation of the right addend counting object.
   public readonly rightValueStringProperty: TReadOnlyProperty<string>;
 
   public constructor( model: NumberPairsModel, numberLineRepresentationVisibleProperty: TReadOnlyProperty<boolean>,
