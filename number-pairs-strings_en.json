@@ -158,28 +158,28 @@
   "gameScreen": {
     "levelDescriptions": {
       "level1": {
-        "value": "Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )"
+        "value": "Missing addend in a {{numberModelType}} ({{yValueMin}}-{{yValueMax}})"
       },
       "level2": {
-        "value": "Missing addend in a {{numberModelType}} ( {{yValue}} only)"
+        "value": "Missing addend in a {{numberModelType}} ({{yValue}} only)"
       },
       "level3": {
-        "value": "Missing addend in a decomposition equation ( {{yValue}} only)"
+        "value": "Missing addend in a decomposition equation ({{yValue}} only)"
       },
       "level4": {
-        "value": "Missing addend in a sum equation ( {{yValue}} only)"
+        "value": "Missing addend in a sum equation ({{yValue}} only)"
       },
       "level5": {
-        "value": "Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )"
+        "value": "Missing addend in a {{numberModelType}} ({{yValueMin}}-{{yValueMax}})"
       },
       "level6": {
-        "value": "Missing addend in a decomposition equation ( {{yValueMin}}-{{yValueMax}} )"
+        "value": "Missing addend in a decomposition equation ({{yValueMin}}-{{yValueMax}})"
       },
       "level7": {
-        "value": "Missing addend or total in a sum equation ( {{yValueMin}}-{{yValueMax}} )"
+        "value": "Missing addend or total in a sum equation ({{yValueMin}}-{{yValueMax}})"
       },
       "level8": {
-        "value": "Equations with the number line ( {{yValueMin}}-{{yValueMax}} )"
+        "value": "Equations with the number line ({{yValueMin}}-{{yValueMax}})"
       }
     },
     "infoDialog": {

@@ -61,14 +61,14 @@ levelPattern:                                             Level {{level}}
 
 gameScreen:
   levelDescriptions:
-    level1: Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )
-    level2: Missing addend in a {{numberModelType}} ( {{yValue}} only)
-    level3: Missing addend in a decomposition equation ( {{yValue}} only)
-    level4: Missing addend in a sum equation ( {{yValue}} only)
-    level5: Missing addend in a {{numberModelType}} ( {{yValueMin}}-{{yValueMax}} )
-    level6: Missing addend in a decomposition equation ( {{yValueMin}}-{{yValueMax}} )
-    level7: Missing addend or total in a sum equation ( {{yValueMin}}-{{yValueMax}} )
-    level8: Equations with the number line ( {{yValueMin}}-{{yValueMax}} )
+    level1: Missing addend in a {{numberModelType}} ({{yValueMin}}-{{yValueMax}})
+    level2: Missing addend in a {{numberModelType}} ({{yValue}} only)
+    level3: Missing addend in a decomposition equation ({{yValue}} only)
+    level4: Missing addend in a sum equation ({{yValue}} only)
+    level5: Missing addend in a {{numberModelType}} ({{yValueMin}}-{{yValueMax}})
+    level6: Missing addend in a decomposition equation ({{yValueMin}}-{{yValueMax}})
+    level7: Missing addend or total in a sum equation ({{yValueMin}}-{{yValueMax}})
+    level8: Equations with the number line ({{yValueMin}}-{{yValueMax}})
   infoDialog:
     levelWithDescription: 'Level {{level}}: {{description}}'
 
