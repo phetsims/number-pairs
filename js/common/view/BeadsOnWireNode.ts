@@ -337,6 +337,13 @@ export default class BeadsOnWireNode extends Node {
       Array.from( this.beadModelToNodeMap.keys() ).map( countingObject => countingObject.addendTypeProperty )
     );
     this.accessibleHelpText = grabDragDescriptionManager.createHelpTextProperty( groupSelectModel.isGroupItemKeyboardGrabbedProperty );
+
+    // Force a re-render of the pdom when the selected group item changes to announce the accessible name even if the
+    // accessible name hasn't changed.
+    model.groupSelectBeadsModel.selectedGroupItemProperty.link( () => {
+      this.labelTagName = 'label';
+      this.labelTagName = null;
+    } );
   }
 
   private handleBeadDrop( beadNode: BeadNode ): void {
