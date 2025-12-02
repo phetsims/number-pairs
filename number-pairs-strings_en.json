@@ -434,7 +434,7 @@
         "value": "Kitten"
       },
       "accessibleHelpText": {
-        "value": "Move with arrows or W, A, S, D keys. Change color with space or enter."
+        "value": "Move with arrows or W, A, S, or D keys. Change color with space or enter."
       },
       "changeColorAccessibleName": {
         "value": "Change Color"

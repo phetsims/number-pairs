@@ -256,7 +256,7 @@ a11y:
   kittens:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
-    accessibleHelpText:        Move with arrows or W, A, S, D keys. Change color with space or enter.
+    accessibleHelpText:        Move with arrows or W, A, S, or D keys. Change color with space or enter.
     changeColorAccessibleName: Change Color
     kittenPattern:
       select_descriptor:
