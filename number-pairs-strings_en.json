@@ -420,10 +420,10 @@
     },
     "ones": {
       "accessibleName": {
-        "value": "Ones"
+        "value": "One Cards"
       },
       "singularAccessibleName": {
-        "value": "One"
+        "value": "One Card"
       }
     },
     "kittens": {

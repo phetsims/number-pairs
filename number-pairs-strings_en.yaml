@@ -251,8 +251,8 @@ a11y:
     accessibleName:         Butterflies
     singularAccessibleName: Butterfly
   ones:
-    accessibleName:         Ones
-    singularAccessibleName: One
+    accessibleName:         One Cards
+    singularAccessibleName: One Card
   kittens:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
