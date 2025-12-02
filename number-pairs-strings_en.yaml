@@ -198,8 +198,8 @@ a11y:
       select_representationType:
         beads: Move one or more beads to create groups.
         other: Move { $item } in or between left and right counting areas.
-    grabbedAccessibleResponse:  Grabbed, in { $addend } counting area.
-    releasedAccessibleResponse: Released, in { $addend } counting area.
+    grabbedAccessibleResponse:  grabbed, in { $addend } counting area
+    releasedAccessibleResponse: released, in { $addend } counting area
     movedAccessibleResponse:    now in { $addend } counting area
     leftSide:
       firstItemPattern: First { $item } on left side
@@ -273,16 +273,16 @@ a11y:
       select_grabbedOrReleased:
         grabbed:
           select_side:
-            left:  Grabbed, left of divider.
-            right: Grabbed, right of divider.
+            left:  grabbed, left of divider
+            right: grabbed, right of divider
         released:
           select_side:
-            left:  Released, left of divider.
-            right: Released, right of divider.
+            left:  released, left of divider
+            right: released, right of divider
     crossedDividerContextResponse:
       select_side:
-        left:  Bead now yellow on left.
-        right: Bead now blue on right.
+        left:  bead now yellow on left
+        right: bead now blue on right
 
   # Number line
   numberLine:
