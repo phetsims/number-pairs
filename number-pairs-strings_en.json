@@ -306,10 +306,10 @@
         "value": "{ $representationType ->\n  [beads] Move one or more beads to create groups.\n  *[other] Move { $item } in or between left and right counting areas.\n}"
       },
       "grabbedAccessibleResponse": {
-        "value": "Grabbed, in { $addend } counting area."
+        "value": "grabbed, in { $addend } counting area"
       },
       "releasedAccessibleResponse": {
-        "value": "Released, in { $addend } counting area."
+        "value": "released, in { $addend } counting area"
       },
       "movedAccessibleResponse": {
         "value": "now in { $addend } counting area"
@@ -457,10 +457,10 @@
         "value": "Blue Bead"
       },
       "contextResponse": {
-        "value": "{ $grabbedOrReleased ->\n  [grabbed] { $side ->\n              [left] Grabbed, left of divider.\n              *[right] Grabbed, right of divider.\n            }\n  *[released] { $side ->\n                [left] Released, left of divider.\n                *[right] Released, right of divider.\n              }\n}"
+        "value": "{ $grabbedOrReleased ->\n  [grabbed] { $side ->\n              [left] grabbed, left of divider\n              *[right] grabbed, right of divider\n            }\n  *[released] { $side ->\n                [left] released, left of divider\n                *[right] released, right of divider\n              }\n}"
       },
       "crossedDividerContextResponse": {
-        "value": "{ $side ->\n  [left] Bead now yellow on left.\n  *[right] Bead now blue on right.\n}"
+        "value": "{ $side ->\n  [left] bead now yellow on left\n  *[right] bead now blue on right\n}"
       }
     },
     "numberLine": {
