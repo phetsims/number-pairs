@@ -19,6 +19,8 @@ import NumberBondNode, { DEFAULT_BOND_DIMENSION, NUMBER_BOND_LINE_WIDTH, NumberB
 import NumberCircle from './NumberCircle.js';
 
 type SelfOptions = {
+
+  // Indicates whether this number bond is being used in the game screen, which affects the a11y description
   isGameScreen?: boolean;
 };
 
@@ -68,8 +70,8 @@ export default class NumberBondMutableNode extends NumberBondNode {
     this.leftAddend = leftAddend;
     this.rightAddend = rightAddend;
 
+    // Add an accessible paragraph that describes the number bond with its current values
     const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
-
     this.addChild( new Node( {
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
         left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),

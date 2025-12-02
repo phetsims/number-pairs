@@ -24,6 +24,9 @@ import numberPairs from '../../numberPairs.js';
 
 export default class LevelIcons {
 
+  /**
+   *  Creates a synthetic model than can be used to satisfy the interface for number model type icons.
+   */
   private static createModel(
     total: number | null, left: number | null, right: number | null,
     leftAddendVisible: boolean, rightAddendVisible: boolean, totalVisible: boolean

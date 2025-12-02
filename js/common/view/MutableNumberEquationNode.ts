@@ -20,11 +20,19 @@ import NumberEquationNode, { DEFAULT_EQUATION_DIMENSIONS, NumberEquationNodeOpti
 import NumberRectangle from './NumberRectangle.js';
 
 type SelfOptions = {
+
+  // The color properties for the total and addends
   totalColorProperty: TReadOnlyProperty<Color>;
   leftAddendColorProperty: TReadOnlyProperty<Color>;
   rightAddendColorProperty: TReadOnlyProperty<Color>;
+
+  // Indicates whether this bar model is being used in the game screen, which affects the a11y description
   isGameScreen?: boolean;
+
+  // Dimension for each square containing a number in the equation
   squareDimension?: number;
+
+  // Font size for the numbers in the squares. Different than the font size for the mathematical symbols.
   numberFontSize?: number;
 };
 
@@ -75,9 +83,8 @@ export default class MutableNumberEquationNode extends NumberEquationNode {
 
     super( totalSquare, leftAddendSquare, rightAddendSquare, options );
 
+    // Add an accessible paragraph that describes the equation with its current values
     const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
-
-    // Set up accessibility
     const accessibleParagraphPattern = options.addendsOnRight ?
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnRightAccessibleParagraph :
                                        NumberPairsFluent.a11y.equationAccordionBox.addendsOnLeftAccessibleParagraph;

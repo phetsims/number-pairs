@@ -37,6 +37,8 @@ type SelfOptions = {
   displayRightAddendNumberProperty?: TReadOnlyProperty<number> | null;
 
   dimensions?: BarModelDimensions;
+
+  // Indicates whether this bar model is being used in the game screen, which affects the a11y description
   isGameScreen?: boolean;
 };
 
@@ -142,8 +144,8 @@ export default class BarModelMutableNode extends BarModelNode {
     } );
 
     super( totalRectangle, addendsNode, options );
-
-    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
+    this.leftAddendRectangle = leftAddendRectangle;
+    this.rightAddendRectangle = rightAddendRectangle;
 
     // Listen for total even though the value is not used, due to listener order dependencies, make sure we updated
     // when everything settled.
@@ -155,6 +157,9 @@ export default class BarModelMutableNode extends BarModelNode {
       ( left, right, total, largerAndSmaller, smallerAndLarger, equal ) => {
         return left === right ? equal : left > right ? largerAndSmaller : smallerAndLarger;
       } );
+
+    // Add an accessible paragraph that describes the bar model with its current values
+    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
     this.addChild( new Node( {
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.barModelStateAccessibleParagraph.createProperty( {
         left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
@@ -165,9 +170,6 @@ export default class BarModelMutableNode extends BarModelNode {
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
     } ) );
-
-    this.leftAddendRectangle = leftAddendRectangle;
-    this.rightAddendRectangle = rightAddendRectangle;
   }
 }
 

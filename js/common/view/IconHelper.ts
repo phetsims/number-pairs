@@ -11,13 +11,19 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import Node from '../../../../scenery/js/nodes/Node.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 
-
+/**
+ * IconModel is a version of TGenericNumberPairsModel where the addend and total properties are read-only and can be null.
+ * a value of null indicates that the icon should display a placeholder (e.g., a question mark) instead of a number.
+ */
 export type IconModel = StrictOmit<TGenericNumberPairsModel, 'leftAddendProperty' | 'rightAddendProperty' | 'totalProperty'> & {
   totalProperty: TReadOnlyProperty<number | null>;
   leftAddendProperty: TReadOnlyProperty<number | null>;
   rightAddendProperty: TReadOnlyProperty<number | null>;
 };
 
+/**
+ * Creates a ManualConstraint that centers text nodes within their corresponding icon nodes.
+ */
 export function createIconTextConstraint( parent: Node, totalNode: Node, totalText: Node,
                                           leftNode: Node, leftText: Node, rightNode: Node, rightText: Node ): void {
   ManualConstraint.create( parent, [ totalNode, totalText, leftNode, leftText, rightNode, rightText ],
