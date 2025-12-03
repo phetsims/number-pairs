@@ -20,6 +20,7 @@ import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleS
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import platform from '../../../../phet-core/js/platform.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -365,7 +366,9 @@ export default class NumberPairsScreenView extends ScreenView {
       // This was because having accessible help text on each kitten made for a verbose experience with screen readers.
       kittensLayerVisibleProperty.link( visible => {
         countingAreaDescriptionNode.accessibleHelpText = visible ?
-                                                         NumberPairsFluent.a11y.kittens.accessibleHelpTextStringProperty :
+                                                         NumberPairsFluent.a11y.kittens.accessibleHelpText.createProperty( {
+                                                           key: platform.enterOrReturn
+                                                         } ) :
                                                          '';
       } );
 

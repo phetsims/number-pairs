@@ -300,7 +300,7 @@
     },
     "grabOrReleaseInteraction": {
       "releasedHelpText": {
-        "value": "Navigate and choose { $item } to move. Space or enter to grab or release."
+        "value": "{ $key ->\n  [enter] Navigate and choose { $item } to move. Space or enter to grab or release.\n  *[return] Navigate and choose { $item } to move. Space or return to grab or release.\n}"
       },
       "grabbedHelpTextPattern": {
         "value": "{ $representationType ->\n  [beads] Move one or more beads to create groups.\n  *[other] Move { $item } in or between left and right counting areas.\n}"
@@ -434,7 +434,7 @@
         "value": "Kitten"
       },
       "accessibleHelpText": {
-        "value": "Move with arrows or W, A, S, or D keys. Change color with space or enter."
+        "value": "{ $key ->\n  [enter] Move with arrows or W, A, S, or D keys. Change color with space or enter.\n  *[return] Move with arrows or W, A, S, or D keys. Change color with space or return.\n}"
       },
       "changeColorAccessibleName": {
         "value": "Change Color"
@@ -894,7 +894,7 @@
           "value": "Jump to last kitten with End key."
         },
         "changeColorLabelInnerContent": {
-          "value": "Change color with Space or Enter key."
+          "value": "{ $key ->\n  [enter] Change color with Space or Enter key.\n  *[return] Change color with Space or Return key.\n}"
         }
       }
     }

@@ -6,6 +6,7 @@
  * @author Marla Schulz (PhET Interactive Simulations)
  */
 
+import platform from '../../../../phet-core/js/platform.js';
 import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import { OneKeyStroke } from '../../../../scenery/js/input/KeyDescriptor.js';
 import numberPairs from '../../numberPairs.js';
@@ -64,7 +65,9 @@ export default class NumberPairsHotkeyData {
       keys: [ 'space', 'enter' ] as OneKeyStroke[],
       repoName: numberPairs.name,
       keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty,
-      keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty
+      keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContent.createProperty( {
+        key: platform.enterOrReturn
+      } )
     } ),
 
     // Jump to first kitten

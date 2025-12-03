@@ -420,7 +420,7 @@ const NumberPairsFluent = {
     countingAreaEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_countingAreaEmpty', _.get( NumberPairsStrings, 'a11y.countingAreaEmptyStringProperty' ) ),
     unknownNumberStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_unknownNumber', _.get( NumberPairsStrings, 'a11y.unknownNumberStringProperty' ) ),
     grabOrReleaseInteraction: {
-      releasedHelpText: new FluentPattern<{ item: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedHelpText', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty' ), [{"name":"item"}] ),
+      releasedHelpText: new FluentPattern<{ item: FluentVariable, key: 'enter' | 'return' | TReadOnlyProperty<'enter' | 'return'> }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedHelpText', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedHelpTextStringProperty' ), [{"name":"item"},{"name":"key","variants":["enter","return"]}] ),
       grabbedHelpTextPattern: new FluentPattern<{ item: FluentVariable, representationType: 'beads' | number | 'other' | TReadOnlyProperty<'beads' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_grabbedHelpTextPattern', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.grabbedHelpTextPatternStringProperty' ), [{"name":"item"},{"name":"representationType","variants":["beads",{"type":"number","value":"other"}]}] ),
       grabbedAccessibleResponse: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_grabbedAccessibleResponse', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.grabbedAccessibleResponseStringProperty' ), [{"name":"addend"}] ),
       releasedAccessibleResponse: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_grabOrReleaseInteraction_releasedAccessibleResponse', _.get( NumberPairsStrings, 'a11y.grabOrReleaseInteraction.releasedAccessibleResponseStringProperty' ), [{"name":"addend"}] ),
@@ -479,7 +479,7 @@ const NumberPairsFluent = {
     kittens: {
       accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleName', _.get( NumberPairsStrings, 'a11y.kittens.accessibleNameStringProperty' ) ),
       singularAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_singularAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.singularAccessibleNameStringProperty' ) ),
-      accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpTextStringProperty' ) ),
+      accessibleHelpText: new FluentPattern<{ key: 'enter' | 'return' | TReadOnlyProperty<'enter' | 'return'> }>( fluentSupport.bundleProperty, 'a11y_kittens_accessibleHelpText', _.get( NumberPairsStrings, 'a11y.kittens.accessibleHelpTextStringProperty' ), [{"name":"key","variants":["enter","return"]}] ),
       changeColorAccessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_kittens_changeColorAccessibleName', _.get( NumberPairsStrings, 'a11y.kittens.changeColorAccessibleNameStringProperty' ) ),
       kittenPattern: new FluentPattern<{ color: FluentVariable, descriptor: 'first' | 'last' | 'only' | number | 'other' | TReadOnlyProperty<'first' | 'last' | 'only' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_kittens_kittenPattern', _.get( NumberPairsStrings, 'a11y.kittens.kittenPatternStringProperty' ), [{"name":"color"},{"name":"descriptor","variants":["first","last","only",{"type":"number","value":"other"}]}] )
     },
@@ -690,7 +690,7 @@ const NumberPairsFluent = {
       kittenInteraction: {
         jumpToFirstLabelInnerContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_kittenInteraction_jumpToFirstLabelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty' ) ),
         jumpToLastLabelInnerContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_kittenInteraction_jumpToLastLabelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.kittenInteraction.jumpToLastLabelInnerContentStringProperty' ) ),
-        changeColorLabelInnerContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_kittenInteraction_changeColorLabelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty' ) )
+        changeColorLabelInnerContent: new FluentPattern<{ key: 'enter' | 'return' | TReadOnlyProperty<'enter' | 'return'> }>( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_kittenInteraction_changeColorLabelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty' ), [{"name":"key","variants":["enter","return"]}] )
       }
     }
   }

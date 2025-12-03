@@ -8,6 +8,7 @@
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
+import platform from '../../../../../phet-core/js/platform.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../../model/CountingObject.js';
@@ -72,7 +73,8 @@ export default class GrabDragDescriptionManager {
       item: itemProperty
     } );
     this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
-      item: itemProperty
+      item: itemProperty,
+      key: platform.enterOrReturn
     } );
   }
 
