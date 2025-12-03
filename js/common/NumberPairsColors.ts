@@ -17,112 +17,146 @@
 import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import numberPairs from '../numberPairs.js';
 
-//REVIEW Consider converting to class with static constants and private constructor.
-const NumberPairsColors = {
+class NumberPairsColors {
 
   // Background color for screens in this sim
-  introScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'introBackground', {
+  public static readonly introScreenBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'introBackground', {
     default: '#FFFAF1'
-  } ),
-  tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'tenBackground', {
+  } );
+
+  public static readonly tenScreenBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'tenBackground', {
     default: '#FFFAF1'
-  } ),
-  twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'twentyBackground', {
+  } );
+
+  public static readonly twentyScreenBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'twentyBackground', {
     default: '#FFFAFE'
-  } ),
-  sumScreenBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'sumBackground', {
+  } );
+
+  public static readonly sumScreenBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'sumBackground', {
     default: '#FAFDF6'
-  } ),
-  locationSumColorProperty: new ProfileColorProperty( numberPairs, 'locationSum', {
+  } );
+
+  public static readonly locationSumColorProperty = new ProfileColorProperty( numberPairs, 'locationSum', {
     default: '#74E2AB'
-  } ),
-  locationLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationLeftAddend', {
+  } );
+
+  public static readonly locationLeftAddendColorProperty = new ProfileColorProperty( numberPairs, 'locationLeftAddend', {
     default: '#F9FFA8'
-  } ),
-  locationRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'locationRightAddend', {
+  } );
+
+  public static readonly locationRightAddendColorProperty = new ProfileColorProperty( numberPairs, 'locationRightAddend', {
     default: '#A8D4FF'
-  } ),
-  numberLineThumbNodeColorProperty: new ProfileColorProperty( numberPairs, 'numberLineThumbNode', {
+  } );
+
+  public static readonly numberLineThumbNodeColorProperty = new ProfileColorProperty( numberPairs, 'numberLineThumbNode', {
     default: '#FFE566'
-  } ),
-  numberLineLabelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineLabelBackground', {
+  } );
+
+  public static readonly numberLineLabelBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'numberLineLabelBackground', {
     default: 'rgba( 255, 255, 255, 0.25 )'
-  } ),
-  attributeSumColorProperty: new ProfileColorProperty( numberPairs, 'attributeSum', {
+  } );
+
+  public static readonly attributeSumColorProperty = new ProfileColorProperty( numberPairs, 'attributeSum', {
     default: '#87D9B0'
-  } ),
-  attributeLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
+  } );
+
+  public static readonly attributeLeftAddendColorProperty = new ProfileColorProperty( numberPairs, 'attributeLeftAddend', {
     default: '#FFEE8C'
-  } ),
-  attributeRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
+  } );
+
+  public static readonly attributeRightAddendColorProperty = new ProfileColorProperty( numberPairs, 'attributeRightAddend', {
     default: '#A5B3EE'
-  } ),
-  answerButtonPressedLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedLeftAddend', {
+  } );
+
+  public static readonly answerButtonPressedLeftAddendColorProperty = new ProfileColorProperty( numberPairs, 'answerButtonPressedLeftAddend', {
     default: '#FFFAE0'
-  } ),
-  answerButtonPressedRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedRightAddend', {
+  } );
+
+  public static readonly answerButtonPressedRightAddendColorProperty = new ProfileColorProperty( numberPairs, 'answerButtonPressedRightAddend', {
     default: '#D7E0F9'
-  } ),
-  answerButtonPressedTotalColorProperty: new ProfileColorProperty( numberPairs, 'answerButtonPressedTotal', {
+  } );
+
+  public static readonly answerButtonPressedTotalColorProperty = new ProfileColorProperty( numberPairs, 'answerButtonPressedTotal', {
     default: '#D8F3E4'
-  } ),
-  numberLineBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberLineBackground', {
+  } );
+
+  public static readonly numberLineBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'numberLineBackground', {
     default: '#FFFFFF'
-  } ),
-  accordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'accordionBoxBackground', {
+  } );
+
+  public static readonly accordionBoxBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'accordionBoxBackground', {
     default: '#EBEBEA'
-  } ),
-  numberBondAccordionBoxBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'numberBondAccordionBoxBackground', {
+  } );
+
+  public static readonly numberBondAccordionBoxBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'numberBondAccordionBoxBackground', {
     default: '#F8F8FD'
-  } ),
-  kittenPanelBackgroundColorProperty: new ProfileColorProperty( numberPairs, 'kittenPanelBackground', {
+  } );
+
+  public static readonly kittenPanelBackgroundColorProperty = new ProfileColorProperty( numberPairs, 'kittenPanelBackground', {
     default: 'rgba( 255, 255, 255, 0.5 )'
-  } ),
-  wireBaseColorProperty: new ProfileColorProperty( numberPairs, 'wireBaseColor', {
+  } );
+
+  public static readonly wireBaseColorProperty = new ProfileColorProperty( numberPairs, 'wireBaseColor', {
     default: '#C7C7C7'
-  } ),
-  wireHighlightColorProperty: new ProfileColorProperty( numberPairs, 'wireHighlightColor', {
+  } );
+
+  public static readonly wireHighlightColorProperty = new ProfileColorProperty( numberPairs, 'wireHighlightColor', {
     default: '#F2F2F2'
-  } ),
-  checkNextButtonColorProperty: new ProfileColorProperty( numberPairs, 'checkNextButtonColor', {
+  } );
+
+  public static readonly checkNextButtonColorProperty = new ProfileColorProperty( numberPairs, 'checkNextButtonColor', {
     default: '#85FFF7'
-  } ),
+  } );
 
   // Status bar & level selection colors
-  level1StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level1StatusBar', {
+  public static readonly level1StatusBarColorProperty = new ProfileColorProperty( numberPairs, 'level1StatusBar', {
     default: '#EFB0AF'
-  } ),
-  level234StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level234StatusBar', {
+  } );
+
+  public static readonly level234StatusBarColorProperty = new ProfileColorProperty( numberPairs, 'level234StatusBar', {
     default: '#BCA4F7'
-  } ),
-  level567StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level567StatusBar', {
+  } );
+
+  public static readonly level567StatusBarColorProperty = new ProfileColorProperty( numberPairs, 'level567StatusBar', {
     default: '#96D5E8'
-  } ),
-  level8StatusBarColorProperty: new ProfileColorProperty( numberPairs, 'level8StatusBar', {
+  } );
+
+  public static readonly level8StatusBarColorProperty = new ProfileColorProperty( numberPairs, 'level8StatusBar', {
     default: '#FFA9A3'
-  } ),
+  } );
 
   // Level selection icon palette
-  levelSelectionIconTotalColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconTotal', {
+  public static readonly levelSelectionIconTotalColorProperty = new ProfileColorProperty( numberPairs, 'levelSelectionIconTotal', {
     default: '#FCE9AE'
-  } ),
-  levelSelectionIconLeftAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconLeftAddend', {
-    default: '#FCE9AE'
-  } ),
-  levelSelectionIconRightAddendColorProperty: new ProfileColorProperty( numberPairs, 'levelSelectionIconRightAddend', {
-    default: '#FCE9AE'
-  } ),
+  } );
 
-  correctMarkColorProperty: new ProfileColorProperty( numberPairs, 'correctMark', {
+  public static readonly levelSelectionIconLeftAddendColorProperty = new ProfileColorProperty( numberPairs, 'levelSelectionIconLeftAddend', {
+    default: '#FCE9AE'
+  } );
+
+  public static readonly levelSelectionIconRightAddendColorProperty = new ProfileColorProperty( numberPairs, 'levelSelectionIconRightAddend', {
+    default: '#FCE9AE'
+  } );
+
+  public static readonly correctMarkColorProperty = new ProfileColorProperty( numberPairs, 'correctMark', {
     default: '#0F710F'
-  } ),
-  incorrectColorProperty: new ProfileColorProperty( numberPairs, 'incorrect', {
+  } );
+
+  public static readonly incorrectColorProperty = new ProfileColorProperty( numberPairs, 'incorrect', {
     default: 'red'
-  } ),
-  unansweredColorProperty: new ProfileColorProperty( numberPairs, 'unanswered', {
+  } );
+
+  public static readonly unansweredColorProperty = new ProfileColorProperty( numberPairs, 'unanswered', {
     default: 'gray'
-  } )
-};
+  } );
+
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private constructor() {
+    // Prevent instantiation
+  }
+}
 
 numberPairs.register( 'NumberPairsColors', NumberPairsColors );
 export default NumberPairsColors;
