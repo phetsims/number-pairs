@@ -66,7 +66,7 @@ export default class NumberPairsHotkeyData {
       repoName: numberPairs.name,
       keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty,
       keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContent.createProperty( {
-        key: platform.enterOrReturn
+        key: platform.keys.enterOrReturn
       } )
     } ),
 

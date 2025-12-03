@@ -74,7 +74,7 @@ export default class GrabDragDescriptionManager {
     } );
     this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
       item: itemProperty,
-      key: platform.enterOrReturn
+      key: platform.keys.enterOrReturn
     } );
   }
 

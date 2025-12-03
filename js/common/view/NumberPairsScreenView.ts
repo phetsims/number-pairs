@@ -367,7 +367,7 @@ export default class NumberPairsScreenView extends ScreenView {
       kittensLayerVisibleProperty.link( visible => {
         countingAreaDescriptionNode.accessibleHelpText = visible ?
                                                          NumberPairsFluent.a11y.kittens.accessibleHelpText.createProperty( {
-                                                           key: platform.enterOrReturn
+                                                           key: platform.keys.enterOrReturn
                                                          } ) :
                                                          '';
       } );
