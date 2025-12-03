@@ -8,6 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import NumberPairsConstants from '../common/NumberPairsConstants.js';
@@ -19,7 +20,7 @@ import TwentyScreenKeyboardHelpNode from './view/TwentyScreenKeyboardHelpNode.js
 import TwentyScreenView from './view/TwentyScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
-type TwentyScreenOptions = SelfOptions & ScreenOptions;
+type TwentyScreenOptions = SelfOptions & PickRequired<ScreenOptions, 'tandem'>;
 
 export default class TwentyScreen extends Screen<TwentyModel, TwentyScreenView> {
 

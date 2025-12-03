@@ -10,6 +10,7 @@
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import StarNode from '../../../scenery-phet/js/StarNode.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
@@ -21,12 +22,7 @@ import GameScreenKeyboardHelpNode from './view/GameScreenKeyboardHelpNode.js';
 import GameScreenView from './view/GameScreenView.js';
 
 type SelfOptions = EmptySelfOptions;
-
-//REVIEW For all Screen subclasses in this sim:
-//REVIEW The current options type definition provides options that you do not want to change. This is bad API design, not flexibility.
-//REVIEW All that's really needed is PickRequired<ScreenOptions, 'tandem'>
-//REVIEW Or consider getting rid of providedOptions and replacing with param tandem: Tandem
-type GameScreenOptions = SelfOptions & ScreenOptions;
+type GameScreenOptions = SelfOptions & PickRequired<ScreenOptions, 'tandem'>;
 
 export default class GameScreen extends Screen<GameModel, GameScreenView> {
 
