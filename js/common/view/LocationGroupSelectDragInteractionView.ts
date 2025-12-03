@@ -33,10 +33,10 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
   public constructor(
     groupSelectModel: GroupSelectModel<CountingObject>,
     targetNode: Node,
-    leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
-    leftAddendVisibleProperty: TReadOnlyProperty<boolean>,
-    rightAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
-    rightAddendVisibleProperty: TReadOnlyProperty<boolean>,
+    private readonly leftAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
+    private readonly leftAddendVisibleProperty: TReadOnlyProperty<boolean>,
+    private readonly rightAddendCountingObjectsProperty: TReadOnlyProperty<CountingObject[]>,
+    private readonly rightAddendVisibleProperty: TReadOnlyProperty<boolean>,
     countingObjectModelToNodeMap: Map<CountingObject, LocationCountingObjectNode>,
     tandem: Tandem
   ) {
@@ -54,77 +54,27 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
       () => groupSelectModel.selectedGroupItemProperty.value?.addendTypeProperty.value === AddendType.LEFT ?
             NumberPairsFluent.a11y.leftStringProperty.value : NumberPairsFluent.a11y.rightStringProperty.value );
 
-    //REVIEW There is way too much code inlined in options here. Break out into functions or methods and add more documentation.
     super( groupSelectModel, targetNode, selectedItemPositionProperty, countingObjectModelToNodeMap, {
       soundKeyboardDragListenerOptions: {
         dragDelta: 15,
         shiftDragDelta: 8,
         dragBoundsProperty: new Property( LocationCountingObjectNode.DRAG_BOUNDS )
       },
-      getGroupItemToSelect: () => {
-        const leftCountingObjects = leftAddendCountingObjectsProperty.value;
-        const rightCountingObjects = rightAddendCountingObjectsProperty.value;
-
-        // We want to start with the left addend counting objects, but only if they are visible.
-        if ( leftCountingObjects.length > 0 && leftAddendVisibleProperty.value ) {
-          return leftCountingObjects[ 0 ];
-        }
-        else if ( rightCountingObjects.length > 0 && rightAddendVisibleProperty.value ) {
-          return rightCountingObjects[ 0 ];
-        }
-        else {
-          return null;
-        }
-      },
-
-      //REVIEW Multiple return statements not recommended in a function this big.
-      getNextSelectedGroupItemFromPressedKeys: ( keysPressed: string, groupItem: CountingObject ) => {
-        affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
-        const addendType = groupItem.addendTypeProperty.value;
-        const addendCountingObjects = addendType === AddendType.LEFT ?
-                                      leftAddendCountingObjectsProperty.value :
-                                      rightAddendCountingObjectsProperty.value;
-        const otherAddendCountingObjects = addendType === AddendType.LEFT ?
-                                           rightAddendCountingObjectsProperty.value :
-                                           leftAddendCountingObjectsProperty.value;
-        const keysDelta = this.getKeysDelta( keysPressed );
-
-        if ( keysDelta === 0 ) {
-          return groupItem;
-        }
-
-        const allOrderedCountingObjects = addendCountingObjects.concat( otherAddendCountingObjects );
-
-        // Only select visible counting objects.
-        const orderedCountingObjects = allOrderedCountingObjects.filter( countingObject => {
-          return countingObject.addendTypeProperty.value === AddendType.LEFT ? leftAddendVisibleProperty.value :
-                 countingObject.addendTypeProperty.value === AddendType.RIGHT ? rightAddendVisibleProperty.value :
-                 false;
-        } );
-        const currentIndex = orderedCountingObjects.indexOf( groupItem );
-        affirm( currentIndex !== -1, 'Group item not found in combined counting objects' );
-
-        const totalObjects = orderedCountingObjects.length;
-        affirm( totalObjects > 0, 'No counting objects available for navigation' );
-        const nextIndex = ( currentIndex + keysDelta + totalObjects ) % totalObjects;
-
-        const nextCountingObject = orderedCountingObjects[ nextIndex ];
-        NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, keysDelta > 0 );
-
-        return nextCountingObject;
-      },
+      getGroupItemToSelect: () => this.getLocationCountingObjectToSelect(),
+      getNextSelectedGroupItemFromPressedKeys: ( keysPressed, groupItem ) =>
+        this.getNextLocationCountingObjectFromPressedKeys( keysPressed, groupItem ),
       handleHomeEndKeysDuringDrag: ( keysPressed: string, groupItem: CountingObject ) => {
         const currentPosition = groupItem.locationPositionProperty.value;
-        if ( keysPressed.includes( 'home' ) ) {
 
-          // move to the left addend area.
+        // move to the left addend area.
+        if ( keysPressed.includes( 'home' ) ) {
           if ( !LEFT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
             groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, -1 );
           }
         }
-        else if ( keysPressed.includes( 'end' ) ) {
 
-          // move to the right addend area.
+        // move to the right addend area.
+        else if ( keysPressed.includes( 'end' ) ) {
           if ( !RIGHT_COUNTING_AREA_BOUNDS.containsPoint( currentPosition ) ) {
             groupItem.locationPositionProperty.value = NumberPairsUtils.mirrorPositionAcrossCountingArea( currentPosition, 1 );
           }
@@ -137,6 +87,70 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
       releasedAccessibleObjectResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedAccessibleResponse.createProperty( {
         addend: selectedItemAddendStringProperty
       } )
+    } );
+  }
+
+  /**
+   * Returns the initial location counting object to select when starting group interaction.
+   */
+  private getLocationCountingObjectToSelect(): CountingObject | null {
+    const leftCountingObjects = this.leftAddendCountingObjectsProperty.value;
+    const rightCountingObjects = this.rightAddendCountingObjectsProperty.value;
+
+    // We want to start with the left addend counting objects, but only if they are visible.
+    if ( leftCountingObjects.length > 0 && this.leftAddendVisibleProperty.value ) {
+      return leftCountingObjects[ 0 ];
+    }
+    else if ( rightCountingObjects.length > 0 && this.rightAddendVisibleProperty.value ) {
+      return rightCountingObjects[ 0 ];
+    }
+    else {
+      return null;
+    }
+  }
+
+  /**
+   * Get the next location counting object based on the keys pressed.
+   * @param keysPressed
+   * @param groupItem
+   */
+  private getNextLocationCountingObjectFromPressedKeys( keysPressed: string, groupItem: CountingObject ): CountingObject {
+    affirm( groupItem.addendTypeProperty.value !== AddendType.INACTIVE, 'Inactive counting objects should not be selectable' );
+
+    const keysDelta = this.getKeysDelta( keysPressed );
+
+    // No change in selection.
+    if ( keysDelta === 0 ) {
+      return groupItem;
+    }
+
+    // Navigate to the next or previous visible counting object depending on the keys pressed.
+    else {
+      const orderedCountingObjects = this.getOrderedVisibleCountingObjects();
+      const currentIndex = orderedCountingObjects.indexOf( groupItem );
+      affirm( currentIndex !== -1, 'Group item not found in combined counting objects' );
+
+      const totalObjects = orderedCountingObjects.length;
+      affirm( totalObjects > 0, 'No counting objects available for navigation' );
+      const nextIndex = ( currentIndex + keysDelta + totalObjects ) % totalObjects;
+
+      const nextCountingObject = orderedCountingObjects[ nextIndex ];
+      NumberPairsSounds.playSelectAddendSound( nextCountingObject.addendTypeProperty.value, keysDelta > 0 );
+
+      return nextCountingObject;
+    }
+  }
+
+  private getOrderedVisibleCountingObjects(): CountingObject[] {
+
+    // Combine counting objects into one array. Their order is determined by the model.
+    const allOrderedCountingObjects = this.leftAddendCountingObjectsProperty.value.concat( this.rightAddendCountingObjectsProperty.value );
+
+    // Only return counting objects that are currently visible.
+    return allOrderedCountingObjects.filter( countingObject => {
+      return countingObject.addendTypeProperty.value === AddendType.LEFT ? this.leftAddendVisibleProperty.value :
+             countingObject.addendTypeProperty.value === AddendType.RIGHT ? this.rightAddendVisibleProperty.value :
+             false;
     } );
   }
 
