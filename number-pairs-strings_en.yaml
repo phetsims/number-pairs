@@ -127,7 +127,7 @@ a11y:
                       objects, or swap addends.
           location:   '{ a11y.playAreaIntroSentence } Additionally, choose any total from { $min } to { $max }, automatically organize 
                       objects, or swap addends.'
-      controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
+      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shownSides:
           none:  Counting area currently hidden.
@@ -159,7 +159,7 @@ a11y:
                       There are yellow and blue { $representation } you can move to organize or change color to find 
                       different ways to create a total number of { $representation }. An addition phrase, { a11y.numberBondOrBarModelLowercase }, and equation represent how two numbers 
                       add to total. Additionally, create totals from { $min } to { $max }, automatically organize objects, or swap addends.
-      controlArea:         '{ a11y.introScreen.screenSummary.controlArea }'
+      controlArea: '{ a11y.introScreen.screenSummary.controlArea }'
       currentDetails:
         select_shown:
           none:  Currently, total hidden, counting area hidden.
@@ -195,7 +195,7 @@ a11y:
   grabOrReleaseInteraction:
     releasedHelpText:
       select_key:
-        enter: Navigate and choose { $item } to move. Space or enter to grab or release.
+        enter:  Navigate and choose { $item } to move. Space or enter to grab or release.
         return: Navigate and choose { $item } to move. Space or return to grab or release.
     grabbedHelpTextPattern:
       select_representationType:
@@ -344,39 +344,39 @@ a11y:
     localeSwitch:
       accessibleHelpText: Choose between two languages to hear and read phrase.
     numberModel:
-      numberBond:         number bond
-      barModel:           proportional bar model
-      accessibleHelpText: Represent decomposition as a { a11y.numberBondOrBarModelLowercase }.
-      totalHidden: Total hidden
-      totalMissing: a mystery total
-      leftAddendMissing:  a mystery number
-      rightAddendMissing: another mystery number
+      numberBond:            number bond
+      barModel:              proportional bar model
+      accessibleHelpText:    Represent decomposition as a { a11y.numberBondOrBarModelLowercase }.
+      totalHidden:           Total hidden
+      totalMissing:          a mystery total
+      leftAddendMissing:     a mystery number
+      rightAddendMissing:    another mystery number
       numberBondAccessibleParagraph:
         select_orientation:
           totalOnBottom: >-
-                     Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.
-          totalOnTop:     >-
-                     Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
+                         Number bond has three circles arranged with two on top and one underneath like a triangle. Top circles tell the addends. Left circle is left addend, right circle is right addend. Bottom circle is total.
+          totalOnTop:    >-
+                         Number bond has three circles arranged with one circle on top and two underneath like a triangle. Bottom circles tell the addends. Top circle tells total number of objects, left circle is left addend, right circle is right addend.
       numberBondStateAccessibleParagraph:
         select_orientation:
-          totalOnTop: Right now, { $total } in top circle, { $left } in left circle, { $right } in right circle.
+          totalOnTop:    Right now, { $total } in top circle, { $left } in left circle, { $right } in right circle.
           totalOnBottom: Right now, { $left } in left circle, { $right } in right circle, { $total } in bottom circle.
       barModelStateAccessibleParagraph:
-            select_orientation:
-              totalOnTop: Right now, { $total } in top rectangle, { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
-              totalOnBottom: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections, { $total } in bottom rectangle.
+        select_orientation:
+          totalOnTop:    Right now, { $total } in top rectangle, { $left } and { $right } in bottom rectangle, split into { $proportions } sections.
+          totalOnBottom: Right now, { $left } and { $right } top rectangle, split into { $proportions } sections, { $total } in bottom rectangle.
       sumEquation:           Right now, equation shows { $left } + { $right } = { $total }.
       decompositionEquation: Right now, equation shows { $total } = { $left } + { $right }.
       barModelAccessibleParagraph:
         select_orientation:
-          totalOnTop:     |-
-                     Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
+          totalOnTop:    |-
+                         Two matching rectangles are stacked on top of each other. Top rectangle is not split and tells total number of objects, bottom rectangle is split by addends, showing two sections that adjust based on value of addends.
           totalOnBottom: |-
-                     Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
+                         Two matching rectangles are stacked on top of each other. Top rectangle is split by addends, showing two sections that adjust based on value of addends. Bottom rectangle is not split and tells the sum of two addends, also called the total.
 
-      largerAndSmaller:   larger and smaller
-      smallerAndLarger:   smaller and larger
-      equal:              equal
+      largerAndSmaller:      larger and smaller
+      smallerAndLarger:      smaller and larger
+      equal:                 equal
     tenFrameButton:
       accessibleName:                        Organize { $representation }
       accessibleHelpText:                    Create groups of 5 { $representation }.
@@ -431,7 +431,7 @@ a11y:
       valueBAccessibleName: Count from Zero
       accessibleHelpText:   Choose where to start counting. Count on from first addend to get total or count to first addend starting at zero.
     totalCheckbox:
-      accessibleHelpText: Show or hide sum of addends.
+      accessibleHelpText:                 Show or hide sum of addends.
       accessibleContextResponseChecked:   Total shown.
       accessibleContextResponseUnchecked: Total hidden.
     addendsCheckbox:
@@ -457,7 +457,7 @@ a11y:
         decomposition: '{ $total } can be decomposed into { $leftAddend } and { $rightAddend }?'
         sum:           '{ $leftAddend } plus { $rightAddend } equals { $total }?'
     countingArea:
-      accessibleHeading:   Counting Area
+      accessibleHeading:         Counting Area
       numberLineLeftAddendColor:
         select_leftAddendMissing:
           missing:    dotted
@@ -466,9 +466,9 @@ a11y:
         select_rightAddendMissing:
           missing:    dotted
           notMissing: blue
-      numberLineSentence:  'Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.'
-      numberLineAddends:   '{ $leftAddend } is shown above { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump representing right addend.'
-      numberLineTickMarks: 'Dot at { $total }.'
+      numberLineSentence:        'Right now, number line shows a green line representing total and two end-to-end jumps: a { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump from left edge, then a { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump to total.'
+      numberLineAddends:         '{ $leftAddend } is shown above { a11y.gameScreen.countingArea.numberLineLeftAddendColor } jump representing left addend. {$rightAddend} is shown above { a11y.gameScreen.countingArea.numberLineRightAddendColor } jump representing right addend.'
+      numberLineTickMarks:       'Dot at { $total }.'
       hiddenAccessibleParagraph: Right now, counting area is hidden.
       accessibleParagraph:
         select_type:
@@ -538,13 +538,13 @@ a11y:
     answerButton:
       wrongAccessibleName: '{$value}, incorrect answer'
     answerButtonGroup:
-      accessibleHeading:  '{a11y.gameScreen.answerChoices}'
+      accessibleHeading: '{a11y.gameScreen.answerChoices}'
       accessibleHelpText:
         select_levelType:
           kittens:
             select_addendOrSum:
               addend: Choose number for { a11y.gameScreen.challengeType } to add { $color } Kittens to Counting Area. If needed, count, organize, or hide Kittens to help solve challenge. Check Answer to submit.
-              sum: Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
+              sum:    Choose number for Sum of blue and yellow kittens. If needed, count, organize, or hide Kittens in Counting Area to help solve challenge. Check Answer to submit.
           numberLine: Choose number for { a11y.gameScreen.challengeType } to make dotted jump have that length. Check Answer to submit and make dotted jump turn { $color } if correct.
     tenFrameButton:
       accessibleHelpText: Create groups of 5 Kittens
@@ -596,5 +596,5 @@ a11y:
       jumpToLastLabelInnerContent:  Jump to last kitten with End key.
       changeColorLabelInnerContent:
         select_key:
-          enter: Change color with Space or Enter key.
+          enter:  Change color with Space or Enter key.
           return: Change color with Space or Return key.
