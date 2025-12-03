@@ -94,17 +94,6 @@ export default class NumberLineLevelNode extends LevelNode {
       }
     } );
 
-    //REVIEW Move clipShape instantiation closer to where it's used, just before the clipAreaNode is created.
-    // Create a clip area to cut off guesses that may draw arrows and lines outside the counting area.
-    const clipShape = Shape.boundsOffsetWithRadii( this.countingAreaBounds,
-      { left: 0, bottom: 0, right: 0, top: 0 },
-      {
-        topLeft: CORNER_RADIUS,
-        topRight: CORNER_RADIUS,
-        bottomRight: CORNER_RADIUS,
-        bottomLeft: CORNER_RADIUS
-      } );
-
     const numberLineNode = new GameNumberLineNode( numberLineModel,
       this.countingAreaBounds.width - NumberPairsConstants.NUMBER_LINE_X_MARGIN,
       missingAddendProperty, feedbackStyleProperty, {
@@ -116,6 +105,16 @@ export default class NumberLineLevelNode extends LevelNode {
       } );
     numberLineNode.slider.pickable = false;
     numberLineNode.slider.thumbNode.visible = false;
+
+    // Create a clip area to cut off guesses that may draw arrows and lines outside the counting area.
+    const clipShape = Shape.boundsOffsetWithRadii( this.countingAreaBounds,
+      { left: 0, bottom: 0, right: 0, top: 0 },
+      {
+        topLeft: CORNER_RADIUS,
+        topRight: CORNER_RADIUS,
+        bottomRight: CORNER_RADIUS,
+        bottomLeft: CORNER_RADIUS
+      } );
     const clipAreaNode = new Path( clipShape, {
       children: [ numberLineNode ],
       clipArea: clipShape

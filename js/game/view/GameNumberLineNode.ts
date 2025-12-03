@@ -15,14 +15,12 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
 import numberPairs from '../../numberPairs.js';
+import { MissingAddend } from '../model/Challenge.js';
 
 type NumberLineFeedbackStyle = {
   stroke: Color | TReadOnlyProperty<Color>;
   lineDash: number[];
 };
-
-//REVIEW Define MissingAddend in Challenge, and use it to define MissingComponent.
-type MissingAddend = 'a' | 'b';
 
 type SelfOptions = EmptySelfOptions;
 type GameNumberLineNodeOptions = SelfOptions & NumberLineNodeOptions;

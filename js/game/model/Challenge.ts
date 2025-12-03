@@ -13,7 +13,8 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import numberPairs from '../../numberPairs.js';
 
-export type MissingComponent = 'a' | 'b' | 'y';
+export type MissingAddend = 'a' | 'b';
+export type MissingComponent = MissingAddend | 'y';
 
 type ChallengeState = {
   missingComponent: MissingComponent;
