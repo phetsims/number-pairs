@@ -11,6 +11,7 @@ import PreferencesControl, { PreferencesControlOptions } from '../../../../joist
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -21,7 +22,6 @@ import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BarModelIconNode from './BarModelIconNode.js';
 import NumberBondIconNode from './NumberBondIconNode.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 
 type NumberModelTypeControlOptions = WithRequired<PreferencesControlOptions, 'tandem'>;
 
@@ -51,7 +51,11 @@ export default class NumberModelTypeControl extends PreferencesControl {
           }
         },
         {
-          // TODO: WHy do I need this weird wrapper Node now? https://github.com/phetsims/number-pairs/issues/410
+
+          // We have to wrap BarModelMutableNode in a Node to avoid a layout bug that we were unable to diagnose.
+          // See: https://github.com/phetsims/number-pairs/issues/410#issuecomment-3604802055
+          // There is probably some combination of options that would avoid this, but we were unable to identify it, and
+          // no longer worth the time investment.
           createNode: () => new Node( { children: [ new BarModelIconNode( syntheticNumberPairsModel, {} ) ] } ),
           value: NumberModelType.BAR_MODEL,
           tandemName: 'barModelRadioButton',
