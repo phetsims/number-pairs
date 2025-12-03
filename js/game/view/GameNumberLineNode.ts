@@ -45,17 +45,22 @@ export default class GameNumberLineNode extends NumberLineNode {
 
     super( model, numberLineWidth, options );
 
-    //REVIEW Documentation inside this callback would be helpful.
+    /**
+     * Applies feedback styling to the number line highlights and arrows based on the current missing addend
+     * and challenge state.
+     */
     Multilink.multilink(
       [ missingAddendProperty, feedbackStyleProperty ],
       ( missingAddend, feedbackStyle ) => {
 
         const isCorrect = feedbackStyle === NumberPairsConstants.GAME_FEEDBACK_STYLES.correct;
 
+        // Missing addend 'a' is also the left addend.
         if ( missingAddend === 'a' ) {
+
+          // Determine the fill color and line dash style for the left addend based on whether the answer is correct.
           const fill = isCorrect ? NumberPairsColors.attributeLeftAddendColorProperty : feedbackStyle.stroke;
           const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
-
           this.leftAddendArrow.setTailStyle( fill, lineDash );
           this.leftAddendHighlight.mutate( {
             fill: fill,
@@ -63,6 +68,7 @@ export default class GameNumberLineNode extends NumberLineNode {
             lineDash: lineDash
           } );
 
+          // The right addend gets set to its default styling.
           this.rightAddendArrow.setTailStyle( NumberPairsColors.attributeRightAddendColorProperty, [] );
           this.rightAddendHighlight.mutate( {
             fill: NumberPairsColors.attributeRightAddendColorProperty,
@@ -70,10 +76,13 @@ export default class GameNumberLineNode extends NumberLineNode {
             lineDash: []
           } );
         }
+
+        // Missing addend 'b' is also the right addend.
         else if ( missingAddend === 'b' ) {
+
+          // Determine the fill color and line dash style for the right addend based on whether the answer is correct.
           const fill = isCorrect ? NumberPairsColors.attributeRightAddendColorProperty : feedbackStyle.stroke;
           const lineDash = isCorrect ? [] : feedbackStyle.lineDash;
-
           this.rightAddendArrow.setTailStyle( fill, lineDash );
           this.rightAddendHighlight.mutate( {
             fill: fill,
@@ -81,6 +90,7 @@ export default class GameNumberLineNode extends NumberLineNode {
             lineDash: lineDash
           } );
 
+          // The left addend gets set to its default styling.
           this.leftAddendArrow.setTailStyle( NumberPairsColors.attributeLeftAddendColorProperty, [] );
           this.leftAddendHighlight.mutate( {
             fill: NumberPairsColors.attributeLeftAddendColorProperty,

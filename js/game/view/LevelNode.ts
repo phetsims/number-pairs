@@ -197,42 +197,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       alignGroup: buttonAlignGroup,
       touchAreaXDilation: touchAreaDilation,
       touchAreaYDilation: touchAreaDilation,
-
-      //REVIEW This listener is a bit long to be inlined. Consider moving it to a separate function.
-      listener: () => {
-        const guess = level.selectedGuessProperty.value;
-        affirm( guess !== null, 'There should be a selected number when Check is pressed' );
-        const { isCorrect, firstTry } = level.checkAnswer( guess );
-
-        const challenge = level.challengeProperty.value;
-        if ( isCorrect ) {
-          if ( firstTry ) {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
-              levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
-              leftAddend: challenge.a,
-              rightAddend: challenge.b,
-              total: challenge.y,
-              totalScore: level.scoreProperty
-            } ) );
-          }
-          else {
-            this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( {
-              levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
-              leftAddend: challenge.a,
-              rightAddend: challenge.b,
-              total: challenge.y
-            } ) );
-          }
-        }
-        else {
-          this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( {
-            levelType: SUM_LEVELS.includes( level.levelNumber ) ? 'sum' : 'decomposition',
-            leftAddend: challenge.missingComponent !== 'a' ? challenge.a : guess,
-            rightAddend: challenge.missingComponent !== 'b' ? challenge.b : guess,
-            total: challenge.missingComponent !== 'y' ? challenge.y : guess
-          } ) );
-        }
-      },
+      listener: () => this.updateLevelOnCheckButtonPress(),
       visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
       enabledProperty: derived( level.challengeStateProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
         return selectedGuess !== null && !level.guessedNumbers.includes( selectedGuess ) && mode !== 'correct';
@@ -306,6 +271,44 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         return ( guess || 0 ) + ( challenge.missingComponent === 'a' ? challenge.b : challenge.a );
       } )
     } );
+  }
+
+  /**
+   *
+   */
+  private updateLevelOnCheckButtonPress(): void {
+    const guess = this.level.selectedGuessProperty.value;
+    affirm( guess !== null, 'There should be a selected number when Check is pressed' );
+    const { isCorrect, firstTry } = this.level.checkAnswer( guess );
+
+    const challenge = this.level.challengeProperty.value;
+    if ( isCorrect ) {
+      if ( firstTry ) {
+        this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswerOnFirstTry.format( {
+          levelType: SUM_LEVELS.includes( this.level.levelNumber ) ? 'sum' : 'decomposition',
+          leftAddend: challenge.a,
+          rightAddend: challenge.b,
+          total: challenge.y,
+          totalScore: this.level.scoreProperty
+        } ) );
+      }
+      else {
+        this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.correctAnswer.format( {
+          levelType: SUM_LEVELS.includes( this.level.levelNumber ) ? 'sum' : 'decomposition',
+          leftAddend: challenge.a,
+          rightAddend: challenge.b,
+          total: challenge.y
+        } ) );
+      }
+    }
+    else {
+      this.addAccessibleContextResponse( NumberPairsFluent.a11y.gameScreen.responses.incorrectAnswer.format( {
+        levelType: SUM_LEVELS.includes( this.level.levelNumber ) ? 'sum' : 'decomposition',
+        leftAddend: challenge.missingComponent !== 'a' ? challenge.a : guess,
+        rightAddend: challenge.missingComponent !== 'b' ? challenge.b : guess,
+        total: challenge.missingComponent !== 'y' ? challenge.y : guess
+      } ) );
+    }
   }
 }
 

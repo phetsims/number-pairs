@@ -13,6 +13,7 @@ import derived from '../../../../axon/js/derived.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -44,9 +45,9 @@ export type ChallengeState = 'idle' | 'guessSelected' | 'incorrect' | 'correct';
 
 export default class Level extends PhetioObject {
 
-  //REVIEW Public API should be ReadOnlyProperty
   // Accumulated points on this level.
-  public readonly scoreProperty: Property<number>;
+  public readonly scoreProperty: ReadOnlyProperty<number>;
+  private readonly _scoreProperty: Property<number>;
 
   // The current challenge for this level.
   public readonly challengeProperty: TReadOnlyProperty<Challenge>;
@@ -141,10 +142,11 @@ export default class Level extends PhetioObject {
       phetioFeatured: true
     } );
 
-    this.scoreProperty = new NumberProperty( 0, {
+    this._scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' ),
       phetioFeatured: true
     } );
+    this.scoreProperty = this._scoreProperty;
 
     this._challengeStateProperty = new StringUnionProperty<ChallengeState>( 'idle', {
       validValues: [ 'idle', 'guessSelected', 'incorrect', 'correct' ],
@@ -222,7 +224,7 @@ export default class Level extends PhetioObject {
 
       // Award star only on first try
       if ( this.guessedNumbers.length === 1 ) {
-        this.scoreProperty.value++;
+        this._scoreProperty.value++;
       }
     }
 
@@ -242,7 +244,7 @@ export default class Level extends PhetioObject {
 
   public reset(): void {
     this.addendsVisibleProperty.reset();
-    this.scoreProperty.reset();
+    this._scoreProperty.reset();
 
     // Set the selected guess to null before creating a new challenge. This ensures that any listeners to the
     // challengeProperty that also read the selectedGuessProperty will see it as null when a new challenge is created.

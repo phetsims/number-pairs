@@ -1,8 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
-//REVIEW Is this a counting area with kittens only?
 /**
- * CountingAreaLevelNode is a LevelNode that includes a counting area.
+ * CountingAreaLevelNode is a LevelNode that includes a counting area. It only uses the kitten representation.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -28,7 +27,7 @@ type SelfOptions = EmptySelfOptions;
 export type CountingAreaLevelNodeOptions = StrictOmit<LevelNodeOptions, 'countingAreaBackgroundColorProperty'> &
   PickRequired<LevelNodeOptions, 'tandem'>;
 
-export default abstract class CountingAreaLevelNode extends LevelNode {
+export default abstract class KittenLevelNode extends LevelNode {
   protected readonly kittensLayerNode: KittensLayerNode;
   protected readonly tenFrameButton: TenFrameButton;
 
@@ -123,4 +122,4 @@ export default abstract class CountingAreaLevelNode extends LevelNode {
   }
 }
 
-numberPairs.register( 'CountingAreaLevelNode', CountingAreaLevelNode );
+numberPairs.register( 'KittenLevelNode', KittenLevelNode );

@@ -53,14 +53,13 @@ const FONT = new PhetFont( 24 );
 const BUTTON_LINE_WIDTH = 1;
 
 type NumberButtonElements = {
-  //REVIEW Document fields
-  button: NumberToggleButton;
-  toggleNode: BooleanToggleNode;
-  stateProperty: BooleanProperty;
-  correctAnswerNode: NumberRectangle;
-  value: number;
-  wrongMark: Text;
-  correctMark: Text;
+  button: NumberToggleButton; // The interactive toggle button that the user clicks to select an answer
+  toggleNode: BooleanToggleNode; // Node that toggles between the button and correct answer display
+  stateProperty: BooleanProperty; // Whether this button is currently pressed/selected
+  correctAnswerNode: NumberRectangle; // The visual representation shown when this is the correct answer
+  value: number; // The numeric value represented by this button
+  wrongMark: Text; // The '✗' mark shown when this button is an incorrect guess
+  correctMark: Text; // The '✓' mark shown when this button is the correct answer
 }[];
 
 type NumberButtonGridOptions = StrictOmit<GridBoxOptions, 'columns' | 'rows' | 'xSpacing' | 'ySpacing'> &

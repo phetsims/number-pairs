@@ -35,15 +35,11 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
       },
       rightLineOptions: {
         lineWidth: NumberPairsConstants.GAME_LINE_WIDTH
-      }
+      },
+      numberCircleLineWidth: NumberPairsConstants.GAME_LINE_WIDTH
     }, providedOptions );
 
     super( level.countingObjectsDelegate, options );
-
-    //REVIEW It seems like these should be options in the NumberBondMutableNode API.
-    this.totalNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.leftAddendNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.rightAddendNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
     const stylize = ( path: Path, stroke: TColor, lineDash: number[], lineWidth = 1 ) => {
       path.stroke = stroke;

@@ -11,11 +11,11 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import CountingAreaLevelNode, { CountingAreaLevelNodeOptions } from './CountingAreaLevelNode.js';
+import KittenLevelNode, { CountingAreaLevelNodeOptions } from './KittenLevelNode.js';
 import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
 import GameNumberEquationNode from './GameNumberEquationNode.js';
 
-export default class EquationLevelNode extends CountingAreaLevelNode {
+export default class EquationLevelNode extends KittenLevelNode {
   public constructor( getLevel: ( levelNumber: number ) => Level,
                       level: Level,
                       layoutBounds: Bounds2,

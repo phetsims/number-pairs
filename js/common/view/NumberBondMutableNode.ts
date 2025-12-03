@@ -22,6 +22,9 @@ type SelfOptions = {
 
   // Indicates whether this number bond is being used in the game screen, which affects the a11y description
   isGameScreen?: boolean;
+
+  // option to pass the line width for all of the circle nodes in the number bond.
+  numberCircleLineWidth?: number;
 };
 
 export type NumberBondMutableNodeOptions = SelfOptions & StrictOmit<NumberBondNodeOptions, 'accessibleParagraph'>;
@@ -49,6 +52,7 @@ export default class NumberBondMutableNode extends NumberBondNode {
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondMutableNodeOptions ) {
     const options = optionize<NumberBondMutableNodeOptions, SelfOptions, WithRequired<NumberBondNodeOptions, 'dimensions'>>()( {
       dimensions: DEFAULT_BOND_DIMENSION,
+      numberCircleLineWidth: NUMBER_BOND_LINE_WIDTH,
       isGameScreen: false,
       accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
@@ -60,19 +64,19 @@ export default class NumberBondMutableNode extends NumberBondNode {
       radius: options.dimensions.circleRadius,
       fontSize: options.dimensions.fontSize,
       fill: model.totalColorProperty,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
+      lineWidth: options.numberCircleLineWidth
     } );
     const leftAddend = new NumberCircle( model.leftAddendProperty, model.leftAddendVisibleProperty, {
       radius: options.dimensions.circleRadius,
       fontSize: options.dimensions.fontSize,
       fill: model.leftAddendColorProperty,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
+      lineWidth: options.numberCircleLineWidth
     } );
     const rightAddend = new NumberCircle( model.rightAddendProperty, model.rightAddendVisibleProperty, {
       radius: options.dimensions.circleRadius,
       fontSize: options.dimensions.fontSize,
       fill: model.rightAddendColorProperty,
-      lineWidth: NUMBER_BOND_LINE_WIDTH
+      lineWidth: options.numberCircleLineWidth
     } );
 
     super( total, leftAddend, rightAddend, options );

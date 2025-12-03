@@ -12,12 +12,12 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
-import CountingAreaLevelNode, { CountingAreaLevelNodeOptions } from './CountingAreaLevelNode.js';
+import KittenLevelNode, { CountingAreaLevelNodeOptions } from './KittenLevelNode.js';
 import { layoutNumberBarFeedback, layoutNumberBondFeedback } from './GameLayout.js';
 import GameNumberBarModelNode from './GameNumberBarModelNode.js';
 import GameNumberBondNode from './GameNumberBondNode.js';
 
-export default class BondBarLevelNode extends CountingAreaLevelNode {
+export default class BondBarLevelNode extends KittenLevelNode {
   public constructor( getLevel: ( levelNumber: number ) => Level,
                       level: Level,
                       layoutBounds: Bounds2,
