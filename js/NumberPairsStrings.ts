@@ -211,7 +211,7 @@ type StringsType = {
       'singularAccessibleNameStringProperty': LocalizedStringProperty;
       'leftAddendBeadStringProperty': LocalizedStringProperty;
       'rightAddendBeadStringProperty': LocalizedStringProperty;
-      'contextResponseStringProperty': LocalizedStringProperty;
+      'objectResponseStringProperty': LocalizedStringProperty;
       'crossedDividerContextResponseStringProperty': LocalizedStringProperty;
     };
     'numberLine': {

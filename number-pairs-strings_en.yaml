@@ -275,7 +275,7 @@ a11y:
     singularAccessibleName: Bead
     leftAddendBead:         Yellow Bead
     rightAddendBead:        Blue Bead
-    contextResponse:
+    objectResponse:
       select_grabbedOrReleased:
         grabbed:
           select_side:

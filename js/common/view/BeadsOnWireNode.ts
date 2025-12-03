@@ -199,11 +199,11 @@ export default class BeadsOnWireNode extends Node {
       }
     } );
 
-    const grabbedAccessibleContextResponseProperty = NumberPairsFluent.a11y.beads.contextResponse.createProperty( {
+    const grabbedAccessibleObjectResponseProperty = NumberPairsFluent.a11y.beads.objectResponse.createProperty( {
       grabbedOrReleased: 'grabbed',
       side: sideProperty
     } );
-    const releasedAccessibleContextResponseProperty = NumberPairsFluent.a11y.beads.contextResponse.createProperty( {
+    const releasedAccessibleObjectResponseProperty = NumberPairsFluent.a11y.beads.objectResponse.createProperty( {
       grabbedOrReleased: 'released',
       side: sideProperty
     } );
@@ -277,8 +277,8 @@ export default class BeadsOnWireNode extends Node {
         } );
       },
       tandem: options.tandem.createTandem( 'groupSelectView' ),
-      grabbedAccessibleContextResponse: grabbedAccessibleContextResponseProperty,
-      releasedAccessibleContextResponse: releasedAccessibleContextResponseProperty
+      grabbedAccessibleObjectResponse: grabbedAccessibleObjectResponseProperty,
+      releasedAccessibleObjectResponse: releasedAccessibleObjectResponseProperty
     } );
 
     groupSelectView.groupSortGroupFocusHighlightPath.shape = Shape.bounds( new Bounds2( 0, -countingAreaBounds.height / 2, countingAreaBounds.width, countingAreaBounds.height / 2 ) );

@@ -131,10 +131,10 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
         }
       },
       tandem: tandem,
-      grabbedAccessibleContextResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedAccessibleResponse.createProperty( {
+      grabbedAccessibleObjectResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedAccessibleResponse.createProperty( {
         addend: selectedItemAddendStringProperty
       } ),
-      releasedAccessibleContextResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedAccessibleResponse.createProperty( {
+      releasedAccessibleObjectResponse: NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedAccessibleResponse.createProperty( {
         addend: selectedItemAddendStringProperty
       } )
     } );

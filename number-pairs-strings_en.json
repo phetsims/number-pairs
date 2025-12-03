@@ -456,7 +456,7 @@
       "rightAddendBead": {
         "value": "Blue Bead"
       },
-      "contextResponse": {
+      "objectResponse": {
         "value": "{ $grabbedOrReleased ->\n  [grabbed] { $side ->\n              [left] grabbed, left of divider\n              *[right] grabbed, right of divider\n            }\n  *[released] { $side ->\n                [left] released, left of divider\n                *[right] released, right of divider\n              }\n}"
       },
       "crossedDividerContextResponse": {
