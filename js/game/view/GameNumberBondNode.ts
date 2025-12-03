@@ -41,9 +41,9 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     super( level.countingObjectsDelegate, options );
 
     //REVIEW It seems like these should be options in the NumberBondMutableNode API.
-    this.total.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.leftAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
-    this.rightAddend.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.totalNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.leftAddendNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
+    this.rightAddendNode.lineWidth = NumberPairsConstants.GAME_LINE_WIDTH;
 
     const stylize = ( path: Path, stroke: TColor, lineDash: number[], lineWidth = 1 ) => {
       path.stroke = stroke;
@@ -57,10 +57,10 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
 
         const missing = challenge.missingComponent;
 
-        [ this.leftAddend, this.rightAddend, this.total ].forEach( circle => stylize( circle, 'black', [] ) );
+        [ this.leftAddendNode, this.rightAddendNode, this.totalNode ].forEach( circle => stylize( circle, 'black', [] ) );
         [ this.leftLine, this.rightLine ].forEach( line => stylize( line, 'black', [] ) );
 
-        const missingCircle = missing === 'a' ? this.leftAddend : missing === 'b' ? this.rightAddend : this.total;
+        const missingCircle = missing === 'a' ? this.leftAddendNode : missing === 'b' ? this.rightAddendNode : this.totalNode;
         const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
         const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];

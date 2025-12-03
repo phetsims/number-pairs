@@ -76,7 +76,29 @@ export default class GrabDragDescriptionManager {
     } );
   }
 
-  //REVIEW Document
+  /**
+   * Creates a derived property that provides a context-aware description of the currently selected item.
+   * The description varies based on the item's position within its addend (first, middle, last, or only item)
+   * and which addend (left or right) the item belongs to.
+   *
+   * The method uses DerivedProperty.deriveAny to monitor all relevant dependencies, including the dynamic
+   * addendTypeProperties array. When the selected item changes, it determines:
+   * 1. Which addend the item is currently in (left or right)
+   * 2. The item's position within that addend (first, middle, last, or only)
+   * 3. Returns the appropriate description string based on these factors
+   *
+   * Special behaviors:
+   * - If no item is selected and both addends are empty, returns the "counting area empty" message
+   * - If no item is selected but addends have items, retains the previous description
+   * - Uses the actual addend arrays (not addendTypeProperty) to avoid listener order issues during transitions
+   *
+   * @param selectedGroupItemProperty - The currently selected counting object, or null if none is selected
+   * @param getLeftAddendCountingObjects - Function that returns the array of counting objects in the left addend
+   * @param getRightAddendCountingObjects - Function that returns the array of counting objects in the right addend
+   * @param leftAddendObjectsLengthProperty - The number of objects in the left addend
+   * @param rightAddendObjectsLengthProperty - The number of objects in the right addend
+   * @param addendTypeProperties - Array of properties tracking the addend type for each counting object
+   */
   public createItemDescriptionProperty( selectedGroupItemProperty: TReadOnlyProperty<CountingObject | null>,
                                         getLeftAddendCountingObjects: () => CountingObject[],
                                         getRightAddendCountingObjects: () => CountingObject[],
@@ -144,7 +166,12 @@ export default class GrabDragDescriptionManager {
     return stringProperty;
   }
 
-  //REVIEW Document
+  /**
+   * Creates a derived property that provides context-sensitive help text based on whether an item is currently grabbed.
+   * Returns grabbed help text when an item is keyboard-grabbed, and released help text when an item is not grabbed.
+   *
+   * @param isGroupItemKeyboardGrabbedProperty - Property indicating whether a group item is currently keyboard-grabbed
+   */
   public createHelpTextProperty( isGroupItemKeyboardGrabbedProperty: TReadOnlyProperty<boolean> ): TReadOnlyProperty<string> {
     return derivedTernary( isGroupItemKeyboardGrabbedProperty, {
       true: this.grabbedHelpTextStringProperty,

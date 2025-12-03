@@ -7,28 +7,20 @@
 
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
+import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
 
 export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
 
   public constructor( toggleKittenColor: boolean ) {
 
-    //REVIEW Should KeyboardHelpSectionRow.fromHotkeyData be used to create rows? For example, see VectorsKeyboardHelpSection.
-
-    const homeRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty, TextKeyNode.home(), {
-      labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty
-    } );
-    const endRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty, TextKeyNode.end(), {
-      labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToLastLabelInnerContentStringProperty
-    } );
+    const homeRow = KeyboardHelpSectionRow.fromHotkeyData( NumberPairsHotkeyData.KITTEN.jumpToFirst );
+    const endRow = KeyboardHelpSectionRow.fromHotkeyData( NumberPairsHotkeyData.KITTEN.jumpToLast );
     const array = [ homeRow, endRow ];
 
     if ( toggleKittenColor ) {
-      const toggleKittenColorRow = KeyboardHelpSectionRow.labelWithIcon( NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty, TextKeyNode.space(), {
-        labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty
-      } );
+      const toggleKittenColorRow = KeyboardHelpSectionRow.fromHotkeyData( NumberPairsHotkeyData.KITTEN.toggleAddend );
       array.push( toggleKittenColorRow );
     }
 

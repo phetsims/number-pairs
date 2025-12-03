@@ -63,21 +63,24 @@ export default class NumberPairsHotkeyData {
     toggleAddend: new HotkeyData( {
       keys: [ 'space', 'enter' ] as OneKeyStroke[],
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty
+      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.changeKittenColorStringProperty,
+      keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty
     } ),
 
     // Jump to first kitten
     jumpToFirst: new HotkeyData( {
       keys: NumberPairsHotkeyData.JUMP_TO_FIRST_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty
+      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.jumpToFirstKittenStringProperty,
+      keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty
     } ),
 
     // Jump to last kitten
     jumpToLast: new HotkeyData( {
       keys: NumberPairsHotkeyData.JUMP_TO_LAST_KEYS,
       repoName: numberPairs.name,
-      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty
+      keyboardHelpDialogLabelStringProperty: NumberPairsFluent.keyboardHelpDialog.jumpToLastKittenStringProperty,
+      keyboardHelpDialogPDOMLabelStringProperty: NumberPairsFluent.a11y.keyboardHelpDialog.kittenInteraction.jumpToLastLabelInnerContentStringProperty
     } )
   };
 

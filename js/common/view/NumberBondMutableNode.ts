@@ -28,11 +28,23 @@ export type NumberBondMutableNodeOptions = SelfOptions & StrictOmit<NumberBondNo
 
 export default class NumberBondMutableNode extends NumberBondNode {
 
-  //REVIEW Document fields.
-  //REVIEW Uses of total, leftAddend, rightAddend are a bit confusing because they look like model elements. Consider adding a 'Node' suffix.
-  protected readonly total: NumberCircle;
-  protected readonly leftAddend: NumberCircle;
-  protected readonly rightAddend: NumberCircle;
+  /**
+   * The NumberCircle node that displays the total value in the number bond.
+   * Protected to allow subclasses like GameNumberBondNode to access and modify styling properties.
+   */
+  protected readonly totalNode: NumberCircle;
+
+  /**
+   * The NumberCircle node that displays the left addend value in the number bond.
+   * Protected to allow subclasses like GameNumberBondNode to access and modify styling properties.
+   */
+  protected readonly leftAddendNode: NumberCircle;
+
+  /**
+   * The NumberCircle node that displays the right addend value in the number bond.
+   * Protected to allow subclasses like GameNumberBondNode to access and modify styling properties.
+   */
+  protected readonly rightAddendNode: NumberCircle;
 
   public constructor( model: TGenericNumberPairsModel, providedOptions?: NumberBondMutableNodeOptions ) {
     const options = optionize<NumberBondMutableNodeOptions, SelfOptions, WithRequired<NumberBondNodeOptions, 'dimensions'>>()( {
@@ -66,9 +78,9 @@ export default class NumberBondMutableNode extends NumberBondNode {
     super( total, leftAddend, rightAddend, options );
 
     // Expose typed references for clients that need them
-    this.total = total;
-    this.leftAddend = leftAddend;
-    this.rightAddend = rightAddend;
+    this.totalNode = total;
+    this.leftAddendNode = leftAddend;
+    this.rightAddendNode = rightAddend;
 
     // Add an accessible paragraph that describes the number bond with its current values
     const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
