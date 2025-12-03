@@ -46,12 +46,12 @@ export default class GameNumberEquationNode extends MutableNumberEquationNode {
     };
 
     Multilink.multilink(
-      [ level.modeProperty, level.challengeProperty ],
-      ( mode, challenge ) => {
+      [ level.challengeStateProperty, level.challengeProperty ],
+      state => {
         [ this.leftAddendSquare, this.rightAddendSquare, this.totalSquare ].forEach( setDefaultStyle );
 
         const missingSquare = this.getMissingSquare();
-        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ state ];
 
         missingSquare.stroke = stroke;
         missingSquare.lineDash = lineDash;

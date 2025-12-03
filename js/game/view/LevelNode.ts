@@ -111,7 +111,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     this.answerButtonGroup = new AnswerButtonGroup(
       level.type,
-      level.modeProperty,
+      level.challengeStateProperty,
       level.selectedGuessProperty,
       level.range,
       level.guessedNumbers,
@@ -140,10 +140,10 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         NumberPairsFluent.a11y.gameScreen.countingArea.hiddenAccessibleParagraphStringProperty ) ),
       bothAddendsEyeToggleButtonAccessibleHelpText: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleHelpTextStringProperty,
       bothAddendsEyeToggleButtonAccessibleContextResponseOff: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOff.createProperty( {
-        levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
+        levelType: level.representationTypeProperty.value === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
       } ),
       bothAddendsEyeToggleButtonAccessibleContextResponseOn: NumberPairsFluent.a11y.gameScreen.bothAddendsEyeToggleButton.accessibleContextResponseOn.createProperty( {
-        levelType: level.representationType === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
+        levelType: level.representationTypeProperty.value === RepresentationType.NUMBER_LINE ? 'numberLine' : 'kittens'
       } )
     } );
     this.addChild( this.countingAreaNode );
@@ -152,18 +152,18 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     this.wrongMark = new Text( '✗', {
       font: new PhetFont( 42 ),
       fill: NumberPairsColors.incorrectColorProperty,
-      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
     this.correctMark = new Text( '✓', {
       font: new PhetFont( 54 ),
       fill: NumberPairsColors.correctMarkColorProperty,
-      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' )
+      visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'correct' )
     } );
     this.tryAgainText = new Text( NumberPairsFluent.tryAgainStringProperty, {
       fill: NumberPairsColors.incorrectColorProperty,
       font: TEXT_OPTIONS.font,
       maxWidth: TEXT_OPTIONS.maxWidth,
-      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'incorrect' )
+      visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'incorrect' )
     } );
     this.addChild( this.tryAgainText );
     this.addChild( this.wrongMark );
@@ -179,7 +179,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       right: this.countingAreaBounds.right - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       bottom: this.countingAreaBounds.bottom - NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
       touchAreaDilation: 5,
-      enabledProperty: level.modeProperty.derived( mode => mode !== 'correct' ),
+      enabledProperty: level.challengeStateProperty.derived( mode => mode !== 'correct' ),
       tandem: tandem.createTandem( 'challengeResetButton' ),
       accessibleName: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleNameStringProperty,
       accessibleHelpText: NumberPairsFluent.a11y.gameScreen.resetChallengeButton.accessibleHelpTextStringProperty,
@@ -233,8 +233,8 @@ export default abstract class LevelNode extends ChallengeScreenNode {
           } ) );
         }
       },
-      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
-      enabledProperty: derived( level.modeProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
+      visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'idle' || feedbackState === 'incorrect' ),
+      enabledProperty: derived( level.challengeStateProperty, level.guessedNumbers.lengthProperty, level.selectedGuessProperty, ( mode, numberOfGuesses, selectedGuess ) => {
         return selectedGuess !== null && !level.guessedNumbers.includes( selectedGuess ) && mode !== 'correct';
       } ),
       tandem: tandem.createTandem( 'checkButton' )
@@ -252,7 +252,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
         phetioReadOnly: true,
         phetioFeatured: false
       },
-      visibleProperty: level.modeProperty.derived( feedbackState => feedbackState === 'correct' ),
+      visibleProperty: level.challengeStateProperty.derived( feedbackState => feedbackState === 'correct' ),
       listener: () => {
         level.nextChallenge();
       }
@@ -281,7 +281,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
 
     // When the user changes selection after a wrong attempt, clear feedback back to idle so stroke returns to dotted grey
     level.selectedGuessProperty.link( () => {
-      if ( level.modeProperty.value === 'incorrect' ) {
+      if ( level.challengeStateProperty.value === 'incorrect' ) {
         level.clearFeedback();
       }
     } );
@@ -294,7 +294,7 @@ export default abstract class LevelNode extends ChallengeScreenNode {
       leftAddendMissing: this.level.challengeProperty.derived( challenge => challenge.missingComponent === 'a' ? 'missing' : 'notMissing' ),
       rightAddendMissing: this.level.challengeProperty.derived( challenge => challenge.missingComponent === 'b' ? 'missing' : 'notMissing' ),
       rightAddend: this.level.countingObjectsDelegate.rightAddendProperty,
-      type: this.level.representationType === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
+      type: this.level.representationTypeProperty.value === RepresentationType.KITTENS ? 'kittens' : 'numberLine',
       visible: this.level instanceof NumberLineLevel ?
                derived( this.level.numberLineAddendsVisibleProperty, this.level.tickValuesVisibleProperty,
                  ( addendsVisible, tickValuesVisible ) =>

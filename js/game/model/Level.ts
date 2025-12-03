@@ -39,47 +39,68 @@ export type LevelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tand
 
 export type ChallengeType = 'bond' | 'decompositionEquation' | 'sumEquation' | 'numberLine';
 
+// 'idle' = no feedback, 'incorrect' = last guess was incorrect, 'correct' = last guess was correct
+export type ChallengeState = 'idle' | 'guessSelected' | 'incorrect' | 'correct';
+
 export default class Level extends PhetioObject {
 
   //REVIEW Public API should be ReadOnlyProperty
   // Accumulated points on this level.
-  public readonly scoreProperty: NumberProperty;
+  public readonly scoreProperty: Property<number>;
 
-  //REVIEW Public API should be TReadOnlyProperty
   // The current challenge for this level.
-  public readonly challengeProperty: Property<Challenge>;
+  public readonly challengeProperty: TReadOnlyProperty<Challenge>;
+  private readonly _challengeProperty: Property<Challenge>;
 
-  //REVIEW Create a string enumeration type so that you're not duplicating this set of values in Level (3x) and in AnswerButtonGroup (1x).
-  //REVIEW Public API should be TReadOnlyProperty
-  //REVIEW Missing description of 'guessSelected'.
-  // 'idle' = no feedback, 'incorrect' = last guess was incorrect, 'correct' = last guess was correct
-  public readonly modeProperty: StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>;
+  // The current state of the challenge to track whether a user has guessed, the answer is incorrect/correct, or idle.
+  public readonly challengeStateProperty: TReadOnlyProperty<ChallengeState>;
+  private readonly _challengeStateProperty: Property<ChallengeState>;
 
   // List of numbers already guessed for the current challenge, used to know if they got it right on their first guess
   // and to gray out those numbers in the grid.
   public readonly guessedNumbers: ObservableArray<number>;
 
-  //REVIEW Document fields below here that are missing documentation.
-
-  //REVIEW Public API should be selectedGuessProperty: TReadOnlyProperty<number | null>
+  // The currently selected guess, or null if no selection.
   public readonly selectedGuessProperty: Property<number | null>;
 
-  // Counting object observable arrays
+  // The representation type for this level. Only one representation type is supported per level, but must be of
+  // type Property to comply with the CountingAreaNode API.
   public readonly representationTypeProperty: Property<RepresentationType>;
 
+  // Delegate that manages counting objects for this level including which addend they belong to, their positions,
+  // and observable array management that powers the views.
   public readonly countingObjectsDelegate: LevelCountingObjectsDelegate;
 
+  // Whether the addend representations in the counting area are visible or not.
   public readonly addendsVisibleProperty: BooleanProperty;
 
+  // Whether the reward for completing the level has been shown yet.
   public hasShownReward = false;
+
+  // Emitter that emits when the challenge is reset.
   public readonly challengeResetEmitter = new Emitter();
+
+  // Emitter that emits feedback when an answer is checked.
   public readonly answerFeedbackEmitter = new Emitter<[ 'correct' | 'incorrect' ]>( {
     parameters: [
       { valueType: 'string' }
     ]
   } );
 
+  // Accessible prompt for the current challenge.
   public readonly accessibleChallengePromptProperty: TReadOnlyProperty<string>;
+
+  // The level number (1-based).
+  public readonly levelNumber: number;
+
+  // Color associated with this level.
+  public readonly colorProperty: TReadOnlyProperty<Color>;
+
+  // Description associated with this level.
+  public readonly descriptionProperty: TReadOnlyProperty<string>;
+
+  // The range of possible number answers used in this level.
+  public readonly range: Range;
 
   /**
    * Only the default bounds are needed to calculate positions of counting objects in the counting area.
@@ -88,16 +109,18 @@ export default class Level extends PhetioObject {
    */
   public static readonly COUNTING_AREA_BOUNDS = GameModelConstants.DEFAULT_COUNTING_AREA_BOUNDS;
 
-  public readonly levelNumber: number;
-  public readonly colorProperty: TReadOnlyProperty<Color>;
-  public readonly descriptionProperty: TReadOnlyProperty<string>;
-  public readonly range: Range;
-
+  /**
+   * @param levelDefinition
+   * @param type - the type of challenge for this level. Can be a 'bond', 'decompositionEquation', 'sumEquation', or 'numberLine'
+   * @param createChallenge
+   * @param representationType
+   * @param providedOptions
+   */
   public constructor(
     levelDefinition: LevelDefinition,
     public readonly type: ChallengeType,
     private readonly createChallenge: ( isFirst: boolean ) => Challenge,
-    public readonly representationType: RepresentationType,
+    representationType: RepresentationType,
     providedOptions: LevelOptions
   ) {
     const options = optionize<LevelOptions, SelfOptions, LevelOptions>()( {}, providedOptions );
@@ -123,18 +146,20 @@ export default class Level extends PhetioObject {
       phetioFeatured: true
     } );
 
-    this.modeProperty = new StringUnionProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>( 'idle', {
+    this._challengeStateProperty = new StringUnionProperty<ChallengeState>( 'idle', {
       validValues: [ 'idle', 'guessSelected', 'incorrect', 'correct' ],
-      tandem: tandem.createTandem( 'modeProperty' ),
+      tandem: tandem.createTandem( 'challengeStateProperty' ),
       phetioReadOnly: true
     } );
+    this.challengeStateProperty = this._challengeStateProperty;
 
-    this.challengeProperty = new Property<Challenge>( createChallenge( true ), {
+    this._challengeProperty = new Property<Challenge>( createChallenge( true ), {
       tandem: tandem.createTandem( 'challengeProperty' ),
       phetioValueType: Challenge.ChallengeIO,
       phetioDocumentation: 'Challenge type: ' + this.type,
       phetioFeatured: true
     } );
+    this.challengeProperty = this._challengeProperty;
 
     this.selectedGuessProperty = new Property<number | null>( null, {
       tandem: tandem.createTandem( 'selectedGuessProperty' ),
@@ -142,7 +167,7 @@ export default class Level extends PhetioObject {
       phetioFeatured: true
     } );
 
-    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this.challengeProperty, this.selectedGuessProperty,
+    this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this._challengeProperty, this.selectedGuessProperty,
       this.range, {
         tandem: tandem.createTandem( 'countingObjectsDelegate' ),
         initialRepresentationType: representationType,
@@ -178,8 +203,8 @@ export default class Level extends PhetioObject {
   public nextChallenge(): void {
     this.guessedNumbers.clear();
     this.selectedGuessProperty.value = null;
-    this.modeProperty.value = 'idle';
-    this.challengeProperty.value = this.createChallenge( false );
+    this._challengeStateProperty.value = 'idle';
+    this._challengeProperty.value = this.createChallenge( false );
   }
 
   /**
@@ -191,7 +216,7 @@ export default class Level extends PhetioObject {
       this.guessedNumbers.push( guess );
     }
 
-    const isCorrect = this.challengeProperty.value.isCorrect( guess );
+    const isCorrect = this._challengeProperty.value.isCorrect( guess );
 
     if ( isCorrect ) {
 
@@ -202,7 +227,7 @@ export default class Level extends PhetioObject {
     }
 
     const feedback = isCorrect ? 'correct' : 'incorrect';
-    this.modeProperty.value = feedback;
+    this._challengeStateProperty.value = feedback;
     this.answerFeedbackEmitter.emit( feedback );
 
     return { isCorrect: isCorrect, firstTry: this.guessedNumbers.length === 1 };
@@ -212,7 +237,7 @@ export default class Level extends PhetioObject {
    * Clears any incorrect/correct feedback, used when user changes selection before next check.
    */
   public clearFeedback(): void {
-    this.modeProperty.value = 'idle';
+    this._challengeStateProperty.value = 'idle';
   }
 
   public reset(): void {
@@ -222,11 +247,11 @@ export default class Level extends PhetioObject {
     // Set the selected guess to null before creating a new challenge. This ensures that any listeners to the
     // challengeProperty that also read the selectedGuessProperty will see it as null when a new challenge is created.
     this.selectedGuessProperty.value = null;
-    this.challengeProperty.value = this.createChallenge( true );
+    this._challengeProperty.value = this.createChallenge( true );
     this.countingObjectsDelegate.resetCountingObjects();
     this.hasShownReward = false;
     this.guessedNumbers.clear();
-    this.modeProperty.value = 'idle';
+    this._challengeStateProperty.value = 'idle';
   }
 
   public deselectAllKittens(): void {
@@ -280,7 +305,7 @@ export default class Level extends PhetioObject {
 
   public resetChallenge(): void {
     this.clearFeedback();
-    this.modeProperty.value = 'idle';
+    this._challengeStateProperty.value = 'idle';
 
     // hide the missing addend again
     this.selectedGuessProperty.value = null;

@@ -42,7 +42,7 @@ import NumberRectangle from '../../common/view/NumberRectangle.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from '../model/Challenge.js';
-import { ChallengeType } from '../model/Level.js';
+import { ChallengeState, ChallengeType } from '../model/Level.js';
 import NumberToggleButton from './NumberToggleButton.js';
 
 const MARK_OFFSET_X = 0;
@@ -72,8 +72,7 @@ export default class AnswerButtonGroup extends GridBox {
 
   public constructor(
     challengeType: ChallengeType,
-    //REVIEW Duplicated values from Level. Consider creating a string enumeration type.
-    modeProperty: TReadOnlyProperty<'idle' | 'guessSelected' | 'incorrect' | 'correct'>,
+    challengeStateProperty: TReadOnlyProperty<ChallengeState>,
     selectedNumberProperty: Property<number | null>,
     range: Range,
     guessedNumbers: ObservableArray<number>,
@@ -81,7 +80,7 @@ export default class AnswerButtonGroup extends GridBox {
     challengeProperty: TReadOnlyProperty<Challenge>,
     providedOptions: NumberButtonGridOptions
   ) {
-    const isCorrectProperty = modeProperty.derived( mode => mode === 'correct' );
+    const isCorrectProperty = challengeStateProperty.derived( mode => mode === 'correct' );
     const alignGroup = new AlignGroup();
     const elements: NumberButtonElements = [];
     const buttonPressedColorProperty = derived(
@@ -121,7 +120,7 @@ export default class AnswerButtonGroup extends GridBox {
         phetioReadOnly: true
       } );
 
-      const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, modeProperty, ( _length, challenge, mode ) => {
+      const isWrongProperty = derived( guessedNumbers.lengthProperty, challengeProperty, challengeStateProperty, ( _length, challenge, mode ) => {
         return mode !== 'correct' && guessedNumbers.includes( value ) && challenge.answer !== value;
       } );
 
@@ -210,7 +209,7 @@ export default class AnswerButtonGroup extends GridBox {
         font: new PhetFont( 20 ),
         fill: NumberPairsColors.correctMarkColorProperty,
         pickable: false,
-        visibleProperty: derived( modeProperty, challengeProperty, ( mode, challenge ) => {
+        visibleProperty: derived( challengeStateProperty, challengeProperty, ( mode, challenge ) => {
           return mode === 'correct' && challenge.answer === value;
         } )
       } );

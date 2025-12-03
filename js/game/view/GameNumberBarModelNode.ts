@@ -52,14 +52,14 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
 
     const setDefaultStyle = ( rectangle: Rectangle ) => stylize( rectangle, Color.BLACK, [] );
 
-    Multilink.multilink( [ level.modeProperty, level.challengeProperty ], ( mode, challenge ) => {
+    Multilink.multilink( [ level.challengeStateProperty, level.challengeProperty ], ( state, challenge ) => {
       [ this.totalRectangle, this.leftAddendRectangle, this.rightAddendRectangle ].forEach( setDefaultStyle );
 
       const missingRectangle = challenge.missingComponent === 'a' ? this.leftAddendRectangle :
                                challenge.missingComponent === 'b' ? this.rightAddendRectangle :
                                this.totalRectangle;
 
-      const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
+      const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ state ];
 
       stylize( missingRectangle, stroke, lineDash, lineWidth );
     } );

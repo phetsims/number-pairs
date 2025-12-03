@@ -76,7 +76,7 @@ export default class NumberLineLevelNode extends LevelNode {
 
     // On the number line level, the challenge is always missing an addend.
     const missingAddendProperty = level.challengeProperty.derived( challenge => challenge.missingComponent as 'a' | 'b' );
-    const feedbackStyleProperty = level.modeProperty.derived( mode => NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ] );
+    const feedbackStyleProperty = level.challengeStateProperty.derived( state => NumberPairsConstants.GAME_FEEDBACK_STYLES[ state ] );
 
     // When the challenge changes, or when the selected guess changes, update the number line model accordingly.
     Multilink.multilink( [ level.challengeProperty, level.selectedGuessProperty ], ( challenge, guess ) => {

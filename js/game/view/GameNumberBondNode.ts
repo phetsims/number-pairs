@@ -52,8 +52,8 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     };
 
     Multilink.multilink(
-      [ level.modeProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
-      ( mode, challenge ) => {
+      [ level.challengeStateProperty, level.challengeProperty, NumberPairsPreferences.numberModelTypeProperty ],
+      ( state, challenge ) => {
 
         const missing = challenge.missingComponent;
 
@@ -63,7 +63,7 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
         const missingCircle = missing === 'a' ? this.leftAddendNode : missing === 'b' ? this.rightAddendNode : this.totalNode;
         const missingLine = missing === 'a' ? this.leftLine : this.rightLine;
 
-        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ mode ];
+        const { stroke, lineDash, lineWidth } = NumberPairsConstants.GAME_FEEDBACK_STYLES[ state ];
 
         stylize( missingCircle, stroke, lineDash, lineWidth );
         stylize( missingLine, stroke, lineDash, lineWidth );
