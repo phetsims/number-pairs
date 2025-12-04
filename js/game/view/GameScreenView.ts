@@ -11,7 +11,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import ToggleNode, { ToggleNodeElement } from '../../../../sun/js/ToggleNode.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
 import numberPairs from '../../numberPairs.js';
@@ -20,6 +20,7 @@ import Level from '../model/Level.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
 import BondBarLevelNode from './BondBarLevelNode.js';
 import EquationLevelNode from './EquationLevelNode.js';
+import LevelNode from './LevelNode.js';
 import LevelSelectionNode from './LevelSelectionNode.js';
 import NumberLineLevelNode from './NumberLineLevelNode.js';
 import NumberPairsRewardDialog from './NumberPairsRewardDialog.js';
@@ -60,26 +61,17 @@ export default class GameScreenView extends ScreenView {
              new NumberLineLevelNode( levelNumber => model.getLevel( levelNumber ), level as NumberLineLevel, this.layoutBounds, this.visibleBoundsProperty, returnToLevelSelection, options.tandem.createTandem( `levelNode${levelNumber}` ) );
     };
 
-    const level1Node = createLevelNode( 1 );
-    const level2Node = createLevelNode( 2 );
-    const level3Node = createLevelNode( 3 );
-    const level4Node = createLevelNode( 4 );
-    const level5Node = createLevelNode( 5 );
-    const level6Node = createLevelNode( 6 );
-    const level7Node = createLevelNode( 7 );
-    const level8Node = createLevelNode( 8 );
+    //For each level, create a LevelNode and a ToggleNode that displays the LevelNode for the selected level,
+    // or the level selection screen if no level is selected.
+    const levelNodes: LevelNode[] = [];
+    const levelElements: ToggleNodeElement<Level | null>[] = [ { value: null, createNode: () => levelSelectionNode } ];
+    model.levels.forEach( ( level, index ) => {
+      const levelNode = createLevelNode( index + 1 );
+      levelNodes.push( levelNode );
+      levelElements.push( { value: level, createNode: () => levelNode } );
+    } );
 
-    const toggleNode = new ToggleNode<Level | null, Node>( model.levelProperty, [
-      { value: null, createNode: () => levelSelectionNode },
-      { value: model.levels[ 0 ], createNode: () => level1Node },
-      { value: model.levels[ 1 ], createNode: () => level2Node },
-      { value: model.levels[ 2 ], createNode: () => level3Node },
-      { value: model.levels[ 3 ], createNode: () => level4Node },
-      { value: model.levels[ 4 ], createNode: () => level5Node },
-      { value: model.levels[ 5 ], createNode: () => level6Node },
-      { value: model.levels[ 6 ], createNode: () => level7Node },
-      { value: model.levels[ 7 ], createNode: () => level8Node }
-    ], {
+    const toggleNode = new ToggleNode<Level | null, Node>( model.levelProperty, levelElements, {
       alignChildren: ToggleNode.NONE
     } );
 
@@ -92,20 +84,10 @@ export default class GameScreenView extends ScreenView {
         model.levelProperty.value = null;
       }, () => {
 
+      // Focus the next button of the current level after closing the reward dialog
         const level = model.levelProperty.value;
-        const levelNumber = level ? level.levelNumber : 0;
-        const levelNode = levelNumber === 1 ? level1Node :
-                          levelNumber === 2 ? level2Node :
-                          levelNumber === 3 ? level3Node :
-                          levelNumber === 4 ? level4Node :
-                          levelNumber === 5 ? level5Node :
-                          levelNumber === 6 ? level6Node :
-                          levelNumber === 7 ? level7Node :
-                          levelNumber === 8 ? level8Node :
-                          null;
-
-        if ( levelNode ) {
-          levelNode.nextButton.focus();
+        if ( level ) {
+          levelNodes[ level.levelNumber - 1 ].nextButton.focus();
         }
       },
       this.rewardNode, NumberPairsQueryParameters.rewardScore, options.tandem.createTandem( 'numberPairsRewardDialog' ) );
