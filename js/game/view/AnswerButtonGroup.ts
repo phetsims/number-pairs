@@ -263,6 +263,9 @@ export default class AnswerButtonGroup extends GridBox {
         focusable: false,
         groupFocusHighlight: true,
         columns: [ leftColumn, rightColumn ],
+
+        // We do not want the bounds to change as different button states are hidden/shown.
+        resize: false,
         accessibleRoleDescription: 'button group', // do not translate
         accessibleHeading: NumberPairsFluent.a11y.gameScreen.answerButtonGroup.accessibleHeading.createProperty( {
           challengeType: challengeTypeProperty
