@@ -245,6 +245,9 @@ type StringsType = {
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'controls': {
+      'countingAreaSupports': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
+      };
       'phrase': {
         'accessibleHelpTextCollapsedStringProperty': LocalizedStringProperty;
       };
@@ -300,6 +303,7 @@ type StringsType = {
         'accessibleContextResponseOffStringProperty': LocalizedStringProperty;
       };
       'countingObjectControl': {
+        'accessibleHeadingStringProperty': LocalizedStringProperty;
         'accessibleNameStringProperty': LocalizedStringProperty;
         'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'incrementContextResponseStringProperty': LocalizedStringProperty;

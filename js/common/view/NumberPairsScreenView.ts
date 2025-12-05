@@ -76,9 +76,11 @@ export default class NumberPairsScreenView extends ScreenView {
 
   // For pdom order.
   protected readonly countingAreaNodes: Node[] = [];
+  protected readonly countingAreaControls: Node[] = [];
+  protected readonly accordionBoxes: Node[] = [];
   protected readonly representationRadioButtonGroup: Node;
-  protected readonly controlNodes: Node[] = [];
   protected readonly countingAreaDescriptionNode: CountingAreaDescriptionNode;
+  protected readonly countingAreaSupportsHeading: Node;
 
   // Make available for core description, see https://github.com/phetsims/number-pairs/issues/206
   public readonly countingAreaNode: CountingAreaNode;
@@ -144,6 +146,8 @@ export default class NumberPairsScreenView extends ScreenView {
     } );
     this.addChild( phraseAlignBox );
     this.addChild( numberBondAlignBox );
+    this.accordionBoxes.push( options.phraseAccordionBox );
+    this.accordionBoxes.push( options.numberBondAccordionBox );
 
     if ( options.equationAccordionBox ) {
       const equationAlignBox = new AlignBox( options.equationAccordionBox, {
@@ -159,6 +163,7 @@ export default class NumberPairsScreenView extends ScreenView {
         options.numberBondAccordionBox.reset();
         options.equationAccordionBox!.reset();
       };
+      this.accordionBoxes.push( options.equationAccordionBox );
     }
     else {
       this.resetAccordionBoxes = () => {
@@ -197,6 +202,7 @@ export default class NumberPairsScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'speechSynthesisControl' )
     } );
     this.addChild( speechSynthesisControl );
+
     const localeSwitch = new LocaleSwitch( NumberPairsPreferences, numberPairsUtteranceQueue, 300, {
       accessibleHelpText: NumberPairsFluent.a11y.controls.localeSwitch.accessibleHelpTextStringProperty,
       tandem: options.tandem.createTandem( 'localeSwitch' ),
@@ -439,8 +445,12 @@ export default class NumberPairsScreenView extends ScreenView {
 
       // The desired pdom order is to start with the numberLineCheckboxGroup in the control area when applicable.
       // All other control area nodes are defined below.
-      this.controlNodes.push( this.numberLineCheckboxGroup );
+      this.countingAreaControls.push( this.numberLineCheckboxGroup );
     }
+
+    // Speech synthesis and locale controls need to be after the number line checkbox group in the pdom order.
+    this.countingAreaControls.push( localeSwitch );
+    this.countingAreaControls.push( speechSynthesisControl );
 
     /**
      * Create the beads on wire representation and accompanying features.
@@ -460,18 +470,16 @@ export default class NumberPairsScreenView extends ScreenView {
     }
     this.addChild( countingAreaDescriptionNode );
 
-    /**
-     * Add in the rest of the nodes as part of the control area
-     */
-    this.controlNodes.push( speechSynthesisControl );
-    this.controlNodes.push( phraseVBox );
-    this.controlNodes.push( options.numberBondAccordionBox );
-    options.equationAccordionBox && this.controlNodes.push( options.equationAccordionBox );
-
     // Position the counting representation radio buttons below the counting area.
     ManualConstraint.create( this, [ representationRadioButtonGroup ], radioButtonGroupProxy => {
       radioButtonGroupProxy.centerTop = new Vector2( COUNTING_AREA_BOUNDS.centerX, COUNTING_AREA_BOUNDS.maxY + COUNTING_AREA_Y_MARGIN );
     } );
+
+    // Create the heading for the counting area supports region. This is used for pdom only.
+    this.countingAreaSupportsHeading = new Node( {
+      accessibleHeading: NumberPairsFluent.a11y.controls.countingAreaSupports.accessibleHeadingStringProperty
+    } );
+    this.addChild( this.countingAreaSupportsHeading );
   }
 
   /**

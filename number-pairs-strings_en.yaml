@@ -326,6 +326,8 @@ a11y:
 
   # Controls and interactions
   controls:
+    countingAreaSupports:
+      accessibleHeading: Counting Area Supports
     phrase:
       accessibleHelpTextCollapsed:
         select_screenType:
@@ -403,6 +405,7 @@ a11y:
       accessibleContextResponseOn:  contents hidden
       accessibleContextResponseOff: contents visible
     countingObjectControl:
+      accessibleHeading: Addend Controls
       accessibleName:
         select_representationType:
           kittens: '{ $color } Kitten'

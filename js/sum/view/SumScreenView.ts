@@ -171,6 +171,9 @@ export default class SumScreenView extends NumberPairsScreenView {
         }
       }
     } );
+
+    // Add total check to the end of the counting area supports heading for PDOM order.
+    this.countingAreaSupportsHeading.pdomOrder!.push( this.totalCheckbox );
   }
 
   /**
@@ -178,14 +181,13 @@ export default class SumScreenView extends NumberPairsScreenView {
    * @param totalInteractionNode
    */
   private numberPairsSetPDOMOrder( totalInteractionNode: Node ): void {
+    this.countingAreaSupportsHeading.pdomOrder = [ this.countingAreaButtonsVBox, ...this.countingAreaNodes, this.totalCheckbox, ...this.countingAreaControls ];
     this.pdomPlayAreaNode.setPDOMOrder( [
       this.countingAreaDescriptionNode,
       totalInteractionNode,
       this.representationRadioButtonGroup,
-      this.countingAreaButtonsVBox,
-      ...this.countingAreaNodes,
-      this.totalCheckbox,
-      ...this.controlNodes
+      this.countingAreaSupportsHeading,
+      ...this.accordionBoxes
     ] );
 
     this.pdomControlAreaNode.setPDOMOrder( [

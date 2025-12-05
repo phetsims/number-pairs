@@ -538,6 +538,11 @@
       }
     },
     "controls": {
+      "countingAreaSupports": {
+        "accessibleHeading": {
+          "value": "Counting Area Supports"
+        }
+      },
       "phrase": {
         "accessibleHelpTextCollapsed": {
           "value": "{ $screenType ->\n  [sumScreen] Phrase describes the sum equation.\n  *[other] Phrase tells how total is decomposed.\n}"
@@ -669,6 +674,9 @@
         }
       },
       "countingObjectControl": {
+        "accessibleHeading": {
+          "value": "Addend Controls"
+        },
         "accessibleName": {
           "value": "{ $representationType ->\n  [kittens] { $color } Kitten\n  [beads] { $color } Bead\n  *[other] { $color } Section\n}"
         },
