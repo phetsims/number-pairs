@@ -142,6 +142,7 @@ export default class SumScreenView extends NumberPairsScreenView {
       } );
 
     const addendSpinners = new VBox( {
+      accessibleHeading: NumberPairsFluent.a11y.controls.countingObjectControl.accessibleHeadingStringProperty,
       children: [ leftAddendControlPanel, rightAddendControlPanel ],
       spacing: 35,
       centerY: COUNTING_AREA_BOUNDS.centerY,
