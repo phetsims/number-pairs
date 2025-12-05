@@ -194,9 +194,9 @@ a11y:
   unknownNumber:          unknown number
   grabOrReleaseInteraction:
     releasedHelpText:
-      select_key:
-        enter:  Navigate and choose { $item } to move. Space or enter to grab or release.
-        return: Navigate and choose { $item } to move. Space or return to grab or release.
+      select_representationType:
+        beads:  Look for beads to navigate and move. Use keyboard shortcuts to navigate and count, or grab and slide along the wire.
+        other: Look for { $representation } to navigate and move. Use keyboard shortcuts to navigate and count, or grab and move to different sides of Counting Area.
     grabbedHelpTextPattern:
       select_representationType:
         beads: Move one or more beads to create groups.
@@ -259,10 +259,7 @@ a11y:
   kittens:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
-    accessibleHelpText:
-      select_key:
-        enter:  Move with arrows or W, A, S, or D keys. Change color with space or enter.
-        return: Move with arrows or W, A, S, or D keys. Change color with space or return.
+    accessibleHelpText: Look for movable kittens. Once focused, use keyboard shortcuts to change color or move around.
     changeColorAccessibleName: Change Color
     kittenPattern:
       select_descriptor:

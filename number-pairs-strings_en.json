@@ -300,7 +300,7 @@
     },
     "grabOrReleaseInteraction": {
       "releasedHelpText": {
-        "value": "{ $key ->\n  [enter] Navigate and choose { $item } to move. Space or enter to grab or release.\n  *[return] Navigate and choose { $item } to move. Space or return to grab or release.\n}"
+        "value": "{ $representationType ->\n  [beads] Look for beads to navigate and move. Use keyboard shortcuts to navigate and count, or grab and slide along the wire.\n  *[other] Look for { $representation } to navigate and move. Use keyboard shortcuts to navigate and count, or grab and move to different sides of Counting Area.\n}"
       },
       "grabbedHelpTextPattern": {
         "value": "{ $representationType ->\n  [beads] Move one or more beads to create groups.\n  *[other] Move { $item } in or between left and right counting areas.\n}"
@@ -434,7 +434,7 @@
         "value": "Kitten"
       },
       "accessibleHelpText": {
-        "value": "{ $key ->\n  [enter] Move with arrows or W, A, S, or D keys. Change color with space or enter.\n  *[return] Move with arrows or W, A, S, or D keys. Change color with space or return.\n}"
+        "value": "Look for movable kittens. Once focused, use keyboard shortcuts to change color or move around."
       },
       "changeColorAccessibleName": {
         "value": "Change Color"

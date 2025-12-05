@@ -100,7 +100,14 @@ export default class LocationCountingObjectsLayerNode extends Node {
       } );
 
     // There is no distinction between left and right item names, so we can use the same property for both.
-    const grabDragDescriptionManager = new GrabDragDescriptionManager( itemStringProperty, itemStringProperty, itemStringProperty, model.representationTypeProperty );
+    const grabDragDescriptionManager = new GrabDragDescriptionManager(
+      itemStringProperty,
+      itemStringProperty,
+      itemStringProperty,
+      new DynamicProperty<string, unknown, RepresentationType>( this.model.representationTypeProperty, {
+        derive: 'accessibleName'
+      } ),
+      model.representationTypeProperty );
     this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
       model.groupSelectLocationObjectsModel.selectedGroupItemProperty,
       () => model.leftAddendCountingObjectsProperty.value,

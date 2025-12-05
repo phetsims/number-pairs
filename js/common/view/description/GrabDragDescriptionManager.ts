@@ -8,7 +8,6 @@
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
-import platform from '../../../../../phet-core/js/platform.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../../model/CountingObject.js';
@@ -37,9 +36,11 @@ export default class GrabDragDescriptionManager {
    * @param leftItemProperty - the string used to describe items that are part of the left addend
    * @param rightItemProperty - the string used to describe items that are part of the right addend
    * @param itemProperty - the string used to describe a singular item
+   * @param itemsProperty - the string used to describe multiple items
    * @param representationTypeProperty - the representation type property, used to determine specific wording for certain representations
    */
-  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>, itemProperty: TReadOnlyProperty<string>,
+  public constructor( leftItemProperty: TReadOnlyProperty<string>, rightItemProperty: TReadOnlyProperty<string>,
+                      itemProperty: TReadOnlyProperty<string>, itemsProperty: TReadOnlyProperty<string>,
                       representationTypeProperty: TReadOnlyProperty<RepresentationType> ) {
 
     this.firstLeftItemDescriptionProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.leftSide.firstItemPattern.createProperty( {
@@ -68,13 +69,15 @@ export default class GrabDragDescriptionManager {
       item: rightItemProperty
     } );
 
+    // Used to satisfy the fluent selector pattern.
+    const representationTypeSelectProperty = representationTypeProperty.derived( representationType => representationType === RepresentationType.BEADS ? 'beads' : 'other' );
     this.grabbedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.grabbedHelpTextPattern.createProperty( {
-      representationType: representationTypeProperty.derived( representationType => representationType === RepresentationType.BEADS ? 'beads' : 'other' ),
+      representationType: representationTypeSelectProperty,
       item: itemProperty
     } );
     this.releasedHelpTextStringProperty = NumberPairsFluent.a11y.grabOrReleaseInteraction.releasedHelpText.createProperty( {
-      item: itemProperty,
-      key: platform.keys.enterOrReturn
+      representationType: representationTypeSelectProperty,
+      representation: itemsProperty
     } );
   }
 

@@ -322,6 +322,7 @@ export default class BeadsOnWireNode extends Node {
       NumberPairsFluent.a11y.beads.leftAddendBeadStringProperty,
       NumberPairsFluent.a11y.beads.rightAddendBeadStringProperty,
       NumberPairsFluent.a11y.beads.singularAccessibleNameStringProperty,
+      NumberPairsFluent.a11y.beads.accessibleNameStringProperty,
       model.representationTypeProperty
     );
     this.accessibleName = grabDragDescriptionManager.createItemDescriptionProperty(
