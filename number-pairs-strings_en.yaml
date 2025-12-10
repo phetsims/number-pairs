@@ -572,7 +572,7 @@ a11y:
       _correctAnswerScore: |-
                            { $totalScore ->
                              [ 1 ] 1 star!
-                             *[ other ] { $totalScore } stars!
+                             *[ other ] { $totalScore } Stars!
                            }
     resetChallengeButton:
       accessibleName:            Reset Challenge
