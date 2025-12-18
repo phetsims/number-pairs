@@ -9,7 +9,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
@@ -18,8 +18,8 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
 
   public constructor() {
 
-    const adjustSpinnerStringProperty = new PatternStringProperty( SceneryPhetStrings.keyboardHelpDialog.verbSliderPatternStringProperty, {
-      verb: SceneryPhetStrings.keyboardHelpDialog.adjustStringProperty,
+    const adjustSpinnerStringProperty = new PatternStringProperty( SceneryPhetFluent.keyboardHelpDialog.verbSliderPatternStringProperty, {
+      verb: SceneryPhetFluent.keyboardHelpDialog.adjustStringProperty,
       slider: NumberPairsFluent.keyboardHelpDialog.numberOfObjectsStringProperty
     } );
     super( NumberPairsFluent.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
