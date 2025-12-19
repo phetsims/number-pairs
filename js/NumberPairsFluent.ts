@@ -11,6 +11,7 @@ import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
 import FluentComment from '../../chipper/js/browser/FluentComment.js';
+import FluentLibrary from '../../chipper/js/browser-and-node/FluentLibrary.js';
 import numberPairs from './numberPairs.js';
 import NumberPairsStrings from './NumberPairsStrings.js';
 
@@ -278,7 +279,7 @@ addToMapIfDefined( 'a11y_keyboardHelpDialog_kittenInteraction_changeColorLabelIn
 const createFluentFile = (): string => {
   let ftl = '';
   for (const [key, stringProperty] of fluentKeyToStringPropertyMap.entries()) {
-    ftl += `${key} = ${stringProperty.value.replace('\n','\n ')}\n`;
+    ftl += `${key} = ${FluentLibrary.formatMultilineForFtl( stringProperty.value )}\n`;
   }
   return ftl;
 };
