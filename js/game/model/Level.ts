@@ -144,7 +144,8 @@ export default class Level extends PhetioObject {
 
     this._scoreProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'scoreProperty' ),
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioReadOnly: true
     } );
     this.scoreProperty = this._scoreProperty;
 
@@ -166,7 +167,8 @@ export default class Level extends PhetioObject {
     this.selectedGuessProperty = new Property<number | null>( null, {
       tandem: tandem.createTandem( 'selectedGuessProperty' ),
       phetioValueType: NullableIO( NumberIO ),
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioReadOnly: true
     } );
 
     this.countingObjectsDelegate = new LevelCountingObjectsDelegate( this._challengeProperty, this.selectedGuessProperty,
