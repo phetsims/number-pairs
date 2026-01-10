@@ -32,7 +32,8 @@ import GameModel from '../model/GameModel.js';
 import LevelIcons from './LevelIcons.js';
 
 const TITLE_FONT = new PhetFont( 36 );
-const TITLE_MARGIN = 90; // empirically determined
+const TITLE_TOP_MARGIN = 90; // empirically determined
+const TITLE_BOTTOM_MARGIN = 55; // empirically determined
 
 // Buttons in 2 rows of 4 using LevelSelectionButtonGroup.
 const BUTTON_WIDTH = 150;
@@ -142,11 +143,11 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
     const levelSelectionAlignBox = new AlignBox( new VBox( {
       children: [ titleText, buttonGroup ],
       minContentHeight: titleText.height,
-      spacing: TITLE_MARGIN
+      spacing: TITLE_BOTTOM_MARGIN
     } ), {
       alignBounds: layoutBounds,
       yAlign: 'top',
-      yMargin: TITLE_MARGIN
+      yMargin: TITLE_TOP_MARGIN
     } );
 
     super( NumberPairsFluent.screen.gameStringProperty, buttonGroup, {
