@@ -23,7 +23,9 @@ import NumberLineIcon from '../../common/view/NumberLineIcon.js';
 import numberPairs from '../../numberPairs.js';
 
 // Make the line width of dashed lines thicker to accentuate the icons with a "?" in them.
-const DASHED_LINE_WIDTH_SCALE = 2;
+const ROUND_DASHED_LINE_WIDTH_SCALE = 2;
+const SQUARE_DASHED_LINE_WIDTH_SCALE = 1.5;
+const BAR_MODEL_DASHED_LINE_WIDTH_SCALE = 3;
 
 export default class LevelIcons {
 
@@ -53,7 +55,7 @@ export default class LevelIcons {
       dimensions: GAME_ICON_BOND_DIMENSION,
       rightAddendCircleOptions: {
         lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE,
-        lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth * DASHED_LINE_WIDTH_SCALE
+        lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth * ROUND_DASHED_LINE_WIDTH_SCALE
       },
       leftAddendCircleOptions: {
         lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth
@@ -65,7 +67,7 @@ export default class LevelIcons {
         lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth
       },
       rightLineOptions: {
-        lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth * DASHED_LINE_WIDTH_SCALE,
+        lineWidth: GAME_ICON_BOND_DIMENSION.lineWidth * ROUND_DASHED_LINE_WIDTH_SCALE,
         lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE
       }
     } );
@@ -78,7 +80,7 @@ export default class LevelIcons {
       dimensions: GAME_ICON_BAR_MODEL_DIMENSIONS,
       spacing: GAME_ICON_BAR_MODEL_DIMENSIONS.spacing,
       rightAddendRectangleOptions: {
-        lineWidth: GAME_ICON_BAR_MODEL_DIMENSIONS.lineWidth * DASHED_LINE_WIDTH_SCALE,
+        lineWidth: GAME_ICON_BAR_MODEL_DIMENSIONS.lineWidth * BAR_MODEL_DASHED_LINE_WIDTH_SCALE,
         lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE
       }
     } );
@@ -103,12 +105,12 @@ export default class LevelIcons {
     const leftAddendRectangleOptions = left === null ? {
       lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE,
       stroke: 'black',
-      lineWidth: DASHED_LINE_WIDTH_SCALE
+      lineWidth: SQUARE_DASHED_LINE_WIDTH_SCALE
     } : {};
     const totalRectangleOptions = total === null ? {
       lineDash: NumberPairsConstants.GAME_ICON_DASHED_LINE,
       stroke: 'black',
-      lineWidth: DASHED_LINE_WIDTH_SCALE
+      lineWidth: SQUARE_DASHED_LINE_WIDTH_SCALE
     } : {};
     return new NumberEquationIconNode(
       LevelIcons.createModel( total, left, right, true, false, true ),
