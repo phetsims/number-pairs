@@ -51,23 +51,6 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       maxWidth: 0.8 * layoutBounds.width
     } );
 
-    const infoDialog = new GameInfoDialog( model.levels.map( level => new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
-        level: level.levelNumber,
-        description: level.descriptionProperty
-      } )
-    ), {
-      gameLevels: NumberPairsQueryParameters.gameLevels,
-      tandem: tandem.createTandem( 'infoDialog' )
-    } );
-
-    const infoButton = new GameInfoButton( {
-      scale: 0.7,
-      listener: () => {
-        infoDialog.show();
-      },
-      tandem: tandem.createTandem( 'infoButton' )
-    } );
-
     const items: LevelSelectionButtonGroupItem[] = [];
     const NUMBER_OF_LEVELS = model.getLevelCount();
 
@@ -134,6 +117,26 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
       gameLevels: NumberPairsQueryParameters.gameLevels,
       tandem: tandem.createTandem( 'buttonGroup' ),
       phetioVisiblePropertyInstrumented: false
+    } );
+
+    // Link the visibility of each level's info dialog description to the corresponding level button visibility.
+    // This ensures that when a level button is hidden in PhET-iO Studio, its description is also hidden.
+    const infoDialog = new GameInfoDialog( model.levels.map( level => new PatternStringProperty( NumberPairsFluent.gameScreen.infoDialog.levelWithDescriptionStringProperty, {
+        level: level.levelNumber,
+        description: level.descriptionProperty
+      } )
+    ), {
+      gameLevels: NumberPairsQueryParameters.gameLevels,
+      descriptionVisibleProperties: buttonGroup.buttons.map( button => button.visibleProperty ),
+      tandem: tandem.createTandem( 'infoDialog' )
+    } );
+
+    const infoButton = new GameInfoButton( {
+      scale: 0.7,
+      listener: () => {
+        infoDialog.show();
+      },
+      tandem: tandem.createTandem( 'infoButton' )
     } );
 
     const levelSelectionAlignBox = new AlignBox( new VBox( {
