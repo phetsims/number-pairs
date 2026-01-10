@@ -91,7 +91,7 @@ export default class LevelDefinition extends EnumerationValue {
     0,
     null,
     NumberPairsFluent.gameScreen.levelDescriptions.level8StringProperty,
-    NumberPairsColors.level567StatusBarColorProperty
+    NumberPairsColors.level8StatusBarColorProperty
   );
   public static readonly enumeration = new Enumeration( LevelDefinition );
 
