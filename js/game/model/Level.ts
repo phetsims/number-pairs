@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * Model for a single level in the Number Pairs game. It maintains state regarding the current challenge, what the

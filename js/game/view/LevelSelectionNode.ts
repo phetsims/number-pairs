@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * LevelSelectionNode is the user interface for selecting a level in the 'Game' screen.

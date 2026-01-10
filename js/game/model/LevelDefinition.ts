@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 /**
  * The LevelRange Enumeration defines the range and y value constraints for each level in the game.
  * Each level has specific rules about the minimum and maximum values for y (the total).
