@@ -71,6 +71,7 @@ class NumberPairsConstants {
   public static readonly COUNTING_AREA_Y_MARGIN = 15;
   public static readonly COUNTING_AREA_INNER_MARGIN = 5;
   public static readonly COUNTING_AREA_CHECKBOX_MARGIN = 8;
+  public static readonly COUNTING_AREA_CHECKBOX_MARGIN_GAME = 11;
 
   // Ranges:
   public static readonly TEN_TOTAL_RANGE = new Range( 0, 10 );

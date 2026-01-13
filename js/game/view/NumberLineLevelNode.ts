@@ -136,7 +136,7 @@ export default class NumberLineLevelNode extends LevelNode {
       level.tickValuesVisibleProperty,
       {
         phetioFeatured: true,
-        top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_INNER_MARGIN,
+        top: this.countingAreaBounds.top + NumberPairsConstants.COUNTING_AREA_CHECKBOX_MARGIN_GAME,
         left: this.countingAreaBounds.right - checkboxXOffset,
         visibleProperty: level.addendsVisibleProperty,
         tandem: tandem.createTandem( 'checkboxGroup' )
