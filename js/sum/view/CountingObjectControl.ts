@@ -298,6 +298,10 @@ export default class CountingObjectControl extends Node {
       }
     } );
     this.addInputListener( keyboardInputListener );
+
+    Multilink.multilink( [ addendCountingObjects.lengthProperty, inactiveCountingObjects.lengthProperty ], ( addendCount, inactiveCount ) => {
+      this.setPDOMAttribute( 'max', addendCount + inactiveCount );
+    } );
   }
 
   public setAriaValues( value: string ): void {
