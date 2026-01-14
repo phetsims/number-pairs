@@ -667,10 +667,10 @@
           "value": "Show or hide { $addend } counting area and { $addend } addend in { a11y_numberBondOrBarModelLowercase }."
         },
         "accessibleContextResponseOn": {
-          "value": "contents hidden"
+          "value": "contents visible"
         },
         "accessibleContextResponseOff": {
-          "value": "contents visible"
+          "value": "contents hidden"
         }
       },
       "countingObjectControl": {

@@ -402,8 +402,8 @@ a11y:
     addendVisibleButton:
       accessibleNamePattern:        '{ $addend } Counting Area Visibility'
       accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { a11y.numberBondOrBarModelLowercase }.
-      accessibleContextResponseOn:  contents hidden
-      accessibleContextResponseOff: contents visible
+      accessibleContextResponseOn:  contents visible
+      accessibleContextResponseOff: contents hidden
     countingObjectControl:
       accessibleHeading: Addend Controls
       accessibleName:
