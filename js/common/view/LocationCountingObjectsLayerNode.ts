@@ -85,8 +85,10 @@ export default class LocationCountingObjectsLayerNode extends Node {
 
       // Force a re-render of the pdom when the selected group item changes to announce the accessible name even if the
       // accessible name hasn't changed.
+      const hadFocus = this.focused;
       this.labelTagName = 'label';
       this.labelTagName = null;
+      hadFocus && this.focus();
 
       selectedGroupItem && this.countingObjectModelToNodeMap.get( selectedGroupItem )?.moveToFront();
     } );

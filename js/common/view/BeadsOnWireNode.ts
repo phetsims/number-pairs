@@ -342,8 +342,10 @@ export default class BeadsOnWireNode extends Node {
     // Force a re-render of the pdom when the selected group item changes to announce the accessible name even if the
     // accessible name hasn't changed.
     model.groupSelectBeadsModel.selectedGroupItemProperty.link( () => {
+      const hadFocus = this.focused;
       this.labelTagName = 'label';
       this.labelTagName = null;
+      hadFocus && this.focus();
     } );
   }
 
