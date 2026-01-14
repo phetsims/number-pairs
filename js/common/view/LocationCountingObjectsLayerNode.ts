@@ -44,10 +44,13 @@ export default class LocationCountingObjectsLayerNode extends Node {
         handleLocationChange: this.handleLocationChange.bind( this ),
         onEndDrag: countingAreaNode.dropCountingObject.bind( countingAreaNode ),
         visibleProperty: new DerivedProperty( [ countingObject.addendTypeProperty, countingObject.locationPositionProperty, model.leftAddendVisibleProperty,
-            model.rightAddendVisibleProperty, countingObject.isDraggingProperty ],
-          ( addendType, locationPosition, leftVisible, rightVisible, dragging ) => {
+            model.rightAddendVisibleProperty, countingObject.isDraggingProperty,
+            model.groupSelectLocationObjectsModel.isGroupItemKeyboardGrabbedProperty,
+            model.groupSelectLocationObjectsModel.selectedGroupItemProperty ],
+          ( addendType, locationPosition, leftVisible, rightVisible, dragging, groupItemKeyboardGrabbed, selectedGroupItem ) => {
             const leftBounds = NumberPairsConstants.LEFT_COUNTING_AREA_BOUNDS;
-            return dragging || ( addendType !== AddendType.INACTIVE && ( leftBounds.containsPoint( locationPosition ) ? leftVisible : rightVisible ) );
+            const keyboardDragging = groupItemKeyboardGrabbed && selectedGroupItem === countingObject;
+            return dragging || keyboardDragging || ( addendType !== AddendType.INACTIVE && ( leftBounds.containsPoint( locationPosition ) ? leftVisible : rightVisible ) );
           } ),
         tandem: providedOptions.tandem.createTandem( `locationCountingObjectNode${countingObject.id}` )
       } );
