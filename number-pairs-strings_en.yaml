@@ -195,7 +195,7 @@ a11y:
   grabOrReleaseInteraction:
     releasedHelpText:
       select_representationType:
-        beads:  Look for beads to navigate and move. Use keyboard shortcuts to navigate and count, or grab and slide along the wire.
+        beads: Look for beads to navigate and move. Use keyboard shortcuts to navigate and count, or grab and slide along the wire.
         other: Look for { $representation } to navigate and move. Use keyboard shortcuts to navigate and count, or grab and move to different sides of Counting Area.
     grabbedHelpTextPattern:
       select_representationType:
@@ -259,7 +259,7 @@ a11y:
   kittens:
     accessibleName:            Kittens
     singularAccessibleName:    Kitten
-    accessibleHelpText: Look for movable kittens. Once focused, use keyboard shortcuts to change color or move around.
+    accessibleHelpText:        Look for movable kittens. Once focused, use keyboard shortcuts to change color or move around.
     changeColorAccessibleName: Change Color
     kittenPattern:
       select_descriptor:
@@ -557,16 +557,16 @@ a11y:
       answerCleared:       Answer cleared.
       correctAnswer:
         select_levelType:
-          decomposition: Correct. { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
-          sum:           Correct! { $leftAddend } plus { $rightAddend } equals { $total }. Nice work.
+          decomposition: You are correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }.
+          sum:           You are correct! { $leftAddend } plus { $rightAddend } equals { $total }. Nice work.
       incorrectAnswer:
         select_levelType:
           decomposition: Not quite. { $total } cannot be decomposed into { $leftAddend } and { $rightAddend }. Try again.
           sum:           Not quite. { $leftAddend } plus { $rightAddend } does not equal { $total }. Try again.
       correctAnswerOnFirstTry:
         select_levelType:
-          sum:           Correct! { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
-          decomposition: Correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
+          sum:           You are correct! { $leftAddend } plus { $rightAddend } equals { $total }. { a11y.gameScreen.responses._correctAnswerScore }
+          decomposition: You are correct! { $total } can be decomposed into { $leftAddend } and { $rightAddend }. { a11y.gameScreen.responses._correctAnswerScore }
 
       # There is no scoring logic here, we are just reporting the total accumulated score after the user gets a correct answer on the first try
       _correctAnswerScore: |-
