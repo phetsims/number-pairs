@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 2.0.0-rc.1 Fri Dec 05 2025 11:15:08 GMT-0800 (Pacific Standard Time)",
+  "comment": "# number-pairs 2.0.0-rc.1 Wed Jan 14 2026 12:15:09 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "1a4637cfff70e7e8b0844dc43848a86ae89b4cf5",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "e4c84cec2108f50c70a519a5490a68799e65780a",
+    "sha": "5f8ef5ae2ef57b43a40de63639d518e7a28c1117",
     "branch": "2.0"
   },
   "number-suite-common": {
@@ -53,8 +53,8 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "8c2f9f4b534d6c17afbe388dbc071d241c9f884c",
-    "branch": "HEAD"
+    "sha": "32803e8a8f5fb53ca89fb65b608d67d2fc500d3b",
+    "branch": "number-pairs-2.0"
   },
   "phet-io-wrappers": {
     "sha": "f48259a1d221831e2175eb1b3af2fcc8413069b1",
