@@ -39,6 +39,9 @@
       "NUMBER_PAIRS/screen.sum",
       "NUMBER_PAIRS/screen.game"
     ],
-    "published": true
+    "published": true,
+    "phet-io": {
+      "compareDesignedAPIChanges": true
+    }
   }
 }
