@@ -6,4 +6,4 @@
 * Game screen added
 
 ## 1.0 (2025-05-08)
-* Original sim released with Intro, Ten, Twenty, and 
+* Original sim released with Intro, Ten, Twenty, and Sum screens
