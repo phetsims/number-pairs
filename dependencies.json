@@ -1,5 +1,5 @@
 {
-  "comment": "# number-pairs 2.0.0-rc.2 Wed Jan 14 2026 12:20:52 GMT-0700 (Mountain Standard Time)",
+  "comment": "# number-pairs 2.0.0-rc.3 Thu Jan 15 2026 14:59:27 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "1a4637cfff70e7e8b0844dc43848a86ae89b4cf5",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "1987f6ca216b7740637556cbde36ab2d8ec44c6b",
+    "sha": "9bdc043734ee75ab1fd3b350e7833c3730d78479",
     "branch": "2.0"
   },
   "number-suite-common": {
