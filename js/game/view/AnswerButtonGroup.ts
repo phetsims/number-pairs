@@ -286,7 +286,6 @@ export default class AnswerButtonGroup extends GridBox {
 
         // This prevents scenery from trying to position the PDOM element for iOS VoiceOver. However, this is
         // causing issue https://github.com/phetsims/number-pairs/issues/439.
-        // TODO: A general solution for this should be done in https://github.com/phetsims/number-pairs/issues/439.
         positionInPDOM: false,
 
         accessibleHelpTextBehavior: ParallelDOM.HELP_TEXT_BEFORE_CONTENT,
