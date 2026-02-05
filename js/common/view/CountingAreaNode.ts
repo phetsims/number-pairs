@@ -103,7 +103,8 @@ export default class CountingAreaNode extends Node {
                                              options.tandem.createTandem( 'bothAddendsEyeToggleButton' ) : Tandem.OPT_OUT;
     const bothAddendsEyeToggleButtonVisibleProperty = new GatedVisibleProperty( DerivedProperty.not( model.locationLayerVisibleProperty ), bothAddendsEyeToggleButtonTandem );
     this.bothAddendsEyeToggleButton = new AddendEyeToggleButton( bothAddendsVisibleProperty, {
-      accessibleName: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty,
+      accessibleNameOn: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameOnStringProperty,
+      accessibleNameOff: NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleNameOffStringProperty,
       accessibleHelpText: options.bothAddendsEyeToggleButtonAccessibleHelpText || NumberPairsFluent.a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPattern.createProperty( {
         numberModelType: NumberPairsPreferences.numberModelTypeProperty.derived( numberModelType => numberModelType.id )
       } ),

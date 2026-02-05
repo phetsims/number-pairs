@@ -206,9 +206,11 @@ addToMapIfDefined( 'a11y_controls_tenFrameButton_accessibleContextResponseGameSe
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleName', 'a11y.controls.commutativeButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleHelpText', 'a11y.controls.commutativeButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_controls_commutativeButton_accessibleContextResponse', 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' );
-addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleName', 'a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty' );
+addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleNameOn', 'a11y.controls.bothAddendsVisibleButton.accessibleNameOnStringProperty' );
+addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleNameOff', 'a11y.controls.bothAddendsVisibleButton.accessibleNameOffStringProperty' );
 addToMapIfDefined( 'a11y_controls_bothAddendsVisibleButton_accessibleHelpTextPattern', 'a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPatternStringProperty' );
-addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleNamePattern', 'a11y.controls.addendVisibleButton.accessibleNamePatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleNameOnPattern', 'a11y.controls.addendVisibleButton.accessibleNameOnPatternStringProperty' );
+addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleNameOffPattern', 'a11y.controls.addendVisibleButton.accessibleNameOffPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleHelpTextPattern', 'a11y.controls.addendVisibleButton.accessibleHelpTextPatternStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleContextResponseOn', 'a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty' );
 addToMapIfDefined( 'a11y_controls_addendVisibleButton_accessibleContextResponseOff', 'a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty' );
@@ -577,11 +579,13 @@ const NumberPairsFluent = {
         accessibleContextResponse: new FluentPattern<{ leftAddend: FluentVariable, representationType: 'attribute' | 'numberLine' | number | 'other' | TReadOnlyProperty<'attribute' | 'numberLine' | number | 'other'>, rightAddend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_commutativeButton_accessibleContextResponse', _.get( NumberPairsStrings, 'a11y.controls.commutativeButton.accessibleContextResponseStringProperty' ), [{"name":"leftAddend"},{"name":"representationType","variants":["attribute","numberLine",{"type":"number","value":"other"}]},{"name":"rightAddend"}] )
       },
       bothAddendsVisibleButton: {
-        accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisibleButton_accessibleName', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisibleButton.accessibleNameStringProperty' ) ),
+        accessibleNameOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisibleButton_accessibleNameOn', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisibleButton.accessibleNameOnStringProperty' ) ),
+        accessibleNameOffStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisibleButton_accessibleNameOff', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisibleButton.accessibleNameOffStringProperty' ) ),
         accessibleHelpTextPattern: new FluentPattern<{ numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_controls_bothAddendsVisibleButton_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.bothAddendsVisibleButton.accessibleHelpTextPatternStringProperty' ), [{"name":"numberModelType","variants":["numberBond","barModel"]}] )
       },
       addendVisibleButton: {
-        accessibleNamePattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleNamePattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleNamePatternStringProperty' ), [{"name":"addend"}] ),
+        accessibleNameOnPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleNameOnPattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleNameOnPatternStringProperty' ), [{"name":"addend"}] ),
+        accessibleNameOffPattern: new FluentPattern<{ addend: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleNameOffPattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleNameOffPatternStringProperty' ), [{"name":"addend"}] ),
         accessibleHelpTextPattern: new FluentPattern<{ addend: FluentVariable, numberModelType: 'numberBond' | 'barModel' | TReadOnlyProperty<'numberBond' | 'barModel'> }>( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleHelpTextPattern', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleHelpTextPatternStringProperty' ), [{"name":"addend"},{"name":"numberModelType","variants":["numberBond","barModel"]}] ),
         accessibleContextResponseOnStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleContextResponseOn', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleContextResponseOnStringProperty' ) ),
         accessibleContextResponseOffStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_controls_addendVisibleButton_accessibleContextResponseOff', _.get( NumberPairsStrings, 'a11y.controls.addendVisibleButton.accessibleContextResponseOffStringProperty' ) )

@@ -293,11 +293,13 @@ type StringsType = {
         'accessibleContextResponseStringProperty': LocalizedStringProperty;
       };
       'bothAddendsVisibleButton': {
-        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleNameOnStringProperty': LocalizedStringProperty;
+        'accessibleNameOffStringProperty': LocalizedStringProperty;
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
       };
       'addendVisibleButton': {
-        'accessibleNamePatternStringProperty': LocalizedStringProperty;
+        'accessibleNameOnPatternStringProperty': LocalizedStringProperty;
+        'accessibleNameOffPatternStringProperty': LocalizedStringProperty;
         'accessibleHelpTextPatternStringProperty': LocalizedStringProperty;
         'accessibleContextResponseOnStringProperty': LocalizedStringProperty;
         'accessibleContextResponseOffStringProperty': LocalizedStringProperty;

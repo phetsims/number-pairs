@@ -652,16 +652,22 @@
         }
       },
       "bothAddendsVisibleButton": {
-        "accessibleName": {
-          "value": "Counting Area Visibility"
+        "accessibleNameOn": {
+          "value": "Hide Counting Area"
+        },
+        "accessibleNameOff": {
+          "value": "Show Counting Area"
         },
         "accessibleHelpTextPattern": {
           "value": "Show or hide counting area and both addends in { a11y_numberBondOrBarModelLowercase }."
         }
       },
       "addendVisibleButton": {
-        "accessibleNamePattern": {
-          "value": "{ $addend } Counting Area Visibility"
+        "accessibleNameOnPattern": {
+          "value": "Hide { $addend } Counting Area"
+        },
+        "accessibleNameOffPattern": {
+          "value": "Show { $addend } Counting Area"
         },
         "accessibleHelpTextPattern": {
           "value": "Show or hide { $addend } counting area and { $addend } addend in { a11y_numberBondOrBarModelLowercase }."

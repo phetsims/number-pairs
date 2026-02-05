@@ -103,7 +103,10 @@ export default class SplitCountingAreaNode extends Node {
     const leftAddendEyeToggleButton = new AddendEyeToggleButton( leftAddendVisibleProperty, {
       left: countingAreaBounds.minX + COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      accessibleName: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNamePattern.createProperty( {
+      accessibleNameOn: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNameOnPattern.createProperty( {
+        addend: NumberPairsFluent.a11y.leftCapitalizedStringProperty
+      } ),
+      accessibleNameOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNameOffPattern.createProperty( {
         addend: NumberPairsFluent.a11y.leftCapitalizedStringProperty
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {
@@ -115,7 +118,10 @@ export default class SplitCountingAreaNode extends Node {
     const rightAddendEyeToggleButton = new AddendEyeToggleButton( rightAddendVisibleProperty, {
       right: countingAreaBounds.maxX - COUNTING_AREA_MARGIN,
       bottom: countingAreaBounds.maxY - COUNTING_AREA_MARGIN,
-      accessibleName: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNamePattern.createProperty( {
+      accessibleNameOn: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNameOnPattern.createProperty( {
+        addend: NumberPairsFluent.a11y.rightCapitalizedStringProperty
+      } ),
+      accessibleNameOff: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleNameOffPattern.createProperty( {
         addend: NumberPairsFluent.a11y.rightCapitalizedStringProperty
       } ),
       accessibleHelpText: NumberPairsFluent.a11y.controls.addendVisibleButton.accessibleHelpTextPattern.createProperty( {

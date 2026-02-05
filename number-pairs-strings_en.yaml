@@ -397,10 +397,12 @@ a11y:
           numberLine: '{ $leftAddend } in left yellow section, { $rightAddend } in right blue section.'
           other:      '{ $leftAddend } on left, { $rightAddend } on right.'
     bothAddendsVisibleButton:
-      accessibleName:            Counting Area Visibility
+      accessibleNameOn:          'Hide Counting Area'
+      accessibleNameOff:         'Show Counting Area'
       accessibleHelpTextPattern: Show or hide counting area and both addends in { a11y.numberBondOrBarModelLowercase }.
     addendVisibleButton:
-      accessibleNamePattern:        '{ $addend } Counting Area Visibility'
+      accessibleNameOnPattern:      'Hide { $addend } Counting Area'
+      accessibleNameOffPattern:     'Show { $addend } Counting Area'
       accessibleHelpTextPattern:    Show or hide { $addend } counting area and { $addend } addend in { a11y.numberBondOrBarModelLowercase }.
       accessibleContextResponseOn:  contents visible
       accessibleContextResponseOff: contents hidden
