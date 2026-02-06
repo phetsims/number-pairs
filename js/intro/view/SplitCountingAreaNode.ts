@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 /**
  * SplitCountingAreaNode is the background for the counting area, which is split into two parts. Each location area
  * determines which addend the object is associated with.
