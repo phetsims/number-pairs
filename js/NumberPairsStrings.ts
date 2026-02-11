@@ -404,9 +404,6 @@ type StringsType = {
       'moveAcrossDescription': {
         'labelInnerContentStringProperty': LocalizedStringProperty;
       };
-      'adjustObjectsKeyboard': {
-        'labelInnerContentStringProperty': LocalizedStringProperty;
-      };
       'kittenInteraction': {
         'jumpToFirstLabelInnerContentStringProperty': LocalizedStringProperty;
         'jumpToLastLabelInnerContentStringProperty': LocalizedStringProperty;

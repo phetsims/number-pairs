@@ -591,8 +591,6 @@ a11y:
   keyboardHelpDialog:
     moveAcrossDescription:
       labelInnerContent: Move grabbed { $item } to { $addend } side with { $key } key.
-    adjustObjectsKeyboard:
-      labelInnerContent: Adjust number of objects with arrow keys.
     kittenInteraction:
       jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
       jumpToLastLabelInnerContent:  Jump to last kitten with End key.

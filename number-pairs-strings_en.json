@@ -895,11 +895,6 @@
           "value": "Move grabbed { $item } to { $addend } side with { $key } key."
         }
       },
-      "adjustObjectsKeyboard": {
-        "labelInnerContent": {
-          "value": "Adjust number of objects with arrow keys."
-        }
-      },
       "kittenInteraction": {
         "jumpToFirstLabelInnerContent": {
           "value": "Jump to first kitten with Home key."

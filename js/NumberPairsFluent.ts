@@ -272,7 +272,6 @@ addToMapIfDefined( 'a11y_gameScreen_resetChallengeButton_accessibleContextRespon
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnTop', 'a11y.preferences.sumScreenModelOrientation.totalOnTopStringProperty' );
 addToMapIfDefined( 'a11y_preferences_sumScreenModelOrientation_totalOnBottom', 'a11y.preferences.sumScreenModelOrientation.totalOnBottomStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_adjustObjectsKeyboard_labelInnerContent', 'a11y.keyboardHelpDialog.adjustObjectsKeyboard.labelInnerContentStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_kittenInteraction_jumpToFirstLabelInnerContent', 'a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_kittenInteraction_jumpToLastLabelInnerContent', 'a11y.keyboardHelpDialog.kittenInteraction.jumpToLastLabelInnerContentStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_kittenInteraction_changeColorLabelInnerContent', 'a11y.keyboardHelpDialog.kittenInteraction.changeColorLabelInnerContentStringProperty' );
@@ -694,9 +693,6 @@ const NumberPairsFluent = {
     keyboardHelpDialog: {
       moveAcrossDescription: {
         labelInnerContent: new FluentPattern<{ addend: FluentVariable, item: FluentVariable, key: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_moveAcrossDescription_labelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContentStringProperty' ), [{"name":"addend"},{"name":"item"},{"name":"key"}] )
-      },
-      adjustObjectsKeyboard: {
-        labelInnerContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_adjustObjectsKeyboard_labelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.adjustObjectsKeyboard.labelInnerContentStringProperty' ) )
       },
       kittenInteraction: {
         jumpToFirstLabelInnerContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_kittenInteraction_jumpToFirstLabelInnerContent', _.get( NumberPairsStrings, 'a11y.keyboardHelpDialog.kittenInteraction.jumpToFirstLabelInnerContentStringProperty' ) ),

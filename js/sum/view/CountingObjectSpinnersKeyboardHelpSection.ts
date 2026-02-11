@@ -6,13 +6,12 @@
  */
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import KeyboardHelpIconFactory from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpIconFactory.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
 import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
+import AccessibleValueHandlerHotkeyDataCollection from '../../../../sun/js/accessibility/AccessibleValueHandlerHotkeyDataCollection.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
-
 
 export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardHelpSection {
 
@@ -23,8 +22,8 @@ export default class CountingObjectSpinnersKeyboardHelpSection extends KeyboardH
       slider: NumberPairsFluent.keyboardHelpDialog.numberOfObjectsStringProperty
     } );
     super( NumberPairsFluent.keyboardHelpDialog.adjustObjectsTitleStringProperty, [
-      KeyboardHelpSectionRow.labelWithIcon( adjustSpinnerStringProperty, KeyboardHelpIconFactory.arrowKeysRowIcon(), {
-        labelInnerContent: NumberPairsFluent.a11y.keyboardHelpDialog.adjustObjectsKeyboard.labelInnerContentStringProperty
+      KeyboardHelpSectionRow.fromHotkeyData( AccessibleValueHandlerHotkeyDataCollection.ARROW_KEYS_HOTKEY_DATA, {
+        labelStringProperty: adjustSpinnerStringProperty
       } )
     ] );
   }
