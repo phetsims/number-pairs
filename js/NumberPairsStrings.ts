@@ -399,16 +399,6 @@ type StringsType = {
         'totalOnTopStringProperty': LocalizedStringProperty;
         'totalOnBottomStringProperty': LocalizedStringProperty;
       }
-    };
-    'keyboardHelpDialog': {
-      'moveAcrossDescription': {
-        'labelInnerContentStringProperty': LocalizedStringProperty;
-      };
-      'kittenInteraction': {
-        'jumpToFirstLabelInnerContentStringProperty': LocalizedStringProperty;
-        'jumpToLastLabelInnerContentStringProperty': LocalizedStringProperty;
-        'changeColorLabelInnerContentStringProperty': LocalizedStringProperty;
-      }
     }
   }
 };

@@ -888,24 +888,6 @@
           "value": "Total on Bottom"
         }
       }
-    },
-    "keyboardHelpDialog": {
-      "moveAcrossDescription": {
-        "labelInnerContent": {
-          "value": "Move grabbed { $item } to { $addend } side with { $key } key."
-        }
-      },
-      "kittenInteraction": {
-        "jumpToFirstLabelInnerContent": {
-          "value": "Jump to first kitten with Home key."
-        },
-        "jumpToLastLabelInnerContent": {
-          "value": "Jump to last kitten with End key."
-        },
-        "changeColorLabelInnerContent": {
-          "value": "{ $key ->\n  [enter] Change color with Space or Enter key.\n  *[return] Change color with Space or Return key.\n}"
-        }
-      }
     }
   }
 }
