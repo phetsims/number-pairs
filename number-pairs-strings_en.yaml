@@ -586,15 +586,3 @@ a11y:
     sumScreenModelOrientation:
       totalOnTop:    Total on Top
       totalOnBottom: Total on Bottom
-
-  # Keyboard help dialog
-  keyboardHelpDialog:
-    moveAcrossDescription:
-      labelInnerContent: Move grabbed { $item } to { $addend } side with { $key } key.
-    kittenInteraction:
-      jumpToFirstLabelInnerContent: Jump to first kitten with Home key.
-      jumpToLastLabelInnerContent:  Jump to last kitten with End key.
-      changeColorLabelInnerContent:
-        select_key:
-          enter:  Change color with Space or Enter key.
-          return: Change color with Space or Return key.

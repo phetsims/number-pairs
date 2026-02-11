@@ -9,8 +9,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import TextKeyNode from '../../../../scenery-phet/js/keyboard/TextKeyNode.js';
-import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
@@ -25,22 +24,18 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     const moveRightPatternStringProperty = new PatternStringProperty( NumberPairsFluent.keyboardHelpDialog.moveToRightSidePatternStringProperty, {
       items: itemStringProperty
     } );
-    const moveLeftDescriptionPatternStringProperty = NumberPairsFluent.a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContent.createProperty( {
-      item: itemStringProperty,
-      addend: NumberPairsFluent.a11y.leftStringProperty,
-      key: SceneryPhetFluent.key.homeStringProperty
-    } );
-    const moveRightDescriptionPatternStringProperty = NumberPairsFluent.a11y.keyboardHelpDialog.moveAcrossDescription.labelInnerContent.createProperty( {
-      item: itemStringProperty,
-      addend: NumberPairsFluent.a11y.rightStringProperty,
-      key: SceneryPhetFluent.key.endStringProperty
-    } );
-    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.labelWithIcon( moveLeftPatternStringProperty, TextKeyNode.home(), {
-      labelInnerContent: moveLeftDescriptionPatternStringProperty
-    } );
-    const moveCountingObjectEndRow = KeyboardHelpSectionRow.labelWithIcon( moveRightPatternStringProperty, TextKeyNode.end(), {
-      labelInnerContent: moveRightDescriptionPatternStringProperty
-    } );
+
+    const moveCountingObjectHomeRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'home' ],
+      keyboardHelpDialogLabelStringProperty: moveLeftPatternStringProperty,
+      repoName: numberPairs.name
+    } ) );
+
+    const moveCountingObjectEndRow = KeyboardHelpSectionRow.fromHotkeyData( new HotkeyData( {
+      keys: [ 'end' ],
+      keyboardHelpDialogLabelStringProperty: moveRightPatternStringProperty,
+      repoName: numberPairs.name
+    } ) );
 
     super( headingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
   }
