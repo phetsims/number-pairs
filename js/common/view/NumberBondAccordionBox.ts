@@ -18,7 +18,7 @@ import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPre
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import BarModelMutableNode from './BarModelMutableNode.js';
-import NumberBondMutableNode from './NumberBondMutableNode.js';
+import NumberBondMutableNode, { NumberBondMutableNodeOptions } from './NumberBondMutableNode.js';
 import { NumberBondNodeOptions } from './NumberBondNode.js';
 import TotalRepresentationAccordionBox, { TotalRepresentationAccordionBoxOptions } from './TotalRepresentationAccordionBox.js';
 
@@ -54,7 +54,7 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     }, providedOptions );
 
     // Create the number bond number model representation.
-    const numberBondOptions = combineOptions<NumberBondNodeOptions>( {
+    const numberBondOptions = combineOptions<NumberBondMutableNodeOptions>( {
       visibleProperty: DerivedProperty.valueEqualsConstant( NumberPairsPreferences.numberModelTypeProperty, NumberModelType.NUMBER_BOND_MODEL )
     }, options.numberBondNodeOptions );
     const numberBondNode = new NumberBondMutableNode( model, numberBondOptions );

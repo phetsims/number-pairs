@@ -53,12 +53,18 @@ export default class NumberBondMutableNode extends NumberBondNode {
     const options = optionize<NumberBondMutableNodeOptions, SelfOptions, WithRequired<NumberBondNodeOptions, 'dimensions'>>()( {
       dimensions: DEFAULT_BOND_DIMENSION,
       numberCircleLineWidth: NUMBER_BOND_LINE_WIDTH,
-      isGameScreen: false,
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
-        orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
-          isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
-      } )
+      isGameScreen: false
     }, providedOptions );
+
+    // Add an accessible paragraph that describes the number bond with its current values
+    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
+    options.accessibleParagraph = NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
+      left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
+      right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, missingStringProperties.rightAddendStringProperty ),
+      total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, missingStringProperties.totalStringProperty ),
+      orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
+        isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
+    } );
 
     const total = new NumberCircle( model.totalProperty, model.totalVisibleProperty, {
       radius: options.dimensions.circleRadius,
@@ -86,18 +92,12 @@ export default class NumberBondMutableNode extends NumberBondNode {
     this.leftAddendNode = leftAddend;
     this.rightAddendNode = rightAddend;
 
-    // Add an accessible paragraph that describes the number bond with its current values
-    const missingStringProperties = Description.getMissingValueStringProperties( options.isGameScreen );
     this.addChild( new Node( {
-      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondStateAccessibleParagraph.createProperty( {
-        left: Description.getValueStringProperty( model.leftAddendProperty, model.leftAddendVisibleProperty, missingStringProperties.leftAddendStringProperty ),
-        right: Description.getValueStringProperty( model.rightAddendProperty, model.rightAddendVisibleProperty, missingStringProperties.rightAddendStringProperty ),
-        total: Description.getValueStringProperty( model.totalProperty, model.totalVisibleProperty, missingStringProperties.totalStringProperty ),
+      accessibleParagraph: NumberPairsFluent.a11y.controls.numberModel.numberBondAccessibleParagraph.createProperty( {
         orientation: model instanceof SumModel ? NumberPairsPreferences.sumScreenTotalOnTopProperty.derived(
           isTotalOnTop => isTotalOnTop ? 'totalOnTop' : 'totalOnBottom' ) : 'totalOnTop'
       } )
     } ) );
-
   }
 }
 
