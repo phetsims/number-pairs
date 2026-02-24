@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 /**
  * NumberBondMutableNode renders a number bond using NumberCircle nodes with values and visibility.
  *
