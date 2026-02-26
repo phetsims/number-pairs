@@ -10,7 +10,8 @@ import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
-import AccessibleListNode, { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
+import AccessibleListNode from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 
