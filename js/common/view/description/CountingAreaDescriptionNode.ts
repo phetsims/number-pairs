@@ -14,7 +14,7 @@ import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
-import AccessibleListNode from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import AccessibleList from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
 import ParallelDOM from '../../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../../numberPairs.js';
@@ -65,32 +65,33 @@ export default class CountingAreaDescriptionNode extends Node {
 
     const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( numberLineRepresentationVisibleProperty );
 
-    const countingAreaAccessibleListNode = new AccessibleListNode( [
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
-        visibleProperty: showObjectLocationsProperty
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } ),
-        visibleProperty: showObjectLocationsProperty
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.yellowListItemPattern.createProperty( { value: leftValueStringProperty } ),
-        visibleProperty: showObjectSidesProperty
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.blueListItemPattern.createProperty( { value: rightValueStringProperty } ),
-        visibleProperty: showObjectSidesProperty
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.leftSideBeadsPattern.createProperty( { value: leftValueStringProperty } ),
-        visibleProperty: showBeadsProperty
-      },
-      {
-        stringProperty: NumberPairsFluent.a11y.countingArea.rightSideBeadsPattern.createProperty( { value: rightValueStringProperty } ),
-        visibleProperty: showBeadsProperty
-      }
-    ], {
+    const accessibleTemplateProperty = AccessibleList.createTemplate( {
+      listItems: [
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
+          visibleProperty: showObjectLocationsProperty
+        },
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.rightSideListItemPattern.createProperty( { value: rightValueStringProperty } ),
+          visibleProperty: showObjectLocationsProperty
+        },
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.yellowListItemPattern.createProperty( { value: leftValueStringProperty } ),
+          visibleProperty: showObjectSidesProperty
+        },
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.blueListItemPattern.createProperty( { value: rightValueStringProperty } ),
+          visibleProperty: showObjectSidesProperty
+        },
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.leftSideBeadsPattern.createProperty( { value: leftValueStringProperty } ),
+          visibleProperty: showBeadsProperty
+        },
+        {
+          stringProperty: NumberPairsFluent.a11y.countingArea.rightSideBeadsPattern.createProperty( { value: rightValueStringProperty } ),
+          visibleProperty: showBeadsProperty
+        }
+      ],
       leadingParagraphStringProperty: NumberPairsFluent.a11y.countingArea.leadingParagraph.createProperty( {
         totalVisible: totalVariantStringProperty,
         total: totalProperty,
@@ -122,8 +123,8 @@ export default class CountingAreaDescriptionNode extends Node {
 
     const options = optionize<CountingAreaDescriptionNodeOptions, SelfOptions, NodeOptions>()( {
       accessibleHeading: NumberPairsFluent.a11y.countingArea.accessibleHeadingStringProperty,
+      accessibleTemplate: accessibleTemplateProperty,
       children: [
-        countingAreaAccessibleListNode,
         accessibleHelpTextNode,
         numberLineDescription
       ]
