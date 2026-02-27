@@ -10,8 +10,8 @@ import derived from '../../../../../axon/js/derived.js';
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
-import { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
-import AccessibleListNode from '../../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import AccessibleList, { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
+import Node from '../../../../../scenery/js/nodes/Node.js';
 import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 
@@ -27,7 +27,7 @@ export type NumberLineDescriptionOptions = {
   readonly totalProperty: TReadOnlyProperty<string | number>; // Total can be a string for the "unknown" question mark case
 };
 
-export default class NumberLineDescription extends AccessibleListNode {
+export default class NumberLineDescription extends Node {
 
   public constructor( options: NumberLineDescriptionOptions ) {
 
@@ -178,9 +178,12 @@ export default class NumberLineDescription extends AccessibleListNode {
       }
     ];
 
-    super( listItems, {
-      leadingParagraphStringProperty: leadingParagraphStringProperty,
-      visibleProperty: options.numberLineRepresentationVisibleProperty
+    super( {
+      accessibleTemplate: AccessibleList.createTemplate( {
+        listItems: listItems,
+        leadingParagraphStringProperty: leadingParagraphStringProperty,
+        visibleProperty: options.numberLineRepresentationVisibleProperty
+      } )
     } );
   }
 }
