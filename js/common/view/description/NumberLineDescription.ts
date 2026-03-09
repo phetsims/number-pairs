@@ -179,7 +179,7 @@ export default class NumberLineDescription extends Node {
     ];
 
     super( {
-      accessibleTemplate: AccessibleList.createTemplate( {
+      accessibleTemplate: AccessibleList.createTemplateProperty( {
         listItems: listItems,
         leadingParagraphStringProperty: leadingParagraphStringProperty,
         visibleProperty: options.numberLineRepresentationVisibleProperty

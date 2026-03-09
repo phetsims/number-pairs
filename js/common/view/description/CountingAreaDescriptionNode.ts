@@ -65,7 +65,7 @@ export default class CountingAreaDescriptionNode extends Node {
 
     const countingAreaAccessibleListVisibleProperty = DerivedProperty.not( numberLineRepresentationVisibleProperty );
 
-    const accessibleTemplateProperty = AccessibleList.createTemplate( {
+    const accessibleTemplateProperty = AccessibleList.createTemplateProperty( {
       listItems: [
         {
           stringProperty: NumberPairsFluent.a11y.countingArea.leftSideListItemPattern.createProperty( { value: leftValueStringProperty } ),
