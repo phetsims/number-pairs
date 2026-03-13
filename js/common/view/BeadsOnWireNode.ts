@@ -212,6 +212,7 @@ export default class BeadsOnWireNode extends Node {
       soundKeyboardDragListenerOptions: {
         dragDelta: 30,
         shiftDragDelta: 15,
+        moveOnHoldInterval: 200,
         keyboardDragDirection: 'leftRight',
         transform: BeadManager.BEAD_MODEL_VIEW_TRANSFORM
       },
