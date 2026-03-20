@@ -56,6 +56,6 @@ const NumberPairsQueryParameters = QueryStringMachine.getAll( {
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );
 logGlobal( 'phet.preloads.phetio.queryParameters' );
-logGlobal( 'phet.numberPairs.NumberPairsQueryParameters' );
+phet.log && phet.log( `NumberPairsQueryParameters: ${JSON.stringify( NumberPairsQueryParameters, null, 2 )}` );
 
 export default NumberPairsQueryParameters;
