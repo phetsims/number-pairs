@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 /**
  * CountingObject is the model for the individual objects users can interact with to explore the decomposition of
  * a number.

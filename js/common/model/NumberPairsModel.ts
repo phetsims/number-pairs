@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 /**
  * NumberPairsModel is the base model for the Number Pairs simulation. It contains the properties that control the
  * addends, total, and counting objects in the sim. The model also contains properties that control the visibility of

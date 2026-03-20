@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * NumberEquationIconNode renders a number equation using simple Rectangles (icon-only style).

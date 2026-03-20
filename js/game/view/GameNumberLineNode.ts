@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * Game-specific NumberLineNode that applies feedback styling to highlight the unknown addend.

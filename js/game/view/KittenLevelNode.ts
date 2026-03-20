@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * CountingAreaLevelNode is a LevelNode that includes a counting area. It only uses the kitten representation.

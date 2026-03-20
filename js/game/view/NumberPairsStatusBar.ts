@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  *  NumberPairsStatusBar is an InfiniteStatusBar that shows the current level and description on the left,

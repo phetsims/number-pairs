@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 /**
  * NumberModelOrientationControl is a radio button group that allows the user to select the orientation of the number
  * model on the sum screen.

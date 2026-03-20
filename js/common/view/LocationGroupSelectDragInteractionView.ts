@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * LocationGroupSelectDragInteractionView manages keyboard navigation and drag interaction for location counting objects.

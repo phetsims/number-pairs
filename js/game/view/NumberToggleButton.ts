@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * NumberToggleButton configures a BooleanRectangularStickyToggleButton with the defaults that AnswerButtonGroup needs.

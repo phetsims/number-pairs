@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 /**
  * NumberBondIconNode renders a number bond using simple Circles (icon-only style).
  *

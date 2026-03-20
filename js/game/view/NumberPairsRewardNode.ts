@@ -1,4 +1,4 @@
-// Copyright 2025, University of Colorado Boulder
+// Copyright 2025-2026, University of Colorado Boulder
 
 /**
  * RewardNode is the various objects that are falling behind the RewardDialog when the user reaches the

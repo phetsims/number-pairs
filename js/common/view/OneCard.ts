@@ -1,4 +1,4 @@
-// Copyright 2024-2025, University of Colorado Boulder
+// Copyright 2024-2026, University of Colorado Boulder
 /**
  * A OneCard is a rectangle with rounded corners and the number one in the center.
  *
