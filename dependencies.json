@@ -13,7 +13,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "061a5e58d1661e2a6df7b5155de8bfb9b543ad03",
+    "sha": "54d7e01d522ad69817f017506aa0411afddf9fc1",
     "branch": "HEAD"
   },
   "counting-common": {
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "0c221b6af80cc238ee4305d96c939f88bd39c144",
+    "sha": "e30acae312bbda1a6621b2e68b1e07c27a022d69",
     "branch": "2.0"
   },
   "number-suite-common": {
@@ -41,7 +41,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "e8c2bfe7e0072a487c488e10547444dfda69645c",
+    "sha": "618a41f221bad271747d457a38902a01c345f8e2",
     "branch": "HEAD"
   },
   "phet-core": {
