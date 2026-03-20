@@ -15,7 +15,6 @@ import localeProperty, { Locale, LocaleProperty } from '../../../../joist/js/i18
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsQueryParameters from '../NumberPairsQueryParameters.js';
 
@@ -88,5 +87,4 @@ const NumberPairsPreferences = {
   } )
 };
 
-numberPairs.register( 'NumberPairsPreferences', NumberPairsPreferences );
 export default NumberPairsPreferences;

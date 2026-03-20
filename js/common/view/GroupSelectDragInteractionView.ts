@@ -22,7 +22,6 @@ import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../
 import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject from '../model/CountingObject.js';
 import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
@@ -121,5 +120,3 @@ export default class GroupSelectDragInteractionView extends GroupSelectView<Coun
     primaryFocusedNode.addInputListener( homeEndKeyboardListener );
   }
 }
-
-numberPairs.register( 'GroupSelectDragInteractionView', GroupSelectDragInteractionView );

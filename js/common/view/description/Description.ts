@@ -9,7 +9,6 @@
 
 import DerivedProperty from '../../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 
 
@@ -44,5 +43,4 @@ const Description = {
   }
 };
 
-numberPairs.register( 'Description', Description );
 export default Description;

@@ -25,7 +25,6 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import apple_svg from '../../../images/apple_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
-import numberPairs from '../../numberPairs.js';
 import CountingObject from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
 import RepresentationType from '../model/RepresentationType.js';
@@ -129,5 +128,3 @@ export default class LocationCountingObjectNode extends InteractiveHighlightingN
     } ) );
   }
 }
-
-numberPairs.register( 'LocationCountingObjectNode', LocationCountingObjectNode );

@@ -15,7 +15,6 @@ import StarNode from '../../../scenery-phet/js/StarNode.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import NumberPairsConstants from '../common/NumberPairsConstants.js';
-import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import GameModel from './model/GameModel.js';
 import GameScreenKeyboardHelpNode from './view/GameScreenKeyboardHelpNode.js';
@@ -53,5 +52,3 @@ export default class GameScreen extends Screen<GameModel, GameScreenView> {
     );
   }
 }
-
-numberPairs.register( 'GameScreen', GameScreen );

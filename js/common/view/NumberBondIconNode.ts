@@ -9,7 +9,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Circle, { CircleOptions } from '../../../../scenery/js/nodes/Circle.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import { createIconTextConstraint, IconModel } from './IconHelper.js';
 import NumberBondNode, { DEFAULT_BOND_DIMENSION, NumberBondDimensions, NumberBondNodeOptions } from './NumberBondNode.js';
 
@@ -77,5 +76,3 @@ export default class NumberBondIconNode extends NumberBondNode {
     createIconTextConstraint( this, total, totalText, leftAddend, leftAddendText, rightAddend, rightAddendText );
   }
 }
-
-numberPairs.register( 'NumberBondIconNode', NumberBondIconNode );

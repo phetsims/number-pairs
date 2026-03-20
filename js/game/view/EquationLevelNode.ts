@@ -9,7 +9,6 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
-import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import KittenLevelNode, { CountingAreaLevelNodeOptions } from './KittenLevelNode.js';
 import { getEquationMissingProxy, layoutEquationFeedback } from './GameLayout.js';
@@ -40,5 +39,3 @@ export default class EquationLevelNode extends KittenLevelNode {
       } );
   }
 }
-
-numberPairs.register( 'EquationLevelNode', EquationLevelNode );

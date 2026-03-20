@@ -18,7 +18,6 @@ import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import ClickToDeselectKittensPressListener from '../../common/view/ClickToDeselectKittensPressListener.js';
 import KittensLayerNode from '../../common/view/KittensLayerNode.js';
 import TenFrameButton from '../../common/view/TenFrameButton.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 import LevelNode, { LevelNodeOptions } from './LevelNode.js';
@@ -121,5 +120,3 @@ export default abstract class KittenLevelNode extends LevelNode {
     } );
   }
 }
-
-numberPairs.register( 'KittenLevelNode', KittenLevelNode );

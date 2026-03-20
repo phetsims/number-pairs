@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import type Color from '../../../../scenery/js/util/Color.js';
 import BooleanRectangularStickyToggleButton, { type BooleanRectangularStickyToggleButtonOptions } from '../../../../sun/js/buttons/BooleanRectangularStickyToggleButton.js';
 import ButtonModel from '../../../../sun/js/buttons/ButtonModel.js';
-import numberPairs from '../../numberPairs.js';
 import { AnswerButtonAppearanceStrategy } from './AnswerButtonAppearanceStrategy.js';
 
 type SelfOptions = {
@@ -47,5 +46,3 @@ export default class NumberToggleButton extends BooleanRectangularStickyToggleBu
     this.numberToggleButtonModel = this.buttonModel;
   }
 }
-
-numberPairs.register( 'NumberToggleButton', NumberToggleButton );

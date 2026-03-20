@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import { createAddendsCheckboxItem, createTickNumbersCheckboxItem } from './NumberLineCheckboxItems.js';
@@ -68,5 +67,3 @@ export default class NumberLineOptionsCheckboxGroup extends VerticalCheckboxGrou
     super( checkboxGroupItems, options );
   }
 }
-
-numberPairs.register( 'NumberLineOptionsCheckboxGroup', NumberLineOptionsCheckboxGroup );

@@ -7,7 +7,6 @@
 
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsHotkeyData from './NumberPairsHotkeyData.js';
 
@@ -27,5 +26,3 @@ export default class KittensKeyboardHelpSection extends KeyboardHelpSection {
     super( NumberPairsFluent.keyboardHelpDialog.kittenSectionHeadingStringProperty, array );
   }
 }
-
-numberPairs.register( 'KittensKeyboardHelpSection', KittensKeyboardHelpSection );

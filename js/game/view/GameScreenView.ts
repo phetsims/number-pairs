@@ -14,7 +14,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode, { ToggleNodeElement } from '../../../../sun/js/ToggleNode.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
-import numberPairs from '../../numberPairs.js';
 import GameModel from '../model/GameModel.js';
 import Level from '../model/Level.js';
 import NumberLineLevel from '../model/NumberLineLevel.js';
@@ -120,5 +119,3 @@ export default class GameScreenView extends ScreenView {
     }
   }
 }
-
-numberPairs.register( 'GameScreenView', GameScreenView );

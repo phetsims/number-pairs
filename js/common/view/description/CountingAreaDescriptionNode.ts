@@ -17,7 +17,6 @@ import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
 import AccessibleList from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
 import ParallelDOM from '../../../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node, { NodeOptions } from '../../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import NumberPairsModel from '../../model/NumberPairsModel.js';
 import RepresentationType from '../../model/RepresentationType.js';
@@ -139,5 +138,3 @@ export default class CountingAreaDescriptionNode extends Node {
     this.rightValueStringProperty = rightValueStringProperty;
   }
 }
-
-numberPairs.register( 'CountingAreaDescriptionNode', CountingAreaDescriptionNode );

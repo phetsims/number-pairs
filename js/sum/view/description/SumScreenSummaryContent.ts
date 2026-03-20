@@ -12,7 +12,6 @@ import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.js';
 import NumberPairsPreferences from '../../../common/model/NumberPairsPreferences.js';
 import RepresentationType from '../../../common/model/RepresentationType.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import SumModel from '../../model/SumModel.js';
 
@@ -65,5 +64,3 @@ export default class SumScreenSummaryContent extends ScreenSummaryContent {
     } );
   }
 }
-
-numberPairs.register( 'SumScreenSummaryContent', SumScreenSummaryContent );

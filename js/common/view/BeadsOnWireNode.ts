@@ -34,7 +34,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
@@ -685,5 +684,3 @@ class BeadSeparator extends Circle {
     } );
   }
 }
-
-numberPairs.register( 'BeadsOnWireNode', BeadsOnWireNode );

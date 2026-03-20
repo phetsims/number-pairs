@@ -10,7 +10,6 @@ import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/k
 import GameShortcutsKeyboardHelpSection from '../../../../vegas/js/keyboard/GameShortcutsKeyboardHelpSection.js';
 import KittensKeyboardHelpSection from '../../common/view/KittensKeyboardHelpSection.js';
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 export default class GameScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNode {
@@ -27,5 +26,3 @@ export default class GameScreenKeyboardHelpNode extends NumberPairsKeyboardHelpN
     ] );
   }
 }
-
-numberPairs.register( 'GameScreenKeyboardHelpNode', GameScreenKeyboardHelpNode );

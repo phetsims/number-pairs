@@ -16,7 +16,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
@@ -172,5 +171,3 @@ export default class BarModelMutableNode extends BarModelNode {
     } ) );
   }
 }
-
-numberPairs.register( 'BarModelMutableNode', BarModelMutableNode );

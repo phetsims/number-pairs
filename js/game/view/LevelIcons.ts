@@ -20,7 +20,6 @@ import NumberBondIconNode from '../../common/view/NumberBondIconNode.js';
 import { GAME_ICON_BOND_DIMENSION } from '../../common/view/NumberBondNode.js';
 import NumberEquationIconNode from '../../common/view/NumberEquationIconNode.js';
 import NumberLineIcon from '../../common/view/NumberLineIcon.js';
-import numberPairs from '../../numberPairs.js';
 
 // Make the line width of dashed lines thicker to accentuate the icons with a "?" in them.
 const ROUND_DASHED_LINE_WIDTH_SCALE = 2;
@@ -144,5 +143,3 @@ export default class LevelIcons {
            LevelIcons.getNumberLineIcon();
   }
 }
-
-numberPairs.register( 'LevelIcons', LevelIcons );

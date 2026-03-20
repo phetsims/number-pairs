@@ -13,7 +13,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import DecompositionModel, { DecompositionModelOptions } from '../../common/model/DecompositionModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -35,5 +34,3 @@ export default class IntroModel extends DecompositionModel {
     super( options );
   }
 }
-
-numberPairs.register( 'IntroModel', IntroModel );

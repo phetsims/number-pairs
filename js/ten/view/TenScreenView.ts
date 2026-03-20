@@ -15,7 +15,6 @@ import EquationAccordionBox from '../../common/view/EquationAccordionBox.js';
 import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TenModel from '../model/TenModel.js';
 import TenOrTwentyScreenSummaryContent from '../../common/view/description/TenOrTwentyScreenSummaryContent.js';
@@ -52,5 +51,3 @@ export default class TenScreenView extends DecompositionScreenView {
     this.setScreenSummaryContent( new TenOrTwentyScreenSummaryContent( model ) );
   }
 }
-
-numberPairs.register( 'TenScreenView', TenScreenView );

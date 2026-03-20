@@ -12,7 +12,6 @@ import Image, { ImageOptions } from '../../../../scenery/js/nodes/Image.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
-import numberPairs from '../../numberPairs.js';
 
 // constants
 const NUMBER_OF_NODES = 100;
@@ -35,5 +34,3 @@ export default class NumberPairsRewardNode extends RewardNode {
     } );
   }
 }
-
-numberPairs.register( 'NumberPairsRewardNode', NumberPairsRewardNode );

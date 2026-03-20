@@ -26,7 +26,6 @@ import VegasFluent from '../../../../vegas/js/VegasFluent.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModel from '../model/GameModel.js';
 import LevelIcons from './LevelIcons.js';
@@ -183,5 +182,3 @@ export default class LevelSelectionNode extends LevelSelectionScreenNode {
     } );
   }
 }
-
-numberPairs.register( 'LevelSelectionNode', LevelSelectionNode );

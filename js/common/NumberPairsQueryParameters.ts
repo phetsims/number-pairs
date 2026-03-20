@@ -10,7 +10,6 @@
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import getGameLevelsSchema from '../../../vegas/js/getGameLevelsSchema.js';
-import numberPairs from '../numberPairs.js';
 
 const NumberPairsQueryParameters = QueryStringMachine.getAll( {
 
@@ -53,8 +52,6 @@ const NumberPairsQueryParameters = QueryStringMachine.getAll( {
 
   gameLevels: getGameLevelsSchema( 8 )
 } );
-
-numberPairs.register( 'NumberPairsQueryParameters', NumberPairsQueryParameters );
 
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );

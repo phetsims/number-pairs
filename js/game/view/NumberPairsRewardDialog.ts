@@ -10,7 +10,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RewardDialog from '../../../../vegas/js/RewardDialog.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
-import numberPairs from '../../numberPairs.js';
 
 export default class NumberPairsRewardDialog extends RewardDialog {
 
@@ -52,5 +51,3 @@ export default class NumberPairsRewardDialog extends RewardDialog {
     } );
   }
 }
-
-numberPairs.register( 'NumberPairsRewardDialog', NumberPairsRewardDialog );

@@ -27,7 +27,6 @@ import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js'
 import NumberPairsScreenView, { NumberPairsScreenViewOptions } from '../../common/view/NumberPairsScreenView.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../model/SumModel.js';
 import AddendControlPanel from './AddendControlPanel.js';
@@ -196,5 +195,3 @@ export default class SumScreenView extends NumberPairsScreenView {
     ] );
   }
 }
-
-numberPairs.register( 'SumScreenView', SumScreenView );

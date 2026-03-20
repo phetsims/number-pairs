@@ -8,7 +8,6 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 
 // Make room for the extra buttons on the sides of the counting area, and shift down to make room for the status bar.
 const scaleBounds = ( leftOffset: number ): Bounds2 => {
@@ -28,5 +27,3 @@ export default class GameModelConstants {
   // rows of number buttons takes up horizontal space.
   public static readonly NUMBER_LINE_COUNTING_AREA_BOUNDS = scaleBounds( 50 );
 }
-
-numberPairs.register( 'GameModelConstants', GameModelConstants );

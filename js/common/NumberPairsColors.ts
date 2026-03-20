@@ -158,5 +158,4 @@ class NumberPairsColors {
   }
 }
 
-numberPairs.register( 'NumberPairsColors', NumberPairsColors );
 export default NumberPairsColors;

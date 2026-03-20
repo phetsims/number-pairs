@@ -13,7 +13,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import PaintColorProperty from '../../../../scenery/js/util/PaintColorProperty.js';
 import ButtonInteractionState from '../../../../sun/js/buttons/ButtonInteractionState.js';
 import { TButtonAppearanceStrategyOptions } from '../../../../sun/js/buttons/TButtonAppearanceStrategy.js';
-import numberPairs from '../../numberPairs.js';
 
 type AnswerButtonAppearanceStrategyOptions = TButtonAppearanceStrategyOptions & {
   pressedFillColorProperty?: TReadOnlyProperty<Color>;
@@ -60,5 +59,3 @@ export class AnswerButtonAppearanceStrategy {
     } );
   }
 }
-
-numberPairs.register( 'AnswerButtonAppearanceStrategy', AnswerButtonAppearanceStrategy );

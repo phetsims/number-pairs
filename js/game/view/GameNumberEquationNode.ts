@@ -15,7 +15,6 @@ import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import MutableNumberEquationNode, { MutableNumberEquationNodeOptions } from '../../common/view/MutableNumberEquationNode.js';
 import { GAME_EQUATION_DIMENSIONS } from '../../common/view/NumberEquationNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
@@ -67,5 +66,3 @@ export default class GameNumberEquationNode extends MutableNumberEquationNode {
     return challenge.missingComponent === 'a' ? this.leftAddendSquare : challenge.missingComponent === 'b' ? this.rightAddendSquare : this.totalSquare;
   }
 }
-
-numberPairs.register( 'GameNumberEquationNode', GameNumberEquationNode );

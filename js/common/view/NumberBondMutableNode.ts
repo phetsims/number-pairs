@@ -9,7 +9,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
@@ -100,5 +99,3 @@ export default class NumberBondMutableNode extends NumberBondNode {
     } ) );
   }
 }
-
-numberPairs.register( 'NumberBondMutableNode', NumberBondMutableNode );

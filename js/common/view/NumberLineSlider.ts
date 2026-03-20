@@ -17,7 +17,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
-import numberPairs from '../../numberPairs.js';
 import NumberLineContextResponse from './description/NumberLineContextResponse.js';
 import NumberLineNode from './NumberLineNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
@@ -105,6 +104,3 @@ export default class NumberLineSlider extends HSlider {
     this.thumbNode = thumbNode;
   }
 }
-
-
-numberPairs.register( 'NumberLineSlider', NumberLineSlider );

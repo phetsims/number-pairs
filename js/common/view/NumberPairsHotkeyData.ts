@@ -101,5 +101,3 @@ export default class NumberPairsHotkeyData {
     } )
   };
 }
-
-numberPairs.register( 'NumberPairsHotkeyData', NumberPairsHotkeyData );

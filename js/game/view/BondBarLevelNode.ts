@@ -10,7 +10,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
-import numberPairs from '../../numberPairs.js';
 import Level from '../model/Level.js';
 import KittenLevelNode, { CountingAreaLevelNodeOptions } from './KittenLevelNode.js';
 import { layoutNumberBarFeedback, layoutNumberBondFeedback } from './GameLayout.js';
@@ -80,5 +79,3 @@ export default class BondBarLevelNode extends KittenLevelNode {
     } );
   }
 }
-
-numberPairs.register( 'BondBarLevelNode', BondBarLevelNode );

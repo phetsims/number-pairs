@@ -405,6 +405,4 @@ type StringsType = {
 
 const NumberPairsStrings = getStringModule( 'NUMBER_PAIRS' ) as StringsType;
 
-numberPairs.register( 'NumberPairsStrings', NumberPairsStrings );
-
 export default NumberPairsStrings;

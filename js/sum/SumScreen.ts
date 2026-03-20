@@ -12,7 +12,6 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import NumberPairsConstants from '../common/NumberPairsConstants.js';
-import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import SumModel from './model/SumModel.js';
 import SumScreenIcon from './view/SumScreenIcon.js';
@@ -54,5 +53,3 @@ export default class SumScreen extends Screen<SumModel, SumScreenView> {
     );
   }
 }
-
-numberPairs.register( 'SumScreen', SumScreen );

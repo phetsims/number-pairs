@@ -28,7 +28,6 @@ import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/Refer
 import CountingObject from '../../common/model/CountingObject.js';
 import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from './Challenge.js';
 import GameModelConstants from './GameModelConstants.js';
@@ -329,5 +328,3 @@ export default class Level extends PhetioObject {
     documentation: 'A level in the game.'
   } );
 }
-
-numberPairs.register( 'Level', Level );

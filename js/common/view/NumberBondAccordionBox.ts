@@ -11,7 +11,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
@@ -71,5 +70,3 @@ export default class NumberBondAccordionBox extends TotalRepresentationAccordion
     super( contentNode, options );
   }
 }
-
-numberPairs.register( 'NumberBondAccordionBox', NumberBondAccordionBox );

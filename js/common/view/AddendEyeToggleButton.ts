@@ -11,7 +11,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import EyeToggleButton, { EyeToggleButtonOptions } from '../../../../scenery-phet/js/buttons/EyeToggleButton.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
@@ -35,5 +34,3 @@ export default class AddendEyeToggleButton extends EyeToggleButton {
     super( addendVisibleProperty, options );
   }
 }
-
-numberPairs.register( 'AddendEyeToggleButton', AddendEyeToggleButton );

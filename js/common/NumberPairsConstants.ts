@@ -16,7 +16,6 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Color from '../../../scenery/js/util/Color.js';
 import NumberPairsColors from './NumberPairsColors.js';
-import numberPairs from '../numberPairs.js';
 
 class NumberPairsConstants {
 
@@ -126,5 +125,4 @@ class NumberPairsConstants {
   }
 }
 
-numberPairs.register( 'NumberPairsConstants', NumberPairsConstants );
 export default NumberPairsConstants;

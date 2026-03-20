@@ -14,7 +14,6 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import numberPairs from '../../numberPairs.js';
 import CountingObjectControl, { CountingObjectControlOptions } from './CountingObjectControl.js';
 
 type SelfOptions = {
@@ -55,5 +54,3 @@ export default class AddendControlPanel extends Panel {
 
   }
 }
-
-numberPairs.register( 'AddendControlPanel', AddendControlPanel );

@@ -16,7 +16,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { pdomFocusProperty } from '../../../../scenery/js/accessibility/pdomFocusProperty.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import CountingAreaNode from './CountingAreaNode.js';
@@ -141,5 +140,3 @@ export default class KittensLayerNode extends Node {
            'other';
   }
 }
-
-numberPairs.register( 'KittensLayerNode', KittensLayerNode );

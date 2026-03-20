@@ -25,7 +25,6 @@ import { CountingObjectsManager } from '../../common/model/CountingObjectsManage
 import NumberPairsModel, { BeadXPositionsTypes, NumberPairsModelOptions } from '../../common/model/NumberPairsModel.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -238,5 +237,3 @@ export default class SumModel extends NumberPairsModel {
     CountingObjectsManager.setAddendType( this.leftAddendCountingObjectsProperty.value, this.rightAddendCountingObjectsProperty.value, this.inactiveCountingObjects );
   }
 }
-
-numberPairs.register( 'SumModel', SumModel );

@@ -8,7 +8,6 @@
 
 import PressListener from '../../../../scenery/js/listeners/PressListener.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPairs from '../../numberPairs.js';
 import KittensLayerNode from './KittensLayerNode.js';
 
 export default class ClickToDeselectKittensPressListener extends PressListener {
@@ -27,5 +26,3 @@ export default class ClickToDeselectKittensPressListener extends PressListener {
     } );
   }
 }
-
-numberPairs.register( 'ClickToDeselectKittensPressListener', ClickToDeselectKittensPressListener );

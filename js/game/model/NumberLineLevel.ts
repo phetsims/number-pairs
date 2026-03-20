@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
-import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level, { ChallengeType, LevelOptions } from './Level.js';
 import LevelDefinition from './LevelDefinition.js';
@@ -40,5 +39,3 @@ export default class NumberLineLevel extends Level {
     } );
   }
 }
-
-numberPairs.register( 'NumberLineLevel', NumberLineLevel );

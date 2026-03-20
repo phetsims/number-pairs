@@ -14,7 +14,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import { GAME_DIMENSION } from './NumberBondNode.js';
 
 type EquationDimensions = {
@@ -95,5 +94,3 @@ export default class NumberEquationNode extends Node {
     this.rightAddendSquare = rightAddendSquare;
   }
 }
-
-numberPairs.register( 'NumberEquationNode', NumberEquationNode );

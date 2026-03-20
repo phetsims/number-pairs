@@ -13,7 +13,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberCircle from '../../common/view/NumberCircle.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type TenScreenIconOptions = WithRequired<ScreenIconOptions, 'size'> & SelfOptions;
@@ -35,5 +34,3 @@ export default class TenScreenIcon extends ScreenIcon {
     super( numberCircle, options );
   }
 }
-
-numberPairs.register( 'TenScreenIcon', TenScreenIcon );

@@ -21,7 +21,6 @@ import Node, { NodeOptions, NodeTransformOptions } from '../../../../scenery/js/
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberLineNode from './NumberLineNode.js';
 
@@ -271,5 +270,3 @@ export default class CurvedArrowNode extends Node {
     return this._pointsToItself;
   }
 }
-
-numberPairs.register( 'CurvedArrowNode', CurvedArrowNode );

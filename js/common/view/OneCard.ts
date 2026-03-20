@@ -11,7 +11,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type OneCardOptions = SelfOptions & StrictOmit<NodeOptions, 'children'>;
@@ -34,5 +33,3 @@ export default class OneCard extends Node {
     super( options );
   }
 }
-
-numberPairs.register( 'OneCard', OneCard );

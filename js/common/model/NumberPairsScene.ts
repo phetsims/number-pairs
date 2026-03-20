@@ -19,7 +19,6 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
-import numberPairs from '../../numberPairs.js';
 import BeadManager from './BeadManager.js';
 import CountingObject from './CountingObject.js';
 import { BeadXPositionsTypes } from './NumberPairsModel.js';
@@ -150,5 +149,3 @@ export default class NumberPairsScene extends PhetioObject {
     this.beadXPositionsProperty.reset();
   }
 }
-
-numberPairs.register( 'NumberPairsScene', NumberPairsScene );

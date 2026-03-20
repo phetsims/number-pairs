@@ -14,7 +14,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import BarModelNode, { BarModelNodeOptions, ICON_BAR_MODEL_DIMENSIONS } from './BarModelNode.js';
 import { createIconTextConstraint, IconModel } from './IconHelper.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -107,5 +106,3 @@ export default class BarModelIconNode extends BarModelNode {
       leftAddendText, rightAddendRectangle, rightAddendText );
   }
 }
-
-numberPairs.register( 'BarModelIconNode', BarModelIconNode );

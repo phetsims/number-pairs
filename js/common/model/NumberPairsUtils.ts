@@ -8,7 +8,6 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 
@@ -45,5 +44,3 @@ export const NumberPairsUtils = {
     return new Vector2( position.x + direction * ( Math.abs( position.x - countingAreaCenterX ) * 2 ), position.y );
   }
 };
-
-numberPairs.register( 'NumberPairsUtils', NumberPairsUtils );

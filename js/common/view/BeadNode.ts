@@ -21,7 +21,6 @@ import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import beadYellow_svg from '../../../images/beadYellow_svg.js';
-import numberPairs from '../../numberPairs.js';
 import BeadManager from '../model/BeadManager.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 
@@ -97,5 +96,3 @@ export default class BeadNode extends InteractiveHighlightingNode {
     } ) );
   }
 }
-
-numberPairs.register( 'BeadNode', BeadNode );

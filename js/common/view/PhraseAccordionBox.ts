@@ -23,7 +23,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -256,5 +255,3 @@ export default class PhraseAccordionBox extends TotalRepresentationAccordionBox 
       } );
   }
 }
-
-numberPairs.register( 'PhraseAccordionBox', PhraseAccordionBox );

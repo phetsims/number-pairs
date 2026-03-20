@@ -11,7 +11,6 @@ import derived from '../../../../axon/js/derived.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import DecompositionModel from '../../common/model/DecompositionModel.js';
 import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 export default class IntroScreenSummaryContent extends ScreenSummaryContent {
@@ -69,5 +68,3 @@ export default class IntroScreenSummaryContent extends ScreenSummaryContent {
     } );
   }
 }
-
-numberPairs.register( 'IntroScreenSummaryContent', IntroScreenSummaryContent );

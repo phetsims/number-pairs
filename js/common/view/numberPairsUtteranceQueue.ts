@@ -11,7 +11,6 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import numberPairsSpeechSynthesisAnnouncer from './numberPairsSpeechSynthesisAnnouncer.js';
 
@@ -75,5 +74,4 @@ class NumberPairsUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
 
 const numberPairsUtteranceQueue = new NumberPairsUtteranceQueue();
 
-numberPairs.register( 'numberPairsUtteranceQueue', numberPairsUtteranceQueue );
 export default numberPairsUtteranceQueue;

@@ -16,7 +16,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { NumberPairsUtils } from '../model/NumberPairsUtils.js';
@@ -177,5 +176,3 @@ export default class LocationGroupSelectDragInteractionView extends GroupSelectD
     }
   }
 }
-
-numberPairs.register( 'LocationGroupSelectDragInteractionView', LocationGroupSelectDragInteractionView );

@@ -36,7 +36,6 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import kittenYellow_svg from '../../../images/kittenYellow_svg.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import { PositionPropertyType } from '../model/NumberPairsModel.js';
@@ -267,5 +266,3 @@ export default class KittenNode extends InteractiveHighlightingNode {
     } ) );
   }
 }
-
-numberPairs.register( 'KittenNode', KittenNode );

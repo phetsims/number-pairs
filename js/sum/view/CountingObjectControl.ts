@@ -35,7 +35,6 @@ import CountingObject from '../../common/model/CountingObject.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 type SelfOptions = {
@@ -316,5 +315,3 @@ export default class CountingObjectControl extends Node {
     this.setPDOMAttribute( 'aria-valuetext', ariaValueText );
   }
 }
-
-numberPairs.register( 'CountingObjectControl', CountingObjectControl );

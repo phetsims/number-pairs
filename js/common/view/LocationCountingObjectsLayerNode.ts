@@ -14,7 +14,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -176,5 +175,3 @@ export default class LocationCountingObjectsLayerNode extends Node {
     contextResponse = null;
   }
 }
-
-numberPairs.register( 'LocationCountingObjectsLayerNode', LocationCountingObjectsLayerNode );

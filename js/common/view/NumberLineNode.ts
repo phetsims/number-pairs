@@ -18,7 +18,6 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -221,5 +220,3 @@ export default class NumberLineNode extends Node {
     this.slider = slider;
   }
 }
-
-numberPairs.register( 'NumberLineNode', NumberLineNode );

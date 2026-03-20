@@ -12,7 +12,6 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import stepBack_mp3 from '../../../../tambo/sounds/stepBack_mp3.js';
 import stepForward_mp3 from '../../../../tambo/sounds/stepForward_mp3.js';
-import numberPairs from '../../numberPairs.js';
 import { AddendType } from '../model/CountingObject.js';
 
 const stepForwardSound = new SoundClip( stepForward_mp3 );
@@ -58,7 +57,5 @@ class NumberPairsSounds {
     stepBackSound.play();
   }
 }
-
-numberPairs.register( 'NumberPairsSounds', NumberPairsSounds );
 
 export default NumberPairsSounds;

@@ -18,7 +18,6 @@ import beadBlue_svg from '../../../images/beadBlue_svg.js';
 import butterfly_svg from '../../../images/butterfly_svg.js';
 import kittenBlue_svg from '../../../images/kittenBlue_svg.js';
 import soccerball_svg from '../../../images/soccerball_svg.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 
@@ -110,5 +109,3 @@ export default class RepresentationType extends EnumerationValue {
     super();
   }
 }
-
-numberPairs.register( 'RepresentationType', RepresentationType );

@@ -688,5 +688,3 @@ const NumberPairsFluent = {
 };
 
 export default NumberPairsFluent;
-
-numberPairs.register('NumberPairsFluent', NumberPairsFluent);

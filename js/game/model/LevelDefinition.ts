@@ -16,7 +16,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import NumberPairsPreferences, { NumberModelType } from '../../common/model/NumberPairsPreferences.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 // constants
@@ -138,5 +137,3 @@ export default class LevelDefinition extends EnumerationValue {
     }
   }
 }
-
-numberPairs.register( 'LevelDefinition', LevelDefinition );

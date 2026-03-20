@@ -15,7 +15,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
@@ -49,5 +48,3 @@ export default class NumberPairsStatusBar extends InfiniteStatusBar {
     } );
   }
 }
-
-numberPairs.register( 'NumberPairsStatusBar', NumberPairsStatusBar );

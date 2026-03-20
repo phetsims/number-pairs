@@ -32,7 +32,6 @@ import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import CountingAreaNode from '../../common/view/CountingAreaNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import { SUM_LEVELS } from '../model/GameModel.js';
 import GameModelConstants from '../model/GameModelConstants.js';
@@ -311,5 +310,3 @@ export default abstract class LevelNode extends ChallengeScreenNode {
     }
   }
 }
-
-numberPairs.register( 'LevelNode', LevelNode );

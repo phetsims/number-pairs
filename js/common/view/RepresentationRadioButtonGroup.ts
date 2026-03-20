@@ -14,7 +14,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import RepresentationType from '../model/RepresentationType.js';
 
@@ -53,5 +52,3 @@ export default class RepresentationRadioButtonGroup extends RectangularRadioButt
     super( countingRepresentationTypeProperty, groupItems, options );
   }
 }
-
-numberPairs.register( 'RepresentationRadioButtonGroup', RepresentationRadioButtonGroup );

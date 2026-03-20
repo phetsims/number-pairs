@@ -12,7 +12,6 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import NumberPairsConstants from '../common/NumberPairsConstants.js';
-import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import IntroModel from './model/IntroModel.js';
 import IntroScreenIcon from './view/IntroScreenIcon.js';
@@ -55,5 +54,3 @@ export default class IntroScreen extends Screen<IntroModel, IntroScreenView> {
     );
   }
 }
-
-numberPairs.register( 'IntroScreen', IntroScreen );

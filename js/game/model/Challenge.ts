@@ -11,7 +11,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
-import numberPairs from '../../numberPairs.js';
 
 export type MissingAddend = 'a' | 'b';
 export type MissingComponent = MissingAddend | 'y';
@@ -70,5 +69,3 @@ export default class Challenge {
     }
   } );
 }
-
-numberPairs.register( 'Challenge', Challenge );

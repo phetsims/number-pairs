@@ -16,7 +16,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import apple_svg from '../../../images/apple_svg.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type IntroScreenIconOptions = WithRequired<ScreenIconOptions, 'size'> & SelfOptions;
@@ -69,5 +68,3 @@ export default class IntroScreenIcon extends ScreenIcon {
     super( iconNode, options );
   }
 }
-
-numberPairs.register( 'IntroScreenIcon', IntroScreenIcon );

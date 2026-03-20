@@ -12,7 +12,6 @@ import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import RepresentationType from '../common/model/RepresentationType.js';
 import NumberPairsColors from '../common/NumberPairsColors.js';
 import NumberPairsConstants from '../common/NumberPairsConstants.js';
-import numberPairs from '../numberPairs.js';
 import NumberPairsFluent from '../NumberPairsFluent.js';
 import TenModel from './model/TenModel.js';
 import TenScreenIcon from './view/TenScreenIcon.js';
@@ -54,5 +53,3 @@ export default class TenScreen extends Screen<TenModel, TenScreenView> {
     );
   }
 }
-
-numberPairs.register( 'TenScreen', TenScreen );

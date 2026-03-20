@@ -16,7 +16,6 @@ import TColor from '../../../../scenery/js/util/TColor.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import BarModelMutableNode, { BarModelMutableNodeOptions } from '../../common/view/BarModelMutableNode.js';
 import { GAME_BAR_MODEL_DIMENSIONS } from '../../common/view/BarModelNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 import BarLevelDisplay from './BarLevelDisplay.js';
@@ -65,5 +64,3 @@ export default class GameNumberBarModelNode extends BarModelMutableNode {
     } );
   }
 }
-
-numberPairs.register( 'GameNumberBarModelNode', GameNumberBarModelNode );

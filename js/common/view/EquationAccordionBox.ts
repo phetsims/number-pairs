@@ -10,7 +10,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import SumModel from '../../sum/model/SumModel.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -56,5 +55,3 @@ export default class EquationAccordionBox extends TotalRepresentationAccordionBo
     super( equationNode, options );
   }
 }
-
-numberPairs.register( 'EquationAccordionBox', EquationAccordionBox );

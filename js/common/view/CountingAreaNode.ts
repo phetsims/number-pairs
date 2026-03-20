@@ -26,7 +26,6 @@ import TColor from '../../../../scenery/js/util/TColor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import SplitCountingAreaNode from '../../intro/view/SplitCountingAreaNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import AbstractNumberPairsModel from '../model/AbstractNumberPairsModel.js';
 import CountingObject, { AddendType } from '../model/CountingObject.js';
@@ -256,5 +255,3 @@ export default class CountingAreaNode extends Node {
     };
   }
 }
-
-numberPairs.register( 'CountingAreaNode', CountingAreaNode );

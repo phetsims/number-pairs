@@ -25,7 +25,6 @@ import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from '../..
 import CountingObject, { AddendType } from '../../common/model/CountingObject.js';
 import { CountingObjectsManager } from '../../common/model/CountingObjectsManager.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
-import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
 
@@ -213,5 +212,3 @@ export default class LevelCountingObjectsDelegate extends AbstractNumberPairsMod
     this.setCountingObjectPositions( this.countingObjects.map( countingObject => countingObject.attributePositionProperty ) );
   }
 }
-
-numberPairs.register( 'LevelCountingObjectsDelegate', LevelCountingObjectsDelegate );

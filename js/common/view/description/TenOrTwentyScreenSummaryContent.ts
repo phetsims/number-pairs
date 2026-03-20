@@ -10,7 +10,6 @@
 import derived from '../../../../../axon/js/derived.js';
 import DynamicProperty from '../../../../../axon/js/DynamicProperty.js';
 import ScreenSummaryContent from '../../../../../joist/js/ScreenSummaryContent.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import DecompositionModel from '../../model/DecompositionModel.js';
 import NumberPairsPreferences from '../../model/NumberPairsPreferences.js';
@@ -60,5 +59,3 @@ export default class TenOrTwentyScreenSummaryContent extends ScreenSummaryConten
     } );
   }
 }
-
-numberPairs.register( 'TenOrTwentyScreenSummaryContent', TenOrTwentyScreenSummaryContent );

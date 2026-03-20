@@ -15,7 +15,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
   numberFontSize?: number;
@@ -59,5 +58,3 @@ export default class NumberRectangle extends Rectangle {
     } );
   }
 }
-
-numberPairs.register( 'NumberRectangle', NumberRectangle );

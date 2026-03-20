@@ -12,7 +12,6 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import NumberLineNode from './NumberLineNode.js';
 
@@ -53,5 +52,3 @@ export default class ThumbNode extends Node {
     this.touchArea = this.bounds.dilated( 10 );
   }
 }
-
-numberPairs.register( 'ThumbNode', ThumbNode );

@@ -15,7 +15,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TGenericNumberPairsModel from '../../common/model/TGenericNumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
-import numberPairs from '../../numberPairs.js';
 import { MissingComponent } from '../model/Challenge.js';
 import Level from '../model/Level.js';
 
@@ -51,5 +50,3 @@ export default class BarLevelDisplay implements TGenericNumberPairsModel {
     this.totalVisibleProperty = visibleForSlot( 'y' );
   }
 }
-
-numberPairs.register( 'BarLevelDisplay', BarLevelDisplay );

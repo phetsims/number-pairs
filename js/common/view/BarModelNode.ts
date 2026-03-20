@@ -13,7 +13,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = {
   totalOnTopProperty?: TReadOnlyProperty<boolean> | null;
@@ -101,5 +100,3 @@ export default abstract class BarModelNode extends VBox {
     }
   }
 }
-
-numberPairs.register( 'BarModelNode', BarModelNode );

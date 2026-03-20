@@ -20,7 +20,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import GroupSelectModel from '../../../../scenery-phet/js/accessibility/group-sort/model/GroupSelectModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import AbstractNumberPairsModel, { AbstractNumberPairsModelOptions } from './AbstractNumberPairsModel.js';
 import BeadManager from './BeadManager.js';
@@ -364,5 +363,3 @@ export default class NumberPairsModel extends AbstractNumberPairsModel {
     affirm( this.rightAddendCountingObjectsProperty.value.length === this.rightAddendProperty.value, 'Addend array length and value should match' );
   }
 }
-
-numberPairs.register( 'NumberPairsModel', NumberPairsModel );

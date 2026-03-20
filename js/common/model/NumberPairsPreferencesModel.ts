@@ -14,7 +14,6 @@ import PreferencesModel from '../../../../joist/js/preferences/PreferencesModel.
 import AutoHearControl from '../../../../number-suite-common/js/common/view/AutoHearControl.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import LanguageAndVoiceControl from '../../../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 // eslint-disable-next-line phet/no-view-imported-from-model
 import NumberPairsPreferencesNode from '../view/NumberPairsPreferencesNode.js';
@@ -68,5 +67,3 @@ export default class NumberPairsPreferencesModel extends PreferencesModel {
     } );
   }
 }
-
-numberPairs.register( 'NumberPairsPreferencesModel', NumberPairsPreferencesModel );

@@ -7,7 +7,6 @@
  */
 
 import NumberSuiteCommonSpeechSynthesisAnnouncer from '../../../../number-suite-common/js/common/view/NumberSuiteCommonSpeechSynthesisAnnouncer.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 
 const numberPlaySpeechSynthesisAnnouncer = new NumberSuiteCommonSpeechSynthesisAnnouncer(
@@ -17,5 +16,4 @@ const numberPlaySpeechSynthesisAnnouncer = new NumberSuiteCommonSpeechSynthesisA
   NumberPairsPreferences.secondVoiceProperty
 );
 
-numberPairs.register( 'numberPlaySpeechSynthesisAnnouncer', numberPlaySpeechSynthesisAnnouncer );
 export default numberPlaySpeechSynthesisAnnouncer;

@@ -12,7 +12,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import RectangularPushButton, { RectangularPushButtonOptions } from '../../../../sun/js/buttons/RectangularPushButton.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -59,5 +58,3 @@ export default class TenFrameButton extends RectangularPushButton {
     } );
   }
 }
-
-numberPairs.register( 'TenFrameButton', TenFrameButton );

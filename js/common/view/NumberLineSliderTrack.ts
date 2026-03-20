@@ -20,7 +20,6 @@ import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import SliderTrack, { SliderTrackOptions } from '../../../../sun/js/SliderTrack.js';
-import numberPairs from '../../numberPairs.js';
 
 type TrackSelfOptions = {
   numberLineRange: Range;
@@ -98,5 +97,3 @@ export default class NumberLineSliderTrack extends SliderTrack {
     } ) );
   }
 }
-
-numberPairs.register( 'NumberLineSliderTrack', NumberLineSliderTrack );

@@ -15,7 +15,6 @@ import NumberPairsPreferences from '../../common/model/NumberPairsPreferences.js
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberBondMutableNode, { NumberBondMutableNodeOptions } from '../../common/view/NumberBondMutableNode.js';
 import { GAME_DIMENSION } from '../../common/view/NumberBondNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Level from '../model/Level.js';
 
@@ -67,5 +66,3 @@ export default class GameNumberBondNode extends NumberBondMutableNode {
     );
   }
 }
-
-numberPairs.register( 'GameNumberBondNode', GameNumberBondNode );

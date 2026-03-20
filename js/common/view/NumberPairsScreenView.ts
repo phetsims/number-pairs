@@ -29,7 +29,6 @@ import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import CountingObject from '../model/CountingObject.js';
 import NumberPairsModel from '../model/NumberPairsModel.js';
@@ -534,5 +533,3 @@ export default class NumberPairsScreenView extends ScreenView {
     numberPairsUtteranceQueue.cancelSpeechDataSpeaking();
   }
 }
-
-numberPairs.register( 'NumberPairsScreenView', NumberPairsScreenView );

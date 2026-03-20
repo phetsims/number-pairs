@@ -17,7 +17,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsPreferences, { NumberModelType } from '../model/NumberPairsPreferences.js';
 import NumberPairsColors from '../NumberPairsColors.js';
@@ -106,5 +105,3 @@ export default class NumberModelOrientationControl extends PreferencesControl {
     }, providedOptions ) );
   }
 }
-
-numberPairs.register( 'NumberModelOrientationControl', NumberModelOrientationControl );

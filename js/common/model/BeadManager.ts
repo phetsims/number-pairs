@@ -11,7 +11,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import { BeadXPositionsTypes } from './NumberPairsModel.js';
@@ -273,5 +272,3 @@ export default class BeadManager {
     return leftAddendValue / 2.2 + startingPosition;
   }
 }
-
-numberPairs.register( 'BeadManager', BeadManager );

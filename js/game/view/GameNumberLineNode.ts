@@ -14,7 +14,6 @@ import NumberPairsModel from '../../common/model/NumberPairsModel.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberLineNode, { NumberLineNodeOptions } from '../../common/view/NumberLineNode.js';
-import numberPairs from '../../numberPairs.js';
 import { MissingAddend } from '../model/Challenge.js';
 
 type NumberLineFeedbackStyle = {
@@ -100,5 +99,3 @@ export default class GameNumberLineNode extends NumberLineNode {
     );
   }
 }
-
-numberPairs.register( 'GameNumberLineNode', GameNumberLineNode );

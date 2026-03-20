@@ -10,7 +10,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberLineIcon from '../../common/view/NumberLineIcon.js';
-import numberPairs from '../../numberPairs.js';
 
 type SelfOptions = EmptySelfOptions;
 type SumScreenIconOptions = WithRequired<ScreenIconOptions, 'size'> & SelfOptions;
@@ -32,5 +31,3 @@ export default class SumScreenIcon extends ScreenIcon {
     super( numberLineIcon, options );
   }
 }
-
-numberPairs.register( 'SumScreenIcon', SumScreenIcon );

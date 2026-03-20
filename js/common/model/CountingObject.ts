@@ -20,7 +20,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
-import numberPairs from '../../numberPairs.js';
 
 export class AddendType extends EnumerationValue {
   public static readonly LEFT = new AddendType();
@@ -132,5 +131,3 @@ export default class CountingObject extends PhetioObject {
     supertype: ReferenceIO( IOType.ObjectIO )
   } );
 }
-
-numberPairs.register( 'CountingObject', CountingObject );

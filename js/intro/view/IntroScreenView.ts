@@ -15,7 +15,6 @@ import NumberBondAccordionBox from '../../common/view/NumberBondAccordionBox.js'
 import IntroScreenSummaryContent from '../../intro/view/IntroScreenSummaryContent.js';
 import numberPairsUtteranceQueue from '../../common/view/numberPairsUtteranceQueue.js';
 import PhraseAccordionBox from '../../common/view/PhraseAccordionBox.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import IntroModel from '../model/IntroModel.js';
 
@@ -45,5 +44,3 @@ export default class IntroScreenView extends DecompositionScreenView {
     super( model, options );
   }
 }
-
-numberPairs.register( 'IntroScreenView', IntroScreenView );

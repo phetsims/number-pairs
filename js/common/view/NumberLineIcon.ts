@@ -25,7 +25,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsColors from '../NumberPairsColors.js';
 import CurvedArrowNode, { EllipticalArrowNodeOptions } from './CurvedArrowNode.js';
 import NumberLineSliderTrack from './NumberLineSliderTrack.js';
@@ -218,5 +217,3 @@ export default class NumberLineIcon extends Node {
     }
   }
 }
-
-numberPairs.register( 'NumberLineIcon', NumberLineIcon );

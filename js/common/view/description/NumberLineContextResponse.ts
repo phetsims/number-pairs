@@ -7,7 +7,6 @@
  */
 
 import Node from '../../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 import NumberPairsModel from '../../model/NumberPairsModel.js';
 
@@ -52,5 +51,3 @@ export default class NumberLineContextResponse {
     }
   }
 }
-
-numberPairs.register( 'NumberLineContextResponse', NumberLineContextResponse );

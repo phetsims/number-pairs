@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsPreferences from '../model/NumberPairsPreferences.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import NumberModelOrientationControl from './NumberModelOrientationControl.js';
@@ -60,5 +59,3 @@ export default class NumberPairsPreferencesNode extends PreferencesPanelContentN
     super( options );
   }
 }
-
-numberPairs.register( 'NumberPairsPreferencesNode', NumberPairsPreferencesNode );

@@ -23,7 +23,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import NumberLineOptionsCheckboxGroup from '../../common/view/NumberLineOptionsCheckboxGroup.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import GameModelConstants from '../model/GameModelConstants.js';
 import Level from '../model/Level.js';
@@ -191,5 +190,3 @@ export default class NumberLineLevelNode extends LevelNode {
     ];
   }
 }
-
-numberPairs.register( 'NumberLineLevelNode', NumberLineLevelNode );

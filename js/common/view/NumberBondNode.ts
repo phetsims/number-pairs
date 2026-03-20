@@ -11,7 +11,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Line, { LineOptions } from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../numberPairs.js';
 import NumberCircle from './NumberCircle.js';
 
 export const NUMBER_BOND_LINE_WIDTH = 1.5;
@@ -114,5 +113,3 @@ export default abstract class NumberBondNode extends Node {
     this.rightLine = rightLine;
   }
 }
-
-numberPairs.register( 'NumberBondNode', NumberBondNode );

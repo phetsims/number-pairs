@@ -13,7 +13,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Circle, { CircleOptions } from '../../../../scenery/js/nodes/Circle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 
 type NumberCircleSelfOptions = {
   radius?: number;
@@ -63,5 +62,3 @@ export default class NumberCircle extends Circle {
     } );
   }
 }
-
-numberPairs.register( 'NumberCircle', NumberCircle );

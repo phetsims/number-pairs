@@ -12,7 +12,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import numberPairs from '../../numberPairs.js';
 import { createIconTextConstraint, IconModel } from './IconHelper.js';
 import NumberEquationNode, { GAME_ICON_EQUATION_DIMENSIONS, NumberEquationNodeOptions } from './NumberEquationNode.js';
 
@@ -95,6 +94,3 @@ export default class NumberEquationIconNode extends NumberEquationNode {
       leftAddendText, rightAddendRectangle, rightAddendText );
   }
 }
-
-numberPairs.register( 'NumberEquationIconNode', NumberEquationIconNode );
-

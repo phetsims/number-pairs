@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import NumberPairsScene from '../model/NumberPairsScene.js';
 
@@ -47,5 +46,3 @@ export default class SceneSelectionRadioButtonGroup extends RectangularRadioButt
     super( selectedSceneModelProperty, groupItems, options );
   }
 }
-
-numberPairs.register( 'SceneSelectionRadioButtonGroup', SceneSelectionRadioButtonGroup );

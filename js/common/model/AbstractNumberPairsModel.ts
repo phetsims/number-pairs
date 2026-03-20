@@ -23,7 +23,6 @@ import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioS
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import { CountingObjectsManager } from './CountingObjectsManager.js';
@@ -420,5 +419,3 @@ export default abstract class AbstractNumberPairsModel implements TGenericNumber
     this.representationTypeProperty.reset();
   }
 }
-
-numberPairs.register( 'AbstractNumberPairsModel', AbstractNumberPairsModel );

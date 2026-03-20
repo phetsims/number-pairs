@@ -11,7 +11,6 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import AlignBox from '../../../../scenery/js/layout/nodes/AlignBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import numberPairs from '../../numberPairs.js';
 import DecompositionModel from '../model/DecompositionModel.js';
 import NumberPairsConstants from '../NumberPairsConstants.js';
 import LocationCountingObjectNode from './LocationCountingObjectNode.js';
@@ -98,5 +97,3 @@ export default class DecompositionScreenView extends NumberPairsScreenView {
     ] );
   }
 }
-
-numberPairs.register( 'DecompositionScreenView', DecompositionScreenView );

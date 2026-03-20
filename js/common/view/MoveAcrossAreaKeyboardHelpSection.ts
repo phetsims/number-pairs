@@ -40,5 +40,3 @@ export default class MoveAcrossAreaKeyboardHelpSection extends KeyboardHelpSecti
     super( headingStringProperty, [ moveCountingObjectHomeRow, moveCountingObjectEndRow ] );
   }
 }
-
-numberPairs.register( 'MoveAcrossAreaKeyboardHelpSection', MoveAcrossAreaKeyboardHelpSection );

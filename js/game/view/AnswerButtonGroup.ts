@@ -39,7 +39,6 @@ import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectio
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsHotkeyData from '../../common/view/NumberPairsHotkeyData.js';
 import NumberRectangle from '../../common/view/NumberRectangle.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import Challenge from '../model/Challenge.js';
 import { ChallengeState, ChallengeType } from '../model/Level.js';
@@ -357,5 +356,3 @@ export default class AnswerButtonGroup extends GridBox {
     } );
   }
 }
-
-numberPairs.register( 'AnswerButtonGroup', AnswerButtonGroup );

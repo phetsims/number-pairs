@@ -18,7 +18,6 @@ import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllPr
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
-import numberPairs from '../../numberPairs.js';
 import CountingObject, { AddendType } from './CountingObject.js';
 import { CountingObjectsManager } from './CountingObjectsManager.js';
 import NumberPairsModel, { NumberPairsModelOptions } from './NumberPairsModel.js';
@@ -224,5 +223,3 @@ export default class DecompositionModel extends NumberPairsModel {
       beadXPositions.leftAddendXPositions, beadXPositions.rightAddendXPositions );
   }
 }
-
-numberPairs.register( 'DecompositionModel', DecompositionModel );

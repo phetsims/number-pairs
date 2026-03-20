@@ -12,7 +12,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 import TGenericNumberPairsModel from '../model/TGenericNumberPairsModel.js';
 import Description from './description/Description.js';
@@ -95,6 +94,3 @@ export default class MutableNumberEquationNode extends NumberEquationNode {
     } );
   }
 }
-
-numberPairs.register( 'MutableNumberEquationNode', MutableNumberEquationNode );
-

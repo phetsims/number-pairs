@@ -24,7 +24,6 @@ import { NumberPairsUtils } from '../../common/model/NumberPairsUtils.js';
 import NumberPairsColors from '../../common/NumberPairsColors.js';
 import NumberPairsConstants from '../../common/NumberPairsConstants.js';
 import AddendEyeToggleButton from '../../common/view/AddendEyeToggleButton.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 const LEFT_ADDEND_COLOR_PROPERTY = NumberPairsColors.locationLeftAddendColorProperty;
@@ -134,5 +133,3 @@ export default class SplitCountingAreaNode extends Node {
     this.addChild( rightAddendEyeToggleButton );
   }
 }
-
-numberPairs.register( 'SplitCountingAreaNode', SplitCountingAreaNode );

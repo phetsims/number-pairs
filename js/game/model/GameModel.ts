@@ -19,7 +19,6 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import RepresentationType from '../../common/model/RepresentationType.js';
 import NumberPairsQueryParameters from '../../common/NumberPairsQueryParameters.js';
-import numberPairs from '../../numberPairs.js';
 import Challenge from './Challenge.js';
 import Level from './Level.js';
 import LevelDefinition from './LevelDefinition.js';
@@ -268,5 +267,3 @@ const generateAddends = ( y: number, zeroIsNotAllowed: boolean ): { a: number; b
   const b = y - a;
   return { a: a, b: b };
 };
-
-numberPairs.register( 'GameModel', GameModel );

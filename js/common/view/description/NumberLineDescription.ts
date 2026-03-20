@@ -12,7 +12,6 @@ import derivedTernary from '../../../../../axon/js/derivedTernary.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import AccessibleList, { AccessibleListItem } from '../../../../../scenery-phet/js/accessibility/AccessibleList.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
-import numberPairs from '../../../numberPairs.js';
 import NumberPairsFluent from '../../../NumberPairsFluent.js';
 
 export type NumberLineDescriptionOptions = {
@@ -187,5 +186,3 @@ export default class NumberLineDescription extends Node {
     } );
   }
 }
-
-numberPairs.register( 'NumberLineDescription', NumberLineDescription );

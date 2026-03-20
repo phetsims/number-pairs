@@ -11,7 +11,6 @@ import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keybo
 import KittensKeyboardHelpSection from '../../common/view/KittensKeyboardHelpSection.js';
 import MoveAcrossAreaKeyboardHelpSection from '../../common/view/MoveAcrossAreaKeyboardHelpSection.js';
 import NumberPairsKeyboardHelpNode from '../../common/view/NumberPairsKeyboardHelpNode.js';
-import numberPairs from '../../numberPairs.js';
 import NumberPairsFluent from '../../NumberPairsFluent.js';
 
 
@@ -29,5 +28,3 @@ export default class TenScreenKeyboardHelpNode extends NumberPairsKeyboardHelpNo
       new SliderControlsKeyboardHelpSection() );
   }
 }
-
-numberPairs.register( 'TenScreenKeyboardHelpNode', TenScreenKeyboardHelpNode );
