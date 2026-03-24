@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "d5aee93a5b45c7558f59535c2b056ec924bbbe67",
+    "sha": "68304cd8496eff106a754ea59d8318cfe42bc374",
     "branch": "2.0"
   },
   "number-suite-common": {
@@ -73,7 +73,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "e061f0cc28be8ee7667878bda53106e48dac2b11",
+    "sha": "04f74301c3aea7da974e3da5d7632e515e728957",
     "branch": "HEAD"
   },
   "scenery-phet": {
