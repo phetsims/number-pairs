@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-pairs": {
-    "sha": "0928ef31e26f10541ec2b6f6a3a5bae1d246234e",
+    "sha": "249860ccc56aefd384ec9aec6327d266948a8fb1",
     "branch": "1.0"
   },
   "number-suite-common": {
@@ -57,7 +57,7 @@
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
-    "sha": "4169c3e77fcbc5a9d59c327b5be2c914e8815170",
+    "sha": "1ba5d01505b9a99ac80ab9e92a88cdb3280a1b28",
     "branch": "HEAD"
   },
   "phetcommon": {
