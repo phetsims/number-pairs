@@ -127,7 +127,8 @@ export default class AnswerButtonGroup extends GridBox {
       } );
 
       const numberToggleButton = new NumberToggleButton( isPressedProperty, {
-        soundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
+        valueUpSoundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
+        valueDownSoundPlayer: multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( 20 - value ),
         accessibleName: derivedTernary( isWrongProperty, {
           true: wrongAccessibleNameProperty,
           false: `${value}`
