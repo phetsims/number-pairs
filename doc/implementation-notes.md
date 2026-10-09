@@ -10,7 +10,7 @@ supplement the internal documentation (source code comments) and external docume
 
 Before reading this document, please read:
 
-- [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md), a high-level description of the
+- [model.md](model.md), a high-level description of the
   simulation model.
 
 ## General Considerations
@@ -56,7 +56,7 @@ concept of "inactive" counting objects since the total amount of counting object
 
 ### Model
 
-See [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md)
+See [model.md](model.md)
 
 The central model for the decomposition screens ( "Intro", "Ten", "Twenty" ) is `DecompositionModel`.
 `DecompositionModel` contains an array of `NumberPairsScene` that tracks the decomposition of a static total
@@ -71,7 +71,7 @@ avoiding overlapping counting objects.
 ### View
 
 - In
-  [DecompositionScreenView](https://github.com/phetsims/number-pairs/blob/main/js/intro/view/DecompositionScreenView.ts),
+  [DecompositionScreenView](../js/common/view/DecompositionScreenView.ts),
   `SceneSelectionRadioButtonGroup`
   defines the different totals that a user can explore in a sim and allows users to switch between each total
   exploration. Each of these totals is what we refer to as a "scene".
@@ -83,7 +83,7 @@ avoiding overlapping counting objects.
 
 ### Model
 
-See [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md)
+See [model.md](model.md)
 
 `SumModel` is the central model for the "Sum" screen. It does not have any scenes, and unlike the Decomposition Screens
 both the `leftAddendProperty` and `totalProperty` are mutable. The `rightAddendProperty` remains derived. There were
@@ -98,7 +98,7 @@ efficient development and legibility, rather than trying to refactor or restruct
 
 ### View
 
-In [SumScreenView](https://github.com/phetsims/number-pairs/blob/main/js/intro/view/SumScreenView.ts),
+In [SumScreenView](../js/sum/view/SumScreenView.ts),
 `AddendControlPanel` creates a custom UI component that resembles a Number Spinner. Due to the intertwined nature of the
 addend and total number Properties, we were unable to use a common code Number Spinner. This UI component implements
 its own sound and keyboard input to mimic a Number Spinner while complying with the necessary API for the sim.
@@ -124,7 +124,7 @@ The Game screen introduces a challenge-based gameplay layer on top of the simula
 
 ### Model
 
-See [model.md](https://github.com/phetsims/number-pairs/blob/main/doc/model.md)
+See [model.md](model.md)
 
 `GameModel` contains an array of 8 `Level` instances, each configured at startup with a challenge type (`bond`, `decompositionEquation`, `sumEquation`, or `numberLine`), input range (`zeroToTen` or `zeroToTwenty`), and a function that generates random `Challenge` instances.
 
